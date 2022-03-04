@@ -41,7 +41,7 @@ class SSignUpHomeController extends GetxController {
 
   TextEditingController _otp = TextEditingController();
 
-  bool otpCodeVisible = false;
+  // bool otpCodeVisible = false;
   String? verificationId;
 
   @override
@@ -74,9 +74,7 @@ class SSignUpHomeController extends GetxController {
           await _auth.signInWithCredential(authCredential);
         }
       }
-
       isLoading = false;
-
       Get.to(SSignUpOTPScreen(),
           arguments: _otp.text
               .toString());
@@ -127,7 +125,6 @@ class SSignUpHomeController extends GetxController {
     }
   }
 
-
   void verifyCode() async {
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId!, smsCode:mobileNumber.text);
@@ -136,14 +133,10 @@ class SSignUpHomeController extends GetxController {
     });
   }
 
-
-
   void setCountryCode(value) {
     countryCode = value;
     print('countryCode:- $countryCode');
     update();
   }
-
-
 
 }

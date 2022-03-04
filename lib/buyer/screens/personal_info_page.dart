@@ -131,19 +131,6 @@ class PersonalInfoPage extends StatelessWidget {
                     keyboardType: TextInputType.multiline,
                     // minLines: 1,
                   ),
-                  // SizedBox(
-                  //   height: Get.height * 0.02,
-                  // ),
-                  // Custombutton(
-                  //   name: 'Continue',
-                  //   function: () {
-                  //     Get.to(()=>GetStartedPage());
-                  //   },
-                  //   height: Get.height * 0.07,
-                  //   width: Get.width / 3,),
-                  // SizedBox(
-                  //   height: Get.height * 0.05,
-                  // ),
                 ],
               ),
             ),

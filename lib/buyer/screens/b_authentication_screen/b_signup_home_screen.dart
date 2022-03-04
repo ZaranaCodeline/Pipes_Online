@@ -6,24 +6,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_login_home_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_login_home_screen.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/b_submit_profile_screen.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/routes/app_routes.dart';
-import 'package:pipes_online/seller/view_model/s_signup_home_controller.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../authentificaion/functions.dart';
 import '../../view_model/b_signup_home_controller.dart';
-import '../b_submit_profile_screen.dart';
-import 'b_login_home_screen.dart';
-import 'b_login_home_screen.dart';
-import 'b_login_home_screen.dart';
-import 'b_login_home_screen.dart';
-import 'b_login_home_screen.dart';
-import 'b_login_home_screen.dart';
 
 class BSignUpHomeScreen extends StatefulWidget {
   @override
@@ -166,21 +158,6 @@ class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
                                     alignment: Alignment.centerLeft,
                                     child: TextFormField(
                                       keyboardType: TextInputType.number,
-                                      // validator: (value) {
-                                      //   if (value == null || value.isEmpty) {
-                                      //     Get.showSnackbar(GetSnackBar(
-                                      //       snackPosition:
-                                      //       SnackPosition.BOTTOM,
-                                      //       backgroundColor: SColorPicker.red,
-                                      //       duration: Duration(seconds: 2),
-                                      //       message:
-                                      //       'Please enter mobile number',
-                                      //     ));
-                                      //
-                                      //     // return 'Please enter mobile number';
-                                      //   }
-                                      //   return null;
-                                      // },
                                       controller: controller.mobileNumber,
                                       decoration: InputDecoration(
                                           hintText: 'Enter Number',

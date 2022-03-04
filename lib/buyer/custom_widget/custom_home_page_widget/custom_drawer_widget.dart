@@ -14,6 +14,7 @@ import 'package:sizer/sizer.dart';
 import '../../app_constant/app_colors.dart';
 import '../../authentificaion/functions.dart';
 import '../../screens/b_authentication_screen/b_welcome_screen.dart';
+import '../../screens/b_review_screen.dart';
 import '../../screens/home_screen_widget.dart';
 import '../../screens/my_order_page.dart';
 import '../../screens/drawer_profile_page.dart';
@@ -30,7 +31,7 @@ class CustomDrawerWidget extends StatefulWidget {
 class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
   BDrawerController bDrawerController = Get.put(BDrawerController());
   TextEditingController _address =
-      TextEditingController(text: 'Yogichowk, Varacha, Surat');
+      TextEditingController(text: 'Yogichowk, Varacha, Surat',);
   final name = 'Jan Doe';
   final phone = '+00 0000000000';
   final urlImage =
@@ -45,7 +46,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
           return Container(
             height: Get.height,
             child: SingleChildScrollView(
-              physics: NeverScrollableScrollPhysics(),
+              physics: BouncingScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -58,28 +59,28 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(
-                      horizontal: 18.sp,
+                      horizontal: 15.sp,
                     ),
                     padding: EdgeInsets.symmetric(horizontal: 5.sp),
-                    height: Get.height * 0.09,
+                    height: Get.height * 0.06,
                     // width: Get.width,
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(5.sp),
+                      borderRadius: BorderRadius.circular(8.sp),
                     ),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SvgPicture.asset(
                             BImagePick.DrawerLocationIcon,
-                            width: 18.sp,
-                            height: 18.sp,
+                            width: 15.sp,
+                            height: 15.sp,
                           ),
                           SizedBox(width: 5.sp),
                           Flexible(
                             child: Container(
                                 // color: Colors.red,
-                                height: Get.height * 0.09,
+                                height: Get.height * 0.06,
                                 // width: Get.width * 0.9,
                                 alignment: Alignment.centerLeft,
                                 child: TextFormField(
@@ -101,48 +102,48 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                                   ? Icons.edit_outlined
                                   : Icons.clear,
                               color: AppColors.primaryColor,
-                              size: 18.sp,
+                              size: 15.sp,
                             ),
                           )
                         ]),
                   ),
-                  SizedBox(height: Get.height * 0.03),
+                  SizedBox(height: Get.height * 0.01),
                   buildMenuItem(
                     text: 'Home',
                     imageName: BImagePick.homeIcon,
                     onClicked: () => selectedItem(context, 0),
                   ),
-                  SizedBox(height: Get.height * 0.01),
+                  // SizedBox(height: Get.height * 0.005),
                   buildMenuItem(
                     text: 'Settings',
                     imageName: BImagePick.settingIcon,
                     onClicked: () => selectedItem(context, 1),
                   ),
-                  SizedBox(height: Get.height * 0.01),
+                  // SizedBox(height: Get.height * 0.01),
                   buildMenuItem(
                     text: 'My Orders',
                     imageName: BImagePick.MyOrderIcon,
                     onClicked: () => selectedItem(context, 2),
                   ),
-                  SizedBox(height: Get.height * 0.01),
+                  // SizedBox(height: Get.height * 0.01),
                   buildMenuItem(
                     text: 'Reviews',
                     imageName: BImagePick.ReviewsIcon,
                     onClicked: () => selectedItem(context, 3),
                   ),
-                  SizedBox(height: Get.height * 0.01),
+                  // SizedBox(height: Get.height * 0.01),
                   buildMenuItem(
                     text: 'Help Center',
                     imageName: BImagePick.HelpCenterIcon,
                     onClicked: () => selectedItem(context, 4),
                   ),
-                  SizedBox(height: Get.height * 0.01),
+                  // SizedBox(height: Get.height * 0.01),
                   buildMenuItem(
                     text: 'Terms & Conditions',
                     imageName: BImagePick.TermsAndConditionIcon,
                     onClicked: () => selectedItem(context, 5),
                   ),
-                  SizedBox(height: Get.height * 0.01),
+                  // SizedBox(height: Get.height * 0.01),
                   buildMenuItem(
                     text: 'Logout',
                     imageName: BImagePick.LogOutIcon,
@@ -173,31 +174,32 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 18.sp, vertical: 18.sp),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(15),
                 color: AppColors.commonWhiteTextColor),
-            height: Get.height * 0.1,
-            width: Get.width / 1.4,
+            height: Get.height * 0.09,
+            width: Get.width / 1.5,
             child: Row(
               children: [
                 SizedBox(
                   height: Get.height * 0.1,
                   width: Get.height / 50,
                 ),
-                CircleAvatar(
-                    radius: 30, backgroundImage: NetworkImage(urlImage)),
-                SizedBox(width: Get.width / 25),
+                Padding(
+                  padding:  EdgeInsets.all(5.0.sp),
+                  child: CircleAvatar(
+                      radius: 30, backgroundImage: NetworkImage(urlImage,),),
+                ),
+                SizedBox(width: Get.width / 20),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // SizedBox(
-                    //   height: Get.height * 0.01,
-                    // ),
+
                     Text(
                       name,
                       style: GoogleFonts.nunito(
                         textStyle: TextStyle(
-                            fontSize: 22,
+                            fontSize: 14.sp,
                             color: AppColors.secondaryBlackColor,
                             fontWeight: FontWeight.w400),
                       ),
@@ -208,12 +210,12 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                     Text(
                       phone,
                       style: TextStyle(
-                          fontSize: 14, color: AppColors.secondaryBlackColor),
+                          fontSize: 12.sp, color: AppColors.secondaryBlackColor),
                     ),
                   ],
                 ),
                 Spacer(),
-                SvgPicture.asset('assets/images/svg/dots.svg',width: 20.sp,height: 20.sp,),
+                SvgPicture.asset('assets/images/svg/dots.svg',width: 15.sp,height: 15.sp,),
               ],
             ),
           ));
@@ -226,19 +228,19 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
     final hoverColor = Colors.white70;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: Get.width * 0.03),
+      padding: EdgeInsets.symmetric(horizontal: Get.width * 0.02),
       child: ListTile(
         leading: SvgPicture.asset(
           imageName,
-          width: 18.sp,
-          height: 18.sp,
+          width: 15.sp,
+          height: 15.sp,
         ),
-        minLeadingWidth: 18.sp,
+        minLeadingWidth: 14.sp,
         title: Text(
           text,
           style: GoogleFonts.nunito(
               textStyle: TextStyle(
-                  fontSize: 14.sp, color: color, fontWeight: FontWeight.w400)),
+                  fontSize: 13.sp, color: color, fontWeight: FontWeight.w400)),
         ),
         hoverColor: hoverColor,
         onTap: onClicked,
@@ -260,7 +262,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
         Get.to(() => MyOrderPage());
         break;
       case 3:
-        // Get.to(() => BReviewScreen());
+        Get.to(() => BReviewScreen());
         break;
 
       case 4:

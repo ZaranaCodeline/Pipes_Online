@@ -4,15 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/routes/app_routes.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/s_submit_profile_screen.dart';
 import 'package:pipes_online/seller/view_model/s_signup_home_controller.dart';
 import 'package:sizer/sizer.dart';
+
 import '../../../buyer/authentificaion/functions.dart';
-import '../s_screens/s_submit_profile_screen.dart';
+
 
 class SSignUpHomeScreen extends StatefulWidget {
   @override
@@ -21,21 +24,13 @@ class SSignUpHomeScreen extends StatefulWidget {
 
 class _SSignUpHomeScreenState extends State<SSignUpHomeScreen> {
   SSignUpHomeController sSignUpHomeController =
-      Get.put(SSignUpHomeController());
-
+  Get.put(SSignUpHomeController());
   bool isLoading = false;
-
-  TextEditingController _otp = TextEditingController();
-
-
-  @override
-  void dispose() {
-    sSignUpHomeController.mobileNumber.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
+    // final _formKey = GlobalKey<FormState>();
+
     void _submit() async {
       await sSignUpHomeController.phoneSignIn(
           phoneNumber: sSignUpHomeController.mobileNumber.text);
@@ -126,7 +121,7 @@ class _SSignUpHomeScreenState extends State<SSignUpHomeScreen> {
                                       style: STextStyle.semiBold600Black15,
                                     ),
                                     Text(
-                                      'OTP will be sent to this number',
+                                      'OTP will be sent to this number ',
                                       style: STextStyle.regular400Black11,
                                     ),
                                   ],
@@ -163,17 +158,10 @@ class _SSignUpHomeScreenState extends State<SSignUpHomeScreen> {
                                     alignment: Alignment.centerLeft,
                                     child: TextFormField(
                                       keyboardType: TextInputType.number,
-                                      // validator: (value) {
-                                      //   if (value == null || value.isEmpty) {
-                                      //     return 'Please enter mobile number';
-                                      //   }
-                                      //   return null;
-                                      // },
-                                      controller: _otp,
+                                      controller: controller.mobileNumber,
                                       decoration: InputDecoration(
                                           hintText: 'Enter Number',
                                           focusedBorder: OutlineInputBorder(
-
                                               borderRadius:
                                               BorderRadius.circular(
                                                   10.sp),
@@ -205,6 +193,8 @@ class _SSignUpHomeScreenState extends State<SSignUpHomeScreen> {
                                         style: STextStyle.semiBold600Purple11,
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () {
+                                            Get.to(() =>
+                                                TermsAndConditionPage());
                                             print('Terms and Conditons');
                                           }),
                                     TextSpan(
@@ -218,7 +208,7 @@ class _SSignUpHomeScreenState extends State<SSignUpHomeScreen> {
                                 padding:
                                 EdgeInsets.symmetric(horizontal: 40.sp),
                                 child: SCommonButton().sCommonPurpleButton(
-                                  name:'Sign Up',
+                                  name: 'Send OTP',
                                   onTap: () async {
                                     if (controller
                                         .mobileNumber.text.isNotEmpty) {
@@ -228,16 +218,14 @@ class _SSignUpHomeScreenState extends State<SSignUpHomeScreen> {
                                       print("it's me");
                                       progress!.showWithText('');
                                       _submit();
-                                    }
-                                    else {
-                                      // Get.showSnackbar(GetSnackBar(
-                                      //   snackPosition: SnackPosition.BOTTOM,
-                                      //   backgroundColor: SColorPicker.red,
-                                      //   duration: Duration(seconds: 2),
-                                      //   message:
-                                      //   'Please enter mobile number',
-                                      // )
-                                      // );
+                                    } else {
+                                      Get.showSnackbar(GetSnackBar(
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        backgroundColor: SColorPicker.red,
+                                        duration: Duration(seconds: 2),
+                                        message:
+                                        'Please enter mobile number',
+                                      ));
                                     }
                                   },
                                 ),
@@ -298,14 +286,15 @@ class _SSignUpHomeScreenState extends State<SSignUpHomeScreen> {
                                       style: STextStyle.regular400Black13,
                                     ),
                                     TextSpan(
-                                        text: ' Login',
-                                        style: STextStyle.medium400Purple13,
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            print('aaa');
-                                            Get.offNamed(
-                                                SRoutes.SLogInHomeScreen);
-                                          }),
+                                      text: ' Login',
+                                      style: STextStyle.medium400Purple13,
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          print('aaa');
+                                          Get.offNamed(
+                                              SRoutes.SLogInHomeScreen);
+                                        },
+                                    ),
                                   ],
                                 ),
                               ),
@@ -322,6 +311,6 @@ class _SSignUpHomeScreenState extends State<SSignUpHomeScreen> {
           ),
         ),
       ),
-    ),));
+    ),),);
   }
 }

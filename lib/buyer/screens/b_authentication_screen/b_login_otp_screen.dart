@@ -7,28 +7,29 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/b_submit_profile_screen.dart';
-
+import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/bottom_bar_screen_page.dart';
+import 'package:pipes_online/buyer/screens/home_screen_widget.dart';
+import 'package:pipes_online/buyer/view_model/b_signup_home_controller.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
+import 'package:pipes_online/seller/view_model/s_signup_home_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../view_model/b_login_home_controller.dart';
-import '../b_signup_home_controller.dart';
+import '../../../routes/app_routes.dart';
 
-class BSignUpOTPScreen extends StatefulWidget {
+class BLogInOTPScreen extends StatefulWidget {
   @override
-  _BSignUpOTPScreenState createState() => _BSignUpOTPScreenState();
+  _BLogInOTPScreenState createState() => _BLogInOTPScreenState();
 }
 
-class _BSignUpOTPScreenState extends State<BSignUpOTPScreen> {
-  String? _verificationCode;
-  BLogInController bLogInController = Get.put(BLogInController());
+class _BLogInOTPScreenState extends State<BLogInOTPScreen> {
   final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  BSignUpHomeController bSignUpHomeController = Get.put(BSignUpHomeController());
+
   var data=Get.arguments;
   String? _otp;
   @override
@@ -67,7 +68,7 @@ class _BSignUpOTPScreenState extends State<BSignUpOTPScreen> {
                       ),
                     ),
                     Text(
-                      'SIGN UP',
+                      'LOGIN',
                       style: STextStyle.bold700White14,
                     ),
                     SizedBox(width: 20.sp),
@@ -101,7 +102,7 @@ class _BSignUpOTPScreenState extends State<BSignUpOTPScreen> {
                         )),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: Get.width * 0.03,
+                          horizontal: Get.width * 0.05,
                           vertical: Get.height * 0.08),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -117,23 +118,22 @@ class _BSignUpOTPScreenState extends State<BSignUpOTPScreen> {
                                   style: STextStyle.semiBold600Black15,
                                 ),
                                 Text(
-                                  // ${bSignUpHomeController.mobileNumber.text.toString()}
-                                  'We have sent an OTP TO ${bLogInController.mobileNumber.text.toString()} ',
+                                  'We have sent an OTP TO ${bSignUpHomeController.mobileNumber.text.toString()} ',
                                   style: STextStyle.regular400Black11,
                                 ),
                               ],
                             ),
                           ),
                           OTPTextField(
-                            length: 6,
-                            width: Get.width *1,
+                            length: 4,
+                            width: MediaQuery.of(context).size.width * 0.7,
+
                             fieldWidth: 40.sp,
                             style: TextStyle(fontSize: 17.sp),
                             //textFieldAlignment: MainAxisAlignment.spaceAround,
                             fieldStyle: FieldStyle.underline,
                             onCompleted: (pin) {
                               print("Completed: " + pin);
-                              _otp = pin;
                             },
                           ),
                           RichText(
@@ -155,7 +155,7 @@ class _BSignUpOTPScreenState extends State<BSignUpOTPScreen> {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 40.sp),
                             child: SCommonButton().sCommonPurpleButton(
-                              name: 'Sign Up',
+                              name: 'Login',
                               onTap: () {
                                 final progress =
                                 ProgressHUD.of(context);
@@ -177,17 +177,16 @@ class _BSignUpOTPScreenState extends State<BSignUpOTPScreen> {
           ),
         ),
       ),
-    ),),);
+    ),));
   }
   void verifyCode() async {
     final SharedPreferences _prefs = await SharedPreferences.getInstance();
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: data[0]!, smsCode: _otp!);
+        verificationId: data[0], smsCode: _otp!);
     await _auth.signInWithCredential(credential).then((value) {
-      print('Buyer side...B..You are logged in successfully');
+      print('Buyer side...B...You are logged in successfully');
       _prefs.setBool('isLoggedIn', true);
-      // Get.offAll(BRoutes.BSubmitProfileScreen);
-      Get.to(BSubmitProfileScreen());
+      Get.offAll(BRoutes.BSubmitProfileScreen);
     });
   }
 }

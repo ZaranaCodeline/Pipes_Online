@@ -2,20 +2,19 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 import '../app_constant/app_colors.dart';
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
 
 class ChatMessagePage extends StatefulWidget {
-  final String? uid;
-  final String? name;
-  final String? image;
+  final String  uid;
+  final String  name;
+  final String  image;
 
-  ChatMessagePage({this.uid, this.name, this.image});
+  ChatMessagePage({required this.uid,required this.name, required this.image});
 
   @override
   State<ChatMessagePage> createState() => _ChatMessagePageState();
@@ -85,7 +84,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(50),
                           child: Image.network(
-                            widget.image!,
+                            widget.image,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -164,517 +163,517 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // StreamBuilder<QuerySnapshot>(
-                      //   stream: FirebaseFirestore.instance
-                      //       .collection('chat')
-                      //       .doc(chatId(
-                      //       PreferenceManager.getTokenId().toString(),
-                      //       widget.uid!)
-                      //   )
-                      //       .collection('Data')
-                      //       .orderBy('date', descending: false)
-                      //       .snapshots(),
-                      //   builder: (context, snapShot) {
-                      //     if (snapShot.hasData) {
-                      //       return ListView.builder(
-                      //         shrinkWrap: true,
-                      //         physics: BouncingScrollPhysics(),
-                      //         itemCount: snapShot.data!.docs.length,
-                      //         itemBuilder: (context, index) {
-                      //           if (snapShot.data!.docs[index]['Type'] ==
-                      //               'Video') {
-                      //             print(
-                      //                 'firebasevideo${snapShot.data!.docs[index]['video']}');
-                      //           }
-                      //           // _controllerVideos = VideoPlayerController.network(
-                      //           //     snapShot.data!.docs[index]['video']);
-                      //           // final chewieController = ChewieController(
-                      //           //   videoPlayerController: _controllerVideos!,
-                      //           //   aspectRatio: 3 / 2,
-                      //           //   autoPlay: false,
-                      //           //   autoInitialize: true,
-                      //           //   looping: false,
-                      //           // );
-                      //           // final playerWidget = Chewie(
-                      //           //   controller: chewieController,
-                      //           // );
-                      //           return snapShot.data!.docs[index]['Type'] ==
-                      //               'Text'
-                      //               ? Padding(
-                      //             padding:
-                      //             const EdgeInsets.only(bottom: 8),
-                      //             child: snapShot.data!.docs[index]
-                      //             ['senderId'] ==
-                      //                 PreferenceManager.getTokenId()
-                      //                     .toString()
-                      //                 ? Align(
-                      //               alignment:
-                      //               Alignment.centerRight,
-                      //               child: Padding(
-                      //                 padding: EdgeInsets.only(
-                      //                     left: Get.width / 5,
-                      //                     right: 10),
-                      //                 child: Row(
-                      //                   crossAxisAlignment:
-                      //                   CrossAxisAlignment.end,
-                      //                   mainAxisSize:
-                      //                   MainAxisSize.min,
-                      //                   children: [
-                      //                     Flexible(
-                      //                       child: Card(
-                      //                         margin:
-                      //                         EdgeInsets.zero,
-                      //                         color:
-                      //                         Color(0xFF777794),
-                      //                         shape:
-                      //                         const RoundedRectangleBorder(
-                      //                           borderRadius:
-                      //                           BorderRadius
-                      //                               .only(
-                      //                             topLeft: Radius
-                      //                                 .circular(15),
-                      //                             bottomRight:
-                      //                             Radius
-                      //                                 .circular(
-                      //                                 15),
-                      //                             bottomLeft: Radius
-                      //                                 .circular(15),
-                      //                           ),
-                      //                         ),
-                      //                         elevation: 1,
-                      //                         child: Row(
-                      //                           mainAxisSize:
-                      //                           MainAxisSize
-                      //                               .min,
-                      //                           crossAxisAlignment:
-                      //                           CrossAxisAlignment
-                      //                               .end,
-                      //                           children: [
-                      //                             Flexible(
-                      //                               child: Padding(
-                      //                                 padding:
-                      //                                 const EdgeInsets
-                      //                                     .all(
-                      //                                     8.0),
-                      //                                 child: Text(
-                      //                                   "${snapShot.data!.docs[index]['msg']}",
-                      //                                   style:
-                      //                                   TextStyle(
-                      //                                     fontSize:
-                      //                                     16,
-                      //                                     fontWeight:
-                      //                                     FontWeight
-                      //                                         .w400,
-                      //                                     color: Colors
-                      //                                         .white,
-                      //                                     fontFamily:
-                      //                                     'Poppins',
-                      //                                   ),
-                      //                                 ),
-                      //                               ),
-                      //                             ),
-                      //                             // Padding(
-                      //                             //   padding:
-                      //                             //       const EdgeInsets.only(
-                      //                             //           right: 10, bottom: 5),
-                      //                             //   child: MsgDate(
-                      //                             //     date: (snapShot.data!
-                      //                             //                     .docs[index]
-                      //                             //                 ['date']
-                      //                             //             as Timestamp)
-                      //                             //         .toDate(),
-                      //                             //   ),
-                      //                             // )
-                      //                           ],
-                      //                         ),
-                      //                       ),
-                      //                     ),
-                      //                     SizedBox(
-                      //                       width: 5,
-                      //                     ),
-                      //                     /*    PreferenceManager.getCustomerPImg() == null ||
-                      //                         PreferenceManager.getCustomerPImg() ==
-                      //                             ''
-                      //                     ? imageNotFound()
-                      //                     : ClipOval(
-                      //                         child: commonProfileOctoImage(
-                      //                           image: PreferenceManager
-                      //                               .getCustomerPImg(),
-                      //                           height: Get.height * 0.05,
-                      //                           width: Get.height * 0.05,
-                      //                         ),
-                      //                       ),*/
-                      //                   ],
-                      //                 ),
-                      //               ),
-                      //             )
-                      //                 : Align(
-                      //               alignment: Alignment.centerLeft,
-                      //               child: Padding(
-                      //                 padding:
-                      //                 const EdgeInsets.only(
-                      //                     left: 10),
-                      //                 child: Row(
-                      //                   crossAxisAlignment:
-                      //                   CrossAxisAlignment.end,
-                      //                   mainAxisSize:
-                      //                   MainAxisSize.min,
-                      //                   children: [
-                      //                     Flexible(
-                      //                       child: Padding(
-                      //                         padding:
-                      //                         EdgeInsets.only(
-                      //                             right:
-                      //                             Get.width /
-                      //                                 5),
-                      //                         child: Card(
-                      //                           color: Color(
-                      //                               0xff404040),
-                      //                           shape:
-                      //                           RoundedRectangleBorder(
-                      //                             borderRadius: BorderRadius.only(
-                      //                                 topRight: Radius
-                      //                                     .circular(
-                      //                                     15),
-                      //                                 bottomRight: Radius
-                      //                                     .circular(
-                      //                                     15),
-                      //                                 bottomLeft: Radius
-                      //                                     .circular(
-                      //                                     15)),
-                      //                           ),
-                      //                           elevation: 1,
-                      //                           child: Padding(
-                      //                             padding:
-                      //                             const EdgeInsets
-                      //                                 .all(8.0),
-                      //                             child: Row(
-                      //                               mainAxisSize:
-                      //                               MainAxisSize
-                      //                                   .min,
-                      //                               crossAxisAlignment:
-                      //                               CrossAxisAlignment
-                      //                                   .end,
-                      //                               children: [
-                      //                                 Flexible(
-                      //                                   child: Text(
-                      //                                     snapShot
-                      //                                         .data!
-                      //                                         .docs[index]['msg'],
-                      //                                     style:
-                      //                                     TextStyle(
-                      //                                       fontSize:
-                      //                                       16,
-                      //                                       fontWeight:
-                      //                                       FontWeight.w400,
-                      //                                       color: Colors
-                      //                                           .white,
-                      //                                       fontFamily:
-                      //                                       'Poppins',
-                      //                                     ),
-                      //                                   ),
-                      //                                 ),
-                      //                                 SizedBox(
-                      //                                   width: 10,
-                      //                                 ),
-                      //                                 // Padding(
-                      //                                 //   padding:
-                      //                                 //       const EdgeInsets.only(
-                      //                                 //           top: 10),
-                      //                                 //   child: MsgDate(
-                      //                                 //     date: (snapShot.data.docs[
-                      //                                 //                     index]
-                      //                                 //                 ['date']
-                      //                                 //             as Timestamp)
-                      //                                 //         .toDate(),
-                      //                                 //   ),
-                      //                                 // )
-                      //                               ],
-                      //                             ),
-                      //                           ),
-                      //                         ),
-                      //                       ),
-                      //                     ),
-                      //                   ],
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //           )
-                      //               : snapShot.data!.docs[index]['Type'] ==
-                      //               'Image'
-                      //               ? snapShot.data!.docs[index]
-                      //           ['senderId'] ==
-                      //               PreferenceManager.getTokenId()
-                      //                   .toString()
-                      //               ? Row(
-                      //             crossAxisAlignment:
-                      //             CrossAxisAlignment.end,
-                      //             mainAxisAlignment:
-                      //             MainAxisAlignment.end,
-                      //             mainAxisSize: MainAxisSize.min,
-                      //             children: [
-                      //               SizedBox(
-                      //                 width: 5,
-                      //               ),
-                      //               /* PreferenceManager.getCustomerPImg() == null ||
-                      //                 PreferenceManager.getCustomerPImg() == ''
-                      //             ? imageNotFound()
-                      //             : ClipOval(
-                      //                 child: commonProfileOctoImage(
-                      //                   image: PreferenceManager.getCustomerPImg(),
-                      //                   height: Get.height * 0.05,
-                      //                   width: Get.height * 0.05,
-                      //                 ),
-                      //               ),*/
-                      //             ],
-                      //           )
-                      //               : Column(
-                      //             crossAxisAlignment:
-                      //             CrossAxisAlignment.start,
-                      //             children: [
-                      //               /*   widget.userImg == null || widget.userImg == ''
-                      //             ? imageNotFound()
-                      //             : ClipOval(
-                      //                 child: commonProfileOctoImage(
-                      //                   image: widget.userImg,
-                      //                   height: Get.height * 0.05,
-                      //                   width: Get.height * 0.05,
-                      //                 ),
-                      //               ),*/
-                      //               Padding(
-                      //                 padding:
-                      //                 const EdgeInsets.only(
-                      //                     left: 10, top: 10),
-                      //                 child: Column(
-                      //                   children: (snapShot.data!
-                      //                       .docs[index]
-                      //                   ['image'] as List)
-                      //                       .map(
-                      //                         (e) => Padding(
-                      //                       padding:
-                      //                       const EdgeInsets
-                      //                           .only(
-                      //                           bottom:
-                      //                           5),
-                      //                       child: ClipRRect(
-                      //                         borderRadius:
-                      //                         BorderRadius
-                      //                             .circular(
-                      //                             5),
-                      //                         child: InkWell(
-                      //                           onTap: () {
-                      //                             // Get.to(ZoomImage(
-                      //                             //   img: e,
-                      //                             // ));
-                      //                           },
-                      //                         ),
-                      //                       ),
-                      //                     ),
-                      //                   )
-                      //                       .toList(),
-                      //                 ),
-                      //               ),
-                      //               // Padding(
-                      //               //   padding: const EdgeInsets.only(left: 10),
-                      //               //   child: MsgDate(
-                      //               //     date: (snapShot.data.docs[index]['date']
-                      //               //             as Timestamp)
-                      //               //         .toDate(),
-                      //               //   ),
-                      //               // )
-                      //             ],
-                      //           )
-                      //           // : snapShot.data!.docs[index]['Type'] ==
-                      //           //         'Video'
-                      //           //     ? snapShot.data!.docs[index]
-                      //           //                 ['senderId'] ==
-                      //           //             PreferenceManager.getTokenId()
-                      //           //         ? Row(
-                      //           //             mainAxisAlignment:
-                      //           //                 MainAxisAlignment.end,
-                      //           //             children: [
-                      //           //               Container(
-                      //           //                 height: 250,
-                      //           //                 width: 250,
-                      //           //                 padding:
-                      //           //                     EdgeInsets.symmetric(
-                      //           //                   horizontal: 20,
-                      //           //                 ),
-                      //           //                 child: playerWidget,
-                      //           //               ),
-                      //           //             ],
-                      //           //           )
-                      //           //         : Row(
-                      //           //             mainAxisAlignment:
-                      //           //                 MainAxisAlignment.start,
-                      //           //             children: [
-                      //           //               Container(
-                      //           //                 height: 250,
-                      //           //                 width: 250,
-                      //           //                 padding:
-                      //           //                     EdgeInsets.symmetric(
-                      //           //                   horizontal: 20,
-                      //           //                 ),
-                      //           //                 child: playerWidget,
-                      //           //               ),
-                      //           //             ],
-                      //           //           )
-                      //               : snapShot.data!.docs[index]['Type'] ==
-                      //               PreferenceManager.getTokenId()
-                      //                   .toString()
-                      //               ? Padding(
-                      //             padding: EdgeInsets.only(
-                      //                 right: Get.width / 5),
-                      //             child: Card(
-                      //               color: Colors.grey[200],
-                      //               shape: RoundedRectangleBorder(
-                      //                 borderRadius:
-                      //                 BorderRadius.only(
-                      //                     topRight:
-                      //                     Radius.circular(
-                      //                         15),
-                      //                     bottomRight:
-                      //                     Radius.circular(
-                      //                         15),
-                      //                     bottomLeft:
-                      //                     Radius.circular(
-                      //                         15)),
-                      //               ),
-                      //               elevation: 1,
-                      //               child: Padding(
-                      //                 padding:
-                      //                 const EdgeInsets.all(
-                      //                     8.0),
-                      //                 child: Row(
-                      //                   mainAxisSize:
-                      //                   MainAxisSize.min,
-                      //                   crossAxisAlignment:
-                      //                   CrossAxisAlignment
-                      //                       .end,
-                      //                   children: [
-                      //                     Icon(
-                      //                       Icons.description,
-                      //                       color: Colors.black,
-                      //                     ),
-                      //                     Flexible(
-                      //                       child: Text(
-                      //                         snapShot.data!
-                      //                             .docs[index]
-                      //                         [
-                      //                         'documentName'],
-                      //                         style: TextStyle(
-                      //                           fontSize: 16,
-                      //                           fontWeight:
-                      //                           FontWeight
-                      //                               .w400,
-                      //                           color:
-                      //                           Colors.black,
-                      //                           fontFamily:
-                      //                           'Poppins',
-                      //                         ),
-                      //                       ),
-                      //                     ),
-                      //                     SizedBox(
-                      //                       width: 10,
-                      //                     ),
-                      //                     // Padding(
-                      //                     //   padding:
-                      //                     //       const EdgeInsets.only(
-                      //                     //           top: 10),
-                      //                     //   child: MsgDate(
-                      //                     //     date: (snapShot.data.docs[
-                      //                     //                     index]
-                      //                     //                 ['date']
-                      //                     //             as Timestamp)
-                      //                     //         .toDate(),
-                      //                     //   ),
-                      //                     // )
-                      //                   ],
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //           )
-                      //               : Padding(
-                      //             padding: EdgeInsets.only(
-                      //                 left: Get.width / 5),
-                      //             child: Align(
-                      //               child: Card(
-                      //                 color: Color(0xFF222744),
-                      //                 shape:
-                      //                 RoundedRectangleBorder(
-                      //                   borderRadius:
-                      //                   BorderRadius.only(
-                      //                       topRight: Radius
-                      //                           .circular(15),
-                      //                       bottomRight:
-                      //                       Radius
-                      //                           .circular(
-                      //                           15),
-                      //                       bottomLeft: Radius
-                      //                           .circular(
-                      //                           15)),
-                      //                 ),
-                      //                 elevation: 1,
-                      //                 child: Padding(
-                      //                   padding:
-                      //                   const EdgeInsets.all(
-                      //                       8.0),
-                      //                   child: Row(
-                      //                     mainAxisSize:
-                      //                     MainAxisSize.min,
-                      //                     crossAxisAlignment:
-                      //                     CrossAxisAlignment
-                      //                         .end,
-                      //                     children: [
-                      //                       Icon(Icons
-                      //                           .description),
-                      //                       Flexible(
-                      //                         child: Text(
-                      //                           snapShot.data!
-                      //                               .docs[
-                      //                           index][
-                      //                           'documentName'],
-                      //                           style: TextStyle(
-                      //                             fontSize: 16,
-                      //                             fontWeight:
-                      //                             FontWeight
-                      //                                 .w400,
-                      //                             color: Colors
-                      //                                 .white,
-                      //                             fontFamily:
-                      //                             'Poppins',
-                      //                           ),
-                      //                         ),
-                      //                       ),
-                      //                       SizedBox(
-                      //                         width: 10,
-                      //                       ),
-                      //                       // Padding(
-                      //                       //   padding:
-                      //                       //       const EdgeInsets.only(
-                      //                       //           top: 10),
-                      //                       //   child: MsgDate(
-                      //                       //     date: (snapShot.data.docs[
-                      //                       //                     index]
-                      //                       //                 ['date']
-                      //                       //             as Timestamp)
-                      //                       //         .toDate(),
-                      //                       //   ),
-                      //                       // )
-                      //                     ],
-                      //                   ),
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //           );
-                      //         },
-                      //       );
-                      //     }
-                      //     return Center(
-                      //       child: CircularProgressIndicator(),
-                      //     );
-                      //   },
-                      // ),
+                      StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('chat')
+                            .doc(chatId(
+                            PreferenceManager.getTokenId().toString(),
+                            widget.uid)
+                        )
+                            .collection('Data')
+                            .orderBy('date', descending: false)
+                            .snapshots(),
+                        builder: (context, snapShot) {
+                          if (snapShot.hasData) {
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              physics: BouncingScrollPhysics(),
+                              itemCount: snapShot.data!.docs.length,
+                              itemBuilder: (context, index) {
+                                if (snapShot.data!.docs[index]['Type'] ==
+                                    'Video') {
+                                  print(
+                                      'firebasevideo${snapShot.data!.docs[index]['video']}');
+                                }
+                                // _controllerVideos = VideoPlayerController.network(
+                                //     snapShot.data!.docs[index]['video']);
+                                // final chewieController = ChewieController(
+                                //   videoPlayerController: _controllerVideos!,
+                                //   aspectRatio: 3 / 2,
+                                //   autoPlay: false,
+                                //   autoInitialize: true,
+                                //   looping: false,
+                                // );
+                                // final playerWidget = Chewie(
+                                //   controller: chewieController,
+                                // );
+                                return snapShot.data!.docs[index]['Type'] ==
+                                    'Text'
+                                    ? Padding(
+                                  padding:
+                                  const EdgeInsets.only(bottom: 8),
+                                  child: snapShot.data!.docs[index]
+                                  ['senderId'] ==
+                                      PreferenceManager.getTokenId()
+                                          .toString()
+                                      ? Align(
+                                    alignment:
+                                    Alignment.centerRight,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          left: Get.width / 5,
+                                          right: 10),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.end,
+                                        mainAxisSize:
+                                        MainAxisSize.min,
+                                        children: [
+                                          Flexible(
+                                            child: Card(
+                                              margin:
+                                              EdgeInsets.zero,
+                                              color:
+                                              Color(0xFF777794),
+                                              shape:
+                                              const RoundedRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius
+                                                    .only(
+                                                  topLeft: Radius
+                                                      .circular(15),
+                                                  bottomRight:
+                                                  Radius
+                                                      .circular(
+                                                      15),
+                                                  bottomLeft: Radius
+                                                      .circular(15),
+                                                ),
+                                              ),
+                                              elevation: 1,
+                                              child: Row(
+                                                mainAxisSize:
+                                                MainAxisSize
+                                                    .min,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment
+                                                    .end,
+                                                children: [
+                                                  Flexible(
+                                                    child: Padding(
+                                                      padding:
+                                                      const EdgeInsets
+                                                          .all(
+                                                          8.0),
+                                                      child: Text(
+                                                        "${snapShot.data!.docs[index]['msg']}",
+                                                        style:
+                                                        TextStyle(
+                                                          fontSize:
+                                                          16,
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .w400,
+                                                          color: Colors
+                                                              .white,
+                                                          fontFamily:
+                                                          'Poppins',
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  // Padding(
+                                                  //   padding:
+                                                  //       const EdgeInsets.only(
+                                                  //           right: 10, bottom: 5),
+                                                  //   child: MsgDate(
+                                                  //     date: (snapShot.data!
+                                                  //                     .docs[index]
+                                                  //                 ['date']
+                                                  //             as Timestamp)
+                                                  //         .toDate(),
+                                                  //   ),
+                                                  // )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          /*    PreferenceManager.getCustomerPImg() == null ||
+                                              PreferenceManager.getCustomerPImg() ==
+                                                  ''
+                                          ? imageNotFound()
+                                          : ClipOval(
+                                              child: commonProfileOctoImage(
+                                                image: PreferenceManager
+                                                    .getCustomerPImg(),
+                                                height: Get.height * 0.05,
+                                                width: Get.height * 0.05,
+                                              ),
+                                            ),*/
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                      : Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Padding(
+                                      padding:
+                                      const EdgeInsets.only(
+                                          left: 10),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.end,
+                                        mainAxisSize:
+                                        MainAxisSize.min,
+                                        children: [
+                                          Flexible(
+                                            child: Padding(
+                                              padding:
+                                              EdgeInsets.only(
+                                                  right:
+                                                  Get.width /
+                                                      5),
+                                              child: Card(
+                                                color: Color(
+                                                    0xff404040),
+                                                shape:
+                                                RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.only(
+                                                      topRight: Radius
+                                                          .circular(
+                                                          15),
+                                                      bottomRight: Radius
+                                                          .circular(
+                                                          15),
+                                                      bottomLeft: Radius
+                                                          .circular(
+                                                          15)),
+                                                ),
+                                                elevation: 1,
+                                                child: Padding(
+                                                  padding:
+                                                  const EdgeInsets
+                                                      .all(8.0),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                    MainAxisSize
+                                                        .min,
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment
+                                                        .end,
+                                                    children: [
+                                                      Flexible(
+                                                        child: Text(
+                                                          snapShot
+                                                              .data!
+                                                              .docs[index]['msg'],
+                                                          style:
+                                                          TextStyle(
+                                                            fontSize:
+                                                            16,
+                                                            fontWeight:
+                                                            FontWeight.w400,
+                                                            color: Colors
+                                                                .white,
+                                                            fontFamily:
+                                                            'Poppins',
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      // Padding(
+                                                      //   padding:
+                                                      //       const EdgeInsets.only(
+                                                      //           top: 10),
+                                                      //   child: MsgDate(
+                                                      //     date: (snapShot.data.docs[
+                                                      //                     index]
+                                                      //                 ['date']
+                                                      //             as Timestamp)
+                                                      //         .toDate(),
+                                                      //   ),
+                                                      // )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                )
+                                    : snapShot.data!.docs[index]['Type'] ==
+                                    'Image'
+                                    ? snapShot.data!.docs[index]
+                                ['senderId'] ==
+                                    PreferenceManager.getTokenId()
+                                        .toString()
+                                    ? Row(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.end,
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.end,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    /* PreferenceManager.getCustomerPImg() == null ||
+                                      PreferenceManager.getCustomerPImg() == ''
+                                  ? imageNotFound()
+                                  : ClipOval(
+                                      child: commonProfileOctoImage(
+                                        image: PreferenceManager.getCustomerPImg(),
+                                        height: Get.height * 0.05,
+                                        width: Get.height * 0.05,
+                                      ),
+                                    ),*/
+                                  ],
+                                )
+                                    : Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    /*   widget.userImg == null || widget.userImg == ''
+                                  ? imageNotFound()
+                                  : ClipOval(
+                                      child: commonProfileOctoImage(
+                                        image: widget.userImg,
+                                        height: Get.height * 0.05,
+                                        width: Get.height * 0.05,
+                                      ),
+                                    ),*/
+                                    Padding(
+                                      padding:
+                                      const EdgeInsets.only(
+                                          left: 10, top: 10),
+                                      child: Column(
+                                        children: (snapShot.data!
+                                            .docs[index]
+                                        ['image'] as List)
+                                            .map(
+                                              (e) => Padding(
+                                            padding:
+                                            const EdgeInsets
+                                                .only(
+                                                bottom:
+                                                5),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                              BorderRadius
+                                                  .circular(
+                                                  5),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  // Get.to(ZoomImage(
+                                                  //   img: e,
+                                                  // ));
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                            .toList(),
+                                      ),
+                                    ),
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(left: 10),
+                                    //   child: MsgDate(
+                                    //     date: (snapShot.data.docs[index]['date']
+                                    //             as Timestamp)
+                                    //         .toDate(),
+                                    //   ),
+                                    // )
+                                  ],
+                                )
+                                // : snapShot.data!.docs[index]['Type'] ==
+                                //         'Video'
+                                //     ? snapShot.data!.docs[index]
+                                //                 ['senderId'] ==
+                                //             PreferenceManager.getTokenId()
+                                //         ? Row(
+                                //             mainAxisAlignment:
+                                //                 MainAxisAlignment.end,
+                                //             children: [
+                                //               Container(
+                                //                 height: 250,
+                                //                 width: 250,
+                                //                 padding:
+                                //                     EdgeInsets.symmetric(
+                                //                   horizontal: 20,
+                                //                 ),
+                                //                 child: playerWidget,
+                                //               ),
+                                //             ],
+                                //           )
+                                //         : Row(
+                                //             mainAxisAlignment:
+                                //                 MainAxisAlignment.start,
+                                //             children: [
+                                //               Container(
+                                //                 height: 250,
+                                //                 width: 250,
+                                //                 padding:
+                                //                     EdgeInsets.symmetric(
+                                //                   horizontal: 20,
+                                //                 ),
+                                //                 child: playerWidget,
+                                //               ),
+                                //             ],
+                                //           )
+                                    : snapShot.data!.docs[index]['Type'] ==
+                                    PreferenceManager.getTokenId()
+                                        .toString()
+                                    ? Padding(
+                                  padding: EdgeInsets.only(
+                                      right: Get.width / 5),
+                                  child: Card(
+                                    color: Colors.grey[200],
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.only(
+                                          topRight:
+                                          Radius.circular(
+                                              15),
+                                          bottomRight:
+                                          Radius.circular(
+                                              15),
+                                          bottomLeft:
+                                          Radius.circular(
+                                              15)),
+                                    ),
+                                    elevation: 1,
+                                    child: Padding(
+                                      padding:
+                                      const EdgeInsets.all(
+                                          8.0),
+                                      child: Row(
+                                        mainAxisSize:
+                                        MainAxisSize.min,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment
+                                            .end,
+                                        children: [
+                                          Icon(
+                                            Icons.description,
+                                            color: Colors.black,
+                                          ),
+                                          Flexible(
+                                            child: Text(
+                                              snapShot.data!
+                                                  .docs[index]
+                                              [
+                                              'documentName'],
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight:
+                                                FontWeight
+                                                    .w400,
+                                                color:
+                                                Colors.black,
+                                                fontFamily:
+                                                'Poppins',
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          // Padding(
+                                          //   padding:
+                                          //       const EdgeInsets.only(
+                                          //           top: 10),
+                                          //   child: MsgDate(
+                                          //     date: (snapShot.data.docs[
+                                          //                     index]
+                                          //                 ['date']
+                                          //             as Timestamp)
+                                          //         .toDate(),
+                                          //   ),
+                                          // )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                )
+                                    : Padding(
+                                  padding: EdgeInsets.only(
+                                      left: Get.width / 5),
+                                  child: Align(
+                                    child: Card(
+                                      color: Color(0xFF222744),
+                                      shape:
+                                      RoundedRectangleBorder(
+                                        borderRadius:
+                                        BorderRadius.only(
+                                            topRight: Radius
+                                                .circular(15),
+                                            bottomRight:
+                                            Radius
+                                                .circular(
+                                                15),
+                                            bottomLeft: Radius
+                                                .circular(
+                                                15)),
+                                      ),
+                                      elevation: 1,
+                                      child: Padding(
+                                        padding:
+                                        const EdgeInsets.all(
+                                            8.0),
+                                        child: Row(
+                                          mainAxisSize:
+                                          MainAxisSize.min,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment
+                                              .end,
+                                          children: [
+                                            Icon(Icons
+                                                .description),
+                                            Flexible(
+                                              child: Text(
+                                                snapShot.data!
+                                                    .docs[
+                                                index][
+                                                'documentName'],
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .w400,
+                                                  color: Colors
+                                                      .white,
+                                                  fontFamily:
+                                                  'Poppins',
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            // Padding(
+                                            //   padding:
+                                            //       const EdgeInsets.only(
+                                            //           top: 10),
+                                            //   child: MsgDate(
+                                            //     date: (snapShot.data.docs[
+                                            //                     index]
+                                            //                 ['date']
+                                            //             as Timestamp)
+                                            //         .toDate(),
+                                            //   ),
+                                            // )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                      ),
                       Container(
                         width: Get.width,
                         alignment: Alignment.centerLeft,
@@ -815,7 +814,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
     } else {
       FirebaseFirestore.instance
           .collection('chat')
-          .doc(chatId("wowtSMoyQJeLvZPTph6nz4A31hg", widget.uid!))
+          .doc(chatId("wowtSMoyQJeLvZPTph6nz4A31hg", widget.uid))
           .collection('Data')
           .add({
         'date': DateTime.now(),

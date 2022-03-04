@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/buyer/screens/chat_page.dart';
 import 'package:pipes_online/buyer/screens/personal_info_page.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:sizer/sizer.dart';
+import '../../seller/common/s_image.dart';
 import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
 import '../custom_widget/custom_home_page_widget/custom_drawer_widget.dart';
 import '../custom_widget/custom_home_page_widget/custom_home_search_widget.dart';
 import '../custom_widget/widgets/custom_widget/custom_navigationbar_items.dart';
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
+import 'bottom_bar_screen_page/widget/cart_bottom_bar_route.dart';
 import 'cart_page.dart';
 import 'categories_card__list.dart';
 import '../custom_widget/widgets/custom_widget/custom_title_text.dart';
@@ -136,114 +137,6 @@ class CatelogeHomeWidget extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
-        // appBar: AppBar(
-        //   leading: IconButton(
-        //     padding: EdgeInsets.only(bottom: Get.height / 7.sp, left: 15.sp),
-        //     icon: SvgPicture.asset(
-        //       'assets/images/drawer_icon.svg',
-        //       width: 15.sp,
-        //       height: 15.sp,
-        //     ),
-        //     onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-        //   ),
-        //   actions: [
-        //     InkWell(
-        //       onTap: () {
-        //         Get.to(() => CartPage());
-        //       },
-        //       child: Stack(
-        //         children: [
-        //           Container(
-        //             color: AppColors.primaryColor,
-        //             margin: EdgeInsets.only(
-        //               bottom: Get.height / 0,
-        //               top: 15.sp,
-        //               right: Get.width * 0.08,
-        //             ),
-        //             child: Icon(
-        //               Icons.shopping_cart_outlined,
-        //               size: 21.sp,
-        //             ),
-        //             // SvgPicture.asset('assets/images/cart_icon.svg',),
-        //           ),
-        //           Positioned(
-        //             top: 10.sp,
-        //             left: 5.sp,
-        //             child: Container(
-        //               width: 10.sp,
-        //               height: 10.sp,
-        //               decoration: BoxDecoration(
-        //                 shape: BoxShape.circle,
-        //                 color: AppColors.commonWhiteTextColor,
-        //               ),
-        //               child: CustomText(
-        //                 text: '3',
-        //                 fontSize: 8.sp,
-        //                 fontWeight: FontWeight.w700,
-        //                 color: AppColors.secondaryBlackColor,
-        //                 textAlign: TextAlign.center,
-        //               ),
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        //     ),
-        //   ],
-        //   flexibleSpace: FlexibleSpaceBar(
-        //     background: Column(
-        //       children: [
-        //         SizedBox(
-        //           height: Get.height / 4.5.sp,
-        //         ),
-        //         Row(
-        //           children: [
-        //             const CustomHomeSearchWidget(),
-        //             Padding(
-        //               padding: const EdgeInsets.only(bottom: 0.0),
-        //               child: GestureDetector(
-        //                 onTap: () {
-        //                   print('FILTER');
-        //                   _showPopupMenu();
-        //                   // CustomHoverPopupFilterWidget();
-        //                 },
-        //                 child: ClipRRect(
-        //                   borderRadius: BorderRadius.circular(8.sp),
-        //                   child: Container(
-        //                     width: Get.width / 8.sp,
-        //                     height: Get.height * 0.04.sp,
-        //                     color: AppColors.commonWhiteTextColor,
-        //                     child: Icon(
-        //                       Icons.filter_alt_outlined,
-        //                       color: AppColors.primaryColor,
-        //                       size: 22.sp,
-        //                     ),
-        //                   ),
-        //                 ),
-        //               ),
-        //             ),
-        //           ],
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        //   foregroundColor: AppColors.commonWhiteTextColor,
-        //   backgroundColor: AppColors.primaryColor,
-        //   title: Container(
-        //     padding: EdgeInsets.only(top: 18.sp),
-        //     margin: EdgeInsets.only(bottom: Get.height / 6.sp),
-        //     child: Text(
-        //       'PIPES ONLINE',
-        //       style: STextStyle.bold700White14,
-        //     ),
-        //   ),
-        //   centerTitle: true,
-        //   toolbarHeight: Get.height * 0.15.sp,
-        //   shape: const RoundedRectangleBorder(
-        //     borderRadius: BorderRadius.vertical(
-        //       bottom: Radius.circular(25),
-        //     ),
-        //   ),
-        // ),
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(Get.height * 0.17),
             child: Container(
@@ -282,13 +175,25 @@ class CatelogeHomeWidget extends StatelessWidget {
                           onPressed: () =>
                               _scaffoldKey.currentState?.openDrawer(),
                         ),
-                        Text(
-                          'PIPES ONLINE',
-                          style: STextStyle.bold700White14,
-                        ),
+                        // SvgPicture.asset("${SImagePick.pipesDealLogo}"),
+                        Container(
+                            margin: EdgeInsets.only(right: 15.sp,bottom: 5.sp,top: 5.sp),
+
+                            child: Image.asset("assets/images/png/pipe_logo.png",width: 35.sp,height: 35.sp,)),
+                        // Text(
+                        //   'PIPES ONLINE',
+                        //   style: STextStyle.bold700White14,
+                        // ),
                         InkWell(
                           onTap: () {
                             Get.to(() => CartPage());
+                            // if (bottomBarIndexController.bottomIndex.value == 1) {
+                            //   bottomBarIndexController.setSelectedScreen(
+                            //       value: 'HomeScreen');
+                            //   bottomBarIndexController.bottomIndex.value = 0;
+                            // } else {
+                            //   Get.back();
+                            // }
                           },
                           child: Stack(
                             children: [
@@ -358,7 +263,7 @@ class CatelogeHomeWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             )),

@@ -8,7 +8,7 @@ import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/chat_bo
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/home_bottom_bar_route.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/personal_info_bottom_bar_route.dart';
 import 'package:pipes_online/buyer/screens/cart_page.dart';
-import 'package:pipes_online/buyer/screens/chat_page.dart';
+import 'package:pipes_online/buyer/screens/b_chat_screen.dart';
 import 'package:pipes_online/buyer/screens/home_screen_widget.dart';
 import 'package:pipes_online/buyer/screens/personal_info_page.dart';
 import 'package:pipes_online/buyer/view_model/b_bottom_bar_controller.dart';
@@ -30,7 +30,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
   List<Widget> tabPages = [
     CatelogeHomeWidget(),
     CartPage(),
-    ChatPage(),
+    BChatScreen(),
     PersonalInfoPage(),
   ];
   List<Map<String, dynamic>> bottomBarData = [

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/b_submit_profile_screen.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/routes/app_routes.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
@@ -13,7 +14,6 @@ import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:sizer/sizer.dart';
 import '../../authentificaion/functions.dart';
 import '../../view_model/b_login_home_controller.dart';
-import '../b_submit_profile_screen.dart';
 
 class BLogInHomeScreen extends StatefulWidget {
   @override

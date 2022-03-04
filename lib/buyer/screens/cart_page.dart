@@ -20,6 +20,11 @@ class _CartPageState extends State<CartPage> {
   String? dropdownValueLength;
   String? dropdownValueWeight;
   String? dropdownValueOil;
+  String? dropdownValueFootage;
+  String? dropdownValueOD;
+  String? dropdownValueWall;
+  String? dropdownValueWTperft;
+  String? dropdownValuePipeTagColor;
 
   var items = [
     'select',
@@ -177,6 +182,51 @@ class _CartPageState extends State<CartPage> {
                         onChange: (String? newValue) {
                           dropdownValueOil = newValue!;
                           print('dropdownValueOil:-$dropdownValueOil');
+                          setState(() {});
+                        },
+                      ),
+                      CustomDropDownWidget(
+                        keyName: 'Footage:      ',
+                        dropDownValue: dropdownValueFootage,
+                        onChange: (String? newValue) {
+                          dropdownValueFootage = newValue!;
+                          print('dropdownValueSize:-$dropdownValueFootage');
+                          setState(() {});
+                        },
+                      ),
+                      CustomDropDownWidget(
+                        keyName: 'O.D.:      ',
+                        dropDownValue: dropdownValueOD,
+                        onChange: (String? newValue) {
+                          dropdownValueOD = newValue!;
+                          print('dropdownValueSize:-$dropdownValueOD');
+                          setState(() {});
+                        },
+                      ),
+                      CustomDropDownWidget(
+                        keyName: 'Wall:      ',
+                        dropDownValue: dropdownValueWall,
+                        onChange: (String? newValue) {
+                          dropdownValueWall = newValue!;
+                          print('dropdownValueSize:-$dropdownValueWall');
+                          setState(() {});
+                        },
+                      ),
+                      CustomDropDownWidget(
+                        keyName: 'WT. per ft:      ',
+                        dropDownValue: dropdownValueWTperft,
+                        onChange: (String? newValue) {
+                          dropdownValueWTperft = newValue!;
+                          print('dropdownValueSize:-$dropdownValueWTperft');
+                          setState(() {});
+                        },
+                      ),
+                      CustomDropDownWidget(
+                        keyName: 'Pipe Tag Color:      ',
+                        dropDownValue: dropdownValuePipeTagColor,
+                        onChange: (String? newValue) {
+                          dropdownValuePipeTagColor = newValue!;
+                          print('dropdownValueSize:-$dropdownValuePipeTagColor');
                           setState(() {});
                         },
                       ),

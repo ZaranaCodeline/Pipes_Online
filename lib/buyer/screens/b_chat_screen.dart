@@ -1,16 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/screens/chat_message_page.dart';
+import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../seller/common/s_text_style.dart';
-import '../app_constant/app_colors.dart';
-import '../custom_widget/widgets/custom_widget/custom_navigationbar_items.dart';
-import '../custom_widget/widgets/custom_widget/custom_text.dart';
-import 'chat_message_page.dart';
+import '../../../buyer/app_constant/app_colors.dart';
+import '../../../buyer/buyer_common/b_image.dart';
+import '../../../buyer/custom_widget/widgets/custom_widget/custom_text.dart';
 
-class ChatPage extends StatelessWidget {
-  const ChatPage({Key? key}) : super(key: key);
+class BChatScreen extends StatelessWidget {
+  const BChatScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,7 @@ class ChatPage extends StatelessWidget {
             style: STextStyle.bold700White14,
           ),
           centerTitle: true,
-          leading: SizedBox(),
+          leading: BackButton(),
           backgroundColor: AppColors.primaryColor,
           toolbarHeight: Get.height * 0.1,
           shape: const RoundedRectangleBorder(
@@ -54,7 +53,8 @@ class ChatPage extends StatelessWidget {
               Divider(color: AppColors.primaryColor, thickness: 1.sp),
               InkWell(
                 onTap: () {
-                  Get.to(() => ChatMessagePage());
+                  // Get.to(() => ChatRoom());
+                  Get.to(() => ChatMessagePage(uid: 'fd',name: 'jfnj',image: 'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d'));
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: Get.height * 0.02),
@@ -71,7 +71,7 @@ class ChatPage extends StatelessWidget {
                                 children: [
                                   CircleAvatar(
                                     child: Image.asset(
-                                      'assets/images/cat_1.png',
+                                      BImagePick.chatIcon,
                                       width: 50.sp,
                                       height: 50.sp,
                                       fit: BoxFit.fill,
@@ -165,7 +165,7 @@ class ChatPage extends StatelessWidget {
                                 children: [
                                   CircleAvatar(
                                     child: Image.asset(
-                                      'assets/images/cat_1.png',
+                                      BImagePick.chatIcon,
                                       width: 50.sp,
                                       height: 50.sp,
                                       fit: BoxFit.fill,

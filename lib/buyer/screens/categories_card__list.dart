@@ -15,7 +15,7 @@ class CategoriesCardList extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 5.sp),
-      height: Get.height * 0.08.sp,
+      height: Get.height * 0.1.sp,
       width: double.infinity,
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection("Categories").snapshots(),

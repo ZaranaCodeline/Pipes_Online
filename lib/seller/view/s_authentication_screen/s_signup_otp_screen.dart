@@ -1,7 +1,8 @@
-import 'package:country_code_picker/country_code_picker.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:otp_text_field/otp_text_field.dart';
@@ -13,7 +14,8 @@ import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/s_submit_profile_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../view_model/s_signup_home_controller.dart';
 
 class SSignUpOTPScreen extends StatefulWidget {
   @override
@@ -22,6 +24,7 @@ class SSignUpOTPScreen extends StatefulWidget {
 
 class _SSignUpOTPScreenState extends State<SSignUpOTPScreen> {
   String? _verificationCode;
+  SSignUpHomeController sSignUpHomeController = Get.put(SSignUpHomeController());
   final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   var data=Get.arguments;
@@ -30,8 +33,7 @@ class _SSignUpOTPScreenState extends State<SSignUpOTPScreen> {
   Widget build(BuildContext context) {
     print(data[1]);
     print(data[0]);
-    // var data=Get.arguments;
-    return SafeArea(
+    return ProgressHUD(child: Builder(builder: (context) => SafeArea(
       child: Scaffold(
         backgroundColor: SColorPicker.purple,
         body: SingleChildScrollView(
@@ -48,7 +50,7 @@ class _SSignUpOTPScreenState extends State<SSignUpOTPScreen> {
                 decoration: BoxDecoration(
                     color: SColorPicker.purple,
                     borderRadius:
-                        BorderRadius.vertical(bottom: Radius.circular(20.sp))),
+                    BorderRadius.vertical(bottom: Radius.circular(20.sp))),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,7 +99,7 @@ class _SSignUpOTPScreenState extends State<SSignUpOTPScreen> {
                         )),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: Get.width * 0.05,
+                          horizontal: Get.width * 0.03,
                           vertical: Get.height * 0.08),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -113,7 +115,8 @@ class _SSignUpOTPScreenState extends State<SSignUpOTPScreen> {
                                   style: STextStyle.semiBold600Black15,
                                 ),
                                 Text(
-                                  'We have sent an OTP TO ${data[1]}',
+                                  // ${bSignUpHomeController.mobileNumber.text.toString()}
+                                  'We have sent an OTP TO ${sSignUpHomeController.mobileNumber.text.toString()} ',
                                   style: STextStyle.regular400Black11,
                                 ),
                               ],
@@ -121,36 +124,14 @@ class _SSignUpOTPScreenState extends State<SSignUpOTPScreen> {
                           ),
                           OTPTextField(
                             length: 6,
-                            width: Get.width * 1,
+                            width: Get.width *1,
                             fieldWidth: 40.sp,
                             style: TextStyle(fontSize: 17.sp),
                             //textFieldAlignment: MainAxisAlignment.spaceAround,
                             fieldStyle: FieldStyle.underline,
-                            onCompleted: (pin) async {
-                                print("Completed: " + pin);
-                                _otp = pin;
-
-                              // try {
-                              //   await FirebaseAuth.instance
-                              //       .signInWithCredential(
-                              //           PhoneAuthProvider.credential(
-                              //               verificationId: _verificationCode!,
-                              //               smsCode: pin))
-                              //       .then((value) async {
-                              //     if (value.user != null) {
-                              //       Navigator.pushAndRemoveUntil(
-                              //           context,
-                              //           MaterialPageRoute(
-                              //               builder: (context) =>
-                              //                   SSubmitProfileScreen()),
-                              //           (route) => false);
-                              //     }
-                              //   });
-                              // } catch (e) {
-                              //   FocusScope.of(context).unfocus();
-                              //   _scaffoldkey.currentState!.showSnackBar(
-                              //       SnackBar(content: Text('invalid OTP')));
-                              // }
+                            onCompleted: (pin) {
+                              print("Completed: " + pin);
+                              _otp = pin;
                             },
                           ),
                           RichText(
@@ -174,8 +155,14 @@ class _SSignUpOTPScreenState extends State<SSignUpOTPScreen> {
                             child: SCommonButton().sCommonPurpleButton(
                               name: 'Sign Up',
                               onTap: () {
+                                print('------${sSignUpHomeController.mobileNumber.text.toString()}');
+
+                                final progress =
+                                ProgressHUD.of(context);
+                                // progress?.show;
+                                print("it is loading to go profile page");
+                                progress!.showWithText('');
                                 verifyCode();
-                                // Get.toNamed(SRoutes.SSubmitProfileScreen);
                               },
                             ),
                           ),
@@ -190,16 +177,17 @@ class _SSignUpOTPScreenState extends State<SSignUpOTPScreen> {
           ),
         ),
       ),
-    );
+    ),),);
   }
   void verifyCode() async {
     final SharedPreferences _prefs = await SharedPreferences.getInstance();
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: data[0]!, smsCode: _otp!);
     await _auth.signInWithCredential(credential).then((value) {
-      print('You are logged in successfully');
+      print('Seller side...S..You are logged in successfully');
       _prefs.setBool('isLoggedIn', true);
-      Get.offAll(SSubmitProfileScreen());
+      // Get.offAll(BRoutes.BSubmitProfileScreen);
+      Get.to(SSubmitProfileScreen());
     });
   }
 }

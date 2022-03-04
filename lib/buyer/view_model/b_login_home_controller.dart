@@ -3,11 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/seller/view/s_authentication_screen/s_login_otp_screen.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/b_signup_otp_screen.dart';
 
-import '../../../seller/common/s_color_picker.dart';
+import '../../seller/common/s_color_picker.dart';
 import '../screens/b_authentication_screen/b_login_otp_screen.dart';
-import '../screens/b_login_otp_screen.dart';
+
 
 
 class BLogInController extends GetxController {

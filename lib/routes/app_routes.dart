@@ -41,7 +41,7 @@ class BRoutes{
   static final HelpCenterPage = '/HelpCenterPage';
   static final GetStartedPage = '/GetStartedPage';
   static final MapsScreen = '/MapsScreen';
-  static final ChatPage = '/ChatPage';
+  static final BChatScreen = '/BChatScreen';
   static final ChatMessagePage = '/ChatMessagePage';
   static final CategoriesProductListScreen = '/CategoriesProductListScreen';
   static final CategoriesCardList = '/CategoriesCardList';

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/bottom_bar_screen_page.dart';
+import 'package:sizer/sizer.dart';
 
 import '../app_constant/app_colors.dart';
 import '../custom_widget/widgets/custom_widget/custom_button.dart';
@@ -34,8 +36,8 @@ class DrawerProfilePage extends StatelessWidget {
       ),
       body: SafeArea(
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 20),
-          padding: EdgeInsets.symmetric(  horizontal:  Get.height * 0.04),
+          margin: EdgeInsets.symmetric(horizontal: 20.sp),
+          padding: EdgeInsets.symmetric(horizontal: Get.height * 0.04),
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -43,7 +45,7 @@ class DrawerProfilePage extends StatelessWidget {
                 Column(
                   children: [
                     //assets/images/profile.png
-                    SvgPicture.asset('assets/images/pro_icon.svg'),
+                    SvgPicture.asset('assets/images/svg/pro_icon.svg'),
                     SizedBox(
                       height: Get.height * 0.01,
                     ),
@@ -52,7 +54,6 @@ class DrawerProfilePage extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                         fontSize: 16,
                         color: AppColors.primaryColor),
-
                   ],
                 ),
                 SizedBox(height: Get.height * 0.01),
@@ -153,10 +154,11 @@ class DrawerProfilePage extends StatelessWidget {
                 Custombutton(
                   name: 'Continue',
                   function: () {
-                    Get.to(()=>GetStartedPage());
+                    Get.off(() => BottomNavigationBarScreen());
                   },
                   height: Get.height * 0.07,
-                  width: Get.width / 3,),
+                  width: Get.width / 3,
+                ),
                 SizedBox(
                   height: Get.height * 0.05,
                 ),
@@ -166,7 +168,5 @@ class DrawerProfilePage extends StatelessWidget {
         ),
       ),
     );
-
   }
-
 }

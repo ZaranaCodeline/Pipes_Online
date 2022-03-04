@@ -1,65 +1,162 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pipes_online/buyer/buyer_common/b_image.dart';
+import 'package:pipes_online/buyer/screens/add_reviews_page.dart';
+import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/bottom_bar_screen_page.dart';
+import 'package:pipes_online/buyer/screens/help_center_page.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
+import 'package:pipes_online/buyer/view_model/b_drawer_controller.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../app_constant/app_colors.dart';
+import '../../screens/b_authentication_screen/b_welcome_screen.dart';
+import '../../screens/b_review_screen.dart';
 import '../../screens/chat_page.dart';
 import '../../screens/home_screen_widget.dart';
 import '../../screens/my_order_page.dart';
 import '../../screens/drawer_profile_page.dart';
+import '../../screens/personal_info_page.dart';
 import '../../screens/settings_page.dart';
 
-class CustomDrawerWidget extends StatelessWidget {
+class CustomDrawerWidget extends StatefulWidget {
   const CustomDrawerWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final name = 'Jan Doe';
-    final phone = '+00 0000000000';
-    final urlImage =
-        'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d';
+  State<CustomDrawerWidget> createState() => _CustomDrawerWidgetState();
+}
 
+class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
+  BDrawerController bDrawerController = Get.put(BDrawerController());
+  TextEditingController _address =
+      TextEditingController(text: 'Yogichowk, Varacha, Surat');
+  final name = 'Jan Doe';
+  final phone = '+00 0000000000';
+  final urlImage =
+      'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d';
+
+  @override
+  Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: AppColors.primaryColor,
-      child: ListView(
-        children: <Widget>[
-          builtTopItem(
-            urlImage: urlImage,
-            name: name,
-            phone: phone,
-            onClicked: ()=> Get.to(()=>DrawerProfilePage()),
-          ),
-          buildMenuItem(
-              text: 'Home',
-              icon: Icons.home_outlined,
-              onClicked: () => selectedItem(context, 0),),
-          buildMenuItem(
-              text: 'Settings',
-              icon: Icons.settings_outlined,
-              onClicked: () => selectedItem(context, 1)),
-          buildMenuItem(
-              text: 'My Orders',
-              icon: Icons.message_outlined,
-              onClicked: () => selectedItem(context, 2)),
-          buildMenuItem(
-              text: 'Profile',
-              icon: Icons.person_outline,
-              onClicked: () => selectedItem(context, 3)),
-          buildMenuItem(
-              text: 'Invite Friends',
-              icon: Icons.person_add_alt_1_outlined,
-              onClicked: () => selectedItem(context, 4)),
-          buildMenuItem(
-              text: 'About Us',
-              icon: Icons.messenger_outline,
-              onClicked: () => selectedItem(context, 5)),
-          buildMenuItem(
-              text: 'Logout',
-              icon: Icons.logout,
-              onClicked: () => selectedItem(context, 6)),
-        ],
+      child: GetBuilder<BDrawerController>(
+        builder: (controller) {
+          return Container(
+            height: Get.height,
+            child: SingleChildScrollView(
+              physics: NeverScrollableScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  builtTopItem(
+                    urlImage: urlImage,
+                    name: name,
+                    phone: phone,
+                    onClicked: () => Get.to(() => DrawerProfilePage()),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 18.sp,
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 5.sp),
+                    height: Get.height * 0.05,
+                    // width: Get.width,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5.sp),
+                    ),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SvgPicture.asset(
+                            BImagePick.DrawerLocationIcon,
+                            width: 18.sp,
+                            height: 18.sp,
+                          ),
+                          SizedBox(width: 5.sp),
+                          Flexible(
+                            child: Container(
+                                // color: Colors.red,
+                                height: Get.height * 0.05,
+                                // width: Get.width * 0.9,
+                                alignment: Alignment.centerLeft,
+                                child: TextFormField(
+                                  readOnly: controller.readOnly,
+                                  controller: _address,
+                                  cursorColor: AppColors.primaryColor,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
+                                )),
+                          ),
+                          // Text('Yogichowk, Varachha, Surat'),
+                          IconButton(
+                            onPressed: () {
+                              controller.setEdit();
+                            },
+                            icon: Icon(
+                              controller.readOnly == true
+                                  ? Icons.edit_outlined
+                                  : Icons.clear,
+                              color: AppColors.primaryColor,
+                              size: 18.sp,
+                            ),
+                          )
+                        ]),
+                  ),
+                  SizedBox(height: Get.height * 0.03),
+                  buildMenuItem(
+                    text: 'Home',
+                    imageName: BImagePick.homeIcon,
+                    onClicked: () => selectedItem(context, 0),
+                  ),
+                  SizedBox(height: Get.height * 0.01),
+                  buildMenuItem(
+                    text: 'Settings',
+                    imageName: BImagePick.settingIcon,
+                    onClicked: () => selectedItem(context, 1),
+                  ),
+                  SizedBox(height: Get.height * 0.01),
+                  buildMenuItem(
+                    text: 'My Orders',
+                    imageName: BImagePick.MyOrderIcon,
+                    onClicked: () => selectedItem(context, 2),
+                  ),
+                  SizedBox(height: Get.height * 0.01),
+                  buildMenuItem(
+                    text: 'Reviews',
+                    imageName: BImagePick.ReviewsIcon,
+                    onClicked: () => selectedItem(context, 3),
+                  ),
+                  SizedBox(height: Get.height * 0.01),
+                  buildMenuItem(
+                    text: 'Help Center',
+                    imageName: BImagePick.HelpCenterIcon,
+                    onClicked: () => selectedItem(context, 4),
+                  ),
+                  SizedBox(height: Get.height * 0.01),
+                  buildMenuItem(
+                    text: 'Terms & Conditions',
+                    imageName: BImagePick.TermsAndConditionIcon,
+                    onClicked: () => selectedItem(context, 5),
+                  ),
+                  SizedBox(height: Get.height * 0.01),
+                  buildMenuItem(
+                    text: 'Logout',
+                    imageName: BImagePick.LogOutIcon,
+                    onClicked: () => selectedItem(context, 6),
+                  ),
+                  // SizedBox(
+                  //   height: Get.height * 0.05,
+                  // )
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -70,64 +167,83 @@ class CustomDrawerWidget extends StatelessWidget {
     required String phone,
     required VoidCallback onClicked,
   }) =>
-      GestureDetector(
-        onTap: (){
-          DrawerProfilePage();
-        },
-        child:  Container(
-          margin: EdgeInsets.symmetric(horizontal: 20,vertical: 30),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-            color: AppColors.commonWhiteTextColor
-          ),
-          height: Get.height / 9,
-          width: Get.width / 1.4,
-          child:
-          Row(
-            children: [
-              SizedBox(height: Get.height * 0.1,width: Get.height /50,),
-              CircleAvatar(radius: 30, backgroundImage: NetworkImage(urlImage)),
-              SizedBox(width: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: Get.height * 0.02,),
-                  Text(
-                    name,
-                    style:GoogleFonts.nunito(textStyle: TextStyle(fontSize: 22,color: AppColors.secondaryBlackColor,fontWeight: FontWeight.w400),),
-                  ),
-                  SizedBox(height: Get.height * 0.01,),
-
-                  Text(
-                    phone,
-                    style: TextStyle(fontSize: 14, color:AppColors.secondaryBlackColor),
-                  ),
-                ],
-              ),
-              Spacer(),
-              SvgPicture.asset('assets/images/dots.svg'),
-            ],
-          ),
-        )
-
-      );
+      InkWell(
+          onTap: () {
+            Get.to(() => PersonalInfoPage());
+          },
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 18.sp, vertical: 18.sp),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: AppColors.commonWhiteTextColor),
+            height: Get.height * 0.1,
+            width: Get.width / 1.4,
+            child: Row(
+              children: [
+                SizedBox(
+                  height: Get.height * 0.1,
+                  width: Get.height / 50,
+                ),
+                CircleAvatar(
+                    radius: 30, backgroundImage: NetworkImage(urlImage)),
+                SizedBox(width: Get.width / 25),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // SizedBox(
+                    //   height: Get.height * 0.01,
+                    // ),
+                    Text(
+                      name,
+                      style: GoogleFonts.nunito(
+                        textStyle: TextStyle(
+                            fontSize: 22,
+                            color: AppColors.secondaryBlackColor,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.005,
+                    ),
+                    Text(
+                      phone,
+                      style: TextStyle(
+                          fontSize: 14, color: AppColors.secondaryBlackColor),
+                    ),
+                  ],
+                ),
+                Spacer(),
+                SvgPicture.asset('assets/images/svg/dots.svg',width: 20.sp,height: 20.sp,),
+              ],
+            ),
+          ));
 
   Widget buildMenuItem(
-      {required String text, required IconData icon, VoidCallback? onClicked}) {
+      {required String text,
+      required String imageName,
+      VoidCallback? onClicked}) {
     final color = AppColors.commonWhiteTextColor;
     final hoverColor = Colors.white70;
 
-    return ListTile(
-      leading: Icon(
-        icon,
-        color: color,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: Get.width * 0.03),
+      child: ListTile(
+        leading: SvgPicture.asset(
+          imageName,
+          width: 18.sp,
+          height: 18.sp,
+        ),
+        minLeadingWidth: 18.sp,
+        title: Text(
+          text,
+          style: GoogleFonts.nunito(
+              textStyle: TextStyle(
+                  fontSize: 14.sp, color: color, fontWeight: FontWeight.w400)),
+        ),
+        hoverColor: hoverColor,
+        onTap: onClicked,
       ),
-      title: Text(
-        text,
-        style: GoogleFonts.nunito(textStyle: TextStyle(fontSize: 22,color: color,fontWeight: FontWeight.w400)),
-      ),
-      hoverColor: hoverColor,
-      onTap: onClicked,
     );
   }
 
@@ -136,34 +252,28 @@ class CustomDrawerWidget extends StatelessWidget {
 
     switch (index) {
       case 0:
-        Get.to(()=>HomePage());
+        Get.to(() => BottomNavigationBarScreen());
         break;
       case 1:
-        Get.to(()=>SettingsPage());
+        Get.to(() => SettingsPage());
         break;
       case 2:
-        Get.to(()=>MyOrderPage());
+        Get.to(() => MyOrderPage());
         break;
       case 3:
-        Get.to(()=>DrawerProfilePage());
+        Get.to(() => BReviewScreen());
         break;
 
       case 4:
-        Get.to(()=>ChatPage());
+        Get.to(() => HelpCenterPage());
         break;
 
-
-      //   break;
       case 5:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => TermsAndConditionPage(),
-        ));
-      //   break;
-      // case 6:
-      //   Navigator.of(context).push(MaterialPageRoute(
-      //     builder: (context) => LogoutPage(),
-      //   ));
-      //   break;
+        Get.to(() => TermsAndConditionPage());
+        break;
+      case 6:
+        Get.to(() => BWelcomeScreen());
+        break;
     }
   }
 }

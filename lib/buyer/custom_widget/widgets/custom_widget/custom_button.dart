@@ -5,10 +5,16 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../app_constant/app_colors.dart';
 
 class Custombutton extends StatelessWidget {
-  Custombutton({Key? key, required this.name, required this.function,required this.height, required this.width}) : super(key: key);
+  Custombutton(
+      {Key? key,
+      required this.name,
+      required this.function,
+      required this.height,
+      required this.width})
+      : super(key: key);
   String name;
-  VoidCallback function;
-  double height , width=Get.width / 3;
+  dynamic function;
+  double height, width = Get.width / 3;
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +26,8 @@ class Custombutton extends StatelessWidget {
         width: width,
         height: height,
         child: RaisedButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15)
-          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           color: AppColors.primaryColor,
           onPressed: function,
           child: Text(

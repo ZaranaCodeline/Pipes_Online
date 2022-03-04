@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:pipes_online/routes/app_pages.dart';
 import 'package:sizer/sizer.dart';
 
+import 'buyer/helpers/binding.dart';
 import 'buyer/routes/app_pages.dart';
 
 void main() async {
@@ -25,10 +26,11 @@ class MyApp extends StatelessWidget {
           defaultTransition: Transition.fadeIn,
           getPages: AppPages.routes,
           title: 'Flutter Demo',
+          initialBinding: Binding(),
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          // home: const Splash( ),
+         // home: const Splash( ),
         );
       },
     );

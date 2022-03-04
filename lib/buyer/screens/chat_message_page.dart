@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sizer/sizer.dart';
 
 import '../app_constant/app_colors.dart';
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
@@ -13,65 +14,72 @@ class ChatMessagePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Stack(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
+            Row(
               children: [
-                CustomText(
-                  alignment: Alignment.center,
-                  text: 'Jan Doe',
-                  fontWeight: FontWeight.w500,
-                  fontSize: 22,
-                  color: AppColors.commonWhiteTextColor,
+                Stack(
+                  children: [
+                    CircleAvatar(
+                      child: Image.asset(
+                        'assets/images/cat_1.png',
+                        width: 50.sp,
+                        height: 50.sp,
+                        fit: BoxFit.fill,
+                      ),
+                      backgroundColor: AppColors.offWhiteColor,
+                    ),
+                    Positioned(
+                      right: 0,
+                      child: Container(
+                        width: 10.sp,
+                        height: 10.sp,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.green,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                CustomText(
-                  alignment: Alignment.center,
-                  text: 'Online',
-                  fontWeight: FontWeight.w400,
-                  fontSize: 18,
-                  color: Colors.green,
+                SizedBox(width: Get.width * 0.05),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      alignment: Alignment.center,
+                      text: 'Jan Doe',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 22,
+                      color: AppColors.commonWhiteTextColor,
+                    ),
+                    CustomText(
+                      alignment: Alignment.center,
+                      text: 'Online',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 18,
+                      color: Colors.green,
+                    ),
+                  ],
                 ),
               ],
             ),
-            CircleAvatar(
-              child: Image.asset(
-                'assets/images/cat_1.png',
-                width: 50,
-                height: 50,
-                fit: BoxFit.fill,
+            Container(
+              width: 35.sp,
+              height: 35.sp,
+              // padding: EdgeInsets,
+              decoration: BoxDecoration(
+                color: AppColors.commonWhiteTextColor,
+                borderRadius: BorderRadius.circular(8.sp),
+                border: Border.all(color: AppColors.hintTextColor, width: 2.sp),
               ),
-              backgroundColor: AppColors.offWhiteColor,
-            ),
-            Positioned(
-              left: 32,
-              top: 0,
-              child: Container(
-                width: 15,
-                height: 15,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  color: Colors.green,
-                ),
-              ),
-            ),
-            Positioned(
-              right: 20,
-              child: Container(
-                width: 40,
-                height: 38,
-                decoration: BoxDecoration(
-                    color: AppColors.commonWhiteTextColor,
-                    borderRadius: BorderRadius.circular(5),
-                    boxShadow: [
-                      new BoxShadow(blurRadius: 0.1),
-                    ]),
-                child: TextButton(
-                    onPressed: () {},
-                    child: Icon(
-                      Icons.call,
-                      color: AppColors.secondaryBlackColor,
-                    )),
-              ),
+              child: TextButton(
+                  onPressed: () {},
+                  child: Icon(
+                    Icons.call,
+                    color: AppColors.secondaryBlackColor,
+                  )),
             )
           ],
         ),
@@ -83,119 +91,157 @@ class ChatMessagePage extends StatelessWidget {
           ),
         ),
       ),
-      body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              alignment: Alignment.topLeft,
-              child: Column(
-
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 50),
-                    height: 50,
-                    width: 200,
-                    child: const Text(
-                      'Hii',
-                    ),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: AppColors.offLightPurpalColor,
-                        borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(0),bottomRight: Radius.circular(15),
-                            topLeft: Radius.circular(20))),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    height: 50,
-                    width: 200,
-                    child: const Text(
-                      '01:00',
-                    ),
-                    alignment: Alignment.center,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              alignment: Alignment.topRight,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: EdgeInsets.all(Get.width * 0.05),
+            child: Column(
+              children: [
+                Text('Today'),
+                Container(
+                  width: Get.width,
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.check),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 50),
-                        height: 50,
-                        width: 200,
+                        padding: const EdgeInsets.symmetric(horizontal: 50),
+                        height: Get.height * 0.06,
+                        width: Get.width * 0.3,
                         child: const Text(
                           'Hii',
                         ),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            color: AppColors.lightBlackColor,
-                            borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                bottomRight: Radius.circular(20))),
-                      )
+                            color: AppColors.offLightPurpalColor,
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(10.sp),
+                                bottomRight: Radius.circular(10.sp),
+                                topLeft: Radius.circular(10.sp))),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8.sp),
+                        child: Text(
+                          '01:00',
+                        ),
+                      ),
                     ],
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    height: 50,
-                    width: 200,
-                    child: const Text(
-                      '01:00',
-                    ),
-                    alignment: Alignment.centerRight,
+                ),
+                Container(
+                  width: Get.width,
+                  alignment: Alignment.centerRight,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                        height: Get.height * 0.06,
+                        width: Get.width * 0.4,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(Icons.check),
+                            Text(
+                              'Hii',
+                            ),
+                            SizedBox(),
+                          ],
+                        ),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: AppColors.lightBlackColor,
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(10.sp),
+                                bottomLeft: Radius.circular(10.sp),
+                                topLeft: Radius.circular(10.sp))),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8.sp),
+                        child: Text(
+                          '01:05',
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                // Container(
+                //   alignment: Alignment.topRight,
+                //   child: Column(
+                //     children: [
+                //       Row(
+                //         mainAxisAlignment: MainAxisAlignment.end,
+                //         children: [
+                //           Icon(Icons.check),
+                //           Container(
+                //             padding: EdgeInsets.symmetric(horizontal: 50),
+                //             height: 50,
+                //             width: 200,
+                //             child: const Text(
+                //               'Hii',
+                //             ),
+                //             alignment: Alignment.center,
+                //             decoration: BoxDecoration(
+                //                 color: AppColors.lightBlackColor,
+                //                 borderRadius: const BorderRadius.only(
+                //                     topLeft: Radius.circular(20),
+                //                     bottomRight: Radius.circular(20))),
+                //           )
+                //         ],
+                //       ),
+                //       Container(
+                //         padding: const EdgeInsets.symmetric(horizontal: 20),
+                //         height: 50,
+                //         width: 200,
+                //         child: const Text(
+                //           '01:00',
+                //         ),
+                //         alignment: Alignment.centerRight,
+                //       ),
+                //     ],
+                //   ),
+                // ),
+              ],
             ),
-            Container(
-              height: 100,
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              child: TextField(
-                decoration: InputDecoration(
-                  fillColor: AppColors.offWhiteColor,
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide:   BorderSide(
-                      width: 3,color: AppColors.offLightPurpalColor,
-                      style: BorderStyle.solid,
-                    ),
+          ),
+          Container(
+            height: 100,
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            child: TextField(
+              decoration: InputDecoration(
+                fillColor: AppColors.offWhiteColor,
+                contentPadding:
+                const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+                filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide(
+                    width: 3,
+                    color: AppColors.offLightPurpalColor,
+                    style: BorderStyle.solid,
                   ),
-                  hintText: 'Message...',
-                  hintStyle: TextStyle(color:AppColors.hintTextColor),
-                  prefixIcon: IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.insert_link_outlined,
-                        color: AppColors.primaryColor,
-                      )),
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: RawMaterialButton(
-                      constraints: BoxConstraints(minWidth: 0),
-                      onPressed: () {},
-                      elevation: 2.0,
-                      fillColor: AppColors.commonWhiteTextColor,
-                      child: Icon(Icons.send,
-                          size: 21.0, color: AppColors.primaryColor),
-                      padding: EdgeInsets.all(10.0),
-                      shape: CircleBorder(),
-                    ),
+                ),
+                hintText: 'Message...',
+                hintStyle: TextStyle(color: AppColors.hintTextColor),
+                prefixIcon: IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.insert_link_outlined,
+                      color: AppColors.primaryColor,
+                    )),
+                suffixIcon: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.send,
+                        size: 21.sp, color: AppColors.primaryColor),
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

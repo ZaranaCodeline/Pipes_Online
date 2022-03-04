@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
-
 import '../app_constant/app_colors.dart';
 import '../custom_widget/selected_product_widgets/listing_review_tab_bar.dart';
-import '../custom_widget/widgets/custom_widget/custom_app_bar_widget.dart';
-import '../custom_widget/widgets/custom_widget/custom_navigationbar_items.dart';
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
 
 class SellerReviewWidget extends StatelessWidget {
@@ -150,7 +146,7 @@ class SellerReviewWidget extends StatelessWidget {
             Expanded(
               flex: 4,
               child: Card(
-                margin: EdgeInsets.only(top: 0, bottom: 15),
+                margin: EdgeInsets.only(top: 0, bottom: 10),
                 child: Column(
                   children: [
                     Container(
@@ -312,7 +308,6 @@ class SellerReviewWidget extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: CustomNavigationbarItems(),
     );
   }
 }

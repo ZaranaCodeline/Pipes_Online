@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pipes_online/seller/common/s_color_picker.dart';
+import 'package:sizer/sizer.dart';
 
+import '../../app_constant/app_colors.dart';
 import '../../app_constant/app_colors.dart';
 import '../widgets/custom_widget/custom_text.dart';
 
@@ -13,23 +16,23 @@ class CommonCategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
+      padding:   EdgeInsets.symmetric(horizontal: 5.sp),
       child: Row(
         children: [
           Container(
-            margin: EdgeInsets.all(5),
+            margin: EdgeInsets.all(5.sp),
             width: 130,
             decoration: BoxDecoration(
                 color: AppColors.commonWhiteTextColor,
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(
-                    blurRadius: 2,
+                    blurRadius: 1,
                     color: AppColors.hintTextColor,
                   )
                 ]),
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding:   EdgeInsets.all(8.0.sp),
               child: SingleChildScrollView(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -40,8 +43,8 @@ class CommonCategoryCard extends StatelessWidget {
                     ),
                     CustomText(
                       text: name,
-                      color: AppColors.secondaryBlackColor,
-                      fontSize: 20,
+                      color: SColorPicker.black,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w700,
                       alignment: Alignment.centerRight,
                     ),

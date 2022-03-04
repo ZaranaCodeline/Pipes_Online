@@ -43,7 +43,9 @@ class GetStartedPage extends StatelessWidget {
           ),
           Custombutton(
             name: 'Get Started',
-            function: () => Get.to(() => HomePage()),
+              // _bottomController.selectedScreen('SCatelogeHomeScreen');
+              // _bottomController.bottomIndex.value=0;
+            function: () => Get.to(() => CatelogeHomeWidget()),
             height: Get.height * 0.07,
             width: Get.width / 2,
           ),

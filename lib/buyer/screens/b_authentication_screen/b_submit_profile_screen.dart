@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/bottom_bar_screen_page.dart';
 import 'package:pipes_online/buyer/screens/home_screen_widget.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
@@ -177,7 +178,7 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
                   name: 'Continue',
                   onTap: () {
                     print('----');
-                    Get.to(HomePage());
+                    Get.to(BottomNavigationBarScreen());
                     print('----');
                     // Get.toNamed(SRoutes.SSubmitProfileScreen);
                   },

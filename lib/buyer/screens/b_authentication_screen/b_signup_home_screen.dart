@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_signup_otp_screen.dart';
+import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
@@ -181,6 +182,7 @@ class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
                                         style: STextStyle.semiBold600Purple11,
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () {
+                                          Get.to(()=>TermsAndConditionPage());
                                             print('Terms and Conditons');
                                           }),
                                     TextSpan(
@@ -196,7 +198,7 @@ class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
                                 child: SCommonButton().sCommonPurpleButton(
                                   name: 'Send OTP',
                                   onTap: () {
-                                    Get.to(BSignUpOTPScreen());
+                                    Get.to(()=>BSignUpOTPScreen());
                                   },
                                 ),
                               ),

@@ -6,6 +6,7 @@ import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/routes/app_routes.dart';
+import 'package:pipes_online/seller/view/s_screens/s_home_screen.dart';
 import 'package:sizer/sizer.dart';
 
 class SSubmitProfileScreen extends StatefulWidget {
@@ -175,6 +176,7 @@ class _SSubmitProfileScreenState extends State<SSubmitProfileScreen> {
                 child: SCommonButton().sCommonPurpleButton(
                   name: 'Continue',
                   onTap: () {
+                    Get.to(()=>SHomeScreen());
                     print('this is a seller side');
                     // Get.toNamed(SRoutes.SSubmitProfileScreen);
                   },

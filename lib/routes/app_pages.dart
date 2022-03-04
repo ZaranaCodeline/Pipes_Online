@@ -23,14 +23,15 @@ class AppPages {
   static final initial = SRoutes.SOnBoardingScreen;
 
   static final routes = [
-    GetPage(name: Routes.START, page: () => StartBuyerSellerPageWidget()),
+    // GetPage(name: Routes.START, page: () => StartBuyerSellerPageWidget()),
     GetPage(name: Routes.SPLASH, page: () => Splash()),
-    GetPage(name: Routes.WELCOME, page: () => WelComePage()),
-    GetPage(name: Routes.HOME, page: () => HomePage()),
+    // GetPage(name: Routes.WELCOME, page: () => WelComePage()),
+    GetPage(name: Routes.HOME, page: () => SWelcomeScreen()),
     GetPage(name: Routes.PROFILE, page: () => DrawerProfilePage()),
     GetPage(name: Routes.MYORDER, page: () => MyOrderPage()),
     GetPage(name: Routes.SETTINGPAGE, page: () => SettingsPage()),
-    GetPage(name: Routes.LOGIN, page: () => LoginPage()),
+    // GetPage(name: Routes.LOGIN, page: () => LoginPage()),
+
     GetPage(name: SRoutes.SOnBoardingScreen, page: () => SOnBoardingScreen()),
     GetPage(name: SRoutes.SPermissionScreen, page: () => SPermissionScreen()),
     GetPage(name: SRoutes.SBuyerSellerScreen, page: () => SBuyerSellerScreen()),

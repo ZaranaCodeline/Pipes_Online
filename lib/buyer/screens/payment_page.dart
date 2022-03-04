@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/buyer_common/b_image.dart';
+import 'package:sizer/sizer.dart';
 
+import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
 import 'confirm_order_page.dart';
@@ -13,12 +16,9 @@ class PaymentWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: CustomText(
-          alignment: Alignment.centerLeft,
-          text: 'PAYMENT',
-          fontWeight: FontWeight.w700,
-          fontSize: 18,
-          color: AppColors.commonWhiteTextColor,
+        title: Text(
+          'PAYMENT',
+          style: STextStyle.bold700White14,
         ),
         backgroundColor: AppColors.primaryColor,
         toolbarHeight: Get.height * 0.1,
@@ -28,58 +28,78 @@ class PaymentWidget extends StatelessWidget {
           ),
         ),
       ),
-      body: Container(
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 15,vertical: 15),
-              child: CustomText(
-                  text: 'Choose payment method:',
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                  color: AppColors.secondaryBlackColor,alignment: Alignment.topLeft,),
-            ),
-            CustomSocialWidget(Icons.paypal_outlined, () =>  {
-              Get.to(()=> ConfirmOrderPage())
-            }, 'Paypal'),
-            CustomSocialWidget(
-                Icons.paypal_outlined, () => () {}, 'Google Pay'),
-            CustomSocialWidget(Icons.payment, () => () {}, 'Amazon Pay'),
-          ],
-        ),
+      body: Column(
+        // mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: Get.height * 0.05),
+          CustomText(
+            text: 'Payment mode:',
+            fontWeight: FontWeight.w600,
+            fontSize: 14.sp,
+            color: AppColors.secondaryBlackColor,
+            alignment: Alignment.center,
+          ),
+          CustomSocialWidget(
+              icon: BImagePick.PayPalIcon,
+              function: () => {Get.to(() => ConfirmOrderPage())},
+              name: 'Paypal'),
+          CustomSocialWidget(
+              icon: BImagePick.GooglePayIcon,
+              function: () => {Get.to(() => ConfirmOrderPage())},
+              name: 'Google Pay'),
+          CustomSocialWidget(
+              icon: BImagePick.AmazonPayIcon,
+              function: () => {Get.to(() => ConfirmOrderPage())},
+              name: 'Amazon Pay'),
+        ],
       ),
     );
   }
 
-  Widget CustomSocialWidget(IconData icon, VoidCallback function, String name) {
+  Widget CustomSocialWidget({String? icon, dynamic function, String? name}) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: Get.width * 0.05),
-
+      height: Get.height * 0.06,
+      decoration: BoxDecoration(
+          color: Color(0xFFEBEBEB),
+          borderRadius: BorderRadius.circular(Get.width)),
+      margin: EdgeInsets.symmetric(
+          horizontal: Get.width * 0.2, vertical: Get.height * 0.02),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            width: 38,
-            height: 38,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: AppColors.lightBlackColor,
-
-            ),
-            child: IconButton(
-              onPressed: function,
-              icon: Icon(
-                icon,
-                color: AppColors.primaryColor,size: 23,
-              ),
-            ),
+          SvgPicture.asset(
+            icon!,
+            width: 20.sp,
+            height: 20.sp,
           ),
+          // Container(
+          //   width: 38.sp,
+          //   height: 38.sp,
+          //   // decoration: BoxDecoration(
+          //   //   borderRadius: BorderRadius.circular(50),
+          //   //   color: AppColors.lightBlackColor,
+          //   // ),
+          //   child: IconButton(
+          //     onPressed: function,
+          //     icon: Icon(
+          //       icon,
+          //       color: AppColors.primaryColor,
+          //       size: 18.sp,
+          //     ),
+          //   ),
+          // ),
+          // SizedBox(
+          //   width: Get.width * 0.06.sp,
+          //   height: Get.height * 0.08.sp,
+          // ),
           SizedBox(
-            width: Get.width * 0.08,height: Get.height * 0.08,
+            width: 15,
           ),
           CustomText(
-              text: name,
+              text: name!,
               fontWeight: FontWeight.w600,
-              fontSize: 18,
+              fontSize: 14.sp,
               color: AppColors.secondaryBlackColor),
         ],
       ),

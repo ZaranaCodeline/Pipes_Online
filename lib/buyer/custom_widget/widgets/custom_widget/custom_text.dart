@@ -4,13 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 class CustomText extends StatelessWidget {
   CustomText(
       {Key? key,
-      required this.text,
-      this.alignment,
-      this.textAlign,
-      this.textDecoration,
-      required this.fontWeight,
-      required this.fontSize,
-      required this.color})
+        required this.text,
+        this.alignment,
+        this.textAlign,
+        this.textDecoration,
+        this.textOverflow,
+        required this.fontWeight,
+        required this.fontSize,
+        required this.color})
       : super(key: key);
   String text;
   Color color;
@@ -19,6 +20,7 @@ class CustomText extends StatelessWidget {
   Alignment? alignment;
   TextAlign? textAlign;
   TextDecoration? textDecoration;
+  TextOverflow? textOverflow;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,7 @@ class CustomText extends StatelessWidget {
           ),
         ),
         textAlign: textAlign,
+        overflow:textOverflow ,
       ),
       alignment: alignment,
     );

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_login_otp_screen.dart';
+import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/routes/app_routes.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
@@ -180,6 +181,7 @@ class _BLogInHomeScreenState extends State<BLogInHomeScreen> {
                                         style: STextStyle.semiBold600Purple11,
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () {
+                                          Get.to(()=>TermsAndConditionPage());
                                             print('Terms and Conditons');
                                           }),
                                     TextSpan(

@@ -1,6 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/buyer_common/b_image.dart';
+import 'package:sizer/sizer.dart';
 
+import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
 import '../custom_widget/widgets/custom_widget/custom_navigationbar_items.dart';
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
@@ -11,248 +15,237 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: CustomText(
-          alignment: Alignment.centerLeft,
-          text: 'CHAT',
-          fontWeight: FontWeight.w700,
-          fontSize: 22,
-          color: AppColors.commonWhiteTextColor,
-        ),
-        backgroundColor: AppColors.primaryColor,
-        toolbarHeight: Get.height * 0.1,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(25),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'CHAT',
+            style: STextStyle.bold700White14,
+          ),
+          centerTitle: true,
+          leading: BackButton(),
+          backgroundColor: AppColors.primaryColor,
+          toolbarHeight: Get.height * 0.1,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(25),
+            ),
           ),
         ),
-      ),
-      body: Container(
-        child: Column(
-          children: [
-            SizedBox(
-              height: Get.height * 0.02,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CustomText(
-                text: 'Messages',
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
-                color: AppColors.primaryColor,
-                textAlign: TextAlign.start,
-                alignment: Alignment.topLeft,
+        body: Container(
+          child: Column(
+            children: [
+              SizedBox(
+                height: Get.height * 0.02,
               ),
-            ),
-            SizedBox(
-              height: Get.height * 0.02,
-            ),
-            Container(
-              width: double.infinity,
-              height: 1,
-              color: AppColors.primaryColor,
-            ),
-            SizedBox(
-              height: Get.height * 0.02,
-            ),
-            InkWell(
-              onTap: (){
-                Get.to(()=> ChatMessagePage());
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Container(
-                      child: Stack(
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: Get.width * 0.05),
+                child: CustomText(
+                  text: 'Messages',
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.primaryColor,
+                  textAlign: TextAlign.start,
+                  alignment: Alignment.topLeft,
+                ),
+              ),
+              SizedBox(
+                height: Get.height * 0.01,
+              ),
+              Divider(color: AppColors.primaryColor, thickness: 1.sp),
+              InkWell(
+                onTap: () {
+                  Get.to(() => ChatMessagePage());
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: Get.height * 0.02),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
                         children: [
-                          CircleAvatar(
-                            child: Image.asset(
-                              'assets/images/cat_1.png',
-                              width: 50,
-                              height: 50,
-                              fit: BoxFit.fill,
-                            ),
-                            backgroundColor: AppColors.offWhiteColor,
-                          ),
-                          Positioned(
-                            right: 0,
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: Get.width * 0.05),
                             child: Container(
-                              width: 15,
-                              height: 15,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                color: Colors.green,
+                              child: Stack(
+                                children: [
+                                  CircleAvatar(
+                                    child: Image.asset(
+                                      BImagePick.chatIcon,
+                                      width: 50.sp,
+                                      height: 50.sp,
+                                      fit: BoxFit.fill,
+                                    ),
+                                    backgroundColor: AppColors.offWhiteColor,
+                                  ),
+                                  Positioned(
+                                    right: 0,
+                                    child: Container(
+                                      width: 10.sp,
+                                      height: 10.sp,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        color: Colors.green,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: Container(
-                      child: Column(
-                        children: [
-                          CustomText(
-                              text: 'Jan Doe',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20,
-                              color: AppColors.secondaryBlackColor),
-                          CustomText(
-                            text: 'Hii',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
-                            color: AppColors.secondaryBlackColor,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: Container(
-                      child: Column(
-                        children: [
-                          CustomText(
-                              text: '1 Minute ago',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20,
-                              color: AppColors.secondaryBlackColor),
-                          Stack(
-                            children: [
-                              Positioned(
-                                right: 10,
-                                top: 10,
-                                child: Container(
-                                  width: 20,
-                                  height: 20,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color: AppColors.primaryColor,
-                                  ),
-                                ),
-                              ),
-                              CircleAvatar(
-                                child: CustomText(
-                                  text: '1',
-                                  fontSize: 15,
+                          Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomText(
+                                    text: 'Jan Doe',
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.sp,
+                                    color: AppColors.secondaryBlackColor),
+                                CustomText(
+                                  text: 'Hii',
                                   fontWeight: FontWeight.w600,
+                                  fontSize: 12.sp,
                                   color: AppColors.secondaryBlackColor,
                                 ),
-                                backgroundColor: AppColors.offWhiteColor,
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              width: Get.width * 0.9,
-              height: 1,
-              color: AppColors.hintTextColor,
-            ),
-            SizedBox(
-              height: Get.height * 0.02,
-            ),
-            InkWell(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    child: Stack(
-                      children: [
-                        CircleAvatar(
-                          child: Image.asset(
-                            'assets/images/cat_1.png',
-                            width: 50,
-                            height: 50,
-                            fit: BoxFit.fill,
-                          ),
-                          backgroundColor: AppColors.offWhiteColor,
-                        ),
-                        Positioned(
-                          right: 0,
-                          child: Container(
-                            width: 15,
-                            height: 15,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: Colors.green,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Column(
-                      children: [
-                        CustomText(
-                            text: 'Jan Doe',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                            color: AppColors.secondaryBlackColor),
-                        CustomText(
-                            text: 'Hii',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
-                            color: AppColors.secondaryBlackColor),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Column(
-                      children: [
-                        CustomText(
-                            text: '1 Minute ago',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                            color: AppColors.secondaryBlackColor),
-                        Stack(
+                      Container(
+                        alignment: Alignment.center,
+                        width: Get.width * 0.4,
+                        padding: EdgeInsets.only(right: Get.width * 0.05),
+                        child: Column(
                           children: [
-                            Positioned(
-                              right: 10,
-                              top: 10,
-                              child: Container(
-                                width: 20,
-                                height: 20,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: AppColors.primaryColor,
+                            CustomText(
+                                text: '1 Minute ago',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13.sp,
+                                color: AppColors.secondaryBlackColor),
+                            CircleAvatar(
+                              radius: 8.sp,
+                              child: Center(
+                                child: CustomText(
+                                  text: '1',
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.commonWhiteTextColor,
+                                  fontSize: 10.sp,
                                 ),
                               ),
-                            ),
-                            CircleAvatar(
-                              child: CustomText(
-                                text: '1',
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.secondaryBlackColor,
-                              ),
-                              backgroundColor: AppColors.offWhiteColor,
+                              backgroundColor: AppColors.primaryColor,
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-            Container(
-              width: Get.width * 0.9,
-              height: 1,
-              color: AppColors.hintTextColor,
-            ),
-          ],
+              Divider(
+                color: AppColors.hintTextColor,
+                thickness: 1.sp,
+                indent: Get.width * 0.05,
+                endIndent: Get.width * 0.05,
+              ),
+              InkWell(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: Get.height * 0.02),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: Get.width * 0.05),
+                            child: Container(
+                              child: Stack(
+                                children: [
+                                  CircleAvatar(
+                                    child: Image.asset(
+                                      BImagePick.chatIcon,
+                                      width: 50.sp,
+                                      height: 50.sp,
+                                      fit: BoxFit.fill,
+                                    ),
+                                    backgroundColor: AppColors.offWhiteColor,
+                                  ),
+                                  // Positioned(
+                                  //   right: 0,
+                                  //   child: Container(
+                                  //     width: 10.sp,
+                                  //     height: 10.sp,
+                                  //     decoration: BoxDecoration(
+                                  //       borderRadius: BorderRadius.circular(50),
+                                  //       color: Colors.green,
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomText(
+                                    text: 'Sam John',
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.sp,
+                                    color: AppColors.secondaryBlackColor),
+                                CustomText(
+                                  text: 'Hii',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12.sp,
+                                  color: AppColors.secondaryBlackColor,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        width: Get.width * 0.4,
+                        padding: EdgeInsets.only(right: Get.width * 0.05),
+                        child: Column(
+                          children: [
+                            CustomText(
+                                text: '1h ago',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13.sp,
+                                color: AppColors.secondaryBlackColor),
+                            // CircleAvatar(
+                            //   radius: 8.sp,
+                            //   child: Center(
+                            //     child: CustomText(
+                            //       text: '1',
+                            //       fontWeight: FontWeight.w600,
+                            //       color: AppColors.commonWhiteTextColor,
+                            //       fontSize: 10.sp,
+                            //     ),
+                            //   ),
+                            //   backgroundColor: AppColors.primaryColor,
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Divider(
+                color: AppColors.hintTextColor,
+                thickness: 1.sp,
+                indent: Get.width * 0.05,
+                endIndent: Get.width * 0.05,
+              ),
+            ],
+          ),
         ),
       ),
     );

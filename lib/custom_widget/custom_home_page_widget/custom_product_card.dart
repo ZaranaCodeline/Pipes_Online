@@ -7,15 +7,15 @@ import '../../app_constant/app_colors.dart';
 class CustomProductCard extends StatelessWidget {
   CustomProductCard(
       {Key? key,
-      required this.title,
+      required this.name,
       required this.desc,
-      required this.img,
+      required this.image,
       required this.price})
       : super(key: key);
-  String title;
+  String name;
   String price;
   String desc;
-  Image img;
+  String image;
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +39,9 @@ class CustomProductCard extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                img,
+                Image.network('$image',fit: BoxFit.cover,),
                 SizedBox( height: Get.height * 0.01,),
-                CustomText(text: title, fontWeight: FontWeight.w700, fontSize: 16, color: AppColors.primaryColor,alignment: Alignment.centerLeft,),
+                CustomText(text: name, fontWeight: FontWeight.w700, fontSize: 16, color: AppColors.primaryColor,alignment: Alignment.centerLeft,),
                SizedBox( height: Get.height * 0.01,),
                 CustomText(text: desc, fontWeight: FontWeight.w700, fontSize: 18, color: AppColors.secondaryBlackColor,alignment: Alignment.centerLeft,),
                 SizedBox( height: Get.height * 0.01,),

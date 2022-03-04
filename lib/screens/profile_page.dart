@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../app_constant/app_colors.dart';
 import '../custom_widget/widgets/custom_widget/custom_button.dart';
+import '../custom_widget/widgets/custom_widget/custom_cupertino_feild_text.dart';
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
 import 'get_started_page.dart';
 
@@ -17,7 +19,7 @@ class ProfilePage extends StatelessWidget {
       appBar: AppBar(
         title: CustomText(
           alignment: Alignment.centerLeft,
-          text: 'PROFILE',
+          text: 'PERSONAL INFORMATION',
           fontWeight: FontWeight.w700,
           fontSize: 18,
           color: AppColors.commonWhiteTextColor,
@@ -31,28 +33,147 @@ class ProfilePage extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: CupertinoTextField(
-          keyboardType: TextInputType.text,
-          placeholder: 'Filtrar por nombre o nombre corto',
-          placeholderStyle: const TextStyle(
-            color: Color(0xffC4C6CC),
-            fontSize: 14.0,
-            fontFamily: 'Brutal',
-          ),
-          prefix: const Padding(
-            padding:
-            EdgeInsets.fromLTRB(9.0, 6.0, 9.0, 6.0),
-            child: Icon(
-              Icons.search,
-              color: Color(0xffC4C6CC),
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(  horizontal:  Get.height * 0.04),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: Get.height * 0.04),
+                Column(
+                  children: [
+                    SvgPicture.asset('assets/images/pro_icon.svg'),
+                    SizedBox(
+                      height: Get.height * 0.01,
+                    ),
+                    CustomText(
+                        text: 'Change profile picture',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        color: AppColors.primaryColor),
+
+                  ],
+                ),
+                SizedBox(height: Get.height * 0.01),
+                CustomText(
+                  text: 'Name',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20,
+                  color: AppColors.primaryColor,
+                  alignment: Alignment.topLeft,
+                ),
+                SizedBox(
+                  height: Get.height * 0.01,
+                ),
+                const TextField(
+                  // controller: _controller,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    ),
+                    hintText: 'Jan Doe',
+                  ),
+                ),
+                SizedBox(
+                  height: Get.height * 0.01,
+                ),
+                CustomText(
+                  text: 'Mobile',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20,
+                  color: AppColors.primaryColor,
+                  alignment: Alignment.topLeft,
+                ),
+                SizedBox(
+                  height: Get.height * 0.01,
+                ),
+                const TextField(
+                  // controller: _controller,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    ),
+                    hintText: '+91 0000000000',
+                  ),
+                ),
+                SizedBox(
+                  height: Get.height * 0.01,
+                ),
+                CustomText(
+                  text: 'Mobile',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20,
+                  color: AppColors.primaryColor,
+                  alignment: Alignment.topLeft,
+                ),
+                SizedBox(
+                  height: Get.height * 0.01,
+                ),
+                const TextField(
+                  // controller: _controller,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    ),
+                    hintText: '+91 0000000000',
+                  ),
+                ),
+                SizedBox(
+                  height: Get.height * 0.01,
+                ),
+                CustomText(
+                  text: 'Address',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20,
+                  color: AppColors.primaryColor,
+                  alignment: Alignment.topLeft,
+                ),
+                SizedBox(
+                  height: Get.height * 0.01,
+                ),
+                const TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Enter Address',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    ),
+                  ),
+                  maxLines: 3,
+                  keyboardType: TextInputType.multiline,
+                  // minLines: 1,
+                ),
+                SizedBox(
+                  height: Get.height * 0.02,
+                ),
+                Custombutton(
+                  name: 'Continue',
+                  function: () {
+                    Get.to(()=>GetStartedPage());
+                  },
+                  height: Get.height * 0.07,
+                  width: Get.width / 3,),
+                SizedBox(
+                  height: Get.height * 0.05,
+                ),
+              ],
             ),
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50.0),
-            color: Color(0xffF0F1F5),
           ),
         ),
       ),
     );
+
   }
+
+  // Widget buildFormWidget(String name, String placeholder) {
+  //   return Container(
+  //     child: Padding(
+  //       padding: EdgeInsets.symmetric(horizontal: 20),
+  //       child: Expanded(
+  //         child: CustomCupertinoFeildText(
+  //           placeholder: placeholder,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }

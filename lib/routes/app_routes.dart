@@ -8,7 +8,8 @@
   static const LOGIN = '/authentificaion';
 
   static const HOME = '/home';
-  // static const PROFILE = '/profile';
-  // static const COURSECURRICULAM = '/courseCurriculam';
+  static const PROFILE = '/profile';
+  static const MYORDER = '/myorder';
+  static const SETTINGPAGE = '/setting';
   // static const CHECKOUT = '/checkout';
 }

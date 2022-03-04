@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/app_constant/app_colors.dart';
+import 'package:pipes_online/authentificaion/views/sign_up_page.dart';
 import 'package:pipes_online/custom_widget/widgets/custom_widget/custom_text.dart';
 import 'package:pipes_online/routes/app_routes.dart';
 import 'package:pipes_online/screens/welcome_page.dart';
@@ -32,13 +33,12 @@ class StartBuyerSellerPageWidget extends StatelessWidget {
                     fontSize: 24,
                     color: AppColors.primaryColor),
                 SizedBox(height: Get.height /30),
-
-                Expanded(
+                const Expanded(
                     child: CustomRadioButton()),
                 SizedBox(height: Get.height * 0.01,),
                 Custombutton(
                   name: 'Continue',
-                  function: () => Get.to(() => WelComePage()),
+                  function: () {},
                   height: Get.height * 0.07,
                   width: Get.width / 2,
                 ),

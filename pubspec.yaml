@@ -23,6 +23,12 @@ dependencies:
   firebase_auth:
   flutter_signin_button:
   google_sign_in: ^5.2.4
+  carousel_slider: ^4.0.0
+  smooth_star_rating_null_safety: ^1.0.4+2
+  shared_preferences:
+  url_launcher: ^6.0.20
+  share:
+
 
 
 

@@ -16,9 +16,41 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _showPopupMenu() {
+      final RenderBox renderBox = context.findRenderObject() as RenderBox;
+      //*get the global position, from the widget local position
+      final offset = renderBox.localToGlobal(Offset.zero);
+
+      //*calculate the start point in this case, below the button
+      final left = offset.dx;
+      final top = offset.dy + renderBox.size.height;
+      //*The right does not indicates the width
+      final right = left + renderBox.size.width;
+      final bottom = offset.dx;
+      showMenu<String>(
+          context: context,
+          position: RelativeRect.fromLTRB(left, -50, right, bottom),
+          //position where you want to show the menu on screen
+          items: [
+            const PopupMenuItem<String>(
+                child: Text('menu option 1'), value: '1'),
+            const PopupMenuItem<String>(
+                child: Text('menu option 2'), value: '2'),
+            const PopupMenuItem<String>(
+                child: Text('menu option 3'), value: '3'),
+          ],
+          elevation: 8.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ));
+    }
+
     return Scaffold(
       key: _scaffoldKey,
-      drawer: Container(child: const Drawer(child: CustomDrawerWidget(),)),
+      drawer: Container(
+          child: const Drawer(
+        child: CustomDrawerWidget(),
+      )),
       appBar: AppBar(
         leading: IconButton(
           padding: EdgeInsets.only(bottom: Get.height / 14),
@@ -51,6 +83,11 @@ class HomePage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 0.0),
                     child: GestureDetector(
+                      onTap: () {
+                        print('FILTER');
+                        _showPopupMenu();
+                        // CustomHoverPopupFilterWidget();
+                      },
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: Container(
@@ -113,14 +150,29 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: AppColors.primaryColor,
-        selectedItemColor: AppColors.commonWhiteTextColor,
-        unselectedItemColor: AppColors.commonWhiteTextColor,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Book'),
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Book'),
-        ],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: AppColors.offLightPurpalColor, width: 1,  ),
+          // borderRadius: const BorderRadius.vertical(
+          //   top: Radius.circular(25),
+          // ),
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: AppColors.commonWhiteTextColor,
+          selectedItemColor: AppColors.primaryColor,
+          unselectedItemColor:AppColors.offLightPurpalColor,
+          // onTap: (){},
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.border_all_outlined), label: ''),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.shopping_cart_outlined), label: ' '),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.chat_bubble_outline), label: ' '),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person_outline), label: ' '),
+          ],
+        ),
       ),
     );
   }

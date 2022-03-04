@@ -143,11 +143,9 @@ class CustomDrawerWidget extends StatelessWidget {
       case 2:
         Get.to(()=>MyOrderPage());
         break;
-      // case 3:
-      //   Navigator.of(context).push(MaterialPageRoute(
-      //     builder: (context) =>  ProfilePage(),
-      //   ));
-      //   break;
+      case 3:
+        Get.to(()=>ProfilePage());
+        break;
       // case 4:
       //   Navigator.of(context).push(MaterialPageRoute(
       //     builder: (context) => InviteFriendPage(),

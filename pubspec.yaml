@@ -18,6 +18,11 @@ dependencies:
   lottie: ^1.2.2
   google_fonts:
   flutter_svg:
+  cloud_firestore:
+  firebase_core:
+  firebase_auth:
+  flutter_signin_button:
+
 
 
   cupertino_icons: ^1.0.2

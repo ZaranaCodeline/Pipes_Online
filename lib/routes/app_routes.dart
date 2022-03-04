@@ -2,8 +2,9 @@
 
  class Routes {
   static final SPLASH = '/splash';
+  static const WELCOME = '/welcome';
+  static const LOGIN = '/authentificaion';
 
-  static const LOGIN = '/login';
   static const HOME = '/home';
   // static const PROFILE = '/profile';
   // static const COURSECURRICULAM = '/courseCurriculam';

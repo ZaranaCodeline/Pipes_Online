@@ -15,7 +15,7 @@ class _SplashState extends State<Splash> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(milliseconds: 5000)).then(
-      (value) => Get.offNamed(Routes.HOME),
+      (value) => Get.offNamed(Routes.WELCOME),
     );
   }
 
@@ -38,7 +38,7 @@ class _SplashState extends State<Splash> {
         children: [
           Center(
             child: LottieBuilder.asset('assets/json/timeline.json',
-                width: 263, height: 194),
+                width: 200, height: 100),
           ),
         ],
       ),

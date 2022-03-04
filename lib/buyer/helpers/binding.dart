@@ -8,7 +8,7 @@ class Binding extends Bindings{
   @override
   void dependencies() {
     // TODO: implement dependencies
-    Get.lazyPut(() => HomeViewModel());
+    // Get.lazyPut(() => HomeViewModel());
     Get.lazyPut(() => SelectedProductController());
   }
 

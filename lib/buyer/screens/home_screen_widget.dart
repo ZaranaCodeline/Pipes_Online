@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/screens/chat_page.dart';
+import 'package:pipes_online/buyer/screens/personal_info_page.dart';
 import '../app_constant/app_colors.dart';
 import '../custom_widget/custom_home_page_widget/custom_drawer_widget.dart';
 import '../custom_widget/custom_home_page_widget/custom_home_search_widget.dart';
@@ -11,10 +13,72 @@ import 'categories_card__list.dart';
 import '../custom_widget/widgets/custom_widget/custom_title_text.dart';
 import 'product_card_list.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+
+  static   List<Widget> _widgetOptions = <Widget>[
+    CatelogHomeWidget(),
+    CartPage(),
+    ChatPage(),
+    PersonalInfoPage(),
+  ];
+  PageController pageController = PageController();
+
+  void onTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    pageController.jumpToPage(index);
+  }
+
+
+
+  @override
+  Widget build(BuildContext context) {
+
+
+    return Scaffold(
+
+
+
+      body: _widgetOptions[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        backgroundColor: AppColors.commonWhiteTextColor,
+        selectedItemColor: AppColors.primaryColor,
+        unselectedItemColor: AppColors.offLightPurpalColor,
+        elevation: 7,
+        onTap: (value){
+         setState(() {
+           _selectedIndex = value;
+         });
+        },
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.border_all_outlined), label: ''),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart_outlined), label: ' '),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.chat_bubble_outline), label: ' '),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline), label: ' '),
+        ],
+      ),
+    );
+  }
+
+}
+
+class CatelogHomeWidget extends StatelessWidget {
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     _showPopupMenu() {
@@ -28,7 +92,7 @@ class HomePage extends StatelessWidget {
       final bottom = offset.dx;
       showMenu<String>(
           context: context,
-          position: RelativeRect.fromLTRB(25.0,0,0,25.0 ),
+          position: RelativeRect.fromLTRB(25.0, 0, 0, 25.0),
           //position where you want to show the menu on screen
           items: [
             const PopupMenuItem<String>(
@@ -37,7 +101,7 @@ class HomePage extends StatelessWidget {
                 child: Card(
                   elevation: 4,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     child: Row(
                       children: [
                         CustomText(
@@ -75,13 +139,8 @@ class HomePage extends StatelessWidget {
             borderRadius: BorderRadius.circular(30),
           ));
     }
-
-    return Scaffold(
+    return  Scaffold(
       key: _scaffoldKey,
-      drawer: Container(
-          child: const Drawer(
-        child: CustomDrawerWidget(),
-      )),
       appBar: AppBar(
         leading: IconButton(
           padding: EdgeInsets.only(bottom: Get.height / 14),
@@ -94,10 +153,12 @@ class HomePage extends StatelessWidget {
               Container(
                 color: AppColors.primaryColor,
                 margin: EdgeInsets.only(
-                    bottom: Get.height / 9, top: 30, right: Get.height / 30),
+                    bottom: Get.height / 9,
+                    top: 30,
+                    right: Get.height / 30),
                 child: GestureDetector(
-                  onTap: (){
-                    Get.to(()=>CartPage());
+                  onTap: () {
+                    Get.to(() => CartPage());
                   },
                   child: const Icon(
                     Icons.shopping_cart_outlined,
@@ -173,7 +234,7 @@ class HomePage extends StatelessWidget {
             child: CustomText(
               text: 'PIPES ONLINE',
               fontSize: 24,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
               color: AppColors.commonWhiteTextColor,
             )),
         centerTitle: true,
@@ -184,6 +245,10 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
+      drawer: Container(
+          child: const Drawer(
+            child: CustomDrawerWidget(),
+          )),
       body: Container(
         child: Column(
           children: [
@@ -207,7 +272,6 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: CustomNavigationbarItems(),
     );
   }
 }

@@ -10,7 +10,7 @@ import '../screens/help_center_page.dart';
 import '../screens/personal_info_page.dart';
 import '../screens/terms_condition_page.dart';
 import 'widgets/custom_widget/custom_button.dart';
-import 'widgets/check_terms_and_condition_widget.dart';
+import 'widgets/custom_widget/check_terms_and_condition_widget.dart';
 import 'widgets/custom_widget/custom_text.dart';
 
 class CustomMobileScreenWidget extends StatelessWidget {

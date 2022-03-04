@@ -34,13 +34,16 @@ class ChatPage extends StatelessWidget {
             SizedBox(
               height: Get.height * 0.02,
             ),
-            CustomText(
-              text: 'Messages',
-              fontSize: 24,
-              fontWeight: FontWeight.w500,
-              color: AppColors.primaryColor,
-              textAlign: TextAlign.start,
-              alignment: Alignment.topLeft,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CustomText(
+                text: 'Messages',
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+                color: AppColors.primaryColor,
+                textAlign: TextAlign.start,
+                alignment: Alignment.topLeft,
+              ),
             ),
             SizedBox(
               height: Get.height * 0.02,
@@ -252,7 +255,6 @@ class ChatPage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: CustomNavigationbarItems(),
     );
   }
 }

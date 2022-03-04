@@ -5,7 +5,7 @@ import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.da
 
 import '../app_constant/app_colors.dart';
 import '../custom_widget/selected_product_widgets/listing_review_tab_bar.dart';
-import '../custom_widget/widgets/custom_app_bar_widget.dart';
+import '../custom_widget/widgets/custom_widget/custom_app_bar_widget.dart';
 import '../custom_widget/widgets/custom_widget/custom_navigationbar_items.dart';
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
 

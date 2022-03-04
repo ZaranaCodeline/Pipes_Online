@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import '../app_constant/app_colors.dart';
 import '../authentificaion/functions.dart';
 import 'widgets/custom_widget/custom_button.dart';
-import 'widgets/check_terms_and_condition_widget.dart';
+import 'widgets/custom_widget/check_terms_and_condition_widget.dart';
 import 'widgets/custom_widget/custom_text.dart';
 
 class CustomEmailScreenWidget extends StatefulWidget {

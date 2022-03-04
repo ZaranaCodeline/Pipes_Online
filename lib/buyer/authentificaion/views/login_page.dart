@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../app_constant/app_colors.dart';
-import '../../custom_widget/custom_tab_bar_widget.dart';
+import '../../custom_widget/widgets/custom_widget/custom_tab_bar_widget.dart';
 import '../../custom_widget/widgets/custom_widget/custom_text.dart';
 
 class LoginPage extends StatelessWidget {

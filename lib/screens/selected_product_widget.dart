@@ -6,17 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pipes_online/app_constant/app_colors.dart';
 import 'package:pipes_online/controller/selected_product_controller.dart';
-import 'package:pipes_online/custom_widget/widgets/custom_widget/custom_text.dart';
 import 'package:pipes_online/screens/rating_service_widget.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../buyer/app_constant/app_colors.dart';
+import '../buyer/custom_widget/selected_product_widgets/custom_rich_text_span_widget.dart';
+import '../buyer/custom_widget/widgets/custom_widget/custom_navigationbar_items.dart';
+import '../buyer/custom_widget/widgets/custom_widget/custom_text.dart';
 import '../custom_widget/selected_product_widgets/custom_carousel_slider.dart';
 import '../custom_widget/selected_product_widgets/custom_selected_product_build_top_widget.dart';
-import '../custom_widget/widgets/custom_navigationbar_items.dart';
-import '../custom_widget/widgets/custom_rich_text_span_widget.dart';
-import '../custom_widget/widgets/custom_widget/custom_button.dart';
+
 
 class SelectedProductWidget extends StatelessWidget {
   SelectedProductWidget(

@@ -14,10 +14,10 @@ class CustomHomeSearchWidget extends StatelessWidget {
         width: Get.width / 1.4,
         child: CupertinoTextField(
           keyboardType: TextInputType.text,
-          placeholder: 'Filtrar por nombre o nombre corto',
+          placeholder: 'Search items here',
           placeholderStyle: const TextStyle(
             color: Color(0xffC4C6CC),
-            fontSize: 14.0,
+            fontSize: 18.0,
             fontFamily: 'Brutal',
           ),
           prefix: const Padding(

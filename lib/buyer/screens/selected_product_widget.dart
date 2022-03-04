@@ -83,78 +83,81 @@ class SelectedProductWidget extends StatelessWidget {
             image: image,
           ),
           Card(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.person_outline,
-                    size: 30,
-                    color: AppColors.secondaryBlackColor,
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.person_outline,
+                      size: 30,
+                      color: AppColors.secondaryBlackColor,
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: [
-                      CustomRichTextSpanWidget(
-                        color1: AppColors.secondaryBlackColor,
-                        name1: 'Jan Doe',
-                        name2: '(6 listings)',
-                        color2: AppColors.hintTextColor,
-                        fontsize: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            CustomText(
-                              text: '5.0',
-                              color: AppColors.secondaryBlackColor,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            SmoothStarRating(
-                                allowHalfRating: false,
-                                onRatingChanged: (v) {
-                                  // rating = v;
-                                  // setState(() {});
-                                },
-                                starCount: 5,
-                                // rating: rating,
-                                size: 20.0,
-                                filledIconData: Icons.blur_off,
-                                halfFilledIconData: Icons.blur_on,
-                                color: AppColors.starRatingColor,
-                                borderColor: AppColors.starRatingColor,
-                                spacing: 0.0),
-                            SizedBox(
-                              width: Get.width * 0.01,
-                            ),
-                            CustomText(
-                                text: '(14 reviews)',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18,
-                                color: AppColors.secondaryBlackColor),
-                          ],
+                  Expanded(
+                    child: Column(
+                      children: [
+                        CustomRichTextSpanWidget(
+                          color1: AppColors.secondaryBlackColor,
+                          name1: 'Jan Doe',
+                          name2: '(6 listings)',
+                          color2: AppColors.hintTextColor,
+                          fontsize: 20,
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              CustomText(
+                                text: '5.0',
+                                color: AppColors.secondaryBlackColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              SmoothStarRating(
+                                  allowHalfRating: false,
+                                  onRatingChanged: (v) {
+                                    // rating = v;
+                                    // setState(() {});
+                                  },
+                                  starCount: 5,
+                                  // rating: rating,
+                                  size: 20.0,
+                                  filledIconData: Icons.blur_off,
+                                  halfFilledIconData: Icons.blur_on,
+                                  color: AppColors.starRatingColor,
+                                  borderColor: AppColors.starRatingColor,
+                                  spacing: 0.0),
+                              SizedBox(
+                                width: Get.width * 0.01,
+                              ),
+                              CustomText(
+                                  text: '(14 reviews)',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                  color: AppColors.secondaryBlackColor),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Icon(
-                  Icons.arrow_forward_ios_outlined,
-                  color: AppColors.secondaryBlackColor,
-                  size: 18,
-                ),
-              ],
+                  Icon(
+                    Icons.arrow_forward_ios_outlined,
+                    color: AppColors.secondaryBlackColor,
+                    size: 18,
+                  ),
+                ],
+              ),
             ),
           ),
           Card(
             child: Container(
               width: double.infinity,
-              padding: EdgeInsets.all(5),
+              padding: EdgeInsets.all(10),
               child: CustomText(
                 text:
                     'Lorem ipsum dolor sit amet, consectetur \n adipiscing elit, sed do eiusmod tempo \n incididunt ut labore et dolore magn \n aliqua.',

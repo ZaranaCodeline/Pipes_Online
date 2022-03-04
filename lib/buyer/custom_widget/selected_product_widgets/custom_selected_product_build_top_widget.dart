@@ -27,7 +27,7 @@ class CustomSelectedProductBuildTopWidget extends StatelessWidget {
             color: AppColors.primaryColor,
             alignment: Alignment.topLeft,
           ),
-          SizedBox(height: Get.height * 0.01),
+          // SizedBox(height: Get.height * 0.01),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

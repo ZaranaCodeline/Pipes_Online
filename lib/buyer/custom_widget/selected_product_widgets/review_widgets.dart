@@ -36,6 +36,7 @@ class ReviewWidget extends StatelessWidget {
                     height: Get.height * 0.02,
                   ),
                   Container(
+                    padding: EdgeInsets.only(bottom: Get.height * 0.1),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/authentificaion/views/login_page.dart';
+import 'package:pipes_online/buyer/authentificaion/views/sign_up_page.dart';
 import '../app_constant/app_colors.dart';
 import '../screens/get_otp_screen_page.dart';
 import '../screens/personal_info_page.dart';
@@ -21,7 +23,7 @@ class CustomMobileScreenWidget extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          height: Get.height / 1.4,
+          height: Get.height / 1.5,
           child: Column(
             children: [
               SizedBox(
@@ -46,7 +48,9 @@ class CustomMobileScreenWidget extends StatelessWidget {
                   hintText: 'Enter Mobile Number',
                   suffixIcon: Custombutton(
                     name: 'Get OTP',
-                    function: () => Get.to(() => GetOTPScreenPage()),
+                    function: () => Get.to(() =>
+                        GetOTPScreenPage()
+                    ),
                     height: Get.height * 0.05,width: Get.width / 3,
                   ),
                 ),
@@ -74,18 +78,15 @@ class CustomMobileScreenWidget extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: Get.height * 0.02,
+                height: Get.height * 0.03
               ),
              isLogin! ? SizedBox(): const Expanded(
                 child: CheckTermsAndConditionWidget(),
               ),
               Custombutton(
                   name: isLogin! ? 'Login': 'Sign Up',
-                  function: () {
-                    //temporory
-                    Get.to(() => PersonalInfoPage());
-                  },
-                  height: Get.height * 0.06,width: Get.width / 3,),
+                  function: () { Get.to(() => LoginPage());},
+                  height: Get.height * 0.06,width: Get.width /2,),
               SizedBox(
                 height: Get.height * 0.01,
               ),
@@ -121,7 +122,7 @@ class CustomMobileScreenWidget extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {
-                      // Get.to(() => SignInPageWidget());
+                      Get.to(() => PersonalInfoPage());
                     },
                     child: CustomText(
                         text: isLogin! ? 'Sign Up':'Login',

@@ -6,6 +6,7 @@ import '../custom_widget/custom_home_page_widget/custom_drawer_widget.dart';
 import '../custom_widget/custom_home_page_widget/custom_home_search_widget.dart';
 import '../custom_widget/widgets/custom_widget/custom_navigationbar_items.dart';
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
+import 'cart_page.dart';
 import 'categories_card__list.dart';
 import '../custom_widget/widgets/custom_widget/custom_title_text.dart';
 import 'product_card_list.dart';
@@ -29,15 +30,47 @@ class HomePage extends StatelessWidget {
       final bottom = offset.dx;
       showMenu<String>(
           context: context,
-          position: RelativeRect.fromLTRB(left, 25, 25,0),
+          position: RelativeRect.fromLTRB(25.0,0,0,25.0,),
           //position where you want to show the menu on screen
           items: [
             const PopupMenuItem<String>(
-                child: Text('menu option 1'), value: '1'),
-            const PopupMenuItem<String>(
-                child: Text('menu option 2'), value: '2'),
-            const PopupMenuItem<String>(
-                child: Text('menu option 3'), value: '3'),
+                child: Text('Filter by KM'), value: '1'),
+            PopupMenuItem<String>(
+                child: Card(
+                  elevation: 4,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                    child: Row(
+                      children: [
+                        CustomText(
+                          text: '2 KM',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          color: AppColors.secondaryBlackColor,
+                          textDecoration: TextDecoration.underline,
+                        ),
+                        SizedBox(
+                          width: Get.width * 0.05,
+                        ),
+                        Container(
+                          width: 32,
+                          height: 28,
+                          // color: AppColors.primaryColor,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColors.primaryColor,
+                          ),
+                          child: Icon(
+                            Icons.search,
+                            size: 25,
+                            color: AppColors.commonWhiteTextColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                value: '2'),
           ],
           elevation: 8.0,
           shape: RoundedRectangleBorder(
@@ -58,17 +91,43 @@ class HomePage extends StatelessWidget {
           onPressed: () => _scaffoldKey.currentState?.openDrawer(),
         ),
         actions: [
-          Container(
-            color: AppColors.primaryColor,
-            margin: EdgeInsets.only(
-                bottom: Get.height / 9, top: 25, right: Get.height / 30),
-            child: GestureDetector(
-              child: const Icon(
-                Icons.shopping_cart_outlined,
-                size: 32,
+          Stack(
+            children: [
+              Container(
+                color: AppColors.primaryColor,
+                margin: EdgeInsets.only(
+                    bottom: Get.height / 9, top: 30, right: Get.height / 30),
+                child: GestureDetector(
+                  onTap: (){
+                    Get.to(()=>CartPage());
+                  },
+                  child: const Icon(
+                    Icons.shopping_cart_outlined,
+                    size: 40,
+                  ),
+                ),
+                // SvgPicture.asset('assets/images/cart_icon.svg',),
               ),
-            ),
-            // SvgPicture.asset('assets/images/cart_icon.svg',),
+              Positioned(
+                top: 29,
+                left: 13,
+                child: Container(
+                  width: 15,
+                  height: 15,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.commonWhiteTextColor,
+                  ),
+                  child: CustomText(
+                    text: '3',
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.secondaryBlackColor,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
         flexibleSpace: FlexibleSpaceBar(
@@ -114,7 +173,7 @@ class HomePage extends StatelessWidget {
             padding: EdgeInsets.only(top: 35),
             margin: EdgeInsets.only(bottom: Get.height / 8),
             child: CustomText(
-              text: 'Pipes Online',
+              text: 'PIPES ONLINE',
               fontSize: 24,
               fontWeight: FontWeight.w700,
               color: AppColors.commonWhiteTextColor,
@@ -150,7 +209,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar:CustomNavigationbarItems(),
+      bottomNavigationBar: CustomNavigationbarItems(),
     );
   }
 }

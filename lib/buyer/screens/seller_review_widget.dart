@@ -78,7 +78,7 @@ class SellerReviewWidget extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: Get.height * 0.04,
+                    height: Get.height * 0.049,
                   ),
                   CustomText(
                       text: 'Jan Doe',

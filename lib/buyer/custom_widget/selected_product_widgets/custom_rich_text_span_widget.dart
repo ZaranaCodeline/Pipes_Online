@@ -20,7 +20,7 @@ class CustomRichTextSpanWidget extends StatelessWidget {
               TextSpan(
                 text: name1,
                 style: TextStyle(fontSize: fontsize,
-                    color: color1),),
+                    color: color1,wordSpacing: 1,),),
               TextSpan(
                 text: name2,
                 style: TextStyle(fontSize: fontsize, fontWeight: FontWeight.w400,

@@ -32,7 +32,7 @@
 //               const Expanded(
 //                 child: Text(
 //                   'Accept Terms & Conditions',
-//                   style: TextStyle(fontSize: 17.0,fontFamily: 'Nunito-Bold'),
+//                   style: TextStyle(fontSize: 17.0,fontFamily: 'ubuntu-Bold'),
 //                 ),
 //               ),
 //             ],

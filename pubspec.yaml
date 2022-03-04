@@ -74,21 +74,21 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Nunito-SemiBold
+    - family: Ubuntu-Bold
       fonts:
-        - asset: assets/fonts/Nunito-SemiBold.ttf
+        - asset: assets/fonts/Ubuntu-Bold.ttf
 
-    - family: Nunito-Bold
-      fonts:
-        - asset: assets/fonts/Nunito-Bold.ttf
+#    - family: Ubuntu-Bold
+#      fonts:
+#        - asset: assets/fonts/Ubuntu-Bold.ttf
 
-    - family: Nunito-Regular
+    - family: Ubuntu-Regular
       fonts:
-        - asset: assets/fonts/Nunito-Regular.ttf
+        - asset: assets/fonts/Ubuntu-Regular.ttf
 
-    - family: Nunito-Medium
+    - family: Ubuntu-Medium
       fonts:
-        - asset: assets/fonts/Nunito-Medium.ttf
+        - asset: assets/fonts/Ubuntu-Medium.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

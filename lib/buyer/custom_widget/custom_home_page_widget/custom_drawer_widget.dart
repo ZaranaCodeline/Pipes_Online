@@ -197,7 +197,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
 
                     Text(
                       name,
-                      style: GoogleFonts.nunito(
+                      style: GoogleFonts.ubuntu(
                         textStyle: TextStyle(
                             fontSize: 14.sp,
                             color: AppColors.secondaryBlackColor,
@@ -238,7 +238,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
         minLeadingWidth: 14.sp,
         title: Text(
           text,
-          style: GoogleFonts.nunito(
+          style: GoogleFonts.ubuntu(
               textStyle: TextStyle(
                   fontSize: 13.sp, color: color, fontWeight: FontWeight.w400)),
         ),

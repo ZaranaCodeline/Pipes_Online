@@ -79,7 +79,7 @@ class SInsightScreen extends StatelessWidget {
                                               color: SColorPicker.fontGrey),
                                           CustomText(
                                               text: '120',
-                                              fontWeight: FontWeight.w700,
+                                              fontWeight: FontWeight.w600,
                                               fontSize: 16.sp,
                                               color: SColorPicker.black),
                                         ],
@@ -100,7 +100,7 @@ class SInsightScreen extends StatelessWidget {
                                               color: SColorPicker.fontGrey),
                                           CustomText(
                                               text: '\$5.9k',
-                                              fontWeight: FontWeight.w700,
+                                              fontWeight: FontWeight.w600,
                                               fontSize: 16.sp,
                                               color: SColorPicker.black),
                                         ],
@@ -121,7 +121,7 @@ class SInsightScreen extends StatelessWidget {
                                               color: SColorPicker.fontGrey),
                                           CustomText(
                                               text: '10',
-                                              fontWeight: FontWeight.w700,
+                                              fontWeight: FontWeight.w600,
                                               fontSize: 16.sp,
                                               color: SColorPicker.black),
                                         ],
@@ -167,7 +167,7 @@ class SInsightScreen extends StatelessWidget {
                                 child: CustomText(
                                     alignment: Alignment.topLeft,
                                     text: 'Top Selling Items',
-                                    fontWeight: FontWeight.w700,
+                                    fontWeight: FontWeight.w600,
                                     fontSize: 14.sp,
                                     color: AppColors.secondaryBlackColor),
                               ),
@@ -202,7 +202,7 @@ class SInsightScreen extends StatelessWidget {
                                             ),
                                             CustomText(
                                               text: 'Round',
-                                              fontWeight: FontWeight.w700,
+                                              fontWeight: FontWeight.w600,
                                               fontSize: 14.sp,
                                               color:
                                                   AppColors.secondaryBlackColor,
@@ -213,7 +213,7 @@ class SInsightScreen extends StatelessWidget {
                                             ),
                                             CustomText(
                                               text: 'Copper',
-                                              fontWeight: FontWeight.w700,
+                                              fontWeight: FontWeight.w600,
                                               fontSize: 10.sp,
                                               color: SColorPicker.fontGrey,
                                               alignment: Alignment.topLeft,
@@ -276,7 +276,7 @@ class SInsightScreen extends StatelessWidget {
                                             ),
                                             CustomText(
                                               text: 'Round',
-                                              fontWeight: FontWeight.w700,
+                                              fontWeight: FontWeight.w600,
                                               fontSize: 14.sp,
                                               color:
                                                   AppColors.secondaryBlackColor,
@@ -287,7 +287,7 @@ class SInsightScreen extends StatelessWidget {
                                             ),
                                             CustomText(
                                               text: 'Copper',
-                                              fontWeight: FontWeight.w700,
+                                              fontWeight: FontWeight.w600,
                                               fontSize: 10.sp,
                                               color: SColorPicker.fontGrey,
                                               alignment: Alignment.topLeft,

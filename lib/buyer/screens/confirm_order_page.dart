@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../seller/common/s_text_style.dart';
@@ -8,8 +10,8 @@ import '../custom_widget/widgets/custom_widget/custom_button.dart';
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
 import 'home_screen_widget.dart';
 
-class ConfirmOrderPage extends StatelessWidget {
-  const ConfirmOrderPage({Key? key}) : super(key: key);
+class BConfirmOrderPage extends StatelessWidget {
+  BConfirmOrderPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class ConfirmOrderPage extends StatelessWidget {
           style: STextStyle.bold700White14,
         ),
         backgroundColor: AppColors.primaryColor,
-        toolbarHeight: Get.height * 0.09.sp,
+        toolbarHeight: Get.height * 0.09,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(25),
@@ -31,10 +33,13 @@ class ConfirmOrderPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Center(
-              child: Image.asset(
-            'assets/images/png/confirm_img.png',
-            fit: BoxFit.cover,
-          )),
+              child:SvgPicture.asset(SImagePick.confirmImg),
+          //     Image.asset(
+          //   'assets/images/png/confirm_img.png',
+          //   fit: BoxFit.cover,
+          // ),
+
+          ),
           Center(
             child: CustomText(
               text: 'Your Order has been \n placed successfully !!',
@@ -53,7 +58,7 @@ class ConfirmOrderPage extends StatelessWidget {
           ),
           CustomText(
             text: 'My Orders',
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
             fontSize: 14.sp,
             color: AppColors.primaryColor,
             textAlign: TextAlign.center,
@@ -61,7 +66,7 @@ class ConfirmOrderPage extends StatelessWidget {
           Custombutton(
             name: 'Get Started',
             function: () => Get.to(() => CatelogeHomeWidget()),
-            height: Get.height * 0.06.sp,
+            height: Get.height * 0.06,
             width: Get.width / 1.sp,
           ),
         ],

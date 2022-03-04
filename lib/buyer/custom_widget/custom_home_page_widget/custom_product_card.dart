@@ -52,7 +52,7 @@ class CustomProductCard extends StatelessWidget {
               ),
               CustomText(
                 text: name,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w600,
                 fontSize: 14.sp,
                 color: SColorPicker.purple,
                 alignment: Alignment.centerLeft,
@@ -62,7 +62,7 @@ class CustomProductCard extends StatelessWidget {
               ),
               CustomText(
                 text: desc,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w600,
                 fontSize: 12.sp,
                 color: SColorPicker.black,
                 alignment: Alignment.centerLeft,
@@ -72,7 +72,7 @@ class CustomProductCard extends StatelessWidget {
               ),
               CustomText(
                 text: price,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w600,
                 fontSize: 12.sp,
                 color: SColorPicker.black,
                 alignment: Alignment.centerLeft,

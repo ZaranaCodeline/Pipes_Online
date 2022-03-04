@@ -262,7 +262,7 @@ class _SSubmitProfileScreenState extends State<SSubmitProfileScreen> {
                               fontSize: 12.sp,
                               color: SColorPicker.white,
                               fontWeight: FontWeight.w700,
-                              fontFamily: 'Nunito-Bold'),
+                              fontFamily: 'Ubuntu-Bold'),
                         )
                       ],
                     ),

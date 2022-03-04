@@ -68,7 +68,7 @@ class SReviewScreen extends StatelessWidget {
                                 text: '5.0',
                                 color: AppColors.secondaryBlackColor,
                                 fontSize: 16.sp,
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w600,
                               ),
                               SizedBox(
                                 height: Get.height * 0.02,

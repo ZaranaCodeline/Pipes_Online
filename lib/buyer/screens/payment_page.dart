@@ -42,15 +42,17 @@ class PaymentWidget extends StatelessWidget {
           ),
           CustomSocialWidget(
               icon: BImagePick.PayPalIcon,
-              function: () => {Get.to(() => ConfirmOrderPage())},
+              function: () => {
+                Get.to(() => BConfirmOrderPage())
+              },
               name: 'Paypal'),
           CustomSocialWidget(
               icon: BImagePick.GooglePayIcon,
-              function: () => {Get.to(() => ConfirmOrderPage())},
+              function: () => {Get.to(() => BConfirmOrderPage())},
               name: 'Google Pay'),
           CustomSocialWidget(
               icon: BImagePick.AmazonPayIcon,
-              function: () => {Get.to(() => ConfirmOrderPage())},
+              function: () => {Get.to(() => BConfirmOrderPage())},
               name: 'Amazon Pay'),
         ],
       ),

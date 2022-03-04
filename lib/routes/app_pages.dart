@@ -13,6 +13,7 @@ import 'package:pipes_online/seller/view/s_authentication_screen/s_signup_home_s
 import 'package:pipes_online/seller/view/s_authentication_screen/s_signup_otp_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/s_submit_profile_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/s_welcome_screen.dart';
+import '../buyer/Splesh_Screen/splash.dart';
 import '../buyer/screens/b_authentication_screen/b_login_home_screen.dart';
 import '../buyer/screens/b_authentication_screen/b_signup_home_screen.dart';
 import '../seller/bottombar/navigation_bar.dart';
@@ -20,10 +21,11 @@ import 'app_routes.dart';
 
 class AppPages {
   static final initial = SRoutes.SOnBoardingScreen;
+  // static final initial = Routes.SPLASH;
   static final bottom = SRoutes.SBottomBar;
 
   static final routes = [
-    // GetPage(name: Routes.SPLASH, page: () => Splash()),
+    GetPage(name: Routes.SPLASH, page: () => Splash()),
     GetPage(name: Routes.HOME, page: () => SWelcomeScreen()),
     GetPage(name: Routes.PROFILE, page: () => DrawerProfilePage()),
     GetPage(name: Routes.MYORDER, page: () => MyOrderPage()),

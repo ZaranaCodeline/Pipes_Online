@@ -1,14 +1,23 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
  class GeolocationController extends GetxController{
 
-   var latitude = 'Getting Latitude..'.obs;
-   var longitude = 'Getting Longitude..'.obs;
-   var address = 'Getting Address..'.obs;
+   RxString latitude = 'Getting Latitude..'.obs;
+   RxString longitude = 'Getting Longitude..'.obs;
+   RxString address = 'Getting Address..'.obs;
    late StreamSubscription<Position> streamSubscription;
+   TextEditingController? addressController;
+
+   void setLocation(double lat ,double long){
+     addressController =  longitude != null ?TextEditingController(text: longitude.toString()):TextEditingController();
+     latitude = lat as RxString;
+     update();
+   }
+
 
    @override
    void onInit() async {
@@ -66,10 +75,10 @@ import 'package:get/get.dart';
    }
 
    Future<void> getAddressFromLatLang(Position position) async {
-     // List<Placemark> placemark =
-     // await placemarkFromCoordinates(position.latitude, position.longitude);
-     // Placemark place = placemark[0];
-     // address.value = 'Address : ${place.locality},${place.country}';
+     List<Placemark> placemark =
+     await placemarkFromCoordinates(position.latitude, position.longitude);
+     Placemark place = placemark[0];
+     address.value = 'Address : ${place.locality},${place.country}';
    }
  }
 

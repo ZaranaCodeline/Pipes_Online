@@ -42,7 +42,7 @@ class ListingWidget extends StatelessWidget {
                           children: [
                             CustomText(
                               text: 'Round',
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w600,
                               fontSize: 16,
                               color: AppColors.primaryColor,
                               alignment: Alignment.topLeft,
@@ -52,7 +52,7 @@ class ListingWidget extends StatelessWidget {
                             ),
                             CustomText(
                               text: 'ABC Pipe',
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w600,
                               fontSize: 18,
                               color: AppColors.secondaryBlackColor,
                               alignment: Alignment.centerLeft,
@@ -62,7 +62,7 @@ class ListingWidget extends StatelessWidget {
                             ),
                             CustomText(
                               text: '\$10/ Feet',
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w600,
                               fontSize: 18,
                               color: AppColors.secondaryBlackColor,
                               alignment: Alignment.centerLeft,
@@ -102,7 +102,7 @@ class ListingWidget extends StatelessWidget {
                           children: [
                             CustomText(
                               text: 'Round',
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w600,
                               fontSize: 16,
                               color: AppColors.primaryColor,
                               alignment: Alignment.topLeft,
@@ -112,7 +112,7 @@ class ListingWidget extends StatelessWidget {
                             ),
                             CustomText(
                               text: 'ABC Pipe',
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w600,
                               fontSize: 18,
                               color: AppColors.secondaryBlackColor,
                               alignment: Alignment.centerLeft,
@@ -122,7 +122,7 @@ class ListingWidget extends StatelessWidget {
                             ),
                             CustomText(
                               text: '\$10/ Feet',
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w600,
                               fontSize: 18,
                               color: AppColors.secondaryBlackColor,
                               alignment: Alignment.centerLeft,
@@ -162,7 +162,7 @@ class ListingWidget extends StatelessWidget {
                           children: [
                             CustomText(
                               text: 'Round',
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w600,
                               fontSize: 16,
                               color: AppColors.primaryColor,
                               alignment: Alignment.topLeft,

@@ -25,7 +25,7 @@ class CustomTitleText extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: Text(
             text,
-            style: GoogleFonts.nunito(
+            style: GoogleFonts.ubuntu(
               textStyle: TextStyle(
                   color: AppColors.secondaryBlackColor,
                   fontSize: fontSize,

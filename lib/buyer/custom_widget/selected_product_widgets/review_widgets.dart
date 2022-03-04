@@ -53,7 +53,7 @@ class ReviewWidget extends StatelessWidget {
                                   text: '5.0',
                                   color: AppColors.secondaryBlackColor,
                                   fontSize: 26,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w600,
                                 ),
                                 SizedBox(
                                   height: Get.height * 0.02,
@@ -113,7 +113,7 @@ class ReviewWidget extends StatelessWidget {
                       children: [
                         CustomText(
                             text: '14 reviews',
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w600,
                             fontSize: 18,
                             color: AppColors.secondaryBlackColor),
                         GestureDetector(
@@ -122,7 +122,7 @@ class ReviewWidget extends StatelessWidget {
                           },
                           child: CustomText(
                               text: 'Review Now',
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w600,
                               fontSize: 18,
                               color: AppColors.primaryColor),
                         ),

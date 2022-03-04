@@ -175,12 +175,11 @@ class CatelogeHomeWidget extends StatelessWidget {
                           onPressed: () =>
                               _scaffoldKey.currentState?.openDrawer(),
                         ),
-                        // SvgPicture.asset("${SImagePick.pipesDealLogo}"),
+                        // SvgPicture.asset("${SImagePick.pipedeal}"),
                         Container(
-                            margin: EdgeInsets.only(right: 15.sp,bottom: 5.sp,top: 5.sp),
-
-                            child: Image.asset("assets/images/png/pipe_logo.png",width: 35.sp,height: 35.sp,)),
-                        // Text(
+                            margin: EdgeInsets.only(right: 10.sp,bottom: 5.sp,top: 5.sp),
+                            child: Image.asset("assets/images/png/pipe_logo.png",fit: BoxFit.cover,)),
+                        // // Text(
                         //   'PIPES ONLINE',
                         //   style: STextStyle.bold700White14,
                         // ),
@@ -219,7 +218,7 @@ class CatelogeHomeWidget extends StatelessWidget {
                                   child: CustomText(
                                     text: '3',
                                     fontSize: 8.sp,
-                                    fontWeight: FontWeight.w700,
+                                    fontWeight: FontWeight.w600,
                                     color: AppColors.secondaryBlackColor,
                                     textAlign: TextAlign.center,
                                   ),
@@ -277,7 +276,7 @@ class CatelogeHomeWidget extends StatelessWidget {
               CustomTitleText(
                 text: 'Categories',
                 fontSize: 16.sp,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w600,
                 alignment: Alignment.topLeft,
               ),
               SizedBox(

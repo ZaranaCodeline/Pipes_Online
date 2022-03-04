@@ -179,7 +179,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
                     ),
                     Text(
                       name,
-                      style: GoogleFonts.nunito(
+                      style: GoogleFonts.ubuntu(
                         textStyle: TextStyle(
                             fontSize: 16.sp,
                             color: AppColors.secondaryBlackColor,
@@ -221,7 +221,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
       ),
       title: Text(
         text,
-        style: GoogleFonts.nunito(
+        style: GoogleFonts.ubuntu(
             textStyle: TextStyle(
                 fontSize: 16.sp, color: color, fontWeight: FontWeight.w400)),
       ),

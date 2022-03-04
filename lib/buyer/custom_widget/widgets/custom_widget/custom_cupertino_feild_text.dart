@@ -16,7 +16,7 @@ class CustomCupertinoFeildText extends StatelessWidget {
         child: CupertinoTextField(
           keyboardType: TextInputType.text,
           placeholder: placeholder,
-          placeholderStyle: GoogleFonts.nunito(
+          placeholderStyle: GoogleFonts.ubuntu(
             textStyle: TextStyle(
               color: AppColors.secondaryBlackColor,
               fontSize: 14.0,

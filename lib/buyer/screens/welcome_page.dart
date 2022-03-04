@@ -20,7 +20,7 @@
 //           Center(child: Image.asset('assets/images/wel_come_logo.png')),
 //           CustomText(
 //               text: 'WELCOME!',
-//               fontWeight: FontWeight.w700,
+//               fontWeight: FontWeight.w600,
 //               fontSize: 40,
 //               color: AppColors.primaryColor),
 //           Row(

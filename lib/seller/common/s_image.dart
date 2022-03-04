@@ -1,4 +1,5 @@
 class SImagePick {
+  static String pipedeal = 'assets/images/svg/pipedeal.svg';
   static String onBoarding1 = 'assets/images/svg/on_boarding_1.svg';
   static String onBoarding2 = 'assets/images/svg/on_boarding_2.svg';
   static String permissionScreen = 'assets/images/svg/permission_screen.svg';
@@ -11,4 +12,5 @@ class SImagePick {
   static String googleIcon = 'assets/images/icon/google.svg';
   static String uploadImageIcon = 'assets/images/icon/upload_image.svg';
   static String locationColorIcon = 'assets/images/icon/location_color_icon.svg';
+  static String confirmImg = 'assets/images/svg/confirm_img.svg';
 }

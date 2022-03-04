@@ -15,7 +15,7 @@ class AddressPage extends StatelessWidget {
         title: CustomText(
           alignment: Alignment.centerLeft,
           text: 'CONFIRM ORDER',
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w600,
           fontSize: 22,
           color: AppColors.commonWhiteTextColor,
         ),

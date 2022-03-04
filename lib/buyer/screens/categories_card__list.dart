@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/screens/category_detail_page.dart';
 import 'package:sizer/sizer.dart';
 import '../custom_widget/custom_home_page_widget/common_category_card.dart';
 import '../view_model/b_bottom_bar_controller.dart';
@@ -29,6 +30,7 @@ class CategoriesCardList extends StatelessWidget {
                   categories.length,
                   (index) => GestureDetector(
                     onTap: () {
+
                       bottomBarIndexController.setSelectedScreen(
                           value: 'CategoriesCardList');
                       bottomBarIndexController.bottomIndex.value = 0;
@@ -36,6 +38,7 @@ class CategoriesCardList extends StatelessWidget {
                           '---------selectedScreen--------- ${bottomBarIndexController.selectedScreen.value}');
                       bottomBarIndexController.setCategoriesType(
                           value: categories[index].get("name"));
+                      Get.to(()=>BCategoryDetailsPage());
                     },
                     child: CommonCategoryCard(
                       image: categories[index].get("image"),

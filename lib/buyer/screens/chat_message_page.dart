@@ -11,11 +11,11 @@ import '../app_constant/app_colors.dart';
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
 
 class ChatMessagePage extends StatefulWidget {
-  final String  uid;
-  final String  name;
-  final String  image;
+  final String uid;
+  final String name;
+  final String image;
 
-  ChatMessagePage({required this.uid,required this.name, required this.image});
+  ChatMessagePage({required this.uid, required this.name, required this.image});
 
   @override
   State<ChatMessagePage> createState() => _ChatMessagePageState();
@@ -80,8 +80,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                         height: 40.sp,
                         width: 40.sp,
                         decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.circular(50)),
+                            borderRadius: BorderRadius.circular(50)),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(50),
                           child: Image.network(
@@ -89,7 +88,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                             fit: BoxFit.cover,
                           ),
                         ),
-                      ) ,
+                      ),
                       Positioned(
                         right: 0,
                         child: Container(
@@ -133,7 +132,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                   color: AppColors.commonWhiteTextColor,
                   borderRadius: BorderRadius.circular(8.sp),
                   border:
-                  Border.all(color: AppColors.hintTextColor, width: 2.sp),
+                      Border.all(color: AppColors.hintTextColor, width: 2.sp),
                 ),
                 child: TextButton(
                     onPressed: () {},
@@ -168,9 +167,8 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                         stream: FirebaseFirestore.instance
                             .collection('chat')
                             .doc(chatId(
-                            PreferenceManager.getTokenId().toString(),
-                            widget.uid)
-                        )
+                                PreferenceManager.getTokenId().toString(),
+                                widget.uid))
                             .collection('Data')
                             .orderBy('date', descending: false)
                             .snapshots(),
@@ -199,100 +197,100 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                 //   controller: chewieController,
                                 // );
                                 return snapShot.data!.docs[index]['Type'] ==
-                                    'Text'
+                                        'Text'
                                     ? Padding(
-                                  padding:
-                                  const EdgeInsets.only(bottom: 8),
-                                  child: snapShot.data!.docs[index]
-                                  ['senderId'] ==
-                                      PreferenceManager.getTokenId()
-                                          .toString()
-                                      ? Align(
-                                    alignment:
-                                    Alignment.centerRight,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          left: Get.width / 5,
-                                          right: 10),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.end,
-                                        mainAxisSize:
-                                        MainAxisSize.min,
-                                        children: [
-                                          Flexible(
-                                            child: Card(
-                                              margin:
-                                              EdgeInsets.zero,
-                                              color:
-                                              Color(0xFF777794),
-                                              shape:
-                                              const RoundedRectangleBorder(
-                                                borderRadius:
-                                                BorderRadius
-                                                    .only(
-                                                  topLeft: Radius
-                                                      .circular(15),
-                                                  bottomRight:
-                                                  Radius
-                                                      .circular(
-                                                      15),
-                                                  bottomLeft: Radius
-                                                      .circular(15),
-                                                ),
-                                              ),
-                                              elevation: 1,
-                                              child: Row(
-                                                mainAxisSize:
-                                                MainAxisSize
-                                                    .min,
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment
-                                                    .end,
-                                                children: [
-                                                  Flexible(
-                                                    child: Padding(
-                                                      padding:
-                                                      const EdgeInsets
-                                                          .all(
-                                                          8.0),
-                                                      child: Text(
-                                                        "${snapShot.data!.docs[index]['msg']}",
-                                                        style:
-                                                        TextStyle(
-                                                          fontSize:
-                                                          16,
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .w400,
-                                                          color: Colors
-                                                              .white,
-                                                          fontFamily:
-                                                          'Nunito-Regular',
+                                        padding:
+                                            const EdgeInsets.only(bottom: 8),
+                                        child: snapShot.data!.docs[index]
+                                                    ['senderId'] ==
+                                                PreferenceManager.getTokenId()
+                                                    .toString()
+                                            ? Align(
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: Get.width / 5,
+                                                      right: 10),
+                                                  child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Flexible(
+                                                        child: Card(
+                                                          margin:
+                                                              EdgeInsets.zero,
+                                                          color:
+                                                              Color(0xFF777794),
+                                                          shape:
+                                                              const RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .only(
+                                                              topLeft: Radius
+                                                                  .circular(15),
+                                                              bottomRight:
+                                                                  Radius
+                                                                      .circular(
+                                                                          15),
+                                                              bottomLeft: Radius
+                                                                  .circular(15),
+                                                            ),
+                                                          ),
+                                                          elevation: 1,
+                                                          child: Row(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .end,
+                                                            children: [
+                                                              Flexible(
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .all(
+                                                                          8.0),
+                                                                  child: Text(
+                                                                    "${snapShot.data!.docs[index]['msg']}",
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          16,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400,
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontFamily:
+                                                                          'Ubuntu-Regular',
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              // Padding(
+                                                              //   padding:
+                                                              //       const EdgeInsets.only(
+                                                              //           right: 10, bottom: 5),
+                                                              //   child: MsgDate(
+                                                              //     date: (snapShot.data!
+                                                              //                     .docs[index]
+                                                              //                 ['date']
+                                                              //             as Timestamp)
+                                                              //         .toDate(),
+                                                              //   ),
+                                                              // )
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ),
-                                                  // Padding(
-                                                  //   padding:
-                                                  //       const EdgeInsets.only(
-                                                  //           right: 10, bottom: 5),
-                                                  //   child: MsgDate(
-                                                  //     date: (snapShot.data!
-                                                  //                     .docs[index]
-                                                  //                 ['date']
-                                                  //             as Timestamp)
-                                                  //         .toDate(),
-                                                  //   ),
-                                                  // )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          /*    PreferenceManager.getCustomerPImg() == null ||
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      /*    PreferenceManager.getCustomerPImg() == null ||
                                               PreferenceManager.getCustomerPImg() ==
                                                   ''
                                           ? imageNotFound()
@@ -304,118 +302,119 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                 width: Get.height * 0.05,
                                               ),
                                             ),*/
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                      : Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Padding(
-                                      padding:
-                                      const EdgeInsets.only(
-                                          left: 10),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.end,
-                                        mainAxisSize:
-                                        MainAxisSize.min,
-                                        children: [
-                                          Flexible(
-                                            child: Padding(
-                                              padding:
-                                              EdgeInsets.only(
-                                                  right:
-                                                  Get.width /
-                                                      3),
-                                              child: Card(
-                                                color: AppColors.offLightPurpalColor,
-                                                shape:
-                                                RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.only(
-                                                      topRight: Radius
-                                                          .circular(
-                                                          15),
-                                                      bottomRight: Radius
-                                                          .circular(
-                                                          15),
-                                                      bottomLeft: Radius
-                                                          .circular(
-                                                          15)),
+                                                    ],
+                                                  ),
                                                 ),
-                                                elevation: 1,
+                                              )
+                                            : Align(
+                                                alignment: Alignment.centerLeft,
                                                 child: Padding(
                                                   padding:
-                                                  const EdgeInsets
-                                                      .all(8.0),
+                                                      const EdgeInsets.only(
+                                                          left: 10),
                                                   child: Row(
-                                                    mainAxisSize:
-                                                    MainAxisSize
-                                                        .min,
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .end,
+                                                        CrossAxisAlignment.end,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
                                                     children: [
                                                       Flexible(
-                                                        child: Text(
-                                                          snapShot
-                                                              .data!
-                                                              .docs[index]['msg'],
-                                                          style:
-                                                          TextStyle(
-                                                            fontSize:
-                                                            16,
-                                                            fontWeight:
-                                                            FontWeight.w400,
-                                                            color: Colors
-                                                                .white,
-                                                            fontFamily:
-                                                            'Poppins',
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  right:
+                                                                      Get.width /
+                                                                          3),
+                                                          child: Card(
+                                                            color: AppColors
+                                                                .offLightPurpalColor,
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.only(
+                                                                  topRight: Radius
+                                                                      .circular(
+                                                                          15),
+                                                                  bottomRight: Radius
+                                                                      .circular(
+                                                                          15),
+                                                                  bottomLeft: Radius
+                                                                      .circular(
+                                                                          15)),
+                                                            ),
+                                                            elevation: 1,
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                              child: Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .end,
+                                                                children: [
+                                                                  Flexible(
+                                                                    child: Text(
+                                                                      snapShot
+                                                                          .data!
+                                                                          .docs[index]['msg'],
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            16,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontFamily:
+                                                                            'Ubuntu',
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 10,
+                                                                  ),
+                                                                  // Padding(
+                                                                  //   padding:
+                                                                  //       const EdgeInsets.only(
+                                                                  //           top: 10),
+                                                                  //   child: MsgDate(
+                                                                  //     date: (snapShot.data.docs[
+                                                                  //                     index]
+                                                                  //                 ['date']
+                                                                  //             as Timestamp)
+                                                                  //         .toDate(),
+                                                                  //   ),
+                                                                  // )
+                                                                ],
+                                                              ),
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
-                                                      SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      // Padding(
-                                                      //   padding:
-                                                      //       const EdgeInsets.only(
-                                                      //           top: 10),
-                                                      //   child: MsgDate(
-                                                      //     date: (snapShot.data.docs[
-                                                      //                     index]
-                                                      //                 ['date']
-                                                      //             as Timestamp)
-                                                      //         .toDate(),
-                                                      //   ),
-                                                      // )
                                                     ],
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                )
+                                      )
                                     : snapShot.data!.docs[index]['Type'] ==
-                                    'Image'
-                                    ? snapShot.data!.docs[index]
-                                ['senderId'] ==
-                                    PreferenceManager.getTokenId()
-                                        .toString()
-                                    ? Row(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.end,
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.end,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    /* PreferenceManager.getCustomerPImg() == null ||
+                                            'Image'
+                                        ? snapShot.data!.docs[index]
+                                                    ['senderId'] ==
+                                                PreferenceManager.getTokenId()
+                                                    .toString()
+                                            ? Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  /* PreferenceManager.getCustomerPImg() == null ||
                                       PreferenceManager.getCustomerPImg() == ''
                                   ? imageNotFound()
                                   : ClipOval(
@@ -425,13 +424,13 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                         width: Get.height * 0.05,
                                       ),
                                     ),*/
-                                  ],
-                                )
-                                    : Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    /*   widget.userImg == null || widget.userImg == ''
+                                                ],
+                                              )
+                                            : Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  /*   widget.userImg == null || widget.userImg == ''
                                   ? imageNotFound()
                                   : ClipOval(
                                       child: commonProfileOctoImage(
@@ -440,232 +439,232 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                         width: Get.height * 0.05,
                                       ),
                                     ),*/
-                                    Padding(
-                                      padding:
-                                      const EdgeInsets.only(
-                                          left: 10, top: 10),
-                                      child: Column(
-                                        children: (snapShot.data!
-                                            .docs[index]
-                                        ['image'] as List)
-                                            .map(
-                                              (e) => Padding(
-                                            padding:
-                                            const EdgeInsets
-                                                .only(
-                                                bottom:
-                                                5),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                              BorderRadius
-                                                  .circular(
-                                                  5),
-                                              child: InkWell(
-                                                onTap: () {
-                                                  // Get.to(ZoomImage(
-                                                  //   img: e,
-                                                  // ));
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                            .toList(),
-                                      ),
-                                    ),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.only(left: 10),
-                                    //   child: MsgDate(
-                                    //     date: (snapShot.data.docs[index]['date']
-                                    //             as Timestamp)
-                                    //         .toDate(),
-                                    //   ),
-                                    // )
-                                  ],
-                                )
-                                // : snapShot.data!.docs[index]['Type'] ==
-                                //         'Video'
-                                //     ? snapShot.data!.docs[index]
-                                //                 ['senderId'] ==
-                                //             PreferenceManager.getTokenId()
-                                //         ? Row(
-                                //             mainAxisAlignment:
-                                //                 MainAxisAlignment.end,
-                                //             children: [
-                                //               Container(
-                                //                 height: 250,
-                                //                 width: 250,
-                                //                 padding:
-                                //                     EdgeInsets.symmetric(
-                                //                   horizontal: 20,
-                                //                 ),
-                                //                 child: playerWidget,
-                                //               ),
-                                //             ],
-                                //           )
-                                //         : Row(
-                                //             mainAxisAlignment:
-                                //                 MainAxisAlignment.start,
-                                //             children: [
-                                //               Container(
-                                //                 height: 250,
-                                //                 width: 250,
-                                //                 padding:
-                                //                     EdgeInsets.symmetric(
-                                //                   horizontal: 20,
-                                //                 ),
-                                //                 child: playerWidget,
-                                //               ),
-                                //             ],
-                                //           )
-                                    : snapShot.data!.docs[index]['Type'] ==
-                                    PreferenceManager.getTokenId()
-                                        .toString()
-                                    ? Padding(
-                                  padding: EdgeInsets.only(
-                                      right: Get.width / 5),
-                                  child: Card(
-                                    color: Colors.grey[200],
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.only(
-                                          topRight:
-                                          Radius.circular(
-                                              15),
-                                          bottomRight:
-                                          Radius.circular(
-                                              15),
-                                          bottomLeft:
-                                          Radius.circular(
-                                              15)),
-                                    ),
-                                    elevation: 1,
-                                    child: Padding(
-                                      padding:
-                                      const EdgeInsets.all(
-                                          8.0),
-                                      child: Row(
-                                        mainAxisSize:
-                                        MainAxisSize.min,
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment
-                                            .end,
-                                        children: [
-                                          Icon(
-                                            Icons.description,
-                                            color: Colors.black,
-                                          ),
-                                          Flexible(
-                                            child: Text(
-                                              snapShot.data!
-                                                  .docs[index]
-                                              [
-                                              'documentName'],
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight:
-                                                FontWeight
-                                                    .w400,
-                                                color:
-                                                AppColors.offLightPurpalColor,
-                                                fontFamily:
-                                                'Nunito-Regular',
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          // Padding(
-                                          //   padding:
-                                          //       const EdgeInsets.only(
-                                          //           top: 10),
-                                          //   child: MsgDate(
-                                          //     date: (snapShot.data.docs[
-                                          //                     index]
-                                          //                 ['date']
-                                          //             as Timestamp)
-                                          //         .toDate(),
-                                          //   ),
-                                          // )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                )
-                                    : Padding(
-                                  padding: EdgeInsets.only(
-                                      left: Get.width / 5),
-                                  child: Align(
-                                    child: Card(
-                                      color: Color(0xFF222744),
-                                      shape:
-                                      RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.only(
-                                            topRight: Radius
-                                                .circular(15),
-                                            bottomRight:
-                                            Radius
-                                                .circular(
-                                                15),
-                                            bottomLeft: Radius
-                                                .circular(
-                                                15)),
-                                      ),
-                                      elevation: 1,
-                                      child: Padding(
-                                        padding:
-                                        const EdgeInsets.all(
-                                            8.0),
-                                        child: Row(
-                                          mainAxisSize:
-                                          MainAxisSize.min,
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment
-                                              .end,
-                                          children: [
-                                            Icon(Icons
-                                                .description),
-                                            Flexible(
-                                              child: Text(
-                                                snapShot.data!
-                                                    .docs[
-                                                index][
-                                                'documentName'],
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight:
-                                                  FontWeight
-                                                      .w400,
-                                                  color: Colors
-                                                      .white,
-                                                  fontFamily:
-                                                  'Nunito-Regular',
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 10, top: 10),
+                                                    child: Column(
+                                                      children: (snapShot.data!
+                                                                  .docs[index]
+                                                              ['image'] as List)
+                                                          .map(
+                                                            (e) => Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      bottom:
+                                                                          5),
+                                                              child: ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5),
+                                                                child: InkWell(
+                                                                  onTap: () {
+                                                                    // Get.to(ZoomImage(
+                                                                    //   img: e,
+                                                                    // ));
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          )
+                                                          .toList(),
+                                                    ),
+                                                  ),
+                                                  // Padding(
+                                                  //   padding: const EdgeInsets.only(left: 10),
+                                                  //   child: MsgDate(
+                                                  //     date: (snapShot.data.docs[index]['date']
+                                                  //             as Timestamp)
+                                                  //         .toDate(),
+                                                  //   ),
+                                                  // )
+                                                ],
+                                              )
+                                        // : snapShot.data!.docs[index]['Type'] ==
+                                        //         'Video'
+                                        //     ? snapShot.data!.docs[index]
+                                        //                 ['senderId'] ==
+                                        //             PreferenceManager.getTokenId()
+                                        //         ? Row(
+                                        //             mainAxisAlignment:
+                                        //                 MainAxisAlignment.end,
+                                        //             children: [
+                                        //               Container(
+                                        //                 height: 250,
+                                        //                 width: 250,
+                                        //                 padding:
+                                        //                     EdgeInsets.symmetric(
+                                        //                   horizontal: 20,
+                                        //                 ),
+                                        //                 child: playerWidget,
+                                        //               ),
+                                        //             ],
+                                        //           )
+                                        //         : Row(
+                                        //             mainAxisAlignment:
+                                        //                 MainAxisAlignment.start,
+                                        //             children: [
+                                        //               Container(
+                                        //                 height: 250,
+                                        //                 width: 250,
+                                        //                 padding:
+                                        //                     EdgeInsets.symmetric(
+                                        //                   horizontal: 20,
+                                        //                 ),
+                                        //                 child: playerWidget,
+                                        //               ),
+                                        //             ],
+                                        //           )
+                                        : snapShot.data!.docs[index]['Type'] ==
+                                                PreferenceManager.getTokenId()
+                                                    .toString()
+                                            ? Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: Get.width / 5),
+                                                child: Card(
+                                                  color: Colors.grey[200],
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    15),
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    15),
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    15)),
+                                                  ),
+                                                  elevation: 1,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .end,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.description,
+                                                          color: Colors.black,
+                                                        ),
+                                                        Flexible(
+                                                          child: Text(
+                                                            snapShot.data!
+                                                                    .docs[index]
+                                                                [
+                                                                'documentName'],
+                                                            style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              color: AppColors
+                                                                  .offLightPurpalColor,
+                                                              fontFamily:
+                                                                  'Ubuntu-Regular',
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        // Padding(
+                                                        //   padding:
+                                                        //       const EdgeInsets.only(
+                                                        //           top: 10),
+                                                        //   child: MsgDate(
+                                                        //     date: (snapShot.data.docs[
+                                                        //                     index]
+                                                        //                 ['date']
+                                                        //             as Timestamp)
+                                                        //         .toDate(),
+                                                        //   ),
+                                                        // )
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            // Padding(
-                                            //   padding:
-                                            //       const EdgeInsets.only(
-                                            //           top: 10),
-                                            //   child: MsgDate(
-                                            //     date: (snapShot.data.docs[
-                                            //                     index]
-                                            //                 ['date']
-                                            //             as Timestamp)
-                                            //         .toDate(),
-                                            //   ),
-                                            // )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                );
+                                              )
+                                            : Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: Get.width / 5),
+                                                child: Align(
+                                                  child: Card(
+                                                    color: Color(0xFF222744),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                              topRight: Radius
+                                                                  .circular(15),
+                                                              bottomRight:
+                                                                  Radius
+                                                                      .circular(
+                                                                          15),
+                                                              bottomLeft: Radius
+                                                                  .circular(
+                                                                      15)),
+                                                    ),
+                                                    elevation: 1,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Icon(Icons
+                                                              .description),
+                                                          Flexible(
+                                                            child: Text(
+                                                              snapShot.data!
+                                                                          .docs[
+                                                                      index][
+                                                                  'documentName'],
+                                                              style: TextStyle(
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                color: Colors
+                                                                    .white,
+                                                                fontFamily:
+                                                                    'Ubuntu-Regular',
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          // Padding(
+                                                          //   padding:
+                                                          //       const EdgeInsets.only(
+                                                          //           top: 10),
+                                                          //   child: MsgDate(
+                                                          //     date: (snapShot.data.docs[
+                                                          //                     index]
+                                                          //                 ['date']
+                                                          //             as Timestamp)
+                                                          //         .toDate(),
+                                                          //   ),
+                                                          // )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
                               },
                             );
                           }
@@ -674,7 +673,6 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                           );
                         },
                       ),
-
                     ],
                   ),
                 ),
@@ -773,20 +771,21 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
           .doc(chatId(PreferenceManager.getTokenId().toString(), widget.uid))
           .collection('Data')
           .add({
-        'date': DateTime.now(),
-        'Type': 'Text',
-        'senderId': "wowtSMoyQJeLvZPTph6nz4A31hg",
-        'receiveId': widget.uid,
-        'seen': false,
-        'video': '',
-        'msg': _msg.text,
-        'image': '',
-        'document': '',
-        'voiceNote': ''
-      })
+            'date': DateTime.now(),
+            'Type': 'Text',
+            'senderId': "wowtSMoyQJeLvZPTph6nz4A31hg",
+            'receiveId': widget.uid,
+            'seen': false,
+            'video': '',
+            'msg': _msg.text,
+            'image': '',
+            'document': '',
+            'voiceNote': ''
+          })
           .then((value) => _msg.clear())
           .catchError((e) => print(e));
     }
   }
+
   int i = 0;
 }

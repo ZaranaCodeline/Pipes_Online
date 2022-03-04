@@ -15,7 +15,7 @@ class STermsAndConditions extends StatelessWidget {
         title: CustomText(
           alignment: Alignment.centerLeft,
           text: 'TERMS & CONDITIONS',
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w600,
           fontSize: 18,
           color: AppColors.commonWhiteTextColor,
         ),

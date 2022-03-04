@@ -27,7 +27,7 @@ class CustomText extends StatelessWidget {
     return Container(
       child: Text(
         text,
-        style: GoogleFonts.nunito(
+        style: GoogleFonts.ubuntu(
           textStyle: TextStyle(
             color: color,
             fontWeight: fontWeight,

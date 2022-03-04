@@ -39,9 +39,9 @@ class CustomProductCard extends StatelessWidget {
             child: Column(
               children: [
                 img,
-               CustomText(text: title, fontWeight: FontWeight.w700, fontSize: 16, color: AppColors.primaryColor,alignment: Alignment.centerLeft,),
-                CustomText(text: desc, fontWeight: FontWeight.w700, fontSize: 18, color: AppColors.secondaryBlackColor,alignment: Alignment.centerLeft,),
-                CustomText(text: price, fontWeight: FontWeight.w700, fontSize: 18, color: AppColors.secondaryBlackColor,alignment: Alignment.centerLeft,),
+               CustomText(text: title, fontWeight: FontWeight.w600, fontSize: 16, color: AppColors.primaryColor,alignment: Alignment.centerLeft,),
+                CustomText(text: desc, fontWeight: FontWeight.w600, fontSize: 18, color: AppColors.secondaryBlackColor,alignment: Alignment.centerLeft,),
+                CustomText(text: price, fontWeight: FontWeight.w600, fontSize: 18, color: AppColors.secondaryBlackColor,alignment: Alignment.centerLeft,),
               ],
             ),
           ),

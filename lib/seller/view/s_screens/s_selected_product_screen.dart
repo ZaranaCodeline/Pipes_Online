@@ -312,7 +312,7 @@ String? image,name,desc,price;
         children: [
           CustomText(
             text: 'Test',
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
             fontSize: 18.sp,
             color: AppColors.primaryColor,
             alignment: Alignment.topLeft,

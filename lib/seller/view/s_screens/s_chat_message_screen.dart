@@ -267,7 +267,7 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
                                                         color: Colors
                                                             .white,
                                                         fontFamily:
-                                                        'Nunito-Regular',
+                                                        'Ubuntu-Regular',
                                                       ),
                                                     ),
                                                   ),
@@ -368,7 +368,7 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
                                                           color: Colors
                                                               .white,
                                                           fontFamily:
-                                                          'Poppins',
+                                                          'Ubuntu',
                                                         ),
                                                       ),
                                                     ),
@@ -568,7 +568,7 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
                                               color:
                                               AppColors.offLightPurpalColor,
                                               fontFamily:
-                                              'Nunito-Regular',
+                                              'Ubuntu-Regular',
                                             ),
                                           ),
                                         ),
@@ -640,7 +640,7 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
                                                 color: Colors
                                                     .white,
                                                 fontFamily:
-                                                'Nunito-Regular',
+                                                'Ubuntu-Regular',
                                               ),
                                             ),
                                           ),

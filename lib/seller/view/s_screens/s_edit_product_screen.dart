@@ -75,7 +75,7 @@ class SeditProductScreen extends StatelessWidget {
                     children: [
                       CustomText(
                         text: 'Product Info',
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                         fontSize: 14.sp,
                         color: AppColors.hintTextColor,
                         alignment: Alignment.topLeft,
@@ -124,7 +124,7 @@ class SeditProductScreen extends StatelessWidget {
                   ),
                   CustomText(
                     text: 'Product Name',
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                     fontSize: 14.sp,
                     color: AppColors.secondaryBlackColor,
                     alignment: Alignment.topLeft,
@@ -155,7 +155,7 @@ class SeditProductScreen extends StatelessWidget {
                   ),
                   CustomText(
                     text: 'Price (\$)/ Feet',
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                     fontSize: 14.sp,
                     color: AppColors.secondaryBlackColor,
                     alignment: Alignment.topLeft,
@@ -187,7 +187,7 @@ class SeditProductScreen extends StatelessWidget {
                   ),
                   CustomText(
                     text: 'Description',
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                     fontSize: 14.sp,
                     color: AppColors.secondaryBlackColor,
                     alignment: Alignment.topLeft,

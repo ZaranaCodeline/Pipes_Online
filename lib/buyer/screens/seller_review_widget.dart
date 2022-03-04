@@ -209,7 +209,7 @@ class SellerReviewWidget extends StatelessWidget {
                     ),
                     CustomText(
                         text: 'Jan Doe',
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                         fontSize: 24,
                         color: AppColors.secondaryBlackColor),
                     SizedBox(

@@ -24,7 +24,7 @@ class CustomSelectedProductBuildTopWidget extends StatelessWidget {
         children: [
           CustomText(
             text: name,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
             fontSize: 18.sp,
             color: AppColors.primaryColor,
             alignment: Alignment.topLeft,
@@ -62,7 +62,7 @@ class CustomSelectedProductBuildTopWidget extends StatelessWidget {
                           },
                           child: CustomText(
                             text: 'ADD TO CART',
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w600,
                             fontSize: 12.sp,
                             color: AppColors.commonWhiteTextColor,
                             textAlign: TextAlign.left,

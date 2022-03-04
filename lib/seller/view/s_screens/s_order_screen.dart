@@ -81,7 +81,7 @@ class SOrdersScreen extends StatelessWidget {
                                       children: [
                                         CustomText(
                                           text: 'Round',
-                                          fontWeight: FontWeight.w700,
+                                          fontWeight: FontWeight.w600,
                                           fontSize: 14.sp,
                                           color: AppColors.secondaryBlackColor,
                                           alignment: Alignment.topLeft,

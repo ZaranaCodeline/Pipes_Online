@@ -87,7 +87,7 @@ class ScustomerBuyReviewScreen extends StatelessWidget {
                       ),
                       CustomText(
                           text: 'Jan Doe',
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w600,
                           fontSize: 24,
                           color: AppColors.secondaryBlackColor),
                       SizedBox(
@@ -187,7 +187,7 @@ class ScustomerBuyReviewScreen extends StatelessWidget {
                                           text: '5.0',
                                           color: AppColors.secondaryBlackColor,
                                           fontSize: 16.sp,
-                                          fontWeight: FontWeight.w700,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                         SizedBox(
                                           height: Get.height * 0.02,
@@ -247,7 +247,7 @@ class ScustomerBuyReviewScreen extends StatelessWidget {
                           children: [
                             CustomText(
                                 text: '14 reviews',
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w600,
                                 fontSize: 12.sp,
                                 color: AppColors.secondaryBlackColor),
                             GestureDetector(
@@ -256,7 +256,7 @@ class ScustomerBuyReviewScreen extends StatelessWidget {
                               },
                               child: CustomText(
                                   text: 'Review Now',
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w600,
                                   fontSize: 12.sp,
                                   color: AppColors.primaryColor),
                             ),

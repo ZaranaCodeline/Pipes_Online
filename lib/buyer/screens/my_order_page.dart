@@ -15,7 +15,7 @@ class MyOrderPage extends StatelessWidget {
         title: CustomText(
           alignment: Alignment.centerLeft,
           text: 'MY ORDERS',
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w600,
           fontSize: 22,
           color: AppColors.commonWhiteTextColor,
         ),
@@ -75,7 +75,7 @@ class MyOrderPage extends StatelessWidget {
                               children: [
                                 CustomText(
                                   text: 'Round',
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w600,
                                   fontSize: 14.sp,
                                   color: AppColors.primaryColor,
                                   alignment: Alignment.topLeft,
@@ -85,7 +85,7 @@ class MyOrderPage extends StatelessWidget {
                                 ),
                                 CustomText(
                                   text: 'ABC Pipe',
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w600,
                                   fontSize: 12.sp,
                                   color: AppColors.secondaryBlackColor,
                                   alignment: Alignment.centerLeft,
@@ -146,7 +146,7 @@ class MyOrderPage extends StatelessWidget {
                                 ),
                                 CustomText(
                                   text: 'Google pay',
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w600,
                                   fontSize: 18,
                                   color: AppColors.secondaryBlackColor,
                                   alignment: Alignment.centerLeft,
@@ -228,7 +228,7 @@ class MyOrderPage extends StatelessWidget {
                               children: [
                                 CustomText(
                                   text: 'Round',
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w600,
                                   fontSize: 14.sp,
                                   color: AppColors.primaryColor,
                                   alignment: Alignment.topLeft,
@@ -238,7 +238,7 @@ class MyOrderPage extends StatelessWidget {
                                 ),
                                 CustomText(
                                   text: 'ABC Pipe',
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w600,
                                   fontSize: 12.sp,
                                   color: AppColors.secondaryBlackColor,
                                   alignment: Alignment.centerLeft,
@@ -299,7 +299,7 @@ class MyOrderPage extends StatelessWidget {
                                 ),
                                 CustomText(
                                   text: 'Google pay',
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w600,
                                   fontSize: 18,
                                   color: AppColors.secondaryBlackColor,
                                   alignment: Alignment.centerLeft,

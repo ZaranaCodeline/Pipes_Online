@@ -32,10 +32,10 @@ class Custombutton extends StatelessWidget {
           onPressed: function,
           child: Text(
             name,
-            style: GoogleFonts.nunito(
+            style: GoogleFonts.ubuntu(
               textStyle: TextStyle(
                   fontSize: 20,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                   color: AppColors.commonWhiteTextColor),
             ),
           ),

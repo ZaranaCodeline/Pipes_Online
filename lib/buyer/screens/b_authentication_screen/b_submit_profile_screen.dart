@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
+import 'package:pipes_online/buyer/controller/geolocation_controller.dart';
 import 'package:pipes_online/buyer/custom_widget/widgets/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/bottom_bar_screen_page.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
@@ -12,6 +13,7 @@ import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:sizer/sizer.dart';
 import '../../../routes/bottom_controller.dart';
+import '../../../seller/controller/s_subscribe_controller.dart';
 import '../maps_screen.dart';
 
 class BSubmitProfileScreen extends StatefulWidget {
@@ -26,6 +28,8 @@ class BSubmitProfileScreen extends StatefulWidget {
 class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
 
   File? _image;
+
+  GeolocationController _controller = Get.find();
 
   final picker = ImagePicker();
 
@@ -60,8 +64,17 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
+
   BottomController bottomController = Get.find();
+
+
+
+  @override
+  void initState() {
+
+    super.initState();
+  }
+
 
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
@@ -73,7 +86,6 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
           print('InValidate');
         }
       }
-
       return Builder(
         builder: (context) => SafeArea(
           child: Scaffold(
@@ -81,7 +93,7 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
               child: Form(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 key: _formKey,
-                child: Column(
+                child: GetBuilder<GeolocationController>(builder: (controller) => Column(
                   children: [
                     Container(
                       height: Get.height * 0.1,
@@ -135,6 +147,9 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
                                 builder: (context) => SimpleDialog(
                                   children: [
                                     Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(35)
+                                      ),
                                       height: 105.sp,
                                       width: double.infinity,
                                       child: Column(
@@ -158,8 +173,6 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
                                                 gradient: LinearGradient(
                                                     begin: Alignment.topLeft,
                                                     colors: [
-                                                      AppColors.primaryColor,
-                                                      AppColors.offLightPurpalColor,
                                                       AppColors.primaryColor,
                                                     ]),
                                                 borderRadius: BorderRadius.circular(25)),
@@ -188,9 +201,7 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
                                                     begin: Alignment.topLeft,
                                                     colors: [
                                                       AppColors.primaryColor,
-                                                      AppColors.offLightPurpalColor,
-                                                      AppColors.primaryColor,
-                                                    ]),
+                                                      ]),
                                                 borderRadius: BorderRadius.circular(25)),
                                           ),
                                         ],
@@ -229,8 +240,8 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
                             style: TextStyle(
                                 fontSize: 12.sp,
                                 color: SColorPicker.white,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Nunito-Bold'),
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Ubuntu-Bold'),
                           )
                         ],
                       ),
@@ -291,7 +302,7 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
                               }
                             },
                             maxLines: 3,
-                            controller: addressController,
+                            controller: controller.addressController,
                             decoration: InputDecoration(
                               hintText: 'Enter Address',
                               border: OutlineInputBorder(
@@ -357,7 +368,7 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
                     ),
                     SizedBox(height: Get.height * 0.1),
                   ],
-                ),
+                ),),
               ),
             ),
           ),

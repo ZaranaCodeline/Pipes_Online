@@ -104,7 +104,7 @@ class SelectedProductWidget extends StatelessWidget {
                         child: SvgPicture.asset(
                           BImagePick.PersonIcon,
                           width: 25.sp,
-                          height: 25.sp,
+                          height: 25.sp,color: AppColors.primaryColor,
                         ),
 
                         // Icon(

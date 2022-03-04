@@ -2,6 +2,7 @@
 
 class Routes {
   static final START = '/startpage';
+  static final SPLASH = '/SPLASH';
   static const WELCOME = '/welcome';
   static const LOGIN = '/login';
   static const HOME = '/home';

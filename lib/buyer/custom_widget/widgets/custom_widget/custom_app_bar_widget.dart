@@ -11,7 +11,7 @@ Widget CustomAppBarWidget(){
     title: CustomText(
       alignment: Alignment.centerLeft,
       text: 'PERSONAL INFORMATION',
-      fontWeight: FontWeight.w700,
+      fontWeight: FontWeight.w600,
       fontSize: 18,
       color: AppColors.commonWhiteTextColor,
     ),

@@ -93,7 +93,7 @@ class AddReviewsPage extends StatelessWidget {
                                     ),
                                     child: CustomText(
                                         text: 'Jan Doe',
-                                        fontWeight: FontWeight.w700,
+                                        fontWeight: FontWeight.w600,
                                         fontSize: 18.sp,
                                         color: AppColors.secondaryBlackColor),
                                   ),
@@ -102,7 +102,7 @@ class AddReviewsPage extends StatelessWidget {
                                         vertical: 15.sp, horizontal: 0),
                                     child: CustomText(
                                         text: 'How was your experience?',
-                                        fontWeight: FontWeight.w700,
+                                        fontWeight: FontWeight.w600,
                                         fontSize: 18.sp,
                                         color: AppColors.secondaryBlackColor),
                                   ),

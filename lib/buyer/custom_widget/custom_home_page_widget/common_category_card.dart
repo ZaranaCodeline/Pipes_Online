@@ -46,7 +46,7 @@ class CommonCategoryCard extends StatelessWidget {
                       text: name,
                       color: SColorPicker.black,
                       fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                       alignment: Alignment.centerRight,
                     ),
                   ],

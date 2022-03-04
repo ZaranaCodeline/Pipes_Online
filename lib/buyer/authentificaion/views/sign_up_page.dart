@@ -15,7 +15,7 @@
 //         title: CustomText(
 //           alignment: Alignment.centerLeft,
 //           text: 'Sign Up',
-//           fontWeight: FontWeight.w700,
+//           fontWeight: FontWeight.w600,
 //           fontSize: 22,
 //           color: AppColors.commonWhiteTextColor,
 //         ),

@@ -80,7 +80,7 @@ class SEarningsScreen extends StatelessWidget {
                                           color: SColorPicker.fontGrey),
                                       CustomText(
                                           text: '\$5.9k',
-                                          fontWeight: FontWeight.w700,
+                                          fontWeight: FontWeight.w600,
                                           fontSize: 16.sp,
                                           color: SColorPicker.black),
                                     ],
@@ -124,7 +124,7 @@ class SEarningsScreen extends StatelessWidget {
                                 ),
                                 child: CustomText(
                                     text: 'Recent Transactions',
-                                    fontWeight: FontWeight.w700,
+                                    fontWeight: FontWeight.w600,
                                     fontSize: 16.sp,
                                     color: AppColors.secondaryBlackColor,
                                 alignment: Alignment.topLeft,),
@@ -158,7 +158,7 @@ class SEarningsScreen extends StatelessWidget {
                                             ),
                                             CustomText(
                                               text: 'Round',
-                                              fontWeight: FontWeight.w700,
+                                              fontWeight: FontWeight.w600,
                                               fontSize: 14.sp,
                                               color:
                                                   AppColors.secondaryBlackColor,
@@ -169,7 +169,7 @@ class SEarningsScreen extends StatelessWidget {
                                             ),
                                             CustomText(
                                               text: 'Ordered on 24 Dec 12:20',
-                                              fontWeight: FontWeight.w700,
+                                              fontWeight: FontWeight.w600,
                                               fontSize: 10.sp,
                                               color: SColorPicker.fontGrey,
                                               alignment: Alignment.topLeft,

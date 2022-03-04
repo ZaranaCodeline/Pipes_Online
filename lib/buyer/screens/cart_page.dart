@@ -99,7 +99,7 @@ class _CartPageState extends State<CartPage> {
                                   children: [
                                     CustomText(
                                       text: 'Round',
-                                      fontWeight: FontWeight.w700,
+                                      fontWeight: FontWeight.w600,
                                       fontSize: 16.sp,
                                       color: AppColors.primaryColor,
                                       alignment: Alignment.topLeft,
@@ -109,7 +109,7 @@ class _CartPageState extends State<CartPage> {
                                     ),
                                     CustomText(
                                       text: 'ABC Pipe',
-                                      fontWeight: FontWeight.w700,
+                                      fontWeight: FontWeight.w600,
                                       fontSize: 12.sp,
                                       color: AppColors.secondaryBlackColor,
                                       alignment: Alignment.centerLeft,
@@ -119,7 +119,7 @@ class _CartPageState extends State<CartPage> {
                                     ),
                                     CustomText(
                                       text: '\$10/ Feet',
-                                      fontWeight: FontWeight.w700,
+                                      fontWeight: FontWeight.w600,
                                       fontSize: 12.sp,
                                       color: AppColors.secondaryBlackColor,
                                       alignment: Alignment.centerLeft,
@@ -276,13 +276,13 @@ class _CartPageState extends State<CartPage> {
                                       children: [
                                         CustomText(
                                             text: 'Cart total',
-                                            fontWeight: FontWeight.w700,
+                                            fontWeight: FontWeight.w600,
                                             fontSize: 14.sp,
                                             color:
                                             AppColors.secondaryBlackColor),
                                         CustomText(
                                             text: '\$10',
-                                            fontWeight: FontWeight.w700,
+                                            fontWeight: FontWeight.w600,
                                             fontSize: 14.sp,
                                             color:
                                             AppColors.secondaryBlackColor),
@@ -306,13 +306,13 @@ class _CartPageState extends State<CartPage> {
                                         children: [
                                           CustomText(
                                               text: 'Checkout Now',
-                                              fontWeight: FontWeight.w700,
+                                              fontWeight: FontWeight.w600,
                                               fontSize: 14.sp,
                                               color: AppColors
                                                   .commonWhiteTextColor),
                                           CustomText(
                                               text: 'Total: \$10',
-                                              fontWeight: FontWeight.w700,
+                                              fontWeight: FontWeight.w600,
                                               fontSize: 14.sp,
                                               color: AppColors
                                                   .commonWhiteTextColor),

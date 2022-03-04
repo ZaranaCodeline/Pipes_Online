@@ -34,8 +34,8 @@ class _BWelcomeScreenState extends State<BWelcomeScreen> {
             style: TextStyle(
               fontSize: 25.sp,
               color: SColorPicker.purple,
-              fontWeight: FontWeight.w700,
-              fontFamily: 'Nunito-Bold',
+              fontWeight: FontWeight.w600,
+              fontFamily: 'Ubuntu-Bold',
             ),
           ),
           SizedBox(height: 10.sp),

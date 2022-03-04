@@ -95,7 +95,7 @@ class SorderReviewScreen extends StatelessWidget {
                                       children: [
                                         CustomText(
                                             text: 'Round',
-                                            fontWeight: FontWeight.w700,
+                                            fontWeight: FontWeight.w600,
                                             fontSize: 16.sp,
                                             color: AppColors.primaryColor),
                                         CustomText(
@@ -395,7 +395,7 @@ class SorderReviewScreen extends StatelessWidget {
         children: [
           CustomText(
             text: 'Test',
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
             fontSize: 18.sp,
             color: AppColors.primaryColor,
             alignment: Alignment.topLeft,

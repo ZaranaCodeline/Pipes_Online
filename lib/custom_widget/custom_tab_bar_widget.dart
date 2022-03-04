@@ -3,10 +3,15 @@ import 'package:get/get.dart';
 import 'package:pipes_online/app_constant/app_colors.dart';
 
 import 'custom_mobile_screen_widget.dart';
+import 'custom_email_screen_widget.dart';
 import 'widgets/custom_widget/custom_text.dart';
 
 class TabBarViewWidget extends StatefulWidget {
-  const TabBarViewWidget({Key? key}) : super(key: key);
+
+  final bool? isLogin;
+
+  const TabBarViewWidget({Key? key, this.isLogin}) : super(key: key);
+
 
   @override
   State<TabBarViewWidget> createState() => _TabBarViewWidgetState();
@@ -16,6 +21,8 @@ class _TabBarViewWidgetState extends State<TabBarViewWidget>
     with SingleTickerProviderStateMixin {
 
   TabController? _tabController;
+
+  int selectedPage = 0;
 
   @override
   void initState() {
@@ -32,9 +39,11 @@ class _TabBarViewWidgetState extends State<TabBarViewWidget>
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
+      initialIndex: selectedPage,
+
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding: const EdgeInsets.symmetric(vertical: 40,horizontal: 30),
           child: Column(
             children: [
               // give the tab bar a height [can change hheight to preferred height]
@@ -54,6 +63,13 @@ class _TabBarViewWidgetState extends State<TabBarViewWidget>
                   indicatorWeight: 10,
                   controller: _tabController,
                   // give the indicator a decoration (color and border radius)
+
+                  onTap: (value){
+                    setState(() {
+                      selectedPage = value;
+                    });
+                    print('value$value');
+                  },
                   indicator:  UnderlineTabIndicator(
                     borderSide: BorderSide(width: 3.0,color: AppColors.primaryColor),
                     insets: EdgeInsets.symmetric(horizontal:50.0),
@@ -76,16 +92,17 @@ class _TabBarViewWidgetState extends State<TabBarViewWidget>
               // tab bar view here
               Expanded(
                 child: TabBarView(
+
                   controller: _tabController,
-                  children: const [
+                  children:  [
                     // first tab bar view widget
                     Center(
-                      child: CustomMobileScreenWidget(),
+                      child: CustomMobileScreenWidget(isLogin: widget.isLogin),
                     ),
 
                     // second tab bar view widget
                     Center(
-                      // child: CustomEmailScreenWidget(),
+                      child: CustomEmailScreenWidget(isLogin: widget.isLogin),
                     ),
                   ],
                 ),

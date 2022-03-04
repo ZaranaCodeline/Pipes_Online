@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pipes_online/custom_widget/widgets/custom_widget/custom_text.dart';
 
-import '../../../app_constant/app_colors.dart';
+import '../../app_constant/app_colors.dart';
 
 class CustomProductCard extends StatelessWidget {
   CustomProductCard(

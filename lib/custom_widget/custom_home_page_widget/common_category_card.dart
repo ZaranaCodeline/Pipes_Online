@@ -30,21 +30,23 @@ class CommonCategoryCard extends StatelessWidget {
                 ]),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Image.network(
-                    '$image',
-                    fit: BoxFit.fill,
-                  ),
-                  CustomText(
-                    text: name,
-                    color: AppColors.secondaryBlackColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    alignment: Alignment.centerRight,
-                  ),
-                ],
+              child: SingleChildScrollView(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Image.network(
+                      '$image',
+                      fit: BoxFit.fill,
+                    ),
+                    CustomText(
+                      text: name,
+                      color: AppColors.secondaryBlackColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      alignment: Alignment.centerRight,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

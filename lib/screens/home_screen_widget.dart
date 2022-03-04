@@ -5,6 +5,7 @@ import 'package:pipes_online/app_constant/app_colors.dart';
 import 'package:pipes_online/custom_widget/custom_home_page_widget/custom_drawer_widget.dart';
 import 'package:pipes_online/custom_widget/widgets/custom_widget/custom_text.dart';
 import '../custom_widget/custom_home_page_widget/custom_home_search_widget.dart';
+import '../custom_widget/widgets/custom_home_search_widget.dart';
 import 'categories_card__list.dart';
 import '../custom_widget/widgets/custom_widget/custom_title_text.dart';
 import 'product_card_list.dart';
@@ -42,13 +43,13 @@ class HomePage extends StatelessWidget {
           background: Column(
             children: [
               SizedBox(
-                height: Get.height / 5.4,
+                height: Get.height * 0.18,
               ),
               Row(
                 children: [
                   const CustomHomeSearchWidget(),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 14.0),
+                    padding: const EdgeInsets.only(bottom: 0.0),
                     child: GestureDetector(
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),

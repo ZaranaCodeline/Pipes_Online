@@ -26,8 +26,8 @@ class WelComePage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Custombutton(name: 'Sign Up',function:()=> Get.to(()=>SignUpPage()),height: Get.height * 0.07 ,),
-              Custombutton(name: 'Login', function: ()=> Get.to(()=>LoginPage()),height: Get.height * 0.07,),
+              Custombutton(name: 'Sign Up',function:()=> Get.to(()=>SignUpPage()),height: Get.height * 0.07 ,width: Get.width / 3,),
+              Custombutton(name: 'Login', function: ()=> Get.to(()=>LoginPage()),height: Get.height * 0.07,width: Get.width / 3,),
             ],
           ),
         ],

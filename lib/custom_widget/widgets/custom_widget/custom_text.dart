@@ -6,6 +6,7 @@ class CustomText extends StatelessWidget {
       {Key? key,
       required this.text,
       this.alignment,
+        this.textAlign,
       required this.fontWeight,
       required this.fontSize,
       required this.color})
@@ -15,6 +16,7 @@ class CustomText extends StatelessWidget {
   FontWeight fontWeight;
   double fontSize;
   Alignment? alignment;
+  TextAlign? textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +28,10 @@ class CustomText extends StatelessWidget {
             color: color,
             fontWeight: fontWeight,
             fontSize: fontSize,
+
           ),
         ),
+        textAlign:textAlign,
       ),
       alignment: alignment,
     );

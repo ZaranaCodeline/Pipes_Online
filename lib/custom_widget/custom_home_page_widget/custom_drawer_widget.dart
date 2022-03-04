@@ -70,7 +70,9 @@ class CustomDrawerWidget extends StatelessWidget {
     required VoidCallback onClicked,
   }) =>
       GestureDetector(
-        onTap: onClicked,
+        onTap: (){
+          ProfilePage();
+        },
         child:  Container(
           margin: EdgeInsets.symmetric(horizontal: 20,vertical: 30),
           decoration: BoxDecoration(
@@ -121,7 +123,7 @@ class CustomDrawerWidget extends StatelessWidget {
       ),
       title: Text(
         text,
-        style: GoogleFonts.nunito(textStyle: TextStyle(fontSize: 24,color: color,fontWeight: FontWeight.w400)),
+        style: GoogleFonts.nunito(textStyle: TextStyle(fontSize: 22,color: color,fontWeight: FontWeight.w400)),
       ),
       hoverColor: hoverColor,
       onTap: onClicked,

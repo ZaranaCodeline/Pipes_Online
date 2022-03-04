@@ -39,31 +39,35 @@ class _HelpCenterPageState extends State<HelpCenterPage> {
         builder: (controller) {
           return Container(
             child: SingleChildScrollView(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-
-                ExpansionTile(
-                    collapsedIconColor: AppColors.primaryColor,
-                    collapsedTextColor: AppColors.primaryColor,
-                    iconColor: AppColors.primaryColor,
-                    children: [
-                      ListTile(
-                        title: Text(
-                            'Sofkkoog dkj fdjj fjf djijidf ijifjdi fijidj vfggf gfff ffgfg\nfdfd fidfji dfiif fdfh wiquiu aooiqw qkjq dfgfgf ffg gfg\nasaga ayha quidehgk fifjc ujyt.'),
-                      )
-                    ],
-                    title: Text('How can i cancel order?')),
-                ExpansionTile(children: [
-                  ListTile(
-                    title: Text(
-                        'Sofkkoog dkj fdjj fjf djijidf ijifjdi fijidj vfggf gfff ffgfg\nfdfd fidfji dfiif fdfh wiquiu aooiqw qkjq dfgfgf ffg gfg\nasaga ayha quidehgk fifjc ujyt.'),
-                  )
-                ], title: Text('How can i cancel order?'))
-              ],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ExpansionTile(
+                      iconColor: AppColors.secondaryBlackColor,
+                      children: [
+                        ListTile(
+                          title: Text(
+                              'Sofkkoog dkj fdjj fjf djijidf ijifjdi fijidj vfggf gfff ffgfg\nfdfd fidfji dfiif fdfh wiquiu aooiqw qkjq dfgfgf ffg gfg\nasaga ayha quidehgk fifjc ujyt.'),
+                        )
+                      ],
+                      title: Text('How can i cancel order?',
+                          style:
+                              TextStyle(color: AppColors.secondaryBlackColor))),
+                  ExpansionTile(
+                      iconColor: AppColors.secondaryBlackColor,
+                      children: [
+                        ListTile(
+                          title: Text(
+                              'Sofkkoog dkj fdjj fjf djijidf ijifjdi fijidj vfggf gfff ffgfg\nfdfd fidfji dfiif fdfh wiquiu aooiqw qkjq dfgfgf ffg gfg\nasaga ayha quidehgk fifjc ujyt.'),
+                        )
+                      ],
+                      title: Text(
+                        'How can i cancel order?',
+                        style: TextStyle(color: AppColors.secondaryBlackColor),
+                      ))
+                ],
+              ),
             ),
-
-                ),
           );
         },
       ),

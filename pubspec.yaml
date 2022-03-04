@@ -17,6 +17,8 @@ dependencies:
   get:
   lottie: ^1.2.2
   google_fonts:
+  flutter_svg:
+
 
   cupertino_icons: ^1.0.2
 

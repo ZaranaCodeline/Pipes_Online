@@ -3,7 +3,7 @@ import 'package:pipes_online/login/views/login_page.dart';
 import 'package:pipes_online/routes/app_routes.dart';
 
 import '../Splesh_Screen/views/splash.dart';
-import '../modules/home_screen_widget.dart';
+import '../screens/home_screen_widget.dart';
 class AppPages {
   static final initial = Routes.SPLASH;
 

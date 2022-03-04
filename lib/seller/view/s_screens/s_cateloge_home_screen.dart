@@ -44,12 +44,12 @@ class SCatelogeHomeScreen extends StatelessWidget {
                     },
                     child: Container(
                         margin: EdgeInsets.only(
-                            top: 15.sp, right: 25.sp, bottom: 60.sp),
+                            top: 10.sp, right: 15.sp, bottom: 60.sp),
                         // width: Get.width * 0.1,
                         color: AppColors.primaryColor,
                         child: SvgPicture.asset(
-                          'assets/images/svg/s_add_pro_icon.svg',width: 15.sp,
-                          height: 15.sp,
+                          'assets/images/svg/s_add_pro_icon.svg',width: 18.sp,
+                          height: 20.sp,fit: BoxFit.fill,
                           color: AppColors.commonWhiteTextColor,
                         )),
                   ),
@@ -69,12 +69,9 @@ class SCatelogeHomeScreen extends StatelessWidget {
                 foregroundColor: AppColors.commonWhiteTextColor,
                 backgroundColor: AppColors.primaryColor,
                 title: Container(
-                  padding: EdgeInsets.only(top: 18.sp),
-                  margin: EdgeInsets.only(bottom: Get.height / 6.sp),
-                  child: Text(
-                    'PIPES ONLINE',
-                    style: STextStyle.bold700White14,
-                  ),
+                  padding: EdgeInsets.only(top: 15.sp),
+                  margin: EdgeInsets.only(bottom: Get.height / 9.sp),
+                  child: Image.asset("assets/images/png/pipe_logo.png",width: 35.sp,height: 35.sp,),
                 ),
                 centerTitle: true,
                 toolbarHeight: Get.height * 0.13.sp,

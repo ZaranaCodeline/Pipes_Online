@@ -37,7 +37,7 @@ class _MapsScreenState extends State<MapsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Map',
+          'MAP',
           style: STextStyle.bold700White14,
         ),
         backgroundColor: AppColors.primaryColor,
@@ -85,6 +85,9 @@ class _MapsScreenState extends State<MapsScreen> {
                       content: TextButton(
                         onPressed: (){
                           // Get.off(BSubmitProfileScreen());
+                          Get.back(
+
+                          );
                         },
                         child: Text(
                             'Your Location has been send !,'

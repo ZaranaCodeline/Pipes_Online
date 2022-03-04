@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
@@ -267,7 +268,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                           color: Colors
                                                               .white,
                                                           fontFamily:
-                                                          'Poppins',
+                                                          'Nunito-Regular',
                                                         ),
                                                       ),
                                                     ),
@@ -325,10 +326,9 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                               EdgeInsets.only(
                                                   right:
                                                   Get.width /
-                                                      5),
+                                                      3),
                                               child: Card(
-                                                color: Color(
-                                                    0xff404040),
+                                                color: AppColors.offLightPurpalColor,
                                                 shape:
                                                 RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.only(
@@ -567,9 +567,9 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                 FontWeight
                                                     .w400,
                                                 color:
-                                                Colors.black,
+                                                AppColors.offLightPurpalColor,
                                                 fontFamily:
-                                                'Poppins',
+                                                'Nunito-Regular',
                                               ),
                                             ),
                                           ),
@@ -641,7 +641,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                   color: Colors
                                                       .white,
                                                   fontFamily:
-                                                  'Poppins',
+                                                  'Nunito-Regular',
                                                 ),
                                               ),
                                             ),
@@ -674,51 +674,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                           );
                         },
                       ),
-                      Container(
-                        width: Get.width,
-                        alignment: Alignment.centerLeft,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 50),
-                              height: Get.height * 0.06,
-                              width: Get.width * 0.3,
-                              child:   Text(
-                                _msg.text,
-                              ),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  color: AppColors.offLightPurpalColor,
-                                  borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(10.sp),
-                                      bottomRight: Radius.circular(10.sp),
-                                      topLeft: Radius.circular(10.sp))),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 8.sp),
-                              child: Text(
-                                '01:00',
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 50),
-                        height: Get.height * 0.06,
-                        width: Get.width * 0.3,
-                        child:  Text(
-                          _msg.text,
-                        ),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: AppColors.offLightPurpalColor,
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(10.sp),
-                                bottomRight: Radius.circular(10.sp),
-                                topLeft: Radius.circular(10.sp))),
-                      ),
+
                     ],
                   ),
                 ),
@@ -814,7 +770,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
     } else {
       FirebaseFirestore.instance
           .collection('chat')
-          .doc(chatId("wowtSMoyQJeLvZPTph6nz4A31hg", widget.uid))
+          .doc(chatId(PreferenceManager.getTokenId().toString(), widget.uid))
           .collection('Data')
           .add({
         'date': DateTime.now(),
@@ -832,6 +788,5 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
           .catchError((e) => print(e));
     }
   }
-
   int i = 0;
 }

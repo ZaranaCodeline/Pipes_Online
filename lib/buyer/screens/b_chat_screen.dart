@@ -54,7 +54,7 @@ class BChatScreen extends StatelessWidget {
               InkWell(
                 onTap: () {
                   // Get.to(() => ChatRoom());
-                  Get.to(() => ChatMessagePage(uid: 'fd',name: 'jfnj',image: 'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d'));
+                  Get.to(() => ChatMessagePage(uid: 'fd',name: 'Ditya',image: 'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d'));
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: Get.height * 0.02),

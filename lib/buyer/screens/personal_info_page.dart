@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:sizer/sizer.dart';
 import '../app_constant/app_colors.dart';
 import '../custom_widget/widgets/custom_widget/custom_button.dart';
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
+import 'bottom_bar_screen_page/widget/home_bottom_bar_route.dart';
 import 'get_started_page.dart';
 
 class PersonalInfoPage extends StatelessWidget {
@@ -16,13 +18,17 @@ class PersonalInfoPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: CustomText(
-            alignment: Alignment.centerLeft,
-            text: 'PROFILE',
-            fontWeight: FontWeight.w700,
-            fontSize: 18,
-            color: AppColors.commonWhiteTextColor,
+          leading: IconButton(
+              onPressed: () {
+                bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
+                bottomBarIndexController.bottomIndex.value = 0;
+              },
+              icon: Icon(Icons.arrow_back_rounded)),
+          title: Text(
+            'PROFILE',
+            style: STextStyle.bold700White14,
           ),
+          centerTitle: true,
           backgroundColor: AppColors.primaryColor,
           toolbarHeight: Get.height * 0.1,
           shape: const RoundedRectangleBorder(
@@ -34,7 +40,7 @@ class PersonalInfoPage extends StatelessWidget {
         body: SafeArea(
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 20.sp),
-            padding: EdgeInsets.symmetric(  horizontal:  Get.height * 0.04),
+            padding: EdgeInsets.symmetric(horizontal: Get.height * 0.04),
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -42,7 +48,10 @@ class PersonalInfoPage extends StatelessWidget {
                   Column(
                     children: [
                       //assets/images/profile.png
-                      SvgPicture.asset('assets/images/svg/pro_icon.svg',color: AppColors.primaryColor,),
+                      SvgPicture.asset(
+                        'assets/images/svg/pro_icon.svg',
+                        color: AppColors.primaryColor,
+                      ),
                       SizedBox(
                         height: Get.height * 0.02,
                       ),
@@ -51,7 +60,6 @@ class PersonalInfoPage extends StatelessWidget {
                           fontWeight: FontWeight.w400,
                           fontSize: 16,
                           color: AppColors.primaryColor),
-
                     ],
                   ),
                   SizedBox(height: Get.height * 0.01),
@@ -123,19 +131,19 @@ class PersonalInfoPage extends StatelessWidget {
                     keyboardType: TextInputType.multiline,
                     // minLines: 1,
                   ),
-                  SizedBox(
-                    height: Get.height * 0.02,
-                  ),
-                  Custombutton(
-                    name: 'Continue',
-                    function: () {
-                      Get.to(()=>GetStartedPage());
-                    },
-                    height: Get.height * 0.07,
-                    width: Get.width / 3,),
-                  SizedBox(
-                    height: Get.height * 0.05,
-                  ),
+                  // SizedBox(
+                  //   height: Get.height * 0.02,
+                  // ),
+                  // Custombutton(
+                  //   name: 'Continue',
+                  //   function: () {
+                  //     Get.to(()=>GetStartedPage());
+                  //   },
+                  //   height: Get.height * 0.07,
+                  //   width: Get.width / 3,),
+                  // SizedBox(
+                  //   height: Get.height * 0.05,
+                  // ),
                 ],
               ),
             ),

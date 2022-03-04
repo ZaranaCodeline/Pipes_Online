@@ -127,7 +127,7 @@ class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
-                                    height: Get.height * 0.06,
+                                    height: Get.height * 0.07,
                                     width: Get.width * 0.25,
                                     decoration: BoxDecoration(
                                         borderRadius:
@@ -142,7 +142,7 @@ class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
                                     ),
                                   ),
                                   Container(
-                                    height: Get.height * 0.06,
+                                    height: Get.height * 0.07,
                                     width: Get.width * 0.6,
                                     decoration: BoxDecoration(
                                         borderRadius:

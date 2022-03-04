@@ -16,12 +16,12 @@ class CommonCategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:   EdgeInsets.symmetric(horizontal: 5.sp),
+      padding: EdgeInsets.symmetric(horizontal: 5.sp),
       child: Row(
         children: [
           Container(
             margin: EdgeInsets.all(5.sp),
-            width: 130,
+            // width: 130,
             decoration: BoxDecoration(
                 color: AppColors.commonWhiteTextColor,
                 borderRadius: BorderRadius.circular(15),
@@ -32,7 +32,7 @@ class CommonCategoryCard extends StatelessWidget {
                   )
                 ]),
             child: Padding(
-              padding:   EdgeInsets.all(8.0.sp),
+              padding: EdgeInsets.all(8.0.sp),
               child: SingleChildScrollView(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -41,6 +41,7 @@ class CommonCategoryCard extends StatelessWidget {
                       '$image',
                       fit: BoxFit.fill,
                     ),
+                    SizedBox(width: 10.sp),
                     CustomText(
                       text: name,
                       color: SColorPicker.black,

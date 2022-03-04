@@ -22,7 +22,7 @@ class GetStartedPage extends StatelessWidget {
             height: Get.height * 0.01,
           ),
           Center(
-            child: Image.asset('assets/images/get_start_logo.png'),
+            child: Image.asset('assets/images/png/get_start_logo.png'),
           ),
           Center(
             child: CustomText(
@@ -43,6 +43,7 @@ class GetStartedPage extends StatelessWidget {
           ),
           Custombutton(
             name: 'Get Started',
+              // function:(){}
               // _bottomController.selectedScreen('SCatelogeHomeScreen');
               // _bottomController.bottomIndex.value=0;
             function: () => Get.to(() => CatelogeHomeWidget()),

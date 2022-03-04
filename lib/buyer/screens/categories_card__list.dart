@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../custom_widget/custom_home_page_widget/common_category_card.dart';
+import '../view_model/b_bottom_bar_controller.dart';
+import 'bottom_bar_screen_page/widget/home_bottom_bar_route.dart';
 
 class CategoriesCardList extends StatelessWidget {
   const CategoriesCardList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    BBottomBarIndexController bottomBarIndexController = Get.find();
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 5.sp),
       height: Get.height * 0.08.sp,
@@ -23,9 +27,20 @@ class CategoriesCardList extends StatelessWidget {
               child: Row(
                 children: List.generate(
                   categories.length,
-                  (index) => CommonCategoryCard(
-                    image: categories[index].get("image"),
-                    name: categories[index].get("name"),
+                  (index) => GestureDetector(
+                    onTap: () {
+                      bottomBarIndexController.setSelectedScreen(
+                          value: 'CategoriesCardList');
+                      bottomBarIndexController.bottomIndex.value = 0;
+                      print(
+                          '---------selectedScreen--------- ${bottomBarIndexController.selectedScreen.value}');
+                      bottomBarIndexController.setCategoriesType(
+                          value: categories[index].get("name"));
+                    },
+                    child: CommonCategoryCard(
+                      image: categories[index].get("image"),
+                      name: categories[index].get("name"),
+                    ),
                   ),
                 ),
               ),

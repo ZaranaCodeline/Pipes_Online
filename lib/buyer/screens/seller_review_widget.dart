@@ -188,7 +188,7 @@ class SellerReviewWidget extends StatelessWidget {
                                     border: Border.all(
                                         color: Color(0xffE8E8E8), width: 1.0)),
                                 child: Image.asset(
-                                  'assets/images/cat_1.png',
+                                  'assets/images/png/cat_1.png',
                                   fit: BoxFit.contain,
                                 ),
                               ),

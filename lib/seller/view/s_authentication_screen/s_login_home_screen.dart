@@ -11,6 +11,8 @@ import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/seller/view_model/s_login_home_controller.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../buyer/authentificaion/functions.dart';
+
 class SLogInHomeScreen extends StatefulWidget {
   @override
   _SLogInHomeScreenState createState() => _SLogInHomeScreenState();
@@ -24,14 +26,6 @@ class _SLogInHomeScreenState extends State<SLogInHomeScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: SColorPicker.purple,
-        // appBar: AppBar(
-        //     backgroundColor: Colors.transparent,
-        //     elevation: 0,
-        //     title: Text(
-        //       'LOGIN',
-        //       style: STextStyle.bold700White14,
-        //     ),
-        //     centerTitle: true),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -124,7 +118,7 @@ class _SLogInHomeScreenState extends State<SLogInHomeScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
-                                    height: Get.height * 0.06,
+                                    height: Get.height * 0.07,
                                     width: Get.width * 0.25,
                                     decoration: BoxDecoration(
                                         borderRadius:
@@ -139,7 +133,7 @@ class _SLogInHomeScreenState extends State<SLogInHomeScreen> {
                                     ),
                                   ),
                                   Container(
-                                    height: Get.height * 0.06,
+                                    height: Get.height * 0.07,
                                     width: Get.width * 0.6,
                                     decoration: BoxDecoration(
                                         borderRadius:
@@ -225,9 +219,15 @@ class _SLogInHomeScreenState extends State<SLogInHomeScreen> {
                                     SvgPicture.asset(
                                       "${SImagePick.googleIcon}",
                                     ),
-                                    Text(
-                                      'Google',
-                                      style: STextStyle.semiBold600Black16,
+                                    GestureDetector(
+                                      onTap: (){
+                                        loginwithgoogle();
+
+                                      },
+                                      child: Text(
+                                        'Google',
+                                        style: STextStyle.semiBold600Black16,
+                                      ),
                                     )
                                   ],
                                 ),

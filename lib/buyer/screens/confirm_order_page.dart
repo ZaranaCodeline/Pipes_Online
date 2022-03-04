@@ -32,7 +32,7 @@ class ConfirmOrderPage extends StatelessWidget {
         children: [
           Center(
               child: Image.asset(
-            'assets/images/confirm_img.png',
+            'assets/images/png/confirm_img.png',
             fit: BoxFit.cover,
           )),
           Center(

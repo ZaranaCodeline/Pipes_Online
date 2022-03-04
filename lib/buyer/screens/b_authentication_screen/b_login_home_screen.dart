@@ -13,6 +13,8 @@ import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/seller/view_model/s_login_home_controller.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../authentificaion/functions.dart';
+
 class BLogInHomeScreen extends StatefulWidget {
   @override
   _BLogInHomeScreenState createState() => _BLogInHomeScreenState();
@@ -126,7 +128,7 @@ class _BLogInHomeScreenState extends State<BLogInHomeScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
-                                    height: Get.height * 0.06,
+                                    height: Get.height * 0.07,
                                     width: Get.width * 0.25,
                                     decoration: BoxDecoration(
                                         borderRadius:
@@ -141,7 +143,7 @@ class _BLogInHomeScreenState extends State<BLogInHomeScreen> {
                                     ),
                                   ),
                                   Container(
-                                    height: Get.height * 0.06,
+                                    height: Get.height * 0.07,
                                     width: Get.width * 0.6,
                                     decoration: BoxDecoration(
                                         borderRadius:
@@ -228,9 +230,16 @@ class _BLogInHomeScreenState extends State<BLogInHomeScreen> {
                                     SvgPicture.asset(
                                       "${SImagePick.googleIcon}",
                                     ),
-                                    Text(
-                                      'Google',
-                                      style: STextStyle.semiBold600Black16,
+                                    GestureDetector(
+                                      onTap: (){
+
+                                          loginwithgoogle();
+
+                                      },
+                                      child: Text(
+                                        'Google',
+                                        style: STextStyle.semiBold600Black16,
+                                      ),
                                     )
                                   ],
                                 ),

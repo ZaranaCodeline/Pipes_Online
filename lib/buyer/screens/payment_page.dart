@@ -94,7 +94,7 @@ class PaymentWidget extends StatelessWidget {
           //   height: Get.height * 0.08.sp,
           // ),
           SizedBox(
-            width: 15,
+            width: 15.sp,
           ),
           CustomText(
               text: name!,

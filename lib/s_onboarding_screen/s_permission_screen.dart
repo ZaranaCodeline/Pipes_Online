@@ -62,12 +62,12 @@ class _SPermissionScreenState extends State<SPermissionScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    height: 16.sp,
-                    width: 16.sp,
+                    height: 15.sp,
+                    width: 15.sp,
                     // color: Colors.red,
                     child: SvgPicture.asset("${SImagePick.locationIcon}"),
                   ),
-                  SizedBox(width: 10.sp),
+                  SizedBox(width: 7.sp),
                   Text(
                     'Location: To locate you easily',
                     style: STextStyle.regular400Black11,
@@ -83,12 +83,12 @@ class _SPermissionScreenState extends State<SPermissionScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    height: 16.sp,
-                    width: 16.sp,
+                    height: 15.sp,
+                    width: 15.sp,
                     // color: Colors.red,
                     child: SvgPicture.asset("${SImagePick.callIcon}"),
                   ),
-                  SizedBox(width: 10.sp),
+                  SizedBox(width: 7.sp),
                   Text(
                     'Phone: To verify your account and secure it',
                     style: STextStyle.regular400Black11,

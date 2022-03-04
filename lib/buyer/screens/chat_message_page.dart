@@ -23,7 +23,7 @@ class ChatMessagePage extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       child: Image.asset(
-                        'assets/images/cat_1.png',
+                        'assets/images/png/cat_1.png',
                         width: 50.sp,
                         height: 50.sp,
                         fit: BoxFit.fill,

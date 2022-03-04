@@ -11,9 +11,9 @@ class CustomHomeSearchWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Container(
-        // margin: EdgeInsets.symmetric(vertical: 5.sp,horizontal: 20.sp),
-        height: Get.height / 15.sp,
-        width: Get.width / 1.30,
+        // margin: EdgeInsets.symmetric(vertical: 5.sp,horizontal: 5.sp),
+        height: Get.height / 16,
+        width: Get.width / 1.5,
         child: CupertinoTextField(
           keyboardType: TextInputType.text,
           placeholder: 'Search items here',

@@ -69,7 +69,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       // mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        CircleAvatar(radius: 15.sp),
+                        CircleAvatar(radius: 15.sp, backgroundColor: AppColors.hintTextColor,),
                         SizedBox(width: 15.sp),
                         Flexible(
                           child: Container(

@@ -47,7 +47,7 @@ class _SWelcomeScreenState extends State<SWelcomeScreen> {
                   child: SCommonButton().sCommonPurpleButton(
                     name: 'Sign up',
                     onTap: () {
-                      Get.toNamed(SRoutes.SSignUpHomeScreen);
+                      Get.offNamed(SRoutes.SSignUpHomeScreen);
                     },
                   ),
                 ),

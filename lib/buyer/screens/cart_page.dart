@@ -201,7 +201,7 @@ class _CartPageState extends State<CartPage> {
                               height: Get.height * 0.01.sp,
                             ),
                             const Card(
-                              elevation: 4,
+                              elevation: 1,
                               borderOnForeground: true,
                               child: TextField(
                                 maxLines: 3,

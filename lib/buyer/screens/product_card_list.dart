@@ -31,17 +31,17 @@ class _ProductCardListState extends State<ProductCardList> {
             if (snapshot.hasData) {
               List<DocumentSnapshot> products = snapshot.data!.docs;
               return SingleChildScrollView(
-                child:
-                GridView.builder(
+                child: GridView.builder(
                   primary: false,
                   shrinkWrap: true,
                   itemCount: products.length,
                   scrollDirection: Axis.vertical,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate:   SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 10,
-                    childAspectRatio: 3 / 4,
+                    childAspectRatio: 3/4,
+                    // childAspectRatio: 3 / 4,
                   ),
                   itemBuilder: (context, index) {
                     return GestureDetector(

@@ -328,7 +328,6 @@ class CatelogeHomeWidget extends StatelessWidget {
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: Get.width * 0.05),
-
                     height: Get.height * 0.1,
                     //color: Colors.green,
                     child: SingleChildScrollView(
@@ -345,8 +344,8 @@ class CatelogeHomeWidget extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(8.sp),
                               child: Container(
-                                width: Get.width / 8.sp,
-                                height: Get.height * 0.04.sp,
+                                width: Get.width / 6,
+                                height: Get.height * 0.06,
                                 color: AppColors.commonWhiteTextColor,
                                 child: Icon(
                                   Icons.filter_alt_outlined,

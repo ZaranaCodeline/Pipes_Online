@@ -235,7 +235,7 @@ class SelectedProductWidget extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(50.sp),
                                 ),
                                 child: SvgPicture.asset(
-                                    'assets/images/what_up_icon.svg')),
+                                    'assets/images/icon/what_up_icon.svg')),
                           ),
                           SizedBox(
                             width: 10.sp,

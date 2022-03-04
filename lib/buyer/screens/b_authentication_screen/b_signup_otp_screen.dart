@@ -96,7 +96,7 @@ class _BSignUpOTPScreenState extends State<BSignUpOTPScreen> {
                         )),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: Get.width * 0.05,
+                          horizontal: Get.width * 0.03,
                           vertical: Get.height * 0.08),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -119,9 +119,8 @@ class _BSignUpOTPScreenState extends State<BSignUpOTPScreen> {
                             ),
                           ),
                           OTPTextField(
-                            length: 4,
-                            width: MediaQuery.of(context).size.width * 0.7,
-
+                            length: 6,
+                            width: Get.width *1,
                             fieldWidth: 40.sp,
                             style: TextStyle(fontSize: 17.sp),
                             //textFieldAlignment: MainAxisAlignment.spaceAround,

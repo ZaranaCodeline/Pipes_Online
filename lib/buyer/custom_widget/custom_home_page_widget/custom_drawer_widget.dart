@@ -12,6 +12,7 @@ import 'package:pipes_online/buyer/view_model/b_drawer_controller.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../app_constant/app_colors.dart';
+import '../../authentificaion/functions.dart';
 import '../../screens/b_authentication_screen/b_welcome_screen.dart';
 import '../../screens/b_review_screen.dart';
 import '../../screens/chat_page.dart';
@@ -62,7 +63,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                       horizontal: 18.sp,
                     ),
                     padding: EdgeInsets.symmetric(horizontal: 5.sp),
-                    height: Get.height * 0.05,
+                    height: Get.height * 0.09,
                     // width: Get.width,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -80,7 +81,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                           Flexible(
                             child: Container(
                                 // color: Colors.red,
-                                height: Get.height * 0.05,
+                                height: Get.height * 0.09,
                                 // width: Get.width * 0.9,
                                 alignment: Alignment.centerLeft,
                                 child: TextFormField(
@@ -272,7 +273,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
         Get.to(() => TermsAndConditionPage());
         break;
       case 6:
-        Get.to(() => BWelcomeScreen());
+        Get.to(() => logOut());
         break;
     }
   }

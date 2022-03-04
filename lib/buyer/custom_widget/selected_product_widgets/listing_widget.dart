@@ -27,7 +27,7 @@ class ListingWidget extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10.0),
                         child: Image.asset(
-                          'assets/images/cart_page.png',
+                          'assets/images/png/cart_page.png',
                           fit: BoxFit.cover,
                           width: 130,
                           height: 95,
@@ -87,7 +87,7 @@ class ListingWidget extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10.0),
                         child: Image.asset(
-                          'assets/images/cart_page.png',
+                          'assets/images/png/cart_page.png',
                           fit: BoxFit.cover,
                           width: 130,
                           height: 95,
@@ -147,7 +147,7 @@ class ListingWidget extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10.0),
                         child: Image.asset(
-                          'assets/images/cart_page.png',
+                          'assets/images/png/cart_page.png',
                           fit: BoxFit.cover,
                           width: 130,
                           height: 95,

@@ -24,7 +24,8 @@ class ProductCardList extends StatelessWidget {
             if (snapshot.hasData) {
               List<DocumentSnapshot> products = snapshot.data!.docs;
               return SingleChildScrollView(
-                child: GridView.builder(
+                child:
+                GridView.builder(
                   primary: false,
                   shrinkWrap: true,
                   itemCount: products.length,

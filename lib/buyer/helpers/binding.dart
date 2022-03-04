@@ -9,7 +9,7 @@ class Binding extends Bindings{
   void dependencies() {
     // TODO: implement dependencies
     // Get.lazyPut(() => HomeViewModel());
-    Get.lazyPut(() => SelectedProductController());
+    // Get.lazyPut(() => SelectedProductController());
   }
 
 }

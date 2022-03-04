@@ -33,7 +33,7 @@ class SelectedProductWidget extends StatelessWidget {
     'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cart_page.png?alt=media&token=6a4d6e9a-51b3-449a-a2bd-eb54dcec0803',
   ];
 
-  SelectedProductController controller = Get.put(SelectedProductController());
+  // SelectedProductController controller = Get.put(SelectedProductController());
 
   @override
   Widget build(BuildContext context) {

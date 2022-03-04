@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:pipes_online/routes/app_routes.dart';
 import '../routes/app_routes.dart';
 
 class Splash extends StatefulWidget {

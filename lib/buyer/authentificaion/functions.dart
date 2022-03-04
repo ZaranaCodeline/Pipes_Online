@@ -1,77 +1,90 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/b_submit_profile_screen.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/s_submit_profile_screen.dart';
 
-Future<User?> createAccount(  String email, String password) async {
-  print('FIREBASE');
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  try {
-    User? user = (await _auth.createUserWithEmailAndPassword(
-        email: email.trim(), password: password.trim()))
-        .user;
-    if (user != null) {
-      print('Account created successfully');
-      return user;
-    } else {
-      print('Account creation failed');
-      return user;
-    }
-  } catch (e) {
-    print(e);
-    return null;
-  }
-}
+// import '../../shared_preferance/shared_prefarance.dart';
 
-Future<User?> logIn(String email, String password) async {
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  try {
-    User? user = (await _auth.signInWithEmailAndPassword(
-        email: email, password: password))
-        .user;
-    if (user != null) {
-      print('Login created successfully');
-      return user;
-    } else {
-      print('Login created successfully');
-      return user;
-    }
-  } catch (e) {
-    print(e);
-    return null;
-  }
-}
 
-Future logOut() async {
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  try {
-    _auth.signOut();
-  } catch (e) {
-    print(e);
-    print("error");
-  }
-}
 
-Future<bool?> loginwithgoogle() async {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+// Future<bool?> loginwithgoogle({BuildContext? context}) async {
+//   FirebaseAuth _auth = FirebaseAuth.instance;
+//
+//   try {
+//     GoogleSignIn googleSignIn = GoogleSignIn();
+//     GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+//     GoogleSignInAuthentication googleAuth = await googleSignInAccount!
+//         .authentication;
+//     final googleUser = await googleSignIn.signIn();
+//
+//     final AuthCredential credential = GoogleAuthProvider.credential(
+//       accessToken: googleAuth.accessToken, // accessToken
+//       idToken: googleAuth.idToken,
+//     );
+//     User? users = (await _auth
+//         .signInWithCredential(credential)
+//         .then((value) {
+      // Navigator.pushReplacement(context!, MaterialPageRoute(builder: (context) {
+      //   return BSubmitProfileScreen();
+      // },
+      // ),)
+//     }));
+//     if (users == null) {
+//       return false;
+//     }
+//     return true;
+//   } catch (e) {
+//     print('this is error .......$e');
+//     return null;
+//   }
+// }
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final GoogleSignIn googleSignIn = GoogleSignIn();
 
-  try {
-    GoogleSignIn googleSignIn = GoogleSignIn();
-    final googleUser = await googleSignIn.signIn();
-    final googleAuth = await googleUser!.authentication;
+//SIGN IN KA Function
+Future<User?> signInWithGoogle() async
+{
+  try{
+
+
+    //SIGNING IN WITH GOOGLE
+    final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount!.authentication;
+
+    //CREATING CREDENTIAL FOR FIREBASE
     final AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken, // accessToken
-      idToken: googleAuth.idToken,
+        idToken: googleSignInAuthentication.idToken,
+        accessToken: googleSignInAuthentication.accessToken
     );
-    User? users = (await _auth.signInWithCredential(credential)).user;
-    if (users == null) {
-      return false;
-    }
-    return true;
-  } catch (e) {
-    print('this is error .......$e');
-    return null;
+
+    //SIGNING IN WITH CREDENTIAL & MAKING A USER IN FIREBASE  AND GETTING USER CLASS
+    final userCredential  = await _auth.signInWithCredential(credential);
+    final User? user = userCredential.user;
+
+    //CHECKING IS ON
+    assert(!user!.isAnonymous);
+    assert(await user!.getIdToken() != null);
+
+    final User? currentUser = await _auth.currentUser;
+    assert(currentUser!.uid == user!.uid);
+    print(user);
+    // LocalDataSaver.saveLoginData(true);
+    // LocalDataSaver.saveName(user!.displayName.toString());
+    // LocalDataSaver.saveMail(user.email.toString());
+    // LocalDataSaver.saveImg(user.photoURL.toString());
+
+    return user;
+  }catch(e){
+    print(e);
   }
+
 }
 
-
+Future<String> signOut() async
+{
+  await googleSignIn.signOut();
+  await _auth.signOut();
+  return "SUCCESS";
+}
 

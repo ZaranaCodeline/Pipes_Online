@@ -14,8 +14,6 @@ import 'package:sizer/sizer.dart';
 import '../../app_constant/app_colors.dart';
 import '../../authentificaion/functions.dart';
 import '../../screens/b_authentication_screen/b_welcome_screen.dart';
-import '../../screens/b_review_screen.dart';
-import '../../screens/chat_page.dart';
 import '../../screens/home_screen_widget.dart';
 import '../../screens/my_order_page.dart';
 import '../../screens/drawer_profile_page.dart';
@@ -262,7 +260,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
         Get.to(() => MyOrderPage());
         break;
       case 3:
-        Get.to(() => BReviewScreen());
+        // Get.to(() => BReviewScreen());
         break;
 
       case 4:
@@ -273,7 +271,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
         Get.to(() => TermsAndConditionPage());
         break;
       case 6:
-        Get.to(() => logOut());
+        Get.to(() => signOut());
         break;
     }
   }

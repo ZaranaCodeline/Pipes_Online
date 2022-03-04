@@ -1,9 +1,11 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/b_signup_otp_screen.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/b_login_home_screen.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/b_login_home_screen.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
@@ -13,28 +15,38 @@ import 'package:pipes_online/routes/app_routes.dart';
 import 'package:pipes_online/seller/view_model/s_signup_home_controller.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../authentificaion/functions.dart';
+import '../../view_model/b_signup_home_controller.dart';
+import '../b_submit_profile_screen.dart';
+import 'b_login_home_screen.dart';
+import 'b_login_home_screen.dart';
+import 'b_login_home_screen.dart';
+import 'b_login_home_screen.dart';
+import 'b_login_home_screen.dart';
+import 'b_login_home_screen.dart';
+
 class BSignUpHomeScreen extends StatefulWidget {
   @override
   _BSignUpHomeScreenState createState() => _BSignUpHomeScreenState();
 }
 
 class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
-  SSignUpHomeController sSignUpHomeController =
-      Get.put(SSignUpHomeController());
+  BSignUpHomeController bSignUpHomeController =
+      Get.put(BSignUpHomeController());
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    // final _formKey = GlobalKey<FormState>();
+
+    void _submit() async {
+      await bSignUpHomeController.phoneSignIn(
+          phoneNumber: bSignUpHomeController.mobileNumber.text);
+    }
+
+    return ProgressHUD(child: Builder(builder: (context) => SafeArea(
       child: Scaffold(
         backgroundColor: SColorPicker.purple,
-        // appBar: AppBar(
-        //     backgroundColor: Colors.transparent,
-        //     elevation: 0,
-        //     title: Text(
-        //       'SIGN UP',
-        //       style: STextStyle.bold700White14,
-        //     ),
-        //     centerTitle: true),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -48,8 +60,8 @@ class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
                 ),
                 decoration: BoxDecoration(
                     color: SColorPicker.purple,
-                    borderRadius:
-                        BorderRadius.vertical(bottom: Radius.circular(20.sp))),
+                    borderRadius: BorderRadius.vertical(
+                        bottom: Radius.circular(20.sp))),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -71,7 +83,7 @@ class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
                   ],
                 ),
               ),
-              GetBuilder<SSignUpHomeController>(
+              GetBuilder<BSignUpHomeController>(
                 builder: (controller) {
                   return Container(
                     height: Get.height * 0.864,
@@ -109,14 +121,15 @@ class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
                               Container(
                                 width: Get.width,
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       'Enter Mobile Number',
                                       style: STextStyle.semiBold600Black15,
                                     ),
                                     Text(
-                                      'OTP will be sent to this number',
+                                      'OTP will be sent to this number ',
                                       style: STextStyle.regular400Black11,
                                     ),
                                   ],
@@ -124,15 +137,16 @@ class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     height: Get.height * 0.07,
                                     width: Get.width * 0.25,
                                     decoration: BoxDecoration(
                                         borderRadius:
-                                            BorderRadius.circular(10.sp),
-                                        border: Border.all(color: Colors.grey)),
+                                        BorderRadius.circular(10.sp),
+                                        border:
+                                        Border.all(color: Colors.grey)),
                                     alignment: Alignment.centerLeft,
                                     child: CountryCodePicker(
                                       onChanged: (val) {
@@ -146,24 +160,44 @@ class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
                                     width: Get.width * 0.6,
                                     decoration: BoxDecoration(
                                         borderRadius:
-                                            BorderRadius.circular(10.sp),
-                                        border: Border.all(color: Colors.grey)),
+                                        BorderRadius.circular(10.sp),
+                                        border:
+                                        Border.all(color: Colors.grey)),
                                     alignment: Alignment.centerLeft,
                                     child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      // validator: (value) {
+                                      //   if (value == null || value.isEmpty) {
+                                      //     Get.showSnackbar(GetSnackBar(
+                                      //       snackPosition:
+                                      //       SnackPosition.BOTTOM,
+                                      //       backgroundColor: SColorPicker.red,
+                                      //       duration: Duration(seconds: 2),
+                                      //       message:
+                                      //       'Please enter mobile number',
+                                      //     ));
+                                      //
+                                      //     // return 'Please enter mobile number';
+                                      //   }
+                                      //   return null;
+                                      // },
                                       controller: controller.mobileNumber,
                                       decoration: InputDecoration(
                                           hintText: 'Enter Number',
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(10.sp),
+                                              BorderRadius.circular(
+                                                  10.sp),
                                               borderSide: BorderSide.none),
                                           enabledBorder: OutlineInputBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(10.sp),
+                                              BorderRadius.circular(
+                                                  10.sp),
                                               borderSide: BorderSide.none),
                                           border: OutlineInputBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(10.sp),
+                                              BorderRadius.circular(
+                                                  10.sp),
                                               borderSide: BorderSide.none)),
                                     ),
                                   ),
@@ -182,7 +216,8 @@ class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
                                         style: STextStyle.semiBold600Purple11,
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () {
-                                          Get.to(()=>TermsAndConditionPage());
+                                            Get.to(() =>
+                                                TermsAndConditionPage());
                                             print('Terms and Conditons');
                                           }),
                                     TextSpan(
@@ -194,11 +229,27 @@ class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
                               ),
                               Padding(
                                 padding:
-                                    EdgeInsets.symmetric(horizontal: 40.sp),
+                                EdgeInsets.symmetric(horizontal: 40.sp),
                                 child: SCommonButton().sCommonPurpleButton(
                                   name: 'Send OTP',
-                                  onTap: () {
-                                    Get.to(()=>BSignUpOTPScreen());
+                                  onTap: () async {
+                                    if (controller
+                                        .mobileNumber.text.isNotEmpty) {
+                                      final progress =
+                                      ProgressHUD.of(context);
+                                      // progress?.show;
+                                      print("it's me");
+                                      progress!.showWithText('');
+                                      _submit();
+                                    } else {
+                                      Get.showSnackbar(GetSnackBar(
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        backgroundColor: SColorPicker.red,
+                                        duration: Duration(seconds: 2),
+                                        message:
+                                        'Please enter mobile number',
+                                      ));
+                                    }
                                   },
                                 ),
                               ),
@@ -222,18 +273,31 @@ class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
                                   ],
                                   borderRadius: BorderRadius.circular(10.sp),
                                 ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    SvgPicture.asset(
-                                      "${SImagePick.googleIcon}",
-                                    ),
-                                    Text(
-                                      'Google',
-                                      style: STextStyle.semiBold600Black16,
-                                    )
-                                  ],
+                                child: GestureDetector(
+                                  onTap: () {
+                                    signInWithGoogle();
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return BSubmitProfileScreen();
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                    children: [
+                                      SvgPicture.asset(
+                                        "${SImagePick.googleIcon}",
+                                      ),
+                                      Text(
+                                        'Google',
+                                        style: STextStyle.semiBold600Black16,
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                               RichText(
@@ -245,14 +309,15 @@ class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
                                       style: STextStyle.regular400Black13,
                                     ),
                                     TextSpan(
-                                        text: ' Login',
-                                        style: STextStyle.medium400Purple13,
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            print('aaa');
-                                            Get.offNamed(
-                                                SRoutes.SLogInHomeScreen);
-                                          }),
+                                      text: ' Login',
+                                      style: STextStyle.medium400Purple13,
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          print('aaa');
+                                          Get.offNamed(
+                                              BRoutes.BLogInHomeScreen);
+                                        },
+                                    ),
                                   ],
                                 ),
                               ),
@@ -269,6 +334,6 @@ class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
           ),
         ),
       ),
-    );
+    ),),);
   }
 }

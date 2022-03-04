@@ -8,10 +8,11 @@ import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
-import 'package:pipes_online/seller/view_model/s_login_home_controller.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../buyer/authentificaion/functions.dart';
+import '../s_screens/s_login_home_controller.dart';
+import '../s_screens/s_submit_profile_screen.dart';
 
 class SLogInHomeScreen extends StatefulWidget {
   @override
@@ -216,19 +217,32 @@ class _SLogInHomeScreenState extends State<SLogInHomeScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    SvgPicture.asset(
-                                      "${SImagePick.googleIcon}",
-                                    ),
                                     GestureDetector(
-                                      onTap: (){
-                                        loginwithgoogle();
-
+                                      onTap: () {
+                                        signInWithGoogle();
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return SSubmitProfileScreen();
+                                            },
+                                          ),
+                                        );
                                       },
-                                      child: Text(
-                                        'Google',
-                                        style: STextStyle.semiBold600Black16,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                        children: [
+                                          SvgPicture.asset(
+                                            "${SImagePick.googleIcon}",
+                                          ),
+                                          Text(
+                                            'Google',
+                                            style: STextStyle.semiBold600Black16,
+                                          )
+                                        ],
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),

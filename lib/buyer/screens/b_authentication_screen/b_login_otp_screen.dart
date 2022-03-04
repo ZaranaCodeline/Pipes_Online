@@ -1,38 +1,43 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
-import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/bottom_bar_screen_page.dart';
-import 'package:pipes_online/buyer/screens/home_screen_widget.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/b_submit_profile_screen.dart';
+
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
-import 'package:pipes_online/seller/view_model/s_signup_home_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
-class BLogInOTPScreen extends StatefulWidget {
+import '../../view_model/b_login_home_controller.dart';
+import '../b_signup_home_controller.dart';
+
+class BSignUpOTPScreen extends StatefulWidget {
   @override
-  _BLogInOTPScreenState createState() => _BLogInOTPScreenState();
+  _BSignUpOTPScreenState createState() => _BSignUpOTPScreenState();
 }
 
-class _BLogInOTPScreenState extends State<BLogInOTPScreen> {
+class _BSignUpOTPScreenState extends State<BSignUpOTPScreen> {
+  String? _verificationCode;
+  BLogInController bLogInController = Get.put(BLogInController());
+  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  var data=Get.arguments;
+  String? _otp;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    print(data[1]);
+    print(data[0]);
+    return ProgressHUD(child: Builder(builder: (context) => SafeArea(
       child: Scaffold(
         backgroundColor: SColorPicker.purple,
-        // appBar: AppBar(
-        //     backgroundColor: Colors.transparent,
-        //     elevation: 0,
-        //     title: Text(
-        //       'LOGIN',
-        //       style: STextStyle.bold700White14,
-        //     ),
-        //     centerTitle: true),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -47,7 +52,7 @@ class _BLogInOTPScreenState extends State<BLogInOTPScreen> {
                 decoration: BoxDecoration(
                     color: SColorPicker.purple,
                     borderRadius:
-                        BorderRadius.vertical(bottom: Radius.circular(20.sp))),
+                    BorderRadius.vertical(bottom: Radius.circular(20.sp))),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,7 +67,7 @@ class _BLogInOTPScreenState extends State<BLogInOTPScreen> {
                       ),
                     ),
                     Text(
-                      'LOGIN',
+                      'SIGN UP',
                       style: STextStyle.bold700White14,
                     ),
                     SizedBox(width: 20.sp),
@@ -96,7 +101,7 @@ class _BLogInOTPScreenState extends State<BLogInOTPScreen> {
                         )),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: Get.width * 0.05,
+                          horizontal: Get.width * 0.03,
                           vertical: Get.height * 0.08),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -112,22 +117,23 @@ class _BLogInOTPScreenState extends State<BLogInOTPScreen> {
                                   style: STextStyle.semiBold600Black15,
                                 ),
                                 Text(
-                                  'We have sent an OTP TO 0000000000',
+                                  // ${bSignUpHomeController.mobileNumber.text.toString()}
+                                  'We have sent an OTP TO ${bLogInController.mobileNumber.text.toString()} ',
                                   style: STextStyle.regular400Black11,
                                 ),
                               ],
                             ),
                           ),
                           OTPTextField(
-                            length: 4,
-                            width: MediaQuery.of(context).size.width * 0.7,
-
+                            length: 6,
+                            width: Get.width *1,
                             fieldWidth: 40.sp,
                             style: TextStyle(fontSize: 17.sp),
                             //textFieldAlignment: MainAxisAlignment.spaceAround,
                             fieldStyle: FieldStyle.underline,
                             onCompleted: (pin) {
                               print("Completed: " + pin);
+                              _otp = pin;
                             },
                           ),
                           RichText(
@@ -149,9 +155,14 @@ class _BLogInOTPScreenState extends State<BLogInOTPScreen> {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 40.sp),
                             child: SCommonButton().sCommonPurpleButton(
-                              name: 'Login',
+                              name: 'Sign Up',
                               onTap: () {
-                                Get.to(BottomNavigationBarScreen());
+                                final progress =
+                                ProgressHUD.of(context);
+                                // progress?.show;
+                                print("it is loading to go profile page");
+                                progress!.showWithText('');
+                                verifyCode();
                               },
                             ),
                           ),
@@ -166,6 +177,17 @@ class _BLogInOTPScreenState extends State<BLogInOTPScreen> {
           ),
         ),
       ),
-    );
+    ),),);
+  }
+  void verifyCode() async {
+    final SharedPreferences _prefs = await SharedPreferences.getInstance();
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: data[0]!, smsCode: _otp!);
+    await _auth.signInWithCredential(credential).then((value) {
+      print('Buyer side...B..You are logged in successfully');
+      _prefs.setBool('isLoggedIn', true);
+      // Get.offAll(BRoutes.BSubmitProfileScreen);
+      Get.to(BSubmitProfileScreen());
+    });
   }
 }

@@ -1,17 +1,21 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_submit_profile_screen.dart';
+import 'package:pipes_online/buyer/view_model/b_signup_home_controller.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/routes/app_routes.dart';
 import 'package:pipes_online/seller/view_model/s_signup_home_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 class BSignUpOTPScreen extends StatefulWidget {
@@ -20,19 +24,19 @@ class BSignUpOTPScreen extends StatefulWidget {
 }
 
 class _BSignUpOTPScreenState extends State<BSignUpOTPScreen> {
+  String? _verificationCode;
+  BSignUpHomeController bSignUpHomeController = Get.put(BSignUpHomeController());
+  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  var data=Get.arguments;
+  String? _otp;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    print(data[1]);
+    print(data[0]);
+    return ProgressHUD(child: Builder(builder: (context) => SafeArea(
       child: Scaffold(
         backgroundColor: SColorPicker.purple,
-        // appBar: AppBar(
-        //     backgroundColor: Colors.transparent,
-        //     elevation: 0,
-        //     title: Text(
-        //       'SIGN UP',
-        //       style: STextStyle.bold700White14,
-        //     ),
-        //     centerTitle: true),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -47,7 +51,7 @@ class _BSignUpOTPScreenState extends State<BSignUpOTPScreen> {
                 decoration: BoxDecoration(
                     color: SColorPicker.purple,
                     borderRadius:
-                        BorderRadius.vertical(bottom: Radius.circular(20.sp))),
+                    BorderRadius.vertical(bottom: Radius.circular(20.sp))),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -112,7 +116,8 @@ class _BSignUpOTPScreenState extends State<BSignUpOTPScreen> {
                                   style: STextStyle.semiBold600Black15,
                                 ),
                                 Text(
-                                  'We have sent an OTP TO 0000000000',
+                                  // ${bSignUpHomeController.mobileNumber.text.toString()}
+                                  'We have sent an OTP TO ${bSignUpHomeController.mobileNumber.text.toString()} ',
                                   style: STextStyle.regular400Black11,
                                 ),
                               ],
@@ -127,6 +132,7 @@ class _BSignUpOTPScreenState extends State<BSignUpOTPScreen> {
                             fieldStyle: FieldStyle.underline,
                             onCompleted: (pin) {
                               print("Completed: " + pin);
+                              _otp = pin;
                             },
                           ),
                           RichText(
@@ -150,7 +156,14 @@ class _BSignUpOTPScreenState extends State<BSignUpOTPScreen> {
                             child: SCommonButton().sCommonPurpleButton(
                               name: 'Sign Up',
                               onTap: () {
-                                Get.to(BSubmitProfileScreen());
+                                print('------${bSignUpHomeController.mobileNumber.text.toString()}');
+
+                                final progress =
+                                ProgressHUD.of(context);
+                                // progress?.show;
+                                print("it is loading to go profile page");
+                                progress!.showWithText('');
+                                verifyCode();
                               },
                             ),
                           ),
@@ -165,6 +178,17 @@ class _BSignUpOTPScreenState extends State<BSignUpOTPScreen> {
           ),
         ),
       ),
-    );
+    ),),);
+  }
+  void verifyCode() async {
+    final SharedPreferences _prefs = await SharedPreferences.getInstance();
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: data[0]!, smsCode: _otp!);
+    await _auth.signInWithCredential(credential).then((value) {
+      print('Buyer side...B..You are logged in successfully');
+      _prefs.setBool('isLoggedIn', true);
+      // Get.offAll(BRoutes.BSubmitProfileScreen);
+      Get.to(BSubmitProfileScreen());
+    });
   }
 }

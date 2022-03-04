@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/buyer/buyer_common/b_image.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../seller/common/s_text_style.dart';
@@ -23,7 +22,7 @@ class ChatPage extends StatelessWidget {
             style: STextStyle.bold700White14,
           ),
           centerTitle: true,
-          leading: BackButton(),
+          leading: SizedBox(),
           backgroundColor: AppColors.primaryColor,
           toolbarHeight: Get.height * 0.1,
           shape: const RoundedRectangleBorder(
@@ -72,7 +71,7 @@ class ChatPage extends StatelessWidget {
                                 children: [
                                   CircleAvatar(
                                     child: Image.asset(
-                                      BImagePick.chatIcon,
+                                      'assets/images/cat_1.png',
                                       width: 50.sp,
                                       height: 50.sp,
                                       fit: BoxFit.fill,
@@ -166,7 +165,7 @@ class ChatPage extends StatelessWidget {
                                 children: [
                                   CircleAvatar(
                                     child: Image.asset(
-                                      BImagePick.chatIcon,
+                                      'assets/images/cat_1.png',
                                       width: 50.sp,
                                       height: 50.sp,
                                       fit: BoxFit.fill,

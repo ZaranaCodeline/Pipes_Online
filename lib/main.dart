@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/routes/app_pages.dart';
+import 'package:pipes_online/routes/app_routes.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/s_submit_profile_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
@@ -15,30 +16,39 @@ void main() async {
   // SharedPreferences prefs = await SharedPreferences.getInstance();
   // var status1 = prefs.getBool('isLoggedIn');
   //
-runApp(const MyApp());
+runApp(MyApp());
   // print(status1);
   // runApp(status1 == true ? SSubmitProfileScreen() : MyApp());
 }
 
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
+    MyApp({Key? key}) : super(key: key);
+  var status1;
+  data()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    status1 = prefs.getBool('isLoggedIn');
+  }
   @override
   Widget build(BuildContext context) {
+    print(status1);
     return Sizer(
       builder: (context, orientation, deviceType) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: AppPages.initial,
+          // _bottomController.selectedScreen('SCatelogeHomeScreen');
+          // _bottomController.bottomIndex.value=0;
+          initialRoute: status1 == true ? SRoutes.SSubmitProfileScreen : AppPages.initial,
           defaultTransition: Transition.fadeIn,
           getPages: AppPages.routes,
           title: 'Flutter Demo',
+          // home: HomeScreen(),
           initialBinding: Binding(),
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-         // home: const Splash( ),
+          // home: const Splash( ),
+          //    status1 == false ? AppPages.bottom :
         );
       },
     );

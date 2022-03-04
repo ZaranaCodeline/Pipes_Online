@@ -4,10 +4,12 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-   <application
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>   <application
         android:label="pipes_online"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyBn9ZKmXc-MN12Fap0nUQotO6RKtYJEh8o"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 
 import '../../app_constant/app_colors.dart';
+import '../../screens/chat_page.dart';
 import '../../screens/home_screen_widget.dart';
 import '../../screens/my_order_page.dart';
 import '../../screens/drawer_profile_page.dart';
@@ -145,15 +147,17 @@ class CustomDrawerWidget extends StatelessWidget {
       case 3:
         Get.to(()=>DrawerProfilePage());
         break;
-      // case 4:
-      //   Navigator.of(context).push(MaterialPageRoute(
-      //     builder: (context) => InviteFriendPage(),
-      //   ));
+
+      case 4:
+        Get.to(()=>ChatPage());
+        break;
+
+
       //   break;
-      // case 5:
-      //   Navigator.of(context).push(MaterialPageRoute(
-      //     builder: (context) => AboutPage(),
-      //   ));
+      case 5:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => TermsAndConditionPage(),
+        ));
       //   break;
       // case 6:
       //   Navigator.of(context).push(MaterialPageRoute(

@@ -6,7 +6,9 @@ import 'package:pipes_online/buyer/authentificaion/views/login_page.dart';
 import 'package:pipes_online/buyer/authentificaion/views/sign_up_page.dart';
 import '../app_constant/app_colors.dart';
 import '../screens/get_otp_screen_page.dart';
+import '../screens/help_center_page.dart';
 import '../screens/personal_info_page.dart';
+import '../screens/terms_condition_page.dart';
 import 'widgets/custom_widget/custom_button.dart';
 import 'widgets/check_terms_and_condition_widget.dart';
 import 'widgets/custom_widget/custom_text.dart';
@@ -49,7 +51,7 @@ class CustomMobileScreenWidget extends StatelessWidget {
                   suffixIcon: Custombutton(
                     name: 'Get OTP',
                     function: () => Get.to(() =>
-                        GetOTPScreenPage()
+                        HelpCenterPage()
                     ),
                     height: Get.height * 0.05,width: Get.width / 3,
                   ),

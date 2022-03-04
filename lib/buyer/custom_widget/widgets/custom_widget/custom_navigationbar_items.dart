@@ -6,9 +6,9 @@ Widget CustomNavigationbarItems(){
   return  Container(
     padding: EdgeInsets.only(top: 5,left: 4,right: 4),
 
-    decoration: BoxDecoration(
+    decoration: const BoxDecoration(
       // border: Border.all(color: AppColors.offLightPurpalColor, width: 0,  ),
-      borderRadius: const BorderRadius.vertical(
+      borderRadius: BorderRadius.vertical(
         top: Radius.circular(15),
       ),
     ),

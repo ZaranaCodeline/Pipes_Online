@@ -19,9 +19,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     _showPopupMenu() {
       final RenderBox renderBox = context.findRenderObject() as RenderBox;
-      //*get the global position, from the widget local position
       final offset = renderBox.localToGlobal(Offset.zero);
-
       //*calculate the start point in this case, below the button
       final left = offset.dx;
       final top = offset.dy + renderBox.size.height;
@@ -30,7 +28,7 @@ class HomePage extends StatelessWidget {
       final bottom = offset.dx;
       showMenu<String>(
           context: context,
-          position: RelativeRect.fromLTRB(25.0,0,0,25.0,),
+          position: RelativeRect.fromLTRB(25.0,0,0,25.0 ),
           //position where you want to show the menu on screen
           items: [
             const PopupMenuItem<String>(

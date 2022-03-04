@@ -73,7 +73,7 @@ class SelectedProductWidget extends StatelessWidget {
 
   Widget _buileSecondWidget() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15,),
       child: Column(
         children: [
           CustomSelectedProductBuildTopWidget(

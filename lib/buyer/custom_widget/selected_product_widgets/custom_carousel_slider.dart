@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 
 class CustomCarouselSliderWidget extends StatelessWidget {
   CustomCarouselSliderWidget({
@@ -16,23 +17,43 @@ class CustomCarouselSliderWidget extends StatelessWidget {
     ];
 
     return Container(
-      child: CarouselSlider(
-        items: imageList
-            .map(
-              (e) => Container(
-            child: Image.network(
-              image,
-              fit: BoxFit.cover,
-              width: double.infinity,
+      child: Column(
+        children: [
+          CarouselSlider(
+            items: imageList
+                .map(
+                  (e) => Container(
+                child: Image.network(
+                  image,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                ),
+              ),
+            ).toList(),
+            options: CarouselOptions(
+              autoPlay: true,
+              aspectRatio: 2.0,
+              enlargeCenterPage: true,
+              viewportFraction: 1,
             ),
+
           ),
-        ).toList(),
-        options: CarouselOptions(
-          autoPlay: true,
-          aspectRatio: 2.0,
-          enlargeCenterPage: true,
-          viewportFraction: 1,
-        ),
+
+          // Positioned(
+          //   top: 0.0,
+          //   left: 0.0,
+          //   right: 0.0,
+          //   child: Container(
+          //     decoration: BoxDecoration(
+          //       gradient: LinearGradient(
+          //         colors: [AppColors.secondaryBlackColor,AppColors.commonWhiteTextColor],
+          //         begin: Alignment.bottomCenter,
+          //         end: Alignment.topCenter,
+          //       ),
+          //     ),
+          //   ),)
+
+        ],
       )
     );
   }

@@ -4,15 +4,22 @@ import 'package:get/get.dart';
 
 import '../app_constant/app_colors.dart';
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
+import 'payment_page.dart';
 
 class CartPage extends StatelessWidget {
   String dropdownvalue = 'select';
   var items = [
     'select',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
+    '1 mm',
+    '2 mm',
+    '3 mm',
+    '4 mm',
+    '5 mm',
+    '6 mm',
+    '7 mm',
+    '8 mm',
+    '9 mm',
+    '10 mm',
   ];
 
   @override
@@ -136,10 +143,10 @@ class CartPage extends StatelessWidget {
                           SizedBox(
                             height: Get.height * 0.01,
                           ),
-                          Card(
+                          const Card(
                             elevation: 4,
                             borderOnForeground: true,
-                            child: const TextField(
+                            child: TextField(
                               maxLines: 3,
                               keyboardType: TextInputType.multiline,
                               // minLines: 1,
@@ -168,7 +175,9 @@ class CartPage extends StatelessWidget {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: (){},
+                                  onTap: (){
+                                    Get.to(()=>PaymentWidget());
+                                  },
                                   child: Container(
                                     padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                                     decoration: BoxDecoration(

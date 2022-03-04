@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../app_constant/app_colors.dart';
 import '../../screens/home_screen_widget.dart';
 import '../../screens/my_order_page.dart';
-import '../../screens/profile_page.dart';
+import '../../screens/drawer_profile_page.dart';
 import '../../screens/settings_page.dart';
 
 class CustomDrawerWidget extends StatelessWidget {
@@ -27,7 +27,7 @@ class CustomDrawerWidget extends StatelessWidget {
             urlImage: urlImage,
             name: name,
             phone: phone,
-            onClicked: ()=> Get.to(()=>ProfilePage()),
+            onClicked: ()=> Get.to(()=>DrawerProfilePage()),
           ),
           buildMenuItem(
               text: 'Home',
@@ -70,7 +70,7 @@ class CustomDrawerWidget extends StatelessWidget {
   }) =>
       GestureDetector(
         onTap: (){
-          ProfilePage();
+          DrawerProfilePage();
         },
         child:  Container(
           margin: EdgeInsets.symmetric(horizontal: 20,vertical: 30),
@@ -143,7 +143,7 @@ class CustomDrawerWidget extends StatelessWidget {
         Get.to(()=>MyOrderPage());
         break;
       case 3:
-        Get.to(()=>ProfilePage());
+        Get.to(()=>DrawerProfilePage());
         break;
       // case 4:
       //   Navigator.of(context).push(MaterialPageRoute(

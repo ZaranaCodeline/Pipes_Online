@@ -10,8 +10,8 @@ import '../custom_widget/widgets/custom_widget/custom_cupertino_feild_text.dart'
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
 import 'get_started_page.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class DrawerProfilePage extends StatelessWidget {
+  const DrawerProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +42,7 @@ class ProfilePage extends StatelessWidget {
                 SizedBox(height: Get.height * 0.04),
                 Column(
                   children: [
+                    //assets/images/profile.png
                     SvgPicture.asset('assets/images/pro_icon.svg'),
                     SizedBox(
                       height: Get.height * 0.01,

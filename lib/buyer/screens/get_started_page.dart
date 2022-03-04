@@ -15,34 +15,40 @@ class GetStartedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-          child: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Center(child: Image.asset('assets/images/get_start_logo.png')),
-            Center(
-              child: CustomText(
-                  text: 'Add products in cart \n and shop now',
-                  fontWeight: FontWeight.w600,
-                  fontSize: 30,
-                  color: AppColors.primaryColor,textAlign: TextAlign.center,),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          SizedBox(
+            height: Get.height * 0.01,
+          ),
+          Center(
+            child: Image.asset('assets/images/get_start_logo.png'),
+          ),
+          Center(
+            child: CustomText(
+              text: 'Add products in cart \n and shop now',
+              fontWeight: FontWeight.w600,
+              fontSize: 30,
+              color: AppColors.primaryColor,
+              textAlign: TextAlign.center,
             ),
-            CustomText(
-                text:
-                    'You can buy pipes from this App in \ndifferent categories such as plastic,\ncopper, iron and steel.',
-                fontWeight: FontWeight.w600,
-                fontSize: 16,
-                color: AppColors.hintTextColor,textAlign: TextAlign.center,),
-            Custombutton(
-              name: 'Get Started',
-              function: () => Get.to(() => HomePage()),
-              height: Get.height * 0.07,
-              width: Get.width / 2,
-            ),
-          ],
-        ),
-      )),
+          ),
+          CustomText(
+            text:
+                'You can buy pipes from this App in \ndifferent categories such as plastic,\ncopper, iron and steel.',
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+            color: AppColors.hintTextColor,
+            textAlign: TextAlign.center,
+          ),
+          Custombutton(
+            name: 'Get Started',
+            function: () => Get.to(() => HomePage()),
+            height: Get.height * 0.07,
+            width: Get.width / 2,
+          ),
+        ],
+      ),
     );
   }
 }

@@ -125,8 +125,8 @@ class _BLogInOTPScreenState extends State<BLogInOTPScreen> {
                             ),
                           ),
                           OTPTextField(
-                            length: 4,
-                            width: MediaQuery.of(context).size.width * 0.7,
+                            length: 6,
+                            width: Get.width *1,
 
                             fieldWidth: 40.sp,
                             style: TextStyle(fontSize: 17.sp),

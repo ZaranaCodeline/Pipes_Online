@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/Splesh_Screen/splash.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
@@ -60,54 +61,56 @@ class _SOnBoardingScreenState extends State<SOnBoardingScreen> {
                           controller.setOnBoarding(value);
                         },
                         children: [
-                          Container(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 50.sp,
-                                  ),
-                                  Container(
-                                      height: 190.sp,
-                                      width: 250.sp,
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 15.sp,
-                                      ),
-                                      decoration: BoxDecoration(
-                                          color: SColorPicker.white,
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.black12,
-                                                spreadRadius: 0.5,
-                                                blurRadius: 1),
-                                          ],
-                                          borderRadius: BorderRadius.circular(10.sp)),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10.sp),
-                                        child: SvgPicture.asset(
-                                            "${SImagePick.onBoarding1}"),
-                                      )),
-                                  SizedBox(
-                                    height: 20.sp,
-                                  ),
-                                  Text(
-                                    "Add products in cart\nand shop now",
-                                    textAlign: TextAlign.center,
-                                    style: STextStyle.semiBold600Purple16,
-                                  ),
-                                  SizedBox(
-                                    height: 20.sp,
-                                  ),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 30.sp, right: 30.sp),
-                                    child: Text(
-                                      "You can buy pipes from this App in different categories such as plastic, copper, iron and steel.",
-                                      textAlign: TextAlign.center,
-                                      style: STextStyle.semiBold600Grey12,
+                          SafeArea(
+                            child: Container(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 50.sp,
                                     ),
-                                  ),
-                                ],
+                                    Container(
+                                        height: 190.sp,
+                                        width: 250.sp,
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 15.sp,
+                                        ),
+                                        decoration: BoxDecoration(
+                                            color: SColorPicker.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.black12,
+                                                  spreadRadius: 0.5,
+                                                  blurRadius: 1),
+                                            ],
+                                            borderRadius: BorderRadius.circular(10.sp)),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(10.sp),
+                                          child: SvgPicture.asset(
+                                              "${SImagePick.onBoarding1}"),
+                                        )),
+                                    SizedBox(
+                                      height: 20.sp,
+                                    ),
+                                    Text(
+                                      "Add products in cart\nand shop now",
+                                      textAlign: TextAlign.center,
+                                      style: STextStyle.semiBold600Purple16,
+                                    ),
+                                    SizedBox(
+                                      height: 20.sp,
+                                    ),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.only(left: 30.sp, right: 30.sp),
+                                      child: Text(
+                                        "You can buy pipes from this App in different categories such as plastic, copper, iron and steel.",
+                                        textAlign: TextAlign.center,
+                                        style: STextStyle.semiBold600Grey12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

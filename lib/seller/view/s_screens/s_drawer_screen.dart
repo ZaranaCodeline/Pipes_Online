@@ -38,7 +38,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
         'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d';
 
     return Drawer(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: AppColors.drawerColor,
       child: GetBuilder<SDrawerController>(
         builder: (controller){
           return Center(
@@ -52,10 +52,10 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(
-                    horizontal: 18.sp,
+                    horizontal: 15.sp,
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 5.sp,vertical: 0.sp),
-                  height: Get.height * 0.09,
+                  height: Get.height * 0.07,
                   // width: Get.width,
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -73,7 +73,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
                         Flexible(
                           child: Container(
                             // color: Colors.red,
-                              height: Get.height * 0.09,
+                              height: Get.height * 0.07,
                               // width: Get.width * 0.9,
                               alignment: Alignment.centerLeft,
                               child: TextFormField(
@@ -95,7 +95,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
                                 ? Icons.edit_outlined
                                 : Icons.clear,
                             color: AppColors.primaryColor,
-                            size: 18.sp,
+                            size: 14.sp,
                           ),
                         )
                       ]),
@@ -156,11 +156,11 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
             Get.to(() => DrawerProfilePage());
           },
           child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 18.sp, vertical: 20.sp),
+            margin: EdgeInsets.symmetric(horizontal: 18.sp, vertical: 15.sp),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15.sp),
                 color: AppColors.commonWhiteTextColor),
-            height: Get.height / 7.sp,
+            height: Get.height / 8.sp,
             width: Get.width / 1.4.sp,
             child: Row(
               children: [
@@ -181,7 +181,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
                       name,
                       style: GoogleFonts.ubuntu(
                         textStyle: TextStyle(
-                            fontSize: 16.sp,
+                            fontSize: 14.sp,
                             color: AppColors.secondaryBlackColor,
                             fontWeight: FontWeight.w400),
                       ),
@@ -200,8 +200,8 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
                 Spacer(),
                 SvgPicture.asset(
                   'assets/images/svg/dots.svg',
-                  width: 16.sp,
-                  height: 16.sp,
+                  width: 15.sp,
+                  height: 15.sp,
                 ),
               ],
             ),
@@ -216,14 +216,14 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
     return ListTile(
       leading: Icon(
         icon,
-        size: 15.sp,
+        size: 13.sp,
         color: color,
       ),
       title: Text(
         text,
         style: GoogleFonts.ubuntu(
             textStyle: TextStyle(
-                fontSize: 16.sp, color: color, fontWeight: FontWeight.w400)),
+                fontSize: 13.sp, color: color, fontWeight: FontWeight.w400)),
       ),
       hoverColor: hoverColor,
       onTap: onClicked,

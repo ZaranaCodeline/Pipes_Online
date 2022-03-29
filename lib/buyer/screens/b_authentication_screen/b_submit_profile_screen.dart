@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pipes_online/buyer/Splesh_Screen/splash.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/controller/geolocation_controller.dart';
-import 'package:pipes_online/buyer/custom_widget/widgets/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/bottom_bar_screen_page.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
@@ -13,7 +13,6 @@ import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:sizer/sizer.dart';
 import '../../../routes/bottom_controller.dart';
-import '../../../seller/controller/s_subscribe_controller.dart';
 import '../maps_screen.dart';
 
 class BSubmitProfileScreen extends StatefulWidget {
@@ -147,10 +146,7 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
                                 builder: (context) => SimpleDialog(
                                   children: [
                                     Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(35)
-                                      ),
-                                      height: 105.sp,
+                                      height: 125.sp,
                                       width: double.infinity,
                                       child: Column(
                                         children: [
@@ -168,12 +164,13 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
                                               },
                                             ),
                                             width: 220,
-                                            height: 50.sp,
+                                            height: 60.sp,
                                             decoration: BoxDecoration(
                                                 gradient: LinearGradient(
-                                                    begin: Alignment.topLeft,
+                                                    begin: Alignment.centerLeft,
                                                     colors: [
                                                       AppColors.primaryColor,
+                                                      AppColors.offLightPurpalColor,
                                                     ]),
                                                 borderRadius: BorderRadius.circular(25)),
 
@@ -195,13 +192,14 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
                                               },
                                             ),
                                             width: 220,
-                                            height: 50.sp,
+                                            height: 60.sp,
                                             decoration: BoxDecoration(
                                                 gradient: LinearGradient(
-                                                    begin: Alignment.topLeft,
+                                                    begin: Alignment.centerLeft,
                                                     colors: [
                                                       AppColors.primaryColor,
-                                                      ]),
+                                                      AppColors.offLightPurpalColor,
+                                                    ]),
                                                 borderRadius: BorderRadius.circular(25)),
                                           ),
                                         ],
@@ -240,7 +238,7 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
                             style: TextStyle(
                                 fontSize: 12.sp,
                                 color: SColorPicker.white,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w700,
                                 fontFamily: 'Ubuntu-Bold'),
                           )
                         ],
@@ -284,29 +282,31 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
                           style: STextStyle.semiBold600Black13,
                         ),
                         SizedBox(height: 5.sp),
-                        Container(
-                          //  height: Get.height * 0.06,
-                          width: Get.width * 0.75,
-                          alignment: Alignment.centerLeft,
-                          child: TextFormField(
-                            // cursorColor: AppColors.primaryColor,
-                            keyboardType: TextInputType.streetAddress,
-                            autocorrect: true,
-                            autovalidateMode:
-                            AutovalidateMode.onUserInteraction,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Required';
-                              } else {
-                                return null;
-                              }
-                            },
-                            maxLines: 3,
-                            controller: controller.addressController,
-                            decoration: InputDecoration(
-                              hintText: 'Enter Address',
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10)),
+                        FittedBox(
+                          child: Container(
+                            //  height: Get.height * 0.06,
+                            width: Get.width * 0.75,
+                            alignment: Alignment.centerLeft,
+                            child: TextFormField(
+                              // cursorColor: AppColors.primaryColor,
+                              keyboardType: TextInputType.streetAddress,
+                              autocorrect: true,
+                              autovalidateMode:
+                              AutovalidateMode.onUserInteraction,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Required';
+                                } else {
+                                  return null;
+                                }
+                              },
+                              maxLines: 3,
+                              controller: _controller.addressController,
+                              decoration: InputDecoration(
+                                hintText: 'Enter Address',
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                              ),
                             ),
                           ),
                         ),
@@ -353,16 +353,14 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
                     ),
                     SizedBox(height: 25.sp),
 
-                    // if (!address.isEmpty) SizedBox(height: Get.height * 0.05),
+                    // if (controller.mapController!.text.isEmpty) SizedBox(height: Get.height * 0.05),
+                    // Text('${controller.mapController!.text}'),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50.sp),
                       child: SCommonButton().sCommonPurpleButton(
                         name: 'Continue',
                         onTap: () {
-                          // if (_formKey.currentState!.validate())
-                          // setState(() {
                           _submit();
-                          // });
                         },
                       ),
                     ),

@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>   <application
         android:label="pipes_online"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/app_icon">
        <meta-data android:name="com.google.android.geo.API_KEY"
            android:value="AIzaSyBn9ZKmXc-MN12Fap0nUQotO6RKtYJEh8o"/>
         <activity

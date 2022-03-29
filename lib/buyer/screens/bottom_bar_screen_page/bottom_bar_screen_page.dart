@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
+import 'package:pipes_online/buyer/screens/b_chat_screen.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/cart_bottom_bar_route.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/chat_bottom_bar_route.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/home_bottom_bar_route.dart';
@@ -29,7 +30,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
   List<Widget> tabPages = [
     CatelogeHomeWidget(),
     CartPage(),
-    // ChatPage(),
+    BChatScreen(),
     PersonalInfoPage(),
   ];
   List<Map<String, dynamic>> bottomBarData = [

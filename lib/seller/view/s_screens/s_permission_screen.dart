@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
@@ -104,6 +105,7 @@ class _SPermissionScreenState extends State<SPermissionScreen> {
                 child: SCommonButton().sCommonPurpleButton(
                   name: 'Allow Permissions',
                   onTap: () {
+                    // Get.offAll(SBuyerSellerScreen());
                     Get.offNamed(SRoutes.SBuyerSellerScreen);
                     // Get.off('SPermissionScreen');
                     print('hello');

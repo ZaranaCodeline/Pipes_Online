@@ -14,4 +14,5 @@ class AppColors {
   static Color starRatingLightColor = Color(0xffE8E8E8);
   static Color lightBlackColor = Color(0x24000000);
   static Color backGroudColor = Color(0xffECECEC);
+  static Color drawerColor = Color(0xff3751af);
 }

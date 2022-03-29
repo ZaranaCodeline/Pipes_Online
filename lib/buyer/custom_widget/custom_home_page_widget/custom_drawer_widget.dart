@@ -40,7 +40,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: AppColors.drawerColor,
       child: GetBuilder<BDrawerController>(
         builder: (controller) {
           return Container(

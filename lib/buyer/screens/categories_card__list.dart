@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/screens/category_detail_page.dart';
+import 'package:pipes_online/routes/bottom_controller.dart';
 import 'package:sizer/sizer.dart';
 import '../custom_widget/custom_home_page_widget/common_category_card.dart';
 import '../view_model/b_bottom_bar_controller.dart';
@@ -13,7 +14,7 @@ class CategoriesCardList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BBottomBarIndexController bottomBarIndexController = Get.find();
-
+BottomController _bottomController = Get.find();
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 5.sp),
       height: Get.height * 0.1.sp,
@@ -38,7 +39,9 @@ class CategoriesCardList extends StatelessWidget {
                           '---------selectedScreen--------- ${bottomBarIndexController.selectedScreen.value}');
                       bottomBarIndexController.setCategoriesType(
                           value: categories[index].get("name"));
-                      Get.to(()=>BCategoryDetailsPage());
+                      _bottomController.selectedScreen('BCategoryDetailsPage');
+                      _bottomController.bottomIndex.value=1;
+                      // Get.to(()=>BCategoryDetailsPage());
                     },
                     child: CommonCategoryCard(
                       image: categories[index].get("image"),

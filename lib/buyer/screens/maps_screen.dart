@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -36,7 +37,12 @@ class _MapsScreenState extends State<MapsScreen> {
     }
     return userLocation;
   }
-
+  Future<void> getAddressFromLatLang(Position position) async {
+    List<Placemark> placemark =
+    await placemarkFromCoordinates(position.latitude, position.longitude);
+    Placemark place = placemark[0];
+    address = 'Address : ${place.locality},${place.country},${place.subThoroughfare},${place.postalCode}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,28 +88,12 @@ class _MapsScreenState extends State<MapsScreen> {
         child: FloatingActionButton.extended(
           backgroundColor: AppColors.primaryColor,
           onPressed: () {
+
             googleMapController!.animateCamera(CameraUpdate.newLatLngZoom(
                 LatLng(userLocation!.latitude, userLocation!.longitude), 17));
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                      content: TextButton(
-                        onPressed: (){
-                          // Get.off(BSubmitProfileScreen());
 
-                          // _controller.latitude = userLocation!.latitude;
-                          // _controller.longitude = userLocation!.longitude;
-                          Get.back(
-                          );
-                        },
-                        child: Text(
-                            'Your Location has been send !,'
-                                '\n lat : ${userLocation!.latitude},\n'
-                                'long: ${userLocation!.longitude},\n'
-                                'address: ${address}'),
-                      ));
-                });
+            _controller.setLocation(userLocation!.latitude, userLocation!.longitude);
+           Get.back();
           },
           label: Text('Send Location'),
           icon: Icon(Icons.near_me),

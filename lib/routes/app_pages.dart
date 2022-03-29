@@ -20,8 +20,8 @@ import '../seller/bottombar/navigation_bar.dart';
 import 'app_routes.dart';
 
 class AppPages {
-  static final initial = SRoutes.SOnBoardingScreen;
-  // static final initial = Routes.SPLASH;
+  // static final initial = SRoutes.SOnBoardingScreen;
+  static final initial = Routes.SPLASH;
   static final bottom = SRoutes.SBottomBar;
 
   static final routes = [

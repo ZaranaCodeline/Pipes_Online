@@ -7,8 +7,10 @@ import 'package:pipes_online/seller/view/s_authentication_screen/s_submit_profil
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
+import 'buyer/Splesh_Screen/splash.dart';
 import 'buyer/helpers/binding.dart';
 import 'buyer/routes/app_pages.dart';
+import 'buyer/screens/b_authentication_screen/b_submit_profile_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,7 +44,7 @@ class MyApp extends StatelessWidget {
           defaultTransition: Transition.fadeIn,
           getPages: AppPages.routes,
           title: 'Flutter Demo',
-          // home: HomeScreen(),
+          home: BSubmitProfileScreen(),
           initialBinding: Binding(),
           theme: ThemeData(
             primarySwatch: Colors.blue,

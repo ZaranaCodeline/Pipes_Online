@@ -71,8 +71,7 @@ class SCatelogeHomeScreen extends StatelessWidget {
                 title: Container(
                   padding: EdgeInsets.only(top: 15.sp),
                   margin: EdgeInsets.only(bottom: Get.height / 9.sp),
-                  child: Image.asset("assets/images/png/pipe_logo.png",width: 35.sp,height: 35.sp,),
-                ),
+                  child:Image.asset("assets/images/png/pipe_logo.png",fit: BoxFit.fill,height: 40,)),
                 centerTitle: true,
                 toolbarHeight: Get.height * 0.13.sp,
                 shape: const RoundedRectangleBorder(

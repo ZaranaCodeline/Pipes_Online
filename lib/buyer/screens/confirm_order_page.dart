@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/screens/my_order_page.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:sizer/sizer.dart';
 
@@ -56,18 +57,23 @@ class BConfirmOrderPage extends StatelessWidget {
             color: AppColors.hintTextColor,
             textAlign: TextAlign.center,
           ),
-          CustomText(
-            text: 'My Orders',
-            fontWeight: FontWeight.w600,
-            fontSize: 14.sp,
-            color: AppColors.primaryColor,
-            textAlign: TextAlign.center,
+          GestureDetector(
+            onTap: (){
+              Get.to(()=>MyOrderPage());
+            },
+            child: CustomText(
+              text: 'My Orders',
+              fontWeight: FontWeight.w600,
+              fontSize: 14.sp,
+              color: AppColors.primaryColor,
+              textAlign: TextAlign.center,
+            ),
           ),
           Custombutton(
-            name: 'Get Started',
+            name: 'Continue Shopping',
             function: () => Get.to(() => CatelogeHomeWidget()),
-            height: Get.height * 0.06,
-            width: Get.width / 1.sp,
+            height: Get.height * 0.08,
+            width: Get.width /1.sp,
           ),
         ],
       ),

@@ -13,10 +13,8 @@ class SellerReviewWidget extends StatelessWidget {
     _showPopupMenu() {
       final RenderBox renderBox = context.findRenderObject() as RenderBox;
       final offset = renderBox.localToGlobal(Offset.zero);
-      //*calculate the start point in this case, below the button
       final left = offset.dx;
       final top = offset.dy + renderBox.size.height;
-      //*The right does not indicates the width
       final right = left + renderBox.size.width;
       final bottom = offset.dx;
       showMenu<String>(
@@ -139,9 +137,9 @@ class SellerReviewWidget extends StatelessWidget {
       );
     }
 
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
           children: [
             Expanded(
               flex: 4,

@@ -1,12 +1,12 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/seller/common/s_color_picker.dart';
+import 'package:open_file/open_file.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
-
 import '../app_constant/app_colors.dart';
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
 
@@ -22,6 +22,8 @@ class ChatMessagePage extends StatefulWidget {
 }
 
 class _ChatMessagePageState extends State<ChatMessagePage> {
+
+
   String statusText = "";
   bool isComplete = false;
   String? recordFilePath;
@@ -49,11 +51,13 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
       'name': 'document',
     },
   ];
+  //bNTkJEQTHVMsHA0CmtLndeqpSzp1
   final TextEditingController _msg = TextEditingController();
 
   // VideoPlayerController? _controllerVideos;
   // VideoPlayerController? videoPlayerController;
-  String chatId(String id1, String id2) {
+  String
+  chatId(String id1, String id2) {
     print('--------id1--id1--------$id1');
 
     print('id1 length => ${id1.length} id2 length=> ${id2.length}');
@@ -135,7 +139,9 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                       Border.all(color: AppColors.hintTextColor, width: 2.sp),
                 ),
                 child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _callNumber;
+                    },
                     child: Icon(
                       Icons.call,
                       color: AppColors.secondaryBlackColor,
@@ -157,6 +163,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
             children: [
               Text('Today'),
               Expanded(
+                flex: 5,
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
                   reverse: true,
@@ -327,7 +334,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                                           3),
                                                           child: Card(
                                                             color: AppColors
-                                                                .offLightPurpalColor,
+                                                                .primaryColor.withOpacity(0.5),
                                                             shape:
                                                                 RoundedRectangleBorder(
                                                               borderRadius: BorderRadius.only(
@@ -566,7 +573,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                                   FontWeight
                                                                       .w400,
                                                               color: AppColors
-                                                                  .offLightPurpalColor,
+                                                                  .primaryColor.withOpacity(0.5),
                                                               fontFamily:
                                                                   'Ubuntu-Regular',
                                                             ),
@@ -678,7 +685,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                 ),
               ),
               Container(
-                height: 100,
+                height: 80,
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: TextField(
                   controller: _msg,
@@ -698,7 +705,9 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                     hintText: 'Message...',
                     hintStyle: TextStyle(color: AppColors.hintTextColor),
                     prefixIcon: IconButton(
-                        onPressed: () async {},
+                        onPressed: () async {
+                          _pickFile;
+                        },
                         icon: Icon(
                           Icons.insert_link_outlined,
                           color: AppColors.primaryColor,
@@ -760,7 +769,10 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
       ),
     );
   }
-
+  _callNumber() async{
+    const number = '1122334455'; //set the number here
+    bool? res = await FlutterPhoneDirectCaller.callNumber(number);
+  }
   Future<void> addMsg() async {
     if (_msg.text.isEmpty) {
       log('Please first write meaage..');
@@ -773,19 +785,36 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
           .add({
             'date': DateTime.now(),
             'Type': 'Text',
-            'senderId': "wowtSMoyQJeLvZPTph6nz4A31hg",
+            'senderId': PreferenceManager.getTokenId().toString(),
             'receiveId': widget.uid,
             'seen': false,
             'video': '',
             'msg': _msg.text,
             'image': '',
             'document': '',
-            'voiceNote': ''
+            'voiceNote': '',
+        'time':DateTime.now(),
           })
           .then((value) => _msg.clear())
           .catchError((e) => print(e));
+      print('------widget.uid----   ${widget.uid}');
     }
   }
 
   int i = 0;
+
+  void _pickFile() async {
+
+    final result = await FilePicker.platform.pickFiles(allowMultiple: true);
+
+    if (result == null) return;
+
+    final file = result.files.first;
+
+    _openFile(file);
+  }
+
+  void _openFile(PlatformFile file) {
+    OpenFile.open(file.path);
+  }
 }

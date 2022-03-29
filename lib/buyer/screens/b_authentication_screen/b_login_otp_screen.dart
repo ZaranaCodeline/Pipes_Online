@@ -7,7 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
-import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/bottom_bar_screen_page.dart';
+import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/buyer/screens/home_screen_widget.dart';
 import 'package:pipes_online/buyer/view_model/b_signup_home_controller.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
@@ -127,7 +127,6 @@ class _BLogInOTPScreenState extends State<BLogInOTPScreen> {
                           OTPTextField(
                             length: 6,
                             width: Get.width *1,
-
                             fieldWidth: 40.sp,
                             style: TextStyle(fontSize: 17.sp),
                             //textFieldAlignment: MainAxisAlignment.spaceAround,

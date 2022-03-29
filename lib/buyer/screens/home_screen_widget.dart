@@ -7,6 +7,7 @@ import 'package:sizer/sizer.dart';
 import '../../seller/common/s_image.dart';
 import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
+import '../buyer_common/b_image.dart';
 import '../custom_widget/custom_home_page_widget/custom_drawer_widget.dart';
 import '../custom_widget/custom_home_page_widget/custom_home_search_widget.dart';
 import '../custom_widget/widgets/custom_widget/custom_navigationbar_items.dart';
@@ -175,14 +176,9 @@ class CatelogeHomeWidget extends StatelessWidget {
                           onPressed: () =>
                               _scaffoldKey.currentState?.openDrawer(),
                         ),
-                        // SvgPicture.asset("${SImagePick.pipedeal}"),
                         Container(
                             margin: EdgeInsets.only(right: 10.sp,bottom: 5.sp,top: 5.sp),
-                            child: Image.asset("assets/images/png/pipe_logo.png",fit: BoxFit.cover,)),
-                        // // Text(
-                        //   'PIPES ONLINE',
-                        //   style: STextStyle.bold700White14,
-                        // ),
+                            child: Image.asset('assets/images/png/pipe_logo.png',fit: BoxFit.cover,)),
                         InkWell(
                           onTap: () {
                             Get.to(() => CartPage());

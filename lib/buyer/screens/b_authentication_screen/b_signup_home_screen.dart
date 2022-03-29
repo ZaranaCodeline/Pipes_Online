@@ -252,6 +252,9 @@ class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
                                 ),
                                 child: GestureDetector(
                                   onTap: () {
+                                    final progress =
+                                    ProgressHUD.of(context);
+                                    progress!.showWithText('');
                                     signInWithGoogle();
                                     Navigator.pushReplacement(
                                       context,
@@ -266,6 +269,7 @@ class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
                                     mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                     children: [
+
                                       SvgPicture.asset(
                                         "${SImagePick.googleIcon}",
                                       ),

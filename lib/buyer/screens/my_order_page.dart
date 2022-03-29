@@ -4,6 +4,7 @@ import 'package:sizer/sizer.dart';
 
 import '../app_constant/app_colors.dart';
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
+import 'bottom_bar_screen_page/widget/cart_bottom_bar_route.dart';
 
 class MyOrderPage extends StatelessWidget {
   const MyOrderPage({Key? key}) : super(key: key);
@@ -21,6 +22,17 @@ class MyOrderPage extends StatelessWidget {
         ),
         backgroundColor: AppColors.primaryColor,
         toolbarHeight: Get.height * 0.1,
+        leading: IconButton(
+            onPressed: () {
+              if (bottomBarIndexController.bottomIndex.value == 1) {
+                bottomBarIndexController.setSelectedScreen(
+                    value: 'HomeScreen');
+                bottomBarIndexController.bottomIndex.value = 0;
+              } else {
+                Get.back();
+              }
+            },
+            icon: Icon(Icons.arrow_back_rounded)),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(25),

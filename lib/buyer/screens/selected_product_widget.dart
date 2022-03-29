@@ -1,8 +1,9 @@
-import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_share/flutter_share.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -41,29 +42,31 @@ class SelectedProductWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    CustomCarouselSliderWidget(
-                      image: image,
-                    ),
-                    // CarouselWirhDotsWidgets(imgList: imageList,),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.sp),
-                      child: BackButton(
-                        color: AppColors.commonWhiteTextColor,
+    return SafeArea(
+      child: Scaffold(
+        body: SafeArea(
+          child: Container(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      CustomCarouselSliderWidget(
+                        image: image,
                       ),
-                    )
-                  ],
-                ),
-                _buileSecondWidget(),
-              ],
+                      // CarouselWirhDotsWidgets(imgList: imageList,),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5.sp),
+                        child: BackButton(
+                          color: AppColors.commonWhiteTextColor,
+                        ),
+                      )
+                    ],
+                  ),
+                  _buileSecondWidget(),
+                ],
+              ),
             ),
           ),
         ),
@@ -213,7 +216,7 @@ class SelectedProductWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      flex: 3,
+                      flex: 2,
                       child: CustomText(
                         text: ' Share This Listing',
                         fontWeight: FontWeight.w400,
@@ -227,7 +230,7 @@ class SelectedProductWidget extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              // controller.openWhatApp();
+                              _launchWhatsapp();
                             },
                             child: Container(
                                 decoration: BoxDecoration(
@@ -240,7 +243,10 @@ class SelectedProductWidget extends StatelessWidget {
                           SizedBox(
                             width: 10.sp,
                           ),
-                          Icon(Icons.share_outlined),
+                          IconButton(onPressed:(){
+                            shareFile;
+
+                          },icon: Icon(Icons.share_outlined)),
                         ],
                       ),
                     ),
@@ -253,4 +259,23 @@ class SelectedProductWidget extends StatelessWidget {
       ),
     );
   }
+  _launchWhatsapp() async {
+    const url = "https://wa.me/?text=Hey buddy, try this super cool new app!";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+  Future<void> shareFile() async {
+    final result = await FilePicker.platform.pickFiles();
+    if (result == null || result.files.isEmpty) return null;
+
+    await FlutterShare.shareFile(
+      title: 'Example share',
+      text: 'Example share text',
+      filePath: result.files[0] as String,
+    );
+  }
+
 }

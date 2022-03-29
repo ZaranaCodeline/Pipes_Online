@@ -23,106 +23,108 @@ class _SBuyerSellerScreenState extends State<SBuyerSellerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Stack(
-        children: [
-          Positioned(
-            top: 0,
-            left: 0,
-            child: Container(
-              height: 140.sp,
-              width: 208.sp,
-              // color: Colors.green,
-              child: SvgPicture.asset(
-                "${SImagePick.roundDesign}",
-                // height: 100,
-                // width: 200,
+    return SafeArea(
+      child: Material(
+        child: Stack(
+          children: [
+            Positioned(
+              top: 0,
+              left: 0,
+              child: Container(
+                height: 140.sp,
+                width: 208.sp,
+                // color: Colors.green,
+                child: SvgPicture.asset(
+                  "${SImagePick.roundDesign}",
+                  // height: 100,
+                  // width: 200,
+                ),
               ),
             ),
-          ),
-          GetBuilder<BuyerSellerController>(
-            builder: (controller) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Are you Seller or Buyer?',
-                    style: STextStyle.bold700Purple16,
-                  ),
-                  SizedBox(height: 20.sp),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25.sp),
-                    child: Row(
-                      children: [
-                        Flexible(
-                          child: RadioListTile(
-                            value: 'Buyer',
-                            groupValue: controller.radioValue,
-                            onChanged: (value) {
-                              controller.setRadioValue(value);
-                              // setState(() {
-                              //   radioValue = value;
-                              //
-                              //   print('----${radioValue.runtimeType}');
-                              // });
-                            },
-                            title: Text(
-                              'Buyer',
-                              style: STextStyle.semiBold600Purple16,
-                            ),
-                            activeColor: SColorPicker.purple,
-                          ),
-                        ),
-                        Flexible(
-                          child: RadioListTile(
-                            value: 'Seller',
-                            groupValue: controller.radioValue,
-                            onChanged: (value) {
-                              controller.setRadioValue(value);
-                            },
-                            title: Text(
-                              'Seller',
-                              style: STextStyle.semiBold600Purple16,
-                            ),
-                            activeColor: SColorPicker.purple,
-                          ),
-                        ),
-                      ],
+            GetBuilder<BuyerSellerController>(
+              builder: (controller) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Are you Seller or Buyer?',
+                      style: STextStyle.bold700Purple16,
                     ),
-                  ),
-                  SizedBox(height: 20.sp),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 70.sp),
-                    child: SCommonButton().sCommonPurpleButton(
-                      name: 'Continue',
-                      onTap: () {
-                        if (controller.radioValue != null) {
-                          if (controller.radioValue == 'Seller') {
-                            Get.toNamed(SRoutes.SWelcomeScreen);
-                            print('Seller');
+                    SizedBox(height: 20.sp),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25.sp),
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: RadioListTile(
+                              value: 'Buyer',
+                              groupValue: controller.radioValue,
+                              onChanged: (value) {
+                                controller.setRadioValue(value);
+                                // setState(() {
+                                //   radioValue = value;
+                                //
+                                //   print('----${radioValue.runtimeType}');
+                                // });
+                              },
+                              title: Text(
+                                'Buyer',
+                                style: STextStyle.semiBold600Purple16,
+                              ),
+                              activeColor: SColorPicker.purple,
+                            ),
+                          ),
+                          Flexible(
+                            child: RadioListTile(
+                              value: 'Seller',
+                              groupValue: controller.radioValue,
+                              onChanged: (value) {
+                                controller.setRadioValue(value);
+                              },
+                              title: Text(
+                                'Seller',
+                                style: STextStyle.semiBold600Purple16,
+                              ),
+                              activeColor: SColorPicker.purple,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20.sp),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 70.sp),
+                      child: SCommonButton().sCommonPurpleButton(
+                        name: 'Continue',
+                        onTap: () {
+                          if (controller.radioValue != null) {
+                            if (controller.radioValue == 'Seller') {
+                              Get.toNamed(SRoutes.SWelcomeScreen);
+                              print('Seller');
+                            } else {
+                              print('Buyer');
+                              Get.to(BWelcomeScreen());
+                            }
                           } else {
-                            print('Buyer');
-                            Get.to(BWelcomeScreen());
+                            Get.showSnackbar(GetSnackBar(
+                              backgroundColor: SColorPicker.red,
+                              duration: Duration(seconds: 2),
+                              message: 'Please select the Buyer or Seller!',
+                            ));
                           }
-                        } else {
-                          Get.showSnackbar(GetSnackBar(
-                            backgroundColor: SColorPicker.red,
-                            duration: Duration(seconds: 2),
-                            message: 'Please select the Buyer or Seller!',
-                          ));
-                        }
 
-                        // Get.off('SPermissionScreen');
-                        // print('hello');
-                      },
+                          // Get.off('SPermissionScreen');
+                          // print('hello');
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              );
-            },
-          )
-        ],
+                  ],
+                );
+              },
+            )
+          ],
+        ),
       ),
     );
   }

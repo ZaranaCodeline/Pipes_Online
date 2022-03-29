@@ -18,7 +18,7 @@ import 'package:sizer/sizer.dart';
 import '../../../buyer/authentificaion/functions.dart';
 import '../../../buyer/controller/geolocation_controller.dart';
 import '../../../routes/bottom_controller.dart';
-import '../../bottombar/navigation_bar.dart';
+import '../../bottombar/s_navigation_bar.dart';
 
 class SSubmitProfileScreen extends StatefulWidget {
   @override

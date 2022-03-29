@@ -12,6 +12,11 @@ Widget SchatScreenRoute() {
     case 'SchatScreen':
       return SChatScreen();
       break;
+
+    case 'SchatScreen':
+      return SChatScreen();
+      break;
+
     // case 'SchoolScreen':
     //   return SchoolScreen();
     //   break;

@@ -42,11 +42,11 @@ Future<User?> signInWithGoogle() async
   }
 
 }
-
 Future<String> signOut() async
 {
   await googleSignIn.signOut();
   await _auth.signOut();
   return "SUCCESS";
 }
+
 

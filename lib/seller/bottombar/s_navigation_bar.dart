@@ -79,7 +79,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
 
   Container bottomNavigationBar() {
     return Container(
-      height: Get.height * 0.07,
+      height: Get.height * 0.06,
       width: Get.width,
       color: Colors.white,
       child: Row(

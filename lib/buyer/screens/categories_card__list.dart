@@ -39,9 +39,19 @@ BottomController _bottomController = Get.find();
                           '---------selectedScreen--------- ${bottomBarIndexController.selectedScreen.value}');
                       bottomBarIndexController.setCategoriesType(
                           value: categories[index].get("name"));
-                      _bottomController.selectedScreen('BCategoryDetailsPage');
-                      _bottomController.bottomIndex.value=1;
-                      // Get.to(()=>BCategoryDetailsPage());
+
+                      bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
+                      bottomBarIndexController.bottomIndex.value = 0;
+
+                      // if (bottomBarIndexController.bottomIndex.value == 0) {
+                      //   bottomBarIndexController.setSelectedScreen(
+                      //       value: 'HomeScreen');
+                      //   bottomBarIndexController.bottomIndex.value = 0;
+                      // } else {
+                      //   Get.back();
+                      // }
+                      Get.to(()=>BCategoryDetailsPage());
+
                     },
                     child: CommonCategoryCard(
                       image: categories[index].get("image"),

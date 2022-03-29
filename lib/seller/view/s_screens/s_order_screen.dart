@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/custom_widget/widgets/custom_widget/custom_text.dart';
+import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/view/s_screens/s_order_review_screen.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
+import '../../bottombar/widget/order_bottom_bar_route.dart';
 import '../../common/s_text_style.dart';
 
 class SOrdersScreen extends StatelessWidget {
@@ -20,6 +22,16 @@ class SOrdersScreen extends StatelessWidget {
             style: STextStyle.bold700White14,
           ),
           backgroundColor: AppColors.primaryColor,
+          leading: IconButton(
+              onPressed: () {
+                if (homeController.bottomIndex.value  == 1) {
+                  homeController.setSelectedScreen(value: 'Order Screen');
+                  homeController.bottomIndex.value = 0;
+                } else {
+                  Get.back();
+                }
+              },
+              icon: Icon(Icons.arrow_back_rounded)),
           toolbarHeight: Get.height * 0.1,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(

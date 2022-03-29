@@ -16,7 +16,8 @@ import 'package:pipes_online/seller/view/s_authentication_screen/s_welcome_scree
 import '../buyer/Splesh_Screen/splash.dart';
 import '../buyer/screens/b_authentication_screen/b_login_home_screen.dart';
 import '../buyer/screens/b_authentication_screen/b_signup_home_screen.dart';
-import '../seller/bottombar/navigation_bar.dart';
+import '../seller/bottombar/s_navigation_bar.dart';
+import '../seller/view/s_screens/s_buyer_seller_screen.dart';
 import 'app_routes.dart';
 
 class AppPages {

@@ -291,7 +291,7 @@ class _CartPageState extends State<CartPage> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      Get.to(() => PaymentWidget());
+                                      Get.to(PaymentWidget());
                                     },
                                     child: Container(
                                       padding: EdgeInsets.symmetric(

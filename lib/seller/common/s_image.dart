@@ -1,5 +1,4 @@
 class SImagePick {
-  static String pipedeal = 'assets/images/svg/pipedeal.svg';
   static String onBoarding1 = 'assets/images/svg/on_boarding_1.svg';
   static String onBoarding2 = 'assets/images/svg/on_boarding_2.svg';
   static String permissionScreen = 'assets/images/svg/permission_screen.svg';

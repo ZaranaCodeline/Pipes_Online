@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/buyer/Splesh_Screen/splash.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/controller/geolocation_controller.dart';
-import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/bottom_bar_screen_page.dart';
+import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
@@ -140,7 +140,6 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
                           GestureDetector(
                             onTap: () {
                               print('it is openable image');
-
                               showDialog(
                                 context: context,
                                 builder: (context) => SimpleDialog(
@@ -290,9 +289,6 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
                             child: TextFormField(
                               // cursorColor: AppColors.primaryColor,
                               keyboardType: TextInputType.streetAddress,
-                              autocorrect: true,
-                              autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Required';

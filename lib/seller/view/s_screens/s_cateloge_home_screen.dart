@@ -6,6 +6,7 @@ import 'package:pipes_online/seller/view/s_screens/s_order_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_product_card_list.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
+import '../../../buyer/buyer_common/b_image.dart';
 import '../../../buyer/custom_widget/custom_home_page_widget/custom_home_search_widget.dart';
 import '../../../routes/bottom_controller.dart';
 import '../../common/s_text_style.dart';
@@ -71,7 +72,7 @@ class SCatelogeHomeScreen extends StatelessWidget {
                 title: Container(
                   padding: EdgeInsets.only(top: 15.sp),
                   margin: EdgeInsets.only(bottom: Get.height / 9.sp),
-                  child:Image.asset("assets/images/png/pipe_logo.png",fit: BoxFit.fill,height: 40,)),
+                  child:Image.asset('assets/images/png/pipe_logo.png',fit: BoxFit.fill,height: 40,)),
                 centerTitle: true,
                 toolbarHeight: Get.height * 0.13.sp,
                 shape: const RoundedRectangleBorder(

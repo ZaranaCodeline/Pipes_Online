@@ -13,11 +13,12 @@ class BImagePick {
   static String TermsAndConditionIcon =
       'assets/images/icon/terms_and_condition_icon.svg';
   static String LogOutIcon = 'assets/images/icon/log_out_icon.svg';
-//cart Page
+
   static String cartIcon = 'assets/images/png/cart_page.png';
   static String deleteIcon = 'assets/images/svg/delete_icon.svg';
 
-  //chat msg Page
+
+  static String pipedealLogo = 'assets/images/png/pipe_logo.png';
   static String chatIcon = 'assets/images/png/cat_1.png';
   static String proIcon = 'assets/images/png/pro_1.png';
   static String dtlFolderIcon = 'assets/images/icon/dtl_folder.svg';

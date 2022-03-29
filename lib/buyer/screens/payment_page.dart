@@ -40,70 +40,54 @@ class PaymentWidget extends StatelessWidget {
             color: AppColors.secondaryBlackColor,
             alignment: Alignment.center,
           ),
+          SizedBox(height: Get.height * 0.03),
+
           CustomSocialWidget(
               icon: BImagePick.PayPalIcon,
-              function: () => {
-                Get.to(() => BConfirmOrderPage())
-              },
+              onClicked: () => Get.to(() => BConfirmOrderPage()),
               name: 'Paypal'),
           CustomSocialWidget(
               icon: BImagePick.GooglePayIcon,
-              function: () => {Get.to(() => BConfirmOrderPage())},
+              onClicked: () => Get.to(() => BConfirmOrderPage()),
               name: 'Google Pay'),
           CustomSocialWidget(
               icon: BImagePick.AmazonPayIcon,
-              function: () => {Get.to(() => BConfirmOrderPage())},
+              onClicked: () => Get.to(() => BConfirmOrderPage()),
               name: 'Amazon Pay'),
         ],
       ),
     );
   }
 
-  Widget CustomSocialWidget({String? icon, dynamic function, String? name}) {
-    return Container(
-      height: Get.height * 0.06,
-      decoration: BoxDecoration(
-          color: Color(0xFFEBEBEB),
-          borderRadius: BorderRadius.circular(Get.width)),
-      margin: EdgeInsets.symmetric(
-          horizontal: Get.width * 0.2, vertical: Get.height * 0.02),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            icon!,
-            width: 20.sp,
-            height: 20.sp,
-          ),
-          // Container(
-          //   width: 38.sp,
-          //   height: 38.sp,
-          //   // decoration: BoxDecoration(
-          //   //   borderRadius: BorderRadius.circular(50),
-          //   //   color: AppColors.lightBlackColor,
-          //   // ),
-          //   child: IconButton(
-          //     onPressed: function,
-          //     icon: Icon(
-          //       icon,
-          //       color: AppColors.primaryColor,
-          //       size: 18.sp,
-          //     ),
-          //   ),
-          // ),
-          // SizedBox(
-          //   width: Get.width * 0.06.sp,
-          //   height: Get.height * 0.08.sp,
-          // ),
-          SizedBox(
-            width: 15.sp,
-          ),
-          CustomText(
-              text: name!,
-              fontWeight: FontWeight.w600,
-              fontSize: 14.sp,
-              color: AppColors.secondaryBlackColor),
-        ],
+  Widget CustomSocialWidget(
+      {String? icon,VoidCallback? onClicked, String? name}) {
+    return GestureDetector(
+      onTap: onClicked,
+      child: Container(
+        height: Get.height * 0.06,
+        decoration: BoxDecoration(
+            color: Color(0xFFEBEBEB),
+            borderRadius: BorderRadius.circular(Get.width)),
+        margin: EdgeInsets.symmetric(
+            horizontal: Get.width * 0.2, vertical: Get.height * 0.02),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              icon!,
+              width: 20.sp,
+              height: 20.sp,
+            ),
+            SizedBox(
+              width: 15.sp,
+            ),
+            CustomText(
+                text: name!,
+                fontWeight: FontWeight.w600,
+                fontSize: 14.sp,
+                color: AppColors.secondaryBlackColor),
+          ],
+        ),
       ),
     );
   }

@@ -17,56 +17,58 @@ class BWelcomeScreen extends StatefulWidget {
 class _BWelcomeScreenState extends State<BWelcomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          SizedBox(height: 20.sp),
-          Container(
-            height: 195.sp,
-            width: 250.sp,
-            child: SvgPicture.asset(
-              "${SImagePick.welcome}",
+    return SafeArea(
+      child: Material(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            SizedBox(height: 20.sp),
+            Container(
+              height: 195.sp,
+              width: 250.sp,
+              child: SvgPicture.asset(
+                "${SImagePick.welcome}",
+              ),
             ),
-          ),
-          Text(
-            'WELCOME!',
-            style: TextStyle(
-              fontSize: 25.sp,
-              color: SColorPicker.purple,
-              fontWeight: FontWeight.w600,
-              fontFamily: 'Ubuntu-Bold',
+            Text(
+              'WELCOME!',
+              style: TextStyle(
+                fontSize: 25.sp,
+                color: SColorPicker.purple,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Ubuntu-Bold',
+              ),
             ),
-          ),
-          SizedBox(height: 10.sp),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: Get.width * 0.05),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  width: Get.width * 0.4,
-                  child: SCommonButton().sCommonPurpleButton(
-                    name: 'Sign up',
-                    onTap: () {
-                      Get.to(BSignUpHomeScreen());
-                    },
+            SizedBox(height: 10.sp),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: Get.width * 0.05),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    width: Get.width * 0.4,
+                    child: SCommonButton().sCommonPurpleButton(
+                      name: 'Sign up',
+                      onTap: () {
+                        Get.to(BSignUpHomeScreen());
+                      },
+                    ),
                   ),
-                ),
-                Container(
-                  width: Get.width * 0.4,
-                  child: SCommonButton().sCommonPurpleButton(
-                    name: 'Login',
-                    onTap: () {
-                      Get.to(BLogInHomeScreen());
-                    },
+                  Container(
+                    width: Get.width * 0.4,
+                    child: SCommonButton().sCommonPurpleButton(
+                      name: 'Login',
+                      onTap: () {
+                        Get.to(BLogInHomeScreen());
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          SizedBox(height: Get.height * 0.18),
-        ],
+            SizedBox(height: Get.height * 0.18),
+          ],
+        ),
       ),
     );
   }

@@ -772,7 +772,7 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
           .add({
         'date': DateTime.now(),
         'Type': 'Text',
-        'senderId': "wowtSMoyQJeLvZPTph6nz4A31hg",
+        'senderId': PreferenceManager.getTokenId().toString(),
         'receiveId': widget.uid,
         'seen': false,
         'video': '',

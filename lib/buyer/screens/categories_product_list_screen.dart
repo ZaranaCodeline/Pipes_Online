@@ -83,6 +83,8 @@ class _CategoriesProductListScreenState
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
+                              // bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
+                              // bottomBarIndexController.bottomIndex.value = 0;
                               Get.to(
                                 () => SelectedProductWidget(
                                   image: products[index].get("image"),

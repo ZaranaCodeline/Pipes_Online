@@ -11,9 +11,15 @@ import '../../../buyer/custom_widget/selected_product_widgets/review_widgets.dar
 import '../../../buyer/custom_widget/widgets/custom_widget/custom_text.dart';
 import '../../common/s_text_style.dart';
 
-class SReviewScreen extends StatelessWidget {
+class SReviewScreen extends StatefulWidget {
   const SReviewScreen({Key? key}) : super(key: key);
 
+  @override
+  State<SReviewScreen> createState() => _SReviewScreenState();
+}
+
+class _SReviewScreenState extends State<SReviewScreen> {
+  var rating = 3.0;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -76,11 +82,12 @@ class SReviewScreen extends StatelessWidget {
                               SmoothStarRating(
                                   allowHalfRating: false,
                                   onRatingChanged: (v) {
-                                    // rating = v;
-                                    // setState(() {});
+                                    setState(() {
+                                      rating = v;
+                                    });
                                   },
                                   starCount: 5,
-                                  // rating: rating,
+                                  rating: rating,
                                   size: 20.0.sp,
                                   filledIconData: Icons.blur_off,
                                   halfFilledIconData: Icons.blur_on,

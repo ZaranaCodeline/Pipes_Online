@@ -27,7 +27,7 @@ import 'b_review_screen.dart';
 import 'seller_review_widget.dart';
 import 'package:http/http.dart' as http;
 
-class SelectedProductWidget extends StatelessWidget {
+class SelectedProductWidget extends StatefulWidget {
   SelectedProductWidget({Key? key,
     required this.name,
     required this.price,
@@ -36,13 +36,18 @@ class SelectedProductWidget extends StatelessWidget {
       : super(key: key);
   String name, image, desc, price;
 
+  @override
+  State<SelectedProductWidget> createState() => _SelectedProductWidgetState();
+}
+
+class _SelectedProductWidgetState extends State<SelectedProductWidget> {
+  var rating = 3.0;
   final List<String> imageList = [
     'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cart_page.png?alt=media&token=6a4d6e9a-51b3-449a-a2bd-eb54dcec0803',
     'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cart_page.png?alt=media&token=6a4d6e9a-51b3-449a-a2bd-eb54dcec0803',
   ];
 
   // SelectedProductController controller = Get.put(SelectedProductController());
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -56,7 +61,7 @@ class SelectedProductWidget extends StatelessWidget {
                     clipBehavior: Clip.none,
                     children: [
                       CustomCarouselSliderWidget(
-                        image: image,
+                        image: widget.image,
                       ),
                       // CarouselWirhDotsWidgets(imgList: imageList,),
                       Padding(
@@ -89,10 +94,10 @@ class SelectedProductWidget extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(8.0.sp),
               child: CustomSelectedProductBuildTopWidget(
-                name: name,
-                price: price,
-                desc: desc,
-                image: image,
+                name: widget.name,
+                price: widget.price,
+                desc: widget.desc,
+                image: widget.image,
               ),
             ),
             Card(
@@ -147,13 +152,16 @@ class SelectedProductWidget extends StatelessWidget {
                                 SmoothStarRating(
                                     allowHalfRating: false,
                                     onRatingChanged: (v) {
-                                      // rating = v;
-                                      // setState(() {});
+
+                                      setState(() {
+                                        rating = v;
+                                      });
                                     },
                                     starCount: 5,
                                     // rating: rating,
                                     size: 18.0.sp,
-                                    filledIconData: Icons.blur_off,
+                                    rating: rating,
+                                    filledIconData: Icons.star,
                                     halfFilledIconData: Icons.blur_on,
                                     color: AppColors.starRatingColor,
                                     borderColor: AppColors.starRatingColor,

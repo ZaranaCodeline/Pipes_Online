@@ -1,13 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/buyer/screens/chat_message_page.dart';
-import 'package:pipes_online/buyer/screens/home_screen_widget.dart';
+import 'package:pipes_online/ChatRoom.dart';
+import 'package:pipes_online/cr.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/buyer_common/b_image.dart';
 import '../../../buyer/custom_widget/widgets/custom_widget/custom_text.dart';
 import 'bottom_bar_screen_page/widget/cart_bottom_bar_route.dart';
+import 'chat_message_page.dart';
 
 class BChatScreen extends StatelessWidget {
   const BChatScreen({Key? key}) : super(key: key);
@@ -68,12 +71,12 @@ class BChatScreen extends StatelessWidget {
               Divider(color: AppColors.primaryColor, thickness: 1.sp),
               InkWell(
                 onTap: () {
-                  // Get.to(() => ChatRoom());
-                  Get.to(() => ChatMessagePage(
-                      uid: 'fd',
-                      name: 'Ditya',
-                      image:
-                          'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d'));
+                  Get.to(ChatMessagePage(userImg: 'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d', receiverId: "milan",userName: 'milan',));
+                  // Get.to(() => NewChatScreen(
+                  //     receiverId: 'uorKvVoRJzOeYCMYT1vwjkrFKxz2',
+                  //     userName:  'Ditya',
+                  //     userImg:
+                  //         'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d'));
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: Get.height * 0.02),

@@ -2,11 +2,12 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:get/get.dart';
 import 'package:open_file/open_file.dart';
+import 'package:pipes_online/seller/controller/chat_controller.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../app_constant/app_colors.dart';
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
 
@@ -23,7 +24,7 @@ class ChatMessagePage extends StatefulWidget {
 
 class _ChatMessagePageState extends State<ChatMessagePage> {
 
-
+  ChatController chatController = Get.put(ChatController());
   String statusText = "";
   bool isComplete = false;
   String? recordFilePath;
@@ -51,13 +52,13 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
       'name': 'document',
     },
   ];
+
   //bNTkJEQTHVMsHA0CmtLndeqpSzp1
   final TextEditingController _msg = TextEditingController();
 
   // VideoPlayerController? _controllerVideos;
   // VideoPlayerController? videoPlayerController;
-  String
-  chatId(String id1, String id2) {
+  String chatId(String id1, String id2) {
     print('--------id1--id1--------$id1');
 
     print('id1 length => ${id1.length} id2 length=> ${id2.length}');
@@ -106,7 +107,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                       ),
                     ],
                   ),
-                  SizedBox(width: Get.width * 0.05),
+                  SizedBox(width: Get.width * 0.03),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -140,7 +141,8 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                 ),
                 child: TextButton(
                     onPressed: () {
-                      _callNumber;
+                      print('click...');
+                      launch('tel:1234567892');
                     },
                     child: Icon(
                       Icons.call,
@@ -334,7 +336,9 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                                           3),
                                                           child: Card(
                                                             color: AppColors
-                                                                .primaryColor.withOpacity(0.5),
+                                                                .primaryColor
+                                                                .withOpacity(
+                                                                    0.5),
                                                             shape:
                                                                 RoundedRectangleBorder(
                                                               borderRadius: BorderRadius.only(
@@ -573,7 +577,9 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                                   FontWeight
                                                                       .w400,
                                                               color: AppColors
-                                                                  .primaryColor.withOpacity(0.5),
+                                                                  .primaryColor
+                                                                  .withOpacity(
+                                                                      0.5),
                                                               fontFamily:
                                                                   'Ubuntu-Regular',
                                                             ),
@@ -706,7 +712,13 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                     hintStyle: TextStyle(color: AppColors.hintTextColor),
                     prefixIcon: IconButton(
                         onPressed: () async {
-                          _pickFile;
+                          // print('Open Share Option');
+                          //  final result = await FilePicker.platform.pickFiles();
+                          //  if(result == null) return;
+                          //  //open single file
+                          // final file = result.files.first;
+                          // openFile(file);
+                          chatController.getImage();
                         },
                         icon: Icon(
                           Icons.insert_link_outlined,
@@ -769,10 +781,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
       ),
     );
   }
-  _callNumber() async{
-    const number = '1122334455'; //set the number here
-    bool? res = await FlutterPhoneDirectCaller.callNumber(number);
-  }
+
   Future<void> addMsg() async {
     if (_msg.text.isEmpty) {
       log('Please first write meaage..');
@@ -793,7 +802,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
             'image': '',
             'document': '',
             'voiceNote': '',
-        'time':DateTime.now(),
+            'time': DateTime.now(),
           })
           .then((value) => _msg.clear())
           .catchError((e) => print(e));
@@ -803,18 +812,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
 
   int i = 0;
 
-  void _pickFile() async {
-
-    final result = await FilePicker.platform.pickFiles(allowMultiple: true);
-
-    if (result == null) return;
-
-    final file = result.files.first;
-
-    _openFile(file);
-  }
-
-  void _openFile(PlatformFile file) {
-    OpenFile.open(file.path);
-  }
+void openFile(PlatformFile file)async{
+  OpenFile.open(file.path!);
+}
 }

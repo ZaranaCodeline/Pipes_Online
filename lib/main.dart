@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/screens/b_chat_screen.dart';
+import 'package:pipes_online/buyer/screens/selected_product_widget.dart';
 import 'package:pipes_online/routes/app_pages.dart';
 import 'package:pipes_online/routes/app_routes.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/s_submit_profile_screen.dart';
@@ -11,6 +13,8 @@ import 'buyer/Splesh_Screen/splash.dart';
 import 'buyer/helpers/binding.dart';
 import 'buyer/routes/app_pages.dart';
 import 'buyer/screens/b_authentication_screen/b_submit_profile_screen.dart';
+import 'buyer/screens/categories_product_list_screen.dart';
+import 'buyer/screens/chat_message_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,7 +48,7 @@ class MyApp extends StatelessWidget {
           defaultTransition: Transition.fadeIn,
           getPages: AppPages.routes,
           title: 'Flutter Demo',
-          home: BSubmitProfileScreen(),
+          // home: CategoriesProductListScreen(),
           initialBinding: Binding(),
           theme: ThemeData(
             primarySwatch: Colors.blue,

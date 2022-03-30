@@ -1,11 +1,8 @@
 name: pipes_online
 description: A new Flutter project.
 
-# The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 version: 1.0.0+1
 
 environment:
@@ -28,7 +25,7 @@ dependencies:
   smooth_star_rating_null_safety: ^1.0.4+2
   shared_preferences: ^2.0.13
   url_launcher: ^6.0.20
-  share:
+  share_plus: ^4.0.3
   country_code_picker: ^2.0.2
   otp_text_field: ^1.1.2
   fl_chart: ^0.46.0
@@ -39,12 +36,15 @@ dependencies:
   image_picker: ^0.8.2
   dio: ^4.0.0
   get_storage: any
-#  whats up
+#upload images to firebase
+  firebase_storage: ^10.2.9
+  uuid: ^3.0.6
+  path_provider: ^2.0.9
+#whats up
   flutter_share: ^2.0.0
   file_picker: ^4.5.1
   open_file: ^3.2.1
 #share option
-  flutter_phone_direct_caller: ^2.1.0
 
   cupertino_icons: ^1.0.2
 
@@ -59,7 +59,6 @@ flutter:
 
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
     - assets/images/svg/
@@ -67,17 +66,6 @@ flutter:
     - assets/images/icon/
     - assets/json/
 
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware.
-
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/assets-and-images/#from-packages
-
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
   fonts:
     - family: Ubuntu-Bold
       fonts:
@@ -94,6 +82,4 @@ flutter:
     - family: Ubuntu-Medium
       fonts:
         - asset: assets/fonts/Ubuntu-Medium.ttf
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+

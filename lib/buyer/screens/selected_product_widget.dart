@@ -1,3 +1,4 @@
+import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:file_picker/file_picker.dart';
@@ -7,7 +8,9 @@ import 'package:flutter_share/flutter_share.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pipes_online/buyer/buyer_common/b_image.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -22,14 +25,14 @@ import '../custom_widget/widgets/custom_widget/custom_text.dart';
 import 'add_reviews_page.dart';
 import 'b_review_screen.dart';
 import 'seller_review_widget.dart';
+import 'package:http/http.dart' as http;
 
 class SelectedProductWidget extends StatelessWidget {
-  SelectedProductWidget(
-      {Key? key,
-      required this.name,
-      required this.price,
-      required this.image,
-      required this.desc})
+  SelectedProductWidget({Key? key,
+    required this.name,
+    required this.price,
+    required this.image,
+    required this.desc})
       : super(key: key);
   String name, image, desc, price;
 
@@ -107,7 +110,8 @@ class SelectedProductWidget extends StatelessWidget {
                         child: SvgPicture.asset(
                           BImagePick.PersonIcon,
                           width: 25.sp,
-                          height: 25.sp,color: AppColors.primaryColor,
+                          height: 25.sp,
+                          color: AppColors.primaryColor,
                         ),
 
                         // Icon(
@@ -186,7 +190,7 @@ class SelectedProductWidget extends StatelessWidget {
                 padding: EdgeInsets.all(10.sp),
                 child: CustomText(
                   text:
-                      'Lorem ipsum dolor sit amet, consectetur \n adipiscing elit, sed do eiusmod tempo \n incididunt ut labore et dolore magn \n aliqua.',
+                  'Lorem ipsum dolor sit amet, consectetur \n adipiscing elit, sed do eiusmod tempo \n incididunt ut labore et dolore magn \n aliqua.',
                   fontWeight: FontWeight.w400,
                   fontSize: 12.sp,
                   color: AppColors.secondaryBlackColor,
@@ -243,10 +247,13 @@ class SelectedProductWidget extends StatelessWidget {
                           SizedBox(
                             width: 10.sp,
                           ),
-                          IconButton(onPressed:(){
-                            shareFile;
-
-                          },icon: Icon(Icons.share_outlined)),
+                          IconButton(
+                              onPressed: () async {
+                                print('hii..');
+                                Share.share(
+                                    'https://pipesonline012.page.link/productPage');
+                              },
+                              icon: Icon(Icons.share_outlined)),
                         ],
                       ),
                     ),
@@ -259,23 +266,21 @@ class SelectedProductWidget extends StatelessWidget {
       ),
     );
   }
+
   _launchWhatsapp() async {
-    const url = "https://wa.me/?text=Hey buddy, try this super cool new app!";
+    const url = "https://wa.me/?text=Deal of the day, https://pipesonline012.page.link/productPage";
     if (await canLaunch(url)) {
       await launch(url);
     } else {
       throw 'Could not launch $url';
     }
   }
-  Future<void> shareFile() async {
-    final result = await FilePicker.platform.pickFiles();
-    if (result == null || result.files.isEmpty) return null;
 
-    await FlutterShare.shareFile(
-      title: 'Example share',
-      text: 'Example share text',
-      filePath: result.files[0] as String,
-    );
+  Future<void> share() async {
+    await FlutterShare.share(
+        title: 'Example share',
+        text: 'Example share text',
+        linkUrl: 'https://flutter.dev/',
+        chooserTitle: 'Example Chooser Title');
   }
-
 }

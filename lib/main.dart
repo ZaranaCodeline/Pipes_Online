@@ -44,11 +44,11 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           // _bottomController.selectedScreen('SCatelogeHomeScreen');
           // _bottomController.bottomIndex.value=0;
-           initialRoute: status1 == true ? SRoutes.SSubmitProfileScreen : AppPages.initial,
+          //  initialRoute: status1 == true ? SRoutes.SSubmitProfileScreen : AppPages.initial,
           defaultTransition: Transition.fadeIn,
-           getPages: AppPages.routes,
+           // getPages: AppPages.routes,
           title: 'Flutter Demo',
-          //home: BChatScreen(),
+          home: BChatScreen(),
           initialBinding: Binding(),
           theme: ThemeData(
             primarySwatch: Colors.blue,

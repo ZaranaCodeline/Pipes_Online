@@ -499,7 +499,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
-                                            height: Get.height * 0.27,
+                                            height: Get.height * 0.3,
                                             width: Get.width * 0.53,
                                             decoration: BoxDecoration(
                                                 color: AppColors.primaryColor.withOpacity(0.5),
@@ -547,6 +547,14 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                         ),
                                                       ),
                                                     ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right: 10),
+                                                  child: MsgDate(
+                                                    date: (snapShot.data!.docs[index]
+                                                    ['date'] as Timestamp)
+                                                        .toDate(),
                                                   ),
                                                 ),
                                               ],
@@ -730,20 +738,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
           .catchError((e) => print(e));
     }
   }
-  // Future<File?> pickFile() async {
-  //   FilePickerResult? result = await FilePicker.platform.pickFiles(
-  //     type: FileType.custom,
-  //     allowedExtensions: ['jpg','png'],
-  //   );
-  //   String? splites = result!.paths[0];
-  //   path = File(splites!);
-  //   print('PATH::::$path');
-  //   String attach = splites.split('.').last;
-  //   print('PATH  ${attach}');
-  //
-  //   // file=File(file!.path);
-  //   // return uploadDocumentFirebaseStorage(file: File(path!));
-  // }
+
   uploadImgFirebaseStorage({File? file}) async {
     var snapshot = await kFirebaseStorage
         .ref()
@@ -762,7 +757,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
       'senderId': _auth.currentUser!.uid,
       'receiveId': 'payal' ,
       'seen': false,
-      'msg': '',
+      'msg': _msg,
       'image': downloadUrl,
     }).then((value) {
       print('success add');
@@ -771,25 +766,67 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
   }
 
   _pickImageFromGallery() async {
-    ImagePicker imagePicker = ImagePicker();
-    PickedFile? file = await imagePicker.getImage(source: ImageSource.gallery);
+    // ImagePicker imagePicker = ImagePicker();
+    // PickedFile? file = await imagePicker.getImage(source: ImageSource.gallery);
 
-    if (file != null) {
-      // con.addFileImageArray(File(file.path));
-      // String attach = file.path.split('.').last;
-      con.addFileImageArray(File(file.path));
-      uploadImgFirebaseStorage(file: File(file.path));
-      // Get.to(ShowDocument(
-      //     receiverId: 'payal',
-      //     senderId: _auth.currentUser!.uid,
-      //     file: path,
-      //     type: attach == 'jpg' ||
-      //         attach == 'png' ||
-      //         attach == 'PNG' ||
-      //         attach == 'JPG' ||
-      //         attach == ' jpeg'
-      //         ? 'image':''));
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg','png','PNG','JPG','jpeg','image'],
+    );
+    String? splites = result!.paths[0];
+   setState(() {
+     if(splites != null){
+       path = File(splites);
+     }
+
+   });
+    print('PATH::::$path');
+    String attach = splites!.split('.').last;
+    print('PATH  ${attach}');
+    if (path != null) {
+      Get.to(ShowDocument(
+        receiverId:  'payal',
+        senderId:  _auth.currentUser!.uid,
+        file: path,
+        type: attach == 'jpg' ||
+            attach == 'png' ||
+            attach == 'PNG' ||
+            attach == 'JPG' ||
+            attach == ' jpeg'
+            ? 'image' : '',
+      ));
+    } else {
+      SizedBox();
     }
+  }
+
+  Future<File?> pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg','png','PNG','JPG','jpeg','image'],
+    );
+    String? splites = result!.paths[0];
+    path = File(splites!);
+    print('PATH::::$path');
+    String attach = splites.split('.').last;
+    print('PATH  ${attach}');
+    if (path != null) {
+      Get.to(ShowDocument(
+        receiverId:  'payal',
+        senderId:  _auth.currentUser!.uid,
+        file: path,
+        type: attach == 'jpg' ||
+            attach == 'png' ||
+            attach == 'PNG' ||
+            attach == 'JPG' ||
+            attach == ' jpeg'
+            ? 'image' : '',
+      ));
+    } else {
+      SizedBox();
+    }
+    //file=File(file!.path);
+    //return uploadDocumentFirebaseStorage(file: File(path!));
   }
   // Future uploadMultiImage() async {
   //   try {
@@ -864,9 +901,8 @@ class ShowDocument extends StatelessWidget {
           Expanded(
             child: Center(
               child: Container(
-                child: type == 'Image'
-                    ? Image.file(file!):SizedBox()
-
+                child: file !=null
+                    ? Image.file(file!,fit: BoxFit.cover,):SizedBox(child: Center(child: CircularProgressIndicator(),),)
               ),
             ),
           ),
@@ -911,18 +947,18 @@ class ShowDocument extends StatelessWidget {
     String downloadUrl = await snapshot.ref.getDownloadURL();
     print('url=$downloadUrl');
     // print('path=$fileImageArray');
-    chatCollection.doc(chatId(_auth.currentUser!.uid, receiverId!)).collection('Data').add({
+    chatCollection.doc(chatId(_auth.currentUser!.uid, 'payal')).collection('Data').add({
       'date': DateTime.now(),
-      'Type': type,
-      'senderId': senderId,
-      'receiveId': receiverId,
+      'Type': 'Image',
+      'senderId': _auth.currentUser!.uid,
+      'receiveId': 'payal',
       'seen': false,
       'msg': msg,
       'text': true,
-      'Video': '',
-      'image': type == 'image' ? downloadUrl : '',
+      'image': downloadUrl,
+      // 'image': type == 'image' ? downloadUrl : '',
     }).then((value) {
-      print('success add');
+      print('successfully added in firebase');
       con.clearImage();
     }).catchError((e) => print('upload error'));
   }

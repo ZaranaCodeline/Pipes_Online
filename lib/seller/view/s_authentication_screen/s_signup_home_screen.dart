@@ -252,7 +252,7 @@ class _SSignUpHomeScreenState extends State<SSignUpHomeScreen> {
                                 ),
                                 child: GestureDetector(
                                   onTap: () {
-                                    signInWithGoogle();
+                                    AuthMethods().signInWithGoogle(context);
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(

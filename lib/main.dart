@@ -14,7 +14,7 @@ import 'buyer/helpers/binding.dart';
 import 'buyer/routes/app_pages.dart';
 import 'buyer/screens/b_authentication_screen/b_submit_profile_screen.dart';
 import 'buyer/screens/categories_product_list_screen.dart';
-import 'buyer/screens/chat_message_page.dart';
+import 'buyer/screens/b_chat_message_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,11 +44,11 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           // _bottomController.selectedScreen('SCatelogeHomeScreen');
           // _bottomController.bottomIndex.value=0;
-          // initialRoute: status1 == true ? SRoutes.SSubmitProfileScreen : AppPages.initial,
+           initialRoute: status1 == true ? SRoutes.SSubmitProfileScreen : AppPages.initial,
           defaultTransition: Transition.fadeIn,
-          // getPages: AppPages.routes,
+           getPages: AppPages.routes,
           title: 'Flutter Demo',
-          home: BChatScreen(),
+          //home: BChatScreen(),
           initialBinding: Binding(),
           theme: ThemeData(
             primarySwatch: Colors.blue,

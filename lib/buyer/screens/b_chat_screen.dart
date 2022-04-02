@@ -2,18 +2,61 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/ChatRoom.dart';
-import 'package:pipes_online/cr.dart';
+import 'package:pipes_online/buyer/authentificaion/database.dart';
+import 'package:pipes_online/buyer/authentificaion/functions.dart';
+import 'package:pipes_online/reerence_chat_msgData.dart';
+import 'package:pipes_online/reference_chat.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/buyer_common/b_image.dart';
 import '../../../buyer/custom_widget/widgets/custom_widget/custom_text.dart';
 import 'bottom_bar_screen_page/widget/cart_bottom_bar_route.dart';
-import 'chat_message_page.dart';
+import 'b_chat_message_page.dart';
 
-class BChatScreen extends StatelessWidget {
+class BChatScreen extends StatefulWidget {
   const BChatScreen({Key? key}) : super(key: key);
+
+  @override
+  State<BChatScreen> createState() => _BChatScreenState();
+}
+
+class _BChatScreenState extends State<BChatScreen> {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
+  // TextEditingController? searchUserNameEditController;
+
+  // bool isSearching = false;
+  // Stream? usersStream;
+  // late final String receiverId;
+
+  // onSearchBtnClick() async {
+  //   isSearching = true;
+  //   setState(() {});
+  //   usersStream = await DatabaseMethods()
+  //       .getUserByUserName(searchUserNameEditController!.text);
+  // }
+
+  // Widget SearchUserList() {
+  //
+  //   return StreamBuilder(
+  //       stream: FirebaseFirestore.instance
+  //           .collection('Chat').doc('/xyz')
+  //           .collection('Data')
+  //           .orderBy('date', descending: false)
+  //           .snapshots(),
+  //       builder: (context, snapShot) {
+  //         return snapShot.hasData
+  //             ? ListView.builder(
+  //                 itemCount:  snapShot.data.docs.length,
+  //                 itemBuilder: (context, index) {
+  //                   DocumentSnapshot ds = snapShot.data.docs[index];
+  //                   return Image.network(ds["imgUrl"]);
+  //                 })
+  //             : Center(child: CircularProgressIndicator());
+  //       });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +71,7 @@ class BChatScreen extends StatelessWidget {
           leading: IconButton(
             onPressed: () {
               if (bottomBarIndexController.bottomIndex.value == 2) {
-                bottomBarIndexController.setSelectedScreen(
-                    value: 'HomeScreen');
+                bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
                 bottomBarIndexController.bottomIndex.value = 0;
               } else {
                 Get.back();
@@ -71,12 +113,17 @@ class BChatScreen extends StatelessWidget {
               Divider(color: AppColors.primaryColor, thickness: 1.sp),
               InkWell(
                 onTap: () {
-                  Get.to(ChatMessagePage(userImg: 'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d', receiverId: "milan",userName: 'milan',));
-                  // Get.to(() => NewChatScreen(
-                  //     receiverId: 'uorKvVoRJzOeYCMYT1vwjkrFKxz2',
-                  //     userName:  'Ditya',
-                  //     userImg:
-                  //         'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d'));
+                  AuthMethods().getCurrentUser();
+
+                  Get.to(ChatMessagePage(
+                    userImg:
+                    _auth.currentUser!.photoURL,
+                    // 'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d',
+                    receiverId: _auth.currentUser!.uid,
+                    // '100247364098702824893' ,
+                    userName: _auth.currentUser!.displayName,
+                    // 'milan',
+                  ));
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: Get.height * 0.02),
@@ -93,7 +140,7 @@ class BChatScreen extends StatelessWidget {
                                 children: [
                                   CircleAvatar(
                                     child: Image.asset(
-                                      BImagePick.chatIcon,
+                                      _auth.currentUser!.photoURL!,
                                       width: 50.sp,
                                       height: 50.sp,
                                       fit: BoxFit.fill,
@@ -120,7 +167,8 @@ class BChatScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CustomText(
-                                    text: 'Jan Doe',
+                                    text: _auth.currentUser!.displayName
+                                        .toString(),
                                     fontWeight: FontWeight.w600,
                                     fontSize: 15.sp,
                                     color: AppColors.secondaryBlackColor),
@@ -158,100 +206,6 @@ class BChatScreen extends StatelessWidget {
                               ),
                               backgroundColor: AppColors.primaryColor,
                             ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Divider(
-                color: AppColors.hintTextColor,
-                thickness: 1.sp,
-                indent: Get.width * 0.05,
-                endIndent: Get.width * 0.05,
-              ),
-              InkWell(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: Get.height * 0.02),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: Get.width * 0.05),
-                            child: Container(
-                              child: Stack(
-                                children: [
-                                  CircleAvatar(
-                                    child: Image.asset(
-                                      BImagePick.chatIcon,
-                                      width: 50.sp,
-                                      height: 50.sp,
-                                      fit: BoxFit.fill,
-                                    ),
-                                    backgroundColor: AppColors.offWhiteColor,
-                                  ),
-                                  // Positioned(
-                                  //   right: 0,
-                                  //   child: Container(
-                                  //     width: 10.sp,
-                                  //     height: 10.sp,
-                                  //     decoration: BoxDecoration(
-                                  //       borderRadius: BorderRadius.circular(50),
-                                  //       color: Colors.green,
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CustomText(
-                                    text: 'Sam John',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15.sp,
-                                    color: AppColors.secondaryBlackColor),
-                                CustomText(
-                                  text: 'Hii',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12.sp,
-                                  color: AppColors.secondaryBlackColor,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: Get.width * 0.4,
-                        padding: EdgeInsets.only(right: Get.width * 0.05),
-                        child: Column(
-                          children: [
-                            CustomText(
-                                text: '1h ago',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 13.sp,
-                                color: AppColors.secondaryBlackColor),
-                            // CircleAvatar(
-                            //   radius: 8.sp,
-                            //   child: Center(
-                            //     child: CustomText(
-                            //       text: '1',
-                            //       fontWeight: FontWeight.w600,
-                            //       color: AppColors.commonWhiteTextColor,
-                            //       fontSize: 10.sp,
-                            //     ),
-                            //   ),
-                            //   backgroundColor: AppColors.primaryColor,
-                            // ),
                           ],
                         ),
                       ),

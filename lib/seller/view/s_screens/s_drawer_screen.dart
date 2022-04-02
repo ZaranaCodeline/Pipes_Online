@@ -262,7 +262,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
         Get.to(() => STermsAndConditions());
         break;
       case 8:
-        Get.to(() => signOut());
+        Get.to(() => AuthMethods().signInWithGoogle(context));
         break;
     }
   }

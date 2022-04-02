@@ -255,7 +255,7 @@ class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
                                     final progress =
                                     ProgressHUD.of(context);
                                     progress!.showWithText('');
-                                    signInWithGoogle();
+                                    AuthMethods().signInWithGoogle(context);
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(

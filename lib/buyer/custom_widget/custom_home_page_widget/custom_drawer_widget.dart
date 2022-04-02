@@ -273,7 +273,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
         Get.to(() => TermsAndConditionPage());
         break;
       case 6:
-        Get.to(() => signOut());
+        Get.to(() => AuthMethods().signOut());
         break;
     }
   }

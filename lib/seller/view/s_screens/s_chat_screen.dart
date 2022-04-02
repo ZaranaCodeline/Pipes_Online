@@ -1,6 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/buyer/screens/chat_message_page.dart';
+import 'package:pipes_online/buyer/screens/b_chat_message_page.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/seller/view/s_screens/s_chat_message_screen.dart';
 import 'package:sizer/sizer.dart';
@@ -18,7 +19,7 @@ class SChatScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'CHAT',
+            'Chat',
             style: STextStyle.bold700White14,
           ),
           centerTitle: true,
@@ -54,9 +55,16 @@ class SChatScreen extends StatelessWidget {
               Divider(color: AppColors.primaryColor, thickness: 1.sp),
               InkWell(
                 onTap: () {
-                  // Get.to(() => ChatRoom());
-                  Get.to(() => SChatMessagePage(uid: 'fd',name: 'Ditya',image: 'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d'));
-                },
+                  FirebaseAuth _auth = FirebaseAuth.instance;
+                  Get.to(SChatMessagePage(
+                    userImg:
+                    _auth.currentUser!.photoURL,
+                    // 'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d',
+                    receiverId: _auth.currentUser!.uid,
+                    // '100247364098702824893' ,
+                    userName: _auth.currentUser!.displayName,
+                    // 'milan',
+                  ));                },
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: Get.height * 0.02),
                   child: Row(

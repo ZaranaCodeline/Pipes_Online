@@ -12,7 +12,7 @@ import 'package:pipes_online/buyer/view_model/b_drawer_controller.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../app_constant/app_colors.dart';
-import '../../authentificaion/functions.dart';
+import '../../authentificaion/b_functions.dart';
 import '../../screens/b_authentication_screen/b_welcome_screen.dart';
 import '../../screens/b_review_screen.dart';
 import '../../screens/home_screen_widget.dart';
@@ -273,7 +273,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
         Get.to(() => TermsAndConditionPage());
         break;
       case 6:
-        Get.to(() => AuthMethods().signOut());
+        Get.to(() => BAuthMethods().signOut());
         break;
     }
   }

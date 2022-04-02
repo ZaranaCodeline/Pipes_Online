@@ -15,7 +15,7 @@ import 'package:pipes_online/seller/view/s_screens/s_cateloge_home_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_home_screen.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../buyer/authentificaion/functions.dart';
+import '../../../buyer/authentificaion/b_functions.dart';
 import '../../../buyer/controller/geolocation_controller.dart';
 import '../../../routes/bottom_controller.dart';
 import '../../bottombar/s_navigation_bar.dart';

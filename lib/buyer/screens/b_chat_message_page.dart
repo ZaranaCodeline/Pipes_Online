@@ -13,12 +13,12 @@ import 'package:pipes_online/buyer/screens/zoom_img.dart';
 import 'package:pipes_online/seller/controller/chat_controller.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../reerence_chat_msgData.dart';
+import '../../convert_date_formate_chat.dart';
 import '../app_constant/app_colors.dart';
 import '../buyer_common/b_image.dart';
 import '../controller/chat_local_file_controller.dart';
 import '../controller/image.dart';
-import '../custom_widget/widgets/custom_widget/custom_text.dart';
+import '../custom_widget/widgets/custom_text.dart';
 
 final FirebaseStorage kFirebaseStorage = FirebaseStorage.instance;
 final FirebaseFirestore kFireStore = FirebaseFirestore.instance;
@@ -266,7 +266,15 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                                           as Timestamp)
                                                                       .toDate(),
                                                                 ),
-                                                              )
+                                                              ),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(right: 10),
+                                                                child: MsgDate(
+                                                                  date: (snapShot.data!.docs[index]
+                                                                  ['date'] as Timestamp)
+                                                                      .toDate(),
+                                                                ),
+                                                              ),
                                                             ],
                                                           ),
                                                         ),
@@ -649,12 +657,14 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                     :SizedBox();
                               },
                             );
+                          }else{
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.primaryColor.withOpacity(0.5),
+                              ),
+                            );
                           }
-                          return Center(
-                            child: CircularProgressIndicator(
-                              color: AppColors.primaryColor.withOpacity(0.5),
-                            ),
-                          );
+
                         },
                       ),
                     ],
@@ -718,7 +728,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
   Future<void> addMsg() async {
     if (_msg.text.isEmpty) {
       log('Please first write meaage..');
-      print('------SEnderwidget.uid----   ${_auth.currentUser!.uid}');
+      print('------SEnderwidget.uid----   ${_auth.currentUser?.uid}');
     } else {
       FirebaseFirestore.instance
           .collection('Chat')
@@ -728,7 +738,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
           .add({
             'date': DateTime.now(),
             'Type': 'Text',
-            'senderId': _auth.currentUser!.uid,
+            'senderId': _auth.currentUser?.uid,
             'receiveId': 'payal',
             'seen': false,
             'msg': _msg.text,

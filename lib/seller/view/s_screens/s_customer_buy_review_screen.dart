@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/buyer/custom_widget/widgets/custom_widget/custom_text.dart';
+import 'package:pipes_online/buyer/custom_widget/widgets/custom_text.dart';
 import 'package:pipes_online/seller/view/s_screens/s_reviews_feedback_screen.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';

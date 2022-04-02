@@ -13,7 +13,8 @@ import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/s_submit_profile_screen.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../buyer/authentificaion/functions.dart';
+import '../../../buyer/authentificaion/b_functions.dart';
+import '../../Authentication/s_function.dart';
 import '../../view_model/s_login_home_controller.dart';
 
 class SLogInHomeScreen extends StatefulWidget {
@@ -253,7 +254,7 @@ class _SLogInHomeScreenState extends State<SLogInHomeScreen> {
                                     ),
                                     child: GestureDetector(
                                       onTap: () {
-                                        AuthMethods().signInWithGoogle(context);
+                                        SAuthMethods().signInWithGoogle(context);
                                         Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(

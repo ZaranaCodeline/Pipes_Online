@@ -3,15 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/authentificaion/database.dart';
-import 'package:pipes_online/buyer/authentificaion/functions.dart';
-import 'package:pipes_online/reerence_chat_msgData.dart';
+import 'package:pipes_online/buyer/authentificaion/b_functions.dart';
+import 'package:pipes_online/convert_date_formate_chat.dart';
 import 'package:pipes_online/reference_chat.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/buyer_common/b_image.dart';
-import '../../../buyer/custom_widget/widgets/custom_widget/custom_text.dart';
+import '../custom_widget/widgets/custom_text.dart';
 import 'bottom_bar_screen_page/widget/cart_bottom_bar_route.dart';
 import 'b_chat_message_page.dart';
 
@@ -113,7 +113,7 @@ class _BChatScreenState extends State<BChatScreen> {
               Divider(color: AppColors.primaryColor, thickness: 1.sp),
               InkWell(
                 onTap: () {
-                  AuthMethods().getCurrentUser();
+                  BAuthMethods().getCurrentUser();
 
                   Get.to(ChatMessagePage(
                     userImg:

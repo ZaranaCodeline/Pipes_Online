@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
@@ -12,7 +14,7 @@ import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:sizer/sizer.dart';
-import '../../authentificaion/functions.dart';
+import '../../authentificaion/b_functions.dart';
 import '../../view_model/b_login_home_controller.dart';
 
 class BLogInHomeScreen extends StatefulWidget {
@@ -23,9 +25,12 @@ class BLogInHomeScreen extends StatefulWidget {
 class _BLogInHomeScreenState extends State<BLogInHomeScreen> {
   BLogInController bLogInController = Get.put(BLogInController());
 
+
   @override
   Widget build(BuildContext context) {
     void _submit() async {
+      print('buyer---login up---user');
+
       await bLogInController.phoneSignIn(
           phoneNumber: bLogInController.mobileNumber.text);
     }
@@ -252,7 +257,7 @@ class _BLogInHomeScreenState extends State<BLogInHomeScreen> {
                                     ),
                                     child: GestureDetector(
                                       onTap: () {
-                                        AuthMethods().signInWithGoogle(context);
+                                        BAuthMethods().signInWithGoogle(context);
                                         Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(

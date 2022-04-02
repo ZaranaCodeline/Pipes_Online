@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import '../app_constant/app_colors.dart';
 import '../authentificaion/views/login_page.dart';
 import '../authentificaion/views/sign_up_page.dart';
-import '../custom_widget/widgets/custom_widget/custom_button.dart';
-import '../custom_widget/widgets/custom_widget/custom_text.dart';
+import '../custom_widget/widgets/custom_button.dart';
+import '../custom_widget/widgets/custom_text.dart';
 import 'home_screen_widget.dart';
 
 class GetStartedPage extends StatelessWidget {

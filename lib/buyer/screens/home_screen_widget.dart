@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pipes_online/buyer/screens/personal_info_page.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:sizer/sizer.dart';
@@ -10,12 +11,10 @@ import '../app_constant/app_colors.dart';
 import '../buyer_common/b_image.dart';
 import '../custom_widget/custom_home_page_widget/custom_drawer_widget.dart';
 import '../custom_widget/custom_home_page_widget/custom_home_search_widget.dart';
-import '../custom_widget/widgets/custom_widget/custom_navigationbar_items.dart';
-import '../custom_widget/widgets/custom_widget/custom_text.dart';
+import '../custom_widget/widgets/custom_text.dart';
 import 'bottom_bar_screen_page/widget/cart_bottom_bar_route.dart';
 import 'cart_page.dart';
 import 'categories_card__list.dart';
-import '../custom_widget/widgets/custom_widget/custom_title_text.dart';
 import 'product_card_list.dart';
 
 // class HomePage extends StatefulWidget {
@@ -287,6 +286,41 @@ class CatelogeHomeWidget extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+class CustomTitleText extends StatelessWidget {
+  CustomTitleText(
+      {Key? key,
+        required this.text,
+        required this.fontWeight,
+        required this.fontSize,
+        required this.alignment})
+      : super(key: key);
+
+  String text;
+  double fontSize;
+  FontWeight fontWeight;
+  Alignment alignment;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: Text(
+            text,
+            style: GoogleFonts.ubuntu(
+              textStyle: TextStyle(
+                  color: AppColors.secondaryBlackColor,
+                  fontSize: fontSize,
+                  fontWeight: fontWeight),
+            ),
+          ),
+          alignment: alignment,
+        ),
+      ],
     );
   }
 }

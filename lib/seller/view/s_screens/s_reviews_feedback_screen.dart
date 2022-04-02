@@ -4,8 +4,8 @@ import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
-import '../../../buyer/custom_widget/widgets/custom_widget/custom_button.dart';
-import '../../../buyer/custom_widget/widgets/custom_widget/custom_text.dart';
+import '../../../buyer/custom_widget/widgets/custom_button.dart';
+import '../../../buyer/custom_widget/widgets/custom_text.dart';
 import '../../common/s_color_picker.dart';
 import '../../common/s_text_style.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../app_constant/app_colors.dart';
-import '../custom_widget/widgets/custom_widget/custom_text.dart';
+import '../custom_widget/widgets/custom_text.dart';
 
 
 class CommonCategoryCard extends StatelessWidget {

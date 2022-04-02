@@ -8,8 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:sizer/sizer.dart';
 import '../app_constant/app_colors.dart';
-import '../custom_widget/widgets/custom_widget/custom_button.dart';
-import '../custom_widget/widgets/custom_widget/custom_text.dart';
+import '../custom_widget/widgets/custom_button.dart';
+import '../custom_widget/widgets/custom_text.dart';
 import 'bottom_bar_screen_page/widget/home_bottom_bar_route.dart';
 import 'get_started_page.dart';
 

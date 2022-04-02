@@ -5,7 +5,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../app_constant/app_colors.dart';
 import '../../screens/seller_review_widget.dart';
-import '../widgets/custom_widget/custom_text.dart';
+import '../widgets/custom_text.dart';
 
 class CustomSelectedProductBuildTopWidget extends StatelessWidget {
   CustomSelectedProductBuildTopWidget(

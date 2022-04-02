@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pipes_online/seller/Authentication/s_function.dart';
 import 'package:pipes_online/seller/view/s_screens/s_earning_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_home_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_order_screen.dart';
@@ -11,7 +12,7 @@ import 'package:pipes_online/seller/view/s_screens/s_subscribe_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_terms_and_condition_screen.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
-import '../../../buyer/authentificaion/functions.dart';
+import '../../../buyer/authentificaion/b_functions.dart';
 import '../../../buyer/buyer_common/b_image.dart';
 import '../../../buyer/screens/drawer_profile_page.dart';
 import '../../controller/s_drawer_controller.dart';
@@ -262,7 +263,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
         Get.to(() => STermsAndConditions());
         break;
       case 8:
-        Get.to(() => AuthMethods().signInWithGoogle(context));
+        Get.to(() => SAuthMethods().signInWithGoogle(context));
         break;
     }
   }

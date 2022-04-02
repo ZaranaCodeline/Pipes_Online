@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/buyer/custom_widget/widgets/custom_widget/custom_text.dart';
+import 'package:pipes_online/buyer/custom_widget/widgets/custom_text.dart';
 import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/view/s_screens/s_order_review_screen.dart';
 import 'package:sizer/sizer.dart';

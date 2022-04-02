@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_code_picker/country_code.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,15 +8,12 @@ import 'package:get/get.dart';
 import '../screens/b_authentication_screen/b_signup_otp_screen.dart';
 
 
-
 class BSignUpHomeController extends GetxController {
   CountryCode? countryCode = CountryCode(code: '+91');
   TextEditingController mobileNumber = TextEditingController();
 
-
   bool isLoading = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
 
   TextEditingController _otp = TextEditingController();
 
@@ -41,7 +39,16 @@ class BSignUpHomeController extends GetxController {
         codeSent: _onCodeSent,
         codeAutoRetrievalTimeout: _onCodeTimeout);
   }
-
+  Future  verifyPhoneNumber() async {
+    _auth.verifyPhoneNumber(
+        phoneNumber: mobileNumber.text,
+        verificationCompleted: (phonesAuthCredentials) async {},
+        verificationFailed: (verificationFailed) async {},
+        codeSent: (verificationId, resendingToken) async {
+          this.verificationId = verificationId;
+        },
+        codeAutoRetrievalTimeout: (verificationId) async {});
+  }
   _onVerificationCompleted(PhoneAuthCredential authCredential) async {
     print("verification completed ${authCredential.smsCode}");
     User? user = FirebaseAuth.instance.currentUser;
@@ -52,13 +59,9 @@ class BSignUpHomeController extends GetxController {
       try {
         UserCredential credential =
         await user!.linkWithCredential(authCredential);
-
-
       } on FirebaseAuthException catch (e) {
         if (e.code == 'provider-already-linked') {
           await _auth.signInWithCredential(authCredential);
-
-
         }
       }
 
@@ -117,11 +120,20 @@ class BSignUpHomeController extends GetxController {
   void verifyCode() async {
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId!, smsCode:mobileNumber.text);
-    await _auth.signInWithCredential(credential).then((value) {
+    await _auth.signInWithCredential(credential)
+        .then((value)async
+    {
+      User? user = FirebaseAuth.instance.currentUser;
+      await FirebaseFirestore.instance.collection("userCradantialInfo").doc(user!.uid).set(
+          {
+            'uid':user.uid,
+            'email':user.email,
+            'phoneNumber':user.phoneNumber,
+            'createdOn':DateTime.now(),
+          });
       print('You are logged in successfully');
     });
   }
-
 
 
   void setCountryCode(value) {
@@ -129,7 +141,5 @@ class BSignUpHomeController extends GetxController {
     print('countryCode:- $countryCode');
     update();
   }
-
-
 
 }

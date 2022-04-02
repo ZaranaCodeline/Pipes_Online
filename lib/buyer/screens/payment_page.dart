@@ -6,7 +6,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
-import '../custom_widget/widgets/custom_widget/custom_text.dart';
+import '../custom_widget/widgets/custom_text.dart';
 import 'confirm_order_page.dart';
 
 class PaymentWidget extends StatelessWidget {

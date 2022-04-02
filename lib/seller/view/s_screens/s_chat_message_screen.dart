@@ -13,7 +13,7 @@ import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:octo_image/octo_image.dart';
 import 'package:pipes_online/buyer/controller/chat_local_file_controller.dart';
 import 'package:pipes_online/buyer/controller/image.dart';
-import 'package:pipes_online/buyer/custom_widget/widgets/custom_widget/custom_text.dart';
+import 'package:pipes_online/buyer/custom_widget/widgets/custom_text.dart';
 import 'package:pipes_online/buyer/screens/zoom_img.dart';
 import 'package:pipes_online/seller/controller/chat_controller.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
@@ -21,7 +21,7 @@ import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
-import '../../../reerence_chat_msgData.dart';
+import '../../../convert_date_formate_chat.dart';
 
 final FirebaseStorage kFirebaseStorage = FirebaseStorage.instance;
 final FirebaseFirestore kFireStore = FirebaseFirestore.instance;

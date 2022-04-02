@@ -1,31 +1,19 @@
-import 'dart:io';
-
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:pipes_online/buyer/buyer_common/b_image.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../app_constant/app_colors.dart';
-import '../controller/selected_product_controller.dart';
 import '../custom_widget/selected_product_widgets/custom_carousel_slider.dart';
 import '../custom_widget/selected_product_widgets/custom_selected_product_build_top_widget.dart';
-import '../custom_widget/widgets/custom_widget/custom_navigationbar_items.dart';
 import '../custom_widget/selected_product_widgets/custom_rich_text_span_widget.dart';
-import '../custom_widget/widgets/custom_widget/custom_button.dart';
-import '../custom_widget/widgets/custom_widget/custom_text.dart';
-import 'add_reviews_page.dart';
-import 'b_review_screen.dart';
+import '../custom_widget/widgets/custom_text.dart';
 import 'seller_review_widget.dart';
-import 'package:http/http.dart' as http;
 
 class SelectedProductWidget extends StatefulWidget {
   SelectedProductWidget({Key? key,

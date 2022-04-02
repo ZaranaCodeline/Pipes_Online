@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
@@ -14,7 +16,7 @@ import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/routes/app_routes.dart';
 import 'package:sizer/sizer.dart';
-import '../../authentificaion/functions.dart';
+import '../../authentificaion/b_functions.dart';
 import '../../view_model/b_signup_home_controller.dart';
 
 class BSignUpHomeScreen extends StatefulWidget {
@@ -29,11 +31,24 @@ class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('buyer---sign up---user');
     // final _formKey = GlobalKey<FormState>();
 
     void _submit() async {
       await bSignUpHomeController.phoneSignIn(
           phoneNumber: bSignUpHomeController.mobileNumber.text);
+      //     .then((value)async
+      // {
+      //   User? user = FirebaseAuth.instance.currentUser;
+      //   await FirebaseFirestore.instance.collection("userCradantialInfo").doc(user!.uid).set(
+      //       {
+      //         'uid':user.uid,
+      //         'email':user.email,
+      //         'phoneNumber':user.phoneNumber,
+      //         'createdOn':DateTime.now(),
+      //
+      //       });
+      // });
     }
 
     return ProgressHUD(child: Builder(builder: (context) => SafeArea(
@@ -255,7 +270,7 @@ class _BSignUpHomeScreenState extends State<BSignUpHomeScreen> {
                                     final progress =
                                     ProgressHUD.of(context);
                                     progress!.showWithText('');
-                                    AuthMethods().signInWithGoogle(context);
+                                    BAuthMethods().signInWithGoogle(context);
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(

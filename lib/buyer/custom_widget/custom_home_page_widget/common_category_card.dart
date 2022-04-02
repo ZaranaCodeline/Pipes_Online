@@ -4,7 +4,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../app_constant/app_colors.dart';
 import '../../app_constant/app_colors.dart';
-import '../widgets/custom_widget/custom_text.dart';
+import '../widgets/custom_text.dart';
 
 class CommonCategoryCard extends StatelessWidget {
   CommonCategoryCard({Key? key, required this.image, required this.name})

@@ -42,9 +42,7 @@ class BLogInController extends GetxController {
   _onVerificationCompleted(PhoneAuthCredential authCredential) async {
     print("verification completed ${authCredential.smsCode}");
     User? user = FirebaseAuth.instance.currentUser;
-
     this._otp.text = authCredential.smsCode!;
-
     if (authCredential.smsCode != null) {
       try {
         UserCredential credential =
@@ -82,7 +80,7 @@ class BLogInController extends GetxController {
     print(forceResendingToken);
     print("code sent");
     otpCodeVisible = true;
-    Get.to(BSignUpOTPScreen(),arguments:[verificationId,_otp.text]  );
+    Get.to(BLogInOTPScreen(),arguments:[verificationId,_otp.text]  );
   }
 
   _onCodeTimeout(String timeout) {
@@ -118,12 +116,20 @@ class BLogInController extends GetxController {
     });
   }
 
-
-
-
   void setCountryCode(value) {
     countryCode = value;
     print('countryCode:- $countryCode');
     update();
   }
 }
+
+// Future  verifyPhoneNumber() async {
+//   _auth.verifyPhoneNumber(
+//       phoneNumber: mobileNumber.text,
+//       verificationCompleted: (phonesAuthCredentials) async {},
+//       verificationFailed: (verificationFailed) async {},
+//       codeSent: (verificationId, resendingToken) async {
+//         this.verificationId = verificationId;
+//       },
+//       codeAutoRetrievalTimeout: (verificationId) async {});
+// }

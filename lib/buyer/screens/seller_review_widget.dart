@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import '../app_constant/app_colors.dart';
 import '../custom_widget/selected_product_widgets/listing_review_tab_bar.dart';
-import '../custom_widget/widgets/custom_widget/custom_text.dart';
+import '../custom_widget/widgets/custom_text.dart';
 
 class SellerReviewWidget extends StatefulWidget {
   const SellerReviewWidget({Key? key}) : super(key: key);

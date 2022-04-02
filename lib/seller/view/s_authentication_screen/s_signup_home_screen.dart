@@ -5,6 +5,7 @@ import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
+import 'package:pipes_online/seller/Authentication/s_function.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
@@ -14,7 +15,7 @@ import 'package:pipes_online/seller/view/s_authentication_screen/s_submit_profil
 import 'package:pipes_online/seller/view_model/s_signup_home_controller.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../buyer/authentificaion/functions.dart';
+import '../../../buyer/authentificaion/b_functions.dart';
 
 
 class SSignUpHomeScreen extends StatefulWidget {
@@ -252,7 +253,7 @@ class _SSignUpHomeScreenState extends State<SSignUpHomeScreen> {
                                 ),
                                 child: GestureDetector(
                                   onTap: () {
-                                    AuthMethods().signInWithGoogle(context);
+                                    SAuthMethods().signInWithGoogle(context);
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(

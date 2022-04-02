@@ -7,8 +7,8 @@ import 'package:sizer/sizer.dart';
 
 import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
-import '../custom_widget/widgets/custom_widget/custom_button.dart';
-import '../custom_widget/widgets/custom_widget/custom_text.dart';
+import '../custom_widget/widgets/custom_button.dart';
+import '../custom_widget/widgets/custom_text.dart';
 import 'home_screen_widget.dart';
 
 class BConfirmOrderPage extends StatelessWidget {

@@ -8,7 +8,7 @@ import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.da
 
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/custom_widget/selected_product_widgets/review_widgets.dart';
-import '../../../buyer/custom_widget/widgets/custom_widget/custom_text.dart';
+import '../../../buyer/custom_widget/widgets/custom_text.dart';
 import '../../common/s_text_style.dart';
 
 class SReviewScreen extends StatefulWidget {

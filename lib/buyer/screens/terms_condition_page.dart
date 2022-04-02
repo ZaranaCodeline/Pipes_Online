@@ -4,7 +4,7 @@ import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:sizer/sizer.dart';
 
 import '../app_constant/app_colors.dart';
-import '../custom_widget/widgets/custom_widget/custom_text.dart';
+import '../custom_widget/widgets/custom_text.dart';
 
 class TermsAndConditionPage extends StatelessWidget {
   const TermsAndConditionPage({Key? key}) : super(key: key);

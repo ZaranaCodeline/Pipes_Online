@@ -5,7 +5,7 @@ import 'package:pipes_online/buyer/screens/add_reviews_page.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
 import '../../app_constant/app_colors.dart';
-import '../widgets/custom_widget/custom_text.dart';
+import '../widgets/custom_text.dart';
 
 class ReviewWidget extends StatefulWidget {
   const ReviewWidget({Key? key}) : super(key: key);

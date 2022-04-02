@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:sizer/sizer.dart';
 import '../app_constant/app_colors.dart';
-import '../custom_widget/widgets/custom_widget/custom_text.dart';
+import '../custom_widget/widgets/custom_text.dart';
 
 class CommonCategoryCard extends StatelessWidget {
   CommonCategoryCard({Key? key, required this.image, required this.name})

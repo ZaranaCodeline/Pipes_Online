@@ -5,7 +5,7 @@ import 'package:pipes_online/seller/view/s_screens/s_edit_product_screen.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
-import '../../../buyer/custom_widget/widgets/custom_widget/custom_text.dart';
+import '../../../buyer/custom_widget/widgets/custom_text.dart';
 import '../../common/s_common_button.dart';
 import '../../common/s_text_style.dart';
 import 's_subscribe_screen.dart';

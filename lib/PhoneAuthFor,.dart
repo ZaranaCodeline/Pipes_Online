@@ -63,13 +63,6 @@ class _PhoneAuthFormState extends State<PhoneAuthForm> {
                       contentPadding: EdgeInsets.symmetric(
                           vertical: 15.0, horizontal: 10.0),
                       border: border,
-                      // suffixIcon: Padding(
-                      //   child: FaIcon(
-                      //     FontAwesomeIcons.eye,
-                      //     size: 15,
-                      //   ),
-                      //   padding: EdgeInsets.only(top: 15, left: 15),
-                      // ),
                     ),
                   ),
                 ),

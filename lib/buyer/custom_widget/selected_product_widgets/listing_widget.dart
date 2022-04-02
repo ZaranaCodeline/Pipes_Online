@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../app_constant/app_colors.dart';
-import '../widgets/custom_widget/custom_text.dart';
+import '../widgets/custom_text.dart';
 
 class ListingWidget extends StatelessWidget {
   const ListingWidget({Key? key}) : super(key: key);

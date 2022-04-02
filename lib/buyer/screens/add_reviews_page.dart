@@ -10,8 +10,15 @@ import '../custom_widget/selected_product_widgets/listing_review_tab_bar.dart';
 import '../custom_widget/widgets/custom_widget/custom_button.dart';
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
 
-class AddReviewsPage extends StatelessWidget {
+class AddReviewsPage extends StatefulWidget {
   const AddReviewsPage({Key? key}) : super(key: key);
+
+  @override
+  State<AddReviewsPage> createState() => _AddReviewsPageState();
+}
+
+class _AddReviewsPageState extends State<AddReviewsPage> {
+  var rating = 3.0;
 
   @override
   Widget build(BuildContext context) {
@@ -109,13 +116,14 @@ class AddReviewsPage extends StatelessWidget {
                                   SmoothStarRating(
                                       allowHalfRating: false,
                                       onRatingChanged: (v) {
-                                        // rating = v;
-                                        // setState(() {});
+                                        setState(() {
+                                          rating = v;
+                                        });
                                       },
                                       starCount: 5,
-                                      // rating: rating,
+                                      rating: rating,
                                       size: 22.sp,
-                                      filledIconData: Icons.blur_off,
+                                      filledIconData: Icons.star,
                                       halfFilledIconData: Icons.blur_on,
                                       color: AppColors.hintTextColor,
                                       borderColor: AppColors.hintTextColor,

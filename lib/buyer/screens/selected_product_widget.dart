@@ -42,6 +42,7 @@ class SelectedProductWidget extends StatefulWidget {
 
 class _SelectedProductWidgetState extends State<SelectedProductWidget> {
   var rating = 3.0;
+
   final List<String> imageList = [
     'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cart_page.png?alt=media&token=6a4d6e9a-51b3-449a-a2bd-eb54dcec0803',
     'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cart_page.png?alt=media&token=6a4d6e9a-51b3-449a-a2bd-eb54dcec0803',

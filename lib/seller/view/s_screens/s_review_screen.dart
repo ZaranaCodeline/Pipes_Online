@@ -89,7 +89,7 @@ class _SReviewScreenState extends State<SReviewScreen> {
                                   starCount: 5,
                                   rating: rating,
                                   size: 20.0.sp,
-                                  filledIconData: Icons.blur_off,
+                                  filledIconData: Icons.star,
                                   halfFilledIconData: Icons.blur_on,
                                   color: AppColors.starRatingColor,
                                   borderColor: AppColors.starRatingColor,
@@ -223,13 +223,13 @@ class _SReviewScreenState extends State<SReviewScreen> {
                           child: SmoothStarRating(
                               allowHalfRating: false,
                               onRatingChanged: (v) {
-                                // rating = v;
-                                // setState(() {});
+                                rating = v;
+                                setState(() {});
                               },
                               starCount: 5,
-                              // rating: rating,
+                              rating: rating,
                               size: 20.0,
-                              filledIconData: Icons.blur_off,
+                              filledIconData: Icons.star,
                               halfFilledIconData: Icons.blur_on,
                               color: AppColors.starRatingColor,
                               borderColor: AppColors.starRatingColor,
@@ -321,13 +321,14 @@ class _SReviewScreenState extends State<SReviewScreen> {
                           child: SmoothStarRating(
                               allowHalfRating: false,
                               onRatingChanged: (v) {
-                                // rating = v;
-                                // setState(() {});
+                                setState(() {
+                                  rating = v;
+                                });
                               },
                               starCount: 5,
-                              // rating: rating,
+                              rating: rating,
                               size: 20.0,
-                              filledIconData: Icons.blur_off,
+                              filledIconData: Icons.star,
                               halfFilledIconData: Icons.blur_on,
                               color: AppColors.starRatingColor,
                               borderColor: AppColors.starRatingColor,

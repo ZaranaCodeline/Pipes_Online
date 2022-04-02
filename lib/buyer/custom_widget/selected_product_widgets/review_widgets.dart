@@ -7,12 +7,18 @@ import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.da
 import '../../app_constant/app_colors.dart';
 import '../widgets/custom_widget/custom_text.dart';
 
-class ReviewWidget extends StatelessWidget {
+class ReviewWidget extends StatefulWidget {
   const ReviewWidget({Key? key}) : super(key: key);
 
   @override
+  State<ReviewWidget> createState() => _ReviewWidgetState();
+}
+
+class _ReviewWidgetState extends State<ReviewWidget> {
+  var rating = 3.0;
+
+  @override
   Widget build(BuildContext context) {
-    var rating = 3.0;
     return SafeArea(
       child: Container(
         child: SingleChildScrollView(
@@ -61,13 +67,14 @@ class ReviewWidget extends StatelessWidget {
                                 SmoothStarRating(
                                     allowHalfRating: false,
                                     onRatingChanged: (v) {
-                                      // rating = v;
-                                      // setState(() {});
+                                      setState(() {
+                                        rating = v;
+                                      });
                                     },
                                     starCount: 5,
-                                    // rating: rating,
+                                    rating: rating,
                                     size: 20.0,
-                                    filledIconData: Icons.blur_off,
+                                    filledIconData: Icons.star,
                                     halfFilledIconData: Icons.blur_on,
                                     color: AppColors.starRatingColor,
                                     borderColor: AppColors.starRatingColor,
@@ -197,13 +204,14 @@ class ReviewWidget extends StatelessWidget {
                                   child: SmoothStarRating(
                                       allowHalfRating: false,
                                       onRatingChanged: (v) {
-                                        // rating = v;
-                                        // setState(() {});
+                                        setState(() {
+                                          rating = v;
+                                        });
                                       },
                                       starCount: 5,
-                                      // rating: rating,
+                                      rating: rating,
                                       size: 20.0,
-                                      filledIconData: Icons.blur_off,
+                                      filledIconData: Icons.star,
                                       halfFilledIconData: Icons.blur_on,
                                       color: AppColors.starRatingColor,
                                       borderColor: AppColors.starRatingColor,

@@ -13,12 +13,18 @@ import '../../../buyer/custom_widget/selected_product_widgets/review_widgets.dar
 import '../../common/s_color_picker.dart';
 import 's_reviews_feedback_screen.dart';
 
-class ScustomerReviewScreen extends StatelessWidget {
+class ScustomerReviewScreen extends StatefulWidget {
   const ScustomerReviewScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  State<ScustomerReviewScreen> createState() => _ScustomerReviewScreenState();
+}
 
+class _ScustomerReviewScreenState extends State<ScustomerReviewScreen> {
+  var rating = 3.0;
+
+  @override
+  Widget build(BuildContext context) {
     _showPopupMenu() {
       final RenderBox renderBox = context.findRenderObject() as RenderBox;
       final offset = renderBox.localToGlobal(Offset.zero);
@@ -31,7 +37,7 @@ class ScustomerReviewScreen extends StatelessWidget {
       showMenu<String>(
         context: context,
         color: AppColors.primaryColor,
-        position: RelativeRect.fromLTRB(25,0,25,25),
+        position: RelativeRect.fromLTRB(25, 0, 25, 25),
         //position where you want to show the menu on screen
         items: [
           PopupMenuItem<String>(
@@ -39,7 +45,7 @@ class ScustomerReviewScreen extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(
-                    height : Get.height * 0.04,
+                    height: Get.height * 0.04,
                   ),
                   CustomText(
                     text: 'Contact to seller',
@@ -75,8 +81,8 @@ class ScustomerReviewScreen extends StatelessWidget {
           ),
           PopupMenuItem<String>(
             child: GestureDetector(
-              onTap: (){
-                Get.to(()=>ScustomerBuyReviewScreen());
+              onTap: () {
+                Get.to(() => ScustomerBuyReviewScreen());
               },
               child: Container(
                 height: Get.height * 0.08,
@@ -106,9 +112,8 @@ class ScustomerReviewScreen extends StatelessWidget {
           PopupMenuItem<String>(
             child: Center(
                 child: SizedBox(
-                  height: Get.height * 0.008,
-                )
-            ),
+              height: Get.height * 0.008,
+            )),
             value: '4',
           ),
           PopupMenuItem<String>(
@@ -128,7 +133,7 @@ class ScustomerReviewScreen extends StatelessWidget {
                   ),
                   CustomText(
                     text:
-                    ' By this subscription\n you can call and chat\n with seller at any time.',
+                        ' By this subscription\n you can call and chat\n with seller at any time.',
                     color: AppColors.commonWhiteTextColor,
                     fontWeight: FontWeight.w600,
                     fontSize: 18,
@@ -140,9 +145,8 @@ class ScustomerReviewScreen extends StatelessWidget {
           PopupMenuItem<String>(
             child: Center(
                 child: SizedBox(
-                  height: Get.height * 0.01,
-                )
-            ),
+              height: Get.height * 0.01,
+            )),
             value: '6',
           ),
         ],
@@ -153,7 +157,7 @@ class ScustomerReviewScreen extends StatelessWidget {
       );
     }
 
-    return  SafeArea(
+    return SafeArea(
       child: Container(
         child: Center(
           child: SingleChildScrollView(
@@ -178,7 +182,7 @@ class ScustomerReviewScreen extends StatelessWidget {
                                       decoration: BoxDecoration(
                                           color: AppColors.primaryColor,
                                           borderRadius:
-                                          const BorderRadius.vertical(
+                                              const BorderRadius.vertical(
                                             bottom: Radius.circular(25),
                                           )),
                                     ),
@@ -200,7 +204,8 @@ class ScustomerReviewScreen extends StatelessWidget {
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(
-                                          color: Color(0xffE8E8E8), width: 1.0)),
+                                          color: Color(0xffE8E8E8),
+                                          width: 1.0)),
                                   child: Image.asset(
                                     'assets/images/png/cat_1.png',
                                     fit: BoxFit.contain,
@@ -243,13 +248,14 @@ class ScustomerReviewScreen extends StatelessWidget {
                             SmoothStarRating(
                                 allowHalfRating: false,
                                 onRatingChanged: (v) {
-                                  // rating = v;
-                                  // setState(() {});
+                                  setState(() {
+                                    rating = v;
+                                  });
                                 },
                                 starCount: 5,
-                                // rating: rating,
+                                rating: rating,
                                 size: 20.0,
-                                filledIconData: Icons.blur_off,
+                                filledIconData: Icons.star,
                                 halfFilledIconData: Icons.blur_on,
                                 color: AppColors.starRatingColor,
                                 borderColor: AppColors.starRatingColor,
@@ -277,7 +283,8 @@ class ScustomerReviewScreen extends StatelessWidget {
                           ),
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        margin: EdgeInsets.symmetric(horizontal: 80, vertical: 4),
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 80, vertical: 4),
                         child: InkWell(
                           onTap: () {
                             print('Get Contatc Detail');
@@ -295,16 +302,18 @@ class ScustomerReviewScreen extends StatelessWidget {
                                         color: AppColors.starRatingColor),
                                     borderRadius: BorderRadius.circular(5),
                                   ),
-                                  child: SvgPicture.asset(BImagePick.ReviewsIcon,color: SColorPicker.purple)
-                                // SvgPicture.asset('assets/images/folder_icon.svg'),
-                              ),
+                                  child: SvgPicture.asset(
+                                      BImagePick.ReviewsIcon,
+                                      color: SColorPicker.purple)
+                                  // SvgPicture.asset('assets/images/folder_icon.svg'),
+                                  ),
                               const SizedBox(
                                 width: 10,
                               ),
                               CustomText(
                                   text: 'Get contact details',
                                   fontWeight: FontWeight.w600,
-                                  fontSize:  14.sp,
+                                  fontSize: 14.sp,
                                   color: AppColors.secondaryBlackColor),
                             ],
                           ),
@@ -318,7 +327,8 @@ class ScustomerReviewScreen extends StatelessWidget {
                               height: Get.height * 0.02,
                             ),
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: Get.width * 0.1),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Get.width * 0.1),
                               child: CustomText(
                                 text: 'Summary',
                                 fontWeight: FontWeight.w600,
@@ -331,16 +341,19 @@ class ScustomerReviewScreen extends StatelessWidget {
                               height: Get.height * 0.02,
                             ),
                             Container(
-                              padding: EdgeInsets.only(bottom: Get.height * 0.1),
+                              padding:
+                                  EdgeInsets.only(bottom: Get.height * 0.1),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   SizedBox(
                                     height: Get.height * 0.1,
                                   ),
                                   Container(
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
                                       children: [
                                         CustomText(
                                           text: '5.0',
@@ -354,16 +367,18 @@ class ScustomerReviewScreen extends StatelessWidget {
                                         SmoothStarRating(
                                             allowHalfRating: false,
                                             onRatingChanged: (v) {
-                                              // rating = v;
-                                              // setState(() {});
+                                              setState(() {
+                                                rating = v;
+                                              });
                                             },
                                             starCount: 5,
-                                            // rating: rating,
+                                            rating: rating,
                                             size: 20.0.sp,
-                                            filledIconData: Icons.blur_off,
+                                            filledIconData: Icons.star,
                                             halfFilledIconData: Icons.blur_on,
                                             color: AppColors.starRatingColor,
-                                            borderColor: AppColors.starRatingColor,
+                                            borderColor:
+                                                AppColors.starRatingColor,
                                             spacing: 0.0),
                                         SizedBox(
                                           height: Get.height * 0.01,
@@ -378,15 +393,16 @@ class ScustomerReviewScreen extends StatelessWidget {
                                   ),
                                   Column(
                                     children: [
-                                      CustomRatingView('5', AppColors.primaryColor, '5'),
                                       CustomRatingView(
-                                          '4', AppColors.starRatingLightColor, '0'),
-                                      CustomRatingView(
-                                          '3', AppColors.starRatingLightColor, '0'),
-                                      CustomRatingView(
-                                          '2', AppColors.starRatingLightColor, '0'),
-                                      CustomRatingView(
-                                          '1', AppColors.starRatingLightColor, '0'),
+                                          '5', AppColors.primaryColor, '5'),
+                                      CustomRatingView('4',
+                                          AppColors.starRatingLightColor, '0'),
+                                      CustomRatingView('3',
+                                          AppColors.starRatingLightColor, '0'),
+                                      CustomRatingView('2',
+                                          AppColors.starRatingLightColor, '0'),
+                                      CustomRatingView('1',
+                                          AppColors.starRatingLightColor, '0'),
                                     ],
                                   ),
                                 ],
@@ -397,7 +413,8 @@ class ScustomerReviewScreen extends StatelessWidget {
                       ),
 
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.sp,vertical: 10.sp),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.sp, vertical: 10.sp),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -407,8 +424,8 @@ class ScustomerReviewScreen extends StatelessWidget {
                                 fontSize: 12.sp,
                                 color: AppColors.secondaryBlackColor),
                             GestureDetector(
-                              onTap: (){
-                                Get.to(()=>SReviewFeedBackScreen());
+                              onTap: () {
+                                Get.to(() => SReviewFeedBackScreen());
                               },
                               child: CustomText(
                                   text: 'Review Now',
@@ -419,7 +436,10 @@ class ScustomerReviewScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Divider(thickness: 1,color: SColorPicker.lightGrey,),
+                      Divider(
+                        thickness: 1,
+                        color: SColorPicker.lightGrey,
+                      ),
 
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 15),
@@ -437,7 +457,8 @@ class ScustomerReviewScreen extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 20),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
                                     child: CustomText(
                                       text: 'Jan Doe',
                                       fontWeight: FontWeight.w600,
@@ -451,15 +472,18 @@ class ScustomerReviewScreen extends StatelessWidget {
                                     height: Get.height * 0.01,
                                   ),
                                   Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 20),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         CustomText(
                                             text: 'Buyer',
                                             fontWeight: FontWeight.w400,
                                             fontSize: 12.sp,
-                                            color: AppColors.secondaryBlackColor),
+                                            color:
+                                                AppColors.secondaryBlackColor),
                                         SizedBox(
                                           width: Get.width * 0.03,
                                         ),
@@ -469,8 +493,10 @@ class ScustomerReviewScreen extends StatelessWidget {
                                               width: 6,
                                               height: 6,
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(50),
-                                                color: AppColors.secondaryBlackColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                                color: AppColors
+                                                    .secondaryBlackColor,
                                               ),
                                             ),
                                             SizedBox(
@@ -480,7 +506,8 @@ class ScustomerReviewScreen extends StatelessWidget {
                                                 text: 'Coated Coil',
                                                 fontWeight: FontWeight.w400,
                                                 fontSize: 12.sp,
-                                                color: AppColors.secondaryBlackColor),
+                                                color: AppColors
+                                                    .secondaryBlackColor),
                                           ],
                                         ),
                                       ],
@@ -490,18 +517,20 @@ class ScustomerReviewScreen extends StatelessWidget {
                                     height: Get.height * 0.01,
                                   ),
                                   Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 15),
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 15),
                                     width: Get.width * 0.7,
                                     child: SmoothStarRating(
                                         allowHalfRating: false,
                                         onRatingChanged: (v) {
-                                          // rating = v;
-                                          // setState(() {});
+                                          setState(() {
+                                            rating = v;
+                                          });
                                         },
                                         starCount: 5,
-                                        // rating: rating,
+                                        rating: rating,
                                         size: 20.0,
-                                        filledIconData: Icons.blur_off,
+                                        filledIconData: Icons.star,
                                         halfFilledIconData: Icons.blur_on,
                                         color: AppColors.starRatingColor,
                                         borderColor: AppColors.starRatingColor,
@@ -519,7 +548,10 @@ class ScustomerReviewScreen extends StatelessWidget {
                         ),
                       ),
 
-                      Divider(thickness: 1,color: SColorPicker.lightGrey,),
+                      Divider(
+                        thickness: 1,
+                        color: SColorPicker.lightGrey,
+                      ),
 
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 15),
@@ -537,7 +569,8 @@ class ScustomerReviewScreen extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 20),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
                                     child: CustomText(
                                       text: 'Jan Doe',
                                       fontWeight: FontWeight.w600,
@@ -551,15 +584,18 @@ class ScustomerReviewScreen extends StatelessWidget {
                                     height: Get.height * 0.01,
                                   ),
                                   Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 20),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         CustomText(
                                             text: 'Buyer',
                                             fontWeight: FontWeight.w400,
                                             fontSize: 12.sp,
-                                            color: AppColors.secondaryBlackColor),
+                                            color:
+                                                AppColors.secondaryBlackColor),
                                         SizedBox(
                                           width: Get.width * 0.03,
                                         ),
@@ -569,8 +605,10 @@ class ScustomerReviewScreen extends StatelessWidget {
                                               width: 6,
                                               height: 6,
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(50),
-                                                color: AppColors.secondaryBlackColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                                color: AppColors
+                                                    .secondaryBlackColor,
                                               ),
                                             ),
                                             SizedBox(
@@ -580,7 +618,8 @@ class ScustomerReviewScreen extends StatelessWidget {
                                                 text: 'Coated Coil',
                                                 fontWeight: FontWeight.w400,
                                                 fontSize: 12.sp,
-                                                color: AppColors.secondaryBlackColor),
+                                                color: AppColors
+                                                    .secondaryBlackColor),
                                           ],
                                         ),
                                       ],
@@ -590,18 +629,20 @@ class ScustomerReviewScreen extends StatelessWidget {
                                     height: Get.height * 0.01,
                                   ),
                                   Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 15),
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 15),
                                     width: Get.width * 0.7,
                                     child: SmoothStarRating(
                                         allowHalfRating: false,
                                         onRatingChanged: (v) {
-                                          // rating = v;
-                                          // setState(() {});
+                                          setState(() {
+                                            rating = v;
+                                          });
                                         },
                                         starCount: 5,
-                                        // rating: rating,
+                                        rating: rating,
                                         size: 20.0,
-                                        filledIconData: Icons.blur_off,
+                                        filledIconData: Icons.star,
                                         halfFilledIconData: Icons.blur_on,
                                         color: AppColors.starRatingColor,
                                         borderColor: AppColors.starRatingColor,
@@ -618,11 +659,13 @@ class ScustomerReviewScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Divider(thickness: 1,color: SColorPicker.lightGrey,),
+                      Divider(
+                        thickness: 1,
+                        color: SColorPicker.lightGrey,
+                      ),
                     ],
                   ),
                 ),
-
               ],
             ),
           ),

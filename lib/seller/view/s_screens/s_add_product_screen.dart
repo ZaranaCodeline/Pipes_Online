@@ -50,13 +50,13 @@ class SAddProductScreen extends StatelessWidget {
                 EdgeInsets.symmetric(vertical: 5.sp),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  color: Color(0x1f9378ff),
+                  color: AppColors.primaryColor.withOpacity(0.3),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Container(
-                      child: SvgPicture.asset('assets/images/svg/camera.svg'),
+                      child: SvgPicture.asset('assets/images/svg/camera.svg',color: AppColors.primaryColor,),
                       alignment: Alignment.center,
                     ),
                     Container(

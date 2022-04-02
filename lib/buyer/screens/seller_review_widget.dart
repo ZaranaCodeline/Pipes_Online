@@ -5,8 +5,15 @@ import '../app_constant/app_colors.dart';
 import '../custom_widget/selected_product_widgets/listing_review_tab_bar.dart';
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
 
-class SellerReviewWidget extends StatelessWidget {
+class SellerReviewWidget extends StatefulWidget {
   const SellerReviewWidget({Key? key}) : super(key: key);
+
+  @override
+  State<SellerReviewWidget> createState() => _SellerReviewWidgetState();
+}
+
+class _SellerReviewWidgetState extends State<SellerReviewWidget> {
+  var rating = 3.0;
 
   @override
   Widget build(BuildContext context) {
@@ -227,13 +234,15 @@ class SellerReviewWidget extends StatelessWidget {
                           SmoothStarRating(
                               allowHalfRating: false,
                               onRatingChanged: (v) {
-                                // rating = v;
-                                // setState(() {});
+                                setState(() {
+                                  rating = v;
+
+                                });
                               },
                               starCount: 5,
-                              // rating: rating,
+                              rating: rating,
                               size: 20.0,
-                              filledIconData: Icons.blur_off,
+                              filledIconData: Icons.star,
                               halfFilledIconData: Icons.blur_on,
                               color: AppColors.starRatingColor,
                               borderColor: AppColors.starRatingColor,

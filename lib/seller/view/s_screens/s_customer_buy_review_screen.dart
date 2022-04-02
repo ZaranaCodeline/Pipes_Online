@@ -11,8 +11,15 @@ import '../../../buyer/custom_widget/selected_product_widgets/listing_review_tab
 import '../../../buyer/custom_widget/selected_product_widgets/review_widgets.dart';
 import '../../common/s_color_picker.dart';
 
-class ScustomerBuyReviewScreen extends StatelessWidget {
+class ScustomerBuyReviewScreen extends StatefulWidget {
   const ScustomerBuyReviewScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ScustomerBuyReviewScreen> createState() => _ScustomerBuyReviewScreenState();
+}
+
+class _ScustomerBuyReviewScreenState extends State<ScustomerBuyReviewScreen> {
+  var rating = 3.0;
 
   @override
   Widget build(BuildContext context) {
@@ -107,13 +114,15 @@ class ScustomerBuyReviewScreen extends StatelessWidget {
                             SmoothStarRating(
                                 allowHalfRating: false,
                                 onRatingChanged: (v) {
-                                  // rating = v;
-                                  // setState(() {});
+                                  setState(() {
+                                    rating = v;
+
+                                  });
                                 },
                                 starCount: 5,
-                                // rating: rating,
+                                rating: rating,
                                 size: 20.0,
-                                filledIconData: Icons.blur_off,
+                                filledIconData: Icons.star,
                                 halfFilledIconData: Icons.blur_on,
                                 color: AppColors.starRatingColor,
                                 borderColor: AppColors.starRatingColor,
@@ -195,13 +204,14 @@ class ScustomerBuyReviewScreen extends StatelessWidget {
                                         SmoothStarRating(
                                             allowHalfRating: false,
                                             onRatingChanged: (v) {
-                                              // rating = v;
-                                              // setState(() {});
+                                              setState(() {
+                                                rating = v;
+                                              });
                                             },
                                             starCount: 5,
-                                            // rating: rating,
+                                            rating: rating,
                                             size: 20.0.sp,
-                                            filledIconData: Icons.blur_off,
+                                            filledIconData: Icons.star,
                                             halfFilledIconData: Icons.blur_on,
                                             color: AppColors.starRatingColor,
                                             borderColor:
@@ -350,13 +360,14 @@ class ScustomerBuyReviewScreen extends StatelessWidget {
                                     child: SmoothStarRating(
                                         allowHalfRating: false,
                                         onRatingChanged: (v) {
-                                          // rating = v;
-                                          // setState(() {});
+                                          setState(() {
+                                            rating = v;
+                                          });
                                         },
                                         starCount: 5,
-                                        // rating: rating,
+                                        rating: rating,
                                         size: 20.0,
-                                        filledIconData: Icons.blur_off,
+                                        filledIconData: Icons.star,
                                         halfFilledIconData: Icons.blur_on,
                                         color: AppColors.starRatingColor,
                                         borderColor: AppColors.starRatingColor,
@@ -461,13 +472,14 @@ class ScustomerBuyReviewScreen extends StatelessWidget {
                                     child: SmoothStarRating(
                                         allowHalfRating: false,
                                         onRatingChanged: (v) {
-                                          // rating = v;
-                                          // setState(() {});
+                                          setState(() {
+                                            rating = v;
+                                          });
                                         },
                                         starCount: 5,
-                                        // rating: rating,
+                                        rating: rating,
                                         size: 20.0,
-                                        filledIconData: Icons.blur_off,
+                                        filledIconData: Icons.star,
                                         halfFilledIconData: Icons.blur_on,
                                         color: AppColors.starRatingColor,
                                         borderColor: AppColors.starRatingColor,

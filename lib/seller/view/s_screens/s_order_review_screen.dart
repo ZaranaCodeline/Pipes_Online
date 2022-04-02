@@ -15,9 +15,15 @@ import '../../../buyer/screens/add_reviews_page.dart';
 import '../../common/s_common_button.dart';
 import '../../common/s_text_style.dart';
 
-class SorderReviewScreen extends StatelessWidget {
+class SorderReviewScreen extends StatefulWidget {
   const SorderReviewScreen({Key? key}) : super(key: key);
 
+  @override
+  State<SorderReviewScreen> createState() => _SorderReviewScreenState();
+}
+
+class _SorderReviewScreenState extends State<SorderReviewScreen> {
+  var rating = 3.0;
   @override
   Widget build(BuildContext context) {
     final List<String> imageList = [
@@ -268,13 +274,13 @@ class SorderReviewScreen extends StatelessWidget {
                                               SmoothStarRating(
                                                   allowHalfRating: false,
                                                   onRatingChanged: (v) {
-                                                    // rating = v;
-                                                    // setState(() {});
+                                                    rating = v;
+                                                    setState(() {});
                                                   },
                                                   starCount: 5,
-                                                  // rating: rating,
+                                                  rating: rating,
                                                   size: 18.0.sp,
-                                                  filledIconData: Icons.blur_off,
+                                                  filledIconData: Icons.star,
                                                   halfFilledIconData:
                                                       Icons.blur_on,
                                                   color:

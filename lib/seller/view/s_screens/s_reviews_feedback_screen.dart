@@ -9,8 +9,15 @@ import '../../../buyer/custom_widget/widgets/custom_widget/custom_text.dart';
 import '../../common/s_color_picker.dart';
 import '../../common/s_text_style.dart';
 
-class SReviewFeedBackScreen extends StatelessWidget {
+class SReviewFeedBackScreen extends StatefulWidget {
   const SReviewFeedBackScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SReviewFeedBackScreen> createState() => _SReviewFeedBackScreenState();
+}
+
+class _SReviewFeedBackScreenState extends State<SReviewFeedBackScreen> {
+  var rating = 3.0;
 
   @override
   Widget build(BuildContext context) {
@@ -107,13 +114,14 @@ class SReviewFeedBackScreen extends StatelessWidget {
                                 SmoothStarRating(
                                     allowHalfRating: false,
                                     onRatingChanged: (v) {
-                                      // rating = v;
-                                      // setState(() {});
+                                      setState(() {
+                                        rating = v;
+                                      });
                                     },
                                     starCount: 5,
-                                    // rating: rating,
+                                    rating: rating,
                                     size: 22.sp,
-                                    filledIconData: Icons.blur_off,
+                                    filledIconData: Icons.star,
                                     halfFilledIconData: Icons.blur_on,
                                     color: AppColors.hintTextColor,
                                     borderColor: AppColors.hintTextColor,

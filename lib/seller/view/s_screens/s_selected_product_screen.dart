@@ -14,18 +14,24 @@ import '../../../buyer/custom_widget/widgets/custom_widget/custom_text.dart';
 import '../../../buyer/screens/add_reviews_page.dart';
 import '../../common/s_common_button.dart';
 
-class SSelectedProductScreen extends StatelessWidget {
+class SSelectedProductScreen extends StatefulWidget {
   SSelectedProductScreen({this.image,this.name,this.desc,this.price,
     Key? key,
   }) : super(key: key);
 String? image,name,desc,price;
+
+  @override
+  State<SSelectedProductScreen> createState() => _SSelectedProductScreenState();
+}
+
+class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
+  var rating = 3.0;
   final List<String> imageList = [
     'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cart_page.png?alt=media&token=6a4d6e9a-51b3-449a-a2bd-eb54dcec0803',
     'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cart_page.png?alt=media&token=6a4d6e9a-51b3-449a-a2bd-eb54dcec0803',
   ];
 
   // SelectedProductController controller = Get.put(SelectedProductController());
-
   @override
   Widget build(BuildContext context) {
     int _selectedIndex = 0;
@@ -102,14 +108,16 @@ String? image,name,desc,price;
                                               SmoothStarRating(
                                                   allowHalfRating: false,
                                                   onRatingChanged: (v) {
-                                                    // rating = v;
-                                                    // setState(() {});
+
+                                                    setState(() {
+                                                      rating = v;
+                                                    });
                                                   },
                                                   starCount: 5,
-                                                  // rating: rating,
+                                                  rating: rating,
                                                   size: 18.0.sp,
                                                   filledIconData:
-                                                      Icons.blur_off,
+                                                      Icons.star,
                                                   halfFilledIconData:
                                                       Icons.blur_on,
                                                   color:
@@ -188,124 +196,6 @@ String? image,name,desc,price;
   }
 
   // Widget _buileSecondWidget() {
-  //   return Container(
-  //     padding: EdgeInsets.symmetric(
-  //       horizontal: 5.sp,
-  //       vertical: 15.sp,
-  //     ),
-  //     child: SingleChildScrollView(
-  //       child: Column(
-  //         children: [
-  //           Padding(
-  //             padding: EdgeInsets.all(8.0.sp),
-  //             child: buildMiddleWidget(
-  //               name,
-  //               price!,
-  //               desc!,
-  //             ),
-  //           ),
-  //           Card(
-  //             child: Container(
-  //               padding: EdgeInsets.symmetric(vertical: 10.sp),
-  //               child: InkWell(
-  //                 onTap: () {
-  //                   Get.to(() => AddReviewsPage());
-  //                 },
-  //                 child: Row(
-  //                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //                   children: [
-  //                     Expanded(
-  //                       child: Column(
-  //                         children: [
-  //                           Padding(
-  //                             padding: EdgeInsets.symmetric(vertical: 5.sp),
-  //                             child: Row(
-  //                               mainAxisAlignment:
-  //                                   MainAxisAlignment.spaceAround,
-  //                               children: [
-  //                                 CustomText(
-  //                                   text: '5.0',
-  //                                   color: AppColors.secondaryBlackColor,
-  //                                   fontSize: 16.sp,
-  //                                   fontWeight: FontWeight.w600,
-  //                                 ),
-  //                                 SmoothStarRating(
-  //                                     allowHalfRating: false,
-  //                                     onRatingChanged: (v) {
-  //                                       // rating = v;
-  //                                       // setState(() {});
-  //                                     },
-  //                                     starCount: 5,
-  //                                     // rating: rating,
-  //                                     size: 18.0.sp,
-  //                                     filledIconData: Icons.blur_off,
-  //                                     halfFilledIconData: Icons.blur_on,
-  //                                     color: AppColors.starRatingColor,
-  //                                     borderColor: AppColors.starRatingColor,
-  //                                     spacing: 0.0),
-  //                                 CustomText(
-  //                                     text: '(14 reviews)',
-  //                                     fontWeight: FontWeight.w600,
-  //                                     fontSize: 12.sp,
-  //                                     color: AppColors.secondaryBlackColor),
-  //                               ],
-  //                             ),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ),
-  //                     SizedBox(
-  //                       width: Get.width * 0.005.sp,
-  //                     ),
-  //                     Icon(
-  //                       Icons.arrow_forward_ios_outlined,
-  //                       color: AppColors.secondaryBlackColor,
-  //                       size: 18,
-  //                     ),
-  //                     SizedBox(
-  //                       width: Get.width * 0.005.sp,
-  //                     ),
-  //                   ],
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //           SizedBox(
-  //             height: Get.height * 0.01,
-  //           ),
-  //           Card(
-  //             child: Container(
-  //               width: double.infinity,
-  //               padding: EdgeInsets.all(10.sp),
-  //               child: CustomText(
-  //                 text:
-  //                     'Lorem ipsum dolor sit amet, consectetur \n adipiscing elit, sed do eiusmod tempo \n incididunt ut labore et dolore magn \n aliqua.',
-  //                 fontWeight: FontWeight.w400,
-  //                 fontSize: 12.sp,
-  //                 color: AppColors.secondaryBlackColor,
-  //               ),
-  //             ),
-  //           ),
-  //           SizedBox(
-  //             height: Get.height * 0.05,
-  //           ),
-  //           Padding(
-  //             padding: EdgeInsets.symmetric(horizontal: 70.sp),
-  //             child: SCommonButton().sCommonPurpleButton(
-  //               name: 'Edit Product',
-  //               onTap: () {
-  //                 Get.to(() => SEditProductScreen());
-  //                 print('edit product seller side');
-  //                 // Get.toNamed(SRoutes.SSubmitProfileScreen);
-  //               },
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
   Widget buildMiddleWidget(String name, String price, String desc) {
     return Container(
       child: Column(

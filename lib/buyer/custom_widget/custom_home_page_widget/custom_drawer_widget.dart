@@ -256,7 +256,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
         Get.to(() => BottomNavigationBarScreen());
         break;
       case 1:
-        Get.to(() => SettingsPage());
+        Get.to(() => BSettingsScreen());
         break;
       case 2:
         Get.to(() => MyOrderPage());

@@ -8,16 +8,14 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:octo_image/octo_image.dart';
 import 'package:pipes_online/buyer/screens/zoom_img.dart';
 import 'package:pipes_online/seller/controller/chat_controller.dart';
-import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../reerence_chat_msgData.dart';
 import '../app_constant/app_colors.dart';
+import '../buyer_common/b_image.dart';
 import '../controller/chat_local_file_controller.dart';
 import '../controller/image.dart';
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
@@ -85,8 +83,8 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                             borderRadius: BorderRadius.circular(50)),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(50),
-                          child: Image.network(
-                            widget.userImg!,
+                          child: Image.asset(
+                            '${BImagePick.proIcon}',
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -401,7 +399,9 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
-                                            height: Get.height * 0.34,
+                                            constraints: BoxConstraints(
+                                              maxHeight: double.infinity,),
+                                            // height: Get.height * 0.39,
                                             width: Get.width * 0.53,
                                             decoration: BoxDecoration(
                                                 color: AppColors.primaryColor.withOpacity(0.5),
@@ -412,8 +412,8 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                               CrossAxisAlignment.end,
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      bottom: 5, top: 8),
+                                                  padding:   EdgeInsets.only(
+                                                      bottom: 5.sp, top: 8),
                                                   child: Center(
                                                     child: InkWell(
                                                       onTap: () {
@@ -449,7 +449,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                 ),
                                                 Padding(
                                                   padding:
-                                                  const EdgeInsets.all(8.0),
+                                                    EdgeInsets.all(5.sp),
                                                   child: Text(
                                                     "${snapShot.data!.docs[index]['msg']}",
                                                     style: TextStyle(
@@ -460,18 +460,19 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                     ),
                                                   ),
                                                 ),
+                                                Padding(
+                                                  padding:   EdgeInsets.only(right: 10,bottom: 15),
+                                                  child: MsgDate(
+                                                    date: (snapShot.data!.docs[index]
+                                                    ['date'] as Timestamp)
+                                                        .toDate(),
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(right: 10),
-                                          child: MsgDate(
-                                            date: (snapShot.data!.docs[index]
-                                            ['date'] as Timestamp)
-                                                .toDate(),
-                                          ),
-                                        ),
+
                                       ],
                                     ),
 
@@ -511,7 +512,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                               children: [
                                                 Padding(
                                                   padding: const EdgeInsets.only(
-                                                      bottom: 5, top: 5),
+                                                      bottom: 5, top: 5,right: 5,left: 5),
                                                   child: Center(
                                                     child: InkWell(
                                                       onTap: () {
@@ -679,8 +680,8 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                 suffixIcon: InkWell(
                                   onTap: () {
                                     print('it camara');
-                                     _pickImageFromGallery();
-                                    // pickFile();
+                                     // _pickImageFromGallery();
+                                    pickFile();
                                   },
                                   child: Icon(Icons.image,color: AppColors.primaryColor,),
                                 ),
@@ -889,9 +890,10 @@ class ShowDocument extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('RECEVERID: $receiverId');
+    print('RECEVER ID: $receiverId');
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.primaryColor,
         title: Text('DOCUMENT'),
       ),
       body: Column(
@@ -901,7 +903,7 @@ class ShowDocument extends StatelessWidget {
           Expanded(
             child: Center(
               child: Container(
-                child: file !=null
+                child: Type != null && file != null
                     ? Image.file(file!,fit: BoxFit.cover,):SizedBox(child: Center(child: CircularProgressIndicator(),),)
               ),
             ),

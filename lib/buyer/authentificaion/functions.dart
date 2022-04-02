@@ -1,14 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pipes_online/buyer/authentificaion/database.dart';
 import 'package:pipes_online/buyer/screens/home_screen_widget.dart';
+import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
 import 'package:pipes_online/shared_prefarence/helperFunction/share_preferance_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthMethods{
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
+  FirebaseFirestore _firestore =  FirebaseFirestore.instance;
 getCurrentUser()async{
   return await _auth.currentUser;
 }
@@ -58,6 +62,11 @@ getCurrentUser()async{
       assert(currentUser!.uid == userDetails!.uid);
       print(userDetails);
 
+      await _firestore.collection('users').doc(_auth.currentUser!.uid).set({
+        "name":_auth.currentUser!.displayName,
+        "email":_auth.currentUser!.email,
+        "status":"Unavalible",
+      });
 
       return userDetails;
     }catch(e){
@@ -71,6 +80,7 @@ getCurrentUser()async{
     preferences.clear();
     await googleSignIn.signOut();
     await _auth.signOut();
+    Get.off(SBuyerSellerScreen());
     return "SUCCESS";
   }
 }

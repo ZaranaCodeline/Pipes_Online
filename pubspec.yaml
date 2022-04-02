@@ -55,7 +55,9 @@ dependencies:
   cached_network_image: ^3.2.0
   multi_image_picker2: ^5.0.2
   permission_handler: ^8.3.0
-  firebase_messaging:
+  firebase_messaging: ^11.2.12
+  flutter_local_notifications: ^9.4.0
+#  awesome_notifications: ^0.6.21
 
 
 dev_dependencies:

@@ -30,7 +30,7 @@ class AppPages {
     GetPage(name: Routes.HOME, page: () => SWelcomeScreen()),
     GetPage(name: Routes.PROFILE, page: () => DrawerProfilePage()),
     GetPage(name: Routes.MYORDER, page: () => MyOrderPage()),
-    GetPage(name: Routes.SETTINGPAGE, page: () => SettingsPage()),
+    GetPage(name: Routes.SETTINGPAGE, page: () => BSettingsScreen()),
 
     GetPage(name: SRoutes.SOnBoardingScreen, page: () => SOnBoardingScreen()),
     GetPage(name: SRoutes.SPermissionScreen, page: () => SPermissionScreen()),

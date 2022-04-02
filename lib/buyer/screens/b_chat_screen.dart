@@ -117,12 +117,12 @@ class _BChatScreenState extends State<BChatScreen> {
 
                   Get.to(ChatMessagePage(
                     userImg:
-                    _auth.currentUser!.photoURL,
-                    // 'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d',
-                    receiverId: _auth.currentUser!.uid,
-                    // '100247364098702824893' ,
-                    userName: _auth.currentUser!.displayName,
-                    // 'milan',
+                    // _auth.currentUser!.photoURL,
+                    'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d',
+                    // receiverId: _auth.currentUser!.uid,
+                    receiverId:'100247364098702824893' ,
+                    // userName: _auth.currentUser!.displayName,
+                    userName:'milan',
                   ));
                 },
                 child: Padding(
@@ -140,7 +140,7 @@ class _BChatScreenState extends State<BChatScreen> {
                                 children: [
                                   CircleAvatar(
                                     child: Image.asset(
-                                      _auth.currentUser!.photoURL!,
+                                      '${BImagePick.proIcon}',
                                       width: 50.sp,
                                       height: 50.sp,
                                       fit: BoxFit.fill,
@@ -167,8 +167,7 @@ class _BChatScreenState extends State<BChatScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CustomText(
-                                    text: _auth.currentUser!.displayName
-                                        .toString(),
+                                    text: 'John',
                                     fontWeight: FontWeight.w600,
                                     fontSize: 15.sp,
                                     color: AppColors.secondaryBlackColor),

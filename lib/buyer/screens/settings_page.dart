@@ -1,22 +1,103 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/main.dart';
 import 'package:sizer/sizer.dart';
+
 
 import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
 import '../custom_widget/widgets/custom_widget/custom_text.dart';
-import 'help_center_page.dart';
 
-class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+class BSettingsScreen extends StatefulWidget {
+  const BSettingsScreen({Key? key}) : super(key: key);
 
   @override
-  State<SettingsPage> createState() => _SettingsPageState();
+  State<BSettingsScreen> createState() => _BSettingsScreenState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _BSettingsScreenState extends State<BSettingsScreen> {
   bool switchNotification = false;
+  int _counter = 0;
+  @override
+  void initState() {
+    super.initState();
+    showNotification;
+    // var initialzationSettingsAndroid =
+    // AndroidInitializationSettings('@mipmap/ic_launcher');
+    // var initializationSettings =
+    // InitializationSettings(android: initialzationSettingsAndroid);
+    // flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                // channel.description,
+                color: Colors.blue,
+                playSound: true,
+
+              ),
+            ));
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('A new messageopen app event was published');
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        showDialog(
+            context: context,
+            builder: (_) {
+              return AlertDialog(
+                title: Text(notification.title!),
+                content: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [Text(notification.body!)],
+                  ),
+                ),
+              );
+            });
+      }
+    });
+    getToken();
+  }
+  String? token;
+  getToken() async {
+    token = await FirebaseMessaging.instance.getToken();
+  }
+  void showNotification() {
+    setState(() {
+      _counter++;
+    });
+
+    flutterLocalNotificationsPlugin.show(
+        0,
+        "Testing $_counter",
+        "This is an Flutter Push Notification",
+        NotificationDetails(
+            android: AndroidNotificationDetails(
+                channel.id, channel.name,
+                importance: Importance.high,
+                color: AppColors.primaryColor,
+                playSound: true,
+                icon: '@mipmap/app_icon')));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +106,9 @@ class _SettingsPageState extends State<SettingsPage> {
           'SETTINGS',
           style: STextStyle.bold700White14,
         ),
+        leading: IconButton(onPressed: (){
+          Get.back();
+        },icon: Icon(Icons.arrow_back),),
         backgroundColor: AppColors.primaryColor,
         toolbarHeight: Get.height * 0.1,
         shape: const RoundedRectangleBorder(
@@ -131,6 +215,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         Switch(
                           onChanged: (value) {
                             setState(() {
+                              // showNotification;
                               switchNotification = value;
                             });
                             print('switchNotification:-$switchNotification');
@@ -164,75 +249,40 @@ class _SettingsPageState extends State<SettingsPage> {
                   SizedBox(
                     height: Get.height * 0.01,
                   ),
-                  InkWell(
-                    onTap: () {
-                      Get.to(() => HelpCenterPage());
-                    },
-                    child: Container(
-                      height: Get.height * 0.07,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 10.sp, vertical: 10.sp),
-                      decoration: BoxDecoration(
-                        // color: Colors.red,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                            width: 1, color: AppColors.lightBlackColor),
-                      ),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.help_outline,
-                                  color: AppColors.secondaryBlackColor,
-                                  size: 14.sp,
-                                ),
-                                SizedBox(width: 10.sp),
-                                CustomText(
-                                    text: 'Help Center',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14.sp,
-                                    color: AppColors.secondaryBlackColor),
-                              ],
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios_outlined,
-                              color: AppColors.secondaryBlackColor,
-                              size: 14.sp,
-                            ),
-                          ]),
+                  Container(
+                    height: Get.height * 0.07,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 10.sp, vertical: 10.sp),
+                    decoration: BoxDecoration(
+                      // color: Colors.red,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                          width: 1, color: AppColors.lightBlackColor),
                     ),
-                    // child: TextField(
-                    //   readOnly: true,
-                    //   style: TextStyle(
-                    //     color: AppColors.secondaryBlackColor,
-                    //     fontSize: 14.sp,
-                    //     fontWeight: FontWeight.w400,
-                    //   ),
-                    //   // controller: _controller,
-                    //   decoration: InputDecoration(
-                    //     prefixIcon: IconButton(
-                    //       onPressed: () {
-                    //         Get.to(() => HelpCenterPage());
-                    //       },
-                    //       icon: Icon(
-                    //         Icons.help_outline,
-                    //         color: AppColors.secondaryBlackColor,
-                    //         size: 14.sp,
-                    //       ),
-                    //     ),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    //     ),
-                    //     suffixIcon: Icon(
-                    //       Icons.arrow_forward_ios,
-                    //       color: AppColors.secondaryBlackColor,
-                    //       size: 12.sp,
-                    //     ),
-                    //     hintText: 'Help Center',
-                    //   ),
-                    // ),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.help_outline,
+                                color: AppColors.secondaryBlackColor,
+                                size: 14.sp,
+                              ),
+                              SizedBox(width: 10.sp),
+                              CustomText(
+                                  text: 'Help Center',
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14.sp,
+                                  color: AppColors.secondaryBlackColor),
+                            ],
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            color: AppColors.secondaryBlackColor,
+                            size: 14.sp,
+                          ),
+                        ]),
                   ),
                 ],
               ),
@@ -243,6 +293,14 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        foregroundColor: AppColors.commonWhiteTextColor,
+        backgroundColor: AppColors.primaryColor,
+        onPressed: showNotification,
+        tooltip: 'Increment',
+        child: FittedBox(child: Text('Show \n Notification',textAlign: TextAlign.center,)),
+      ),
     );
   }
 }
+

@@ -11,12 +11,8 @@ import 'package:sizer/sizer.dart';
 
 import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
-import '../custom_widget/widgets/custom_button.dart';
-import '../custom_widget/widgets/custom_widget/custom_cupertino_feild_text.dart';
 import '../custom_widget/widgets/custom_text.dart';
 import '../view_model/b_bottom_bar_controller.dart';
-import 'bottom_bar_screen_page/widget/cart_bottom_bar_route.dart';
-import 'get_started_page.dart';
 
 class DrawerProfilePage extends StatefulWidget {
   const DrawerProfilePage({Key? key}) : super(key: key);

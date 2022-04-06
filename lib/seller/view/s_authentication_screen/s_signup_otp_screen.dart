@@ -162,8 +162,7 @@ class _SSignUpOTPScreenState extends State<SSignUpOTPScreen> {
                                   name: 'Sign Up',
                                   onTap: () {
                                     print(
-                                        '------${sSignUpHomeController.mobileNumber.text.toString()}');
-
+                                        '${sSignUpHomeController.mobileNumber.text.toString()}');
                                     final progress = ProgressHUD.of(context);
                                     // progress?.show;
                                     print("it is loading to go profile page");

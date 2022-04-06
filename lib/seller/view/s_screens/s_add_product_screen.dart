@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_edit_product_screen.dart';
+import 'package:pipes_online/seller/view_model/add_product_controller.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
@@ -10,10 +14,19 @@ import '../../common/s_common_button.dart';
 import '../../common/s_text_style.dart';
 import 's_subscribe_screen.dart';
 
-class SAddProductScreen extends StatelessWidget {
+class SAddProductScreen extends StatefulWidget {
     SAddProductScreen({Key? key}) : super(key: key);
 
+  @override
+  State<SAddProductScreen> createState() => _SAddProductScreenState();
+}
+
+class _SAddProductScreenState extends State<SAddProductScreen> {
+
+  AddProductController addProductController = Get.put(AddProductController());
+
   String dropdownvalue = 'Plastic';
+
   var items = [
     'Plastic',
     'Coper 1',
@@ -52,21 +65,111 @@ class SAddProductScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   color: AppColors.primaryColor.withOpacity(0.3),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      child: SvgPicture.asset('assets/images/svg/camera.svg',color: AppColors.primaryColor,),
-                      alignment: Alignment.center,
-                    ),
-                    Container(
-                        alignment: Alignment.topLeft,
-                        child: Image.asset('assets/images/png/pro_1.png')),
-                  ],
-                ),
+                child: GetBuilder<AddProductController>(builder: (controller){
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      GestureDetector(
+                        onTap: (){
+                          print('it is openable image');
+                          showDialog(
+                            context: context,
+                            builder: (context) => SimpleDialog(
+                              children: [
+                                Container(
+                                  height: 105.sp,
+                                  width: double.infinity,
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        child: MaterialButton(
+                                          child: Text(
+                                            'GALLERY',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14.sp),
+                                          ),
+                                          onPressed: () {
+                                            controller.getGalleryImage();
+                                            Get.back();
+                                          },
+                                        ),
+                                        width: 220,
+                                        height: 50.sp,
+                                        decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                                begin: Alignment.topLeft,
+                                                colors: [
+                                                  AppColors.primaryColor,
+                                                  AppColors.offLightPurpalColor,
+                                                  AppColors.primaryColor,
+                                                ]),
+                                            borderRadius: BorderRadius.circular(25)),
+
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Container(
+                                        child: MaterialButton(
+                                          child: Text(
+                                            'camera',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20),
+                                          ),
+                                          onPressed: () {
+                                            controller.getCamaroImage();
+                                            Get.back();
+                                          },
+                                        ),
+                                        width: 220,
+                                        height: 50.sp,
+                                        decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                                begin: Alignment.topLeft,
+                                                colors: [
+                                                  AppColors.primaryColor,
+                                                  AppColors.offLightPurpalColor,
+                                                  AppColors.primaryColor,
+                                                ]),
+                                            borderRadius: BorderRadius.circular(25)),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                        child: Container(
+                          child: SvgPicture.asset('assets/images/svg/camera.svg',color: AppColors.primaryColor,),
+                          alignment: Alignment.center,
+                        ),
+                      ),
+                      Container(
+                          alignment: Alignment.topLeft,
+                          child: addProductController.image != null
+                              ? Container(
+                            height: 100.sp,
+                            width: 100.sp,
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.circular(10)),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.file(
+                                controller.image!,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ):Image.asset('assets/images/png/pro_1.png')),
+                    ],
+                  );
+                },),
               ),
               SizedBox(
-                height: Get.height * 0.02,
+                height: Get.height * 0.01,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,7 +203,7 @@ class SAddProductScreen extends StatelessWidget {
                     ],
                   ),
                   SizedBox(
-                    height: Get.height * 0.02,
+                    height: Get.height * 0.01,
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -108,7 +211,7 @@ class SAddProductScreen extends StatelessWidget {
                       CustomText(
                           text: 'Category',
                           fontWeight: FontWeight.w600,
-                          fontSize: 12.sp,
+                          fontSize: 14.sp,
                           color: AppColors.secondaryBlackColor,
                           alignment: Alignment.topLeft),
                       SizedBox(
@@ -121,7 +224,7 @@ class SAddProductScreen extends StatelessWidget {
                     ],
                   ),
                   SizedBox(
-                    height: Get.height * 0.02,
+                    height: Get.height * 0.01,
                   ),
                   CustomText(
                     text: 'Product Name',
@@ -131,7 +234,7 @@ class SAddProductScreen extends StatelessWidget {
                     alignment: Alignment.topLeft,
                   ),
                   SizedBox(
-                    height: Get.height * 0.02,
+                    height: Get.height * 0.01,
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(
@@ -152,7 +255,7 @@ class SAddProductScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: Get.height * 0.02,
+                    height: Get.height * 0.01,
                   ),
                   CustomText(
                     text: 'Price (\$)/ Feet',
@@ -162,7 +265,7 @@ class SAddProductScreen extends StatelessWidget {
                     alignment: Alignment.topLeft,
                   ),
                   SizedBox(
-                    height: Get.height * 0.02,
+                    height: Get.height * 0.01,
                   ),
                   Container(
                     alignment: Alignment.center,
@@ -184,7 +287,7 @@ class SAddProductScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: Get.height * 0.02,
+                    height: Get.height * 0.01,
                   ),
                   CustomText(
                     text: 'Description',
@@ -194,7 +297,7 @@ class SAddProductScreen extends StatelessWidget {
                     alignment: Alignment.topLeft,
                   ),
                   SizedBox(
-                    height: Get.height * 0.02,
+                    height: Get.height * 0.01,
                   ),
                   Container(
                     alignment: Alignment.topLeft,
@@ -209,14 +312,14 @@ class SAddProductScreen extends StatelessWidget {
                         decoration: InputDecoration(
                           hintText: 'Enter Address',
                         ),
-                        maxLines: 5,
+                        maxLines: 3,
                         keyboardType: TextInputType.multiline,
                         // minLines: 1,
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: Get.height * 0.02,
+                    height: Get.height * 0.01,
                   ),
                 ],
               ),
@@ -237,6 +340,7 @@ class SAddProductScreen extends StatelessWidget {
       ),
     );
   }
+
   Widget SCustomDropDownWidget() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15.sp),
@@ -276,9 +380,9 @@ class SAddProductScreen extends StatelessWidget {
                   );
                 }).toList(),
                 onChanged: (String? newValue) {
-                  // setState(() {
-                  //   dropdownvalue = newValue!;
-                  // });
+                  setState(() {
+                    dropdownvalue = newValue!;
+                  });
                 },
               ),
             ),

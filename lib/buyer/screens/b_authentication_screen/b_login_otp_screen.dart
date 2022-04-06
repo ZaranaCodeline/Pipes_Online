@@ -201,17 +201,6 @@ class _BLogInOTPScreenState extends State<BLogInOTPScreen> {
         PhoneAuthProvider.credential(verificationId: data[0], smsCode: otp!);
     await _auth.signInWithCredential(credential).then((value) async {
       User? user = FirebaseAuth.instance.currentUser;
-      await FirebaseFirestore.instance
-          .collection("UserInfoList")
-          .doc(user!.uid)
-          .collection('Buyer')
-          .doc(user.phoneNumber)
-          .set({
-        'uid': user.uid,
-        'email': user.email,
-        'phoneNumber': user.phoneNumber,
-        'createdOn': DateTime.now(),
-      });
       print('Buyer side...B...You are logged in successfully');
       _prefs.setBool('isLoggedIn', true);
       Get.offAll(BRoutes.BSubmitProfileScreen);

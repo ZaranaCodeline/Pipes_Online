@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -111,7 +112,20 @@ class BLogInController extends GetxController {
   void verifyCode() async {
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId!, smsCode:mobileNumber.text);
-    await _auth.signInWithCredential(credential).then((value) {
+    await _auth.signInWithCredential(credential)
+        .then((value) async {
+      User? user = FirebaseAuth.instance.currentUser;
+      await FirebaseFirestore.instance
+          .collection("UserInfoList")
+          .doc(user!.uid)
+          .collection('Buyer')
+          .doc(user.phoneNumber)
+          .set({
+        'uid': user.uid,
+        'email': user.email,
+        'phoneNumber': user.phoneNumber,
+        'createdOn': DateTime.now(),
+      });
       print('You are logged in successfully');
     });
   }

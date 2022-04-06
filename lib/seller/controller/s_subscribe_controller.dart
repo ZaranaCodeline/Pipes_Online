@@ -11,5 +11,4 @@ class SSubScribeController extends GetxController {
     update();
   }
 
-
 }

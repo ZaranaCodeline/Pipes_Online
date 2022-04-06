@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 
 import '../screens/b_authentication_screen/b_signup_otp_screen.dart';
 
-
 class BSignUpHomeController extends GetxController {
   CountryCode? countryCode = CountryCode(code: '+91');
   TextEditingController mobileNumber = TextEditingController();
@@ -25,11 +24,13 @@ class BSignUpHomeController extends GetxController {
     // TODO: implement onInit
     super.onInit();
   }
+
   @override
   void dispose() {
     mobileNumber.dispose();
     super.dispose();
   }
+
   Future<void> phoneSignIn({required String phoneNumber}) async {
     print(phoneNumber);
     await _auth.verifyPhoneNumber(
@@ -39,7 +40,8 @@ class BSignUpHomeController extends GetxController {
         codeSent: _onCodeSent,
         codeAutoRetrievalTimeout: _onCodeTimeout);
   }
-  Future  verifyPhoneNumber() async {
+
+  Future verifyPhoneNumber() async {
     _auth.verifyPhoneNumber(
         phoneNumber: mobileNumber.text,
         verificationCompleted: (phonesAuthCredentials) async {},
@@ -49,6 +51,7 @@ class BSignUpHomeController extends GetxController {
         },
         codeAutoRetrievalTimeout: (verificationId) async {});
   }
+
   _onVerificationCompleted(PhoneAuthCredential authCredential) async {
     print("verification completed ${authCredential.smsCode}");
     User? user = FirebaseAuth.instance.currentUser;
@@ -58,7 +61,7 @@ class BSignUpHomeController extends GetxController {
     if (authCredential.smsCode != null) {
       try {
         UserCredential credential =
-        await user!.linkWithCredential(authCredential);
+            await user!.linkWithCredential(authCredential);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'provider-already-linked') {
           await _auth.signInWithCredential(authCredential);
@@ -66,9 +69,7 @@ class BSignUpHomeController extends GetxController {
       }
 
       isLoading = false;
-      Get.to(BSignUpOTPScreen(),
-          arguments: _otp.text
-              .toString());
+      Get.to(BSignUpOTPScreen(), arguments: _otp.text.toString());
       // Navigator.pushReplacement(
       //     context, MaterialPageRoute(builder: (context) => SSignUpOTPScreen()));
     }
@@ -85,17 +86,18 @@ class BSignUpHomeController extends GetxController {
     print(forceResendingToken);
     print("code sent");
     otpCodeVisible = true;
-    Get.to(BSignUpOTPScreen(),arguments:[verificationId,_otp.text]  );
+    Get.to(BSignUpOTPScreen(), arguments: [verificationId, _otp.text]);
   }
 
   _onCodeTimeout(String timeout) {
     return null;
   }
+
   Future<void> BuildContextMsg(context) async {
-    void showMessage(String errorMessage ) {
+    void showMessage(String errorMessage) {
       showDialog(
           context: context,
-          builder: ( builderContext) {
+          builder: (builderContext) {
             return AlertDialog(
               title: Text("Error"),
               content: Text(errorMessage),
@@ -109,37 +111,35 @@ class BSignUpHomeController extends GetxController {
               ],
             );
           }).then((value) {
-
         isLoading = false;
-
       });
     }
   }
 
-
   void verifyCode() async {
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: verificationId!, smsCode:mobileNumber.text);
+        verificationId: verificationId!, smsCode: mobileNumber.text);
     await _auth.signInWithCredential(credential)
-        .then((value)async
-    {
+        .then((value) async {
       User? user = FirebaseAuth.instance.currentUser;
-      await FirebaseFirestore.instance.collection("userCradantialInfo").doc(user!.uid).set(
-          {
-            'uid':user.uid,
-            'email':user.email,
-            'phoneNumber':user.phoneNumber,
-            'createdOn':DateTime.now(),
-          });
+      await FirebaseFirestore.instance
+          .collection("UserInfoList")
+          .doc(user!.uid)
+          .collection('Buyer')
+          .doc(user.phoneNumber)
+          .set({
+        'uid': user.uid,
+        'email': user.email,
+        'phoneNumber': user.phoneNumber,
+        'createdOn': DateTime.now(),
+      });
       print('You are logged in successfully');
     });
   }
-
 
   void setCountryCode(value) {
     countryCode = value;
     print('countryCode:- $countryCode');
     update();
   }
-
 }

@@ -18,8 +18,7 @@ BottomController _bottomController=Get.find();
         height: Get.height * 4.sp,
         padding: EdgeInsets.symmetric(horizontal: 0.sp),
         child: StreamBuilder<QuerySnapshot>(
-          stream:
-          FirebaseFirestore.instance.collection("Products").snapshots(),
+          stream: FirebaseFirestore.instance.collection("Products").snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasData) {

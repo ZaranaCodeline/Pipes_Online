@@ -7,7 +7,7 @@ import '../../app_constant/app_colors.dart';
 import '../widgets/custom_text.dart';
 
 class CustomProductCard extends StatelessWidget {
-  CustomProductCard(
+    CustomProductCard(
       {Key? key,
       required this.name,
       required this.desc,

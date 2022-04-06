@@ -111,7 +111,7 @@ class _SPlusSubscribeScreenState extends State<SPlusSubscribeScreen> {
                         : AppColors.primaryColor,
                     groupValue: selectedRadioTile,
                     title: CustomText(
-                      text: '1 year',
+                      text: '6 months',
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
                       color: selectedRadioTile == 1
@@ -119,7 +119,7 @@ class _SPlusSubscribeScreenState extends State<SPlusSubscribeScreen> {
                           : AppColors.primaryColor,
                     ),
                     secondary: CustomText(
-                      text: '\$ 100/Yr',
+                      text: '\$ 50/6Mo',
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w600,
                       color: selectedRadioTile == 1
@@ -152,7 +152,7 @@ class _SPlusSubscribeScreenState extends State<SPlusSubscribeScreen> {
                         : AppColors.primaryColor,
                     groupValue: selectedRadioTile,
                     title: CustomText(
-                      text: '1 year',
+                      text: '30 Days',
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
                       color: selectedRadioTile == 2
@@ -160,7 +160,7 @@ class _SPlusSubscribeScreenState extends State<SPlusSubscribeScreen> {
                           : AppColors.primaryColor,
                     ),
                     secondary: CustomText(
-                      text: '\$ 100/Yr',
+                      text: '\$ 10/30d',
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w600,
                       color: selectedRadioTile == 2

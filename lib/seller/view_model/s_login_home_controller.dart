@@ -118,9 +118,6 @@ class SLogInController extends GetxController {
     });
   }
 
-
-
-
   void setCountryCode(value) {
     countryCode = value;
     print('countryCode:- $countryCode');

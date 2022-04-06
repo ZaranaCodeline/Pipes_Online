@@ -41,30 +41,7 @@ class _SHomeScreenState extends State<SHomeScreen> {
       child: Scaffold(
         body: _widgetOptions[_selectedIndex],
 
-        bottomNavigationBar:NavigationBarScreen()
-        // BottomNavigationBar(
-        //
-        //   currentIndex: _selectedIndex,
-        //   backgroundColor: AppColors.commonWhiteTextColor,
-        //   selectedItemColor: AppColors.primaryColor,
-        //   unselectedItemColor: AppColors.offLightPurpalColor,
-        //   elevation: 7,
-        //   onTap: (value){
-        //     setState(() {
-        //       _selectedIndex = value;
-        //     });
-        //   },
-        //   items: const [
-        //     BottomNavigationBarItem(
-        //         icon: Icon(Icons.border_all_outlined), label: 'Home'),
-        //     BottomNavigationBarItem(
-        //         icon: Icon(Icons.reorder), label: 'Order'),
-        //     BottomNavigationBarItem(
-        //       icon: Icon(Icons.chat_bubble_outline), label: 'Chat',),
-        //     BottomNavigationBarItem(
-        //         icon: Icon(Icons.person_outline), label: 'Profile'),
-        //   ],
-        // ),
+        bottomNavigationBar:NavigationBarScreen(),
       ),
     );
   }

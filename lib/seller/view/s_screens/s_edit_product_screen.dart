@@ -4,15 +4,25 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/custom_widget/widgets/custom_text.dart';
 import 'package:pipes_online/seller/view/s_screens/s_add_product_screen.dart';
+import 'package:pipes_online/seller/view_model/s_add_product_controller.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../common/s_common_button.dart';
 import '../../common/s_text_style.dart';
 
-class SeditProductScreen extends StatelessWidget {
+class SeditProductScreen extends StatefulWidget {
   SeditProductScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SeditProductScreen> createState() => _SeditProductScreenState();
+}
+
+class _SeditProductScreenState extends State<SeditProductScreen> {
+  AddProductController addProductController = Get.put(AddProductController());
+
   String dropdownvalue = 'Plastic';
+
   var items = [
     'Plastic',
     'Coper 1',
@@ -51,18 +61,108 @@ class SeditProductScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   color: AppColors.primaryColor.withOpacity(0.3),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      child: SvgPicture.asset('assets/images/svg/camera.svg',color: AppColors.primaryColor,),
-                      alignment: Alignment.center,
-                    ),
-                    Container(
-                        alignment: Alignment.topLeft,
-                        child: Image.asset('assets/images/png/pro_1.png')),
-                  ],
-                ),
+                child: GetBuilder<AddProductController>(builder: (controller){
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      GestureDetector(
+                        onTap: (){
+                          print('it is openable image');
+                          showDialog(
+                            context: context,
+                            builder: (context) => SimpleDialog(
+                              children: [
+                                Container(
+                                  height: 105.sp,
+                                  width: double.infinity,
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        child: MaterialButton(
+                                          child: Text(
+                                            'GALLERY',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14.sp),
+                                          ),
+                                          onPressed: () {
+                                            controller.getGalleryImage();
+                                            Get.back();
+                                          },
+                                        ),
+                                        width: 220,
+                                        height: 50.sp,
+                                        decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                                begin: Alignment.topLeft,
+                                                colors: [
+                                                  AppColors.primaryColor,
+                                                  AppColors.offLightPurpalColor,
+                                                  AppColors.primaryColor,
+                                                ]),
+                                            borderRadius: BorderRadius.circular(25)),
+
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Container(
+                                        child: MaterialButton(
+                                          child: Text(
+                                            'camera',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20),
+                                          ),
+                                          onPressed: () {
+                                            controller.getCamaroImage();
+                                            Get.back();
+                                          },
+                                        ),
+                                        width: 220,
+                                        height: 50.sp,
+                                        decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                                begin: Alignment.topLeft,
+                                                colors: [
+                                                  AppColors.primaryColor,
+                                                  AppColors.offLightPurpalColor,
+                                                  AppColors.primaryColor,
+                                                ]),
+                                            borderRadius: BorderRadius.circular(25)),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                        child: Container(
+                          child: SvgPicture.asset('assets/images/svg/camera.svg',color: AppColors.primaryColor,),
+                          alignment: Alignment.center,
+                        ),
+                      ),
+                      Container(
+                          alignment: Alignment.topLeft,
+                          child: controller.image != null
+                              ? Container(
+                            height: 100.sp,
+                            width: 100.sp,
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.circular(10)),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.file(
+                                controller.image!,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ):Image.asset('assets/images/png/pro_1.png')),
+                    ],
+                  );
+                },),
               ),
               SizedBox(
                 height: Get.height * 0.02,

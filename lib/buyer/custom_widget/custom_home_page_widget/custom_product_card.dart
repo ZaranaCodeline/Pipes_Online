@@ -9,15 +9,15 @@ import '../widgets/custom_text.dart';
 class CustomProductCard extends StatelessWidget {
     CustomProductCard(
       {Key? key,
-      required this.name,
-      required this.desc,
-      required this.image,
-      required this.price})
+       this.name,
+       this.desc,
+       this.image,
+       this.price})
       : super(key: key);
-  String name;
-  String price;
-  String desc;
-  String image;
+  String? name;
+  String? price;
+  String? desc;
+  String? image;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class CustomProductCard extends StatelessWidget {
                 height: Get.height * 0.01,
               ),
               CustomText(
-                text: name,
+                text: name.toString(),
                 fontWeight: FontWeight.w600,
                 fontSize: 14.sp,
                 color: SColorPicker.purple,
@@ -61,7 +61,7 @@ class CustomProductCard extends StatelessWidget {
                 height: Get.height * 0.01,
               ),
               CustomText(
-                text: desc,
+                text: desc.toString(),
                 fontWeight: FontWeight.w600,
                 fontSize: 12.sp,
                 color: SColorPicker.black,
@@ -71,7 +71,7 @@ class CustomProductCard extends StatelessWidget {
                 height: Get.height * 0.01,
               ),
               CustomText(
-                text: price,
+                text: price.toString(),
                 fontWeight: FontWeight.w600,
                 fontSize: 12.sp,
                 color: SColorPicker.black,

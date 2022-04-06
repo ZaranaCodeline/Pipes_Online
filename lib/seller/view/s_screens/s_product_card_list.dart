@@ -6,18 +6,27 @@ import 'package:sizer/sizer.dart';
 
 import '../../../buyer/custom_widget/custom_home_page_widget/custom_product_card.dart';
 import '../../../buyer/screens/selected_product_widget.dart';
+import 's_custom_product_card.dart';
 import 's_selected_product_screen.dart';
 
-class SProductCardList extends StatelessWidget {
-   SProductCardList({Key? key}) : super(key: key);
+class SProductCardList extends StatefulWidget {
+   SProductCardList({Key? key, this.name, this.price, this.image, this.desc}) : super(key: key);
+final String? name,price,image,desc;
+  @override
+  State<SProductCardList> createState() => _SProductCardListState();
+}
+
+class _SProductCardListState extends State<SProductCardList> {
 BottomController _bottomController=Get.find();
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
       body: Container(
-        height: Get.height * 4.sp,
+        height: Get.height * 3.sp,
         padding: EdgeInsets.symmetric(horizontal: 0.sp),
-        child: StreamBuilder<QuerySnapshot>(
+        child:
+        StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance.collection("Products").snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -51,12 +60,7 @@ BottomController _bottomController=Get.find();
                         );
 
                       },
-                      child:CustomProductCard(
-                        image: products[index].get("image"),
-                        name: products[index].get("name"),
-                        desc: products[index].get("desc"),
-                        price: products[index].get("price"),
-                      ),
+
                     );
                   },
                 ),

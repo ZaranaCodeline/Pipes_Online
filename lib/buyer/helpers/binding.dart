@@ -3,8 +3,8 @@ import 'package:pipes_online/buyer/controller/chat_local_file_controller.dart';
 import 'package:pipes_online/buyer/controller/geolocation_controller.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/routes/bottom_controller.dart';
-import 'package:pipes_online/seller/view_model/add_product_controller.dart';
-import 'package:pipes_online/seller/view_model/edit_product_controller.dart';
+import 'package:pipes_online/seller/view_model/s_add_product_controller.dart';
+import 'package:pipes_online/seller/view_model/s_edit_product_controller.dart';
 
 class Binding extends Bindings{
   @override

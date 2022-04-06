@@ -19,12 +19,13 @@ class SSimpleSubScribeScreen extends StatefulWidget {
 class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
   String? radioValue;
   int? selectedRadioTile;
-
+  String? selected;
 
   setSelectedRadioTile(int val) {
     setState(() {
       selectedRadioTile;
       selectedRadioTile = val;
+      print('VALUE  ${val}');
     });
   }
 
@@ -33,7 +34,7 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
     print('radioValue---: $radioValue');
     // update();
   }
-
+  List<dynamic> list_name = ['\$ 100/yr','\$ 75/6/Mo','\$15/30/d'];
   SSubScribeController controller = Get.put(SSubScribeController());
 
   @override
@@ -79,7 +80,7 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
                         : AppColors.primaryColor,
                   ),
                   secondary: CustomText(
-                    text: '\$ 100/Yr',
+                    text: '${list_name[0]}',
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
                     color: selectedRadioTile == 0
@@ -90,6 +91,9 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
                     print('Radio tile pressed $value');
                     setState(() {
                       selectedRadioTile = value as int?;
+                      value=list_name[0];
+                      selected=value as String;
+                      print('Radio tile pressed $selected');
                     });
                   }),
             ),
@@ -119,7 +123,7 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
                         : AppColors.primaryColor,
                   ),
                   secondary: CustomText(
-                    text: '\$ 75/6Mo',
+                    text: '${list_name[1]}',
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
                     color: selectedRadioTile == 1
@@ -130,6 +134,9 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
                     print('Radio tile pressed $value');
                     setState(() {
                       selectedRadioTile = value as int?;
+                      value=list_name[1];
+                      selected=value as String;
+                      print('Radio tile pressed $selected');
                     });
                   }),
             ),
@@ -160,7 +167,7 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
                         : AppColors.primaryColor,
                   ),
                   secondary: CustomText(
-                    text: '\$ 15/30d',
+                    text: '${list_name[2]}',
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
                     color: selectedRadioTile == 2
@@ -171,6 +178,9 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
                     print('Radio tile pressed $value');
                     setState(() {
                       selectedRadioTile = value as int?;
+                      value=list_name[2];
+                      selected=value as String;
+                      print('Radio tile pressed $selected');
                     });
                   }),
             ),
@@ -184,8 +194,9 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
           child: SCommonButton().sCommonPurpleButton(
             name: 'Subscribe Now',
             onTap: () {
-              Get.to(() => SAddProductScreen());
+              Get.to(() => SAddProductScreen(selectedPrice:selected,));
               print('edit product seller side');
+
               // Get.toNamed(SRoutes.SSubmitProfileScreen);
             },
           ),
@@ -194,3 +205,6 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
     );
   }
 }
+
+
+

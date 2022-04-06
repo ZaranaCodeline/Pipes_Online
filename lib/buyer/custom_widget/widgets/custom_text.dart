@@ -11,10 +11,12 @@ class CustomText extends StatelessWidget {
         this.textOverflow,
         required this.fontWeight,
         required this.fontSize,
+         this.max,
         required this.color})
       : super(key: key);
   String text;
   Color color;
+  int? max;
   FontWeight fontWeight;
   double fontSize;
   Alignment? alignment;
@@ -26,13 +28,14 @@ class CustomText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Text(
-        text,
+        text,maxLines: max,
         style: GoogleFonts.ubuntu(
           textStyle: TextStyle(
             color: color,
             fontWeight: fontWeight,
             fontSize: fontSize,
             decoration: textDecoration,
+
           ),
         ),
         textAlign: textAlign,

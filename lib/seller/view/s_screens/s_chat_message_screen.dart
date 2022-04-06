@@ -8,20 +8,18 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:octo_image/octo_image.dart';
+import 'package:pipes_online/buyer/app_constant/app_colors.dart';
+import 'package:pipes_online/buyer/buyer_common/b_image.dart';
 import 'package:pipes_online/buyer/controller/chat_local_file_controller.dart';
 import 'package:pipes_online/buyer/controller/image.dart';
-import 'package:pipes_online/buyer/custom_widget/widgets/custom_text.dart';
 import 'package:pipes_online/buyer/screens/zoom_img.dart';
+import 'package:pipes_online/convert_date_formate_chat.dart';
 import 'package:pipes_online/seller/controller/chat_controller.dart';
-import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../buyer/app_constant/app_colors.dart';
-import '../../../convert_date_formate_chat.dart';
+import '../../../buyer/custom_widget/widgets/custom_text.dart';
 
 final FirebaseStorage kFirebaseStorage = FirebaseStorage.instance;
 final FirebaseFirestore kFireStore = FirebaseFirestore.instance;
@@ -86,8 +84,8 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
                             borderRadius: BorderRadius.circular(50)),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(50),
-                          child: Image.network(
-                            widget.userImg!,
+                          child: Image.asset(
+                            '${BImagePick.proIcon}',
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -269,7 +267,15 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
                                                       as Timestamp)
                                                           .toDate(),
                                                     ),
-                                                  )
+                                                  ),
+                                                  // Padding(
+                                                  //   padding: const EdgeInsets.only(right: 10),
+                                                  //   child: MsgDate(
+                                                  //     date: (snapShot.data!.docs[index]
+                                                  //     ['date'] as Timestamp)
+                                                  //         .toDate(),
+                                                  //   ),
+                                                  // ),
                                                 ],
                                               ),
                                             ),
@@ -402,7 +408,9 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
-                                            height: Get.height * 0.34,
+                                            constraints: BoxConstraints(
+                                              maxHeight: double.infinity,),
+                                            // height: Get.height * 0.39,
                                             width: Get.width * 0.53,
                                             decoration: BoxDecoration(
                                                 color: AppColors.primaryColor.withOpacity(0.5),
@@ -413,8 +421,8 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
                                               CrossAxisAlignment.end,
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      bottom: 5, top: 8),
+                                                  padding:   EdgeInsets.only(
+                                                      bottom: 5.sp, top: 8),
                                                   child: Center(
                                                     child: InkWell(
                                                       onTap: () {
@@ -450,7 +458,7 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
                                                 ),
                                                 Padding(
                                                   padding:
-                                                  const EdgeInsets.all(8.0),
+                                                  EdgeInsets.all(5.sp),
                                                   child: Text(
                                                     "${snapShot.data!.docs[index]['msg']}",
                                                     style: TextStyle(
@@ -461,18 +469,19 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
                                                     ),
                                                   ),
                                                 ),
+                                                Padding(
+                                                  padding:   EdgeInsets.only(right: 10,bottom: 15),
+                                                  child: MsgDate(
+                                                    date: (snapShot.data!.docs[index]
+                                                    ['date'] as Timestamp)
+                                                        .toDate(),
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(right: 10),
-                                          child: MsgDate(
-                                            date: (snapShot.data!.docs[index]
-                                            ['date'] as Timestamp)
-                                                .toDate(),
-                                          ),
-                                        ),
+
                                       ],
                                     ),
 
@@ -500,7 +509,7 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
-                                            height: Get.height * 0.27,
+                                            height: Get.height * 0.3,
                                             width: Get.width * 0.53,
                                             decoration: BoxDecoration(
                                                 color: AppColors.primaryColor.withOpacity(0.5),
@@ -512,7 +521,7 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
                                               children: [
                                                 Padding(
                                                   padding: const EdgeInsets.only(
-                                                      bottom: 5, top: 5),
+                                                      bottom: 5, top: 5,right: 5,left: 5),
                                                   child: Center(
                                                     child: InkWell(
                                                       onTap: () {
@@ -548,6 +557,14 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
                                                         ),
                                                       ),
                                                     ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right: 10),
+                                                  child: MsgDate(
+                                                    date: (snapShot.data!.docs[index]
+                                                    ['date'] as Timestamp)
+                                                        .toDate(),
                                                   ),
                                                 ),
                                               ],
@@ -641,12 +658,14 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
                                     :SizedBox();
                               },
                             );
+                          }else{
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.primaryColor.withOpacity(0.5),
+                              ),
+                            );
                           }
-                          return Center(
-                            child: CircularProgressIndicator(
-                              color: AppColors.primaryColor.withOpacity(0.5),
-                            ),
-                          );
+
                         },
                       ),
                     ],
@@ -672,8 +691,8 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
                                 suffixIcon: InkWell(
                                   onTap: () {
                                     print('it camara');
-                                    _pickImageFromGallery();
-                                    // pickFile();
+                                    // _pickImageFromGallery();
+                                    pickFile();
                                   },
                                   child: Icon(Icons.image,color: AppColors.primaryColor,),
                                 ),
@@ -710,7 +729,7 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
   Future<void> addMsg() async {
     if (_msg.text.isEmpty) {
       log('Please first write meaage..');
-      print('------SEnderwidget.uid----   ${_auth.currentUser!.uid}');
+      print('------SEnderwidget.uid----   ${_auth.currentUser?.uid}');
     } else {
       FirebaseFirestore.instance
           .collection('Chat')
@@ -720,7 +739,7 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
           .add({
         'date': DateTime.now(),
         'Type': 'Text',
-        'senderId': _auth.currentUser!.uid,
+        'senderId': _auth.currentUser?.uid,
         'receiveId': 'payal',
         'seen': false,
         'msg': _msg.text,
@@ -731,20 +750,7 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
           .catchError((e) => print(e));
     }
   }
-  // Future<File?> pickFile() async {
-  //   FilePickerResult? result = await FilePicker.platform.pickFiles(
-  //     type: FileType.custom,
-  //     allowedExtensions: ['jpg','png'],
-  //   );
-  //   String? splites = result!.paths[0];
-  //   path = File(splites!);
-  //   print('PATH::::$path');
-  //   String attach = splites.split('.').last;
-  //   print('PATH  ${attach}');
-  //
-  //   // file=File(file!.path);
-  //   // return uploadDocumentFirebaseStorage(file: File(path!));
-  // }
+
   uploadImgFirebaseStorage({File? file}) async {
     var snapshot = await kFirebaseStorage
         .ref()
@@ -763,7 +769,7 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
       'senderId': _auth.currentUser!.uid,
       'receiveId': 'payal' ,
       'seen': false,
-      'msg': '',
+      'msg': _msg,
       'image': downloadUrl,
     }).then((value) {
       print('success add');
@@ -772,25 +778,67 @@ class _SChatMessagePageState extends State<SChatMessagePage> {
   }
 
   _pickImageFromGallery() async {
-    ImagePicker imagePicker = ImagePicker();
-    PickedFile? file = await imagePicker.getImage(source: ImageSource.gallery);
+    // ImagePicker imagePicker = ImagePicker();
+    // PickedFile? file = await imagePicker.getImage(source: ImageSource.gallery);
 
-    if (file != null) {
-      // con.addFileImageArray(File(file.path));
-      // String attach = file.path.split('.').last;
-      con.addFileImageArray(File(file.path));
-      uploadImgFirebaseStorage(file: File(file.path));
-      // Get.to(ShowDocument(
-      //     receiverId: 'payal',
-      //     senderId: _auth.currentUser!.uid,
-      //     file: path,
-      //     type: attach == 'jpg' ||
-      //         attach == 'png' ||
-      //         attach == 'PNG' ||
-      //         attach == 'JPG' ||
-      //         attach == ' jpeg'
-      //         ? 'image':''));
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg','png','PNG','JPG','jpeg','image'],
+    );
+    String? splites = result!.paths[0];
+    setState(() {
+      if(splites != null){
+        path = File(splites);
+      }
+
+    });
+    print('PATH::::$path');
+    String attach = splites!.split('.').last;
+    print('PATH  ${attach}');
+    if (path != null) {
+      Get.to(ShowDocument(
+        receiverId:  'payal',
+        senderId:  _auth.currentUser!.uid,
+        file: path,
+        type: attach == 'jpg' ||
+            attach == 'png' ||
+            attach == 'PNG' ||
+            attach == 'JPG' ||
+            attach == ' jpeg'
+            ? 'image' : '',
+      ));
+    } else {
+      SizedBox();
     }
+  }
+
+  Future<File?> pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg','png','PNG','JPG','jpeg','image'],
+    );
+    String? splites = result!.paths[0];
+    path = File(splites!);
+    print('PATH::::$path');
+    String attach = splites.split('.').last;
+    print('PATH  ${attach}');
+    if (path != null) {
+      Get.to(ShowDocument(
+        receiverId:  'payal',
+        senderId:  _auth.currentUser!.uid,
+        file: path,
+        type: attach == 'jpg' ||
+            attach == 'png' ||
+            attach == 'PNG' ||
+            attach == 'JPG' ||
+            attach == ' jpeg'
+            ? 'image' : '',
+      ));
+    } else {
+      SizedBox();
+    }
+    //file=File(file!.path);
+    //return uploadDocumentFirebaseStorage(file: File(path!));
   }
 // Future uploadMultiImage() async {
 //   try {
@@ -853,9 +901,10 @@ class ShowDocument extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('RECEVERID: $receiverId');
+    print('RECEVER ID: $receiverId');
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.primaryColor,
         title: Text('DOCUMENT'),
       ),
       body: Column(
@@ -865,9 +914,8 @@ class ShowDocument extends StatelessWidget {
           Expanded(
             child: Center(
               child: Container(
-                  child: type == 'Image'
-                      ? Image.file(file!):SizedBox()
-
+                  child: Type != null && file != null
+                      ? Image.file(file!,fit: BoxFit.cover,):SizedBox(child: Center(child: CircularProgressIndicator(),),)
               ),
             ),
           ),
@@ -912,18 +960,18 @@ class ShowDocument extends StatelessWidget {
     String downloadUrl = await snapshot.ref.getDownloadURL();
     print('url=$downloadUrl');
     // print('path=$fileImageArray');
-    chatCollection.doc(chatId(_auth.currentUser!.uid, receiverId!)).collection('Data').add({
+    chatCollection.doc(chatId(_auth.currentUser!.uid, 'payal')).collection('Data').add({
       'date': DateTime.now(),
-      'Type': type,
-      'senderId': senderId,
-      'receiveId': receiverId,
+      'Type': 'Image',
+      'senderId': _auth.currentUser!.uid,
+      'receiveId': 'payal',
       'seen': false,
       'msg': msg,
       'text': true,
-      'Video': '',
-      'image': type == 'image' ? downloadUrl : '',
+      'image': downloadUrl,
+      // 'image': type == 'image' ? downloadUrl : '',
     }).then((value) {
-      print('success add');
+      print('successfully added in firebase');
       con.clearImage();
     }).catchError((e) => print('upload error'));
   }

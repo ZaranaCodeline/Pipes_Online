@@ -40,7 +40,6 @@ class _SHomeScreenState extends State<SHomeScreen> {
     return SafeArea(
       child: Scaffold(
         body: _widgetOptions[_selectedIndex],
-
         bottomNavigationBar:NavigationBarScreen(),
       ),
     );

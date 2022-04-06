@@ -15,10 +15,14 @@ import '../../../buyer/screens/add_reviews_page.dart';
 import '../../common/s_common_button.dart';
 
 class SSelectedProductScreen extends StatefulWidget {
-  SSelectedProductScreen({this.image,this.name,this.desc,this.price,
+  SSelectedProductScreen({
+    this.image,
+    this.name,
+    this.desc,
+    this.price,
     Key? key,
   }) : super(key: key);
-String? image,name,desc,price;
+  String? image, name, desc, price;
 
   @override
   State<SSelectedProductScreen> createState() => _SSelectedProductScreenState();
@@ -108,7 +112,6 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                                               SmoothStarRating(
                                                   allowHalfRating: false,
                                                   onRatingChanged: (v) {
-
                                                     setState(() {
                                                       rating = v;
                                                     });
@@ -116,8 +119,7 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                                                   starCount: 5,
                                                   rating: rating,
                                                   size: 18.0.sp,
-                                                  filledIconData:
-                                                      Icons.star,
+                                                  filledIconData: Icons.star,
                                                   halfFilledIconData:
                                                       Icons.blur_on,
                                                   color:
@@ -156,19 +158,19 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                         SizedBox(
                           height: Get.height * 0.01,
                         ),
-                    Card(
-                      child: Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(10.sp),
-                        child: CustomText(
-                          text:
-                          'Lorem ipsum dolor sit amet, consectetur \n adipiscing elit, sed do eiusmod tempo \n incididunt ut labore et dolore magn \n aliqua.',
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12.sp,
-                          color: AppColors.secondaryBlackColor,
+                        Card(
+                          child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.all(10.sp),
+                            child: CustomText(
+                              text:
+                                  'Lorem ipsum dolor sit amet, consectetur \n adipiscing elit, sed do eiusmod tempo \n incididunt ut labore et dolore magn \n aliqua.',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12.sp,
+                              color: AppColors.secondaryBlackColor,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
                         SizedBox(
                           height: Get.height * 0.05,
                         ),

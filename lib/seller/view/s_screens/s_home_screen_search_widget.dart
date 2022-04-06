@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:sizer/sizer.dart';
 
-class CustomHomeSearchWidget extends StatelessWidget {
-  const CustomHomeSearchWidget({Key? key}) : super(key: key);
+class SCustomHomeSearchWidget extends StatelessWidget {
+  const SCustomHomeSearchWidget({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,7 +17,7 @@ class CustomHomeSearchWidget extends StatelessWidget {
         placeholderStyle: TextStyle(
           color: SColorPicker.fontGrey,
           fontSize: 12.sp,
-          fontFamily: 'Brutal',
+          fontFamily: 'Ubuntu',
         ),
         prefix: Padding(
           padding: EdgeInsets.fromLTRB(9.0, 6.0, 9.0, 6.0),

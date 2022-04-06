@@ -8,16 +8,12 @@ import 'package:pipes_online/seller/view/s_authentication_screen/s_login_otp_scr
 import '../common/s_color_picker.dart';
 import '../view/s_authentication_screen/s_signup_otp_screen.dart';
 
-
-
 class SLogInController extends GetxController {
   CountryCode? countryCode = CountryCode(code: '+91');
   TextEditingController mobileNumber = TextEditingController();
 
-
   bool isLoading = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
 
   TextEditingController _otp = TextEditingController();
 
@@ -27,6 +23,7 @@ class SLogInController extends GetxController {
   @override
   void dispose() {
     mobileNumber.dispose();
+    mobileNumber.clear();
     super.dispose();
   }
   Future<void> phoneSignIn({required String phoneNumber}) async {

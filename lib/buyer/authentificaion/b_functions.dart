@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:pipes_online/buyer/authentificaion/database.dart';
-import 'package:pipes_online/buyer/screens/databaseManager/database_manager.dart';
 import 'package:pipes_online/buyer/screens/home_screen_widget.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
 import 'package:pipes_online/shared_prefarence/helperFunction/share_preferance_helper.dart';

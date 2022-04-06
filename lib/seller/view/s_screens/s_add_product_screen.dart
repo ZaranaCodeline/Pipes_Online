@@ -45,9 +45,6 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
   File? _image;
   String dropdownvalue = 'Plastic';
 
-
-
-
   Future pickImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     setState(() {
@@ -113,10 +110,10 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                     children: [
                       Center(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Stack(
+                          padding:   EdgeInsets.symmetric(vertical: 5.sp),
+                          child: Row(
                             children: [
-                              Container(
+                             /* Container(
                                 margin: EdgeInsets.only(bottom: 10, right: 30),
                                 height: 150,
                                 width: 150,
@@ -128,33 +125,44 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                                       BoxShadow(color: Colors.grey, blurRadius: 10)
                                     ]),
                                 child: _image==null?
-                                Image.network( 'https://media.istockphoto.com/vectors/user-avatar-profile-icon-black-vector-illustration-vector-id1209654046?k=20&m=1209654046&s=612x612&w=0&h=Atw7VdjWG8KgyST8AXXJdmBkzn0lvgqyWod9vTb2XoE=')
+                                Image.network( 'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/pro_1.png?alt=media&token=82dbd6af-9e7d-42e0-9121-60fb98790c04')
                                     : Image.file(_image!),
-                  ),
-
-                              Positioned(
-                                top: 110,
-                                left: 100,
-                                child: FlatButton(
-                                  onPressed: () async {
-                                    pickImage();
-                                  },
-                                  child: Container(
-                                    height: 45,
-                                    width: 45,
+                  ),*/
+                              Container(
+                                  alignment: Alignment.topLeft,
+                                  child: addProductController.image != null
+                                      ? Container(
+                                    height: 100.sp,
+                                    width: 100.sp,
                                     decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border.all(
-                                            color: Colors.white, width: 10),
-                                        borderRadius: BorderRadius.circular(25),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: Colors.grey, blurRadius: 10)
-                                        ]),
-                                    child: Icon(
-                                      Icons.camera_alt,
-                                      color: Colors.grey,
+                                        borderRadius:
+                                        BorderRadius.circular(10)),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                        child: _image==null?
+                                        Image.network( 'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/pro_1.png?alt=media&token=82dbd6af-9e7d-42e0-9121-60fb98790c04')
+                                            : Image.file(_image!)
                                     ),
+                                  ):Image.asset('assets/images/png/pro_1.png')),
+                              FlatButton(
+                                onPressed: () async {
+                                  pickImage();
+                                },
+                                child: Container(
+                                  height: 45,
+                                  width: 45,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: Colors.white, width: 10),
+                                      borderRadius: BorderRadius.circular(25),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.grey, blurRadius: 10)
+                                      ]),
+                                  child: Icon(
+                                    Icons.camera_alt,
+                                    color: Colors.grey,
                                   ),
                                 ),
                               ),

@@ -61,7 +61,7 @@ new GlobalKey<ScaffoldState>();
           background: Column(
             children: [
               SizedBox(
-                height: Get.height*0.09,
+                height: Get.height*0.07,
               ),
               Padding(
                 padding:  EdgeInsets.only(top:5.sp),

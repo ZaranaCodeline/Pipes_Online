@@ -113,7 +113,7 @@ class _SCustomProductCardState extends State<SCustomProductCard> {
           }else{
             return Center(
               child: CircularProgressIndicator(
-                color: AppColors.primaryColor.withOpacity(0.5),
+                color: AppColors.primaryColor,
               ),
             );
           }

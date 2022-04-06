@@ -1,13 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/buyer/authentificaion/database.dart';
 import 'package:pipes_online/buyer/authentificaion/b_functions.dart';
-import 'package:pipes_online/convert_date_formate_chat.dart';
-import 'package:pipes_online/reference_chat.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
-import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/buyer_common/b_image.dart';
@@ -24,39 +19,6 @@ class BChatScreen extends StatefulWidget {
 
 class _BChatScreenState extends State<BChatScreen> {
   FirebaseAuth _auth = FirebaseAuth.instance;
-
-  // TextEditingController? searchUserNameEditController;
-
-  // bool isSearching = false;
-  // Stream? usersStream;
-  // late final String receiverId;
-
-  // onSearchBtnClick() async {
-  //   isSearching = true;
-  //   setState(() {});
-  //   usersStream = await DatabaseMethods()
-  //       .getUserByUserName(searchUserNameEditController!.text);
-  // }
-
-  // Widget SearchUserList() {
-  //
-  //   return StreamBuilder(
-  //       stream: FirebaseFirestore.instance
-  //           .collection('Chat').doc('/xyz')
-  //           .collection('Data')
-  //           .orderBy('date', descending: false)
-  //           .snapshots(),
-  //       builder: (context, snapShot) {
-  //         return snapShot.hasData
-  //             ? ListView.builder(
-  //                 itemCount:  snapShot.data.docs.length,
-  //                 itemBuilder: (context, index) {
-  //                   DocumentSnapshot ds = snapShot.data.docs[index];
-  //                   return Image.network(ds["imgUrl"]);
-  //                 })
-  //             : Center(child: CircularProgressIndicator());
-  //       });
-  // }
 
   @override
   Widget build(BuildContext context) {

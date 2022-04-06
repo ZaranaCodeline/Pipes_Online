@@ -48,44 +48,6 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
     },
   ];
 
-  // FolderScreenController folderScreenController = Get.put(FolderScreenController());
-  // getFolderData() async {
-  //   if (PrefManager.getUserFolder() != null) {
-  //     // try {
-  //     //   folderScreenController.users = PrefManager.getUserFolder();
-  //     //
-  //     //   print(data[0]['folderName']);
-  //     // } catch (e) {
-  //     //   print(e);
-  //     // }
-  //     //
-  //     // print('data${data.runtimeType}');
-  //     // print('data${data}');
-  //
-  //     // print('------start-----if--1---${PrefManager.getUserFolder()}');
-  //     // print(
-  //     //     '------start-----if---2--${folderScreenController.users.runtimeType}');
-  //     folderScreenController.users = PrefManager.getUserFolder();
-  //     // print('---1--${PrefManager.getUserFolder()}');
-  //     // print('---1--${folderScreenController.users}');
-  //   } else {
-  //     // print('------start-----else-----');
-  //     // print('---1--${PrefManager.getUserFolder()}');
-  //     folderScreenController.users = [
-  //       {"folderName": "Own"},
-  //       //{"folderName": "Hardip"},
-  //     ];
-  //     await PrefManager.setUserFolder(users: folderScreenController.users);
-  //     // print('---getUserFolder--${PrefManager.getUserFolder()}');
-  //     // print('--folderScreenController.users---${folderScreenController.users}');
-  //   }
-  // }
-
-  // @override
-  // void initState() {
-  //   getFolderData();
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {

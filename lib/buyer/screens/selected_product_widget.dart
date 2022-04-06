@@ -17,12 +17,13 @@ import 'seller_review_widget.dart';
 
 class SelectedProductWidget extends StatefulWidget {
   SelectedProductWidget({Key? key,
-    required this.name,
-    required this.price,
-    required this.image,
-    required this.desc})
+     this.name,
+     this.price,
+     this.image,
+    this.category,
+    this.desc})
       : super(key: key);
-  String name, image, desc, price;
+ final  String? name, image, desc, price,category;
 
   @override
   State<SelectedProductWidget> createState() => _SelectedProductWidgetState();
@@ -50,7 +51,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                     clipBehavior: Clip.none,
                     children: [
                       CustomCarouselSliderWidget(
-                        image: widget.image,
+                        image: widget.image.toString(),
                       ),
                       // CarouselWirhDotsWidgets(imgList: imageList,),
                       Padding(
@@ -83,10 +84,11 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
             Padding(
               padding: EdgeInsets.all(8.0.sp),
               child: CustomSelectedProductBuildTopWidget(
-                name: widget.name,
-                price: widget.price,
-                desc: widget.desc,
-                image: widget.image,
+                name: widget.name.toString(),
+                price: widget.price.toString(),
+                desc: widget.desc.toString(),
+                image: widget.image.toString(),
+                category: widget.category,
               ),
             ),
             Card(
@@ -186,8 +188,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                 width: double.infinity,
                 padding: EdgeInsets.all(10.sp),
                 child: CustomText(
-                  text:
-                  'Lorem ipsum dolor sit amet, consectetur \n adipiscing elit, sed do eiusmod tempo \n incididunt ut labore et dolore magn \n aliqua.',
+                  text:widget.desc.toString(),
                   fontWeight: FontWeight.w400,
                   fontSize: 12.sp,
                   color: AppColors.secondaryBlackColor,

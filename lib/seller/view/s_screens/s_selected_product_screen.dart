@@ -19,10 +19,10 @@ class SSelectedProductScreen extends StatefulWidget {
     this.image,
     this.name,
     this.desc,
-    this.price,
+    this.price,this.id,
     Key? key,
   }) : super(key: key);
-  String? image, name, desc, price;
+  String? image, name, desc, price,id;
 
   @override
   State<SSelectedProductScreen> createState() => _SSelectedProductScreenState();
@@ -30,31 +30,22 @@ class SSelectedProductScreen extends StatefulWidget {
 
 class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
   var rating = 3.0;
-  final List<String> imageList = [
-    'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cart_page.png?alt=media&token=6a4d6e9a-51b3-449a-a2bd-eb54dcec0803',
-    'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cart_page.png?alt=media&token=6a4d6e9a-51b3-449a-a2bd-eb54dcec0803',
-  ];
+ 
 
   // SelectedProductController controller = Get.put(SelectedProductController());
   @override
   Widget build(BuildContext context) {
-    int _selectedIndex = 0;
-    String name = 'sdf',
-        image =
-            "https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cart_page.png?alt=media&token=6a4d6e9a-51b3-449a-a2bd-eb54dcec0803",
-        desc = "dsfs",
-        price = "10000";
     return Scaffold(
-      body: Container(
-        child: SingleChildScrollView(
-          child: SafeArea(
+      body: SafeArea(
+        child: Container(
+          child: SingleChildScrollView(
             child: Column(
               children: [
                 Stack(
                   clipBehavior: Clip.none,
                   children: [
                     CustomCarouselSliderWidget(
-                      image: image,
+                      image: widget.image.toString(),
                     ),
                     // CarouselWirhDotsWidgets(imgList: imageList,),
                     Padding(
@@ -75,10 +66,47 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                       children: [
                         Padding(
                           padding: EdgeInsets.all(8.0.sp),
-                          child: buildMiddleWidget(
-                            name,
-                            price,
-                            desc,
+                          child: Container(
+                            child: Column(
+                              children: [
+                                CustomText(
+                                  text: widget.name.toString(),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18.sp,
+                                  color: AppColors.primaryColor,
+                                  alignment: Alignment.topLeft,
+                                ),
+                                // SizedBox(height: Get.height * 0.01),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomText(
+                                        text: widget.price.toString(),
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14.sp,
+                                        color: AppColors.secondaryBlackColor),
+                                    Container(
+                                      height: Get.height / 12.sp,
+                                      decoration: BoxDecoration(
+                                          color: AppColors.commonWhiteTextColor,
+                                          borderRadius: BorderRadius.circular(5),
+                                          boxShadow: [
+                                            new BoxShadow(
+                                                blurRadius: 1, color: AppColors.hintTextColor),
+                                          ]),
+                                      child: TextButton(
+                                          onPressed: () {},
+                                          child:
+                                          SvgPicture.asset('assets/images/svg/delete_icon.svg')),
+                                    ),
+                                  ],
+                                ),
+
+                                const Divider(
+                                  height: 10,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         Card(
@@ -164,7 +192,7 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                             padding: EdgeInsets.all(10.sp),
                             child: CustomText(
                               text:
-                                  'Lorem ipsum dolor sit amet, consectetur \n adipiscing elit, sed do eiusmod tempo \n incididunt ut labore et dolore magn \n aliqua.',
+                                  widget.desc.toString(),
                               fontWeight: FontWeight.w400,
                               fontSize: 12.sp,
                               color: AppColors.secondaryBlackColor,
@@ -179,7 +207,7 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                           child: SCommonButton().sCommonPurpleButton(
                             name: 'Edit Product',
                             onTap: () {
-                              Get.to(() => SeditProductScreen());
+                              Get.to(() => SeditProductScreen(desc: widget.desc,price: widget.price,name: widget.name,img: widget.image,id: widget.id,));
                               print('edit product seller side');
                               // Get.toNamed(SRoutes.SSubmitProfileScreen);
                             },
@@ -203,7 +231,7 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
       child: Column(
         children: [
           CustomText(
-            text: 'Test',
+            text: name,
             fontWeight: FontWeight.w600,
             fontSize: 18.sp,
             color: AppColors.primaryColor,
@@ -214,7 +242,7 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomText(
-                  text: "Desc",
+                  text: price,
                   fontWeight: FontWeight.w600,
                   fontSize: 14.sp,
                   color: AppColors.secondaryBlackColor),
@@ -235,7 +263,7 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
             ],
           ),
           CustomText(
-            text: "Price",
+            text: desc,
             fontWeight: FontWeight.w600,
             fontSize: 14.sp,
             color: AppColors.secondaryBlackColor,

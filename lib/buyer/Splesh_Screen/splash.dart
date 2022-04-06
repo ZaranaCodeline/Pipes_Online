@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
@@ -7,12 +8,15 @@ import 'package:pipes_online/seller/view/s_screens/s_submit_profile_screen.dart'
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
+import '../screens/bottom_bar_screen_page/b_navigationbar.dart';
+
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
 
   @override
   State<Splash> createState() => _SplashState();
 }
+FirebaseAuth _auth = FirebaseAuth.instance;
 
 class _SplashState extends State<Splash> {
   @override
@@ -28,10 +32,10 @@ class _SplashState extends State<Splash> {
     //   ));
     // });
     Timer(Duration(seconds: 2), () {
-      Get.off(SOnBoardingScreen());
-      // PreferenceManager.getUID() == null
-      //     ? Get.to(SOnBoardingScreen())
-      //     : Get.to(CatelogeHomeWidget());
+      //Get.off(SOnBoardingScreen());
+       _auth.currentUser!.uid.toString()== null
+          ? Get.to(SOnBoardingScreen())
+          : Get.to(BottomNavigationBarScreen());
     });
   }
 

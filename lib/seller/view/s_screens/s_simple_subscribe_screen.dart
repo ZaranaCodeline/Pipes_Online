@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/custom_widget/widgets/custom_text.dart';
+import '../../../routes/bottom_controller.dart';
 import '../../common/s_color_picker.dart';
 import '../../common/s_common_button.dart';
 import '../../common/s_text_style.dart';
 import '../../controller/s_subscribe_controller.dart';
+import '../../view_model/s_add_product_controller.dart';
 import 's_add_product_screen.dart';
 
 class SSimpleSubScribeScreen extends StatefulWidget {
@@ -20,6 +22,8 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
   String? radioValue;
   int? selectedRadioTile;
   String? selected;
+  BottomController homeController = Get.find();
+  AddProductController addProductController = Get.put(AddProductController());
 
   setSelectedRadioTile(int val) {
     setState(() {
@@ -194,9 +198,12 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
           child: SCommonButton().sCommonPurpleButton(
             name: 'Subscribe Now',
             onTap: () {
-              Get.to(() => SAddProductScreen(selectedPrice:selected,));
-              print('edit product seller side');
+              addProductController.selectedPrice=selected!;
+              homeController.bottomIndex.value=0;
+              homeController.selectedScreen('SAddProductScreen');
 
+           //Get.to(() => SAddProductScreen(selectedPrice:selected,));
+              print('edit product seller side');
               // Get.toNamed(SRoutes.SSubmitProfileScreen);
             },
           ),

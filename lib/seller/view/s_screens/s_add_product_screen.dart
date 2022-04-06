@@ -1,34 +1,29 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-
 import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/seller/Authentication/s_function.dart';
 import 'package:pipes_online/seller/view/s_screens/s_cateloge_home_screen.dart';
-import 'package:pipes_online/seller/view/s_screens/s_edit_product_screen.dart';
 import 'package:pipes_online/seller/view_model/s_add_product_controller.dart';
-import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/custom_widget/widgets/custom_text.dart';
+import '../../../buyer/view_model/b_bottom_bar_controller.dart';
+import '../../../routes/bottom_controller.dart';
 import '../../common/s_common_button.dart';
 import '../../common/s_text_style.dart';
-import 's_subscribe_screen.dart';
+
 final FirebaseStorage kFirebaseStorage = FirebaseStorage.instance;
 final FirebaseFirestore kFireStore = FirebaseFirestore.instance;
 CollectionReference userCollection = kFireStore.collection('User');
 class SAddProductScreen extends StatefulWidget {
 
-    SAddProductScreen({Key? key, this.selectedPrice}) : super(key: key);
-      String? selectedPrice;
+    SAddProductScreen({Key? key, }) : super(key: key);
   @override
   State<SAddProductScreen> createState() => _SAddProductScreenState();
 }
@@ -36,10 +31,13 @@ class SAddProductScreen extends StatefulWidget {
 class _SAddProductScreenState extends State<SAddProductScreen> {
 
   AddProductController addProductController = Get.put(AddProductController());
+  BottomController homeController = Get.find();
+
   TextEditingController prdName = TextEditingController();
   TextEditingController dsc = TextEditingController();
   final formGlobalKey = GlobalKey<FormState>();
-
+  BBottomBarIndexController bottomBarIndexController =
+  Get.put(BBottomBarIndexController());
   final picker = ImagePicker();
   String? uploadImage;
   File? _image;
@@ -67,13 +65,18 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
   }
   var items = [
     'Plastic',
-    'Coper 1',
-    'Coper 2',
+    'Steel',
+    'Copper',
+    'Electrical',
+    'Iron',
+    'gas',
+    'Oil',
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         title: Text(
           'ADD PRODUCT',
@@ -113,7 +116,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                           padding:   EdgeInsets.symmetric(vertical: 5.sp),
                           child: Row(
                             children: [
-                             /* Container(
+                              Container(
                                 margin: EdgeInsets.only(bottom: 10, right: 30),
                                 height: 150,
                                 width: 150,
@@ -125,10 +128,10 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                                       BoxShadow(color: Colors.grey, blurRadius: 10)
                                     ]),
                                 child: _image==null?
-                                Image.network( 'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/pro_1.png?alt=media&token=82dbd6af-9e7d-42e0-9121-60fb98790c04')
+                                Image.network( 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB4x3H3i8szbt2TfefSCNwMpzF28ZM1Hvx907uC6ybDPBBb7uUdi3AIQbD7x7Wpnezv6M&usqp=CAU')
                                     : Image.file(_image!),
-                  ),*/
-                              Container(
+                  ),
+                              /*Container(
                                   alignment: Alignment.topLeft,
                                   child: addProductController.image != null
                                       ? Container(
@@ -143,7 +146,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                                         Image.network( 'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/pro_1.png?alt=media&token=82dbd6af-9e7d-42e0-9121-60fb98790c04')
                                             : Image.file(_image!)
                                     ),
-                                  ):Image.asset('assets/images/png/pro_1.png')),
+                                  ):Image.asset('assets/images/png/pro_1.png')),*/
                               FlatButton(
                                 onPressed: () async {
                                   pickImage();
@@ -170,254 +173,9 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                           ),
                         ),
                       ),
-                      /*GestureDetector(
-                          onTap: (){
-                            print('it is openable image');
-                            showDialog(
-                              context: context,
-                              builder: (context) => SimpleDialog(
-                                children: [
-                                  Container(
-                                    height: 105.sp,
-                                    width: double.infinity,
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          child: MaterialButton(
-                                            child: Text(
-                                              'GALLERY',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14.sp),
-                                            ),
-                                            onPressed: () {
-                                              // controller.getGalleryImage();
-                                              Get.back();
-                                            },
-                                          ),
-                                          width: 220,
-                                          height: 50.sp,
-                                          decoration: BoxDecoration(
-                                              gradient: LinearGradient(
-                                                  begin: Alignment.topLeft,
-                                                  colors: [
-                                                    AppColors.primaryColor,
-                                                    AppColors.offLightPurpalColor,
-                                                    AppColors.primaryColor,
-                                                  ]),
-                                              borderRadius: BorderRadius.circular(25)),
 
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Container(
-                                          child: MaterialButton(
-                                            child: Text(
-                                              'camera',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20),
-                                            ),
-                                            onPressed: () {
-                                              controller.getCamaroImage();
-                                              Get.back();
-                                            },
-                                          ),
-                                          width: 220,
-                                          height: 50.sp,
-                                          decoration: BoxDecoration(
-                                              gradient: LinearGradient(
-                                                  begin: Alignment.topLeft,
-                                                  colors: [
-                                                    AppColors.primaryColor,
-                                                    AppColors.offLightPurpalColor,
-                                                    AppColors.primaryColor,
-                                                  ]),
-                                              borderRadius: BorderRadius.circular(25)),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                          child: Container(
-                            child: SvgPicture.asset('assets/images/svg/camera.svg',color: AppColors.primaryColor,),
-                            alignment: Alignment.center,
-                          ),
-                        ),
-                        Container(
-                            alignment: Alignment.topLeft,
-                            child: addProductController.image != null
-                                ? Container(
-                              height: 100.sp,
-                              width: 100.sp,
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                  BorderRadius.circular(10)),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.file(
-                                  controller.image!,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ):Image.asset('assets/images/png/pro_1.png')),*/
                     ],
-                  ) /*GetBuilder<AddProductController>(builder: (controller){
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Center(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Stack(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(bottom: 10, right: 30),
-                                  height: 150,
-                                  width: 150,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: FileImage(_image!),
-                                          fit: BoxFit.cover),
-                                      color: Colors.white.withOpacity(0.9),
-                                      border: Border.all(color: Colors.white, width: 10),
-                                      borderRadius: BorderRadius.circular(25),
-                                      boxShadow: [
-                                        BoxShadow(color: Colors.grey, blurRadius: 10)
-                                      ]),
-                                ),
-                                Positioned(
-                                  top: 110,
-                                  left: 100,
-                                  child: FlatButton(
-                                    onPressed: () async {
-                                      pickImage();
-                                    },
-                                    child: Container(
-                                      height: 45,
-                                      width: 45,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          border: Border.all(
-                                              color: Colors.white, width: 10),
-                                          borderRadius: BorderRadius.circular(25),
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.grey, blurRadius: 10)
-                                          ]),
-                                      child: Icon(
-                                        Icons.camera_alt,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        *//*GestureDetector(
-                          onTap: (){
-                            print('it is openable image');
-                            showDialog(
-                              context: context,
-                              builder: (context) => SimpleDialog(
-                                children: [
-                                  Container(
-                                    height: 105.sp,
-                                    width: double.infinity,
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          child: MaterialButton(
-                                            child: Text(
-                                              'GALLERY',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14.sp),
-                                            ),
-                                            onPressed: () {
-                                              // controller.getGalleryImage();
-                                              Get.back();
-                                            },
-                                          ),
-                                          width: 220,
-                                          height: 50.sp,
-                                          decoration: BoxDecoration(
-                                              gradient: LinearGradient(
-                                                  begin: Alignment.topLeft,
-                                                  colors: [
-                                                    AppColors.primaryColor,
-                                                    AppColors.offLightPurpalColor,
-                                                    AppColors.primaryColor,
-                                                  ]),
-                                              borderRadius: BorderRadius.circular(25)),
-
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Container(
-                                          child: MaterialButton(
-                                            child: Text(
-                                              'camera',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20),
-                                            ),
-                                            onPressed: () {
-                                              controller.getCamaroImage();
-                                              Get.back();
-                                            },
-                                          ),
-                                          width: 220,
-                                          height: 50.sp,
-                                          decoration: BoxDecoration(
-                                              gradient: LinearGradient(
-                                                  begin: Alignment.topLeft,
-                                                  colors: [
-                                                    AppColors.primaryColor,
-                                                    AppColors.offLightPurpalColor,
-                                                    AppColors.primaryColor,
-                                                  ]),
-                                              borderRadius: BorderRadius.circular(25)),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                          child: Container(
-                            child: SvgPicture.asset('assets/images/svg/camera.svg',color: AppColors.primaryColor,),
-                            alignment: Alignment.center,
-                          ),
-                        ),
-                        Container(
-                            alignment: Alignment.topLeft,
-                            child: addProductController.image != null
-                                ? Container(
-                              height: 100.sp,
-                              width: 100.sp,
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                  BorderRadius.circular(10)),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.file(
-                                  controller.image!,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ):Image.asset('assets/images/png/pro_1.png')),*//*
-                      ],
-                    );
-                  },),*/
+                  ),
                 ),
                 SizedBox(
                   height: Get.height * 0.01,
@@ -444,12 +202,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                                 new BoxShadow(
                                     blurRadius: 1,
                                     color: AppColors.hintTextColor),
-                              ]),
-                          // child: TextButton(
-                          //     onPressed: () {},
-                          //     child: SvgPicture.asset(
-                          //         'assets/images/svg/delete_icon.svg')),
-
+                              ],),
                         ),
                       ],
                     ),
@@ -528,7 +281,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: AppColors.commonWhiteTextColor),
-                      child:Text('${widget.selectedPrice}'),
+                      child:Text('${addProductController.selectedPrice}'),
                     ),
                     SizedBox(
                       height: Get.height * 0.01,
@@ -581,13 +334,16 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                     onTap: () async {
                       if (formGlobalKey.currentState!.validate()) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Processing Data'),
-                            backgroundColor: Colors.blueAccent,
+                           SnackBar(
+                            content:   Text('Processing data'),
+                            backgroundColor: AppColors.primaryColor,
                           ),
                         );
                         formGlobalKey.currentState!.save();
-                          await addData(_image).then((value) =>  Get.to(() => SCatelogeHomeScreen()));
+                          await addData(_image).then((value) =>  Get.to(() {
+                            homeController.selectedScreen('SCatelogeHomeScreen');
+                            homeController.bottomIndex.value=0;
+                          }));
                       }
                     },
                   ),
@@ -669,19 +425,27 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
         'category': dropdownvalue,
         'prdName': prdName.text,
         'dsc': dsc.text,
-        'price': widget.selectedPrice,
+        'price':addProductController.selectedPrice,
         'createdOn': DateTime.now(),
       })
           .catchError((e) => print('Error ===>>> $e'))
-          .then((value) =>
-          Navigator.push(context, MaterialPageRoute(
+          .then((value) {
+            addProductController.name=prdName.text;
+            addProductController.images=downloadUrl;
+            addProductController.descs=dsc.text;
+            addProductController.prices=addProductController.selectedPrice;
+        homeController.bottomIndex.value = 0;
+        homeController.selectedScreen('SCatelogeHomeScreen');
+      }
+     /*  Navigator.push(context, MaterialPageRoute(
             builder: (context) {
-              return SCatelogeHomeScreen(image: downloadUrl,
+              return SCatelogeHomeScreen(
+                image: downloadUrl,
                 name: prdName.text,
-                price: widget.selectedPrice,
+                price: addProductController.selectedPrice,
                 desc: dsc.text,);
             },
-          )));
+          ))*/);
     }
     );
   }

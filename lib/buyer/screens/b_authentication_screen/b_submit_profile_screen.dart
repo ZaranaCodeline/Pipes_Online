@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -12,6 +14,9 @@ import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:sizer/sizer.dart';
 import '../../../routes/bottom_controller.dart';
+import '../../../seller/Authentication/s_function.dart';
+import '../../../seller/view/s_screens/s_add_product_screen.dart';
+import '../../custom_widget/widgets/custom_text.dart';
 import '../maps_screen.dart';
 
 class BSubmitProfileScreen extends StatefulWidget {
@@ -26,9 +31,9 @@ class BSubmitProfileScreen extends StatefulWidget {
 class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
 
   File? _image;
-
+  FirebaseAuth _auth = FirebaseAuth.instance;
   GeolocationController _controller = Get.find();
-
+  BottomController homeController = Get.find();
   final picker = ImagePicker();
 
   Future getGalleryImage() async {
@@ -62,6 +67,8 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
+  TextEditingController addController = TextEditingController();
+  TextEditingController mobileCnt = TextEditingController();
 
   BottomController bottomController = Get.find();
 
@@ -76,14 +83,7 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
 
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
-      void _submit() async {
-        if (_formKey.currentState!.validate()) {
-          print('Validate');
-          Get.offAll(() => BottomNavigationBarScreen());
-        } else {
-          print('InValidate');
-        }
-      }
+
       return Builder(
         builder: (context) => SafeArea(
           child: Scaffold(
@@ -250,7 +250,6 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
                           'Name',
                           style: STextStyle.semiBold600Black13,
                         ),
-                        SizedBox(height: 5.sp),
                         Container(
                           width: Get.width * 0.75,
                           alignment: Alignment.centerLeft,
@@ -276,6 +275,38 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
                         ),
                         SizedBox(height: 10.sp),
                         Text(
+                          'Mobile',
+                          style: STextStyle.semiBold600Black13,
+                        ),
+
+                        Container(
+                          width: Get.width * 0.75,
+                          alignment: Alignment.centerLeft,
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            autocorrect: true,
+                            autovalidateMode:
+                            AutovalidateMode.onUserInteraction,
+                            maxLength: 10,
+                            autofocus: true,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Required';
+                              }
+                              return null;
+                            },
+                            controller: mobileCnt,
+                            decoration: InputDecoration(
+                              hintText: '+91 0000000000',
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                            ),
+                          ),
+                        ),
+
+
+                        SizedBox(height: 10.sp),
+                        Text(
                           'Address',
                           style: STextStyle.semiBold600Black13,
                         ),
@@ -296,7 +327,7 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
                                 }
                               },
                               maxLines: 3,
-                              controller: _controller.addressController,
+                              controller: _controller.addressController==null?addController:_controller.addressController,
                               decoration: InputDecoration(
                                 hintText: 'Enter Address',
                                 border: OutlineInputBorder(
@@ -355,7 +386,15 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
                       child: SCommonButton().sCommonPurpleButton(
                         name: 'Continue',
                         onTap: () {
-                          _submit();
+                          if (_formKey.currentState!.validate()) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                               SnackBar(
+                                content: Text('Processing Data'),
+                                backgroundColor: AppColors.primaryColor,
+                              ),
+                            );
+                            addData(_image);
+                          }
                         },
                       ),
                     ),
@@ -368,5 +407,29 @@ class _BSubmitProfileScreenState extends State<BSubmitProfileScreen> {
         ),
       );
     });
+  }
+  CollectionReference ProfileCollection = kFireStore.collection('profileinfo');
+  Future<void> addData(File? file) async {
+    var snapshot = await kFirebaseStorage
+        .ref()
+        .child('ChatImage/${DateTime.now().microsecondsSinceEpoch}')
+        .putFile(file!);
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    print('url=$downloadUrl');
+    SAuthMethods().getCurrentUser()
+        .then((value) {
+      ProfileCollection.doc('${_auth.currentUser!.uid}').set({
+        'imageProfile': downloadUrl,
+        'name':nameController.text,
+       'add':_controller.addressController==null?addController.text:_controller.addressController!.text,
+        'mobile':mobileCnt.text
+      })
+          .catchError((e) => print('Error ===>>> $e'))
+          .then((value) {
+        Get.offAll(() => BottomNavigationBarScreen());
+      }
+);
+    }
+    );
   }
 }

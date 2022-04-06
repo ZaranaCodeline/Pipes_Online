@@ -1,76 +1,151 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/view_model/b_bottom_bar_controller.dart';
 import 'package:sizer/sizer.dart';
+import '../../seller/common/s_color_picker.dart';
+import '../app_constant/app_colors.dart';
 import '../custom_widget/custom_home_page_widget/custom_product_card.dart';
+import '../custom_widget/widgets/custom_text.dart';
 import 'selected_product_widget.dart';
 
 class ProductCardList extends StatefulWidget {
   ProductCardList({
-    Key? key,
+    Key? key, this.category,
   }) : super(key: key);
-
+final String? category;
   @override
   State<ProductCardList> createState() => _ProductCardListState();
 }
 
 class _ProductCardListState extends State<ProductCardList> {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
   BBottomBarIndexController bottomBarIndexController =
       Get.put(BBottomBarIndexController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        // height: Get.height * 5.sp,
-        padding: EdgeInsets.symmetric(horizontal: 8.sp),
-        child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection("Products").snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasData) {
-              List<DocumentSnapshot> products = snapshot.data!.docs;
-              return SingleChildScrollView(
-                child: GridView.builder(
-                  primary: false,
-                  shrinkWrap: true,
-                  itemCount: products.length,
-                  scrollDirection: Axis.vertical,
-                  gridDelegate:   SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
-                    childAspectRatio: 3/4,
-                    // childAspectRatio: 3 / 4,
-                  ),
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Get.to(
-                          () => SelectedProductWidget(
-                            image: products[index].get("image"),
-                            name: products[index].get("name"),
-                            desc: products[index].get("desc"),
-                            price: products[index].get("price"),
-                          ),
-                        );
-                      },
-                      child: CustomProductCard(
-                        image: products[index].get("image"),
-                        name: products[index].get("name"),
-                        desc: products[index].get("desc"),
-                        price: products[index].get("price"),
-                      ),
-                    );
-                  },
-                ),
-              );
-            } else {
-              return const SizedBox();
+      // height: Get.height * 5.sp,
+      padding: EdgeInsets.symmetric(horizontal: 8.sp),
+      child: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('User').
+        doc('${_auth.currentUser!.uid}')
+            .collection('data')
+            .snapshots(),
+        builder: (context, snapShot) {
+          if (snapShot.hasData) {
+            if(snapShot.connectionState==ConnectionState.waiting){
+              return Center(child: CircularProgressIndicator(),);
             }
-          },
-        ),
+            if(snapShot.connectionState==ConnectionState.done){
+
+            }
+            return  GridView.builder(
+                physics: BouncingScrollPhysics(),gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,crossAxisSpacing: 5,mainAxisSpacing: 5,childAspectRatio: 1.7/ 2),
+                itemCount: snapShot.data!.docs.length,itemBuilder: (BuildContext context,index){
+
+              return
+                GestureDetector(
+                  onTap: () {
+                    print('gfvf');
+                    print('DATA OF ID${snapShot.data!.docs[index].id}');
+                    Get.to(SelectedProductWidget(name: snapShot.data!.docs[index]['prdName'],price: snapShot.data!.docs[index]['price'],image: snapShot.data!.docs[index]['imageProfile'],desc: snapShot.data!.docs[index]['dsc'],) );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      width: Get.width*0.4,
+                      height: Get.height*0.26,
+                      decoration: BoxDecoration(
+                          color: AppColors.commonWhiteTextColor,
+                          borderRadius: BorderRadius.circular(Get.width * 0.05),
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 1,
+                              color: SColorPicker.fontGrey,
+                            )
+                          ]),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              //width: Get.width * 0.35,height: Get.height*0.1,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(Get.width * 0.02),
+                                child:snapShot.data!.docs[index]['imageProfile']==null||snapShot.data!.docs[index]['imageProfile']==''? Center(child: CircularProgressIndicator()): Image.network(
+                                  snapShot.data!.docs[index]['imageProfile'],
+                                  height: Get.height*0.1,
+                                  width:Get.width * 0.4,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.01,
+                          ),
+                          Padding(
+                            padding:  EdgeInsets.symmetric(horizontal: 10.sp),
+                            child: CustomText(
+                              text: snapShot.data!.docs[index]['prdName'],
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14.sp,
+                              color: SColorPicker.purple,
+                              alignment: Alignment.centerLeft,
+                            ),
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.01,
+                          ),
+                          Padding(
+                            padding:  EdgeInsets.symmetric(horizontal: 10.sp),
+                            child: CustomText(
+                              text:snapShot.data!.docs[index]['category'],
+                              // snapShot.data!.docs[index]['dsc'],
+                              textOverflow: TextOverflow.ellipsis,
+                              fontWeight: FontWeight.w600,
+                              max: 1,
+                              fontSize: 12.sp,
+                              color: SColorPicker.black,
+                              alignment: Alignment.centerLeft,
+                            ),
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.01,
+                          ),
+                          Padding(
+                            padding:  EdgeInsets.symmetric(horizontal: 10.sp),
+                            child: CustomText(
+                              text: snapShot.data!.docs[index]['price'],
+                              fontWeight: FontWeight.w600,
+                              fontSize: 12.sp,
+                              color: SColorPicker.black,
+                              alignment: Alignment.centerLeft,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+            });
+          }else{
+            return Center(
+              child: CircularProgressIndicator(
+                color: AppColors.primaryColor,
+              ),
+            );
+          }
+
+
+        },
       ),
+    ),
     );
   }
 }

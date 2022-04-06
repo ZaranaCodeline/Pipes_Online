@@ -10,7 +10,9 @@ Widget cartSubScreen() {
   switch (bottomBarIndexController.selectedScreen.value) {
     case 'CartPage':
       return CartPage();
-      break;
+
+
+
 
 
     default:

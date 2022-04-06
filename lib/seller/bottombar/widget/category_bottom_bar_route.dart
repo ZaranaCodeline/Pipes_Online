@@ -3,8 +3,11 @@ import 'package:get/get.dart';
 
 
 import '../../../routes/bottom_controller.dart';
+import '../../view/s_screens/s_add_product_screen.dart';
 import '../../view/s_screens/s_cateloge_home_screen.dart';
+import '../../view/s_screens/s_edit_product_screen.dart';
 import '../../view/s_screens/s_selected_product_screen.dart';
+import '../../view/s_screens/s_subscribe_screen.dart';
 
 BottomController homeController = Get.find();
 
@@ -13,10 +16,14 @@ Widget categorySubScreen() {
   switch (homeController.selectedScreen.value) {
     case 'SCatelogeHomeScreen':
       return SCatelogeHomeScreen();
-      break; case 'SSelectedProductScreen':
+      case 'SSelectedProductScreen':
       return SSelectedProductScreen();
-      break;
-
+      case 'SSubscribeScreen':
+      return SSubscribeScreen();
+      case 'SAddProductScreen':
+      return SAddProductScreen();
+      case 'SeditProductScreen':
+      return SeditProductScreen();
 
 
 

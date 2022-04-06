@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,10 +8,14 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:sizer/sizer.dart';
+import '../../ChatRoom.dart';
+import '../../seller/common/s_common_button.dart';
+import '../../shared_prefarence/shared_prefarance.dart';
 import '../app_constant/app_colors.dart';
 import '../custom_widget/widgets/custom_button.dart';
 import '../custom_widget/widgets/custom_text.dart';
 import 'bottom_bar_screen_page/widget/home_bottom_bar_route.dart';
+import 'drawer_profile_page.dart';
 import 'get_started_page.dart';
 
 class PersonalInfoPage extends StatefulWidget {
@@ -22,8 +27,25 @@ class PersonalInfoPage extends StatefulWidget {
 
 class _PersonalInfoPageState extends State<PersonalInfoPage> {
   File? _image;
-
+  String? Img;
   final picker = ImagePicker();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController addController = TextEditingController();
+  TextEditingController mobileCnt = TextEditingController();
+  Future<void> getData() async {
+    print('demo.....');
+    final   user =
+    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}').get();
+    Map<String, dynamic> getUserData = user.data() as Map<String, dynamic>;
+    nameController.text=getUserData['name'];
+    addController.text=getUserData['add'];
+    mobileCnt.text=getUserData['mobile'];
+    setState(() {
+      Img=getUserData['imageProfile'];
+    });
+    print('============================${user.get('imageProfile')}');
+
+  }
 
   Future getGalleryImage() async {
     var imaGe = await picker.getImage(source: ImageSource.gallery);
@@ -53,7 +75,11 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       }
     });
   }
-
+@override
+  void initState() {
+    // TODO: implement initState
+  getData();
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -71,7 +97,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               },
               icon: Icon(Icons.arrow_back_rounded)),
           title: Text(
-            'PROFILE',
+            'PROFILE....',
             style: STextStyle.bold700White14,
           ),
           centerTitle: true,
@@ -167,26 +193,20 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                               ),
                             );
                           },
-                          child: _image != null
-                              ? Container(
-                                  height: 35.sp,
-                                  width: 35.sp,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50)),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(50),
-                                    child: Image.file(
-                                      _image!,
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                )
-                              : Container(
-                                  child: SvgPicture.asset(
-                                    'assets/images/svg/pro_icon.svg',
-                                    color: AppColors.primaryColor,
-                                  ),
-                                )),
+                        child:   Container(
+                          height: 35.sp,
+                          width: 35.sp,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50)),
+                         child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child:_image==null?
+                                 Image.network(Img==null?'https://media.istockphoto.com/vectors/user-avatar-profile-icon-black-vector-illustration-vector-id1209654046?k=20&m=1209654046&s=612x612&w=0&h=Atw7VdjWG8KgyST8AXXJdmBkzn0lvgqyWod9vTb2XoE=':Img!,fit: BoxFit.fill)
+                                : Image.file(_image!,fit: BoxFit.fill),
+                          ),
+
+                        ),
+                        ),
                       SizedBox(
                         height: Get.height * 0.02,
                       ),
@@ -208,8 +228,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   SizedBox(
                     height: Get.height * 0.03,
                   ),
-                  const TextField(
-                    // controller: _controller,
+                   TextField(
+                     controller: nameController,
                     decoration: InputDecoration(
                       suffixIcon: Icon(Icons.edit),
                       border: OutlineInputBorder(
@@ -231,8 +251,10 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   SizedBox(
                     height: Get.height * 0.03,
                   ),
-                  const TextField(
-                    // controller: _controller,
+                   TextField(
+                     controller: mobileCnt,
+                    maxLength: 10,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       suffixIcon: Icon(Icons.edit),
                       border: OutlineInputBorder(
@@ -254,7 +276,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   SizedBox(
                     height: Get.height * 0.03,
                   ),
-                  const TextField(
+                   TextField(
+                     controller: addController,
                     decoration: InputDecoration(
                       suffixIcon: Icon(Icons.edit),
                       hintText: 'Enter Address',
@@ -265,6 +288,26 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                     maxLines: 3,
                     keyboardType: TextInputType.multiline,
                     // minLines: 1,
+                  ), SizedBox(
+                    height: Get.height * 0.03,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 50.sp),
+                    child: SCommonButton().sCommonPurpleButton(
+                      name: 'Update',
+                      onTap: () {
+                        setState(() {
+                          UpdateData();
+                        });
+                        if (bottomBarIndexController.bottomIndex.value == 3) {
+                          bottomBarIndexController.setSelectedScreen(
+                              value: 'ProfileScreen');
+                          bottomBarIndexController.bottomIndex.value = 0;
+                        } else {
+                          Get.back();
+                        }
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -273,5 +316,24 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         ),
       ),
     );
+  }
+
+  Future<void> UpdateData() async {
+    var snapshot = await kFirebaseStorage
+        .ref()
+        .child('ChatImage/${DateTime.now().microsecondsSinceEpoch}')
+        .putFile(_image!);
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    print('url=$downloadUrl');
+    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}').get();
+    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
+        .update({
+      'imageProfile': downloadUrl,
+      'name':nameController.text,
+      'add':addController.text,
+      'mobile':mobileCnt.text
+    })
+        .then((value) => print('success'))
+        .catchError((e) => print(e));
   }
 }

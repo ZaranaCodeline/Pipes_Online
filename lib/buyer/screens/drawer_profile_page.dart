@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,8 +9,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../ChatRoom.dart';
 import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
 import '../custom_widget/widgets/custom_text.dart';
@@ -20,12 +24,19 @@ class DrawerProfilePage extends StatefulWidget {
   @override
   State<DrawerProfilePage> createState() => _DrawerProfilePageState();
 }
-
+CollectionReference ProfileCollection = kFireStore.collection('profileinfo');
 class _DrawerProfilePageState extends State<DrawerProfilePage> {
-
+  String? Img;
   File? _image;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController addController = TextEditingController();
+@override
+  void initState() {
 
+  super.initState();
+  }
   final picker = ImagePicker();
+
 
   Future getGalleryImage() async {
     var imaGe = await picker.getImage(source: ImageSource.gallery);
@@ -64,6 +75,7 @@ class _DrawerProfilePageState extends State<DrawerProfilePage> {
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
+                UpdateData();
                 BBottomBarIndexController bottomBarIndexController =
                 Get.put(BBottomBarIndexController());
                 // bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
@@ -217,8 +229,8 @@ class _DrawerProfilePageState extends State<DrawerProfilePage> {
                   SizedBox(
                     height: Get.height * 0.03,
                   ),
-                  const TextField(
-                    // controller: _controller,
+                   TextField(
+                    controller: nameController,
                     decoration: InputDecoration(
                       suffixIcon: Icon(Icons.edit),
                       border: OutlineInputBorder(
@@ -240,7 +252,7 @@ class _DrawerProfilePageState extends State<DrawerProfilePage> {
                   SizedBox(
                     height: Get.height * 0.03,
                   ),
-                  const TextField(
+                   TextField(
                     // controller: _controller,
                     decoration: InputDecoration(
                       suffixIcon: Icon(Icons.edit),
@@ -263,7 +275,8 @@ class _DrawerProfilePageState extends State<DrawerProfilePage> {
                   SizedBox(
                     height: Get.height * 0.03,
                   ),
-                  const TextField(
+                   TextField(
+                    controller: addController,
                     decoration: InputDecoration(
                       suffixIcon: Icon(Icons.edit),
                       hintText: 'Enter Address',
@@ -282,5 +295,23 @@ class _DrawerProfilePageState extends State<DrawerProfilePage> {
         ),
       ),
     );
+  }
+
+
+  Future<void> UpdateData() async {
+    var snapshot = await kFirebaseStorage
+        .ref()
+        .child('ChatImage/${DateTime.now().microsecondsSinceEpoch}')
+        .putFile(_image!);
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    print('url=$downloadUrl');
+    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}').collection('data').doc(PreferenceManager.getUID())
+        .update({
+      'imageProfile': downloadUrl,
+      'name':nameController.text,
+      'add':addController.text,
+    })
+        .then((value) => print('success'))
+        .catchError((e) => print(e));
   }
 }

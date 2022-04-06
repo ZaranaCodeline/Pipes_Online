@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/routes/bottom_controller.dart';
+import 'package:pipes_online/seller/bottombar/widget/category_bottom_bar_route.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:sizer/sizer.dart';
 import '../../buyer/screens/drawer_profile_page.dart';
@@ -63,7 +64,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
             child: SafeArea(
               child: homeController.selectedScreen.value != ''
                   ? homeController.bottomIndex.value == 0
-                  ? SCatelogeHomeScreen()
+                  ? categorySubScreen()
                   : homeController.bottomIndex.value == 1
                   ? SOrdersScreen()
                   : homeController.bottomIndex.value == 2

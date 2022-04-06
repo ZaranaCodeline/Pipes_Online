@@ -7,23 +7,29 @@ import '../../app_constant/app_colors.dart';
 import '../../screens/seller_review_widget.dart';
 import '../widgets/custom_text.dart';
 
-class CustomSelectedProductBuildTopWidget extends StatelessWidget {
+class CustomSelectedProductBuildTopWidget extends StatefulWidget {
   CustomSelectedProductBuildTopWidget(
       {Key? key,
-      required this.price,
-      required this.desc,
-      required this.name,
-      required this.image})
+      this.price,
+      this.desc,
+      this.name,
+        this.category,
+      this.image})
       : super(key: key);
-  String name, image, desc, price;
+  final String? name, image, desc, price,category;
 
+  @override
+  State<CustomSelectedProductBuildTopWidget> createState() => _CustomSelectedProductBuildTopWidgetState();
+}
+
+class _CustomSelectedProductBuildTopWidgetState extends State<CustomSelectedProductBuildTopWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: [
           CustomText(
-            text: name,
+            text: widget.name.toString(),
             fontWeight: FontWeight.w600,
             fontSize: 18.sp,
             color: AppColors.primaryColor,
@@ -34,9 +40,11 @@ class CustomSelectedProductBuildTopWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomText(
-                  text: desc,
+                  text: 'ABC',
                   fontWeight: FontWeight.w600,
                   fontSize: 14.sp,
+                  max: 1,
+                  textOverflow: TextOverflow.ellipsis,
                   color: AppColors.secondaryBlackColor),
               Row(
                 children: [
@@ -58,7 +66,8 @@ class CustomSelectedProductBuildTopWidget extends StatelessWidget {
                         SizedBox(width: Get.width * 0.01),
                         GestureDetector(
                           onTap: () {
-                            Get.to(() => CartPage());
+                            print('CATEGORY${widget.category}');
+                            Get.to(() => CartPage(category: widget.category,));
                           },
                           child: CustomText(
                             text: 'ADD TO CART',
@@ -76,7 +85,7 @@ class CustomSelectedProductBuildTopWidget extends StatelessWidget {
             ],
           ),
           CustomText(
-            text: price,
+            text: widget.price.toString(),
             fontWeight: FontWeight.w600,
             fontSize: 14.sp,
             color: AppColors.secondaryBlackColor,

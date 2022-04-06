@@ -17,59 +17,7 @@ import 'cart_page.dart';
 import 'categories_card__list.dart';
 import 'product_card_list.dart';
 
-// class HomePage extends StatefulWidget {
-//   HomePage({Key? key}) : super(key: key);
-//
-//   @override
-//   State<HomePage> createState() => _HomePageState();
-// }
-//
-// class _HomePageState extends State<HomePage> {
-//   int _selectedIndex = 0;
-//
-//   static List<Widget> _widgetOptions = <Widget>[
-//     CatelogeHomeWidget(),
-//     CartPage(),
-//     ChatPage(),
-//     PersonalInfoPage(),
-//   ];
-//   PageController pageController = PageController();
-//
-//   void onTapped(int index) {
-//     setState(() {
-//       _selectedIndex = index;
-//     });
-//     pageController.jumpToPage(index);
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: _widgetOptions[_selectedIndex],
-//       bottomNavigationBar: BottomNavigationBar(
-//         currentIndex: _selectedIndex,
-//         backgroundColor: AppColors.commonWhiteTextColor,
-//         selectedItemColor: AppColors.primaryColor,
-//         unselectedItemColor: AppColors.offLightPurpalColor,
-//         elevation: 7,
-//         onTap: (value) {
-//           setState(() {
-//             _selectedIndex = value;
-//           });
-//         },
-//         items: const [
-//           BottomNavigationBarItem(
-//               icon: Icon(Icons.border_all_outlined), label: ''),
-//           BottomNavigationBarItem(
-//               icon: Icon(Icons.shopping_cart_outlined), label: ' '),
-//           BottomNavigationBarItem(
-//               icon: Icon(Icons.chat_bubble_outline), label: ' '),
-//           BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: ' '),
-//         ],
-//       ),
-//     );
-//   }
-// }
+
 
 class CatelogeHomeWidget extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();

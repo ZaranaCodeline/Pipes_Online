@@ -11,11 +11,15 @@ import 'bottom_bar_screen_page/widget/home_bottom_bar_route.dart';
 import 'payment_page.dart';
 
 class CartPage extends StatefulWidget {
+  final String? category;
+
+  const CartPage({Key? key, this.category}) : super(key: key);
   @override
   State<CartPage> createState() => _CartPageState();
 }
 
 class _CartPageState extends State<CartPage> {
+
   String? dropdownValueSize;
   String? dropdownValueLength;
   String? dropdownValueWeight;
@@ -42,6 +46,7 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
+    print('hckshusbcl${widget.category}');
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -221,6 +226,7 @@ class _CartPageState extends State<CartPage> {
                           setState(() {});
                         },
                       ),
+                      widget.category=='Gas'||widget.category=='Oil'?
                       CustomDropDownWidget(
                         keyName: 'Pipe Tag Color:      ',
                         dropDownValue: dropdownValuePipeTagColor,
@@ -229,7 +235,7 @@ class _CartPageState extends State<CartPage> {
                           print('dropdownValueSize:-$dropdownValuePipeTagColor');
                           setState(() {});
                         },
-                      ),
+                      ):SizedBox(),
                     ],
                   ),
                 ),
@@ -291,7 +297,8 @@ class _CartPageState extends State<CartPage> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      Get.to(PaymentWidget());
+
+                                       Get.to(Screen());
                                     },
                                     child: Container(
                                       padding: EdgeInsets.symmetric(

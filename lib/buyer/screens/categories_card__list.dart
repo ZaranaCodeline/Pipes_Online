@@ -50,7 +50,7 @@ BottomController _bottomController = Get.find();
                       // } else {
                       //   Get.back();
                       // }
-                      Get.to(()=>BCategoryDetailsPage());
+                       Get.to(()=>BCategoryDetailsPage(category:categories[index].get("name") ,));
 
                     },
                     child: CommonCategoryCard(

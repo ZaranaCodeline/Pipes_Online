@@ -9,8 +9,10 @@ import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationba
 import 'package:pipes_online/buyer/screens/help_center_page.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_drawer_controller.dart';
+import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../shared_prefarence/shared_prefarance.dart';
 import '../../app_constant/app_colors.dart';
 import '../../authentificaion/b_functions.dart';
 import '../../screens/b_authentication_screen/b_welcome_screen.dart';
@@ -273,7 +275,10 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
         Get.to(() => TermsAndConditionPage());
         break;
       case 6:
-        Get.to(() => BAuthMethods().signOut());
+        BAuthMethods.logOut().then((value) =>
+          Get.off(()=>SBuyerSellerScreen()));
+
+
         break;
     }
   }

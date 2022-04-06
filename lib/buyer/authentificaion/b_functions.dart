@@ -7,7 +7,8 @@ import 'package:pipes_online/buyer/screens/home_screen_widget.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
 import 'package:pipes_online/shared_prefarence/helperFunction/share_preferance_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+FirebaseAuth kFirebaseAuth = FirebaseAuth.instance;
+FirebaseFirestore kFirebaseStore = FirebaseFirestore.instance;
 class BAuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -80,13 +81,17 @@ class BAuthMethods {
       print(e);
     }
   }
-
-  Future<String> signOut() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.clear();
-    await googleSignIn.signOut();
-    await _auth.signOut();
-    Get.off(SBuyerSellerScreen());
-    return "SUCCESS";
+  static Future<void> logOut() async {
+    await kFirebaseAuth.signOut();
+    print('Log Out');
   }
+
+  // Future<String> signOut() async {
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   preferences.clear();
+  //   await googleSignIn.signOut();
+  //   await _auth.signOut();
+  //   Get.off(SBuyerSellerScreen());
+  //   return "SUCCESS";
+  // }
 }

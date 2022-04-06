@@ -59,8 +59,7 @@ dependencies:
   firebase_messaging: ^11.2.12
   flutter_local_notifications: ^9.4.0
 #  awesome_notifications: ^0.6.21
-  upi_pay:
-    path: ../
+  upi_pay: ^1.0.1
 
 dev_dependencies:
   flutter_test:

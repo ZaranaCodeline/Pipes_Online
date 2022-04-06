@@ -176,7 +176,9 @@ class _ScreenState extends State<Screen> {
       receiverUpiAddress: _upiAddressController.text,
       transactionRef: transactionRef,
       transactionNote: 'UPI Payment',
-      // merchantCode: '7372',
+      url:'https://www.npci.org.in/sites/default/files/UPI%20Linking%20Specs_ver%201.6.pdf'
+
+      // merchantCode: '7372'
     );
 
     print(a);

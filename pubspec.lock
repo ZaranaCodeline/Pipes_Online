@@ -1053,9 +1053,9 @@ packages:
   upi_pay:
     dependency: "direct main"
     description:
-      path: ".."
-      relative: true
-    source: path
+      name: upi_pay
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "1.0.1"
   url_launcher:
     dependency: "direct main"

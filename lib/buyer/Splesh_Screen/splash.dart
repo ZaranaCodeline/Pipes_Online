@@ -32,10 +32,10 @@ class _SplashState extends State<Splash> {
     //   ));
     // });
     Timer(Duration(seconds: 2), () {
-      //Get.off(SOnBoardingScreen());
-       _auth.currentUser!.uid.toString()== null
-          ? Get.to(SOnBoardingScreen())
-          : Get.to(BottomNavigationBarScreen());
+      Get.off(SOnBoardingScreen());
+      // PreferenceManager.getUID().toString()== null
+      //     ? Get.to(SOnBoardingScreen())
+      //     : Get.to(BottomNavigationBarScreen());
     });
   }
 

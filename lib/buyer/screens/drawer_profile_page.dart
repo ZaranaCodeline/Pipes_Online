@@ -14,6 +14,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../ChatRoom.dart';
 import '../../seller/common/s_text_style.dart';
+import '../../seller/view/s_screens/s_add_product_screen.dart';
 import '../app_constant/app_colors.dart';
 import '../custom_widget/widgets/custom_text.dart';
 import '../view_model/b_bottom_bar_controller.dart';
@@ -305,7 +306,7 @@ class _DrawerProfilePageState extends State<DrawerProfilePage> {
         .putFile(_image!);
     String downloadUrl = await snapshot.ref.getDownloadURL();
     print('url=$downloadUrl');
-    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}').collection('data').doc(PreferenceManager.getUID())
+    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}').collection('data').doc(PreferenceManager.getUId())
         .update({
       'imageProfile': downloadUrl,
       'name':nameController.text,

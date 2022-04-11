@@ -43,7 +43,7 @@ class _SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColors.primaryColor,
+        backgroundColor: Color(0xff131254),
         body: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -51,7 +51,7 @@ class _SplashState extends State<Splash> {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Center(
-                  child: Image.asset('assets/images/png/pipe_logo.png',fit: BoxFit.fill,height: 50.sp,),
+                  child: Image.asset('assets/images/png/splash_logo.png',fit: BoxFit.none,),
                 ),
               ),
             ],

@@ -6,8 +6,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
 import 'package:pipes_online/shared_prefarence/helperFunction/share_preferance_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+FirebaseAuth kFirebaseAuth = FirebaseAuth.instance;
 
 class SAuthMethods {
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -15,6 +17,7 @@ class SAuthMethods {
   getCurrentUser() async {
     return await _auth.currentUser;
   }
+
 
 //SIGN IN KA Function
   Future<User?> signInWithGoogle(BuildContext context) async {
@@ -79,7 +82,10 @@ class SAuthMethods {
       print(e);
     }
   }
-
+  static Future<void> logOut() async {
+    await kFirebaseAuth.signOut();
+    print('Log Out');
+  }
   Future<String> signOut() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.clear();

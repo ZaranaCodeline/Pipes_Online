@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/b_login_home_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/b_signup_home_screen.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/b_phone_otp_screen.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/b_ragistraion_screen.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/routes/app_routes.dart';
 import 'package:sizer/sizer.dart';
+
+import 'b_login_screen.dart';
 
 class BWelcomeScreen extends StatefulWidget {
   @override
@@ -50,7 +52,7 @@ class _BWelcomeScreenState extends State<BWelcomeScreen> {
                     child: SCommonButton().sCommonPurpleButton(
                       name: 'Sign up',
                       onTap: () {
-                        Get.to(BSignUpHomeScreen());
+                        Get.to(BSignUpRagistraionScreen());
                       },
                     ),
                   ),
@@ -59,7 +61,7 @@ class _BWelcomeScreenState extends State<BWelcomeScreen> {
                     child: SCommonButton().sCommonPurpleButton(
                       name: 'Login',
                       onTap: () {
-                        Get.to(BLogInHomeScreen());
+                        Get.to(LoginScreen());
                       },
                     ),
                   ),

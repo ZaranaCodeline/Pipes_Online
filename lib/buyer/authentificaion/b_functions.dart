@@ -86,12 +86,4 @@ class BAuthMethods {
     print('Log Out');
   }
 
-  // Future<String> signOut() async {
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   preferences.clear();
-  //   await googleSignIn.signOut();
-  //   await _auth.signOut();
-  //   Get.off(SBuyerSellerScreen());
-  //   return "SUCCESS";
-  // }
 }

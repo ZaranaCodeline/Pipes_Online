@@ -294,7 +294,7 @@ class _SLogInHomeScreenState extends State<SLogInHomeScreen> {
                                               ..onTap = () {
                                                 print('aaa');
                                                 Get.offNamed(
-                                                    BRoutes.BSignUpHomeScreen);
+                                                    BRoutes.BSignUpRagistraionScreen);
                                               }
                                         ),
                                       ],

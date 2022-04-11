@@ -186,17 +186,19 @@ class _ScreenState extends State<Screen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: ListView(
-          children: <Widget>[
-            _vpa(),
-            if (_upiAddrError != null) _vpaError(),
-            _amount(),
-            if (Platform.isIOS) _submitButton(),
-            Platform.isAndroid ? _androidApps() : _iosApps(),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: ListView(
+            children: <Widget>[
+              _vpa(),
+              if (_upiAddrError != null) _vpaError(),
+              _amount(),
+              if (Platform.isIOS) _submitButton(),
+              Platform.isAndroid ? _androidApps() : _iosApps(),
+            ],
+          ),
         ),
       ),
     );

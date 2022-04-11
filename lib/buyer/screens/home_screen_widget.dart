@@ -2,22 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pipes_online/buyer/screens/personal_info_page.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:sizer/sizer.dart';
-import '../../seller/common/s_image.dart';
-import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
-import '../buyer_common/b_image.dart';
 import '../custom_widget/custom_home_page_widget/custom_drawer_widget.dart';
 import '../custom_widget/custom_home_page_widget/custom_home_search_widget.dart';
 import '../custom_widget/widgets/custom_text.dart';
-import 'bottom_bar_screen_page/widget/cart_bottom_bar_route.dart';
 import 'cart_page.dart';
 import 'categories_card__list.dart';
 import 'product_card_list.dart';
-
-
 
 class CatelogeHomeWidget extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -210,28 +203,26 @@ class CatelogeHomeWidget extends StatelessWidget {
               ),
             )),
         drawer: CustomDrawerWidget(),
-        body: SafeArea(
-          child: Column(
-            children: [
-              SizedBox(
-                height: Get.height * 0.02,
-              ),
-              CustomTitleText(
-                text: 'Categories',
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-                alignment: Alignment.topLeft,
-              ),
-              SizedBox(
-                height: Get.height * 0.01,
-              ),
-              CategoriesCardList(),
-              SizedBox(
-                height: Get.height * 0.01,
-              ),
-              Expanded(child: ProductCardList()),
-            ],
-          ),
+        body: Column(
+          children: [
+            SizedBox(
+              height: Get.height * 0.02,
+            ),
+            CustomTitleText(
+              text: 'Categories',
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w600,
+              alignment: Alignment.topLeft,
+            ),
+            SizedBox(
+              height: Get.height * 0.01,
+            ),
+            CategoriesCardList(),
+            SizedBox(
+              height: Get.height * 0.01,
+            ),
+            Expanded(child: ProductCardList()),
+          ],
         ),
       ),
     );

@@ -33,7 +33,7 @@ class _ProductCardListState extends State<ProductCardList> {
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('User').
-        doc('${_auth.currentUser!.uid}')
+        doc('${_auth.currentUser?.uid}')
             .collection('data')
             .snapshots(),
         builder: (context, snapShot) {

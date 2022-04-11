@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/b_submit_profile_screen.dart';
+import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/routes/app_routes.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
@@ -17,23 +17,23 @@ import 'package:sizer/sizer.dart';
 import '../../authentificaion/b_functions.dart';
 import '../../view_model/b_login_home_controller.dart';
 
-class BLogInHomeScreen extends StatefulWidget {
+class BPhoneOTP_Screen extends StatefulWidget {
   @override
-  _BLogInHomeScreenState createState() => _BLogInHomeScreenState();
+  _BPhoneOTP_ScreenState createState() => _BPhoneOTP_ScreenState();
 }
 
-class _BLogInHomeScreenState extends State<BLogInHomeScreen> {
+class _BPhoneOTP_ScreenState extends State<BPhoneOTP_Screen> {
   BLogInController bLogInController = Get.put(BLogInController());
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  bool isLoading = false;
+  bool otpCodeVisible = false;
 
-
+  String? verificationId;
+  TextEditingController phoneNumber = TextEditingController();
+  TextEditingController otpCode = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    void _submit() async {
-      print('buyer---login up---user');
 
-      await bLogInController.phoneSignIn(
-          phoneNumber: bLogInController.mobileNumber.text);
-    }
 
     return ProgressHUD(
       child: Builder(
@@ -104,13 +104,9 @@ class _BLogInHomeScreenState extends State<BLogInHomeScreen> {
                                       shape: BoxShape.circle),
                                 )),
                             Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: Get.width * 0.05,
-                                  vertical: Get.height * 0.08),
+                              padding: EdgeInsets.only(top: Get.height*0.1,left: Get.width*0.06,right: Get.width*0.06),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     width: Get.width,
@@ -122,6 +118,7 @@ class _BLogInHomeScreenState extends State<BLogInHomeScreen> {
                                           'Enter Mobile Number',
                                           style: STextStyle.semiBold600Black15,
                                         ),
+                                        SizedBox(height: Get.height*0.01,),
                                         Text(
                                           'OTP will be sent to this number',
                                           style: STextStyle.regular400Black11,
@@ -129,6 +126,7 @@ class _BLogInHomeScreenState extends State<BLogInHomeScreen> {
                                       ],
                                     ),
                                   ),
+                                  SizedBox(height: Get.height*0.04,),
                                   Row(
                                     mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -160,7 +158,7 @@ class _BLogInHomeScreenState extends State<BLogInHomeScreen> {
                                         alignment: Alignment.centerLeft,
                                         child: TextFormField(
                                           keyboardType: TextInputType.number,
-                                          controller: controller.mobileNumber,
+                                          controller: phoneNumber,
                                           decoration: InputDecoration(
                                               hintText: 'Enter Number',
                                               focusedBorder: OutlineInputBorder(
@@ -182,6 +180,41 @@ class _BLogInHomeScreenState extends State<BLogInHomeScreen> {
                                       ),
                                     ],
                                   ),
+
+                                  SizedBox(height: Get.height*0.04,),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(10.sp),
+                                        border:
+                                        Border.all(color: Colors.grey)),
+                                    height: Get.height * 0.07,
+                                    width: Get.width * 0.9,
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      controller: otpCode,
+                                      obscureText: true,
+                                      decoration: InputDecoration(
+                                          hintText: 'Enter Otp',
+                                          focusedBorder: OutlineInputBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  10.sp),
+                                              borderSide: BorderSide.none),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  10.sp),
+                                              borderSide: BorderSide.none),
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  10.sp),
+                                              borderSide: BorderSide.none)),
+                                    ),
+                                  ),
+                                  SizedBox(height: Get.height*0.04,),
+
                                   RichText(
                                     textAlign: TextAlign.center,
                                     text: TextSpan(
@@ -208,102 +241,41 @@ class _BLogInHomeScreenState extends State<BLogInHomeScreen> {
                                       ],
                                     ),
                                   ),
+                                  SizedBox(height: Get.height*0.04,),
                                   Padding(
                                     padding:
                                     EdgeInsets.symmetric(horizontal: 40.sp),
                                     child: SCommonButton().sCommonPurpleButton(
-                                      name: 'Send OTP',
+                                      name: otpCodeVisible ? "Login" : "Verify",
                                       onTap: () async {
-                                        if (controller
-                                            .mobileNumber.text.isNotEmpty) {
-                                          final progress =
-                                          ProgressHUD.of(context);
-                                          // progress?.show;
-                                          print("it's me");
-                                          progress!.showWithText('');
-                                          _submit();
-                                        } else {
-                                          Get.showSnackbar(GetSnackBar(
-                                            snackPosition: SnackPosition.BOTTOM,
-                                            backgroundColor: SColorPicker.red,
-                                            duration: Duration(seconds: 2),
-                                            message:
-                                            'Please enter mobile number',
-                                          ));
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                  Text(
-                                    'Or Login with',
-                                    style: STextStyle.regular400Black13,
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: Get.width * 0.02,
-                                    ),
-                                    height: Get.height * 0.06,
-                                    width: Get.width * 0.4,
-                                    decoration: BoxDecoration(
-                                      color: SColorPicker.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black12,
-                                            spreadRadius: 0.5,
-                                            blurRadius: 1),
-                                      ],
-                                      borderRadius:
-                                      BorderRadius.circular(10.sp),
-                                    ),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        BAuthMethods().signInWithGoogle(context);
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) {
-                                              return BSubmitProfileScreen();
-                                            },
-                                          ),
-                                        );
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                        children: [
-                                          SvgPicture.asset(
-                                            "${SImagePick.googleIcon}",
-                                          ),
-                                          Text(
-                                            'Google',
-                                            style: STextStyle.semiBold600Black16,
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  RichText(
-                                    textAlign: TextAlign.center,
-                                    text: TextSpan(
-                                      children: [
-                                        TextSpan(
-                                          text: 'Already registered?',
-                                          style: STextStyle.regular400Black13,
-                                        ),
-                                        TextSpan(
-                                            text: ' Sign Up',
-                                            style: STextStyle.medium400Purple13,
-                                            recognizer: TapGestureRecognizer()
-                                              ..onTap = () {
-                                                print('aaa');
-                                                Get.offNamed(
-                                                    BRoutes.BSignUpHomeScreen);
+                                        // if (controller
+                                        //     .mobileNumber.text.isNotEmpty) {
+                                        //   final progress =
+                                        //   ProgressHUD.of(context);
+                                        //   // progress?.show;
+                                        //   print("it's me");
+                                        //   progress!.showWithText('');
+                                        //   _submit();
+                                        if (otpCodeVisible) {
+                                                verifyCode();
+                                               } else {
+                                       await phoneSignIn(phoneNumber: phoneNumber.text);
                                               }
-                                        ),
-                                      ],
+                                        //  else {
+                                        //   Get.showSnackbar(GetSnackBar(
+                                        //     snackPosition: SnackPosition.BOTTOM,
+                                        //     backgroundColor: SColorPicker.red,
+                                        //     duration: Duration(seconds: 2),
+                                        //     message:
+                                        //     'Please enter mobile number',
+                                        //   ));
+                                        // }
+                                      },
                                     ),
                                   ),
-                                  SizedBox(),
+
+
+
                                 ],
                               ),
                             )
@@ -319,5 +291,85 @@ class _BLogInHomeScreenState extends State<BLogInHomeScreen> {
         ),
       ),
     );
+  }
+  Future<void> phoneSignIn({required String phoneNumber}) async {
+    await _auth.verifyPhoneNumber(
+        phoneNumber: '+91 ' + phoneNumber,
+        verificationCompleted: _onVerificationCompleted,
+        verificationFailed: _onVerificationFailed,
+        codeSent: _onCodeSent,
+        codeAutoRetrievalTimeout: _onCodeTimeout);
+  }
+
+  _onVerificationCompleted(PhoneAuthCredential authCredential) async {
+    print("verification completed ${authCredential.smsCode}");
+    User? user = FirebaseAuth.instance.currentUser;
+    setState(() {
+      this.otpCode.text = authCredential.smsCode!;
+    });
+    if (authCredential.smsCode != null) {
+      try {
+        UserCredential credential =
+        await user!.linkWithCredential(authCredential);
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'provider-already-linked') {
+          await _auth.signInWithCredential(authCredential);
+        }
+      }
+      setState(() {
+        isLoading = false;
+      });
+      // Navigator.pushReplacement(
+      //     context, MaterialPageRoute(builder: (context) => HomePage()));
+    }
+  }
+
+  _onVerificationFailed(FirebaseAuthException exception) {
+    if (exception.code == 'invalid-phone-number') {
+      showMessage("The phone number entered is invalid!");
+    }
+  }
+
+  _onCodeSent(String verificationId, int? forceResendingToken) {
+    this.verificationId = verificationId;
+    print(forceResendingToken);
+    print("code sent");
+    otpCodeVisible = true;
+  }
+
+  _onCodeTimeout(String timeout) {
+    return null;
+  }
+
+  void showMessage(String errorMessage) {
+    showDialog(
+        context: context,
+        builder: (BuildContext builderContext) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text(errorMessage),
+            actions: [
+              TextButton(
+                child: Text("Ok"),
+                onPressed: () async {
+                  Navigator.of(builderContext).pop();
+                },
+              )
+            ],
+          );
+        }).then((value) {
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
+
+  void verifyCode() async {
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId!, smsCode: otpCode.text);
+     _auth.signInWithCredential(credential).then((value) {
+      print('You are logged in successfully');
+      Get.off(BottomNavigationBarScreen());
+    });
   }
 }

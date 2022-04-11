@@ -58,7 +58,7 @@ class _SPermissionScreenState extends State<SPermissionScreen> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 14.sp),
+                margin: EdgeInsets.symmetric(horizontal: 16.sp),
                 width: Get.width,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,

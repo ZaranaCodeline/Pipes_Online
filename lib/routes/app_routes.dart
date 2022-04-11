@@ -32,10 +32,12 @@ class SRoutes {
 }
 
 class BRoutes{
+  static final BPhoneOTP_Screen = '/BPhoneOTP_Screen';
   static final DrawerProfilePage = '/DrawerProfilePage';
+  static final LoginScreen = '/LoginScreen';
   static final BSubmitProfileScreen = '/BSubmitProfileScreen';
   static final BLogInHomeScreen = '/BLogInHomeScreen';
-  static final BSignUpHomeScreen = '/BSignUpHomeScreen';
+  static final BSignUpRagistraionScreen = '/BSignUpRagistraionScreen';
   static final ConfirmOrderPage = '/ConfirmOrderPage';
   static final PaymentWidget = '/PaymentWidget';
   static final PersonalInfoPage = '/PersonalInfoPage';

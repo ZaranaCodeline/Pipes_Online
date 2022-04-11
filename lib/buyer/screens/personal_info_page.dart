@@ -17,6 +17,7 @@ import '../custom_widget/widgets/custom_text.dart';
 import 'bottom_bar_screen_page/widget/home_bottom_bar_route.dart';
 import 'drawer_profile_page.dart';
 import 'get_started_page.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class PersonalInfoPage extends StatefulWidget {
   const PersonalInfoPage({Key? key}) : super(key: key);
@@ -28,6 +29,8 @@ class PersonalInfoPage extends StatefulWidget {
 class _PersonalInfoPageState extends State<PersonalInfoPage> {
   File? _image;
   String? Img;
+  String? uploadImage;
+
   final picker = ImagePicker();
   TextEditingController nameController = TextEditingController();
   TextEditingController addController = TextEditingController();
@@ -97,7 +100,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               },
               icon: Icon(Icons.arrow_back_rounded)),
           title: Text(
-            'PROFILE....',
+            'PROFILE',
             style: STextStyle.bold700White14,
           ),
           centerTitle: true,
@@ -317,18 +320,31 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       ),
     );
   }
+  Future<String?> uploadImageToFirebase(
+      {BuildContext? context, File? file}) async {
+    try {
+      var response = await firebase_storage.FirebaseStorage.instance
+          .ref('uploads/')
+          .putFile(file!);
+      print("Response>>>>>>>>>>>>>>>>>>$response");
+
+      return response.storage.ref().getDownloadURL();
+    } catch (e) {
+      print(e);
+    }
+  }
 
   Future<void> UpdateData() async {
-    var snapshot = await kFirebaseStorage
-        .ref()
-        .child('ChatImage/${DateTime.now().microsecondsSinceEpoch}')
-        .putFile(_image!);
-    String downloadUrl = await snapshot.ref.getDownloadURL();
-    print('url=$downloadUrl');
+    String? imageUrl = await uploadImageToFirebase(
+        context: context,
+        file: _image,
+        );
+    print(imageUrl);
+    uploadImage = imageUrl;
     await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}').get();
     await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
         .update({
-      'imageProfile': downloadUrl,
+      'imageProfile': imageUrl==null?Img:imageUrl,
       'name':nameController.text,
       'add':addController.text,
       'mobile':mobileCnt.text

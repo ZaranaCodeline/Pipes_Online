@@ -15,6 +15,7 @@ import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/authentificaion/b_functions.dart';
 import '../../../buyer/buyer_common/b_image.dart';
 import '../../../buyer/screens/drawer_profile_page.dart';
+import '../../../s_onboarding_screen/s_buyer_seller_screen.dart';
 import '../../controller/s_drawer_controller.dart';
 import 's_insight_screen.dart';
 
@@ -263,7 +264,8 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
         Get.to(() => STermsAndConditions());
         break;
       case 8:
-        Get.to(() => SAuthMethods().signInWithGoogle(context));
+        SAuthMethods.logOut().then((value) =>
+            Get.off(()=>SBuyerSellerScreen()));
         break;
     }
   }

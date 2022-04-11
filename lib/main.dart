@@ -3,13 +3,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/b_submit_profile_screen.dart';
 import 'package:pipes_online/routes/app_pages.dart';
 import 'package:pipes_online/routes/app_routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'buyer/helpers/binding.dart';
-import 'buyer/screens/b_authentication_screen/b_submit_profile_screen.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id

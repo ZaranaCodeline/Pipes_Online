@@ -9,11 +9,10 @@ import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../app_constant/app_colors.dart';
-import '../custom_widget/selected_product_widgets/custom_carousel_slider.dart';
-import '../custom_widget/selected_product_widgets/custom_selected_product_build_top_widget.dart';
-import '../custom_widget/selected_product_widgets/custom_rich_text_span_widget.dart';
-import '../custom_widget/widgets/custom_text.dart';
-import 'seller_review_widget.dart';
+import 'b_carousel_slider.dart';
+import 'b_selected_product_build_top_widget.dart';
+import 'custom_widget/custom_text.dart';
+import 'b_seller_review_widget.dart';
 
 class SelectedProductWidget extends StatefulWidget {
   SelectedProductWidget({Key? key,

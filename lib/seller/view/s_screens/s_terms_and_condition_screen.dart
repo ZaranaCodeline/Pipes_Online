@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
-import '../../../buyer/custom_widget/widgets/custom_text.dart';
+import '../../../buyer/screens/custom_widget/custom_text.dart';
 
 class STermsAndConditions extends StatelessWidget {
   const STermsAndConditions({Key? key}) : super(key: key);

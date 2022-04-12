@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/routes/bottom_controller.dart';
+import 'package:pipes_online/buyer/view_model/bottom_controller.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../buyer/custom_widget/custom_home_page_widget/custom_product_card.dart';
-import '../../../buyer/screens/selected_product_widget.dart';
+import '../../../buyer/screens/custom_widget/custom_product_card.dart';
+import '../../../buyer/screens/b_selected_product_widget.dart';
 import 's_custom_product_card.dart';
 import 's_selected_product_screen.dart';
 

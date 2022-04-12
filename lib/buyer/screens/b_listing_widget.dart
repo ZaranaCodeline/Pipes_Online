@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../app_constant/app_colors.dart';
-import '../widgets/custom_text.dart';
+import '../app_constant/app_colors.dart';
+import 'custom_widget/custom_text.dart';
 
-class ListingWidget extends StatelessWidget {
-  const ListingWidget({Key? key}) : super(key: key);
+class BListingWidget extends StatelessWidget {
+  const BListingWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/buyer/custom_widget/widgets/custom_text.dart';
+import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/seller/view/s_screens/s_customer_buy_review_screen.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/app_constant/b_image.dart';
-import '../../../buyer/custom_widget/selected_product_widgets/listing_review_tab_bar.dart';
-import '../../../buyer/custom_widget/selected_product_widgets/review_widgets.dart';
+import '../../../buyer/screens/b_listing_review_tab_bar.dart';
+import '../../../buyer/screens/b_review_widgets.dart';
 import '../../common/s_color_picker.dart';
 import 's_reviews_feedback_screen.dart';
 

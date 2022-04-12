@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pipes_online/routes/bottom_controller.dart';
+import 'package:pipes_online/buyer/view_model/bottom_controller.dart';
 
 class SSubmitProfileController extends GetxController{
   File?  image;

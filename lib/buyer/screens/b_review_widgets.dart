@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/buyer/screens/add_reviews_page.dart';
+import 'package:pipes_online/buyer/screens/b_add_reviews_page.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
-import '../../app_constant/app_colors.dart';
-import '../widgets/custom_text.dart';
+import '../app_constant/app_colors.dart';
+import 'custom_widget/custom_text.dart';
 
-class ReviewWidget extends StatefulWidget {
-  const ReviewWidget({Key? key}) : super(key: key);
+class BReviewWidget extends StatefulWidget {
+  const BReviewWidget({Key? key}) : super(key: key);
 
   @override
-  State<ReviewWidget> createState() => _ReviewWidgetState();
+  State<BReviewWidget> createState() => _BReviewWidgetState();
 }
 
-class _ReviewWidgetState extends State<ReviewWidget> {
+class _BReviewWidgetState extends State<BReviewWidget> {
   var rating = 3.0;
 
   @override

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/buyer/screens/cart_page.dart';
+import 'package:pipes_online/buyer/screens/b_cart_page.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../app_constant/app_colors.dart';
-import '../../screens/seller_review_widget.dart';
-import '../widgets/custom_text.dart';
+import '../app_constant/app_colors.dart';
+import 'b_seller_review_widget.dart';
+import 'custom_widget/custom_text.dart';
 
 class CustomSelectedProductBuildTopWidget extends StatefulWidget {
   CustomSelectedProductBuildTopWidget(

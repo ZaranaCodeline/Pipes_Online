@@ -5,11 +5,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:sizer/sizer.dart';
 import '../app_constant/app_colors.dart';
-import '../custom_widget/custom_home_page_widget/custom_drawer_widget.dart';
-import '../custom_widget/custom_home_page_widget/custom_home_search_widget.dart';
-import '../custom_widget/widgets/custom_text.dart';
-import 'cart_page.dart';
-import 'categories_card__list.dart';
+import 'b_drawer_screen.dart';
+import 'custom_widget/custom_search_widget.dart';
+import 'custom_widget/custom_text.dart';
+import 'b_cart_page.dart';
+import 'b_categories_card_list.dart';
 import 'product_card_list.dart';
 
 class CatelogeHomeWidget extends StatelessWidget {

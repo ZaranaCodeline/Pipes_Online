@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/product_card_list.dart';
-import 'package:pipes_online/buyer/screens/selected_product_widget.dart';
+import 'package:pipes_online/buyer/screens/b_selected_product_widget.dart';
 import 'package:pipes_online/buyer/view_model/b_bottom_bar_controller.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../seller/common/s_color_picker.dart';
 import '../../seller/common/s_text_style.dart';
-import '../custom_widget/widgets/custom_text.dart';
+import 'custom_widget/custom_text.dart';
 import 'bottom_bar_screen_page/widget/cart_bottom_bar_route.dart';
 
 class BCategoryDetailsPage extends StatefulWidget {

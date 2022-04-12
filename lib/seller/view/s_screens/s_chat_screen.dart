@@ -8,7 +8,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/app_constant/b_image.dart';
-import '../../../buyer/custom_widget/widgets/custom_text.dart';
+import '../../../buyer/screens/custom_widget/custom_text.dart';
 
 class SChatScreen extends StatelessWidget {
   const SChatScreen({Key? key}) : super(key: key);

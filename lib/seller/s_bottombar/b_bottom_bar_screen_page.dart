@@ -7,10 +7,10 @@
 // import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/chat_bottom_bar_route.dart';
 // import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/home_bottom_bar_route.dart';
 // import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/personal_info_bottom_bar_route.dart';
-// import 'package:pipes_online/buyer/screens/cart_page.dart';
+// import 'package:pipes_online/buyer/screens/b_cart_page.dart';
 // import 'package:pipes_online/buyer/screens/b_chat_screen.dart';
-// import 'package:pipes_online/buyer/screens/home_screen_widget.dart';
-// import 'package:pipes_online/buyer/screens/personal_info_page.dart';
+// import 'package:pipes_online/buyer/screens/b_home_screen_widget.dart';
+// import 'package:pipes_online/buyer/screens/b_personal_info_page.dart';
 // import 'package:pipes_online/buyer/view_model/b_bottom_bar_controller.dart';
 //
 // class BottomNavigationBarScreen extends StatefulWidget {

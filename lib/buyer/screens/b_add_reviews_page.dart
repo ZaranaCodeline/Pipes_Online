@@ -6,9 +6,9 @@ import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.da
 
 import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
-import '../custom_widget/selected_product_widgets/listing_review_tab_bar.dart';
-import '../custom_widget/widgets/custom_button.dart';
-import '../custom_widget/widgets/custom_text.dart';
+import 'b_listing_review_tab_bar.dart';
+import 'custom_widget/custom_button.dart';
+import 'custom_widget/custom_text.dart';
 
 class AddReviewsPage extends StatefulWidget {
   const AddReviewsPage({Key? key}) : super(key: key);

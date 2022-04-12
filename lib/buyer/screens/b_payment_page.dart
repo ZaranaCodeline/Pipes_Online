@@ -8,7 +8,7 @@
 // import '../../seller/common/s_text_style.dart';
 // import '../app_constant/app_colors.dart';
 // import '../custom_widget/widgets/custom_text.dart';
-// import 'confirm_order_page.dart';
+// import 'b_confirm_order_page.dart';
 //
 // class PaymentWidget extends StatelessWidget {
 //   const PaymentWidget({Key? key}) : super(key: key);

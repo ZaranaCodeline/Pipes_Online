@@ -12,10 +12,10 @@ import '../../ChatRoom.dart';
 import '../../seller/common/s_common_button.dart';
 import '../../shared_prefarence/shared_prefarance.dart';
 import '../app_constant/app_colors.dart';
-import '../custom_widget/widgets/custom_button.dart';
-import '../custom_widget/widgets/custom_text.dart';
+import 'custom_widget/custom_button.dart';
+import 'custom_widget/custom_text.dart';
 import 'bottom_bar_screen_page/widget/home_bottom_bar_route.dart';
-import 'drawer_profile_page.dart';
+import 'b_drawer_profile_page.dart';
 import 'get_started_page.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 

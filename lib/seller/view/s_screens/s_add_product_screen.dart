@@ -12,9 +12,9 @@ import 'package:pipes_online/seller/view/s_screens/s_cateloge_home_screen.dart';
 import 'package:pipes_online/seller/view_model/s_add_product_controller.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
-import '../../../buyer/custom_widget/widgets/custom_text.dart';
+import '../../../buyer/screens/custom_widget/custom_text.dart';
 import '../../../buyer/view_model/b_bottom_bar_controller.dart';
-import '../../../routes/bottom_controller.dart';
+import '../../../buyer/view_model/bottom_controller.dart';
 import '../../common/s_common_button.dart';
 import '../../common/s_text_style.dart';
 

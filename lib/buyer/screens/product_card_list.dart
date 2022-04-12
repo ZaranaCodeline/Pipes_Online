@@ -6,9 +6,9 @@ import 'package:pipes_online/buyer/view_model/b_bottom_bar_controller.dart';
 import 'package:sizer/sizer.dart';
 import '../../seller/common/s_color_picker.dart';
 import '../app_constant/app_colors.dart';
-import '../custom_widget/custom_home_page_widget/custom_product_card.dart';
-import '../custom_widget/widgets/custom_text.dart';
-import 'selected_product_widget.dart';
+import 'custom_widget/custom_product_card.dart';
+import 'custom_widget/custom_text.dart';
+import 'b_selected_product_widget.dart';
 
 class ProductCardList extends StatefulWidget {
   ProductCardList({

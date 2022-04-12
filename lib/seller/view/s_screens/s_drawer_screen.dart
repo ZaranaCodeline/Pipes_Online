@@ -14,7 +14,7 @@ import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/authentificaion/b_functions.dart';
 import '../../../buyer/app_constant/b_image.dart';
-import '../../../buyer/screens/drawer_profile_page.dart';
+import '../../../buyer/screens/b_drawer_profile_page.dart';
 import '../../../s_onboarding_screen/s_buyer_seller_screen.dart';
 import '../../controller/s_drawer_controller.dart';
 import 's_insight_screen.dart';

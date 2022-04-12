@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pipes_online/buyer/app_constant/b_image.dart';
-import 'package:pipes_online/buyer/screens/add_reviews_page.dart';
+import 'package:pipes_online/buyer/screens/b_add_reviews_page.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/buyer/screens/help_center_page.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
@@ -12,16 +12,16 @@ import 'package:pipes_online/buyer/view_model/b_drawer_controller.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../shared_prefarence/shared_prefarance.dart';
-import '../../app_constant/app_colors.dart';
-import '../../authentificaion/b_functions.dart';
-import '../../screens/b_authentication_screen/b_welcome_screen.dart';
-import '../../screens/b_review_screen.dart';
-import '../../screens/home_screen_widget.dart';
-import '../../screens/my_order_page.dart';
-import '../../screens/drawer_profile_page.dart';
-import '../../screens/personal_info_page.dart';
-import '../../screens/settings_page.dart';
+import '../../shared_prefarence/shared_prefarance.dart';
+import '../app_constant/app_colors.dart';
+import '../authentificaion/b_functions.dart';
+import 'b_authentication_screen/b_welcome_screen.dart';
+import 'b_review_screen.dart';
+import 'b_home_screen_widget.dart';
+import 'b_my_order_page.dart';
+import 'b_drawer_profile_page.dart';
+import 'b_personal_info_page.dart';
+import 'b_settings_page.dart';
 
 class CustomDrawerWidget extends StatefulWidget {
   const CustomDrawerWidget({Key? key}) : super(key: key);

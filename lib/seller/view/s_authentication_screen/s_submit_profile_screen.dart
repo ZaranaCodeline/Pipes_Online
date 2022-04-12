@@ -12,7 +12,7 @@ import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/seller/controller/s_submit_profile_controller.dart';
 import 'package:sizer/sizer.dart';
-import '../../../routes/bottom_controller.dart';
+import '../../../buyer/view_model/bottom_controller.dart';
 
 class SSubmitProfileScreen extends StatefulWidget {
 

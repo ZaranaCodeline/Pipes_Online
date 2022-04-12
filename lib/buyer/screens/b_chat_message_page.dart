@@ -16,9 +16,9 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../convert_date_formate_chat.dart';
 import '../app_constant/app_colors.dart';
 import '../app_constant/b_image.dart';
-import '../controller/chat_local_file_controller.dart';
-import '../controller/image.dart';
-import '../custom_widget/widgets/custom_text.dart';
+import '../view_model/chat_local_file_controller.dart';
+import 'custom_widget/common_Octo_Image.dart';
+import 'custom_widget/custom_text.dart';
 
 final FirebaseStorage kFirebaseStorage = FirebaseStorage.instance;
 final FirebaseFirestore kFireStore = FirebaseFirestore.instance;

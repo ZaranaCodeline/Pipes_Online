@@ -9,9 +9,9 @@ import 'package:pipes_online/seller/view/s_screens/s_edit_product_screen.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
-import '../../../buyer/custom_widget/selected_product_widgets/custom_carousel_slider.dart';
-import '../../../buyer/custom_widget/widgets/custom_text.dart';
-import '../../../buyer/screens/add_reviews_page.dart';
+import '../../../buyer/screens/b_carousel_slider.dart';
+import '../../../buyer/screens/custom_widget/custom_text.dart';
+import '../../../buyer/screens/b_add_reviews_page.dart';
 import '../../common/s_common_button.dart';
 import '../../common/s_text_style.dart';
 

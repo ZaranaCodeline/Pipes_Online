@@ -11,15 +11,15 @@ import 'package:get/get.dart';
 import 'package:octo_image/octo_image.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/app_constant/b_image.dart';
-import 'package:pipes_online/buyer/controller/chat_local_file_controller.dart';
-import 'package:pipes_online/buyer/controller/image.dart';
+import 'package:pipes_online/buyer/view_model/chat_local_file_controller.dart';
+import 'package:pipes_online/buyer/screens/custom_widget/common_Octo_Image.dart';
 import 'package:pipes_online/buyer/screens/zoom_img.dart';
 import 'package:pipes_online/convert_date_formate_chat.dart';
 import 'package:pipes_online/seller/controller/chat_controller.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../buyer/custom_widget/widgets/custom_text.dart';
+import '../../../buyer/screens/custom_widget/custom_text.dart';
 
 final FirebaseStorage kFirebaseStorage = FirebaseStorage.instance;
 final FirebaseFirestore kFireStore = FirebaseFirestore.instance;

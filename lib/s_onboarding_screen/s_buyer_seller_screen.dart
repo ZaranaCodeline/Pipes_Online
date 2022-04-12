@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_welcome_screen.dart';
-import 'package:pipes_online/buyer/screens/home_screen_widget.dart';
+import 'package:pipes_online/buyer/screens/b_home_screen_widget.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';

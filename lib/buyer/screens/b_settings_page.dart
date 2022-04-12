@@ -9,7 +9,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
-import '../custom_widget/widgets/custom_text.dart';
+import 'custom_widget/custom_text.dart';
 
 class BSettingsScreen extends StatefulWidget {
   const BSettingsScreen({Key? key}) : super(key: key);

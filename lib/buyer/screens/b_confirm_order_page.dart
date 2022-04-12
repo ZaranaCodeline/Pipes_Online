@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/buyer/screens/my_order_page.dart';
+import 'package:pipes_online/buyer/screens/b_my_order_page.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
-import '../custom_widget/widgets/custom_button.dart';
-import '../custom_widget/widgets/custom_text.dart';
-import 'home_screen_widget.dart';
+import 'custom_widget/custom_button.dart';
+import 'custom_widget/custom_text.dart';
+import 'b_home_screen_widget.dart';
 
 class BConfirmOrderPage extends StatelessWidget {
   BConfirmOrderPage({Key? key}) : super(key: key);

@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
-import '../../../buyer/custom_widget/custom_home_page_widget/custom_home_search_widget.dart';
-import '../../../buyer/custom_widget/widgets/custom_text.dart';
+import '../../../buyer/screens/custom_widget/custom_search_widget.dart';
+import '../../../buyer/screens/custom_widget/custom_text.dart';
 import '../../common/s_text_style.dart';
 
 class SHelpCenter extends StatelessWidget {

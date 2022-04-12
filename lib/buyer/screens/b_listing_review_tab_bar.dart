@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../app_constant/app_colors.dart';
-import 'listing_widget.dart';
-import 'review_widgets.dart';
+import '../app_constant/app_colors.dart';
+import 'b_listing_widget.dart';
+import 'b_review_widgets.dart';
 
 class ListingReviewTabBarWidget extends StatefulWidget {
   const ListingReviewTabBarWidget({Key? key}) : super(key: key);
@@ -88,10 +88,10 @@ class _ListingReviewTabBarWidgetState extends State<ListingReviewTabBarWidget>
                     children: const [
                       // first tab bar view widget
                       Center(
-                        child: ListingWidget(),
+                        child: BListingWidget(),
                       ),
                       Center(
-                        child: ReviewWidget(),
+                        child: BReviewWidget(),
                       ),
                     ],
                   ),

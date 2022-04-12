@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 
-import '../../../routes/bottom_controller.dart';
+import '../../../buyer/view_model/bottom_controller.dart';
 import '../../view/s_screens/s_add_product_screen.dart';
 import '../../view/s_screens/s_cateloge_home_screen.dart';
 import '../../view/s_screens/s_edit_product_screen.dart';

@@ -7,11 +7,10 @@ import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
-import '../../../buyer/custom_widget/selected_product_widgets/custom_carousel_slider.dart';
-import '../../../buyer/custom_widget/selected_product_widgets/custom_rich_text_span_widget.dart';
-import '../../../buyer/custom_widget/selected_product_widgets/custom_selected_product_build_top_widget.dart';
-import '../../../buyer/custom_widget/widgets/custom_text.dart';
-import '../../../buyer/screens/add_reviews_page.dart';
+import '../../../buyer/screens/b_carousel_slider.dart';
+import '../../../buyer/screens/b_selected_product_build_top_widget.dart';
+import '../../../buyer/screens/custom_widget/custom_text.dart';
+import '../../../buyer/screens/b_add_reviews_page.dart';
 import '../../common/s_common_button.dart';
 
 class SSelectedProductScreen extends StatefulWidget {

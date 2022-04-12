@@ -12,13 +12,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/controller/geolocation_controller.dart';
-import 'package:pipes_online/buyer/custom_widget/widgets/custom_text.dart';
+import 'package:pipes_online/buyer/view_model/geolocation_controller.dart';
+import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_login_screen.dart';
 import 'package:pipes_online/routes/app_routes.dart';
 
 import 'package:sizer/sizer.dart';
-import '../../../routes/bottom_controller.dart';
+import '../../view_model/bottom_controller.dart';
 import '../../../seller/view/s_screens/s_color_picker.dart';
 import '../../../seller/view/s_screens/s_image.dart';
 import '../../../seller/view/s_screens/s_text_style.dart';

@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
 import 'package:pipes_online/shared_prefarence/helperFunction/share_preferance_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-FirebaseAuth kFirebaseAuth = FirebaseAuth.instance;
+// FirebaseAuth kFirebaseAuth = FirebaseAuth.instance;
 
 class SAuthMethods {
 
@@ -83,7 +84,7 @@ class SAuthMethods {
     }
   }
   static Future<void> logOut() async {
-    await kFirebaseAuth.signOut();
+    await bFirebaseAuth.signOut();
     print('Log Out');
   }
   Future<String> signOut() async {

@@ -9,10 +9,10 @@ import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
 import 'package:pipes_online/s_onboarding_screen/s_onboarding_screen.dart';
 import 'package:pipes_online/s_onboarding_screen/s_permission_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/s_login_home_screen.dart';
-import 'package:pipes_online/seller/view/s_authentication_screen/s_login_otp_screen.dart';
-import 'package:pipes_online/seller/view/s_authentication_screen/s_signup_home_screen.dart';
-import 'package:pipes_online/seller/view/s_authentication_screen/s_signup_otp_screen.dart';
-import 'package:pipes_online/seller/view/s_authentication_screen/s_submit_profile_screen.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/s_phone_otp_screen.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/s_sign_up_ragistraion_screen.dart';
+
+
 import 'package:pipes_online/seller/view/s_authentication_screen/s_welcome_screen.dart';
 import '../buyer/Splesh_Screen/splash.dart';
 import '../buyer/screens/b_authentication_screen/b_phone_otp_screen.dart';
@@ -40,18 +40,16 @@ class AppPages {
     GetPage(name: BRoutes.BSignUpRagistraionScreen, page: () => BSignUpRagistraionScreen()),
     GetPage(name: BRoutes.BChatScreen, page: () => BChatScreen()),
 
-    GetPage(name: Routes.PROFILE, page: () => DrawerProfilePage()),
-    GetPage(name: Routes.MYORDER, page: () => MyOrderPage()),
+    // GetPage(name: Routes.PROFILE, page: () => DrawerProfilePage()),
+    GetPage(name: Routes.MYORDER, page: () => BMyOrderPage()),
     GetPage(name: Routes.SETTINGPAGE, page: () => BSettingsScreen()),
 
 
-    GetPage(name: SRoutes.SSignUpHomeScreen, page: () => SSignUpHomeScreen()),
-    GetPage(name: SRoutes.SSignUpOTPScreen, page: () => SSignUpOTPScreen()),
-    GetPage(name: SRoutes.SLogInHomeScreen, page: () => SLogInHomeScreen()),
-    GetPage(name: SRoutes.SLogInOTPScreen, page: () => SLogInOTPScreen()),
+    GetPage(name: SRoutes.SSignUpRagistraionScreen, page: () => SSignUpRagistraionScreen()),
+    GetPage(name: SRoutes.SLoginScreen, page: () => SLoginScreen()),
+    GetPage(name: SRoutes.SPhoneOTP_Screen, page: () => SPhoneOTP_Screen()),
     GetPage(name: SRoutes.SBottomBar, page: () => NavigationBarScreen()),
-    GetPage(
-        name: SRoutes.SSubmitProfileScreen, page: () => SSubmitProfileScreen()),
+
 
   ];
 }

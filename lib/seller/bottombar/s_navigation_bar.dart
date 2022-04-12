@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/view_model/bottom_controller.dart';
+import 'package:pipes_online/buyer/screens/b_personal_info_page.dart';
+import 'package:pipes_online/routes/bottom_controller.dart';
 import 'package:pipes_online/seller/bottombar/widget/category_bottom_bar_route.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
+import 'package:pipes_online/seller/view/s_screens/s_prosonal_info_page.dart';
 import 'package:sizer/sizer.dart';
 import '../../buyer/screens/b_drawer_profile_page.dart';
 import '../view/s_screens/s_cateloge_home_screen.dart';
@@ -25,7 +27,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
     SCatelogeHomeScreen(),
     SOrdersScreen(),
     SChatScreen(),
-    DrawerProfilePage(),
+    SPersonalInfoPage(),
     // SProfileScreen(),
   ];
   List<Map<String, String>> bottomBarData = [
@@ -69,7 +71,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
                   ? SOrdersScreen()
                   : homeController.bottomIndex.value == 2
                   ? SChatScreen()
-                  : DrawerProfilePage()
+                  : SPersonalInfoPage()
                   : tabPages[homeController.bottomIndex.value],
             ),
           ),

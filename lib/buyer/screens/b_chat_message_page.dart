@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:octo_image/octo_image.dart';
 import 'package:pipes_online/buyer/screens/zoom_img.dart';
-import 'package:pipes_online/seller/controller/chat_controller.dart';
+import 'package:pipes_online/seller/view_model/chat_controller.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../convert_date_formate_chat.dart';
@@ -252,21 +252,21 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                                   ),
                                                                 ),
                                                               ),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        right: 10,
-                                                                        bottom:
-                                                                            5),
-                                                                child: MsgDate(
-                                                                  date: (snapShot
-                                                                              .data!
-                                                                              .docs[index]['date']
-                                                                          as Timestamp)
-                                                                      .toDate(),
-                                                                ),
-                                                              ),
+                                                              // Padding(
+                                                              //   padding:
+                                                              //       const EdgeInsets
+                                                              //               .only(
+                                                              //           right: 10,
+                                                              //           bottom:
+                                                              //               5),
+                                                              //   child: MsgDate(
+                                                              //     date: (snapShot
+                                                              //                 .data!
+                                                              //                 .docs[index]['date']
+                                                              //             as Timestamp)
+                                                              //         .toDate(),
+                                                              //   ),
+                                                              // ),
                                                               Padding(
                                                                 padding: const EdgeInsets.only(right: 10),
                                                                 child: MsgDate(
@@ -369,18 +369,18 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                                   SizedBox(
                                                                     width: 10,
                                                                   ),
-                                                                  Padding(
-                                                                    padding: const EdgeInsets
-                                                                            .only(
-                                                                        top: 10),
-                                                                    child:
-                                                                        MsgDate(
-                                                                      date: (snapShot
-                                                                              .data!
-                                                                              .docs[index]['date'] as Timestamp)
-                                                                          .toDate(),
-                                                                    ),
-                                                                  )
+                                                                  // Padding(
+                                                                  //   padding: const EdgeInsets
+                                                                  //           .only(
+                                                                  //       top: 10),
+                                                                  //   child:
+                                                                  //       MsgDate(
+                                                                  //     date: (snapShot
+                                                                  //             .data!
+                                                                  //             .docs[index]['date'] as Timestamp)
+                                                                  //         .toDate(),
+                                                                  //   ),
+                                                                  // )
                                                                 ],
                                                               ),
                                                             ),
@@ -468,14 +468,14 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                     ),
                                                   ),
                                                 ),
-                                                Padding(
-                                                  padding:   EdgeInsets.only(right: 10,bottom: 15),
-                                                  child: MsgDate(
-                                                    date: (snapShot.data!.docs[index]
-                                                    ['date'] as Timestamp)
-                                                        .toDate(),
-                                                  ),
-                                                ),
+                                                // Padding(
+                                                //   padding:   EdgeInsets.only(right: 10,bottom: 15),
+                                                //   child: MsgDate(
+                                                //     date: (snapShot.data!.docs[index]
+                                                //     ['date'] as Timestamp)
+                                                //         .toDate(),
+                                                //   ),
+                                                // ),
                                               ],
                                             ),
                                           ),
@@ -570,14 +570,14 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                             ),
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(right: 10),
-                                          child: MsgDate(
-                                            date: (snapShot.data!.docs[index]
-                                            ['date'] as Timestamp)
-                                                .toDate(),
-                                          ),
-                                        ),
+                                        // Padding(
+                                        //   padding: const EdgeInsets.only(right: 10),
+                                        //   child: MsgDate(
+                                        //     date: (snapShot.data!.docs[index]
+                                        //     ['date'] as Timestamp)
+                                        //         .toDate(),
+                                        //   ),
+                                        // ),
                                       ],
                                     ),
 
@@ -644,14 +644,14 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                             .toList(),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 10),
-                                      child: MsgDate(
-                                        date: (snapShot.data!.docs[index]['date']
-                                        as Timestamp)
-                                            .toDate(),
-                                      ),
-                                    )
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(left: 10),
+                                    //   child: MsgDate(
+                                    //     date: (snapShot.data!.docs[index]['date']
+                                    //     as Timestamp)
+                                    //         .toDate(),
+                                    //   ),
+                                    // )
                                   ],
                                 )
                                     :SizedBox();

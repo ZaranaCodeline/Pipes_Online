@@ -17,10 +17,10 @@ class SRoutes {
   static final SPermissionScreen = '/SPermissionScreen';
   static final SBuyerSellerScreen = '/SBuyerSellerScreen';
   static final SWelcomeScreen = '/SWelcomeScreen';
-  static final SSignUpHomeScreen = '/SSignUpHomeScreen';
+  static final SSignUpRagistraionScreen = '/SSignUpRagistraionScreen';
   static final SSignUpOTPScreen = '/SSignUpOTPScreen';
-  static final SLogInHomeScreen = '/SLogInHomeScreen';
-  static final SLogInOTPScreen = '/SLogInOTPScreen';
+  static final SLoginScreen = '/SLoginScreen';
+  static final SPhoneOTP_Screen = '/SPhoneOTP_Screen';
   static final SSubmitProfileScreen = '/SSubmitProfileScreen';
   static final SBottomBar = '/SBottomBar';
   static final SAddProductScreen = '/SAddProductScreen';

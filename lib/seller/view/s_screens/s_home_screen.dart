@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/seller/view/s_screens/s_order_screen.dart';
+import 'package:pipes_online/seller/view/s_screens/s_prosonal_info_page.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/screens/b_drawer_profile_page.dart';
 import '../../../buyer/screens/b_personal_info_page.dart';
-import '../../../buyer/view_model/bottom_controller.dart';
+import '../../../routes/bottom_controller.dart';
 import '../../bottombar/s_navigation_bar.dart';
 import 's_cart_screen.dart';
 import 's_cateloge_home_screen.dart';
@@ -26,8 +27,7 @@ class _SHomeScreenState extends State<SHomeScreen> {
     SCatelogeHomeScreen(),
     SOrdersScreen(),
     SChatScreen(),
-    // PersonalInfoPage()
-    DrawerProfilePage(),
+    SPersonalInfoPage()
     // SProfileScreen(),
   ];
   PageController pageController = PageController();

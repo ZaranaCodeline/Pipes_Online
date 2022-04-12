@@ -4,10 +4,10 @@ import 'package:sizer/sizer.dart';
 
 import '../app_constant/app_colors.dart';
 import 'custom_widget/custom_text.dart';
-import 'bottom_bar_screen_page/widget/cart_bottom_bar_route.dart';
+import 'bottom_bar_screen_page/widget/b_cart_bottom_bar_route.dart';
 
-class MyOrderPage extends StatelessWidget {
-  const MyOrderPage({Key? key}) : super(key: key);
+class BMyOrderPage extends StatelessWidget {
+  const BMyOrderPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

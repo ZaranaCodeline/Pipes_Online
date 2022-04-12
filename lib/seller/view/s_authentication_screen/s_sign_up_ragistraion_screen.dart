@@ -12,34 +12,33 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
+import 'package:pipes_online/buyer/screens/maps_screen.dart';
 import 'package:pipes_online/buyer/view_model/geolocation_controller.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_login_screen.dart';
 import 'package:pipes_online/routes/app_routes.dart';
 
 import 'package:sizer/sizer.dart';
+import '../../../buyer/screens/b_image.dart';
 import '../../../routes/bottom_controller.dart';
 import '../../../seller/view/s_screens/s_color_picker.dart';
 import '../../../seller/view/s_screens/s_image.dart';
 import '../../../seller/view/s_screens/s_text_style.dart';
 import '../../../shared_prefarence/shared_prefarance.dart';
-import '../../app_constant/auth.dart';
 
-import '../b_image.dart';
-import '../maps_screen.dart';
-import 'register_repo.dart';
-
-class BSignUpRagistraionScreen extends StatefulWidget {
-  const BSignUpRagistraionScreen({
+class SSignUpRagistraionScreen extends StatefulWidget {
+  const SSignUpRagistraionScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  _BSignUpRagistraionScreenState createState() =>
-      _BSignUpRagistraionScreenState();
+  _SSignUpRagistraionScreenState createState() =>
+      _SSignUpRagistraionScreenState();
 }
 
-class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
+class _SSignUpRagistraionScreenState extends State<SSignUpRagistraionScreen> {
   File? _image;
   GeolocationController _controller = Get.find();
   BottomController homeController = Get.find();
@@ -197,18 +196,18 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                                     height: 60.sp,
                                                     decoration: BoxDecoration(
                                                         gradient:
-                                                            LinearGradient(
-                                                                begin: Alignment
-                                                                    .centerLeft,
-                                                                colors: [
+                                                        LinearGradient(
+                                                            begin: Alignment
+                                                                .centerLeft,
+                                                            colors: [
                                                               AppColors
                                                                   .primaryColor,
                                                               AppColors
                                                                   .offLightPurpalColor,
                                                             ]),
                                                         borderRadius:
-                                                            BorderRadius
-                                                                .circular(25)),
+                                                        BorderRadius
+                                                            .circular(25)),
                                                   ),
                                                   SizedBox(
                                                     height: 5,
@@ -230,18 +229,18 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                                     height: 60.sp,
                                                     decoration: BoxDecoration(
                                                         gradient:
-                                                            LinearGradient(
-                                                                begin: Alignment
-                                                                    .centerLeft,
-                                                                colors: [
+                                                        LinearGradient(
+                                                            begin: Alignment
+                                                                .centerLeft,
+                                                            colors: [
                                                               AppColors
                                                                   .primaryColor,
                                                               AppColors
                                                                   .offLightPurpalColor,
                                                             ]),
                                                         borderRadius:
-                                                            BorderRadius
-                                                                .circular(25)),
+                                                        BorderRadius
+                                                            .circular(25)),
                                                   ),
                                                 ],
                                               ),
@@ -255,17 +254,17 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                       width: 50.sp,
                                       decoration: BoxDecoration(
                                           borderRadius:
-                                              BorderRadius.circular(50)),
+                                          BorderRadius.circular(50)),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(50),
                                         child: _image == null
                                             ? SvgPicture.asset(
-                                                "${BImagePick.PersonIcon}",
-                                                color: AppColors.primaryColor
-                                                    .withOpacity(0.5))
-                                            // Image.network(Img==null?'${BImagePick.PersonIcon}':Img!,fit: BoxFit.fill,)
+                                            "${BImagePick.PersonIcon}",
+                                            color: AppColors.primaryColor
+                                                .withOpacity(0.5))
+                                        // Image.network(Img==null?'${BImagePick.PersonIcon}':Img!,fit: BoxFit.fill,)
                                             : Image.file(_image!,
-                                                fit: BoxFit.fill),
+                                            fit: BoxFit.fill),
                                       ),
                                     ),
                                   ),
@@ -363,12 +362,12 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                   focusedErrorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide:
-                                        BorderSide(color: Colors.red, width: 2),
+                                    BorderSide(color: Colors.red, width: 2),
                                   ),
                                   errorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide:
-                                        BorderSide(color: Colors.red, width: 2),
+                                    BorderSide(color: Colors.red, width: 2),
                                   ),
                                 ),
                               ),
@@ -386,7 +385,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                               focusedErrorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide:
-                                    BorderSide(color: Colors.red, width: 2),
+                                BorderSide(color: Colors.red, width: 2),
                               ),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -401,7 +400,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                               errorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide:
-                                    BorderSide(color: Colors.red, width: 2),
+                                BorderSide(color: Colors.red, width: 2),
                               )),
                           validator: (email) {
                             if (isEmailValid(email!)) {
@@ -436,7 +435,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                             focusedErrorBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide:
-                                  BorderSide(color: Colors.red, width: 2),
+                              BorderSide(color: Colors.red, width: 2),
                             ),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -451,7 +450,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                             errorBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide:
-                                  BorderSide(color: Colors.red, width: 2),
+                              BorderSide(color: Colors.red, width: 2),
                             ),
                           ),
                         ),
@@ -480,7 +479,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                               focusedErrorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide:
-                                    BorderSide(color: Colors.red, width: 2),
+                                BorderSide(color: Colors.red, width: 2),
                               ),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -495,7 +494,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                               errorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide:
-                                      BorderSide(color: Colors.red, width: 2))),
+                                  BorderSide(color: Colors.red, width: 2))),
                           validator: (password) {
                             if (password!.isEmpty) {
                               return 'Please enter password';
@@ -517,7 +516,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                               focusedErrorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide:
-                                    BorderSide(color: Colors.red, width: 2),
+                                BorderSide(color: Colors.red, width: 2),
                               ),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -532,7 +531,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                               errorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide:
-                                    BorderSide(color: Colors.red, width: 2),
+                                BorderSide(color: Colors.red, width: 2),
                               )),
                           validator: (value) {
                             if (value!.isNotEmpty) {
@@ -597,12 +596,12 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                 borderRadius: BorderRadius.circular(10)),
                             child: Center(
                                 child: Text(
-                              'Submit',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 17),
-                            )),
+                                  'Submit',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17),
+                                )),
                           ),
                           onTap: () async {
                             if (formGlobalKey.currentState!.validate()) {
@@ -615,7 +614,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                               );
                               formGlobalKey.currentState!.save();
                               RegisterRepo.emailRegister(
-                                      email: email.text, pass: pass.text)
+                                  email: email.text, pass: pass.text)
                                   .then((value) async {
                                 await addData();
                               });
@@ -679,25 +678,25 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
         context: context, file: _image, fileName: '${email.text}_profile.jpg');
     RegisterRepo.currentUser()
         .then((value) {
-          CollectionReference userCollection =
-              bFirebaseStore.collection('BProfile');
-          userCollection.doc('${PreferenceManager.getUId()}').set({
-            'email': email.text,
-            'password': pass.text,
-            'phoneno': phn.text,
-            'firstname': fname.text,
-            'lastname': lname.text,
-            'imageProfile': imageUrl,
-            'address':_controller.addressController==null?addController.text:_controller.addressController!.text,
-            'time': DateTime.now(),
-          });
-        })
+      CollectionReference userCollection =
+      bFirebaseStore.collection('SProfile');
+      userCollection.doc('${PreferenceManager.getUId()}').set({
+        'email': email.text,
+        'password': pass.text,
+        'phoneno': phn.text,
+        'firstname': fname.text,
+        'lastname': lname.text,
+        'imageProfile': imageUrl,
+        'address':_controller.addressController==null?addController.text:_controller.addressController!.text,
+        'time': DateTime.now(),
+      });
+    })
         .catchError((e) => print('Error =========>>> $e'))
         .then((value) => Navigator.push(context, MaterialPageRoute(
-              builder: (context) {
-                return LoginScreen();
-              },
-            )));
+      builder: (context) {
+        return LoginScreen();
+      },
+    )));
   }
 
   bool isPasswordValid(String password) => password.length <= 8;

@@ -7,7 +7,7 @@ import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
 import '../app_constant/b_image.dart';
 import 'custom_widget/custom_text.dart';
-import 'bottom_bar_screen_page/widget/home_bottom_bar_route.dart';
+import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 import 'b_payment_page.dart';
 
 class CartPage extends StatefulWidget {

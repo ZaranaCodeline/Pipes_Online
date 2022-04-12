@@ -11,7 +11,7 @@ import 'package:sizer/sizer.dart';
 import '../../seller/common/s_color_picker.dart';
 import '../../seller/common/s_text_style.dart';
 import 'custom_widget/custom_text.dart';
-import 'bottom_bar_screen_page/widget/cart_bottom_bar_route.dart';
+import 'bottom_bar_screen_page/widget/b_cart_bottom_bar_route.dart';
 
 class BCategoryDetailsPage extends StatefulWidget {
   const BCategoryDetailsPage({Key? key, this.category}) : super(key: key);

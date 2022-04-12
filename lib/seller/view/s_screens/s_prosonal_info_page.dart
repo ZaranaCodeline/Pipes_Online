@@ -1,34 +1,27 @@
 import 'dart:io';
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
+import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:sizer/sizer.dart';
-import '../../ChatRoom.dart';
-import '../../seller/common/s_common_button.dart';
-import '../../shared_prefarence/shared_prefarance.dart';
-import '../app_constant/app_colors.dart';
-import 'custom_widget/custom_button.dart';
-import 'custom_widget/custom_text.dart';
-import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
-import 'b_drawer_profile_page.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import '../../../buyer/screens/bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 
-class PersonalInfoPage extends StatefulWidget {
-  const PersonalInfoPage({Key? key}) : super(key: key);
+class SPersonalInfoPage extends StatefulWidget {
+  const SPersonalInfoPage({Key? key}) : super(key: key);
 
   @override
-  State<PersonalInfoPage> createState() => _PersonalInfoPageState();
+  State<SPersonalInfoPage> createState() => _SPersonalInfoPageState();
 }
 
-class _PersonalInfoPageState extends State<PersonalInfoPage> {
+class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
   File? _image;
   String? Img;
   String? uploadImage;
@@ -82,7 +75,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       }
     });
   }
-@override
+  @override
   void initState() {
     // TODO: implement initState
     getData();
@@ -126,78 +119,78 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                 children: [
                   SizedBox(height: Get.height * 0.02),
                   GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => SimpleDialog(
-                            children: [
-                              Container(
-                                height: 125.sp,
-                                width: double.infinity,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      child: MaterialButton(
-                                        child: Text(
-                                          'GALLERY',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14.sp),
-                                        ),
-                                        onPressed: () {
-                                          getGalleryImage();
-                                          Get.back();
-                                        },
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => SimpleDialog(
+                          children: [
+                            Container(
+                              height: 125.sp,
+                              width: double.infinity,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    child: MaterialButton(
+                                      child: Text(
+                                        'GALLERY',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14.sp),
                                       ),
-                                      width: 220,
-                                      height: 60.sp,
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.centerLeft,
-                                              colors: [
-                                                AppColors.primaryColor,
-                                                AppColors
-                                                    .offLightPurpalColor,
-                                              ]),
-                                          borderRadius:
-                                              BorderRadius.circular(25)),
+                                      onPressed: () {
+                                        getGalleryImage();
+                                        Get.back();
+                                      },
                                     ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Container(
-                                      child: MaterialButton(
-                                        child: Text(
-                                          'camera',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20),
-                                        ),
-                                        onPressed: () {
-                                          getCamaroImage();
-                                          Get.back();
-                                        },
+                                    width: 220,
+                                    height: 60.sp,
+                                    decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                            begin: Alignment.centerLeft,
+                                            colors: [
+                                              AppColors.primaryColor,
+                                              AppColors
+                                                  .offLightPurpalColor,
+                                            ]),
+                                        borderRadius:
+                                        BorderRadius.circular(25)),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Container(
+                                    child: MaterialButton(
+                                      child: Text(
+                                        'camera',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20),
                                       ),
-                                      width: 220,
-                                      height: 60.sp,
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.centerLeft,
-                                              colors: [
-                                                AppColors.primaryColor,
-                                                AppColors
-                                                    .offLightPurpalColor,
-                                              ]),
-                                          borderRadius:
-                                              BorderRadius.circular(25)),
+                                      onPressed: () {
+                                        getCamaroImage();
+                                        Get.back();
+                                      },
                                     ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        );
-                      },
+                                    width: 220,
+                                    height: 60.sp,
+                                    decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                            begin: Alignment.centerLeft,
+                                            colors: [
+                                              AppColors.primaryColor,
+                                              AppColors
+                                                  .offLightPurpalColor,
+                                            ]),
+                                        borderRadius:
+                                        BorderRadius.circular(25)),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
                     child:   Column(
                       children: [
                         Container(
@@ -205,10 +198,10 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                           width: 50.sp,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(50)),
-                         child: ClipRRect(
+                          child: ClipRRect(
                             borderRadius: BorderRadius.circular(50),
                             child:_image==null?
-                                 Image.network(Img==null?'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png':Img!,fit: BoxFit.cover,)
+                            Image.network(Img==null?'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png':Img!,fit: BoxFit.cover,)
                                 : Image.file(_image!,fit: BoxFit.fill),
                           ),
 
@@ -223,7 +216,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                             color: AppColors.primaryColor),
                       ],
                     ),
-                    ),
+                  ),
                   SizedBox(height: Get.height * 0.01),
                   CustomText(
                     text: 'Name',
@@ -235,8 +228,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   SizedBox(
                     height: Get.height * 0.01,
                   ),
-                   TextField(
-                     controller: firstname,
+                  TextField(
+                    controller: firstname,
                     decoration: InputDecoration(
                       suffixIcon: Icon(Icons.edit),
                       border: OutlineInputBorder(
@@ -258,8 +251,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   SizedBox(
                     height: Get.height * 0.01,
                   ),
-                   TextField(
-                     controller: phoneno,
+                  TextField(
+                    controller: phoneno,
                     // maxLength: 10,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
@@ -306,8 +299,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   SizedBox(
                     height: Get.height * 0.01,
                   ),
-                   TextField(
-                     controller: address,
+                  TextField(
+                    controller: address,
                     decoration: InputDecoration(
                       suffixIcon: Icon(Icons.edit),
                       hintText: 'Enter Address',
@@ -364,9 +357,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
 
   Future<void> UpdateData() async {
     String? imageUrl = await uploadImageToFirebase(
-        context: context,
-        file: _image,
-        );
+      context: context,
+      file: _image,
+    );
     print(imageUrl);
     uploadImage = imageUrl;
     await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}').get();

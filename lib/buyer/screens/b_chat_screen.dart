@@ -7,7 +7,7 @@ import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../app_constant/b_image.dart';
 import 'custom_widget/custom_text.dart';
-import 'bottom_bar_screen_page/widget/cart_bottom_bar_route.dart';
+import 'bottom_bar_screen_page/widget/b_cart_bottom_bar_route.dart';
 import 'b_chat_message_page.dart';
 
 class BChatScreen extends StatefulWidget {

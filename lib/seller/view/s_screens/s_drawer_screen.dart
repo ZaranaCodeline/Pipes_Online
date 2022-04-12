@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pipes_online/buyer/screens/b_personal_info_page.dart';
 import 'package:pipes_online/seller/Authentication/s_function.dart';
 import 'package:pipes_online/seller/view/s_screens/s_earning_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_home_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_order_screen.dart';
+import 'package:pipes_online/seller/view/s_screens/s_prosonal_info_page.dart';
 import 'package:pipes_online/seller/view/s_screens/s_review_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_settings_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_subscribe_screen.dart';
@@ -16,7 +18,7 @@ import '../../../buyer/authentificaion/b_functions.dart';
 import '../../../buyer/app_constant/b_image.dart';
 import '../../../buyer/screens/b_drawer_profile_page.dart';
 import '../../../s_onboarding_screen/s_buyer_seller_screen.dart';
-import '../../controller/s_drawer_controller.dart';
+import '../../view_model/s_drawer_controller.dart';
 import 's_insight_screen.dart';
 
 class SDrawerScreen extends StatefulWidget {
@@ -50,7 +52,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
                   urlImage: urlImage,
                   name: name,
                   phone: phone,
-                  onClicked: () => Get.to(() => DrawerProfilePage()),
+                  onClicked: () => Get.to(() => PersonalInfoPage()),
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(
@@ -155,7 +157,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
   }) =>
       InkWell(
           onTap: () {
-            Get.to(() => DrawerProfilePage());
+            Get.to(() => SPersonalInfoPage());
           },
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 18.sp, vertical: 15.sp),

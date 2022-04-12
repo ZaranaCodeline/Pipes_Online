@@ -59,7 +59,7 @@ class BConfirmOrderPage extends StatelessWidget {
           ),
           GestureDetector(
             onTap: (){
-              Get.to(()=>MyOrderPage());
+              Get.to(()=>BMyOrderPage());
             },
             child: CustomText(
               text: 'My Orders',

@@ -9,21 +9,21 @@ import 'package:get/get.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/routes/app_routes.dart';
+import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
+import 'package:pipes_online/seller/view_model/s_login_home_controller.dart';
 import 'package:sizer/sizer.dart';
-import '../../authentificaion/b_functions.dart';
-import '../../view_model/b_login_home_controller.dart';
 
-class BPhoneOTP_Screen extends StatefulWidget {
+class SPhoneOTP_Screen extends StatefulWidget {
   @override
-  _BPhoneOTP_ScreenState createState() => _BPhoneOTP_ScreenState();
+  _SPhoneOTP_ScreenState createState() => _SPhoneOTP_ScreenState();
 }
 
-class _BPhoneOTP_ScreenState extends State<BPhoneOTP_Screen> {
-  BLogInController bLogInController = Get.put(BLogInController());
+class _SPhoneOTP_ScreenState extends State<SPhoneOTP_Screen> {
+  SLogInController sLogInController = Get.put(SLogInController());
   final FirebaseAuth _auth = FirebaseAuth.instance;
   bool isLoading = false;
   bool otpCodeVisible = false;
@@ -75,7 +75,7 @@ class _BPhoneOTP_ScreenState extends State<BPhoneOTP_Screen> {
                       ],
                     ),
                   ),
-                  GetBuilder<BLogInController>(
+                  GetBuilder<SLogInController>(
                     builder: (controller) {
                       return Container(
                         height: Get.height * 0.864,
@@ -114,7 +114,7 @@ class _BPhoneOTP_ScreenState extends State<BPhoneOTP_Screen> {
                                     width: Get.width,
                                     child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Enter Mobile Number',
@@ -135,16 +135,16 @@ class _BPhoneOTP_ScreenState extends State<BPhoneOTP_Screen> {
                                   ),
                                   Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
                                         height: Get.height * 0.07,
                                         width: Get.width * 0.25,
                                         decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(10.sp),
+                                            BorderRadius.circular(10.sp),
                                             border:
-                                                Border.all(color: Colors.grey)),
+                                            Border.all(color: Colors.grey)),
                                         alignment: Alignment.centerLeft,
                                         child: CountryCodePicker(
                                           onChanged: (val) {
@@ -158,9 +158,9 @@ class _BPhoneOTP_ScreenState extends State<BPhoneOTP_Screen> {
                                         width: Get.width * 0.6,
                                         decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(10.sp),
+                                            BorderRadius.circular(10.sp),
                                             border:
-                                                Border.all(color: Colors.grey)),
+                                            Border.all(color: Colors.grey)),
                                         alignment: Alignment.centerLeft,
                                         child: TextFormField(
                                           keyboardType: TextInputType.number,
@@ -169,23 +169,23 @@ class _BPhoneOTP_ScreenState extends State<BPhoneOTP_Screen> {
                                               hintText: 'Enter Number',
                                               errorBorder: OutlineInputBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.sp),
+                                                  BorderRadius.circular(
+                                                      10.sp),
                                                   borderSide: BorderSide.none),
                                               focusedBorder: OutlineInputBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.sp),
+                                                  BorderRadius.circular(
+                                                      10.sp),
                                                   borderSide: BorderSide.none),
                                               enabledBorder: OutlineInputBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.sp),
+                                                  BorderRadius.circular(
+                                                      10.sp),
                                                   borderSide: BorderSide.none),
                                               border: OutlineInputBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.sp),
+                                                  BorderRadius.circular(
+                                                      10.sp),
                                                   borderSide: BorderSide.none)),
                                         ),
                                       ),
@@ -197,7 +197,7 @@ class _BPhoneOTP_ScreenState extends State<BPhoneOTP_Screen> {
                                   Container(
                                     decoration: BoxDecoration(
                                         borderRadius:
-                                            BorderRadius.circular(10.sp),
+                                        BorderRadius.circular(10.sp),
                                         border: Border.all(color: Colors.grey)),
                                     height: Get.height * 0.07,
                                     width: Get.width * 0.9,
@@ -209,15 +209,15 @@ class _BPhoneOTP_ScreenState extends State<BPhoneOTP_Screen> {
                                           hintText: 'Enter Otp',
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(10.sp),
+                                              BorderRadius.circular(10.sp),
                                               borderSide: BorderSide.none),
                                           enabledBorder: OutlineInputBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(10.sp),
+                                              BorderRadius.circular(10.sp),
                                               borderSide: BorderSide.none),
                                           border: OutlineInputBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(10.sp),
+                                              BorderRadius.circular(10.sp),
                                               borderSide: BorderSide.none)),
                                     ),
                                   ),
@@ -230,13 +230,13 @@ class _BPhoneOTP_ScreenState extends State<BPhoneOTP_Screen> {
                                       children: [
                                         TextSpan(
                                           text:
-                                              'By continuing, you agree to the',
+                                          'By continuing, you agree to the',
                                           style: STextStyle.regular600Black11,
                                         ),
                                         TextSpan(
                                             text: ' terms and conditions',
                                             style:
-                                                STextStyle.semiBold600Purple11,
+                                            STextStyle.semiBold600Purple11,
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
                                                 Get.to(() =>
@@ -255,7 +255,7 @@ class _BPhoneOTP_ScreenState extends State<BPhoneOTP_Screen> {
                                   ),
                                   Padding(
                                     padding:
-                                        EdgeInsets.symmetric(horizontal: 40.sp),
+                                    EdgeInsets.symmetric(horizontal: 40.sp),
                                     child: SCommonButton().sCommonPurpleButton(
                                       name: otpCodeVisible ? "Login" : "Verify",
                                       onTap: () async {
@@ -275,11 +275,11 @@ class _BPhoneOTP_ScreenState extends State<BPhoneOTP_Screen> {
                                           Get.showSnackbar(
                                             GetSnackBar(
                                               snackPosition:
-                                                  SnackPosition.BOTTOM,
+                                              SnackPosition.BOTTOM,
                                               backgroundColor: SColorPicker.red,
                                               duration: Duration(seconds: 2),
                                               message:
-                                                  'Please enter mobile number',
+                                              'Please enter mobile number',
                                             ),
                                           );
                                         }
@@ -321,7 +321,7 @@ class _BPhoneOTP_ScreenState extends State<BPhoneOTP_Screen> {
     if (authCredential.smsCode != null) {
       try {
         UserCredential credential =
-            await user!.linkWithCredential(authCredential);
+        await user!.linkWithCredential(authCredential);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'provider-already-linked') {
           await _auth.signInWithCredential(authCredential);
@@ -380,7 +380,7 @@ class _BPhoneOTP_ScreenState extends State<BPhoneOTP_Screen> {
         verificationId: verificationId!, smsCode: otpCode.text);
     _auth.signInWithCredential(credential).then((value) {
       print('You are logged in successfully');
-      Get.off(BottomNavigationBarScreen());
+      Get.off(NavigationBarScreen());
     });
   }
 }

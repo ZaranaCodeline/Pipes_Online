@@ -15,7 +15,7 @@ import 'package:pipes_online/buyer/view_model/chat_local_file_controller.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/common_Octo_Image.dart';
 import 'package:pipes_online/buyer/screens/zoom_img.dart';
 import 'package:pipes_online/convert_date_formate_chat.dart';
-import 'package:pipes_online/seller/controller/chat_controller.dart';
+import 'package:pipes_online/seller/view_model/chat_controller.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 

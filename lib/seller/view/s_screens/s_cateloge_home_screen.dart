@@ -11,7 +11,7 @@ import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/app_constant/b_image.dart';
 import '../../../buyer/screens/custom_widget/custom_search_widget.dart';
-import '../../../buyer/view_model/bottom_controller.dart';
+import '../../../routes/bottom_controller.dart';
 import '../../common/s_text_style.dart';
 import '../../view_model/s_add_product_controller.dart';
 import 's_subscribe_screen.dart';

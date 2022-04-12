@@ -25,7 +25,7 @@ class DrawerProfilePage extends StatefulWidget {
   @override
   State<DrawerProfilePage> createState() => _DrawerProfilePageState();
 }
-CollectionReference ProfileCollection = kFireStore.collection('profileinfo');
+
 class _DrawerProfilePageState extends State<DrawerProfilePage> {
   String? Img;
   File? _image;
@@ -93,7 +93,7 @@ class _DrawerProfilePageState extends State<DrawerProfilePage> {
               },
               icon: Icon(Icons.arrow_back_rounded)),
           title: Text(
-            'PROFILE',
+            'PROFILE----',
             style: STextStyle.bold700White14,
           ),
           centerTitle: true,
@@ -298,7 +298,7 @@ class _DrawerProfilePageState extends State<DrawerProfilePage> {
     );
   }
 
-
+  CollectionReference ProfileCollection = kFireStore.collection('profileinfo');
   Future<void> UpdateData() async {
     var snapshot = await kFirebaseStorage
         .ref()

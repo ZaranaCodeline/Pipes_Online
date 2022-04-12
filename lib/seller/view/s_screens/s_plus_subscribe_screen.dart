@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/seller/view_model/s_subscribe_controller.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/screens/custom_widget/custom_text.dart';
 import '../../common/s_common_button.dart';
-import '../../controller/s_subscribe_controller.dart';
 import 's_add_product_screen.dart';
 
 class SPlusSubscribeScreen extends StatefulWidget {

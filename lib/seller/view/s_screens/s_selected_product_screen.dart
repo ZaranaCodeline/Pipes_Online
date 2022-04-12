@@ -224,7 +224,6 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
     );
   }
 
-  // Widget _buileSecondWidget() {
   Widget buildMiddleWidget(String name, String price, String desc) {
     return Container(
       child: Column(

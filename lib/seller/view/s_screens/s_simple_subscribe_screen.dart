@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/seller/view_model/s_subscribe_controller.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/screens/custom_widget/custom_text.dart';
-import '../../../buyer/view_model/bottom_controller.dart';
+import '../../../routes/bottom_controller.dart';
 import '../../common/s_color_picker.dart';
 import '../../common/s_common_button.dart';
 import '../../common/s_text_style.dart';
-import '../../controller/s_subscribe_controller.dart';
 import '../../view_model/s_add_product_controller.dart';
 import 's_add_product_screen.dart';
 

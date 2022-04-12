@@ -57,7 +57,16 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                     urlImage: urlImage,
                     name: name,
                     phone: phone,
-                    onClicked: () => Get.to(() => DrawerProfilePage()),
+                    onClicked: () {
+                      Get.to(() => PersonalInfoPage());
+                      // if (bottomBarIndexController.bottomIndex.value == 3) {
+                      //   bottomBarIndexController.setSelectedScreen(
+                      //       value: 'ProfileScreen');
+                      //   bottomBarIndexController.bottomIndex.value = 0;
+                      // } else {
+                      //   Get.to(() => PersonalInfoPage());
+                      // }
+                    },
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(
@@ -261,7 +270,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
         Get.to(() => BSettingsScreen());
         break;
       case 2:
-        Get.to(() => MyOrderPage());
+        Get.to(() => BMyOrderPage());
         break;
       case 3:
         Get.to(() => BReviewScreen());

@@ -7,7 +7,7 @@ import 'package:pipes_online/seller/view/s_screens/s_chat_message_screen.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
-import '../../../buyer/buyer_common/b_image.dart';
+import '../../../buyer/app_constant/b_image.dart';
 import '../../../buyer/custom_widget/widgets/custom_text.dart';
 
 class SChatScreen extends StatelessWidget {

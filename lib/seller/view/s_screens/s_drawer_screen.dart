@@ -13,7 +13,7 @@ import 'package:pipes_online/seller/view/s_screens/s_terms_and_condition_screen.
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/authentificaion/b_functions.dart';
-import '../../../buyer/buyer_common/b_image.dart';
+import '../../../buyer/app_constant/b_image.dart';
 import '../../../buyer/screens/drawer_profile_page.dart';
 import '../../../s_onboarding_screen/s_buyer_seller_screen.dart';
 import '../../controller/s_drawer_controller.dart';

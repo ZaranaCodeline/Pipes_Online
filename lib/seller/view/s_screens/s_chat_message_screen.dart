@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:octo_image/octo_image.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/buyer_common/b_image.dart';
+import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/buyer/controller/chat_local_file_controller.dart';
 import 'package:pipes_online/buyer/controller/image.dart';
 import 'package:pipes_online/buyer/screens/zoom_img.dart';

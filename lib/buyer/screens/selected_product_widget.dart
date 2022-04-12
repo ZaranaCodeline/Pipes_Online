@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/buyer/buyer_common/b_image.dart';
+import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
@@ -282,5 +282,38 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
         text: 'Example share text',
         linkUrl: 'https://flutter.dev/',
         chooserTitle: 'Example Chooser Title');
+  }
+
+
+}
+
+class CustomRichTextSpanWidget extends StatelessWidget {
+  CustomRichTextSpanWidget(
+      {Key? key, required this.color1,required this.color2, required this.fontsize,required this.name1, required this.name2,})
+      : super(key: key);
+  Color color1 , color2;
+  String name1, name2;
+  double fontsize;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.centerLeft,
+      child: RichText(
+        textAlign: TextAlign.left,
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: name1,
+              style: TextStyle(fontSize: fontsize,
+                color: color1,wordSpacing: 1,),),
+            TextSpan(
+              text: name2,
+              style: TextStyle(fontSize: fontsize, fontWeight: FontWeight.w400,
+                  color: color2),),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -5,7 +5,7 @@ import 'package:pipes_online/buyer/authentificaion/b_functions.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
-import '../../../buyer/buyer_common/b_image.dart';
+import '../app_constant/b_image.dart';
 import '../custom_widget/widgets/custom_text.dart';
 import 'bottom_bar_screen_page/widget/cart_bottom_bar_route.dart';
 import 'b_chat_message_page.dart';

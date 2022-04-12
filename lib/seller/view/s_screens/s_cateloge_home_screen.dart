@@ -9,7 +9,7 @@ import 'package:pipes_online/seller/view/s_screens/s_order_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_product_card_list.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
-import '../../../buyer/buyer_common/b_image.dart';
+import '../../../buyer/app_constant/b_image.dart';
 import '../../../buyer/custom_widget/custom_home_page_widget/custom_home_search_widget.dart';
 import '../../../routes/bottom_controller.dart';
 import '../../common/s_text_style.dart';

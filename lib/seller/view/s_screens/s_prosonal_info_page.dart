@@ -354,7 +354,7 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
       print(e);
     }
   }
-
+  CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
   Future<void> UpdateData() async {
     String? imageUrl = await uploadImageToFirebase(
       context: context,
@@ -376,7 +376,7 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
         .catchError((e) => print(e));
   }
 
-  CollectionReference ProfileCollection = bFirebaseStore.collection('profileinfo');
+
 
 
 }

@@ -298,7 +298,7 @@ class _DrawerProfilePageState extends State<DrawerProfilePage> {
     );
   }
 
-  CollectionReference ProfileCollection = kFireStore.collection('profileinfo');
+  CollectionReference ProfileCollection = kFireStore.collection('BProfile');
   Future<void> UpdateData() async {
     var snapshot = await kFirebaseStorage
         .ref()

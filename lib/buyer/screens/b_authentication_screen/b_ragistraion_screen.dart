@@ -85,7 +85,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
 
   GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
-  TextEditingController addController = TextEditingController();
+  // TextEditingController addController = TextEditingController();
   TextEditingController mobileCnt = TextEditingController();
 
   BottomController bottomController = Get.find();
@@ -510,7 +510,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                         ),
                         TextFormField(
                           maxLines: 2,
-                          controller: addController==null?addController:_controller.addressController,
+                          controller:  _controller.addressController==null?_controller.addressController:_controller.addressController,
                           decoration: InputDecoration(
                               hintText: 'Address',
                               filled: true,
@@ -688,7 +688,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
             'firstname': fname.text,
             'lastname': lname.text,
             'imageProfile': imageUrl,
-            'address':_controller.addressController==null?addController.text:_controller.addressController!.text,
+            'address':_controller.addressController==null?_controller.addressController:_controller.addressController!.text,
             'time': DateTime.now(),
           });
         })

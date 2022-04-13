@@ -38,16 +38,16 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   TextEditingController email = TextEditingController();
   TextEditingController address = TextEditingController();
   TextEditingController phoneno = TextEditingController();
+  CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
   Future<void> getData() async {
-
     print('demo.....');
-    final  DocumentSnapshot  user =
+    final  user =
     await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}').get();
-    Map<String, dynamic> getUserData = user.data() as Map<String, dynamic>;
-    firstname=getUserData['firstname'];
-    email=getUserData['email'];
-    address=getUserData['address'];
-    phoneno=getUserData['phoneno'];
+    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+    firstname.text=getUserData!['firstname'];
+    email.text=getUserData['email'];
+    address.text=getUserData['address'];
+    phoneno.text=getUserData['phoneno'];
     setState(() {
       Img=getUserData['imageProfile'];
     });
@@ -383,7 +383,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         .catchError((e) => print(e));
   }
 
-  CollectionReference ProfileCollection = bFirebaseStore.collection('profileinfo');
+
 
 
 }

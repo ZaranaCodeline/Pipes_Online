@@ -1,10 +1,7 @@
 import 'dart:math';
-
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,8 +12,6 @@ import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/view_model/geolocation_controller.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_login_screen.dart';
-import 'package:pipes_online/routes/app_routes.dart';
-
 import 'package:sizer/sizer.dart';
 import '../../../routes/bottom_controller.dart';
 import '../../../seller/view/s_screens/s_color_picker.dart';
@@ -24,7 +19,6 @@ import '../../../seller/view/s_screens/s_image.dart';
 import '../../../seller/view/s_screens/s_text_style.dart';
 import '../../../shared_prefarence/shared_prefarance.dart';
 import '../../app_constant/auth.dart';
-
 import '../b_image.dart';
 import '../maps_screen.dart';
 import 'register_repo.dart';
@@ -85,9 +79,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
 
   GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
-  // TextEditingController addController = TextEditingController();
   TextEditingController mobileCnt = TextEditingController();
-
   BottomController bottomController = Get.find();
   String? Img;
   bool selected = false;
@@ -263,7 +255,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                                 "${BImagePick.PersonIcon}",
                                                 color: AppColors.primaryColor
                                                     .withOpacity(0.5))
-                                            // Image.network(Img==null?'${BImagePick.PersonIcon}':Img!,fit: BoxFit.fill,)
+                                            // Image.network(Img==null?'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png':Img!,fit: BoxFit.fill,)
                                             : Image.file(_image!,
                                                 fit: BoxFit.fill),
                                       ),
@@ -510,7 +502,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                         ),
                         TextFormField(
                           maxLines: 2,
-                          controller:  _controller.addressController==null?_controller.addressController:_controller.addressController,
+                          controller: _controller.addressController==null?_controller.addressController:_controller.addressController,
                           decoration: InputDecoration(
                               hintText: 'Address',
                               filled: true,
@@ -555,8 +547,10 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                         Center(
                           child: GestureDetector(
                             onTap: () {
-                              print('is enterggg');
+                              print('it is map');
+                            setState(() {
                               Get.to(MapsScreen());
+                            });
                             },
                             child: Container(
                               padding: EdgeInsets.all(12.sp),
@@ -614,7 +608,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                 ),
                               );
                               formGlobalKey.currentState!.save();
-                              RegisterRepo.emailRegister(
+                              BRegisterRepo.emailRegister(
                                       email: email.text, pass: pass.text)
                                   .then((value) async {
                                 await addData();
@@ -677,11 +671,11 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
   Future<void> addData() async {
     String? imageUrl = await uploadImageToFirebase(
         context: context, file: _image, fileName: '${email.text}_profile.jpg');
-    RegisterRepo.currentUser()
+    BRegisterRepo.currentUser()
         .then((value) {
-          CollectionReference userCollection =
+          CollectionReference ProfileCollection =
               bFirebaseStore.collection('BProfile');
-          userCollection.doc('${PreferenceManager.getUId()}').set({
+          ProfileCollection.doc('${PreferenceManager.getUId()}').set({
             'email': email.text,
             'password': pass.text,
             'phoneno': phn.text,

@@ -7,9 +7,7 @@ import '../../../buyer/screens/custom_widget/custom_text.dart';
 import '../../../routes/bottom_controller.dart';
 import '../../common/s_color_picker.dart';
 import '../../common/s_common_button.dart';
-import '../../common/s_text_style.dart';
 import '../../view_model/s_add_product_controller.dart';
-import 's_add_product_screen.dart';
 
 class SSimpleSubScribeScreen extends StatefulWidget {
   SSimpleSubScribeScreen({Key? key}) : super(key: key);
@@ -38,7 +36,8 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
     print('radioValue---: $radioValue');
     // update();
   }
-  List<dynamic> list_name = ['\$ 100/yr','\$ 75/6/Mo','\$15/30/d'];
+
+  List<dynamic> list_name = ['\$ 100/yr', '\$ 75/6/Mo', '\$15/30/d'];
   SSubScribeController controller = Get.put(SSubScribeController());
 
   @override
@@ -95,8 +94,8 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
                     print('Radio tile pressed $value');
                     setState(() {
                       selectedRadioTile = value as int?;
-                      value=list_name[0];
-                      selected=value as String;
+                      value = list_name[0];
+                      selected = value as String;
                       print('Radio tile pressed $selected');
                     });
                   }),
@@ -108,14 +107,15 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
               width: Get.width / 1,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                color: selectedRadioTile == 1  ? AppColors.primaryColor
-                    : AppColors.commonWhiteTextColor
-                   ,
+                color: selectedRadioTile == 1
+                    ? AppColors.primaryColor
+                    : AppColors.commonWhiteTextColor,
               ),
               child: RadioListTile(
                   selectedTileColor: AppColors.commonWhiteTextColor,
                   value: 1,
-                  activeColor: selectedRadioTile == 1 ? AppColors.commonWhiteTextColor
+                  activeColor: selectedRadioTile == 1
+                      ? AppColors.commonWhiteTextColor
                       : AppColors.primaryColor,
                   groupValue: selectedRadioTile,
                   title: CustomText(
@@ -138,8 +138,8 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
                     print('Radio tile pressed $value');
                     setState(() {
                       selectedRadioTile = value as int?;
-                      value=list_name[1];
-                      selected=value as String;
+                      value = list_name[1];
+                      selected = value as String;
                       print('Radio tile pressed $selected');
                     });
                   }),
@@ -182,8 +182,8 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
                     print('Radio tile pressed $value');
                     setState(() {
                       selectedRadioTile = value as int?;
-                      value=list_name[2];
-                      selected=value as String;
+                      value = list_name[2];
+                      selected = value as String;
                       print('Radio tile pressed $selected');
                     });
                   }),
@@ -198,11 +198,18 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
           child: SCommonButton().sCommonPurpleButton(
             name: 'Subscribe Now',
             onTap: () {
-              addProductController.selectedPrice=selected!;
-              homeController.bottomIndex.value=0;
-              homeController.selectedScreen('SAddProductScreen');
-
-           //Get.to(() => SAddProductScreen(selectedPrice:selected,));
+              if (selected != null) {
+                addProductController.selectedPrice = selected!;
+                homeController.bottomIndex.value = 0;
+                homeController.selectedScreen('SAddProductScreen');
+              } else {
+                Get.showSnackbar(GetSnackBar(
+                  backgroundColor: SColorPicker.red,
+                  duration: Duration(seconds: 2),
+                  message: 'Please select one of above category!',
+                ));
+              }
+              //Get.to(() => SAddProductScreen(selectedPrice:selected,));
               print('edit product seller side');
               // Get.toNamed(SRoutes.SSubmitProfileScreen);
             },
@@ -212,6 +219,3 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
     );
   }
 }
-
-
-

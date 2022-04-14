@@ -1,6 +1,13 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/seller/Authentication/s_function.dart';
+import 'package:pipes_online/seller/view/s_screens/s_add_product_screen.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../seller/common/s_text_style.dart';
@@ -11,15 +18,17 @@ import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 import 'b_payment_page.dart';
 
 class CartPage extends StatefulWidget {
-  final String? category;
+  final String? name, image, desc, price, category;
 
-  const CartPage({Key? key, this.category}) : super(key: key);
+  const CartPage(
+      {Key? key, this.price, this.desc, this.name, this.image, this.category})
+      : super(key: key);
+
   @override
   State<CartPage> createState() => _CartPageState();
 }
 
 class _CartPageState extends State<CartPage> {
-
   String? dropdownValueSize;
   String? dropdownValueLength;
   String? dropdownValueWeight;
@@ -89,8 +98,9 @@ class _CartPageState extends State<CartPage> {
                               flex: 3,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0),
-                                child: Image.asset(
-                                  BImagePick.cartIcon,
+                                child: Image.network(
+                                  widget.image.toString(),
+                                  // BImagePick.cartIcon,
                                   fit: BoxFit.cover,
                                   height: Get.height / 5.sp,
                                 ),
@@ -103,7 +113,7 @@ class _CartPageState extends State<CartPage> {
                                 child: Column(
                                   children: [
                                     CustomText(
-                                      text: 'Round',
+                                      text: widget.name.toString(),
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16.sp,
                                       color: AppColors.primaryColor,
@@ -113,7 +123,7 @@ class _CartPageState extends State<CartPage> {
                                       height: Get.height * 0.01.sp,
                                     ),
                                     CustomText(
-                                      text: 'ABC Pipe',
+                                      text: widget.desc.toString(),
                                       fontWeight: FontWeight.w600,
                                       fontSize: 12.sp,
                                       color: AppColors.secondaryBlackColor,
@@ -123,7 +133,7 @@ class _CartPageState extends State<CartPage> {
                                       height: Get.height * 0.01.sp,
                                     ),
                                     CustomText(
-                                      text: '\$10/ Feet',
+                                      text: widget.price.toString(),
                                       fontWeight: FontWeight.w600,
                                       fontSize: 12.sp,
                                       color: AppColors.secondaryBlackColor,
@@ -135,22 +145,27 @@ class _CartPageState extends State<CartPage> {
                             ),
                             Expanded(
                                 child: Container(
-                                  height: Get.height / 12.sp,
-                                  decoration: BoxDecoration(
-                                      color: AppColors.commonWhiteTextColor,
-                                      borderRadius: BorderRadius.circular(5),
-                                      boxShadow: [
-                                        new BoxShadow(
-                                            blurRadius: 1,
-                                            color: AppColors.hintTextColor),
-                                      ]),
-                                  child: TextButton(
-                                      onPressed: () {},
-                                      child: SvgPicture.asset(
-                                          BImagePick.deleteIcon
-                                      ),
-                                  ),
-                                )),
+                              height: Get.height / 12.sp,
+                              decoration: BoxDecoration(
+                                  color: AppColors.commonWhiteTextColor,
+                                  borderRadius: BorderRadius.circular(5),
+                                  boxShadow: [
+                                    new BoxShadow(
+                                        blurRadius: 1,
+                                        color: AppColors.hintTextColor),
+                                  ]),
+                              child: TextButton(
+                                onPressed: () {
+                                  print('Delete');
+                                  FirebaseFirestore.instance
+                                      .collection("Products")
+                                      .doc(_auth.currentUser!.uid)
+                                      .delete();
+                                  Get.back();
+                                },
+                                child: SvgPicture.asset(BImagePick.deleteIcon),
+                              ),
+                            )),
                           ],
                         ),
                       ),
@@ -226,16 +241,18 @@ class _CartPageState extends State<CartPage> {
                           setState(() {});
                         },
                       ),
-                      widget.category=='Gas'||widget.category=='Oil'?
-                      CustomDropDownWidget(
-                        keyName: 'Pipe Tag Color:      ',
-                        dropDownValue: dropdownValuePipeTagColor,
-                        onChange: (String? newValue) {
-                          dropdownValuePipeTagColor = newValue!;
-                          print('dropdownValueSize:-$dropdownValuePipeTagColor');
-                          setState(() {});
-                        },
-                      ):SizedBox(),
+                      widget.category == 'Gas' || widget.category == 'Oil'
+                          ? CustomDropDownWidget(
+                              keyName: 'Pipe Tag Color:      ',
+                              dropDownValue: dropdownValuePipeTagColor,
+                              onChange: (String? newValue) {
+                                dropdownValuePipeTagColor = newValue!;
+                                print(
+                                    'dropdownValueSize:-$dropdownValuePipeTagColor');
+                                setState(() {});
+                              },
+                            )
+                          : SizedBox(),
                     ],
                   ),
                 ),
@@ -278,27 +295,26 @@ class _CartPageState extends State<CartPage> {
                                         horizontal: 10, vertical: 10),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                          MainAxisAlignment.spaceAround,
                                       children: [
                                         CustomText(
                                             text: 'Cart total',
                                             fontWeight: FontWeight.w600,
                                             fontSize: 14.sp,
                                             color:
-                                            AppColors.secondaryBlackColor),
+                                                AppColors.secondaryBlackColor),
                                         CustomText(
                                             text: '\$10',
                                             fontWeight: FontWeight.w600,
                                             fontSize: 14.sp,
                                             color:
-                                            AppColors.secondaryBlackColor),
+                                                AppColors.secondaryBlackColor),
                                       ],
                                     ),
                                   ),
                                   GestureDetector(
                                     onTap: () {
-
-                                       Get.to(Screen());
+                                      Get.to(Screen());
                                     },
                                     child: Container(
                                       padding: EdgeInsets.symmetric(
@@ -309,7 +325,7 @@ class _CartPageState extends State<CartPage> {
                                       ),
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
+                                            MainAxisAlignment.spaceAround,
                                         children: [
                                           CustomText(
                                               text: 'Checkout Now',
@@ -397,4 +413,48 @@ class _CartPageState extends State<CartPage> {
       ),
     );
   }
+
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
+// Future<void> DeleteData(File? file) async {
+//   /* String? imageUrl = await uploadImageToFirebase(
+//       context: context, file: _image);*/
+//   var snapshot = await bFirebaseStorage
+//       .ref()
+//       .child('ChatImage/${DateTime.now().microsecondsSinceEpoch}')
+//       .putFile(file!);
+//   String downloadUrl = await snapshot.ref.getDownloadURL();
+//   print('url=$downloadUrl');
+//   SAuthMethods().getCurrentUser()
+//       .then((value) {
+//     productCollection.doc('${_auth.currentUser!.uid}').collection(
+//         'data').add({
+//       'imageProfile': downloadUrl,
+//       'prdName': n.text,
+//       'dsc': dsc.text,
+//       'price':addProductController.selectedPrice,
+//       'createdOn': DateTime.now(),
+//     })
+//         .catchError((e) => print('Error ===>>> $e'))
+//         .then((value) {
+//       addProductController.name=prdName.text;
+//       addProductController.images=downloadUrl;
+//       addProductController.descs=dsc.text;
+//       addProductController.prices=addProductController.selectedPrice;
+//       homeController.bottomIndex.value = 0;
+//       homeController.selectedScreen('SCatelogeHomeScreen');
+//     }
+//       /*  Navigator.push(context, MaterialPageRoute(
+//           builder: (context) {
+//             return SCatelogeHomeScreen(
+//               image: downloadUrl,
+//               name: prdName.text,
+//               price: addProductController.selectedPrice,
+//               desc: dsc.text,);
+//           },
+//         ))*/
+//     );
+//   }
+//   );
+// }
 }

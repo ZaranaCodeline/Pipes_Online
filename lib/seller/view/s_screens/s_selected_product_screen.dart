@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/seller/bottombar/widget/category_bottom_bar_route.dart';
 import 'package:pipes_online/seller/view/s_screens/s_edit_product_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_review_screen.dart';
 import 'package:sizer/sizer.dart';
@@ -18,10 +19,11 @@ class SSelectedProductScreen extends StatefulWidget {
     this.image,
     this.name,
     this.desc,
-    this.price,this.id,
+    this.price,
+    this.id,
     Key? key,
   }) : super(key: key);
-  String? image, name, desc, price,id;
+  String? image, name, desc, price, id;
 
   @override
   State<SSelectedProductScreen> createState() => _SSelectedProductScreenState();
@@ -29,14 +31,13 @@ class SSelectedProductScreen extends StatefulWidget {
 
 class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
   var rating = 3.0;
- 
 
   // SelectedProductController controller = Get.put(SelectedProductController());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -48,11 +49,20 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                     ),
                     // CarouselWirhDotsWidgets(imgList: imageList,),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.sp),
-                      child: BackButton(
-                        color: AppColors.commonWhiteTextColor,
-                      ),
-                    )
+                        padding: EdgeInsets.symmetric(horizontal: 5.sp),
+                        child: IconButton(
+                          onPressed: () {
+                            homeController
+                                .selectedScreen('SCatelogeHomeScreen');
+                            homeController.bottomIndex.value = 0;
+                            // Get.back();
+                          },
+                          icon: Icon(Icons.arrow_back),
+                        )
+                        // BackButton(
+                        //   color: AppColors.secondaryBlackColor,
+                        // ),
+                        )
                   ],
                 ),
                 Container(
@@ -77,7 +87,8 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                                 ),
                                 // SizedBox(height: Get.height * 0.01),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     CustomText(
                                         text: widget.price.toString(),
@@ -88,19 +99,20 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                                       height: Get.height / 12.sp,
                                       decoration: BoxDecoration(
                                           color: AppColors.commonWhiteTextColor,
-                                          borderRadius: BorderRadius.circular(5),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
                                           boxShadow: [
                                             new BoxShadow(
-                                                blurRadius: 1, color: AppColors.hintTextColor),
+                                                blurRadius: 1,
+                                                color: AppColors.hintTextColor),
                                           ]),
                                       child: TextButton(
                                           onPressed: () {},
-                                          child:
-                                          SvgPicture.asset('assets/images/svg/delete_icon.svg')),
+                                          child: SvgPicture.asset(
+                                              'assets/images/svg/delete_icon.svg')),
                                     ),
                                   ],
                                 ),
-
                                 const Divider(
                                   height: 10,
                                 ),
@@ -190,8 +202,7 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                             width: double.infinity,
                             padding: EdgeInsets.all(10.sp),
                             child: CustomText(
-                              text:
-                                  widget.desc.toString(),
+                              text: widget.desc.toString(),
                               fontWeight: FontWeight.w400,
                               fontSize: 12.sp,
                               color: AppColors.secondaryBlackColor,
@@ -206,7 +217,16 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                           child: SCommonButton().sCommonPurpleButton(
                             name: 'Edit Product',
                             onTap: () {
-                              Get.to(() => SeditProductScreen(desc: widget.desc,price: widget.price,name: widget.name,img: widget.image,id: widget.id,));
+                              homeController
+                                  .selectedScreen('SeditProductScreen');
+                              homeController.bottomIndex.value = 0;
+                              // Get.to(() => SeditProductScreen(
+                              //       desc: widget.desc,
+                              //       price: widget.price,
+                              //       name: widget.name,
+                              //       img: widget.image,
+                              //       id: widget.id,
+                              //     ));
                               print('edit product seller side');
                               // Get.toNamed(SRoutes.SSubmitProfileScreen);
                             },

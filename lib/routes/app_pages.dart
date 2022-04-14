@@ -8,7 +8,7 @@ import 'package:pipes_online/buyer/screens/b_settings_page.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
 import 'package:pipes_online/s_onboarding_screen/s_onboarding_screen.dart';
 import 'package:pipes_online/s_onboarding_screen/s_permission_screen.dart';
-import 'package:pipes_online/seller/view/s_authentication_screen/s_login_home_screen.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/s_login_creen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/s_phone_otp_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/s_sign_up_ragistraion_screen.dart';
 

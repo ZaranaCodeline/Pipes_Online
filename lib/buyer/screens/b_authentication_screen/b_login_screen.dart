@@ -205,7 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 );
                                 formGlobalKey.currentState!.save();
-                                RegisterRepo()
+                                BRegisterRepo()
                                     .LogIn(email.text.trim().toString(),
                                         pass.text.trim().toString())
                                     .then((value) async {
@@ -214,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 }).catchError((e){
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('InValid Cradantial'),
+                                      content: Text('The login is invalid.'),
                                       backgroundColor: Colors.redAccent,
                                     ),
                                   );

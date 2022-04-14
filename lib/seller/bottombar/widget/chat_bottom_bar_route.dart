@@ -11,11 +11,9 @@ Widget SchatScreenRoute() {
   switch (homeController.selectedScreen.value) {
     case 'SchatScreen':
       return SChatScreen();
-      break;
 
     case 'SchatScreen':
       return SChatScreen();
-      break;
 
     // case 'SchoolScreen':
     //   return SchoolScreen();

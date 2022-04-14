@@ -3,17 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/screens/b_personal_info_page.dart';
 import 'package:pipes_online/routes/bottom_controller.dart';
 import 'package:pipes_online/seller/bottombar/widget/category_bottom_bar_route.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_prosonal_info_page.dart';
 import 'package:sizer/sizer.dart';
-import '../../buyer/screens/b_drawer_profile_page.dart';
 import '../view/s_screens/s_cateloge_home_screen.dart';
 import '../view/s_screens/s_chat_screen.dart';
 import '../view/s_screens/s_order_screen.dart';
-
 
 class NavigationBarScreen extends StatefulWidget {
   @override
@@ -28,7 +25,6 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
     SOrdersScreen(),
     SChatScreen(),
     SPersonalInfoPage(),
-    // SProfileScreen(),
   ];
   List<Map<String, String>> bottomBarData = [
     {
@@ -57,27 +53,27 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-
-      return Scaffold(
-        bottomNavigationBar: bottomNavigationBar(),
-        body: Scaffold(
-          body: Container(
-            child: SafeArea(
-              child: homeController.selectedScreen.value != ''
-                  ? homeController.bottomIndex.value == 0
-                  ? categorySubScreen()
-                  : homeController.bottomIndex.value == 1
-                  ? SOrdersScreen()
-                  : homeController.bottomIndex.value == 2
-                  ? SChatScreen()
-                  : SPersonalInfoPage()
-                  : tabPages[homeController.bottomIndex.value],
-            ),
-          ),
-        )
-      );
-    });
+    return SafeArea(
+      child: Obx(() {
+        return Scaffold(
+            bottomNavigationBar: bottomNavigationBar(),
+            body: Scaffold(
+              body: Container(
+                child: SafeArea(
+                  child: homeController.selectedScreen.value != ''
+                      ? homeController.bottomIndex.value == 0
+                          ? categorySubScreen()
+                          : homeController.bottomIndex.value == 1
+                              ? SOrdersScreen()
+                              : homeController.bottomIndex.value == 2
+                                  ? SChatScreen()
+                                  : SPersonalInfoPage()
+                      : tabPages[homeController.bottomIndex.value],
+                ),
+              ),
+            ));
+      }),
+    );
   }
 
   Container bottomNavigationBar() {
@@ -98,39 +94,24 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
+                          child: Container(
+                            decoration: BoxDecoration(
                                 // color: AppColors.primaryColor
-                              ),
-                              child: SvgPicture.asset(
-                                e["Icon"]!,width: 15.sp,height: 15.sp,
-                          color: homeController.bottomIndex.value ==
-                                    bottomBarData.indexOf(e)
-                                ? SColorPicker.purple
-                                : AppColors.offLightPurpalColor,
+                                ),
+                            child: SvgPicture.asset(
+                              e["Icon"]!,
+                              width: 15.sp,
+                              height: 15.sp,
+                              color: homeController.bottomIndex.value ==
+                                      bottomBarData.indexOf(e)
+                                  ? SColorPicker.purple
+                                  : AppColors.offLightPurpalColor,
+                            ),
+                          ),
                         ),
-                            )),
-                        // Expanded(
-                        //   child: Image(
-                        //     image: AssetImage(e["Icon"]),
-                        //     color: homeController.bottomIndex.value ==
-                        //             bottomBarData.indexOf(e)
-                        //         ? ColorPicker.yellow
-                        //         : Colors.grey,
-                        //   ),
-                        // ),
                         SizedBox(
                           height: 2,
                         ),
-                        // Text(
-                        //   e["title"]!,
-                        //   style: TextStyle(
-                        //       color: homeController.bottomIndex.value ==
-                        //               bottomBarData.indexOf(e)
-                        //           ? AppColors.primaryColor
-                        //           : Colors.grey,
-                        //       fontSize: Get.height * 0.02),
-                        // ),
                       ],
                     ),
                   ),

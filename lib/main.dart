@@ -5,6 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/routes/app_pages.dart';
 import 'package:pipes_online/routes/app_routes.dart';
+import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'buyer/helpers/binding.dart';
@@ -62,7 +63,7 @@ class MyApp extends StatelessWidget {
            initialRoute: status1 == true ? BRoutes. BSubmitProfileScreen : AppPages.initial,
           getPages: AppPages.routes,
           initialBinding: Binding(),
-          // home: BSettingsScreen(),
+          // home: NavigationBarScreen(),
           defaultTransition: Transition.fadeIn,
           title: 'Flutter Demo',
           theme: ThemeData(

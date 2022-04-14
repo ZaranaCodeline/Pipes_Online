@@ -108,12 +108,6 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                           height: 25.sp,
                           color: AppColors.primaryColor,
                         ),
-
-                        // Icon(
-                        //   Icons.person_outline,
-                        //   size: 18.sp,
-                        //   color: AppColors.secondaryBlackColor,
-                        // ),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,9 +119,6 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                             color2: AppColors.hintTextColor,
                             fontsize: 14.sp,
                           ),
-                          // SizedBox(
-                          //   height: Get.height * 0.01,
-                          // ),
                           Padding(
                             padding: EdgeInsets.symmetric(vertical: 5.sp),
                             child: Row(
@@ -248,8 +239,6 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                               onPressed: () async {
                                 print('hii..');
                                 Share.share(
-
-
                                     'https://pipesonline012.page.link/productPage');
                               },
                               icon: Icon(Icons.share_outlined)),

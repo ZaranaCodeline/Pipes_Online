@@ -31,7 +31,7 @@ class _SplashState extends State<Splash> {
     //     },
     //   ));
     // });
-    Timer(Duration(seconds: 2), () {
+    Timer(Duration(seconds: 10), () {
       Get.off(SOnBoardingScreen());
       // PreferenceManager.getUID().toString()== null
       //     ? Get.to(SOnBoardingScreen())

@@ -14,16 +14,14 @@ import 'package:pipes_online/seller/view/s_screens/s_subscribe_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_terms_and_condition_screen.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
-import '../../../buyer/authentificaion/b_functions.dart';
 import '../../../buyer/app_constant/b_image.dart';
-import '../../../buyer/screens/b_drawer_profile_page.dart';
 import '../../../s_onboarding_screen/s_buyer_seller_screen.dart';
 import '../../view_model/s_drawer_controller.dart';
 import 's_insight_screen.dart';
 
 class SDrawerScreen extends StatefulWidget {
-  const SDrawerScreen({Key? key}) : super(key: key);
-
+  const SDrawerScreen({Key? key,this.img,this.name,this.phoneno,this.address}) : super(key: key);
+  final String? img,name,phoneno,address;
   @override
   State<SDrawerScreen> createState() => _SDrawerScreenState();
 }
@@ -34,12 +32,12 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
   @override
   Widget build(BuildContext context) {
     TextEditingController _address =
-    TextEditingController(text: 'Yogichowk, Varacha, Surat');
+    TextEditingController(text: widget.address);
 
-    final name = 'Jan Doe';
-    final phone = '+00 0000000000';
-    final urlImage =
-        'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d';
+    final name = widget.name;
+    final phone = widget.phoneno;
+    final urlImage =widget.img;
+        // 'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d';
 
     return Drawer(
       backgroundColor: AppColors.drawerColor,
@@ -49,9 +47,9 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
             child: ListView(
               children: <Widget>[
                 builtTopItem(
-                  urlImage: urlImage,
-                  name: name,
-                  phone: phone,
+                  urlImage: urlImage.toString(),
+                  name: name.toString(),
+                  phone: phone.toString(),
                   onClicked: () => Get.to(() => PersonalInfoPage()),
                 ),
                 Container(
@@ -256,7 +254,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
         break;
 
       case 5:
-        Get.to(() => SSettingsScreen());
+        Get.to(() => SSettingsScreen(name: widget.name,img: widget.img,));
         break;
 
       case 6:

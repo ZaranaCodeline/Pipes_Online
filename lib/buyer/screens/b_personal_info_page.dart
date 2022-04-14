@@ -1,24 +1,17 @@
 import 'dart:io';
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:sizer/sizer.dart';
-import '../../ChatRoom.dart';
 import '../../seller/common/s_common_button.dart';
-import '../../shared_prefarence/shared_prefarance.dart';
 import '../app_constant/app_colors.dart';
-import 'custom_widget/custom_button.dart';
 import 'custom_widget/custom_text.dart';
 import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
-import 'b_drawer_profile_page.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class PersonalInfoPage extends StatefulWidget {
@@ -211,7 +204,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                  Image.network(Img==null?'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png':Img!,fit: BoxFit.cover,)
                                 : Image.file(_image!,fit: BoxFit.fill),
                           ),
-
                         ),
                         SizedBox(
                           height: Get.height * 0.02,
@@ -326,10 +318,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                     child: SCommonButton().sCommonPurpleButton(
                       name: 'SAVE',
                       onTap: () {
-
-                        setState(() {
                           UpdateData();
-                        });
+                          Get.back();
                         if (bottomBarIndexController.bottomIndex.value == 3) {
                           bottomBarIndexController.setSelectedScreen(
                               value: 'ProfileScreen');
@@ -340,6 +330,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                       },
                     ),
                   ),
+                  SizedBox(
+                    height: Get.height * 0.03,
+                  ),
                 ],
               ),
             ),
@@ -348,11 +341,12 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       ),
     );
   }
+
   Future<String?> uploadImageToFirebase(
       {BuildContext? context, File? file}) async {
     try {
       var response = await firebase_storage.FirebaseStorage.instance
-          .ref('uploads/')
+          .ref('uploads/$file')
           .putFile(file!);
       print("Response>>>>>>>>>>>>>>>>>>$response");
 
@@ -382,8 +376,4 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         .then((value) => print('success'))
         .catchError((e) => print(e));
   }
-
-
-
-
 }

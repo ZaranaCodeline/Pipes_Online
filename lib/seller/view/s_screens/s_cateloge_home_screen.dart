@@ -56,7 +56,7 @@ new GlobalKey<ScaffoldState>();
                   'assets/images/svg/s_add_pro_icon.svg',
                   width: 23.sp,
                   height: 23.sp,
-                ), onPressed: () {Get.to(SOrdersScreen());  },
+                ), onPressed: () {Get.to(()=>SOrdersScreen());  },
 
               ),
             ),
@@ -121,7 +121,6 @@ new GlobalKey<ScaffoldState>();
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             print('hello');
-
             homeController.selectedScreen('SSubscribeScreen');
             homeController.bottomIndex.value=0;
             // Get.to(() => SSubscribeScreen());

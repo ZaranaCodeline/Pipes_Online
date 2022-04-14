@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/view_model/b_bottom_bar_controller.dart';
 import 'package:pipes_online/buyer/view_model/chat_local_file_controller.dart';
 import 'package:pipes_online/buyer/view_model/geolocation_controller.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
@@ -11,6 +12,7 @@ class Binding extends Bindings{
   void dependencies() {
     Get.lazyPut(() => BottomController(),fenix: true);
     Get.lazyPut(() => BottomNavigationBarScreen(),fenix: true);
+    Get.lazyPut(() => BBottomBarIndexController(),fenix: true);
     Get.lazyPut(() => GeolocationController(),fenix: true);
     Get.lazyPut(() => LocalFileController(),fenix: true);
     Get.lazyPut(() => AddProductController(),fenix: true);

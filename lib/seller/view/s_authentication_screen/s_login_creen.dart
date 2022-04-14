@@ -1,21 +1,15 @@
 import 'dart:io';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/authentificaion/b_functions.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
-import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/routes/app_routes.dart';
 import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/s_phone_otp_screen.dart';
 import 'package:sizer/sizer.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import '../../../seller/view/s_screens/s_color_picker.dart';
-import '../../../seller/view/s_screens/s_image.dart';
 import '../../../seller/view/s_screens/s_text_style.dart';
 
 class SLoginScreen extends StatefulWidget {
@@ -206,7 +200,7 @@ class _SLoginScreenState extends State<SLoginScreen> {
                                   ),
                                 );
                                 formGlobalKey.currentState!.save();
-                                RegisterRepo()
+                                SRegisterRepo()
                                     .LogIn(email.text.trim().toString(),
                                     pass.text.trim().toString())
                                     .then((value) async {
@@ -215,7 +209,7 @@ class _SLoginScreenState extends State<SLoginScreen> {
                                 }).catchError((e){
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('InValid Cradantial'),
+                                      content: Text('The login is invalid.'),
                                       backgroundColor: Colors.redAccent,
                                     ),
                                   );

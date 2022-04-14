@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
+import 'package:pipes_online/seller/bottombar/widget/category_bottom_bar_route.dart';
 import 'package:pipes_online/seller/view/s_screens/s_plus_subscribe_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_simple_subscribe_screen.dart';
 import 'package:sizer/sizer.dart';
@@ -41,6 +42,13 @@ class _SSubscribeScreenState extends State<SSubscribeScreen>
         ),
         backgroundColor: AppColors.primaryColor,
         toolbarHeight: Get.height * 0.1,
+        leading: IconButton(
+          onPressed: (){
+            homeController.selectedScreen('SCatelogeHomeScreen');
+            homeController.bottomIndex.value=0;
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(25),

@@ -16,12 +16,16 @@ Widget categorySubScreen() {
   switch (homeController.selectedScreen.value) {
     case 'SCatelogeHomeScreen':
       return SCatelogeHomeScreen();
+
       case 'SSelectedProductScreen':
       return SSelectedProductScreen();
+
       case 'SSubscribeScreen':
       return SSubscribeScreen();
+
       case 'SAddProductScreen':
       return SAddProductScreen();
+
       case 'SeditProductScreen':
       return SeditProductScreen();
 

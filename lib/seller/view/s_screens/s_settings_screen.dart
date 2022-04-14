@@ -1,17 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/seller/view/s_screens/s_help_center_screen.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/screens/custom_widget/custom_text.dart';
 import '../../../buyer/screens/help_center_page.dart';
 import '../../common/s_text_style.dart';
 
 class SSettingsScreen extends StatefulWidget {
-  const SSettingsScreen({Key? key}) : super(key: key);
-
+  const SSettingsScreen({Key? key, this.name,this.img}) : super(key: key);
+  final String? img,name;
   @override
   State<SSettingsScreen> createState() => _SSettingsScreenState();
 }
@@ -62,7 +60,6 @@ class _SSettingsScreenState extends State<SSettingsScreen> {
                       horizontal: 10.sp,
                     ),
                     decoration: BoxDecoration(
-                      // color: Colors.red,
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
                           width: 1, color: AppColors.lightBlackColor),
@@ -72,13 +69,10 @@ class _SSettingsScreenState extends State<SSettingsScreen> {
                       // mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        CircleAvatar(radius: 15.sp, backgroundColor: AppColors.hintTextColor,),
+                        CircleAvatar(radius: 15.sp, child:Image.network(widget.img.toString()) ,),
                         SizedBox(width: 15.sp),
                         Flexible(
                           child: Container(
-                            // padding: EdgeInsets.only(top: 20),
-                            // height: Get.height * 0.07,
-                            // color: Colors.red,
                             child: TextField(
                               style: TextStyle(
                                 color: AppColors.secondaryBlackColor,
@@ -88,7 +82,7 @@ class _SSettingsScreenState extends State<SSettingsScreen> {
                               // controller: _controller,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
-                                hintText: 'Jan Doe',
+                                hintText:widget.name.toString(),
                               ),
                             ),
                           ),
@@ -141,11 +135,7 @@ class _SSettingsScreenState extends State<SSettingsScreen> {
                           focusColor: AppColors.primaryColor,
                           activeColor: AppColors.commonWhiteTextColor,
                           value: switchNotification,
-
-                          // activeThumbColor: AppColors.primaryColor,
                           activeTrackColor: AppColors.primaryColor,
-
-                          // ...
                         ),
                       ],
                     ),
@@ -206,36 +196,6 @@ class _SSettingsScreenState extends State<SSettingsScreen> {
                             ),
                           ]),
                     ),
-                    // child: TextField(
-                    //   readOnly: true,
-                    //   style: TextStyle(
-                    //     color: AppColors.secondaryBlackColor,
-                    //     fontSize: 14.sp,
-                    //     fontWeight: FontWeight.w400,
-                    //   ),
-                    //   // controller: _controller,
-                    //   decoration: InputDecoration(
-                    //     prefixIcon: IconButton(
-                    //       onPressed: () {
-                    //         Get.to(() => HelpCenterPage());
-                    //       },
-                    //       icon: Icon(
-                    //         Icons.help_outline,
-                    //         color: AppColors.secondaryBlackColor,
-                    //         size: 14.sp,
-                    //       ),
-                    //     ),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    //     ),
-                    //     suffixIcon: Icon(
-                    //       Icons.arrow_forward_ios,
-                    //       color: AppColors.secondaryBlackColor,
-                    //       size: 12.sp,
-                    //     ),
-                    //     hintText: 'Help Center',
-                    //   ),
-                    // ),
                   ),
                 ],
               ),

@@ -275,7 +275,6 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
       case 3:
         Get.to(() => BReviewScreen());
         break;
-
       case 4:
         Get.to(() => HelpCenterPage());
         break;
@@ -286,8 +285,6 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
       case 6:
         BAuthMethods.logOut().then((value) =>
           Get.off(()=>SBuyerSellerScreen()));
-
-
         break;
     }
   }

@@ -613,7 +613,7 @@ class _SSignUpRagistraionScreenState extends State<SSignUpRagistraionScreen> {
                                 ),
                               );
                               formGlobalKey.currentState!.save();
-                              RegisterRepo.emailRegister(
+                              SRegisterRepo.emailRegister(
                                   email: email.text, pass: pass.text)
                                   .then((value) async {
                                 await addData();
@@ -676,7 +676,7 @@ class _SSignUpRagistraionScreenState extends State<SSignUpRagistraionScreen> {
   Future<void> addData() async {
     String? imageUrl = await uploadImageToFirebase(
         context: context, file: _image, fileName: '${email.text}_profile.jpg');
-    RegisterRepo.currentUser()
+    SRegisterRepo.currentUser()
         .then((value) {
       CollectionReference userCollection =
       bFirebaseStore.collection('SProfile');

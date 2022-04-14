@@ -30,13 +30,6 @@ Widget commonOctoImage(
     placeholderBuilder: OctoPlaceholder.blurHash(
       'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
     ),
-    /* progressIndicatorBuilder: (context, progress) {
-      double value;
-      if (progress != null && progress.expectedTotalBytes != null) {
-        value = progress.cumulativeBytesLoaded / progress.expectedTotalBytes;
-      }
-      return CircularProgressIndicator(value: value);
-    },*/
     errorBuilder: (context, error, stackTrace) {
       return Center(
         child: circleShape
@@ -81,13 +74,6 @@ Widget commonProfileOctoImage(
     placeholderBuilder: OctoPlaceholder.blurHash(
       'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
     ),
-    /* progressIndicatorBuilder: (context, progress) {
-      double value;
-      if (progress != null && progress.expectedTotalBytes != null) {
-        value = progress.cumulativeBytesLoaded / progress.expectedTotalBytes;
-      }
-      return CircularProgressIndicator(value: value);
-    },*/
     errorBuilder: (context, error, stackTrace) {
       return Center(
         child: Image.asset('assets/image/person.jpg'),

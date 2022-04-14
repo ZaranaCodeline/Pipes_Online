@@ -32,7 +32,7 @@ class _ProductCardListState extends State<ProductCardList> {
       padding: EdgeInsets.symmetric(horizontal: 8.sp),
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
-            .collection('User').
+            .collection('Products').
         doc('${_auth.currentUser?.uid}')
             .collection('data')
             .snapshots(),

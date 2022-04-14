@@ -96,7 +96,7 @@ class SEarningsScreen extends StatelessWidget {
                               Positioned(
                                 top: 20.sp,
                                 child: Text(
-                                  'EARNINGS',
+                                  'EARNINGS'.toUpperCase(),
                                   style: STextStyle.bold700White14,
                                 ),
                               ),
@@ -120,7 +120,6 @@ class SEarningsScreen extends StatelessWidget {
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                   vertical: 10.sp,horizontal: 10.sp
-
                                 ),
                                 child: CustomText(
                                     text: 'Recent Transactions',
@@ -226,8 +225,7 @@ class SEarningsScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                      )
-                      // SizedBox(height: Get.height * 0.02,),
+                      ),
                     ],
                   ),
                 ),

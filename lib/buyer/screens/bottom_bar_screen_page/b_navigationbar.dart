@@ -53,6 +53,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
     return Obx(() {
       return SafeArea(
         child: Scaffold(
+          backgroundColor: AppColors.commonWhiteTextColor.withOpacity(1),
             body: bottomBarIndexController.selectedScreen.value != ''
                 ? bottomBarIndexController.bottomIndex.value == 0
                 ? homeSubScreen()
@@ -66,7 +67,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
                 elevation: 0,
                 color: Colors.transparent,
                 child: Container(
-                  height: Get.height * 0.08,
+                  height: Get.height * 0.06,
                   width: Get.width,
                   decoration: BoxDecoration(
                       // color: CommonColor.grey,

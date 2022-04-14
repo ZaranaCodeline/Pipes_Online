@@ -4,8 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../view/s_authentication_screen/s_signup_otp_screen.dart';
-
 class SSignUpHomeController extends GetxController {
   CountryCode? countryCode = CountryCode(code: '+91');
   TextEditingController mobileNumber = TextEditingController();

@@ -10,35 +10,6 @@ class AddProductController extends GetxController{
   TextEditingController price = TextEditingController();
   TextEditingController imageUrl = TextEditingController();
 
-  File? image;
-
-  final picker = ImagePicker();
-
-  Future getGalleryImage() async {
-    var imaGe = await picker.getImage(source: ImageSource.gallery);
-      if (imaGe != null) {
-        image = File(imaGe.path);
-        print("=============ImagePath==========${imaGe.path}");
-        imageCache!.clear();
-      } else {
-        print('no image selected');
-      }
-  }
-
-  Future getCamaroImage() async {
-    var imaGe = await picker.getImage(source: ImageSource.camera);
-    print("==========ImagePath=============${imaGe!.path}");
-      if (imaGe != null) {
-        image = File(imaGe.path);
-        print("===========ImagePath============${image}");
-        print("=============ImagePath==========${imaGe.path}");
-        imageCache!.clear();
-      } else {
-        print('no image selected');
-      }
-  }
-
-
   String _selectedPrice='';
 
   String get selectedPrice => _selectedPrice;
@@ -48,7 +19,6 @@ class AddProductController extends GetxController{
     update();
   }
 
-
   String _name='';
 
   String get name => _name;
@@ -57,7 +27,7 @@ class AddProductController extends GetxController{
     _name = value;
     update();
   }
-   String _images='';
+  String _images='';
 
   String get images => _images;
 
@@ -65,7 +35,7 @@ class AddProductController extends GetxController{
     _images = value;
     update();
   }
-   String _prices='';
+  String _prices='';
 
   String get prices => _prices;
 
@@ -81,6 +51,35 @@ class AddProductController extends GetxController{
     _descs = value;
     update();
   }
+
+
+  File? image;
+  final picker = ImagePicker();
+
+  Future getGalleryImage() async {
+    var imaGe = await picker.getImage(source: ImageSource.gallery);
+      if (imaGe != null) {
+        image = File(imaGe.path);
+        print("=============ImagePath==========${imaGe.path}");
+        imageCache!.clear();
+      } else {
+        print('no image selected');
+      }
+  }
+  Future getCamaroImage() async {
+    var imaGe = await picker.getImage(source: ImageSource.camera);
+    print("==========ImagePath=============${imaGe!.path}");
+      if (imaGe != null) {
+        image = File(imaGe.path);
+        print("===========ImagePath============${image}");
+        print("=============ImagePath==========${imaGe.path}");
+        imageCache!.clear();
+      } else {
+        print('no image selected');
+      }
+  }
+
+
 
 
 

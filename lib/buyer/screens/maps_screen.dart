@@ -87,12 +87,12 @@ class _MapsScreenState extends State<MapsScreen> {
         child: FloatingActionButton.extended(
           backgroundColor: AppColors.primaryColor,
           onPressed: () {
-
-            googleMapController!.animateCamera(CameraUpdate.newLatLngZoom(
-                LatLng(userLocation!.latitude, userLocation!.longitude), 17));
-
-            _controller.setLocation(userLocation!.latitude, userLocation!.longitude);
-           Get.back();
+           setState(() {
+             googleMapController!.animateCamera(CameraUpdate.newLatLngZoom(
+                 LatLng(userLocation!.latitude, userLocation!.longitude), 17));
+             _controller.setLocation(userLocation!.latitude, userLocation!.longitude);
+             Get.back();
+           });
           },
           label: Text('Send Location'),
           icon: Icon(Icons.near_me),

@@ -8,19 +8,17 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
-import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
+import 'package:pipes_online/seller/view/s_screens/s_common_button.dart';
 import 'package:sizer/sizer.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import '../../../buyer/screens/bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
-
 class SPersonalInfoPage extends StatefulWidget {
-  const SPersonalInfoPage({Key? key}) : super(key: key);
-
+  const SPersonalInfoPage({Key? key,this.img,this.name,this.phoneno,this.address}) : super(key: key);
+  final String? img,name,phoneno,address;
   @override
   State<SPersonalInfoPage> createState() => _SPersonalInfoPageState();
 }
-
 class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
   File? _image;
   String? Img;
@@ -31,22 +29,21 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
   TextEditingController email = TextEditingController();
   TextEditingController address = TextEditingController();
   TextEditingController phoneno = TextEditingController();
+  CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
   Future<void> getData() async {
-
     print('demo.....');
-    final  DocumentSnapshot  user =
+    final  user =
     await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}').get();
-    Map<String, dynamic> getUserData = user.data() as Map<String, dynamic>;
-    firstname=getUserData['firstname'];
-    email=getUserData['email'];
-    address=getUserData['address'];
-    phoneno=getUserData['phoneno'];
+    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+    firstname.text=getUserData!['firstname'];
+    email.text=getUserData['email'];
+    address.text=getUserData['address'];
+    phoneno.text=getUserData['phoneno'];
     setState(() {
       Img=getUserData['imageProfile'];
     });
     print('============================${user.get('imageProfile')}');
   }
-
   Future getGalleryImage() async {
     var imaGe = await picker.getImage(source: ImageSource.gallery);
     setState(() {
@@ -59,7 +56,6 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
       }
     });
   }
-
   Future getCamaroImage() async {
     var imaGe = await picker.getImage(source: ImageSource.camera);
     print("==========ImagePath=============${imaGe!.path}");
@@ -80,7 +76,6 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
     // TODO: implement initState
     getData();
   }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -91,12 +86,14 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                 if (bottomBarIndexController.bottomIndex.value == 3) {
                   bottomBarIndexController.setSelectedScreen(
                       value: 'ProfileScreen');
+                  Get.back();
+
                   bottomBarIndexController.bottomIndex.value = 0;
                 } else {
                   Get.back();
                 }
               },
-              icon: Icon(Icons.arrow_back_rounded)),
+              icon: Icon(Icons.arrow_back_rounded),),
           title: Text(
             'PROFILE',
             style: STextStyle.bold700White14,
@@ -204,7 +201,6 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                             Image.network(Img==null?'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png':Img!,fit: BoxFit.cover,)
                                 : Image.file(_image!,fit: BoxFit.fill),
                           ),
-
                         ),
                         SizedBox(
                           height: Get.height * 0.02,
@@ -319,10 +315,8 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                     child: SCommonButton().sCommonPurpleButton(
                       name: 'SAVE',
                       onTap: () {
-
-                        setState(() {
-                          UpdateData();
-                        });
+                        UpdateData();
+                        Get.back();
                         if (bottomBarIndexController.bottomIndex.value == 3) {
                           bottomBarIndexController.setSelectedScreen(
                               value: 'ProfileScreen');
@@ -333,6 +327,9 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                       },
                     ),
                   ),
+                  SizedBox(
+                    height: Get.height * 0.03,
+                  ),
                 ],
               ),
             ),
@@ -341,20 +338,19 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
       ),
     );
   }
+
   Future<String?> uploadImageToFirebase(
       {BuildContext? context, File? file}) async {
     try {
       var response = await firebase_storage.FirebaseStorage.instance
-          .ref('uploads/')
+          .ref('uploads/$file')
           .putFile(file!);
       print("Response>>>>>>>>>>>>>>>>>>$response");
-
       return response.storage.ref().getDownloadURL();
     } catch (e) {
       print(e);
     }
   }
-  CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
   Future<void> UpdateData() async {
     String? imageUrl = await uploadImageToFirebase(
       context: context,
@@ -375,8 +371,4 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
         .then((value) => print('success'))
         .catchError((e) => print(e));
   }
-
-
-
-
 }

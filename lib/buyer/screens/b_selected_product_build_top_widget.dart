@@ -67,7 +67,11 @@ class _CustomSelectedProductBuildTopWidgetState extends State<CustomSelectedProd
                         GestureDetector(
                           onTap: () {
                             print('CATEGORY${widget.category}');
-                            Get.to(() => CartPage(category: widget.category,));
+                            Get.to(() => CartPage(category: widget.category,
+                              name: widget.name,
+                              desc: widget.desc,
+                              image: widget.image,
+                              price: widget.price,),);
                           },
                           child: CustomText(
                             text: 'ADD TO CART',

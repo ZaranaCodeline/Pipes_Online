@@ -373,7 +373,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       'address':address.text,
       'phoneno':phoneno.text
     })
-        .then((value) => print('success'))
+        .then((value) => print('success full updated'))
         .catchError((e) => print(e));
   }
 }

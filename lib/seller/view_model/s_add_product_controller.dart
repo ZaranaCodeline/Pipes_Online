@@ -5,10 +5,10 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 class AddProductController extends GetxController{
 
-  TextEditingController productName = TextEditingController();
-  TextEditingController desc = TextEditingController();
-  TextEditingController price = TextEditingController();
-  TextEditingController imageUrl = TextEditingController();
+  // TextEditingController productName = TextEditingController();
+  // TextEditingController desc = TextEditingController();
+  // TextEditingController price = TextEditingController();
+  // TextEditingController imageUrl = TextEditingController();
 
   String _selectedPrice='';
 

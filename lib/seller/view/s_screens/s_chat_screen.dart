@@ -9,6 +9,7 @@ import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/app_constant/b_image.dart';
 import '../../../buyer/screens/custom_widget/custom_text.dart';
+import '../../bottombar/widget/category_bottom_bar_route.dart';
 
 class SChatScreen extends StatelessWidget {
   const SChatScreen({Key? key}) : super(key: key);
@@ -23,7 +24,14 @@ class SChatScreen extends StatelessWidget {
             style: STextStyle.bold700White14,
           ),
           centerTitle: true,
-          leading: BackButton(),
+          leading: IconButton(
+            onPressed: (){
+              // Get.back();
+              homeController.bottomIndex.value = 0;
+              homeController.selectedScreen('SCatelogeHomeScreen');
+            },
+            icon: Icon(Icons.arrow_back),
+          ),
           backgroundColor: AppColors.primaryColor,
           toolbarHeight: Get.height * 0.1,
           shape: const RoundedRectangleBorder(

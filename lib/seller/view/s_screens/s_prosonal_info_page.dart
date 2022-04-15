@@ -13,12 +13,18 @@ import 'package:pipes_online/seller/view/s_screens/s_common_button.dart';
 import 'package:sizer/sizer.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import '../../../buyer/screens/bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
+import '../../bottombar/widget/category_bottom_bar_route.dart';
+
 class SPersonalInfoPage extends StatefulWidget {
-  const SPersonalInfoPage({Key? key,this.img,this.name,this.phoneno,this.address}) : super(key: key);
-  final String? img,name,phoneno,address;
+  const SPersonalInfoPage(
+      {Key? key, this.img, this.name, this.phoneno, this.address})
+      : super(key: key);
+  final String? img, name, phoneno, address;
+
   @override
   State<SPersonalInfoPage> createState() => _SPersonalInfoPageState();
 }
+
 class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
   File? _image;
   String? Img;
@@ -30,20 +36,23 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
   TextEditingController address = TextEditingController();
   TextEditingController phoneno = TextEditingController();
   CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
+
   Future<void> getData() async {
     print('demo.....');
-    final  user =
-    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}').get();
+    final user =
+        await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
+            .get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    firstname.text=getUserData!['firstname'];
-    email.text=getUserData['email'];
-    address.text=getUserData['address'];
-    phoneno.text=getUserData['phoneno'];
+    firstname.text = getUserData!['firstname'];
+    email.text = getUserData['email'];
+    address.text = getUserData['address'];
+    phoneno.text = getUserData['phoneno'];
     setState(() {
-      Img=getUserData['imageProfile'];
+      Img = getUserData['imageProfile'];
     });
     print('============================${user.get('imageProfile')}');
   }
+
   Future getGalleryImage() async {
     var imaGe = await picker.getImage(source: ImageSource.gallery);
     setState(() {
@@ -56,6 +65,7 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
       }
     });
   }
+
   Future getCamaroImage() async {
     var imaGe = await picker.getImage(source: ImageSource.camera);
     print("==========ImagePath=============${imaGe!.path}");
@@ -71,29 +81,25 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
       }
     });
   }
+
   @override
   void initState() {
     // TODO: implement initState
     getData();
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-              onPressed: () {
-                if (bottomBarIndexController.bottomIndex.value == 3) {
-                  bottomBarIndexController.setSelectedScreen(
-                      value: 'ProfileScreen');
-                  Get.back();
-
-                  bottomBarIndexController.bottomIndex.value = 0;
-                } else {
-                  Get.back();
-                }
-              },
-              icon: Icon(Icons.arrow_back_rounded),),
+            onPressed: () {
+              homeController.bottomIndex.value = 0;
+              homeController.selectedScreen('SCatelogeHomeScreen');
+            },
+            icon: Icon(Icons.arrow_back),
+          ),
           title: Text(
             'PROFILE',
             style: STextStyle.bold700White14,
@@ -117,78 +123,64 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                   SizedBox(height: Get.height * 0.02),
                   GestureDetector(
                     onTap: () {
-                      showDialog(
+                      showModalBottomSheet<void>(
+                        shape : RoundedRectangleBorder(
+                            borderRadius : BorderRadius.only(
+                                topLeft: const Radius.circular(20.0), topRight: const Radius.circular(20.0))
+                        ),
+                        backgroundColor: Colors.white,
                         context: context,
-                        builder: (context) => SimpleDialog(
-                          children: [
-                            Container(
-                              height: 125.sp,
-                              width: double.infinity,
-                              child: Column(
-                                children: [
-                                  Container(
-                                    child: MaterialButton(
-                                      child: Text(
-                                        'GALLERY',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14.sp),
-                                      ),
-                                      onPressed: () {
-                                        getGalleryImage();
-                                        Get.back();
-                                      },
-                                    ),
-                                    width: 220,
-                                    height: 60.sp,
-                                    decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                            begin: Alignment.centerLeft,
-                                            colors: [
-                                              AppColors.primaryColor,
-                                              AppColors
-                                                  .offLightPurpalColor,
-                                            ]),
-                                        borderRadius:
-                                        BorderRadius.circular(25)),
+                        builder: (context) => FractionallySizedBox(
+                          heightFactor: 0.2.sp,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+
+                                decoration: BoxDecoration(
+                                    color: AppColors.primaryColor,
+                                    borderRadius: BorderRadius.circular(25.sp),
+                                    border: Border.all(
+                                        color: AppColors.primaryColor)),
+                                child: MaterialButton(
+                                  child: Text(
+                                    'GALLERY'.toUpperCase(),
+                                    style: TextStyle(
+                                        color: AppColors.commonWhiteTextColor,
+                                        fontSize: 14.sp),
                                   ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Container(
-                                    child: MaterialButton(
-                                      child: Text(
-                                        'camera',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20),
-                                      ),
-                                      onPressed: () {
-                                        getCamaroImage();
-                                        Get.back();
-                                      },
-                                    ),
-                                    width: 220,
-                                    height: 60.sp,
-                                    decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                            begin: Alignment.centerLeft,
-                                            colors: [
-                                              AppColors.primaryColor,
-                                              AppColors
-                                                  .offLightPurpalColor,
-                                            ]),
-                                        borderRadius:
-                                        BorderRadius.circular(25)),
-                                  ),
-                                ],
+                                  onPressed: () {
+                                    getGalleryImage();
+                                    Get.back();
+                                  },
+                                ),
                               ),
-                            )
-                          ],
+                              SizedBox(width: Get.width * 0.05),
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: AppColors.primaryColor,
+                                    borderRadius: BorderRadius.circular(25.sp),
+                                    border: Border.all(
+                                        color: AppColors.primaryColor)),
+                                child: MaterialButton(
+                                  child: Text(
+                                    'camera'.toUpperCase(),
+                                    style: TextStyle(
+                                        color: AppColors.commonWhiteTextColor,
+                                        fontSize: 14.sp),
+                                  ),
+                                  onPressed: () {
+                                    getCamaroImage();
+                                    Get.back();
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
-                    child:   Column(
+                    child: Column(
                       children: [
                         Container(
                           height: 50.sp,
@@ -197,9 +189,14 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                               borderRadius: BorderRadius.circular(50)),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(50),
-                            child:_image==null?
-                            Image.network(Img==null?'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png':Img!,fit: BoxFit.cover,)
-                                : Image.file(_image!,fit: BoxFit.fill),
+                            child: _image == null
+                                ? Image.network(
+                                    Img == null
+                                        ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
+                                        : Img!,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.file(_image!, fit: BoxFit.fill),
                           ),
                         ),
                         SizedBox(
@@ -307,11 +304,14 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                     maxLines: 2,
                     keyboardType: TextInputType.multiline,
                     // minLines: 1,
-                  ), SizedBox(
+                  ),
+                  SizedBox(
                     height: Get.height * 0.03,
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.sp,),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.sp,
+                    ),
                     child: SCommonButton().sCommonPurpleButton(
                       name: 'SAVE',
                       onTap: () {
@@ -351,6 +351,7 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
       print(e);
     }
   }
+
   Future<void> UpdateData() async {
     String? imageUrl = await uploadImageToFirebase(
       context: context,
@@ -358,16 +359,17 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
     );
     print(imageUrl);
     uploadImage = imageUrl;
-    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}').get();
+    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
+        .get();
     print('====>Update data ---${FirebaseAuth.instance.currentUser!.uid}');
     await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
         .update({
-      'imageProfile': imageUrl==null?Img:imageUrl,
-      'firstname':firstname.text,
-      'email':email.text,
-      'address':address.text,
-      'phoneno':phoneno.text
-    })
+          'imageProfile': imageUrl == null ? Img : imageUrl,
+          'firstname': firstname.text,
+          'email': email.text,
+          'address': address.text,
+          'phoneno': phoneno.text
+        })
         .then((value) => print('success'))
         .catchError((e) => print(e));
   }

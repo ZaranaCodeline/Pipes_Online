@@ -111,6 +111,14 @@ cat=getUserData['category'];
             'EDIT PRODUCT',
             style: STextStyle.bold700White14,
           ),
+          leading: IconButton(
+            onPressed: (){
+              // Get.back();
+              homeController.bottomIndex.value = 0;
+              homeController.selectedScreen('SCatelogeHomeScreen');
+            },
+            icon: Icon(Icons.arrow_back),
+          ),
           backgroundColor: AppColors.primaryColor,
           toolbarHeight: Get.height * 0.1,
           shape: const RoundedRectangleBorder(

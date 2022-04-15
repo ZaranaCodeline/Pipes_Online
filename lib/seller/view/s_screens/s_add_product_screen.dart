@@ -84,6 +84,13 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
             'ADD PRODUCT',
             style: STextStyle.bold700White14,
           ),
+          leading: IconButton(
+            onPressed: (){
+              homeController.bottomIndex.value = 0;
+              homeController.selectedScreen('SSubscribeScreen');
+            },
+            icon: Icon(Icons.arrow_back),
+          ),
           backgroundColor: AppColors.primaryColor,
           toolbarHeight: Get.height * 0.1,
           shape: const RoundedRectangleBorder(
@@ -133,22 +140,6 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                                   Image.network( 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB4x3H3i8szbt2TfefSCNwMpzF28ZM1Hvx907uC6ybDPBBb7uUdi3AIQbD7x7Wpnezv6M&usqp=CAU')
                                       : Image.file(_image!),
                                 ),
-                                /*Container(
-                                    alignment: Alignment.topLeft,
-                                    child: addProductController.image != null
-                                        ? Container(
-                                      height: 100.sp,
-                                      width: 100.sp,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(10)),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                          child: _image==null?
-                                          Image.network( 'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/pro_1.png?alt=media&token=82dbd6af-9e7d-42e0-9121-60fb98790c04')
-                                              : Image.file(_image!)
-                                      ),
-                                    ):Image.asset('assets/images/png/pro_1.png')),*/
                                 FlatButton(
                                   onPressed: () async {
                                     pickImage();
@@ -251,6 +242,11 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                             color: AppColors.commonWhiteTextColor),
                         child: TextFormField(
                           controller: prdName,
+                          validator: (value){
+                            if(value!.isEmpty){
+                              return 'Please Enter Name';
+                            }
+                          },
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
@@ -307,7 +303,12 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                             borderRadius: BorderRadius.circular(15),
                             color: AppColors.commonWhiteTextColor),
                         child: Container(
-                          child:  TextField(
+                          child:  TextFormField(
+                            validator: (value){
+                              if(value!.isEmpty){
+                                return 'Please Enter Address';
+                              }
+                            },
                             controller: dsc,
                             decoration: InputDecoration(
                               hintText: 'Enter Address',
@@ -341,12 +342,21 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                               backgroundColor: AppColors.primaryColor,
                             ),
                           );
+                          if(_image==null){
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content:   Text('Please Select Image'),
+                                backgroundColor: Colors.redAccent,
+                              ),
+                            );
+                          }
                           formGlobalKey.currentState!.save();
                           await addData(_image).then((value)  {
                             homeController.selectedScreen('SCatelogeHomeScreen');
                             homeController.bottomIndex.value=0;
                           });
                         }
+
                       },
                     ),
                   ),

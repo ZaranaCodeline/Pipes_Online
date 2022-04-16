@@ -14,6 +14,7 @@ import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/view/s_screens/s_add_product_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_cateloge_home_screen.dart';
 import 'package:pipes_online/seller/view_model/s_add_product_controller.dart';
+import 'package:pipes_online/seller/view_model/s_edit_product_controller.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
@@ -25,48 +26,54 @@ import '../../common/s_common_button.dart';
 import '../../common/s_text_style.dart';
 
 class SeditProductScreen extends StatefulWidget {
-  SeditProductScreen({Key? key, this.img, this.name, this.price, this.desc, this.id}) : super(key: key);
-  final String? img,name,price,desc,id;
+  SeditProductScreen(
+      {Key? key, this.img, this.name, this.price, this.desc, this.id})
+      : super(key: key);
+  final String? img, name, price, desc, id;
 
   @override
   State<SeditProductScreen> createState() => _SeditProductScreenState();
 }
 
 class _SeditProductScreenState extends State<SeditProductScreen> {
-
-  AddProductController addProductController = Get.put(AddProductController());
+  EditProductContoller editProductContoller = Get.put(EditProductContoller());
   BottomController homeController = Get.find();
   TextEditingController prdName = TextEditingController();
   TextEditingController dsc = TextEditingController();
   final formGlobalKey = GlobalKey<FormState>();
   BBottomBarIndexController bottomBarIndexController =
-  Get.put(BBottomBarIndexController());
+      Get.put(BBottomBarIndexController());
   final picker = ImagePicker();
   String? uploadImage;
   File? _image;
   String? Img;
   String? cat;
 
-
   String dropdownvalue = 'Plastic';
   FirebaseAuth _auth = FirebaseAuth.instance;
-  CollectionReference userCollection = FirebaseFirestore.instance.collection('Products');
+  CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('Products');
+
   @override
   void initState() {
     // TODO: implement initState
-   getData();
+    getData();
     super.initState();
   }
+
   Future<void> getData() async {
-print('demo.....');
-    final   user =
-     await userCollection.doc('${FirebaseAuth.instance.currentUser!.uid}').collection('data').doc(widget.id).get();
-Map<String, dynamic>? getUserData = user.data()!;
-       prdName.text=getUserData['prdName'];
-         dsc.text=getUserData['dsc'];
-         Img=getUserData['imageProfile'];
-cat=getUserData['category'];
-        print('============================${user.get('prdName')}');
+    print('demo.....');
+    final user = await userCollection
+        .doc('${FirebaseAuth.instance.currentUser!.uid}')
+        .collection('data')
+        .doc(widget.id)
+        .get();
+    Map<String, dynamic>? getUserData = user.data()!;
+    prdName.text = getUserData['prdName'];
+    dsc.text = getUserData['dsc'];
+    Img = getUserData['imageProfile'];
+    cat = getUserData['category'];
+    print('============================${user.get('prdName')}');
   }
 
   Future pickImage() async {
@@ -76,6 +83,7 @@ cat=getUserData['category'];
       print(_image);
     });
   }
+
   Future<String?> uploadImageToFirebase(
       {BuildContext? context, String? fileName, File? file}) async {
     try {
@@ -89,6 +97,7 @@ cat=getUserData['category'];
       print(e);
     }
   }
+
   var items = [
     'Plastic',
     'Steel',
@@ -112,7 +121,7 @@ cat=getUserData['category'];
             style: STextStyle.bold700White14,
           ),
           leading: IconButton(
-            onPressed: (){
+            onPressed: () {
               // Get.back();
               homeController.bottomIndex.value = 0;
               homeController.selectedScreen('SCatelogeHomeScreen');
@@ -140,8 +149,7 @@ cat=getUserData['category'];
                   children: [
                     Container(
                       padding: EdgeInsets.symmetric(vertical: 10.sp),
-                      margin:
-                      EdgeInsets.symmetric(vertical: 5.sp),
+                      margin: EdgeInsets.symmetric(vertical: 5.sp),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: AppColors.primaryColor.withOpacity(0.3),
@@ -151,22 +159,26 @@ cat=getUserData['category'];
                         children: [
                           Center(
                             child: Padding(
-                              padding:   EdgeInsets.symmetric(vertical: 5.sp),
+                              padding: EdgeInsets.symmetric(vertical: 5.sp),
                               child: Row(
                                 children: [
                                   Container(
-                                    margin: EdgeInsets.only(bottom: 10, right: 30),
+                                    margin:
+                                        EdgeInsets.only(bottom: 10, right: 30),
                                     height: 150,
                                     width: 150,
                                     decoration: BoxDecoration(
                                         color: Colors.white.withOpacity(0.9),
-                                        border: Border.all(color: Colors.white, width: 10),
+                                        border: Border.all(
+                                            color: Colors.white, width: 10),
                                         borderRadius: BorderRadius.circular(25),
                                         boxShadow: [
-                                          BoxShadow(color: Colors.grey, blurRadius: 10)
+                                          BoxShadow(
+                                              color: Colors.grey,
+                                              blurRadius: 10)
                                         ]),
-                                    child: _image==null?
-                                   Image.network(widget.img.toString())
+                                    child: _image == null
+                                        ? Image.network(widget.img.toString())
                                         : Image.file(_image!),
                                   ),
                                   FlatButton(
@@ -180,10 +192,12 @@ cat=getUserData['category'];
                                           color: Colors.white,
                                           border: Border.all(
                                               color: Colors.white, width: 10),
-                                          borderRadius: BorderRadius.circular(25),
+                                          borderRadius:
+                                              BorderRadius.circular(25),
                                           boxShadow: [
                                             BoxShadow(
-                                                color: Colors.grey, blurRadius: 10)
+                                                color: Colors.grey,
+                                                blurRadius: 10)
                                           ]),
                                       child: Icon(
                                         Icons.camera_alt,
@@ -223,8 +237,8 @@ cat=getUserData['category'];
                                   new BoxShadow(
                                       blurRadius: 1,
                                       color: AppColors.hintTextColor),
-
-                                ],),
+                                ],
+                              ),
                               // child: TextButton(
                               //     onPressed: () {},
                               //     child: SvgPicture.asset(
@@ -273,23 +287,25 @@ cat=getUserData['category'];
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: AppColors.commonWhiteTextColor),
-                          child: widget.name!=null?TextFormField(
-                            controller: prdName,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              errorBorder: InputBorder.none,
-                              disabledBorder: InputBorder.none,
-                              hintText:  ('ABX'),
-                            ),
-                          ):Text(widget.name.toString()),
+                          child: widget.name != null
+                              ? TextFormField(
+                                  controller: prdName,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    enabledBorder: InputBorder.none,
+                                    errorBorder: InputBorder.none,
+                                    disabledBorder: InputBorder.none,
+                                    hintText: ('ABX'),
+                                  ),
+                                )
+                              : Text(widget.name.toString()),
                         ),
                         SizedBox(
                           height: Get.height * 0.01,
                         ),
                         CustomText(
-                          text: 'price' ,
+                          text: 'price',
                           fontWeight: FontWeight.w600,
                           fontSize: 14.sp,
                           color: AppColors.secondaryBlackColor,
@@ -301,13 +317,13 @@ cat=getUserData['category'];
                         Container(
                           alignment: Alignment.center,
                           width: Get.width * 0.26,
-                          height :Get.height * 0.06,
+                          height: Get.height * 0.06,
                           padding: EdgeInsets.symmetric(
                               horizontal: 10.sp, vertical: 0.sp),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: AppColors.commonWhiteTextColor),
-                          child:Text('${widget.price}'),
+                          child: Text('${editProductContoller.selectedPrice}'),
                         ),
                         SizedBox(
                           height: Get.height * 0.01,
@@ -331,7 +347,7 @@ cat=getUserData['category'];
                               borderRadius: BorderRadius.circular(15),
                               color: AppColors.commonWhiteTextColor),
                           child: Container(
-                            child:  TextField(
+                            child: TextField(
                               controller: dsc,
                               decoration: InputDecoration(
                                 hintText: 'Enter Address',
@@ -348,7 +364,8 @@ cat=getUserData['category'];
                       ],
                     ),
                     Padding(
-                      padding:   EdgeInsets.symmetric(vertical: 15.sp,horizontal:  30.sp),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 15.sp, horizontal: 30.sp),
                       child: SCommonButton().sCommonPurpleButton(
                         name: 'Edit Product',
                         /* onTap: () {
@@ -358,18 +375,17 @@ cat=getUserData['category'];
                           // Get.toNamed(SRoutes.SSubmitProfileScreen);
                         },*/
                         onTap: () async {
-
                           if (formGlobalKey.currentState!.validate()) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content:   Text('Processing data'),
+                                content: Text('Processing data'),
                                 backgroundColor: AppColors.primaryColor,
                               ),
                             );
                             formGlobalKey.currentState!.save();
                             await UpdateData();
-                            Get.to(() =>
-                             NavigationBarScreen(),
+                            Get.to(
+                              () => NavigationBarScreen(),
                             );
                           }
                         },
@@ -436,6 +452,7 @@ cat=getUserData['category'];
       ),
     );
   }
+
   Future<void> UpdateData() async {
     var snapshot = await bFirebaseStorage
         .ref()
@@ -443,17 +460,28 @@ cat=getUserData['category'];
         .putFile(_image!);
     String downloadUrl = await snapshot.ref.getDownloadURL();
     print('url=$downloadUrl');
-    await userCollection.doc('${FirebaseAuth.instance.currentUser!.uid}').collection('data').doc(widget.id)
+    await userCollection
+        .doc('${FirebaseAuth.instance.currentUser!.uid}')
+        .collection('data')
+        .doc(widget.id)
         .update({
-    'prdName':prdName.text,
-      'dsc':dsc.text,
-      'category':dropdownvalue,
-      'imageProfile': downloadUrl,
-    })
-        .then((value) => print('success'))
-        .catchError((e) => print(e));
+          'prdName': editProductContoller.selectedName,
+          'dsc': editProductContoller.selectedDesc,
+          'category': dropdownvalue,
+          'imageProfile': downloadUrl,
+          'price': editProductContoller.selectedPrice,
+        })
+
+        .catchError((e) => print(e))
+        .then((value) {
+      editProductContoller.selectedName=prdName.text;
+      editProductContoller.images=downloadUrl;
+      editProductContoller.selectedDesc=dsc.text;
+      editProductContoller.selectedPrice=editProductContoller.selectedPrice;
+
+      // editProductContoller.=addProductController.category;
+      homeController.bottomIndex.value = 0;
+      homeController.selectedScreen('SCatelogeHomeScreen');
+    });
   }
-
-
-
 }

@@ -1,30 +1,28 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/app_constant/b_image.dart';
-import 'package:pipes_online/buyer/screens/b_add_reviews_page.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/buyer/screens/help_center_page.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_drawer_controller.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../shared_prefarence/shared_prefarance.dart';
 import '../app_constant/app_colors.dart';
 import '../authentificaion/b_functions.dart';
-import 'b_authentication_screen/b_welcome_screen.dart';
+import '../view_model/geolocation_controller.dart';
 import 'b_review_screen.dart';
-import 'b_home_screen_widget.dart';
 import 'b_my_order_page.dart';
-import 'b_drawer_profile_page.dart';
-import 'b_personal_info_page.dart';
 import 'b_settings_page.dart';
+import 'bottom_bar_screen_page/widget/b_personal_info_bottom_bar_route.dart';
 
 class CustomDrawerWidget extends StatefulWidget {
-  const CustomDrawerWidget({Key? key}) : super(key: key);
+    CustomDrawerWidget({Key? key, }) : super(key: key);
 
   @override
   State<CustomDrawerWidget> createState() => _CustomDrawerWidgetState();
@@ -32,15 +30,50 @@ class CustomDrawerWidget extends StatefulWidget {
 
 class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
   BDrawerController bDrawerController = Get.put(BDrawerController());
-  TextEditingController _address =
-      TextEditingController(text: 'Yogichowk, Varacha, Surat',);
-  final name = 'Jan Doe';
-  final phone = '+00 0000000000';
-  final urlImage =
-      'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d';
+  GeolocationController _controller = Get.find();
+  TextEditingController? _address;
+
+  CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
+  String? name;
+  String? phoneNo;
+  String? Img;
+  String? address;
+
+
+  Future<void> getData() async {
+    print('demo.....');
+    final user =
+    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
+        .get();
+    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+    name = getUserData!['firstname'];
+    phoneNo = getUserData['phoneno'];
+    Img = getUserData['imageProfile'];
+    address = getUserData['address'];
+
+    setState(() {
+      Img = getUserData['imageProfile'];
+      address = getUserData['address'];
+    });
+    print('============================${user.get('imageProfile')}');
+  }
+
+  @override
+  void initState() {
+    // print('ADDRESS:-${_controller.address}');
+    // _address =
+    // TextEditingController(text: _controller.address.toString(),);
+    getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    print('image:-${name}');
+    print('firstname:-${phoneNo}');
+    print('phoneno:-${Img}');
+    print('address:-${address}');
+
     return Drawer(
       backgroundColor: AppColors.drawerColor,
       child: GetBuilder<BDrawerController>(
@@ -54,18 +87,13 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   builtTopItem(
-                    urlImage: urlImage,
-                    name: name,
-                    phone: phone,
+                    urlImage: Img.toString(),
+                    name: name.toString(),
+                    phone:phoneNo.toString(),
                     onClicked: () {
-                      Get.to(() => PersonalInfoPage());
-                      // if (bottomBarIndexController.bottomIndex.value == 3) {
-                      //   bottomBarIndexController.setSelectedScreen(
-                      //       value: 'ProfileScreen');
-                      //   bottomBarIndexController.bottomIndex.value = 0;
-                      // } else {
-                      //   Get.to(() => PersonalInfoPage());
-                      // }
+                      bottomBarIndexController.setSelectedScreen(
+                          value: 'PersonalInfoPage');
+                      bottomBarIndexController.bottomIndex.value = 3;
                     },
                   ),
                   Container(
@@ -73,7 +101,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                       horizontal: 15.sp,
                     ),
                     padding: EdgeInsets.symmetric(horizontal: 5.sp),
-                    height: Get.height * 0.06,
+                    height: Get.height * 0.09,
                     // width: Get.width,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -84,36 +112,37 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                         children: [
                           SvgPicture.asset(
                             BImagePick.DrawerLocationIcon,
-                            width: 15.sp,
-                            height: 15.sp,
+                            width: 14.sp,
+                            height: 14.sp,
                           ),
                           SizedBox(width: 5.sp),
                           Flexible(
                             child: Container(
-                                // color: Colors.red,
-                                height: Get.height * 0.06,
-                                // width: Get.width * 0.9,
-                                alignment: Alignment.centerLeft,
-                                child: TextFormField(
-                                  readOnly: controller.readOnly,
-                                  controller: _address,
-                                  cursorColor: AppColors.primaryColor,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                  ),
-                                )),
+                              // height: Get.height * 0.07,
+                              alignment: Alignment.centerLeft,
+                              child: TextFormField(
+                                readOnly: controller.readOnly,
+                                // controller: _address,
+                                cursorColor: AppColors.primaryColor,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: address
+                                ),
+                              ),),
                           ),
-                          // Text('Yogichowk, Varachha, Surat'),
                           IconButton(
                             onPressed: () {
-                              controller.setEdit();
+                              // controller.setEdit();
+                              bottomBarIndexController.setSelectedScreen(
+                                  value: 'PersonalInfoPage');
+                              bottomBarIndexController.bottomIndex.value = 3;
                             },
                             icon: Icon(
                               controller.readOnly == true
                                   ? Icons.edit_outlined
                                   : Icons.clear,
                               color: AppColors.primaryColor,
-                              size: 15.sp,
+                              size: 12.sp,
                             ),
                           )
                         ]),
@@ -180,7 +209,10 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
   }) =>
       InkWell(
           onTap: () {
-            Get.to(() => PersonalInfoPage());
+            bottomBarIndexController.setSelectedScreen(
+                value: 'PersonalInfoPage');
+            bottomBarIndexController.bottomIndex.value = 3;
+            // Get.to(() => PersonalInfoPage());
           },
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 18.sp, vertical: 18.sp),
@@ -193,26 +225,24 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
               children: [
                 SizedBox(
                   height: Get.height * 0.1,
-                  width: Get.height / 50,
                 ),
                 Padding(
                   padding:  EdgeInsets.all(5.0.sp),
                   child: CircleAvatar(
-                      radius: 30, backgroundImage: NetworkImage(urlImage,),),
+                    radius: 30, backgroundImage: NetworkImage(urlImage,),),
                 ),
-                SizedBox(width: Get.width / 20),
+                SizedBox(width: Get.width * 0.02),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
                     Text(
                       name,
                       style: GoogleFonts.ubuntu(
                         textStyle: TextStyle(
                             fontSize: 14.sp,
                             color: AppColors.secondaryBlackColor,
-                            fontWeight: FontWeight.w400),
+                            fontWeight: FontWeight.w400,),
                       ),
                     ),
                     SizedBox(
@@ -233,8 +263,8 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
 
   Widget buildMenuItem(
       {required String text,
-      required String imageName,
-      VoidCallback? onClicked}) {
+        required String imageName,
+        VoidCallback? onClicked}) {
     final color = AppColors.commonWhiteTextColor;
     final hoverColor = Colors.white70;
 
@@ -284,7 +314,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
         break;
       case 6:
         BAuthMethods.logOut().then((value) =>
-          Get.off(()=>SBuyerSellerScreen()));
+            Get.off(()=>SBuyerSellerScreen()));
         break;
     }
   }

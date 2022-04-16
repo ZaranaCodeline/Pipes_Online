@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pipes_online/buyer/screens/b_personal_info_page.dart';
+import 'package:pipes_online/buyer/view_model/geolocation_controller.dart';
 import 'package:pipes_online/seller/Authentication/s_function.dart';
 import 'package:pipes_online/seller/view/s_screens/s_earning_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_home_screen.dart';
@@ -28,7 +29,16 @@ class SDrawerScreen extends StatefulWidget {
 
 class _SDrawerScreenState extends State<SDrawerScreen> {
   SDrawerController sDrawerController = Get.put(SDrawerController());
+  GeolocationController _controller = Get.find();
+  TextEditingController? _address;
 
+  @override
+  void initState() {
+    print('ADDRESS:-${_controller.address}');
+    _address =
+        TextEditingController(text: _controller.address.toString(),);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     TextEditingController _address =

@@ -5,11 +5,6 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 class AddProductController extends GetxController{
 
-  // TextEditingController productName = TextEditingController();
-  // TextEditingController desc = TextEditingController();
-  // TextEditingController price = TextEditingController();
-  // TextEditingController imageUrl = TextEditingController();
-
   String _selectedPrice='';
 
   String get selectedPrice => _selectedPrice;
@@ -49,6 +44,15 @@ class AddProductController extends GetxController{
 
   set descs(String value) {
     _descs = value;
+    update();
+  }
+//dd
+  String _cat='';
+
+  String get category => _cat;
+
+  set category(String value) {
+    _cat = value;
     update();
   }
 

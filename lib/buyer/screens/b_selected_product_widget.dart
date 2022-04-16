@@ -133,7 +133,6 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                                 SmoothStarRating(
                                     allowHalfRating: false,
                                     onRatingChanged: (v) {
-
                                       setState(() {
                                         rating = v;
                                       });

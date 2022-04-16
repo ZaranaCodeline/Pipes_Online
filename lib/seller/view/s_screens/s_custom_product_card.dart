@@ -8,6 +8,7 @@ import 'package:pipes_online/seller/bottombar/widget/category_bottom_bar_route.d
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_add_product_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_selected_product_screen.dart';
+import 'package:pipes_online/seller/view_model/s_edit_product_controller.dart';
 import 'package:sizer/sizer.dart';
 
 class SCustomProductCard extends StatefulWidget {
@@ -18,6 +19,7 @@ class SCustomProductCard extends StatefulWidget {
 }
 
 class _SCustomProductCardState extends State<SCustomProductCard> {
+  EditProductContoller editProductContoller = Get.put(EditProductContoller());
   FirebaseAuth _auth = FirebaseAuth.instance;
   String? proName,desc,price,image;
   // Future<void> getData() async {
@@ -65,6 +67,11 @@ class _SCustomProductCardState extends State<SCustomProductCard> {
                     onTap: () {
                       print('gfvf');
                       print('DATA OF ID${snapShot.data!.docs[index].id}');
+
+                      editProductContoller.selectedName=proName.toString();
+                      // editProductContoller.images=downloadUrl;
+                      editProductContoller.selectedDesc=desc.toString();
+                      editProductContoller.selectedPrice=editProductContoller.selectedPrice;
 
                       homeController.selectedScreen('SSelectedProductScreen');
                       homeController.bottomIndex.value=0;

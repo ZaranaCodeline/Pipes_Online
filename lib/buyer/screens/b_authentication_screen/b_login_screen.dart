@@ -5,11 +5,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/authentificaion/b_functions.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/routes/app_routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import '../../../seller/view/s_screens/s_color_picker.dart';
@@ -32,6 +34,16 @@ class _LoginScreenState extends State<LoginScreen> {
     TextEditingController email = TextEditingController();
     TextEditingController pass = TextEditingController();
     bool selected = false;
+    String? finalemail;
+
+    Future getValidateData() async {
+      final SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      var obtainEmail = sharedPreferences.getString('email');
+      setState(() {
+        finalemail=obtainEmail;
+      });
+    }
 
     @override
     void dispose() {
@@ -204,6 +216,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     backgroundColor: AppColors.primaryColor,
                                   ),
                                 );
+                                SharedPreferences sp =
+                                    await SharedPreferences.getInstance();
+                                sp.setString('email', email.text);
                                 formGlobalKey.currentState!.save();
                                 BRegisterRepo()
                                     .LogIn(email.text.trim().toString(),
@@ -211,7 +226,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     .then((value) async {
                                   await Get.offAll(
                                       () => BottomNavigationBarScreen());
-                                }).catchError((e){
+                                }).catchError((e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text('The login is invalid.'),

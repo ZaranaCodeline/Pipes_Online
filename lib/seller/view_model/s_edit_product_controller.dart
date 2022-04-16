@@ -13,34 +13,28 @@ class EditProductContoller extends GetxController{
 
   String _name='';
 
-  String get name => _name;
+  String get selectedName => _name;
 
-  set name(String value) {
+  set selectedName(String value) {
     _name = value;
     update();
   }
-  String _images='';
 
+  String _dsc='';
+
+  String get selectedDesc => _dsc;
+
+  set selectedDesc(String value) {
+    _dsc = value;
+    update();
+  }
+
+
+  String _images='';
   String get images => _images;
 
   set images(String value) {
     _images = value;
-    update();
-  }
-  String _prices='';
-
-  String get prices => _prices;
-
-  set prices(String value) {
-    _prices = value;
-    update();
-  }
-  String _descs='';
-
-  String get descs => _descs;
-
-  set descs(String value) {
-    _descs = value;
     update();
   }
 

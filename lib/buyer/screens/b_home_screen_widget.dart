@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/b_cart_bottom_bar_route.dart';
+import 'package:pipes_online/buyer/screens/product_cart_screen.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:sizer/sizer.dart';
 import '../app_constant/app_colors.dart';
@@ -30,24 +32,22 @@ class CatelogeHomeWidget extends StatelessWidget {
           position: RelativeRect.fromLTRB(25.0, Get.height * 0.17, 0, 25.0),
           //position where you want to show the menu on screen
           items: [
-            const PopupMenuItem<String>(
-                child: Text('Filter by KM'), value: '1'),
+             PopupMenuItem<String>(
+                child: Text('Filter by KM',style: TextStyle(fontSize: 12.sp),), value: '1'),
             PopupMenuItem<String>(
                 child: Card(
                   elevation: 2,
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CustomText(
                           text: '2 KM',
                           fontWeight: FontWeight.w600,
-                          fontSize: 16,
+                          fontSize: 12.sp,
                           color: AppColors.secondaryBlackColor,
                           textDecoration: TextDecoration.underline,
-                        ),
-                        SizedBox(
-                          width: Get.width * 0.05,
                         ),
                         Container(
                           width: 32.sp,
@@ -59,7 +59,7 @@ class CatelogeHomeWidget extends StatelessWidget {
                           ),
                           child: Icon(
                             Icons.search,
-                            size: 25.sp,
+                            size: 20.sp,
                             color: AppColors.commonWhiteTextColor,
                           ),
                         ),
@@ -91,8 +91,8 @@ class CatelogeHomeWidget extends StatelessWidget {
                     BoxShadow(
                         color: Colors.black12,
                         offset: Offset(0, 1),
-                        blurRadius: 10,
-                        spreadRadius: 2)
+                        blurRadius: 11,
+                        spreadRadius: 1)
                   ]),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -121,7 +121,10 @@ class CatelogeHomeWidget extends StatelessWidget {
                             child: Image.asset('assets/images/png/pipe_logo.png',fit: BoxFit.cover,)),
                         InkWell(
                           onTap: () {
-                            Get.to(() => CartPage());
+                            bottomBarIndexController.setSelectedScreen(
+                                value: 'ProductCartScreen');
+                            bottomBarIndexController.bottomIndex.value = 1;
+                            // Get.to(() => ProductCartScreen());
                             // if (bottomBarIndexController.bottomIndex.value == 1) {
                             //   bottomBarIndexController.setSelectedScreen(
                             //       value: 'HomeScreen');

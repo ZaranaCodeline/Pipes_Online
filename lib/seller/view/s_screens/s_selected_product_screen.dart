@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:pipes_online/seller/bottombar/widget/category_bottom_bar_route.dart';
 import 'package:pipes_online/seller/view/s_screens/s_edit_product_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_review_screen.dart';
+import 'package:pipes_online/seller/view_model/s_edit_product_controller.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
@@ -31,6 +32,7 @@ class SSelectedProductScreen extends StatefulWidget {
 
 class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
   var rating = 3.0;
+  EditProductContoller editProductContoller = Get.put(EditProductContoller());
 
   // SelectedProductController controller = Get.put(SelectedProductController());
   @override

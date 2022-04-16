@@ -10,4 +10,6 @@ class BDrawerController extends GetxController {
     print('readOnly: $readOnly');
     update();
   }
+
+
 }

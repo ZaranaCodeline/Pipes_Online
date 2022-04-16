@@ -7,8 +7,8 @@ import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/b_cart_
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/b_chat_bottom_bar_route.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/b_personal_info_bottom_bar_route.dart';
-import 'package:pipes_online/buyer/screens/b_cart_page.dart';
 import 'package:pipes_online/buyer/screens/b_home_screen_widget.dart';
+import 'package:pipes_online/buyer/screens/product_cart_screen.dart';
 import 'package:pipes_online/buyer/view_model/b_bottom_bar_controller.dart';
 
 class BottomNavigationBarScreen extends StatefulWidget {
@@ -27,7 +27,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
 
   List<Widget> tabPages = [
     CatelogeHomeWidget(),
-    CartPage(),
+    ProductCartScreen(),
     BChatScreen(),
     PersonalInfoPage(),
   ];
@@ -112,7 +112,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
       bottomBarIndexController.selectedScreen('CartPage');
     }
     if (index == 2) {
-      bottomBarIndexController.selectedScreen('ChatPage');
+      bottomBarIndexController.selectedScreen('ProductCartScreen');
     }
     if (index == 3) {
       bottomBarIndexController.selectedScreen('PersonalInfoPage');

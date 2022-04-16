@@ -15,7 +15,10 @@ import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class PersonalInfoPage extends StatefulWidget {
-  const PersonalInfoPage({Key? key}) : super(key: key);
+  PersonalInfoPage(
+      {Key? key, this.Img, this.firstname, this.address, this.phoneno})
+      : super(key: key);
+  String? firstname, phoneno, address, Img;
 
   @override
   State<PersonalInfoPage> createState() => _PersonalInfoPageState();
@@ -26,23 +29,27 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   String? Img;
   String? uploadImage;
   String _userName = '';
+
   final picker = ImagePicker();
   TextEditingController firstname = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController address = TextEditingController();
   TextEditingController phoneno = TextEditingController();
+
   CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
+
   Future<void> getData() async {
     print('demo.....');
-    final  user =
-    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}').get();
+    final user =
+        await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
+            .get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    firstname.text=getUserData!['firstname'];
-    email.text=getUserData['email'];
-    address.text=getUserData['address'];
-    phoneno.text=getUserData['phoneno'];
+    firstname.text = getUserData!['firstname'];
+    email.text = getUserData['email'];
+    address.text = getUserData['address'];
+    phoneno.text = getUserData['phoneno'];
     setState(() {
-      Img=getUserData['imageProfile'];
+      Img = getUserData['imageProfile'];
     });
     print('============================${user.get('imageProfile')}');
   }
@@ -75,7 +82,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       }
     });
   }
-@override
+
+  @override
   void initState() {
     // TODO: implement initState
     getData();
@@ -87,18 +95,15 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-              onPressed: () {
-                if (bottomBarIndexController.bottomIndex.value == 3) {
-                  bottomBarIndexController.setSelectedScreen(
-                      value: 'ProfileScreen');
-                  bottomBarIndexController.bottomIndex.value = 0;
-                } else {
-                  Get.back();
-                }
-              },
-              icon: Icon(Icons.arrow_back_rounded)),
+            onPressed: () {
+              bottomBarIndexController.bottomIndex.value = 0;
+              bottomBarIndexController.setSelectedScreen(
+                  value: 'CatelogeHomeWidget');
+            },
+            icon: Icon(Icons.arrow_back),
+          ),
           title: Text(
-            'PROFILE',
+            'PROFILE'.toUpperCase(),
             style: STextStyle.bold700White14,
           ),
           centerTitle: true,
@@ -119,90 +124,80 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                 children: [
                   SizedBox(height: Get.height * 0.02),
                   GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => SimpleDialog(
+                    onTap: () {
+                      showModalBottomSheet<void>(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: const Radius.circular(20.0),
+                                topRight: const Radius.circular(20.0))),
+                        backgroundColor: Colors.white,
+                        context: context,
+                        builder: (context) => FractionallySizedBox(
+                          heightFactor: 0.2.sp,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                height: 125.sp,
-                                width: double.infinity,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      child: MaterialButton(
-                                        child: Text(
-                                          'GALLERY',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14.sp),
-                                        ),
-                                        onPressed: () {
-                                          getGalleryImage();
-                                          Get.back();
-                                        },
-                                      ),
-                                      width: 220,
-                                      height: 60.sp,
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.centerLeft,
-                                              colors: [
-                                                AppColors.primaryColor,
-                                                AppColors
-                                                    .offLightPurpalColor,
-                                              ]),
-                                          borderRadius:
-                                              BorderRadius.circular(25)),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Container(
-                                      child: MaterialButton(
-                                        child: Text(
-                                          'camera',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20),
-                                        ),
-                                        onPressed: () {
-                                          getCamaroImage();
-                                          Get.back();
-                                        },
-                                      ),
-                                      width: 220,
-                                      height: 60.sp,
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.centerLeft,
-                                              colors: [
-                                                AppColors.primaryColor,
-                                                AppColors
-                                                    .offLightPurpalColor,
-                                              ]),
-                                          borderRadius:
-                                              BorderRadius.circular(25)),
-                                    ),
-                                  ],
+                                decoration: BoxDecoration(
+                                    color: AppColors.primaryColor,
+                                    borderRadius: BorderRadius.circular(25.sp),
+                                    border: Border.all(
+                                        color: AppColors.primaryColor)),
+                                child: MaterialButton(
+                                  child: Text(
+                                    'GALLERY'.toUpperCase(),
+                                    style: TextStyle(
+                                        color: AppColors.commonWhiteTextColor,
+                                        fontSize: 14.sp),
+                                  ),
+                                  onPressed: () {
+                                    getGalleryImage();
+                                    Get.back();
+                                  },
                                 ),
-                              )
+                              ),
+                              SizedBox(width: Get.width * 0.05),
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: AppColors.primaryColor,
+                                    borderRadius: BorderRadius.circular(25.sp),
+                                    border: Border.all(
+                                        color: AppColors.primaryColor)),
+                                child: MaterialButton(
+                                  child: Text(
+                                    'camera'.toUpperCase(),
+                                    style: TextStyle(
+                                        color: AppColors.commonWhiteTextColor,
+                                        fontSize: 14.sp),
+                                  ),
+                                  onPressed: () {
+                                    getCamaroImage();
+                                    Get.back();
+                                  },
+                                ),
+                              ),
                             ],
                           ),
-                        );
-                      },
-                    child:   Column(
+                        ),
+                      );
+                    },
+                    child: Column(
                       children: [
                         Container(
                           height: 50.sp,
                           width: 50.sp,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(50)),
-                         child: ClipRRect(
+                          child: ClipRRect(
                             borderRadius: BorderRadius.circular(50),
-                            child:_image==null?
-                                 Image.network(Img==null?'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png':Img!,fit: BoxFit.cover,)
-                                : Image.file(_image!,fit: BoxFit.fill),
+                            child: _image == null
+                                ? Image.network(
+                                    Img == null
+                                        ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
+                                        : Img!,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.file(_image!, fit: BoxFit.fill),
                           ),
                         ),
                         SizedBox(
@@ -215,7 +210,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                             color: AppColors.primaryColor),
                       ],
                     ),
-                    ),
+                  ),
                   SizedBox(height: Get.height * 0.01),
                   CustomText(
                     text: 'Name',
@@ -227,8 +222,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   SizedBox(
                     height: Get.height * 0.01,
                   ),
-                   TextField(
-                     controller: firstname,
+                  TextField(
+                    controller: firstname,
                     decoration: InputDecoration(
                       suffixIcon: Icon(Icons.edit),
                       border: OutlineInputBorder(
@@ -250,8 +245,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   SizedBox(
                     height: Get.height * 0.01,
                   ),
-                   TextField(
-                     controller: phoneno,
+                  TextField(
+                    controller: phoneno,
                     // maxLength: 10,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
@@ -298,8 +293,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   SizedBox(
                     height: Get.height * 0.01,
                   ),
-                   TextField(
-                     controller: address,
+                  TextField(
+                    controller: address,
                     decoration: InputDecoration(
                       suffixIcon: Icon(Icons.edit),
                       hintText: 'Enter Address',
@@ -310,23 +305,29 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                     maxLines: 2,
                     keyboardType: TextInputType.multiline,
                     // minLines: 1,
-                  ), SizedBox(
+                  ),
+                  SizedBox(
                     height: Get.height * 0.03,
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.sp,),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.sp,
+                    ),
                     child: SCommonButton().sCommonPurpleButton(
                       name: 'SAVE',
                       onTap: () {
-                          UpdateData();
-                          Get.back();
-                        if (bottomBarIndexController.bottomIndex.value == 3) {
-                          bottomBarIndexController.setSelectedScreen(
-                              value: 'ProfileScreen');
-                          bottomBarIndexController.bottomIndex.value = 0;
-                        } else {
-                          Get.back();
-                        }
+                        UpdateData();
+                        bottomBarIndexController.setSelectedScreen(
+                            value: 'HomeScreen');
+                        bottomBarIndexController.bottomIndex.value = 0;
+                        // Get.back();
+                        // if (bottomBarIndexController.bottomIndex.value == 3) {
+                        //   bottomBarIndexController.setSelectedScreen(
+                        //       value: 'ProfileScreen');
+                        //   bottomBarIndexController.bottomIndex.value = 0;
+                        // } else {
+                        //   Get.back();
+                        // }
                       },
                     ),
                   ),
@@ -358,21 +359,22 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
 
   Future<void> UpdateData() async {
     String? imageUrl = await uploadImageToFirebase(
-        context: context,
-        file: _image,
-        );
+      context: context,
+      file: _image,
+    );
     print(imageUrl);
     uploadImage = imageUrl;
-    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}').get();
+    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
+        .get();
     print('====>Update data ---${FirebaseAuth.instance.currentUser!.uid}');
     await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
         .update({
-      'imageProfile': imageUrl==null?Img:imageUrl,
-      'firstname':firstname.text,
-      'email':email.text,
-      'address':address.text,
-      'phoneno':phoneno.text
-    })
+          'imageProfile': imageUrl == null ? Img : imageUrl,
+          'firstname': firstname.text,
+          'email': email.text,
+          'address': address.text,
+          'phoneno': phoneno.text
+        })
         .then((value) => print('success full updated'))
         .catchError((e) => print(e));
   }

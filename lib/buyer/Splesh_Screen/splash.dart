@@ -2,13 +2,8 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/seller/view/s_screens/s_onboarding_screen.dart';
-import 'package:pipes_online/seller/view/s_screens/s_submit_profile_screen.dart';
-import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
-import 'package:sizer/sizer.dart';
 
-import '../screens/bottom_bar_screen_page/b_navigationbar.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -51,7 +46,7 @@ class _SplashState extends State<Splash> {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Center(
-                  child: Image.asset('assets/images/png/splash_logo.png',fit: BoxFit.none,),
+                  child: Image.asset('assets/images/png/splash_logo.png',),
                 ),
               ),
             ],

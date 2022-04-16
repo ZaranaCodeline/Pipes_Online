@@ -37,6 +37,7 @@ class BRegisterRepo {
     print('${bFirebaseAuth.currentUser!.uid}');
     await PreferenceManager.setEmail(bFirebaseAuth.currentUser!.email!);
     await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
+
     print('EMAIL ${PreferenceManager.getEmail()}');
     print('UID ${PreferenceManager.getUId()}');
   }

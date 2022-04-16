@@ -4,10 +4,13 @@ import 'package:get/get.dart';
 class PersonalInfoPageController extends GetxController{
   // var name = 'Getting Name..'.obs;
   TextEditingController? nameContoller ;
+  TextEditingController? addressController ;
+  TextEditingController? phonenoController ;
+  TextEditingController? ImgController ;
 
-  void setProfileInfo(String? name1,number,address,image) {
+  void setProfileInfo(String? name,number,address,image) {
     nameContoller!= null
-        ? TextEditingController(text: name1.toString())
+        ? TextEditingController(text: name.toString())
         : TextEditingController();
 
     print('name:${nameContoller!.text}');

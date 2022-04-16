@@ -108,7 +108,12 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:pipes_online/buyer/app_constant/app_colors.dart';
+import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
 import 'package:upi_pay/upi_pay.dart';
+
+import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 
 
 
@@ -188,6 +193,28 @@ class _ScreenState extends State<Screen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              bottomBarIndexController.bottomIndex.value = 0;
+              bottomBarIndexController.setSelectedScreen(
+                  value: 'BottomNavigationBarScreen');
+            },
+            icon: Icon(Icons.arrow_back),
+          ),
+          title: Text(
+            'PAYMENT'.toUpperCase(),
+            style: STextStyle.bold700White14,
+          ),
+          centerTitle: true,
+          backgroundColor: AppColors.primaryColor,
+          toolbarHeight: Get.height * 0.1,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(25),
+            ),
+          ),
+        ),
         body: Container(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: ListView(

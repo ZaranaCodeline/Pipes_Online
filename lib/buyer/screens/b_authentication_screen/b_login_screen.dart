@@ -11,6 +11,7 @@ import 'package:pipes_online/buyer/authentificaion/b_functions.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/routes/app_routes.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -19,14 +20,14 @@ import '../../../seller/view/s_screens/s_image.dart';
 import '../../../seller/view/s_screens/s_text_style.dart';
 import 'b_phone_otp_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class BLoginScreen extends StatefulWidget {
+  const BLoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<BLoginScreen> createState() => _BLoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _BLoginScreenState extends State<BLoginScreen> {
   @override
   Widget build(BuildContext context) {
     GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
@@ -36,14 +37,14 @@ class _LoginScreenState extends State<LoginScreen> {
     bool selected = false;
     String? finalemail;
 
-    Future getValidateData() async {
+    /*Future getValidateData() async {
       final SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       var obtainEmail = sharedPreferences.getString('email');
       setState(() {
         finalemail=obtainEmail;
       });
-    }
+    }*/
 
     @override
     void dispose() {
@@ -226,24 +227,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                     .then((value) async {
                                   await Get.offAll(
                                       () => BottomNavigationBarScreen());
+                                 /* PreferenceManager.setUId('uid');
+                                  PreferenceManager.setUserType('Buyer');
+                                  PreferenceManager.setUId('email');*/
+
                                 }).catchError((e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('The login is invalid.'),
+                                      content: Text('The login is invalid.Please Try again'),
                                       backgroundColor: Colors.redAccent,
                                     ),
                                   );
                                 });
-
-                                //   RegisterRepo.emailLogin(
-                                //           email: email.text.trim(), pass: pass.text.trim())
-                                //       .then((value) async {
-                                //     await Get.offAll(
-                                //         () => BottomNavigationBarScreen());
-                                //   });
-                                //       /*.then((value) async {
-                                //     await addData();
-                                //   });*/
                               }
                             },
                           ),
@@ -269,10 +264,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               decoration: BoxDecoration(
                                 color: SColorPicker.white,
                                 boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black12,
-                                      spreadRadius: 0.5,
-                                      blurRadius: 1),
+                                  new BoxShadow(
+                                      // blurRadius: 1,
+                                      color: AppColors.hintTextColor),
                                 ],
                                 borderRadius: BorderRadius.circular(10.sp),
                               ),
@@ -296,9 +290,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                       Icons.phone,
                                       color: AppColors.primaryColor,
                                     ),
-                                    // SvgPicture.asset(
-                                    //   "${SImagePick.googleIcon}",
-                                    // ),
                                     Text(
                                       ' Phone OTP',
                                       style: STextStyle.bold700Purple16,
@@ -332,6 +323,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ],
                               ),
                             ),
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.04,
                           ),
                         ],
                       ),

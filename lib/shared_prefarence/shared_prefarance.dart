@@ -3,61 +3,66 @@ import 'package:get_storage/get_storage.dart';
 class PreferenceManager {
   static GetStorage getStorage = GetStorage();
 
-  ///email
   static Future setEmail(String value) async {
-    await getStorage.write('z@gmail.com', value);
+    await getStorage.write('email', value);
   }
-
   static String getEmail() {
-    return getStorage.read('z@gmail.com');
+    return getStorage.read('email');
+  }
+
+  static Future setUserType(String value) async {
+    await getStorage.write('userType', value);
+  }
+  static  getUserType() {
+    return getStorage.read('userType');
   }
 
 
-  //passwoed
-  static Future setPassword(String value) async {
-    await getStorage.write('123456', value);
+  static Future setPassword(var value) async {
+    await getStorage.write('password', value);
+  }
+  static   getPassword() {
+    return getStorage.read('password');
   }
 
-  static String getPassword() {
-    return getStorage.read('123456');
-  }
-
-  ///uid
   static Future setUId(String value) async {
-    await getStorage.write('uid', value);
+    await  getStorage.write('uid', value);
   }
-  static String getUId() {
+  static   getUId() {
     return getStorage.read('uid');
   }
-   //address
+
   static Future setAddress(String value) async {
     await getStorage.write('address', value);
   }
-  static String getAddress() {
+  static  getAddress() {
     return getStorage.read('address');
   }
+
   static Future setName(String value) async {
-    await getStorage.write('userName', value);
+    await getStorage.write('firstname', value);
   }
+  static  getName() {
+    return getStorage.read('firstname');
+  }
+
   static Future setPhoneNumber(String value) async {
-    await getStorage.write('phoneNumber', value);
+    await getStorage.write('phoneno', value);
   }
-
-
-
-  static String getName() {
-    return getStorage.read('userName');
+  static  getPhoneNumber() {
+    return getStorage.read('phoneno');
   }
-
-  static String getPhoneNumber() {
-    return getStorage.read('phoneNumber');
-  }
-
-
 
   static Future<void> clearData() async {
+    // await getStorage.erase();
     await getStorage.remove('email');
-    await getStorage.remove('uid');
+    await getStorage.remove('userType');
+    await getStorage.remove('password');
+    await getStorage.remove('phoneno');
+    await getStorage.remove('firstname');
+    await getStorage.remove('address');
+    await  getStorage.remove('uid');
   }
+
 }
 

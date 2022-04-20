@@ -10,7 +10,7 @@ import 'package:pipes_online/s_onboarding_screen/s_onboarding_screen.dart';
 import 'package:pipes_online/s_onboarding_screen/s_permission_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/s_login_creen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/s_phone_otp_screen.dart';
-import 'package:pipes_online/seller/view/s_authentication_screen/s_sign_up_ragistraion_screen.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/s_ragistraion_screen.dart';
 
 
 import 'package:pipes_online/seller/view/s_authentication_screen/s_welcome_screen.dart';
@@ -35,13 +35,13 @@ class AppPages {
     GetPage(name: SRoutes.SBuyerSellerScreen, page: () => SBuyerSellerScreen()),
     GetPage(name: SRoutes.SWelcomeScreen, page: () => SWelcomeScreen()),
 
-    GetPage(name: BRoutes.LoginScreen, page: () => LoginScreen()),
+    GetPage(name: BRoutes.BLoginScreen, page: () => BLoginScreen()),
     GetPage(name: BRoutes.BPhoneOTP_Screen, page: () => BPhoneOTP_Screen()),
     GetPage(name: BRoutes.BSignUpRagistraionScreen, page: () => BSignUpRagistraionScreen()),
     GetPage(name: BRoutes.BChatScreen, page: () => BChatScreen()),
 
     // GetPage(name: Routes.PROFILE, page: () => DrawerProfilePage()),
-    GetPage(name: Routes.MYORDER, page: () => BMyOrderPage()),
+    GetPage(name: Routes.BMYORDER, page: () => BMyOrderPage()),
     GetPage(name: Routes.SETTINGPAGE, page: () => BSettingsScreen()),
 
 

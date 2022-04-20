@@ -7,6 +7,7 @@ import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo
 import 'package:pipes_online/routes/app_routes.dart';
 import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/s_phone_otp_screen.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import '../../../seller/view/s_screens/s_color_picker.dart';
@@ -206,10 +207,13 @@ class _SLoginScreenState extends State<SLoginScreen> {
                                     .then((value) async {
                                   await Get.offAll(
                                           () => NavigationBarScreen());
+                                 /* PreferenceManager.setUId('uid');
+                                  PreferenceManager.setUId('email');
+                                  PreferenceManager.setUserType('Seller');*/
                                 }).catchError((e){
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('The login is invalid.'),
+                                      content: Text('The login is invalid.Please Try again'),
                                       backgroundColor: Colors.redAccent,
                                     ),
                                   );

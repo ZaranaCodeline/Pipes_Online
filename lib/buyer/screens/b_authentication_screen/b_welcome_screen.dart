@@ -7,6 +7,7 @@ import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/routes/app_routes.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 import 'b_login_screen.dart';
@@ -61,7 +62,10 @@ class _BWelcomeScreenState extends State<BWelcomeScreen> {
                     child: SCommonButton().sCommonPurpleButton(
                       name: 'Login',
                       onTap: () {
-                        Get.to(LoginScreen());
+                        Get.to(BLoginScreen());
+                        PreferenceManager.setUId('uid');
+                        PreferenceManager.setEmail('email');
+                        PreferenceManager.setUserType('Buyer');
                       },
                     ),
                   ),

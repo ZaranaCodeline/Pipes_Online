@@ -11,10 +11,9 @@ BottomController homeController = Get.find();
 
 Widget userSubScreen() {
   switch (homeController.selectedScreen.value) {
-    case 'UserUpdateProfileScreen':
+    case 'SPersonalInfoPage':
       return SPersonalInfoPage();
-      SPersonalInfoPage();
-      break;
+
     // case 'AddCartScreen':
     //   return AddCartScreen();
     //   break;

@@ -43,15 +43,17 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
   Future<void> getData() async {
     print('demo.....');
     final user =
-    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
+    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser?.uid}')
         .get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    name = getUserData!['firstname'];
+   /* name = getUserData!['firstname'];
     phoneNo = getUserData['phoneno'];
     Img = getUserData['imageProfile'];
-    address = getUserData['address'];
+    address = getUserData['address'];*/
 
     setState(() {
+      name = getUserData!['firstname'];
+      phoneNo = getUserData['phoneno'];
       Img = getUserData['imageProfile'];
       address = getUserData['address'];
     });
@@ -60,9 +62,6 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
 
   @override
   void initState() {
-    // print('ADDRESS:-${_controller.address}');
-    // _address =
-    // TextEditingController(text: _controller.address.toString(),);
     getData();
     super.initState();
   }

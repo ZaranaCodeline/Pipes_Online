@@ -8,6 +8,8 @@ import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_contoller.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/s_welcome_screen.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 import '../routes/app_routes.dart';
@@ -19,7 +21,7 @@ class SBuyerSellerScreen extends StatefulWidget {
 
 class _SBuyerSellerScreenState extends State<SBuyerSellerScreen> {
   BuyerSellerController buyerSellerController =
-      Get.put(BuyerSellerController());
+      Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -100,11 +102,18 @@ class _SBuyerSellerScreenState extends State<SBuyerSellerScreen> {
                         onTap: () {
                           if (controller.radioValue != null) {
                             if (controller.radioValue == 'Seller') {
-                              Get.toNamed(SRoutes.SWelcomeScreen);
+                              // Get.offNamed(SRoutes.SWelcomeScreen);
                               print('Seller');
+                              PreferenceManager.setUserType('Seller');
+                              Get.offAll(SWelcomeScreen());
+
+                              // PreferenceManager.setUId('email');
+
                             } else {
                               print('Buyer');
-                              Get.to(BWelcomeScreen());
+                              PreferenceManager.setUserType('Buyer');
+                              // PreferenceManager.setUId('email');
+                              Get.offAll(BWelcomeScreen());
                             }
                           } else {
                             Get.showSnackbar(GetSnackBar(
@@ -113,7 +122,6 @@ class _SBuyerSellerScreenState extends State<SBuyerSellerScreen> {
                               message: 'Please select the Buyer or Seller!',
                             ));
                           }
-
                           // Get.off('SPermissionScreen');
                           // print('hello');
                         },

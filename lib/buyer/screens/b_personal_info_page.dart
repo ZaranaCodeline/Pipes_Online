@@ -317,9 +317,10 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                       name: 'SAVE',
                       onTap: () {
                         UpdateData();
-                        bottomBarIndexController.setSelectedScreen(
-                            value: 'HomeScreen');
+
+                        bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
                         bottomBarIndexController.bottomIndex.value = 0;
+
                         // Get.back();
                         // if (bottomBarIndexController.bottomIndex.value == 3) {
                         //   bottomBarIndexController.setSelectedScreen(

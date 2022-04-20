@@ -1,7 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:math';
+
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,35 +12,41 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
+import 'package:pipes_online/buyer/screens/maps_screen.dart';
 import 'package:pipes_online/buyer/view_model/geolocation_controller.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_login_screen.dart';
+import 'package:pipes_online/routes/app_routes.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_contoller.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/s_login_creen.dart';
+
 import 'package:sizer/sizer.dart';
+import '../../../buyer/screens/b_image.dart';
 import '../../../routes/bottom_controller.dart';
 import '../../../seller/view/s_screens/s_color_picker.dart';
 import '../../../seller/view/s_screens/s_image.dart';
 import '../../../seller/view/s_screens/s_text_style.dart';
 import '../../../shared_prefarence/shared_prefarance.dart';
-import '../../app_constant/auth.dart';
-import '../maps_screen.dart';
-import 'register_repo.dart';
 
-class BSignUpRagistraionScreen extends StatefulWidget {
-  const BSignUpRagistraionScreen({
+class SSignUpRagistraionScreen extends StatefulWidget {
+  const SSignUpRagistraionScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  _BSignUpRagistraionScreenState createState() =>
-      _BSignUpRagistraionScreenState();
+  _SSignUpRagistraionScreenState createState() =>
+      _SSignUpRagistraionScreenState();
 }
 
-class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
+class _SSignUpRagistraionScreenState extends State<SSignUpRagistraionScreen> {
   File? _image;
   GeolocationController _controller = Get.find();
   BottomController homeController = Get.find();
   final picker = ImagePicker();
+  BuyerSellerController buyerSellerController =
+  Get.put(BuyerSellerController());
 
   Future pickImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -79,8 +88,8 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
 
   GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
+  TextEditingController addController = TextEditingController();
   TextEditingController mobileCnt = TextEditingController();
-  BuyerSellerController buyerSellerController = Get.find();
   BottomController bottomController = Get.find();
   String? Img;
   bool selected = false;
@@ -112,7 +121,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
           body: SingleChildScrollView(
             child: GetBuilder<GeolocationController>(
               builder: (controller) {
-                return Column(
+                return  Column(
                   children: [
                     Container(
                       height: Get.height * 0.1,
@@ -159,125 +168,119 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                             ),
                             Center(
                               child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(vertical: 10),
                                 child: Center(
                                   child: Column(
                                     children: [
                                       //assets/images/profile.png
                                       GestureDetector(
                                         onTap: () {
-                                          showModalBottomSheet<void>(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        const Radius.circular(
-                                                            20.0),
-                                                    topRight:
-                                                        const Radius.circular(
-                                                            20.0))),
-                                            backgroundColor: Colors.white,
+                                          showDialog(
                                             context: context,
-                                            builder: (context) =>
-                                                FractionallySizedBox(
-                                              heightFactor: 0.2.sp,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                        color: AppColors
-                                                            .primaryColor,
-                                                        borderRadius:
+                                            builder: (context) => SimpleDialog(
+                                              children: [
+                                                Container(
+                                                  height: 125.sp,
+                                                  width: double.infinity,
+                                                  child: Column(
+                                                    children: [
+                                                      Container(
+                                                        child: MaterialButton(
+                                                          child: Text(
+                                                            'GALLERY',
+                                                            style: TextStyle(
+                                                                color: Colors.white,
+                                                                fontSize: 14.sp),
+                                                          ),
+                                                          onPressed: () {
+                                                            getGalleryImage();
+                                                            Get.back();
+                                                          },
+                                                        ),
+                                                        width: 220,
+                                                        height: 60.sp,
+                                                        decoration: BoxDecoration(
+                                                            gradient:
+                                                            LinearGradient(
+                                                                begin: Alignment
+                                                                    .centerLeft,
+                                                                colors: [
+                                                                  AppColors
+                                                                      .primaryColor,
+                                                                  AppColors
+                                                                      .offLightPurpalColor,
+                                                                ]),
+                                                            borderRadius:
                                                             BorderRadius
-                                                                .circular(
-                                                                    25.sp),
-                                                        border: Border.all(
-                                                            color: AppColors
-                                                                .primaryColor)),
-                                                    child: MaterialButton(
-                                                      child: Text(
-                                                        'GALLERY'.toUpperCase(),
-                                                        style: TextStyle(
-                                                            color: AppColors
-                                                                .commonWhiteTextColor,
-                                                            fontSize: 14.sp),
+                                                                .circular(25)),
                                                       ),
-                                                      onPressed: () {
-                                                        getGalleryImage();
-                                                        Get.back();
-                                                      },
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                        color: AppColors
-                                                            .primaryColor,
-                                                        borderRadius:
+                                                      SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Container(
+                                                        child: MaterialButton(
+                                                          child: Text(
+                                                            'camera',
+                                                            style: TextStyle(
+                                                                color: Colors.white,
+                                                                fontSize: 20),
+                                                          ),
+                                                          onPressed: () {
+                                                            getCamaroImage();
+                                                            Get.back();
+                                                          },
+                                                        ),
+                                                        width: 220,
+                                                        height: 60.sp,
+                                                        decoration: BoxDecoration(
+                                                            gradient:
+                                                            LinearGradient(
+                                                                begin: Alignment
+                                                                    .centerLeft,
+                                                                colors: [
+                                                                  AppColors
+                                                                      .primaryColor,
+                                                                  AppColors
+                                                                      .offLightPurpalColor,
+                                                                ]),
+                                                            borderRadius:
                                                             BorderRadius
-                                                                .circular(
-                                                                    25.sp),
-                                                        border: Border.all(
-                                                            color: AppColors
-                                                                .primaryColor)),
-                                                    child: MaterialButton(
-                                                      child: Text(
-                                                        'camera'.toUpperCase(),
-                                                        style: TextStyle(
-                                                            color: AppColors
-                                                                .commonWhiteTextColor,
-                                                            fontSize: 14.sp),
+                                                                .circular(25)),
                                                       ),
-                                                      onPressed: () {
-                                                        getCamaroImage();
-                                                        Get.back();
-                                                      },
-                                                    ),
+                                                    ],
                                                   ),
-                                                ],
-                                              ),
+                                                )
+                                              ],
                                             ),
                                           );
                                         },
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              height: 50.sp,
-                                              width: 50.sp,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          50)),
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                child: _image == null
-                                                    ? Image.network(
-                                                        Img == null
-                                                            ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
-                                                            : Img!,
-                                                        fit: BoxFit.cover,
-                                                      )
-                                                    : Image.file(_image!,
-                                                        fit: BoxFit.fill),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: Get.height * 0.02,
-                                            ),
-                                            CustomText(
-                                                text: 'Change profile picture.',
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 14.sp,
-                                                color: AppColors.primaryColor),
-                                          ],
+                                        child: Container(
+                                          height: 50.sp,
+                                          width: 50.sp,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(50)),
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(50),
+                                            child: _image == null
+                                                ? SvgPicture.asset(
+                                                "${BImagePick.PersonIcon}",
+                                                color: AppColors.primaryColor
+                                                    .withOpacity(0.5))
+                                            // Image.network(Img==null?'${BImagePick.PersonIcon}':Img!,fit: BoxFit.fill,)
+                                                : Image.file(_image!,
+                                                fit: BoxFit.fill),
+                                          ),
                                         ),
                                       ),
                                       SizedBox(
                                         height: Get.height * 0.02,
                                       ),
+                                      CustomText(
+                                          text: 'Change profile picture.',
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14.sp,
+                                          color: AppColors.primaryColor),
                                     ],
                                   ),
                                 ),
@@ -311,28 +314,22 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                         hintText: 'First Name',
                                         filled: true,
                                         focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                            borderRadius: BorderRadius.circular(10),
                                             borderSide: BorderSide(
-                                                color: Colors.blue
-                                                    .withOpacity(0.5),
+                                                color: Colors.blue.withOpacity(0.5),
                                                 width: 2)),
                                         enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                            borderRadius: BorderRadius.circular(10),
                                             borderSide: BorderSide(
-                                                color: Colors.grey
-                                                    .withOpacity(0.5),
+                                                color: Colors.grey.withOpacity(0.5),
                                                 width: 2)),
                                         focusedErrorBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(10),
                                           borderSide: BorderSide(
                                               color: Colors.red, width: 2),
                                         ),
                                         errorBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(10),
                                           borderSide: BorderSide(
                                               color: Colors.red, width: 2),
                                         )),
@@ -358,28 +355,24 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                       hintText: 'Last Name',
                                       filled: true,
                                       focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(10),
                                           borderSide: BorderSide(
-                                              color:
-                                                  Colors.blue.withOpacity(0.5),
+                                              color: Colors.blue.withOpacity(0.5),
                                               width: 2)),
                                       enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(10),
                                           borderSide: BorderSide(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
+                                              color: Colors.grey.withOpacity(0.5),
                                               width: 2)),
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
-                                            color: Colors.red, width: 2),
+                                        borderSide:
+                                        BorderSide(color: Colors.red, width: 2),
                                       ),
                                       errorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
-                                            color: Colors.red, width: 2),
+                                        borderSide:
+                                        BorderSide(color: Colors.red, width: 2),
                                       ),
                                     ),
                                   ),
@@ -397,7 +390,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                   focusedErrorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide:
-                                        BorderSide(color: Colors.red, width: 2),
+                                    BorderSide(color: Colors.red, width: 2),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
@@ -412,7 +405,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                   errorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide:
-                                        BorderSide(color: Colors.red, width: 2),
+                                    BorderSide(color: Colors.red, width: 2),
                                   )),
                               validator: (email) {
                                 if (isEmailValid(email!)) {
@@ -447,7 +440,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                 focusedErrorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide:
-                                      BorderSide(color: Colors.red, width: 2),
+                                  BorderSide(color: Colors.red, width: 2),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -462,7 +455,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                 errorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide:
-                                      BorderSide(color: Colors.red, width: 2),
+                                  BorderSide(color: Colors.red, width: 2),
                                 ),
                               ),
                             ),
@@ -480,8 +473,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                       selected == false
                                           ? Icons.remove_red_eye
                                           : Icons.remove_red_eye_outlined,
-                                      color:
-                                          selected ? Colors.black : Colors.grey,
+                                      color: selected ? Colors.black : Colors.grey,
                                     ),
                                     onPressed: () {
                                       setState(() {
@@ -492,7 +484,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                   focusedErrorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide:
-                                        BorderSide(color: Colors.red, width: 2),
+                                    BorderSide(color: Colors.red, width: 2),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
@@ -506,8 +498,8 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                           width: 2)),
                                   errorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                          color: Colors.red, width: 2))),
+                                      borderSide:
+                                      BorderSide(color: Colors.red, width: 2))),
                               validator: (password) {
                                 if (password!.isEmpty) {
                                   return 'Please enter password';
@@ -522,16 +514,16 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                             ),
                             TextFormField(
                               maxLines: 2,
-                              controller: _controller.addressController == null
+                              controller:_controller.addressController == null
                                   ? _controller.addressController
-                                  : _controller.addressController,
+                                  : _controller.addressController/* addController==null?addController:_controller.addressController*/,
                               decoration: InputDecoration(
                                   hintText: 'Address',
                                   filled: true,
                                   focusedErrorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide:
-                                        BorderSide(color: Colors.red, width: 2),
+                                    BorderSide(color: Colors.red, width: 2),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
@@ -546,7 +538,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                   errorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide:
-                                        BorderSide(color: Colors.red, width: 2),
+                                    BorderSide(color: Colors.red, width: 2),
                                   )),
                               validator: (value) {
                                 if (value!.isNotEmpty) {
@@ -569,10 +561,8 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                             Center(
                               child: GestureDetector(
                                 onTap: () {
-                                  print('it is map');
-                                  setState(() {
-                                    Get.to(MapsScreen());
-                                  });
+                                  print('is enterggg');
+                                  Get.to(MapsScreen());
                                 },
                                 child: Container(
                                   padding: EdgeInsets.all(12.sp),
@@ -589,8 +579,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                     borderRadius: BorderRadius.circular(10.sp),
                                   ),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
                                       SvgPicture.asset(
                                         "${SImagePick.locationColorIcon}",
@@ -614,12 +603,12 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Center(
                                     child: Text(
-                                  'Submit',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 17),
-                                )),
+                                      'Submit',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 17),
+                                    )),
                               ),
                               onTap: () async {
                                 if (formGlobalKey.currentState!.validate()) {
@@ -631,15 +620,12 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                     ),
                                   );
                                   formGlobalKey.currentState!.save();
-                                  BRegisterRepo.emailRegister(
-                                          email: email.text, pass: pass.text)
+                                  SRegisterRepo.emailRegister(
+                                      email: email.text, pass: pass.text)
                                       .then((value) async {
                                     await addData();
                                   });
-                                  Get.to(BLoginScreen());
-                                  // PreferenceManager.setUId('uid');
-                                  // PreferenceManager.setUserType('Buyer');
-
+                                  Get.to(SLoginScreen());
                                 }
                               },
                             ),
@@ -660,7 +646,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () {
                                             print('aaa');
-                                            Get.off(BLoginScreen());
+                                            Get.off(SLoginScreen());
                                           }),
                                   ],
                                 ),
@@ -697,39 +683,33 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
   }
 
   Future<void> addData() async {
-    print(
-        'buyer addData Preference Id==============>${PreferenceManager.getUId().toString()}');
     String? imageUrl = await uploadImageToFirebase(
         context: context, file: _image, fileName: '${email.text}_profile.jpg');
-    BRegisterRepo.currentUser()
-        .then((value) async {
-          CollectionReference ProfileCollection =
-              bFirebaseStore.collection('BProfile');
-          ProfileCollection.doc('${PreferenceManager.getUId()}').set({
-            'email': email.text,
-            'password': pass.text,
-            'phoneno': phn.text,
-            'firstname': fname.text,
-            'lastname': lname.text,
-            'imageProfile': imageUrl,
-            'address': _controller.addressController == null
-                ? _controller.addressController
-                : _controller.addressController!.text,
-            'userType': 'Buyer',
-            'time': DateTime.now(),
-          });
-        })
+    SRegisterRepo.currentUser()
+        .then((value) {
+      CollectionReference userCollection =
+      bFirebaseStore.collection('SProfile');
+      userCollection.doc('${PreferenceManager.getUId()}').set({
+        'email': email.text,
+        'password': pass.text,
+        'phoneno': phn.text,
+        'firstname': fname.text,
+        'lastname': lname.text,
+        'imageProfile': imageUrl,
+        'address': _controller.addressController == null
+            ? _controller.addressController
+            : _controller.addressController!.text,
+        'userType':'Seller',
+        'time': DateTime.now(),
+
+      });
+    })
         .catchError((e) => print('Error =========>>> $e'))
-        .then(
-          (value) => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return BLoginScreen();
-              },
-            ),
-          ),
-        );
+        .then((value) => Navigator.push(context, MaterialPageRoute(
+      builder: (context) {
+        return SLoginScreen();
+      },
+    )));
   }
 
   bool isPasswordValid(String password) => password.length <= 8;

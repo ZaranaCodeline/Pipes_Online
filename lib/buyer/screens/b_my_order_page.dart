@@ -17,7 +17,7 @@ class BMyOrderPage extends StatelessWidget {
           alignment: Alignment.centerLeft,
           text: 'MY ORDERS',
           fontWeight: FontWeight.w600,
-          fontSize: 22,
+          fontSize: 14.sp,
           color: AppColors.commonWhiteTextColor,
         ),
         backgroundColor: AppColors.primaryColor,

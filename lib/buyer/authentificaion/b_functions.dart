@@ -51,7 +51,7 @@ class BAuthMethods {
 
       final User? userDetails = userCredential.user;
 
-      if (userCredential != null) {
+    /*  if (userCredential != null) {
         SharedPreferenceHelper().saveUserEmail(userDetails!.email!);
         SharedPreferenceHelper().saveUserId(userDetails.uid);
         SharedPreferenceHelper().saveUserName(userDetails.displayName!);
@@ -64,7 +64,7 @@ class BAuthMethods {
           "name": userDetails.displayName,
           "imgUrl": userDetails.photoURL
         };
-      }
+      }*/
 
       //CHECKING IS ON
       assert(!userDetails!.isAnonymous);

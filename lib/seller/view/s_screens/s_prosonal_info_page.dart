@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
+import 'package:pipes_online/routes/bottom_controller.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/seller/view/s_screens/s_common_button.dart';
 import 'package:sizer/sizer.dart';
@@ -17,9 +18,8 @@ import '../../bottombar/widget/category_bottom_bar_route.dart';
 
 class SPersonalInfoPage extends StatefulWidget {
   const SPersonalInfoPage(
-      {Key? key, this.img, this.name, this.phoneno, this.address})
+      {Key? key, })
       : super(key: key);
-  final String? img, name, phoneno, address;
 
   @override
   State<SPersonalInfoPage> createState() => _SPersonalInfoPageState();
@@ -39,6 +39,8 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
 
   Future<void> getData() async {
     print('demo.....');
+    BottomController homeController = Get.find();
+
     final user =
         await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
             .get();

@@ -10,6 +10,13 @@ class EditProductContoller extends GetxController{
     _selectedPrice = value;
     update();
   }
+  String id='';
+
+void selectedID(String value) {
+  id = value;
+    update();
+  }
+
 
   String _name='';
 

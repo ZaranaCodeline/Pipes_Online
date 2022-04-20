@@ -1,12 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
-
 import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
-import 'b_listing_review_tab_bar.dart';
 import 'custom_widget/custom_button.dart';
 import 'custom_widget/custom_text.dart';
 
@@ -20,6 +21,33 @@ class AddReviewsPage extends StatefulWidget {
 class _AddReviewsPageState extends State<AddReviewsPage> {
   var rating = 3.0;
 
+  CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
+  String? Img;
+  String? firstname;
+
+  Future<void> getData() async {
+    print('demo.....');
+    final user =
+        await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
+            .get();
+    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+    firstname = getUserData!['firstname'];
+    print('=========firstname===============${getUserData}');
+
+    /* email.text = getUserData['email'];
+    address.text = getUserData['address'];
+    phoneno.text = getUserData['phoneno'];*/
+    setState(() {
+      Img = getUserData['imageProfile'];
+    });
+    print('============================${user.get('imageProfile')}');
+  }
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -47,7 +75,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                     children: <Widget>[
                                       Expanded(
                                         child: Container(
-                                          height: Get.height/7,
+                                          height: Get.height / 9,
                                           decoration: BoxDecoration(
                                               color: AppColors.primaryColor,
                                               borderRadius:
@@ -59,17 +87,25 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                     ],
                                   ),
                                   Positioned(
-                                    top: 50.sp,
+                                    top: 40.sp,
                                     child: Container(
-                                      height: Get.height / 8,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                              color: Color(0xffE8E8E8), width: 1.0)),
-                                      child: Image.asset(
+                                      height: 50.sp,
+                                      width: 50.sp,
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(50.0),
+                                        child: Image.network(
+                                          Img == null
+                                              ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
+                                              : Img!,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )
+                                      /*Image.asset(
                                         'assets/images/png/cat_1.png',
                                         fit: BoxFit.fill,
-                                      ),
+                                      )*/
+                                      ,
                                     ),
                                   ),
                                   Positioned(
@@ -77,7 +113,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                       left: 0,
                                       child: BackButton(
                                         color: AppColors.commonWhiteTextColor,
-                                      )),
+                                      ),),
                                   Positioned(
                                     top: 20.sp,
                                     child: Text(
@@ -95,17 +131,17 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                               child: Column(
                                 children: [
                                   Padding(
-                                    padding:   EdgeInsets.only(
+                                    padding: EdgeInsets.only(
                                       top: 55.sp,
                                     ),
                                     child: CustomText(
-                                        text: 'Jan Doe',
+                                        text: firstname.toString(),
                                         fontWeight: FontWeight.w600,
                                         fontSize: 18.sp,
                                         color: AppColors.secondaryBlackColor),
                                   ),
                                   Padding(
-                                    padding:   EdgeInsets.symmetric(
+                                    padding: EdgeInsets.symmetric(
                                         vertical: 15.sp, horizontal: 0),
                                     child: CustomText(
                                         text: 'How was your experience?',
@@ -118,7 +154,8 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                       onRatingChanged: (v) {
                                         setState(() {
                                           rating = v;
-                                        });
+                                          print('rating====>${rating}');
+                                        },);
                                       },
                                       starCount: 5,
                                       rating: rating,
@@ -140,15 +177,14 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                       fontWeight: FontWeight.w600,
                                       fontSize: 14.sp,
                                       color: AppColors.secondaryBlackColor),
-                                  SizedBox(
-                                    height: Get.height * 0.01.sp
-                                  ),
+                                  SizedBox(height: Get.height * 0.01.sp),
                                   Card(
                                     elevation: 1,
                                     child: Padding(
-                                      padding:   EdgeInsets.all(10.0.sp),
+                                      padding: EdgeInsets.all(10.0.sp),
                                       child: Container(
-                                        child:   TextField(
+                                        child: TextFormField(
+                                          // controller: ,
                                           decoration: InputDecoration(
                                             fillColor: SColorPicker.fontGrey,
                                             hintText: 'Enter your review',
@@ -165,12 +201,12 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                      height: Get.height * 0.02.sp
-                                  ),
+                                  SizedBox(height: Get.height * 0.02.sp),
                                   Custombutton(
-                                    name: 'Label',
-                                    function: () {},
+                                    name: 'Submit'.toUpperCase(),
+                                    function: () {
+                                      Get.back();
+                                    },
                                     // Get.to(() => HomePage()),
                                     height: Get.height * 0.06.sp,
                                     width: Get.width / 1.2.sp,

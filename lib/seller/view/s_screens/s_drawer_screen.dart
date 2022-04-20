@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/b_personal_info_page.dart';
 import 'package:pipes_online/buyer/view_model/geolocation_controller.dart';
+import 'package:pipes_online/routes/bottom_controller.dart';
 import 'package:pipes_online/seller/Authentication/s_function.dart';
 import 'package:pipes_online/seller/view/s_screens/s_earning_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_home_screen.dart';
@@ -21,33 +25,51 @@ import '../../view_model/s_drawer_controller.dart';
 import 's_insight_screen.dart';
 
 class SDrawerScreen extends StatefulWidget {
-  const SDrawerScreen({Key? key,this.img,this.name,this.phoneno,this.address}) : super(key: key);
-  final String? img,name,phoneno,address;
+  const SDrawerScreen({Key? key}) : super(key: key);
   @override
   State<SDrawerScreen> createState() => _SDrawerScreenState();
 }
 
 class _SDrawerScreenState extends State<SDrawerScreen> {
   SDrawerController sDrawerController = Get.put(SDrawerController());
-  GeolocationController _controller = Get.find();
-  TextEditingController? _address;
+  // GeolocationController _controller = Get.find();
+  // TextEditingController? _address;
+
+  CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
+  String? name;
+  String? phoneNo;
+  String? Img;
+  String? address;
+  BottomController homeController = Get.find();
+  Future<void> getData() async {
+    print('demo seller.....');
+    final user =
+    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
+        .get();
+    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+    name = getUserData!['firstname'];
+    phoneNo = getUserData['phoneno'];
+    Img = getUserData['imageProfile'];
+    address = getUserData['address'];
+
+    setState(() {
+      Img = getUserData['imageProfile'];
+      address = getUserData['address'];
+    });
+    print('============================${user.get('imageProfile')}');
+  }
+
 
   @override
   void initState() {
-    print('ADDRESS:-${_controller.address}');
-    _address =
-        TextEditingController(text: _controller.address.toString(),);
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    TextEditingController _address =
-    TextEditingController(text: widget.address);
-
-    final name = widget.name;
-    final phone = widget.phoneno;
-    final urlImage =widget.img;
-        // 'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d';
+    print('image:-${name}');
+    print('firstname:-${phoneNo}');
+    print('phoneno:-${Img}');
+    print('address:-${address}');
 
     return Drawer(
       backgroundColor: AppColors.drawerColor,
@@ -57,10 +79,11 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
             child: ListView(
               children: <Widget>[
                 builtTopItem(
-                  urlImage: urlImage.toString(),
+                  urlImage: Img.toString(),
                   name: name.toString(),
-                  phone: phone.toString(),
+                  phone:phoneNo.toString(),
                   onClicked: () => Get.to(() => PersonalInfoPage()),
+
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(
@@ -90,17 +113,20 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
                               alignment: Alignment.centerLeft,
                               child: TextFormField(
                                 readOnly: sDrawerController.readOnly,
-                                controller: _address,
+                                // controller: _address,
                                 cursorColor: AppColors.primaryColor,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                ),
-                              )),
+                                hintText: address),
+
+                              ),),
                         ),
                         // Text('Yogichowk, Varachha, Surat'),
                         IconButton(
                           onPressed: () {
-                            controller.setEdit();
+                            // controller.setEdit();
+                            homeController.selectedScreen('SPersonalInfoPage');
+                            homeController.bottomIndex.value=0;
                           },
                           icon: Icon(
                             controller.readOnly == true
@@ -264,7 +290,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
         break;
 
       case 5:
-        Get.to(() => SSettingsScreen(name: widget.name,img: widget.img,));
+        Get.to(() => SSettingsScreen());
         break;
 
       case 6:

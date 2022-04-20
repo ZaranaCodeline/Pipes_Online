@@ -8,4 +8,6 @@ class BuyerSellerController extends GetxController {
     print('radioValue---: $radioValue');
     update();
   }
+
+
 }

@@ -5,7 +5,7 @@ import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/s_login_creen.dart';
-import 'package:pipes_online/seller/view/s_authentication_screen/s_sign_up_ragistraion_screen.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/s_ragistraion_screen.dart';
 import 'package:sizer/sizer.dart';
 
 class SWelcomeScreen extends StatefulWidget {

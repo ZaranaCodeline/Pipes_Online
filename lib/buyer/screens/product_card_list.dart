@@ -12,9 +12,11 @@ import 'b_selected_product_widget.dart';
 
 class ProductCardList extends StatefulWidget {
   ProductCardList({
-    Key? key, this.category,
+    Key? key,
+    this.category,
   }) : super(key: key);
-final String? category;
+  final String? category;
+
   @override
   State<ProductCardList> createState() => _ProductCardListState();
 }
@@ -24,128 +26,150 @@ class _ProductCardListState extends State<ProductCardList> {
 
   BBottomBarIndexController bottomBarIndexController =
       Get.put(BBottomBarIndexController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-      // height: Get.height * 5.sp,
-      padding: EdgeInsets.symmetric(horizontal: 8.sp),
-      child: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('Products').
-        doc('${_auth.currentUser?.uid}')
-            .collection('data')
-            .snapshots(),
-        builder: (context, snapShot) {
-          if (snapShot.hasData) {
-            if(snapShot.connectionState==ConnectionState.waiting){
-              return Center(child: CircularProgressIndicator(),);
-            }
-            if(snapShot.connectionState==ConnectionState.done){
-
-            }
-            return  GridView.builder(
-                physics: BouncingScrollPhysics(),gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,crossAxisSpacing: 5,mainAxisSpacing: 5,childAspectRatio: 1.7/ 2),
-                itemCount: snapShot.data!.docs.length,itemBuilder: (BuildContext context,index){
-
-              return
-                GestureDetector(
-                  onTap: () {
-                    print('gfvf');
-                    print('DATA OF ID${snapShot.data!.docs[index].id}');
-                    Get.to(SelectedProductWidget(name: snapShot.data!.docs[index]['prdName'],price: snapShot.data!.docs[index]['price'],image: snapShot.data!.docs[index]['imageProfile'],desc: snapShot.data!.docs[index]['dsc'],) );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: Get.width*0.4,
-                      height: Get.height*0.26,
-                      decoration: BoxDecoration(
-                          color: AppColors.commonWhiteTextColor,
-                          borderRadius: BorderRadius.circular(Get.width * 0.05),
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 1,
-                              color: SColorPicker.fontGrey,
-                            )
-                          ]),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              //width: Get.width * 0.35,height: Get.height*0.1,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(Get.width * 0.02),
-                                child:snapShot.data!.docs[index]['imageProfile']==null||snapShot.data!.docs[index]['imageProfile']==''? Center(child: CircularProgressIndicator()): Image.network(
-                                  snapShot.data!.docs[index]['imageProfile'],
-                                  height: Get.height*0.1,
-                                  width:Get.width * 0.4,
-                                  fit: BoxFit.cover,
+        // height: Get.height * 5.sp,
+        padding: EdgeInsets.symmetric(horizontal: 8.sp),
+        child: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('Products')
+              .doc('${_auth.currentUser?.uid}')
+              .collection('data')
+              .snapshots(),
+          builder: (context, snapShot) {
+            if (snapShot.hasData) {
+              if (snapShot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (snapShot.connectionState == ConnectionState.done) {}
+              return GridView.builder(
+                  physics: BouncingScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 5,
+                      childAspectRatio: 1.7 / 2),
+                  itemCount: snapShot.data!.docs.length,
+                  itemBuilder: (BuildContext context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        print('gfvf');
+                        print('DATA OF ID${snapShot.data!.docs[index].id}');
+                        Get.to(SelectedProductWidget(
+                            name: snapShot.data!.docs[index]['prdName'],
+                            price: snapShot.data!.docs[index]['price'],
+                            image: snapShot.data!.docs[index]['imageProfile'],
+                            desc: snapShot.data!.docs[index]['dsc'],
+                            category: snapShot.data!.docs[index]['category']));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: Get.width * 0.4,
+                          height: Get.height * 0.26,
+                          decoration: BoxDecoration(
+                              color: AppColors.commonWhiteTextColor,
+                              borderRadius:
+                                  BorderRadius.circular(Get.width * 0.05),
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 1,
+                                  color: SColorPicker.fontGrey,
+                                )
+                              ]),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  //width: Get.width * 0.35,height: Get.height*0.1,
+                                  child: ClipRRect(
+                                    borderRadius:
+                                        BorderRadius.circular(Get.width * 0.02),
+                                    child: snapShot.data!.docs[index]
+                                                    ['imageProfile'] ==
+                                                null ||
+                                            snapShot.data!.docs[index]
+                                                    ['imageProfile'] ==
+                                                ''
+                                        ? Center(
+                                            child: CircularProgressIndicator())
+                                        : Image.network(
+                                            snapShot.data!.docs[index]
+                                                ['imageProfile'],
+                                            height: Get.height * 0.1,
+                                            width: Get.width * 0.4,
+                                            fit: BoxFit.cover,
+                                          ),
+                                  ),
                                 ),
                               ),
-                            ),
+                              SizedBox(
+                                height: Get.height * 0.01,
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: 10.sp),
+                                child: CustomText(
+                                  text: snapShot.data!.docs[index]['prdName'],
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14.sp,
+                                  color: SColorPicker.purple,
+                                  alignment: Alignment.centerLeft,
+                                ),
+                              ),
+                              SizedBox(
+                                height: Get.height * 0.01,
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: 10.sp),
+                                child: CustomText(
+                                  text: snapShot.data!.docs[index]['category'],
+                                  // snapShot.data!.docs[index]['dsc'],
+                                  textOverflow: TextOverflow.ellipsis,
+                                  fontWeight: FontWeight.w600,
+                                  max: 1,
+                                  fontSize: 12.sp,
+                                  color: SColorPicker.black,
+                                  alignment: Alignment.centerLeft,
+                                ),
+                              ),
+                              SizedBox(
+                                height: Get.height * 0.01,
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: 10.sp),
+                                child: CustomText(
+                                  text: snapShot.data!.docs[index]['price'],
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12.sp,
+                                  color: SColorPicker.black,
+                                  alignment: Alignment.centerLeft,
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            height: Get.height * 0.01,
-                          ),
-                          Padding(
-                            padding:  EdgeInsets.symmetric(horizontal: 10.sp),
-                            child: CustomText(
-                              text: snapShot.data!.docs[index]['prdName'],
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14.sp,
-                              color: SColorPicker.purple,
-                              alignment: Alignment.centerLeft,
-                            ),
-                          ),
-                          SizedBox(
-                            height: Get.height * 0.01,
-                          ),
-                          Padding(
-                            padding:  EdgeInsets.symmetric(horizontal: 10.sp),
-                            child: CustomText(
-                              text:snapShot.data!.docs[index]['category'],
-                              // snapShot.data!.docs[index]['dsc'],
-                              textOverflow: TextOverflow.ellipsis,
-                              fontWeight: FontWeight.w600,
-                              max: 1,
-                              fontSize: 12.sp,
-                              color: SColorPicker.black,
-                              alignment: Alignment.centerLeft,
-                            ),
-                          ),
-                          SizedBox(
-                            height: Get.height * 0.01,
-                          ),
-                          Padding(
-                            padding:  EdgeInsets.symmetric(horizontal: 10.sp),
-                            child: CustomText(
-                              text: snapShot.data!.docs[index]['price'],
-                              fontWeight: FontWeight.w600,
-                              fontSize: 12.sp,
-                              color: SColorPicker.black,
-                              alignment: Alignment.centerLeft,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                );
-            });
-          }else{
-            return Center(
-              child: CircularProgressIndicator(
-                color: AppColors.primaryColor,
-              ),
-            );
-          }
-
-
-        },
+                    );
+                  });
+            } else {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.primaryColor,
+                ),
+              );
+            }
+          },
+        ),
       ),
-    ),
     );
   }
 }

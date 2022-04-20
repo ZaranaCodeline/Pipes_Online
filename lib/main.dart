@@ -3,10 +3,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:pipes_online/routes/app_pages.dart';
-import 'package:pipes_online/routes/app_routes.dart';
-import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'buyer/helpers/binding.dart';
 
@@ -23,12 +21,12 @@ FlutterLocalNotificationsPlugin();
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print('A bg message just showed up :  ${message.messageId}');
-
 }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await GetStorage.init();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await flutterLocalNotificationsPlugin
@@ -48,19 +46,21 @@ class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
   var status1;
 
-  data() async {
+ /* data() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     status1 = prefs.getBool('isLoggedIn');
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
+
     print(status1);
     return Sizer(
       builder: (context, orientation, deviceType) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-           initialRoute: status1 == true ? BRoutes. BSubmitProfileScreen : AppPages.initial,
+          initialRoute:AppPages.initial,
+          /*initialRoute: status1 == true ? BRoutes. BSubmitProfileScreen : AppPages.initial,*/
           getPages: AppPages.routes,
           initialBinding: Binding(),
           // home: NavigationBarScreen(),

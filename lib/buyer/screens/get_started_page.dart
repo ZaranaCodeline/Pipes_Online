@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/screens/b_home_screen_widget.dart';
+import 'package:pipes_online/buyer/screens/custom_widget/custom_button.dart';
+import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 
 import '../app_constant/app_colors.dart';
-import '../custom_widget/widgets/custom_button.dart';
-import '../custom_widget/widgets/custom_text.dart';
-import 'home_screen_widget.dart';
 
 class GetStartedPage extends StatelessWidget {
   const GetStartedPage({Key? key}) : super(key: key);

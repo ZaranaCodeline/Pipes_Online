@@ -97,12 +97,12 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
                           child: Container(
                     decoration: BoxDecoration(
                       color: SColorPicker.white,
-                      boxShadow: [
+                    /*  boxShadow: [
                         BoxShadow(
                             color: Colors.black12,
                             spreadRadius: 0.5,
                             blurRadius: 1),
-                      ],
+                      ],*/
                       borderRadius: BorderRadius.circular(10.sp),
                     ),
                             // decoration: BoxDecoration(

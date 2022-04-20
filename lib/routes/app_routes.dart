@@ -7,7 +7,7 @@ class Routes {
   static const LOGIN = '/login';
   static const HOME = '/home';
   static const PROFILE = '/profile';
-  static const MYORDER = '/myorder';
+  static const BMYORDER = '/bmyorder';
   static const SETTINGPAGE = '/setting';
 // static const CHECKOUT = '/checkout';
 }
@@ -34,7 +34,7 @@ class SRoutes {
 class BRoutes{
   static final BPhoneOTP_Screen = '/BPhoneOTP_Screen';
   static final DrawerProfilePage = '/DrawerProfilePage';
-  static final LoginScreen = '/LoginScreen';
+  static final BLoginScreen = '/BLoginScreen';
   static final BSubmitProfileScreen = '/BSubmitProfileScreen';
   static final BLogInHomeScreen = '/BLogInHomeScreen';
   static final BSignUpRagistraionScreen = '/BSignUpRagistraionScreen';

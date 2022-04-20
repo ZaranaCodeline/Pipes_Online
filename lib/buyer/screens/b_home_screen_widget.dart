@@ -3,7 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/b_cart_bottom_bar_route.dart';
-import 'package:pipes_online/buyer/screens/product_cart_screen.dart';
+import 'package:pipes_online/buyer/screens/b_product_cart_screen.dart';
+import 'package:pipes_online/buyer/view_model/cart_product_controller.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:sizer/sizer.dart';
 import '../app_constant/app_colors.dart';
@@ -16,8 +17,12 @@ import 'product_card_list.dart';
 
 class CatelogeHomeWidget extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
+    CartProductcontroller cartProductcontroller = Get.find();
+    print(
+        '=====cartProductcontroller.items.value.toString()=====>${cartProductcontroller.items.value.toString()}');
     _showPopupMenu() {
       final RenderBox renderBox = context.findRenderObject() as RenderBox;
       final offset = renderBox.localToGlobal(Offset.zero);
@@ -32,8 +37,12 @@ class CatelogeHomeWidget extends StatelessWidget {
           position: RelativeRect.fromLTRB(25.0, Get.height * 0.17, 0, 25.0),
           //position where you want to show the menu on screen
           items: [
-             PopupMenuItem<String>(
-                child: Text('Filter by KM',style: TextStyle(fontSize: 12.sp),), value: '1'),
+            PopupMenuItem<String>(
+                child: Text(
+                  'Filter by KM',
+                  style: TextStyle(fontSize: 12.sp),
+                ),
+                value: '1'),
             PopupMenuItem<String>(
                 child: Card(
                   elevation: 2,
@@ -117,8 +126,12 @@ class CatelogeHomeWidget extends StatelessWidget {
                               _scaffoldKey.currentState?.openDrawer(),
                         ),
                         Container(
-                            margin: EdgeInsets.only(right: 10.sp,bottom: 5.sp,top: 5.sp),
-                            child: Image.asset('assets/images/png/pipe_logo.png',fit: BoxFit.cover,)),
+                            margin: EdgeInsets.only(
+                                right: 10.sp, bottom: 5.sp, top: 5.sp),
+                            child: Image.asset(
+                              'assets/images/png/pipe_logo.png',
+                              fit: BoxFit.cover,
+                            )),
                         InkWell(
                           onTap: () {
                             bottomBarIndexController.setSelectedScreen(
@@ -155,7 +168,8 @@ class CatelogeHomeWidget extends StatelessWidget {
                                     color: AppColors.commonWhiteTextColor,
                                   ),
                                   child: CustomText(
-                                    text: '3',
+                                    text:
+                                        cartProductcontroller.items.toString(),
                                     fontSize: 8.sp,
                                     fontWeight: FontWeight.w600,
                                     color: AppColors.secondaryBlackColor,
@@ -231,13 +245,14 @@ class CatelogeHomeWidget extends StatelessWidget {
     );
   }
 }
+
 class CustomTitleText extends StatelessWidget {
   CustomTitleText(
       {Key? key,
-        required this.text,
-        required this.fontWeight,
-        required this.fontSize,
-        required this.alignment})
+      required this.text,
+      required this.fontWeight,
+      required this.fontSize,
+      required this.alignment})
       : super(key: key);
 
   String text;

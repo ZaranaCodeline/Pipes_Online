@@ -38,8 +38,8 @@ class SeditProductScreen extends StatefulWidget {
 class _SeditProductScreenState extends State<SeditProductScreen> {
   EditProductContoller editProductContoller = Get.put(EditProductContoller());
   BottomController homeController = Get.find();
-  TextEditingController prdName = TextEditingController();
-  TextEditingController dsc = TextEditingController();
+  // TextEditingController prdName = TextEditingController();
+  // TextEditingController dsc = TextEditingController();
   final formGlobalKey = GlobalKey<FormState>();
   BBottomBarIndexController bottomBarIndexController =
       Get.put(BBottomBarIndexController());
@@ -48,6 +48,9 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
   File? _image;
   String? Img;
   String? cat;
+  String? price;
+  String? prdName;
+  String? dsc;
 
   String dropdownvalue = 'Plastic';
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -57,25 +60,35 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    getData();
+    getData(editProductContoller.id);
     super.initState();
   }
-
-  Future<void> getData() async {
-    print('demo.....');
+  Future<void> getData(String id) async {
+    print('demo.selected product seller....');
     final user = await userCollection
         .doc('${FirebaseAuth.instance.currentUser!.uid}')
         .collection('data')
-        .doc(widget.id)
+        .doc(id)
         .get();
-    Map<String, dynamic>? getUserData = user.data()!;
-    prdName.text = getUserData['prdName'];
-    dsc.text = getUserData['dsc'];
-    Img = getUserData['imageProfile'];
-    cat = getUserData['category'];
-    print('============================${user.get('prdName')}');
-  }
+    Map<String, dynamic>? getUserData = user.data();
+    setState(() {
+      prdName = getUserData?['prdName'] ?? "";
+      dsc = getUserData?['dsc'] ?? "";
+      Img = getUserData?['imageProfile'] ?? "";
+      price = getUserData?['price']?? "" ;
+      cat = getUserData?['category'] ?? "";
+    });
 
+    print('prdName ==>$prdName');
+    print('dsc=> $dsc');
+    print('price= >$price');
+    print('imageProfile = >$Img');
+
+    // getUserData!.forEach((key, value) {
+    //   print('=========================key value=================${key}--${value}');
+    // });
+
+  }
   Future pickImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     setState(() {
@@ -123,8 +136,10 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
           leading: IconButton(
             onPressed: () {
               // Get.back();
-              homeController.bottomIndex.value = 0;
-              homeController.selectedScreen('SCatelogeHomeScreen');
+             setState(() {
+               homeController.bottomIndex.value = 0;
+               homeController.selectedScreen('SSelectedProductScreen');
+             });
             },
             icon: Icon(Icons.arrow_back),
           ),
@@ -178,7 +193,7 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                                               blurRadius: 10)
                                         ]),
                                     child: _image == null
-                                        ? Image.network(widget.img.toString())
+                                        ? Image.network(Img.toString())
                                         : Image.file(_image!),
                                   ),
                                   FlatButton(
@@ -282,24 +297,24 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                         ),
                         Container(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 10.sp, vertical: 0.sp),
+                              horizontal: 10.sp, vertical: 10.sp),
                           alignment: Alignment.topLeft,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: AppColors.commonWhiteTextColor),
                           child: widget.name != null
                               ? TextFormField(
-                                  controller: prdName,
+                                  // controller: prdName,
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
                                     focusedBorder: InputBorder.none,
                                     enabledBorder: InputBorder.none,
                                     errorBorder: InputBorder.none,
                                     disabledBorder: InputBorder.none,
-                                    hintText: ('ABX'),
+                                    hintText:prdName.toString() /*('ABX')*/,
                                   ),
                                 )
-                              : Text(widget.name.toString()),
+                              : Text('$prdName'),
                         ),
                         SizedBox(
                           height: Get.height * 0.01,
@@ -323,7 +338,7 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: AppColors.commonWhiteTextColor),
-                          child: Text('${editProductContoller.selectedPrice}'),
+                          child: Text('${price}'),
                         ),
                         SizedBox(
                           height: Get.height * 0.01,
@@ -348,9 +363,9 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                               color: AppColors.commonWhiteTextColor),
                           child: Container(
                             child: TextField(
-                              controller: dsc,
+                              // controller: dsc,
                               decoration: InputDecoration(
-                                hintText: 'Enter Address',
+                                hintText: dsc,
                               ),
                               maxLines: 3,
                               keyboardType: TextInputType.multiline,
@@ -471,12 +486,11 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
           'imageProfile': downloadUrl,
           'price': editProductContoller.selectedPrice,
         })
-
         .catchError((e) => print(e))
         .then((value) {
-      editProductContoller.selectedName=prdName.text;
+      editProductContoller.selectedName=prdName.toString() ;
       editProductContoller.images=downloadUrl;
-      editProductContoller.selectedDesc=dsc.text;
+      editProductContoller.selectedDesc=dsc.toString() ;
       editProductContoller.selectedPrice=editProductContoller.selectedPrice;
 
       // editProductContoller.=addProductController.category;

@@ -34,7 +34,8 @@ class BRegisterRepo {
         .catchError((e) => print(e.toString()));
   }
   static Future<void> currentUser() async {
-    print('${bFirebaseAuth.currentUser!.uid}');
+    print('buyrer kFirebaseAuth.currentUser!.uid==============>${kFirebaseAuth.currentUser!.uid}');
+    print('Preference Id==============>${PreferenceManager.getUId().toString()}');
     await PreferenceManager.setEmail(bFirebaseAuth.currentUser!.email!);
     await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
 
@@ -43,6 +44,7 @@ class BRegisterRepo {
   }
 
   static Future<void> logOut() async {
+    PreferenceManager.clearData();
     bFirebaseAuth.signOut();
     print('Log Out');
   }
@@ -75,6 +77,8 @@ class SRegisterRepo {
         .catchError((e) => print(e.toString()));
   }
   static Future<void> currentUser() async {
+    print('seller kFirebaseAuth.currentUser!.uid==============>${kFirebaseAuth.currentUser!.uid}');
+    print('seller Preference Id==============>${PreferenceManager.getUId().toString()}');
     print('${bFirebaseAuth.currentUser!.uid}');
     await PreferenceManager.setEmail(bFirebaseAuth.currentUser!.email!);
     await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);

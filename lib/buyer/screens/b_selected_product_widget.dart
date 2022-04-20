@@ -30,7 +30,6 @@ class SelectedProductWidget extends StatefulWidget {
 
 class _SelectedProductWidgetState extends State<SelectedProductWidget> {
   var rating = 3.0;
-
   final List<String> imageList = [
     'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cart_page.png?alt=media&token=6a4d6e9a-51b3-449a-a2bd-eb54dcec0803',
     'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cart_page.png?alt=media&token=6a4d6e9a-51b3-449a-a2bd-eb54dcec0803',
@@ -39,6 +38,8 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
   // SelectedProductController controller = Get.put(SelectedProductController());
   @override
   Widget build(BuildContext context) {
+    print(' category:  category:  category: ${widget.category}');
+
     return SafeArea(
       child: Scaffold(
         body: SafeArea(
@@ -201,48 +202,42 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
             ),
             Card(
               child: Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(5.0),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      flex: 2,
-                      child: CustomText(
-                        text: ' Share This Listing',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14.sp,
-                        color: AppColors.secondaryBlackColor,
-                      ),
+                    CustomText(
+                      text: ' Share This Listing',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14.sp,
+                      color: AppColors.secondaryBlackColor,
                     ),
-                    Expanded(
-                      flex: 1,
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              _launchWhatsapp();
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            _launchWhatsapp();
+                          },
+                          child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.green,
+                                borderRadius: BorderRadius.circular(50.sp),
+                              ),
+                              child: SvgPicture.asset(
+                                  'assets/images/icon/what_up_icon.svg')),
+                        ),
+                        SizedBox(
+                          width: 10.sp,
+                        ),
+                        IconButton(
+                            onPressed: () async {
+                              print('hii..');
+                              Share.share(
+                                  'https://pipesonline012.page.link/productPage');
                             },
-                            child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.green,
-                                  borderRadius: BorderRadius.circular(50.sp),
-                                ),
-                                child: SvgPicture.asset(
-                                    'assets/images/icon/what_up_icon.svg')),
-                          ),
-                          SizedBox(
-                            width: 10.sp,
-                          ),
-                          IconButton(
-                              onPressed: () async {
-                                print('hii..');
-                                Share.share(
-                                    'https://pipesonline012.page.link/productPage');
-                              },
-                              icon: Icon(Icons.share_outlined)),
-                        ],
-                      ),
+                            icon: Icon(Icons.share_outlined)),
+                      ],
                     ),
                   ],
                 ),

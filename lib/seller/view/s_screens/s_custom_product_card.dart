@@ -43,7 +43,7 @@ class _SCustomProductCardState extends State<SCustomProductCard> {
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('Products')
-            .doc('${_auth.currentUser!.uid}')
+            .doc('${_auth.currentUser?.uid}')
             .collection('data')
             .snapshots(),
         builder: (context, snapShot) {
@@ -68,14 +68,14 @@ class _SCustomProductCardState extends State<SCustomProductCard> {
                       print('gfvf');
                       print('DATA OF ID${snapShot.data!.docs[index].id}');
 
-                      editProductContoller.selectedName=proName.toString();
+                    /*  editProductContoller.selectedName=proName.toString();
                       // editProductContoller.images=downloadUrl;
                       editProductContoller.selectedDesc=desc.toString();
                       editProductContoller.selectedPrice=editProductContoller.selectedPrice;
-
+                      */
                       homeController.selectedScreen('SSelectedProductScreen');
                       homeController.bottomIndex.value=0;
-
+                      editProductContoller.selectedID(snapShot.data!.docs[index].id);
                       // Get.to(SSelectedProductScreen(
                       //   name: snapShot.data!.docs[index]['prdName'],
                       //   price: snapShot.data!.docs[index]['price'],

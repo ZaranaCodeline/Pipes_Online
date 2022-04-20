@@ -55,7 +55,7 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('hckshusbcl${widget.category}');
+    print('widget.category================>${widget.category}');
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(

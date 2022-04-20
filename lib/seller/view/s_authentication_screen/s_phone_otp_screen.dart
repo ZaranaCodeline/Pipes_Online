@@ -9,12 +9,14 @@ import 'package:get/get.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/routes/app_routes.dart';
+import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
 import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/seller/view_model/s_login_home_controller.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 class SPhoneOTP_Screen extends StatefulWidget {
@@ -114,7 +116,7 @@ class _SPhoneOTP_ScreenState extends State<SPhoneOTP_Screen> {
                                     width: Get.width,
                                     child: Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Enter Mobile Number',
@@ -135,16 +137,16 @@ class _SPhoneOTP_ScreenState extends State<SPhoneOTP_Screen> {
                                   ),
                                   Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
                                         height: Get.height * 0.07,
                                         width: Get.width * 0.25,
                                         decoration: BoxDecoration(
                                             borderRadius:
-                                            BorderRadius.circular(10.sp),
+                                                BorderRadius.circular(10.sp),
                                             border:
-                                            Border.all(color: Colors.grey)),
+                                                Border.all(color: Colors.grey)),
                                         alignment: Alignment.centerLeft,
                                         child: CountryCodePicker(
                                           onChanged: (val) {
@@ -158,9 +160,9 @@ class _SPhoneOTP_ScreenState extends State<SPhoneOTP_Screen> {
                                         width: Get.width * 0.6,
                                         decoration: BoxDecoration(
                                             borderRadius:
-                                            BorderRadius.circular(10.sp),
+                                                BorderRadius.circular(10.sp),
                                             border:
-                                            Border.all(color: Colors.grey)),
+                                                Border.all(color: Colors.grey)),
                                         alignment: Alignment.centerLeft,
                                         child: TextFormField(
                                           keyboardType: TextInputType.number,
@@ -169,23 +171,23 @@ class _SPhoneOTP_ScreenState extends State<SPhoneOTP_Screen> {
                                               hintText: 'Enter Number',
                                               errorBorder: OutlineInputBorder(
                                                   borderRadius:
-                                                  BorderRadius.circular(
-                                                      10.sp),
+                                                      BorderRadius.circular(
+                                                          10.sp),
                                                   borderSide: BorderSide.none),
                                               focusedBorder: OutlineInputBorder(
                                                   borderRadius:
-                                                  BorderRadius.circular(
-                                                      10.sp),
+                                                      BorderRadius.circular(
+                                                          10.sp),
                                                   borderSide: BorderSide.none),
                                               enabledBorder: OutlineInputBorder(
                                                   borderRadius:
-                                                  BorderRadius.circular(
-                                                      10.sp),
+                                                      BorderRadius.circular(
+                                                          10.sp),
                                                   borderSide: BorderSide.none),
                                               border: OutlineInputBorder(
                                                   borderRadius:
-                                                  BorderRadius.circular(
-                                                      10.sp),
+                                                      BorderRadius.circular(
+                                                          10.sp),
                                                   borderSide: BorderSide.none)),
                                         ),
                                       ),
@@ -197,7 +199,7 @@ class _SPhoneOTP_ScreenState extends State<SPhoneOTP_Screen> {
                                   Container(
                                     decoration: BoxDecoration(
                                         borderRadius:
-                                        BorderRadius.circular(10.sp),
+                                            BorderRadius.circular(10.sp),
                                         border: Border.all(color: Colors.grey)),
                                     height: Get.height * 0.07,
                                     width: Get.width * 0.9,
@@ -209,15 +211,15 @@ class _SPhoneOTP_ScreenState extends State<SPhoneOTP_Screen> {
                                           hintText: 'Enter Otp',
                                           focusedBorder: OutlineInputBorder(
                                               borderRadius:
-                                              BorderRadius.circular(10.sp),
+                                                  BorderRadius.circular(10.sp),
                                               borderSide: BorderSide.none),
                                           enabledBorder: OutlineInputBorder(
                                               borderRadius:
-                                              BorderRadius.circular(10.sp),
+                                                  BorderRadius.circular(10.sp),
                                               borderSide: BorderSide.none),
                                           border: OutlineInputBorder(
                                               borderRadius:
-                                              BorderRadius.circular(10.sp),
+                                                  BorderRadius.circular(10.sp),
                                               borderSide: BorderSide.none)),
                                     ),
                                   ),
@@ -230,13 +232,13 @@ class _SPhoneOTP_ScreenState extends State<SPhoneOTP_Screen> {
                                       children: [
                                         TextSpan(
                                           text:
-                                          'By continuing, you agree to the',
+                                              'By continuing, you agree to the',
                                           style: STextStyle.regular600Black11,
                                         ),
                                         TextSpan(
                                             text: ' terms and conditions',
                                             style:
-                                            STextStyle.semiBold600Purple11,
+                                                STextStyle.semiBold600Purple11,
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
                                                 Get.to(() =>
@@ -255,7 +257,7 @@ class _SPhoneOTP_ScreenState extends State<SPhoneOTP_Screen> {
                                   ),
                                   Padding(
                                     padding:
-                                    EdgeInsets.symmetric(horizontal: 40.sp),
+                                        EdgeInsets.symmetric(horizontal: 40.sp),
                                     child: SCommonButton().sCommonPurpleButton(
                                       name: otpCodeVisible ? "Login" : "Verify",
                                       onTap: () async {
@@ -275,11 +277,11 @@ class _SPhoneOTP_ScreenState extends State<SPhoneOTP_Screen> {
                                           Get.showSnackbar(
                                             GetSnackBar(
                                               snackPosition:
-                                              SnackPosition.BOTTOM,
+                                                  SnackPosition.BOTTOM,
                                               backgroundColor: SColorPicker.red,
                                               duration: Duration(seconds: 2),
                                               message:
-                                              'Please enter mobile number',
+                                                  'Please enter mobile number',
                                             ),
                                           );
                                         }
@@ -321,7 +323,7 @@ class _SPhoneOTP_ScreenState extends State<SPhoneOTP_Screen> {
     if (authCredential.smsCode != null) {
       try {
         UserCredential credential =
-        await user!.linkWithCredential(authCredential);
+            await user!.linkWithCredential(authCredential);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'provider-already-linked') {
           await _auth.signInWithCredential(authCredential);
@@ -380,7 +382,20 @@ class _SPhoneOTP_ScreenState extends State<SPhoneOTP_Screen> {
         verificationId: verificationId!, smsCode: otpCode.text);
     _auth.signInWithCredential(credential).then((value) {
       print('You are logged in successfully');
-      Get.off(NavigationBarScreen());
+      if (PreferenceManager.getUId().toString() != null) {
+        print('TEST:- 1');
+        if (PreferenceManager.getUserType() == '' ||
+            PreferenceManager.getUserType() == null) {
+          print('TEST:- 2');
+          Get.offAll(SBuyerSellerScreen());
+        } else {
+          print('TEST:- 4');
+          PreferenceManager.getUserType() == 'Seller';
+          Get.offAll(NavigationBarScreen());
+        }
+      }
+
+      // Get.off(NavigationBarScreen());
     });
   }
 }

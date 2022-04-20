@@ -7,16 +7,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/authentificaion/b_functions.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/routes/app_routes.dart';
-import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import '../../../seller/view/s_screens/s_color_picker.dart';
-import '../../../seller/view/s_screens/s_image.dart';
 import '../../../seller/view/s_screens/s_text_style.dart';
 import 'b_phone_otp_screen.dart';
 
@@ -144,6 +141,54 @@ class _BLoginScreenState extends State<BLoginScreen> {
                             height: Get.height * 0.02,
                           ),
                           TextFormField(
+                            obscureText: selected ? false : true,
+                            controller: pass,
+                            decoration: InputDecoration(
+                                hintText: 'Password',
+                                filled: true,
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    selected == false
+                                        ? Icons.remove_red_eye
+                                        : Icons.remove_red_eye_outlined,
+                                    color:
+                                    selected ? Colors.black : Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      selected = !selected;
+                                    });
+                                  },
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide:
+                                  BorderSide(color: Colors.red, width: 2),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                        color: Colors.blue.withOpacity(0.5),
+                                        width: 2)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        width: 2)),
+                                errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                        color: Colors.red, width: 2))),
+                            validator: (password) {
+                              if (password!.isEmpty) {
+                                return 'Please enter password';
+                              } else if (!isPasswordValid(password)) {
+                                return 'Enter a valid password';
+                              }
+                              return null;
+                            },
+                          ),
+                         /* TextFormField(
                               obscureText: selected ? false : true,
                               controller: pass,
                               decoration: InputDecoration(
@@ -189,7 +234,7 @@ class _BLoginScreenState extends State<BLoginScreen> {
                                   return 'Enter a valid password';
                                 }
                                 return null;
-                              }),
+                              }),*/
                           SizedBox(
                             height: Get.height * 0.05,
                           ),

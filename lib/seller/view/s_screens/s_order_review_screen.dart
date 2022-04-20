@@ -6,7 +6,6 @@ import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_customer_review.dart';
 import 'package:pipes_online/seller/view/s_screens/s_earning_screen.dart';
-import 'package:pipes_online/seller/view/s_screens/s_edit_product_screen.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 

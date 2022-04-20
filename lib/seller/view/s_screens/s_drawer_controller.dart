@@ -1,13 +1,13 @@
-import 'package:country_code_picker/country_code.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
-
-class SDrawerController extends GetxController {
-  bool readOnly = true;
-
-  void setEdit() {
-    readOnly = !readOnly;
-    print('readOnly: $readOnly');
-    update();
-  }
-}
+// import 'package:country_code_picker/country_code.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:get/get.dart';
+//
+// class SDrawerController extends GetxController {
+//   bool readOnly = true;
+//
+//   void setEdit() {
+//     readOnly = !readOnly;
+//     print('readOnly: $readOnly');
+//     update();
+//   }
+// }

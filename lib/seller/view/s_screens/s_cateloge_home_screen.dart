@@ -6,7 +6,6 @@ import 'package:pipes_online/seller/view/s_screens/s_custom_product_card.dart';
 import 'package:pipes_online/seller/view/s_screens/s_drawer_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_home_screen_search_widget.dart';
 import 'package:pipes_online/seller/view/s_screens/s_order_screen.dart';
-import 'package:pipes_online/seller/view/s_screens/s_product_card_list.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/app_constant/b_image.dart';

@@ -52,10 +52,10 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
     address = getUserData['address'];*/
 
     setState(() {
-      name = getUserData!['firstname'];
-      phoneNo = getUserData['phoneno'];
-      Img = getUserData['imageProfile'];
-      address = getUserData['address'];
+      name = getUserData?['firstname'];
+      phoneNo = getUserData?['phoneno'];
+      Img = getUserData?['imageProfile'];
+      address = getUserData?['address'];
     });
     print('============================${user.get('imageProfile')}');
   }

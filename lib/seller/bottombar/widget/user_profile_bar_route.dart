@@ -4,7 +4,6 @@ import 'package:pipes_online/buyer/screens/b_personal_info_page.dart';
 import 'package:pipes_online/seller/view/s_screens/s_prosonal_info_page.dart';
 // import 'package:pipes_online/seller/view/s_screens/s_profile_screen.dart';
 
-import '../../../buyer/screens/b_drawer_profile_page.dart';
 import '../../../routes/bottom_controller.dart';
 
 BottomController homeController = Get.find();

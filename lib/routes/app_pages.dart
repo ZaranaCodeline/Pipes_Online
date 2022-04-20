@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_phone_otp_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_ragistraion_screen.dart';
 import 'package:pipes_online/buyer/screens/b_chat_screen.dart';
-import 'package:pipes_online/buyer/screens/b_drawer_profile_page.dart';
 import 'package:pipes_online/buyer/screens/b_my_order_page.dart';
 import 'package:pipes_online/buyer/screens/b_settings_page.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';

@@ -27,7 +27,7 @@ class Binding extends Bindings{
     Get.lazyPut(() => BHelpCenterController(),fenix: true);
     Get.lazyPut(() => BLogInController(),fenix: true);
     Get.lazyPut(() => PersonalInfoPageController(),fenix: true);
-    Get.lazyPut(() => CartProductcontroller(),fenix: true);
+    // Get.lazyPut(() => CartProductcontroller(),fenix: true);
     Get.lazyPut(() => BuyerSellerController(),fenix: true);
   }
 }

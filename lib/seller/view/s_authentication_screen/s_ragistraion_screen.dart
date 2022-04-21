@@ -682,7 +682,7 @@ class _SSignUpRagistraionScreenState extends State<SSignUpRagistraionScreen> {
     }
   }
 
-  Future<void> addData() async {
+  /*Future<void> addData() async {
     String? imageUrl = await uploadImageToFirebase(
         context: context, file: _image, fileName: '${email.text}_profile.jpg');
     SRegisterRepo.currentUser()
@@ -710,8 +710,44 @@ class _SSignUpRagistraionScreenState extends State<SSignUpRagistraionScreen> {
         return SLoginScreen();
       },
     )));
+  }*/
+  Future<void> addData() async {
+    print(
+        'buyer addData getTime==============>${PreferenceManager.getTime().toString()}');
+    print('buyer addData Preference Id==============>${PreferenceManager.getUId().toString()}');
+    String? imageUrl = await uploadImageToFirebase(
+        context: context, file: _image, fileName: '${email.text}_profile.jpg');
+    SRegisterRepo.currentUser()
+        .then((value) async {
+      CollectionReference ProfileCollection =
+      bFirebaseStore.collection('SProfile');
+      ProfileCollection.doc('${PreferenceManager.getUId()}').set({
+        'sellerID':'1',
+        'email': email.text,
+        'password': pass.text,
+        'phoneno': phn.text,
+        'firstname': fname.text,
+        'lastname': lname.text,
+        'imageProfile': imageUrl,
+        'address': _controller.addressController == null
+            ? _controller.addressController
+            : _controller.addressController!.text,
+        'userType': 'Buyer',
+        'time': DateTime.now(),
+      });
+    })
+        .catchError((e) => print('Error ====seller=====>>> $e'))
+        .then(
+          (value) => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return SLoginScreen();
+          },
+        ),
+      ),
+    );
   }
-
   bool isPasswordValid(String password) => password.length <= 8;
 
   bool isEmailValid(String email) {

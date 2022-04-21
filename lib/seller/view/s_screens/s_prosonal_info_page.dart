@@ -9,6 +9,7 @@ import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/routes/bottom_controller.dart';
+import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/seller/view/s_screens/s_common_button.dart';
 import 'package:sizer/sizer.dart';
@@ -17,9 +18,9 @@ import '../../../buyer/screens/bottom_bar_screen_page/widget/b_home_bottom_bar_r
 import '../../bottombar/widget/category_bottom_bar_route.dart';
 
 class SPersonalInfoPage extends StatefulWidget {
-  const SPersonalInfoPage(
-      {Key? key, })
-      : super(key: key);
+  const SPersonalInfoPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<SPersonalInfoPage> createState() => _SPersonalInfoPageState();
@@ -52,7 +53,10 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
     setState(() {
       Img = getUserData['imageProfile'];
     });
-    print('============================${user.get('imageProfile')}');
+    print('============================${user.get('$firstname')}');
+    print('============================${user.get('$email')}');
+    print('============================${user.get('$address')}');
+    print('============================${user.get('$phoneno')}');
   }
 
   Future getGalleryImage() async {
@@ -97,8 +101,10 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              homeController.bottomIndex.value = 0;
-              homeController.selectedScreen('SCatelogeHomeScreen');
+              Get.back();
+              // homeController.bottomIndex.value = 0;
+              // homeController.selectedScreen('NavigationBarScreen');
+              // Get.to(() => NavigationBarScreen());
             },
             icon: Icon(Icons.arrow_back),
           ),
@@ -126,10 +132,10 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                   GestureDetector(
                     onTap: () {
                       showModalBottomSheet<void>(
-                        shape : RoundedRectangleBorder(
-                            borderRadius : BorderRadius.only(
-                                topLeft: const Radius.circular(20.0), topRight: const Radius.circular(20.0))
-                        ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: const Radius.circular(20.0),
+                                topRight: const Radius.circular(20.0))),
                         backgroundColor: Colors.white,
                         context: context,
                         builder: (context) => FractionallySizedBox(
@@ -138,7 +144,6 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-
                                 decoration: BoxDecoration(
                                     color: AppColors.primaryColor,
                                     borderRadius: BorderRadius.circular(25.sp),

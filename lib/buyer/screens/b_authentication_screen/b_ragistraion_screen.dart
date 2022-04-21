@@ -699,6 +699,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
   Future<void> addData() async {
     print(
         'buyer addData Preference Id==============>${PreferenceManager.getUId().toString()}');
+    print(    'buyer addData-getTime==============>${PreferenceManager.getTime().toString()}');
     String? imageUrl = await uploadImageToFirebase(
         context: context, file: _image, fileName: '${email.text}_profile.jpg');
     BRegisterRepo.currentUser()
@@ -706,6 +707,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
           CollectionReference ProfileCollection =
               bFirebaseStore.collection('BProfile');
           ProfileCollection.doc('${PreferenceManager.getUId()}').set({
+            'buyerID':'1',
             'email': email.text,
             'password': pass.text,
             'phoneno': phn.text,
@@ -719,7 +721,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
             'time': DateTime.now(),
           });
         })
-        .catchError((e) => print('Error =========>>> $e'))
+        .catchError((e) => print('Error ====buyer=====>>> $e'))
         .then(
           (value) => Navigator.push(
             context,

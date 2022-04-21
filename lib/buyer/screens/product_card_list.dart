@@ -32,21 +32,16 @@ class _ProductCardListState extends State<ProductCardList> {
     return Scaffold(
       body: Container(
         // height: Get.height * 5.sp,
+
         padding: EdgeInsets.symmetric(horizontal: 8.sp),
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
-              .collection('Products')
-              .doc('${_auth.currentUser?.uid}')
-              .collection('data')
-              .snapshots(),
-          builder: (context, snapShot) {
+              .collection('Products').snapshots(),
+                     builder: (context, snapShot) {
+
+            print('ProductCardList=======================>${snapShot.data?.docs.length}');
+
             if (snapShot.hasData) {
-              if (snapShot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (snapShot.connectionState == ConnectionState.done) {}
               return GridView.builder(
                   physics: BouncingScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -59,13 +54,13 @@ class _ProductCardListState extends State<ProductCardList> {
                     return GestureDetector(
                       onTap: () {
                         print('gfvf');
-                        print('DATA OF ID${snapShot.data!.docs[index].id}');
+                        print('DATA OF ID========${snapShot.data!.docs[index].id}');
                         Get.to(SelectedProductWidget(
                             name: snapShot.data!.docs[index]['prdName'],
                             price: snapShot.data!.docs[index]['price'],
                             image: snapShot.data!.docs[index]['imageProfile'],
                             desc: snapShot.data!.docs[index]['dsc'],
-                            category: snapShot.data!.docs[index]['category']));
+                            category: snapShot.data!.docs[index]['category'],id: snapShot.data!.docs[index].id,));
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -160,13 +155,12 @@ class _ProductCardListState extends State<ProductCardList> {
                       ),
                     );
                   });
-            } else {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.primaryColor,
-                ),
-              );
             }
+           return Center(
+              child: CircularProgressIndicator(
+                color: AppColors.primaryColor,
+              ),
+            );
           },
         ),
       ),

@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/authentificaion/b_functions.dart';
 import 'package:pipes_online/buyer/screens/b_cart_page.dart';
+import 'package:pipes_online/buyer/screens/b_product_cart_screen.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 import '../app_constant/app_colors.dart';
@@ -15,9 +17,15 @@ import 'custom_widget/custom_text.dart';
 
 class CustomSelectedProductBuildTopWidget extends StatefulWidget {
   CustomSelectedProductBuildTopWidget(
-      {Key? key, this.price, this.desc, this.name, this.category, this.image})
+      {Key? key,
+      this.price,
+      this.desc,
+      this.name,
+      this.category,
+      this.image,
+      this.id})
       : super(key: key);
-  final String? name, image, desc, price, category;
+  final String? name, image, desc, price, category, id;
 
   @override
   State<CustomSelectedProductBuildTopWidget> createState() =>
@@ -71,7 +79,8 @@ class _CustomSelectedProductBuildTopWidgetState
                           onTap: () {
                             print('CATEGORY----->${widget.category}');
                             File? imagUrl;
-                            addDataToCart(imagUrl).then((value) {
+                            addCart(widget.id!).then((value) {
+                              print('Added into cart');
                               Get.to(
                                 () => CartPage(
                                   category: widget.category,
@@ -81,6 +90,7 @@ class _CustomSelectedProductBuildTopWidgetState
                                   price: widget.price,
                                 ),
                               );
+                              // Get.to(ProductCartScreen());
                             });
                           },
                           child: CustomText(
@@ -131,6 +141,15 @@ class _CustomSelectedProductBuildTopWidgetState
       bFirebaseStore.collection('Carts');
   FirebaseAuth _auth = FirebaseAuth.instance;
 
+  Future<void> addCart(String product_id) async {
+    FirebaseFirestore.instance
+        .collection('Cart')
+        .doc(PreferenceManager.getUId())
+        .set({
+      'cartID': product_id,
+    });
+  }
+
   Future<void> addDataToCart(File? file) async {
     String? imageUrl = await uploadImageToFirebase(
       context: context,
@@ -142,9 +161,13 @@ class _CustomSelectedProductBuildTopWidgetState
     // String downloadUrl = await snapshot.ref.getDownloadURL();
     // print('url=$downloadUrl');
     BAuthMethods().getCurrentUser().then((value) {
-      productsCartCollection
-         /* .doc('${_auth.currentUser!.uid}')
-          .collection('data')*/
+      print(
+          'demo.PreferenceManager.getTime().toString()....${PreferenceManager.getTime().toString()}');
+
+      FirebaseFirestore.instance
+          .collection('Cart')
+          .doc(PreferenceManager.getTime().toString())
+          .collection('MyCart')
           .add({
             'cartID': _auth.currentUser!.uid,
             'imageProfile': imageUrl,
@@ -153,7 +176,19 @@ class _CustomSelectedProductBuildTopWidgetState
             'dsc': widget.desc,
             'price': widget.price,
             'createdOn': DateTime.now(),
-          })
+          }) /*;
+      productsCartCollection
+         */ /* .doc('${_auth.currentUser!.uid}')
+          .collection('data')*/ /*
+          .add({
+            'cartID': _auth.currentUser!.uid,
+            'imageProfile': imageUrl,
+            'category': widget.category,
+            'prdName': widget.name,
+            'dsc': widget.desc,
+            'price': widget.price,
+            'createdOn': DateTime.now(),
+          })*/
           .catchError((e) => print('Error ===>>> $e'))
           .then((value) {
             /* addProductController.name=prdName.text;

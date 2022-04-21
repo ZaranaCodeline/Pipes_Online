@@ -5,6 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pipes_online/routes/app_pages.dart';
+import 'package:pipes_online/routes/bottom_controller.dart';
 import 'package:sizer/sizer.dart';
 import 'buyer/helpers/binding.dart';
 
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    BottomController bottomController = Get.put(BottomController());
     print(status1);
     return Sizer(
       builder: (context, orientation, deviceType) {

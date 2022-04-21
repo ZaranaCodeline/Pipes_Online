@@ -64,11 +64,6 @@ class _SBuyerSellerScreenState extends State<SBuyerSellerScreen> {
                               groupValue: controller.radioValue,
                               onChanged: (value) {
                                 controller.setRadioValue(value);
-                                // setState(() {
-                                //   radioValue = value;
-                                //
-                                //   print('----${radioValue.runtimeType}');
-                                // });
                               },
                               title: Text(
                                 'Buyer',
@@ -102,18 +97,17 @@ class _SBuyerSellerScreenState extends State<SBuyerSellerScreen> {
                         onTap: () {
                           if (controller.radioValue != null) {
                             if (controller.radioValue == 'Seller') {
-                              // Get.offNamed(SRoutes.SWelcomeScreen);
                               print('Seller');
+                              PreferenceManager.setUId('id');
                               PreferenceManager.setUserType('Seller');
-                              Get.offAll(SWelcomeScreen());
-
-                              // PreferenceManager.setUId('email');
-
+                              PreferenceManager.setTime('time');
+                              Get.offAll(()=>SWelcomeScreen());
                             } else {
                               print('Buyer');
+                              PreferenceManager.setUId('id');
                               PreferenceManager.setUserType('Buyer');
-                              // PreferenceManager.setUId('email');
-                              Get.offAll(BWelcomeScreen());
+                              PreferenceManager.setTime('time');
+                              Get.offAll(()=>BWelcomeScreen());
                             }
                           } else {
                             Get.showSnackbar(GetSnackBar(

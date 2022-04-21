@@ -53,6 +53,14 @@ class PreferenceManager {
     return getStorage.read('phoneno');
   }
 
+  static Future setTime(String value) async {
+    await getStorage.write('time', value);
+  }
+  static  getTime() {
+    return getStorage.read('time');
+  }
+
+
   static Future<void> clearData() async {
     // await getStorage.erase();
     await getStorage.remove('email');

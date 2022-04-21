@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_customer_review.dart';
 import 'package:pipes_online/seller/view/s_screens/s_earning_screen.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
@@ -425,7 +427,18 @@ class _SorderReviewScreenState extends State<SorderReviewScreen> {
                           blurRadius: 1, color: AppColors.hintTextColor),
                     ]),
                 child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      FirebaseFirestore.instance
+                          .collection("Products")
+                          .where(PreferenceManager.getTime(), isEqualTo :"createdOn")
+                          .get().then((value){
+                        value.docs.forEach((element) {
+                          FirebaseFirestore.instance.collection("Products").doc(element.id).delete().then((value){
+                            print("Success!");
+                          });
+                        });
+                      });
+                    },
                     child:
                         SvgPicture.asset('assets/images/svg/delete_icon.svg')),
               ),

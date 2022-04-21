@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/app_constant/b_image.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
@@ -15,14 +19,14 @@ import 'custom_widget/custom_text.dart';
 import 'b_seller_review_widget.dart';
 
 class SelectedProductWidget extends StatefulWidget {
-  SelectedProductWidget({Key? key,
-     this.name,
-     this.price,
-     this.image,
-    this.category,
-    this.desc})
+
+  final String? name, image, desc, price, category, id;
+
+
+  SelectedProductWidget(
+      {Key? key, this.name, this.price, this.image, this.category, this.desc,this.id})
       : super(key: key);
- final  String? name, image, desc, price,category;
+
 
   @override
   State<SelectedProductWidget> createState() => _SelectedProductWidgetState();
@@ -35,7 +39,48 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
     'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cart_page.png?alt=media&token=6a4d6e9a-51b3-449a-a2bd-eb54dcec0803',
   ];
 
+  String? firstname;
+
+  String? email;
+
+  String? address;
+
+  String? phoneno;
+
+  String? Img;
+
+  CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
+
+  Future<void> getData() async {
+    print('demo....${PreferenceManager.getUId()}.');
+    final user =
+        await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
+            // await ProfileCollection.doc('${PreferenceManager.getUId()}')
+            .get();
+    var m = user.data();
+    print('--SelectedProductWidget--------m-- $m');
+    // Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+    Map<String, dynamic>? getUserData = m as Map<String, dynamic>?;
+    setState(() {
+      firstname = getUserData!['firstname'];
+      email = getUserData['email'];
+      address = getUserData['address'];
+      phoneno = getUserData['phoneno'];
+      Img = getUserData['imageProfile'];
+    });
+
+    print('========SelectedProductWidget===========${getUserData}');
+  }
+
   // SelectedProductController controller = Get.put(SelectedProductController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     print(' category:  category:  category: ${widget.category}');
@@ -75,7 +120,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
   Widget _buileSecondWidget() {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: 5.sp,
+        horizontal: 0.sp,
         vertical: 15.sp,
       ),
       child: SingleChildScrollView(
@@ -89,36 +134,40 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                 desc: widget.desc.toString(),
                 image: widget.image.toString(),
                 category: widget.category,
+                id: widget.id,
               ),
             ),
-            Card(
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 10.sp),
-                child: InkWell(
-                  onTap: () {
-                    Get.to(() => SellerReviewWidget());
-                  },
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 10.sp),
+              child: InkWell(
+                onTap: () {
+                  Get.to(() => SellerReviewWidget());
+                },
+                child: SingleChildScrollView(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.sp),
-                        child: SvgPicture.asset(
-                          BImagePick.PersonIcon,
-                          width: 25.sp,
-                          height: 25.sp,
-                          color: AppColors.primaryColor,
-                        ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(25),
+                        child: Image.network(
+                          Img == null
+                              ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
+                              : Img!,
+                          fit: BoxFit.cover,
+                        width: 30.sp,
+                        height: 30.sp,
+                        // color: AppColors.primaryColor,
+                          ),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CustomRichTextSpanWidget(
                             color1: AppColors.secondaryBlackColor,
-                            name1: 'Jan Doe ',
+                            name1: firstname.toString(),
                             name2: '  (6 listings)',
                             color2: AppColors.hintTextColor,
-                            fontsize: 14.sp,
+                            fontsize: 12.sp,
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(vertical: 5.sp),
@@ -178,7 +227,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                 width: double.infinity,
                 padding: EdgeInsets.all(10.sp),
                 child: CustomText(
-                  text:widget.desc.toString(),
+                  text: widget.desc.toString(),
                   fontWeight: FontWeight.w400,
                   fontSize: 12.sp,
                   color: AppColors.secondaryBlackColor,
@@ -187,13 +236,15 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
             ),
             Card(
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+
+                },
                 child: CustomRichTextSpanWidget(
                   name1: 'Status :',
                   color1: AppColors.secondaryBlackColor,
                   name2: ' For Sale',
                   color2: AppColors.secondaryBlackColor,
-                  fontsize: 14.sp,
+                  fontsize: 12.sp,
                 ),
               ),
             ),
@@ -250,7 +301,8 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
   }
 
   _launchWhatsapp() async {
-    const url = "https://wa.me/?text=Deal of the day, https://pipesonline012.page.link/productPage";
+    const url =
+        "https://wa.me/?text=Deal of the day, https://pipesonline012.page.link/productPage";
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -265,15 +317,18 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
         linkUrl: 'https://flutter.dev/',
         chooserTitle: 'Example Chooser Title');
   }
-
-
 }
 
 class CustomRichTextSpanWidget extends StatelessWidget {
-  CustomRichTextSpanWidget(
-      {Key? key, required this.color1,required this.color2, required this.fontsize,required this.name1, required this.name2,})
-      : super(key: key);
-  Color color1 , color2;
+  CustomRichTextSpanWidget({
+    Key? key,
+    required this.color1,
+    required this.color2,
+    required this.fontsize,
+    required this.name1,
+    required this.name2,
+  }) : super(key: key);
+  Color color1, color2;
   String name1, name2;
   double fontsize;
 
@@ -287,12 +342,19 @@ class CustomRichTextSpanWidget extends StatelessWidget {
           children: [
             TextSpan(
               text: name1,
-              style: TextStyle(fontSize: fontsize,
-                color: color1,wordSpacing: 1,),),
+              style: TextStyle(
+                fontSize: fontsize,
+                color: color1,
+                wordSpacing: 1,
+              ),
+            ),
             TextSpan(
               text: name2,
-              style: TextStyle(fontSize: fontsize, fontWeight: FontWeight.w400,
-                  color: color2),),
+              style: TextStyle(
+                  fontSize: fontsize,
+                  fontWeight: FontWeight.w400,
+                  color: color2),
+            ),
           ],
         ),
       ),

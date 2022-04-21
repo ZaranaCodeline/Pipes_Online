@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/seller/Authentication/s_function.dart';
 import 'package:pipes_online/seller/view_model/s_add_product_controller.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/screens/custom_widget/custom_text.dart';
@@ -421,8 +422,8 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
   }
   FirebaseAuth _auth = FirebaseAuth.instance;
   Future<void> addData(File? file) async {
-    /* String? imageUrl = await uploadImageToFirebase(
-        context: context, file: _image);*/
+    print('demo.PreferenceManager.getTime().toString()....${PreferenceManager.getTime().toString()}');
+
     var snapshot = await bFirebaseStorage
         .ref()
         .child('ChatImage/${DateTime.now().microsecondsSinceEpoch}')
@@ -431,8 +432,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
     print('url=$downloadUrl');
     SAuthMethods().getCurrentUser()
         .then((value) {
-      userCollection.doc('${_auth.currentUser!.uid}').collection(
-          'data').add({
+      userCollection.add({
         'imageProfile': downloadUrl,
         'category': dropdownvalue,
         'prdName': prdName.text,

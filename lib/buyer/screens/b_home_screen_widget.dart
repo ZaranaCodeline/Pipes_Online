@@ -20,9 +20,9 @@ class CatelogeHomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CartProductcontroller cartProductcontroller = Get.find();
-    print(
-        '=====cartProductcontroller.items.value.toString()=====>${cartProductcontroller.items.value.toString()}');
+    // CartProductcontroller cartProductcontroller = Get.find();
+    // print(
+        // '=====cartProductcontroller.items.value.toString()=====>${cartProductcontroller.items.value.toString()}');
     _showPopupMenu() {
       final RenderBox renderBox = context.findRenderObject() as RenderBox;
       final offset = renderBox.localToGlobal(Offset.zero);
@@ -168,8 +168,8 @@ class CatelogeHomeWidget extends StatelessWidget {
                                     color: AppColors.commonWhiteTextColor,
                                   ),
                                   child: CustomText(
-                                    text:
-                                        cartProductcontroller.items.toString(),
+                                    text:'',
+                                        // cartProductcontroller.items.toString(),
                                     fontSize: 8.sp,
                                     fontWeight: FontWeight.w600,
                                     color: AppColors.secondaryBlackColor,

@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pipes_online/buyer/screens/b_home_screen_widget.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
 import 'package:pipes_online/shared_prefarence/helperFunction/share_preferance_helper.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 FirebaseAuth kFirebaseAuth = FirebaseAuth.instance;
 FirebaseFirestore kFirebaseStore = FirebaseFirestore.instance;
@@ -83,6 +84,7 @@ class BAuthMethods {
   }
   static Future<void> logOut() async {
     await kFirebaseAuth.signOut();
+    PreferenceManager.clearData();
     print('Log Out');
   }
 

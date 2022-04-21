@@ -43,8 +43,7 @@ class _SCustomProductCardState extends State<SCustomProductCard> {
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('Products')
-            .doc('${_auth.currentUser?.uid}')
-            .collection('data')
+
             .snapshots(),
         builder: (context, snapShot) {
           if (snapShot.hasData) {

@@ -7,7 +7,6 @@ import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
-import 'package:pipes_online/buyer/view_model/cart_product_controller.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
@@ -15,6 +14,8 @@ import 'package:sizer/sizer.dart';
 import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 
 class ProductCartScreen extends StatefulWidget {
+  String? id;
+
   ProductCartScreen({
     Key? key,
   }) : super(key: key);
@@ -24,9 +25,7 @@ class ProductCartScreen extends StatefulWidget {
 }
 
 class _ProductCartScreenState extends State<ProductCartScreen> {
-  CartProductcontroller cartProductcontroller =
-      Get.put(CartProductcontroller());
-  CollectionReference ProfileCollection = bFirebaseStore.collection('Carts');
+  CollectionReference ProfileCollection = bFirebaseStore.collection('Cart');
   String? name;
   String? dsc;
   String? Img;
@@ -34,17 +33,15 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
   String? category;
 
   Future<void> getData() async {
-    print('demo.....${PreferenceManager.getUId()}');
-    final user = await ProfileCollection.doc(
-            'EcDJ0IhGgxK24alFr7SW')
-        // await ProfileCollection.doc('${PreferenceManager.getUId().toString()}')
-        .get();
+    final user =
+        await ProfileCollection.doc('${PreferenceManager.getUId().toString()}')
+            .get();
     var m = user.data();
-    print('---------------m-- $m');
+    print('--m-- $m');
     print(
-        '-----PreferenceManager.getUId().toString()----------> ${PreferenceManager.getUId().toString()}');
+        '--PreferenceManager.getUId().toString()---> ${PreferenceManager.getUId().toString()}');
     print(
-        '-----bFirebaseAuth.currentUser!.uid----------> ${bFirebaseAuth.currentUser!.uid}');
+        '--bFirebaseAuth.currentUser!.uid---> ${bFirebaseAuth.currentUser!.uid}');
 
     Map<String, dynamic>? getUserData = m as Map<String, dynamic>?;
     setState(() {
@@ -55,16 +52,15 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
       category = getUserData['category'];
     });
 
-    print(
-        '============CartProductcontroller================${user.get('imageProfile')}');
-    print('============getUserData================${getUserData}');
+    print('============CartProductcontroller===${user.get('imageProfile')}');
+    print('==getUserData===${getUserData}');
   }
 
   @override
   void initState() {
-    getData();
     // TODO: implement initState
     super.initState();
+    getData();
   }
 
   @override
@@ -79,9 +75,10 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              bottomBarIndexController.setSelectedScreen(
-                  value: 'CatelogeHomeWidget');
-              bottomBarIndexController.bottomIndex.value = 0;
+              Get.back();
+              // bottomBarIndexController.setSelectedScreen(
+              //     value: 'CatelogeHomeWidget');
+              // bottomBarIndexController.bottomIndex.value = 0;
             },
             icon: Icon(Icons.arrow_back_rounded)),
         title: Text(
@@ -174,59 +171,59 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                     text: 'Remove form Cart',
                     fontWeight: FontWeight.w600,
                     fontSize: 12.sp,
-                    color: AppColors.hintTextColor)
-                /*Container(
-                  width: 25.sp,
-                  height: 25.sp,
-                 */ /* decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: AppColors
-                          .secondaryBlackColor.withOpacity(0.3) */ /**/ /* Color(0xffFB8C00)*/ /**/ /*),*/ /*
-                  child: IconButton(
-                    onPressed: () {
-                      cartProductcontroller.increment();
-                    },
-                    icon: Icon(
-                      Icons.arrow_back_ios,
-                      color:AppColors
-                          .secondaryBlackColor.withOpacity(0.3),
-                      size:15.sp,
-                    ),
-                  ),
-                ),*/
-                ,
-                /* SizedBox(
-                  width: 10.sp,
-                ),*/
-                /*Obx(
-                  () => Text(
-                    '${cartProductcontroller.items.toString()}',
-                    style: TextStyle(
-                        fontSize: 14.sp, fontWeight: FontWeight.w700
-                    ),
-                  ),
-                ),*/
-                /*SizedBox(
-                  width:10.sp,
-                ),*/
-                /*Container(
-                  width: 25.sp,
-                  height: 25.sp,
-                  */ /*decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: AppColors.secondaryBlackColor),*/ /*
-                  child: IconButton(
-                    onPressed: () {
-                      cartProductcontroller.decrement();
-                    },
-                    icon: Icon(
-                      Icons.arrow_forward_ios,
-                      color: AppColors
-                          .secondaryBlackColor.withOpacity(0.3),
-                      size: 15.sp,
-                    ),
-                  ),
-                ),*/
+                    color: AppColors.hintTextColor),
+                // Container(
+                //   width: 25.sp,
+                //   height: 25.sp,
+                //    decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(25),
+                //       color: AppColors
+                //           .secondaryBlackColor.withOpacity(0.3)    Color(0xffFB8C00)  ),
+                //   child: IconButton(
+                //     onPressed: () {
+                //       cartProductcontroller.increment();
+                //     },
+                //     icon: Icon(
+                //       Icons.arrow_back_ios,
+                //       color:AppColors
+                //           .secondaryBlackColor.withOpacity(0.3),
+                //       size:15.sp,
+                //     ),
+                //   ),
+                // ),
+                // ,
+                //  SizedBox(
+                //   width: 10.sp,
+                // ),
+                // Obx(
+                //   () => Text(
+                //     '${cartProductcontroller.items.toString()}',
+                //     style: TextStyle(
+                //         fontSize: 14.sp, fontWeight: FontWeight.w700
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(
+                //   width:10.sp,
+                // ),
+                // Container(
+                //   width: 25.sp,
+                //   height: 25.sp,
+                //    decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(25),
+                //       color: AppColors.secondaryBlackColor),
+                //   child: IconButton(
+                //     onPressed: () {
+                //       cartProductcontroller.decrement();
+                //     },
+                //     icon: Icon(
+                //       Icons.arrow_forward_ios,
+                //       color: AppColors
+                //           .secondaryBlackColor.withOpacity(0.3),
+                //       size: 15.sp,
+                //     ),
+                //   ),
+                // ),
                 SizedBox(
                   height: 15.sp,
                 ),
@@ -243,10 +240,14 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                   child: TextButton(
                     onPressed: () {
                       print('Delete');
-                      /*FirebaseFirestore.instance
-                      .collection("Products")
-                      .doc(_auth.currentUser!.uid)
-                      .delete();*/
+                      FirebaseFirestore.instance
+                          .collection("Products")
+                          .doc()
+                          .delete()
+                          .then((_) {
+                        print("delete success!");
+                      });
+                      ;
                       Get.back();
                     },
                     child: SvgPicture.asset(BImagePick.deleteIcon),

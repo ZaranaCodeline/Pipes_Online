@@ -12,6 +12,7 @@ import 'package:pipes_online/buyer/screens/help_center_page.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_drawer_controller.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import '../app_constant/app_colors.dart';
 import '../authentificaion/b_functions.dart';
@@ -314,6 +315,8 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
       case 6:
         BAuthMethods.logOut().then((value) =>
             Get.off(()=>SBuyerSellerScreen()));
+        PreferenceManager.clearData();
+
         break;
     }
   }

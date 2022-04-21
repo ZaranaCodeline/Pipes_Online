@@ -17,6 +17,7 @@ import 'package:pipes_online/seller/view/s_screens/s_review_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_settings_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_subscribe_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_terms_and_condition_screen.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/app_constant/b_image.dart';
@@ -41,6 +42,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
   String? Img;
   String? address;
   BottomController homeController = Get.find();
+
   Future<void> getData() async {
     print('demo seller.....');
     final user =
@@ -56,13 +58,17 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
       Img = getUserData['imageProfile'];
       address = getUserData['address'];
     });
-    print('============================${user.get('imageProfile')}');
+    print('=======SDrawerScreen=======${getUserData}');
+    print('=======SDrawerScreen===========${user.get('$name')}');
+    print('=======SDrawerScreen=======${user.get('$phoneNo')}');
+    print('=======SDrawerScreen=======${user.get('$Img')}');
+    print('=======SDrawerScreen======${user.get('$address')}');
   }
-
 
   @override
   void initState() {
     super.initState();
+    getData();
   }
   @override
   Widget build(BuildContext context) {
@@ -302,6 +308,8 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
       case 8:
         SAuthMethods.logOut().then((value) =>
             Get.off(()=>SBuyerSellerScreen()));
+        PreferenceManager.clearData();
+
         break;
     }
   }

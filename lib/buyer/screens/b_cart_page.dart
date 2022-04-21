@@ -18,10 +18,10 @@ import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 import 'b_payment_page.dart';
 
 class CartPage extends StatefulWidget {
-  final String? name, image, desc, price, category;
+  final String? name, image, desc, price, category,id;
 
   const CartPage(
-      {Key? key, this.price, this.desc, this.name, this.image, this.category})
+      {Key? key, this.price, this.desc, this.name, this.image, this.category, this.id})
       : super(key: key);
 
   @override

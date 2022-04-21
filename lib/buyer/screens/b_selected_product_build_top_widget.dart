@@ -79,10 +79,21 @@ class _CustomSelectedProductBuildTopWidgetState
                           onTap: () {
                             print('CATEGORY----->${widget.category}');
                             File? imagUrl;
-                            addCart(widget.id!).then((value) {
-                              print('Added into cart');
+                            FirebaseFirestore.instance
+                                .collection('Cart')
+                                .doc(PreferenceManager.getUId().toString())
+                                .collection('MyCart')
+                                .add({
+                              'cartID': _auth.currentUser!.uid,
+                              'imageProfile': widget.image,
+                              'category': widget.category,
+                              'prdName': widget.name,
+                              'dsc': widget.desc,
+                              'price': widget.price,
+                              'createdOn': DateTime.now(),
+                            }).then((value) {
                               Get.to(
-                                () => CartPage(
+                                    () => CartPage(
                                   category: widget.category,
                                   name: widget.name,
                                   desc: widget.desc,
@@ -90,8 +101,12 @@ class _CustomSelectedProductBuildTopWidgetState
                                   price: widget.price,
                                 ),
                               );
-                              // Get.to(ProductCartScreen());
                             });
+                            // addCart(widget.id!).then((value) {
+                            //   print('Added into cart');
+                            //
+                            //   // Get.to(ProductCartScreen());
+                            // });
                           },
                           child: CustomText(
                             text: 'ADD TO CART',

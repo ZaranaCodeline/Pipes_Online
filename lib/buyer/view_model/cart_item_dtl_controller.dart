@@ -11,7 +11,7 @@ class ItemDetailController extends GetxController {
   int discount = 0;
 
   Future<void> getItemDetails(String id) async {
-    print('id cart lenfgt${id.length}');
+    print('getItemDetails length ===>${id.length}');
     try {
       await _firestore.collection("Products").doc(id).get().then((value) {
         model = ItemDetailModel.fromJson(value.data()!);
@@ -49,9 +49,9 @@ class ItemDetailController extends GetxController {
 
     try {
       await _firestore
-          .collection('product_cart')
+          .collection('Products')
           .doc(_auth.currentUser!.uid)
-          .collection('cart')
+          .collection('Cart')
           .doc(model.id)
           .set({'id': model.id}).then((value) {
         checkIfAlreadyInCart();

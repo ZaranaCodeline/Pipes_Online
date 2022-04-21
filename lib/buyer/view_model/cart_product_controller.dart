@@ -8,20 +8,18 @@ import 'package:pipes_online/buyer/screens/cart_model.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 
 class CartProductcontroller extends GetxController {
-  var items = 0.obs;
-
-  increment() {
-    items++;
-  }
-
-  decrement() {
-    if (items.value <= 0) {
-      Get.snackbar('Buying Products', 'can not be less then zero',
-          snackPosition: SnackPosition.BOTTOM);
-    } else {
-      items--;
-    }
-  }
+  // var items = 0.obs;
+  // increment() {
+  //   items++;
+  // }
+  // decrement() {
+  //   if (items.value <= 0) {
+  //     Get.snackbar('Buying Products', 'can not be less then zero',
+  //         snackPosition: SnackPosition.BOTTOM);
+  //   } else {
+  //     items--;
+  //   }
+  // }
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -30,55 +28,49 @@ class CartProductcontroller extends GetxController {
   int discount = 0;
 
   Future<void> getItemDetails(String id) async {
-    print('id cart lenfgt${id.length}');
+    print('id cart length getItemDetails=>${id.length}');
     try {
-      await _firestore.collection("Products").doc(id).get().then((value) {
-        model = ItemDetailModel.fromJson(value.data()!);
+      await  FirebaseFirestore.instance.collection(
+          'Products').doc().collection('Cart').doc(
+          'cartID').delete().then((value) {
         // discount = calculateDiscount(model.totalPrice, model.sellingPrice);
-        checkIfAlreadyInCart();
+        checkIfAlreadyInCart(id);
       });
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> checkIfAlreadyInCart() async {
+  Future<void> checkIfAlreadyInCart(String product_id) async {
     try {
-      await _firestore
-          // .collection('Products')
-          .doc(_auth.currentUser!.uid)
-          .collection('cart')
-          .where('id', isEqualTo: model.id)
-          .get()
-          .then((value) {
-        if (value.docs.isNotEmpty) {
-          isAlreadyAvailable = true;
-        }
-        isLoading = false;
-        update();
+      await FirebaseFirestore.instance
+          .collection('Cart')
+          .doc(PreferenceManager.getUId())
+          .set({
+        'cartID': product_id,
       });
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> addItemsToCart() async {
-    isLoading = true;
-    update();
-
-    try {
-      await _firestore
-          .collection('product_cart')
-          .doc(_auth.currentUser!.uid)
-          .collection('cart')
-          .doc(model.id)
-          .set({'id': model.id}).then((value) {
-        checkIfAlreadyInCart();
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
+  // Future<void> addItemsToCart() async {
+  //   isLoading = true;
+  //   update();
+  //
+  //   try {
+  //     await _firestore
+  //         .collection('product_cart')
+  //         .doc(_auth.currentUser!.uid)
+  //         .collection('cart')
+  //         .doc(model.id)
+  //         .set({'id': model.id}).then((value) {
+  //       checkIfAlreadyInCart();
+  //     });
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   int calculateDiscount(int totalPrice, int sellingPrice) {
     double discount = ((totalPrice - sellingPrice) / totalPrice) * 100;

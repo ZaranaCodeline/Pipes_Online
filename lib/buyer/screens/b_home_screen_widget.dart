@@ -138,13 +138,6 @@ class CatelogeHomeWidget extends StatelessWidget {
                                 value: 'ProductCartScreen');
                             bottomBarIndexController.bottomIndex.value = 1;
                             // Get.to(() => ProductCartScreen());
-                            // if (bottomBarIndexController.bottomIndex.value == 1) {
-                            //   bottomBarIndexController.setSelectedScreen(
-                            //       value: 'HomeScreen');
-                            //   bottomBarIndexController.bottomIndex.value = 0;
-                            // } else {
-                            //   Get.back();
-                            // }
                           },
                           child: Stack(
                             children: [

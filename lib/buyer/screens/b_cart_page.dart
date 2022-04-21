@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/seller/Authentication/s_function.dart';
 import 'package:pipes_online/seller/view/s_screens/s_add_product_screen.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../seller/common/s_text_style.dart';
@@ -156,11 +157,16 @@ class _CartPageState extends State<CartPage> {
                                   ]),
                               child: TextButton(
                                 onPressed: () {
-                                  print('Delete');
                                   FirebaseFirestore.instance
-                                      .collection("Products")
-                                      .doc(_auth.currentUser!.uid)
-                                      .delete();
+                                      .collection('Cart')
+                                      .doc(PreferenceManager.getUId().toString())
+                                      .collection('MyCart').doc().delete();
+                                  print('Deleted');
+
+                                  // FirebaseFirestore.instance
+                                  //     .collection("Products")
+                                  //     .doc(_auth.currentUser!.uid)
+                                  //     .delete();
                                   Get.back();
                                 },
                                 child: SvgPicture.asset(BImagePick.deleteIcon),

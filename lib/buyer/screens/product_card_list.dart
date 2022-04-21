@@ -6,7 +6,6 @@ import 'package:pipes_online/buyer/view_model/b_bottom_bar_controller.dart';
 import 'package:sizer/sizer.dart';
 import '../../seller/common/s_color_picker.dart';
 import '../app_constant/app_colors.dart';
-import 'custom_widget/custom_product_card.dart';
 import 'custom_widget/custom_text.dart';
 import 'b_selected_product_widget.dart';
 
@@ -31,16 +30,13 @@ class _ProductCardListState extends State<ProductCardList> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        // height: Get.height * 5.sp,
-
+        // height: Get.height * 5.sp
         padding: EdgeInsets.symmetric(horizontal: 8.sp),
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('Products').snapshots(),
                      builder: (context, snapShot) {
-
-            print('ProductCardList=======================>${snapShot.data?.docs.length}');
-
+            print('ProductCardList=-->${snapShot.data?.docs.length}');
             if (snapShot.hasData) {
               return GridView.builder(
                   physics: BouncingScrollPhysics(),
@@ -53,8 +49,8 @@ class _ProductCardListState extends State<ProductCardList> {
                   itemBuilder: (BuildContext context, index) {
                     return GestureDetector(
                       onTap: () {
-                        print('gfvf');
-                        print('DATA OF ID========${snapShot.data!.docs[index].id}');
+                        print("snapShot.data!.docs[index]['prdName']--${snapShot.data!.docs[index]['prdName']}");
+                        print('DATA OF ID========${snapShot.data!.docs[index]}');
                         Get.to(SelectedProductWidget(
                             name: snapShot.data!.docs[index]['prdName'],
                             price: snapShot.data!.docs[index]['price'],

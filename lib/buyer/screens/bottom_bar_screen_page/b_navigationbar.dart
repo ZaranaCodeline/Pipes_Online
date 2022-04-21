@@ -109,7 +109,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
       bottomBarIndexController.selectedScreen('HomeScreen');
     }
     if (index == 1) {
-      bottomBarIndexController.selectedScreen('CartPage');
+      bottomBarIndexController.selectedScreen('ProductCartScreen');
     }
     if (index == 2) {
       bottomBarIndexController.selectedScreen('ProductCartScreen');

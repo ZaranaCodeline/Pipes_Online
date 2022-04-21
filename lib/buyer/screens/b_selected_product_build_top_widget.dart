@@ -138,7 +138,7 @@ class _CustomSelectedProductBuildTopWidgetState
   }
 
   CollectionReference productsCartCollection =
-      bFirebaseStore.collection('Carts');
+      bFirebaseStore.collection('Cart');
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> addCart(String product_id) async {

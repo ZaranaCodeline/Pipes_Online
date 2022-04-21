@@ -117,7 +117,7 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                       Img.toString(),
                       */ /*BImagePick.cartIcon,*/ /*
                       fit: BoxFit.cover,
-                      height: Get.height / 5,
+                      height: Get.height / 5,`
                     )*/
                     ,
                   ),

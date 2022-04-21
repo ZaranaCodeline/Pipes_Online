@@ -31,12 +31,10 @@ BottomController _bottomController = Get.find();
                   categories.length,
                   (index) => GestureDetector(
                     onTap: () {
-
                       bottomBarIndexController.setSelectedScreen(
                           value: 'CategoriesCardList');
                       bottomBarIndexController.bottomIndex.value = 0;
-                      print(
-                          '---------selectedScreen--------- ${bottomBarIndexController.selectedScreen.value}');
+                      print('----selectedScreen-- ${bottomBarIndexController.selectedScreen.value}');
                       bottomBarIndexController.setCategoriesType(
                           value: categories[index].get("name"));
 

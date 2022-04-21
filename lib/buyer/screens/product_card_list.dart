@@ -33,9 +33,8 @@ class _ProductCardListState extends State<ProductCardList> {
         // height: Get.height * 5.sp
         padding: EdgeInsets.symmetric(horizontal: 8.sp),
         child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection('Products').snapshots(),
-                     builder: (context, snapShot) {
+          stream: FirebaseFirestore.instance.collection('Products').snapshots(),
+          builder: (context, snapShot) {
             print('ProductCardList=-->${snapShot.data?.docs.length}');
             if (snapShot.hasData) {
               return GridView.builder(
@@ -49,14 +48,20 @@ class _ProductCardListState extends State<ProductCardList> {
                   itemBuilder: (BuildContext context, index) {
                     return GestureDetector(
                       onTap: () {
-                        print("snapShot.data!.docs[index]['prdName']--${snapShot.data!.docs[index]['prdName']}");
-                        print('DATA OF ID========${snapShot.data!.docs[index]}');
-                        Get.to(SelectedProductWidget(
+                        print(
+                            "snapShot.data!.docs[index]['prdName']--${snapShot.data!.docs[index]['prdName']}");
+                        print(
+                            'DATA OF ID========${snapShot.data!.docs[index]}');
+                        Get.to(
+                          SelectedProductWidget(
                             name: snapShot.data!.docs[index]['prdName'],
                             price: snapShot.data!.docs[index]['price'],
                             image: snapShot.data!.docs[index]['imageProfile'],
                             desc: snapShot.data!.docs[index]['dsc'],
-                            category: snapShot.data!.docs[index]['category'],id: snapShot.data!.docs[index].id,));
+                            category: snapShot.data!.docs[index]['category'],
+                            id: snapShot.data!.docs[index].id,
+                          ),
+                        );
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -152,7 +157,7 @@ class _ProductCardListState extends State<ProductCardList> {
                     );
                   });
             }
-           return Center(
+            return Center(
               child: CircularProgressIndicator(
                 color: AppColors.primaryColor,
               ),

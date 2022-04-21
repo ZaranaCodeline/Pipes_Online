@@ -161,12 +161,7 @@ class _CartPageState extends State<CartPage> {
                                       .collection('Cart')
                                       .doc(PreferenceManager.getUId().toString())
                                       .collection('MyCart').doc().delete();
-                                  print('Deleted');
-
-                                  // FirebaseFirestore.instance
-                                  //     .collection("Products")
-                                  //     .doc(_auth.currentUser!.uid)
-                                  //     .delete();
+                                  print('Deleted from cart page');
                                   Get.back();
                                 },
                                 child: SvgPicture.asset(BImagePick.deleteIcon),

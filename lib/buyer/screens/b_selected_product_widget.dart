@@ -40,13 +40,9 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
   ];
 
   String? firstname;
-
   String? email;
-
   String? address;
-
   String? phoneno;
-
   String? Img;
 
   CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
@@ -98,7 +94,6 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                       CustomCarouselSliderWidget(
                         image: widget.image.toString(),
                       ),
-                      // CarouselWirhDotsWidgets(imgList: imageList,),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5.sp),
                         child: BackButton(
@@ -224,6 +219,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
             ),
             Card(
               child: Container(
+                height: Get.height/15,
                 width: double.infinity,
                 padding: EdgeInsets.all(10.sp),
                 child: CustomText(
@@ -248,49 +244,52 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                 ),
               ),
             ),
-            SizedBox(
-              height: Get.height * 0.01,
-            ),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomText(
-                      text: ' Share This Listing',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14.sp,
-                      color: AppColors.secondaryBlackColor,
-                    ),
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            _launchWhatsapp();
-                          },
-                          child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.green,
-                                borderRadius: BorderRadius.circular(50.sp),
-                              ),
-                              child: SvgPicture.asset(
-                                  'assets/images/icon/what_up_icon.svg')),
-                        ),
-                        SizedBox(
-                          width: 10.sp,
-                        ),
-                        IconButton(
-                            onPressed: () async {
-                              print('hii..');
-                              Share.share(
-                                  'https://pipesonline012.page.link/productPage');
+            Container(
+              height: Get.height/10,
+
+              child: Card(
+
+                child: Padding(
+
+                  padding: const EdgeInsets.all(5.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomText(
+                        text: ' Share This Listing',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12.sp,
+                        color: AppColors.secondaryBlackColor,
+                      ),
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              _launchWhatsapp();
                             },
-                            icon: Icon(Icons.share_outlined)),
-                      ],
-                    ),
-                  ],
+                            child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.green,
+                                  borderRadius: BorderRadius.circular(50.sp),
+                                ),
+                                child: SvgPicture.asset(
+                                    'assets/images/icon/what_up_icon.svg')),
+                          ),
+                          SizedBox(
+                            width: 10.sp,
+                          ),
+                          IconButton(
+                              onPressed: () async {
+                                print('hii..');
+                                Share.share(
+                                    'https://pipesonline012.page.link/productPage');
+                              },
+                              icon: Icon(Icons.share_outlined)),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

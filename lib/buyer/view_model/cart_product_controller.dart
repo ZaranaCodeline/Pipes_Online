@@ -41,6 +41,18 @@ class CartProductcontroller extends GetxController {
     }
   }
 
+ getItemLength() async {
+    try {
+     var cartLen = await  FirebaseFirestore.instance
+          .collection('Cart')
+          .doc(PreferenceManager.getUId().toString())
+          .collection('MyCart').snapshots().length;
+    }
+    catch (e) {
+      print(e);
+    }
+  }
+
   Future<void> checkIfAlreadyInCart(String product_id) async {
     try {
       await FirebaseFirestore.instance

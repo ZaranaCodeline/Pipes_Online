@@ -77,6 +77,12 @@ class _CustomSelectedProductBuildTopWidgetState
                         SizedBox(width: Get.width * 0.01),
                         GestureDetector(
                           onTap: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Addes Into Cart'),
+                                backgroundColor: AppColors.primaryColor,
+                              ),
+                            );
                             print('CATEGORY----->${widget.category}');
                             File? imagUrl;
                             FirebaseFirestore.instance
@@ -84,7 +90,7 @@ class _CustomSelectedProductBuildTopWidgetState
                                 .doc(PreferenceManager.getUId().toString())
                                 .collection('MyCart')
                                 .add({
-                              'cartID': _auth.currentUser!.uid,
+                              'cartID': PreferenceManager.getUId().toString(),
                               'imageProfile': widget.image,
                               'category': widget.category,
                               'prdName': widget.name,
@@ -93,7 +99,7 @@ class _CustomSelectedProductBuildTopWidgetState
                               'createdOn': DateTime.now(),
                             }).then((value) {
                               Get.to(
-                                    () => CartPage(
+                                () => CartPage(
                                   category: widget.category,
                                   name: widget.name,
                                   desc: widget.desc,
@@ -130,9 +136,6 @@ class _CustomSelectedProductBuildTopWidgetState
             color: AppColors.secondaryBlackColor,
             alignment: Alignment.topLeft,
           ),
-          const Divider(
-            height: 10,
-          ),
         ],
       ),
     );
@@ -152,78 +155,37 @@ class _CustomSelectedProductBuildTopWidgetState
     }
   }
 
-  CollectionReference productsCartCollection =
-      bFirebaseStore.collection('Cart');
-  FirebaseAuth _auth = FirebaseAuth.instance;
+// CollectionReference productsCartCollection =
+//     bFirebaseStore.collection('Cart');
+// FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<void> addCart(String product_id) async {
-    FirebaseFirestore.instance
-        .collection('Cart')
-        .doc(PreferenceManager.getUId())
-        .set({
-      'cartID': product_id,
-    });
-  }
-
-  Future<void> addDataToCart(File? file) async {
-    String? imageUrl = await uploadImageToFirebase(
-      context: context,
-    );
-/*    var snapshot = await bFirebaseStorage
-        .ref()
-        .child('ChatImage/${DateTime.now().microsecondsSinceEpoch}')
-        .putFile(file);*/
-    // String downloadUrl = await snapshot.ref.getDownloadURL();
-    // print('url=$downloadUrl');
-    BAuthMethods().getCurrentUser().then((value) {
-      print(
-          'demo.PreferenceManager.getTime().toString()....${PreferenceManager.getTime().toString()}');
-
-      FirebaseFirestore.instance
-          .collection('Cart')
-          .doc(PreferenceManager.getTime().toString())
-          .collection('MyCart')
-          .add({
-            'cartID': _auth.currentUser!.uid,
-            'imageProfile': imageUrl,
-            'category': widget.category,
-            'prdName': widget.name,
-            'dsc': widget.desc,
-            'price': widget.price,
-            'createdOn': DateTime.now(),
-          }) /*;
-      productsCartCollection
-         */ /* .doc('${_auth.currentUser!.uid}')
-          .collection('data')*/ /*
-          .add({
-            'cartID': _auth.currentUser!.uid,
-            'imageProfile': imageUrl,
-            'category': widget.category,
-            'prdName': widget.name,
-            'dsc': widget.desc,
-            'price': widget.price,
-            'createdOn': DateTime.now(),
-          })*/
-          .catchError((e) => print('Error ===>>> $e'))
-          .then((value) {
-            /* addProductController.name=prdName.text;
-        addProductController.images=downloadUrl;
-        addProductController.descs=dsc.text;
-        addProductController.prices=addProductController.selectedPrice;
-        addProductController.category=addProductController.category;*/
-            bottomBarIndexController.bottomIndex.value = 0;
-            bottomBarIndexController.selectedScreen('SCatelogeHomeScreen');
-          }
-              /*  Navigator.push(context, MaterialPageRoute(
-            builder: (context) {
-              return SCatelogeHomeScreen(
-                image: downloadUrl,
-                name: prdName.text,
-                price: addProductController.selectedPrice,
-                desc: dsc.text,);
-            },
-          ))*/
-              );
-    });
-  }
+// Future<void> addDataToCart(File? file) async {
+//   String? imageUrl = await uploadImageToFirebase(
+//     context: context,
+//   );
+//   BAuthMethods().getCurrentUser().then((value) {
+//     print(
+//         'PreferenceManager.getUId()....${PreferenceManager.getUId().toString()}');
+//     FirebaseFirestore.instance
+//         .collection('Cart')
+//         .doc(PreferenceManager.getTime().toString())
+//         .collection('MyCart')
+//         .add({
+//           'userID': _auth.currentUser!.uid,
+//           'imageProfile': imageUrl,
+//           'category': widget.category,
+//           'prdName': widget.name,
+//           'dsc': widget.desc,
+//           'price': widget.price,
+//           'createdOn': DateTime.now(),
+//         })
+//         .catchError((e) => print('Error ===>>> $e'))
+//         .then(
+//           (value) {
+//             bottomBarIndexController.bottomIndex.value = 0;
+//             bottomBarIndexController.selectedScreen('SCatelogeHomeScreen');
+//           },
+//         );
+//   });
+// }
 }

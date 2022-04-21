@@ -87,14 +87,7 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                                 child: Image.network(
                                   snapShot.data!.docs[index]['imageProfile'],
                                   fit: BoxFit.cover,
-                                )
-                                /* Image.network(
-                        Img.toString(),
-                        */ /*BImagePick.cartIcon,*/ /*
-                        fit: BoxFit.cover,
-                        height: Get.height / 5,`
-                      )*/
-                                ,
+                                ),
                               ),
                             ),
                             Container(
@@ -144,7 +137,7 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             CustomText(
-                                text: 'Remove form Cart',
+                                text: 'Remove form Cart....',
                                 fontWeight: FontWeight.w600,
                                 fontSize: 12.sp,
                                 color: AppColors.hintTextColor),
@@ -216,27 +209,17 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                                   ]),
                               child: TextButton(
                                 onPressed: () {
-                                  print('Delete');
-
-                                  FirebaseFirestore.instance
-                                      .collection('Products')
-                                      .doc()
+                                  print('Delete...');
+                                    FirebaseFirestore.instance
                                       .collection('Cart')
-                                      .doc('id')
+                                      .doc()
+                                      .collection('MyCart')
+                                      .doc()
                                       .delete()
                                       .then((value) {
-                                    cartProductcontroller
-                                        .getItemDetails(widget.id.toString());
-                                    return 'delete product';
+                                    print('Delete------------');
                                   });
-                                  // FirebaseFirestore.instance
-                                  //     .collection("Products")
-                                  //     .doc()
-                                  //     .delete()
-                                  //     .then((_) {
-                                  //   print("delete success!");
-                                  // });
-                                  Get.back();
+
                                 },
                                 child: SvgPicture.asset(BImagePick.deleteIcon),
                               ),

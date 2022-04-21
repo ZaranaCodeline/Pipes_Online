@@ -6,6 +6,7 @@ import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/product_card_list.dart';
 import 'package:pipes_online/buyer/screens/b_selected_product_widget.dart';
 import 'package:pipes_online/buyer/view_model/b_bottom_bar_controller.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../seller/common/s_color_picker.dart';
@@ -47,7 +48,7 @@ class _BCategoryDetailsPageState extends State<BCategoryDetailsPage> {
                 },
                 icon: Icon(Icons.arrow_back_rounded)),
             backgroundColor: AppColors.primaryColor,
-            toolbarHeight: Get.height * 0.09,
+            toolbarHeight: Get.height * 0.1,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(
                 bottom: Radius.circular(25),
@@ -56,12 +57,10 @@ class _BCategoryDetailsPageState extends State<BCategoryDetailsPage> {
           ),
           body: Container(
             // height: Get.height * 5.sp,
-            padding: EdgeInsets.symmetric(horizontal: 8.sp),
+            padding: EdgeInsets.symmetric(horizontal: 8.sp,vertical: 10.sp),
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection("Products")
-                  .doc('${_auth.currentUser!.uid}')
-                  .collection('data')
                   .where('category', isEqualTo:widget.category)
                   .snapshots(),
               builder: (context, snapShot) {

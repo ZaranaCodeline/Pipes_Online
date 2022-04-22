@@ -108,11 +108,6 @@ class _CustomSelectedProductBuildTopWidgetState
                                 ),
                               );
                             });
-                            // addCart(widget.id!).then((value) {
-                            //   print('Added into cart');
-                            //
-                            //   // Get.to(ProductCartScreen());
-                            // });
                           },
                           child: CustomText(
                             text: 'ADD TO CART',
@@ -155,37 +150,4 @@ class _CustomSelectedProductBuildTopWidgetState
     }
   }
 
-// CollectionReference productsCartCollection =
-//     bFirebaseStore.collection('Cart');
-// FirebaseAuth _auth = FirebaseAuth.instance;
-
-// Future<void> addDataToCart(File? file) async {
-//   String? imageUrl = await uploadImageToFirebase(
-//     context: context,
-//   );
-//   BAuthMethods().getCurrentUser().then((value) {
-//     print(
-//         'PreferenceManager.getUId()....${PreferenceManager.getUId().toString()}');
-//     FirebaseFirestore.instance
-//         .collection('Cart')
-//         .doc(PreferenceManager.getTime().toString())
-//         .collection('MyCart')
-//         .add({
-//           'userID': _auth.currentUser!.uid,
-//           'imageProfile': imageUrl,
-//           'category': widget.category,
-//           'prdName': widget.name,
-//           'dsc': widget.desc,
-//           'price': widget.price,
-//           'createdOn': DateTime.now(),
-//         })
-//         .catchError((e) => print('Error ===>>> $e'))
-//         .then(
-//           (value) {
-//             bottomBarIndexController.bottomIndex.value = 0;
-//             bottomBarIndexController.selectedScreen('SCatelogeHomeScreen');
-//           },
-//         );
-//   });
-// }
 }

@@ -127,7 +127,6 @@ class _ProductCardListState extends State<ProductCardList> {
                                     EdgeInsets.symmetric(horizontal: 10.sp),
                                 child: CustomText(
                                   text: snapShot.data!.docs[index]['category'],
-                                  // snapShot.data!.docs[index]['dsc'],
                                   textOverflow: TextOverflow.ellipsis,
                                   fontWeight: FontWeight.w600,
                                   max: 1,

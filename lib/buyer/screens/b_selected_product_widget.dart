@@ -80,7 +80,6 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
   @override
   Widget build(BuildContext context) {
     print(' category:  category:  category: ${widget.category}');
-
     return SafeArea(
       child: Scaffold(
         body: SafeArea(

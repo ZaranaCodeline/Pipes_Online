@@ -174,7 +174,7 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                                         .snapshots(),
                                     builder: (context, snapShot) {
                                       if (snapShot.hasData) {
-                                        print('length==========================${snapShot.data!.docs.length}');
+                                        print('length=====${snapShot.data!.docs.length}');
                                         return  CustomText(
                                           text:snapShot.data!.docs.length.toString(),
                                           fontSize: 10.sp,

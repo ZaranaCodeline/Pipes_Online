@@ -161,3 +161,57 @@
 //     });
 //   }
 // }
+
+
+// Container(
+//   width: 25.sp,
+//   height: 25.sp,
+//    decoration: BoxDecoration(
+//       borderRadius: BorderRadius.circular(25),
+//       color: AppColors
+//           .secondaryBlackColor.withOpacity(0.3)    Color(0xffFB8C00)  ),
+//   child: IconButton(
+//     onPressed: () {
+//       cartProductcontroller.increment();
+//     },
+//     icon: Icon(
+//       Icons.arrow_back_ios,
+//       color:AppColors
+//           .secondaryBlackColor.withOpacity(0.3),
+//       size:15.sp,
+//     ),
+//   ),
+// ),
+// ,
+//  SizedBox(
+//   width: 10.sp,
+// ),
+// Obx(
+//   () => Text(
+//     '${cartProductcontroller.items.toString()}',
+//     style: TextStyle(
+//         fontSize: 14.sp, fontWeight: FontWeight.w700
+//     ),
+//   ),
+// ),
+// SizedBox(
+//   width:10.sp,
+// ),
+// Container(
+//   width: 25.sp,
+//   height: 25.sp,
+//    decoration: BoxDecoration(
+//       borderRadius: BorderRadius.circular(25),
+//       color: AppColors.secondaryBlackColor),
+//   child: IconButton(
+//     onPressed: () {
+//       cartProductcontroller.decrement();
+//     },
+//     icon: Icon(
+//       Icons.arrow_forward_ios,
+//       color: AppColors
+//           .secondaryBlackColor.withOpacity(0.3),
+//       size: 15.sp,
+//     ),
+//   ),
+// ),

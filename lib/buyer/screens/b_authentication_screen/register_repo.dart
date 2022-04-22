@@ -9,9 +9,6 @@ import '../../../seller/Authentication/s_function.dart';
 import '../../../shared_prefarence/shared_prefarance.dart';
 class BRegisterRepo {
   Future<UserCredential?> LogIn(String email, String password) async {
-
-
-
     UserCredential? firebaseuser = await bFirebaseAuth.signInWithEmailAndPassword(
         email: email, password: password).then((value) async  {
 
@@ -26,17 +23,12 @@ class BRegisterRepo {
     assert(await firebaseuser?.credential?.token != null);
     final User currentUser = await bFirebaseAuth.currentUser!;
     assert(firebaseuser?.user!.uid == currentUser.uid);
-
-
     return firebaseuser;
-
-
   }
   static Future<void> emailRegister({String? email, String? pass}) async {
     try {
       await bFirebaseAuth.createUserWithEmailAndPassword(
           email: email!, password: pass!);
-
     } catch (e) {
       print('registration error?????????$e');
     }
@@ -50,7 +42,6 @@ class BRegisterRepo {
   }
   static Future<void> currentUser() async {
     print('buyrer kFirebaseAuth.currentUser!.uid==============>${kFirebaseAuth.currentUser!.uid}');
-
     await PreferenceManager.setEmail(bFirebaseAuth.currentUser!.email!);
     await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
     await PreferenceManager.setTime(bFirebaseAuth.currentUser!.uid);
@@ -73,8 +64,10 @@ class SRegisterRepo {
     UserCredential? firebaseuser = await bFirebaseAuth.signInWithEmailAndPassword(
         email: email, password: password).then((value) async  {
       await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
-      print('UID ${PreferenceManager.getUId()}');
-      print('LogIn==${bFirebaseAuth.currentUser!.uid}');
+      await PreferenceManager.setUserType('seller');
+      print('getUserType SRegisterRepo=========${PreferenceManager.getUserType()}');
+      print('UID SRegisterRepo==========${PreferenceManager.getUId()}');
+      print('LogIn ================${bFirebaseAuth.currentUser!.uid}');
 
       await Get.offAll(
               () => NavigationBarScreen());

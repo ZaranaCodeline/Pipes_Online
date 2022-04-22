@@ -713,7 +713,7 @@ class _SSignUpRagistraionScreenState extends State<SSignUpRagistraionScreen> {
   }*/
   Future<void> addData() async {
     print(
-        'buyer addData getTime==============>${PreferenceManager.getTime().toString()}');
+        'buyer addData PreferenceManager.getUserType()=====>${PreferenceManager.getUserType().toString()}');
     print('buyer addData Preference Id==============>${PreferenceManager.getUId().toString()}');
     String? imageUrl = await uploadImageToFirebase(
         context: context, file: _image, fileName: '${email.text}_profile.jpg');
@@ -721,6 +721,7 @@ class _SSignUpRagistraionScreenState extends State<SSignUpRagistraionScreen> {
         .then((value) async {
       CollectionReference ProfileCollection =
       bFirebaseStore.collection('SProfile');
+      print('addData==seller===========${PreferenceManager.getUId()}');
       ProfileCollection.doc('${PreferenceManager.getUId()}').set({
         'sellerID':'1',
         'email': email.text,
@@ -732,7 +733,7 @@ class _SSignUpRagistraionScreenState extends State<SSignUpRagistraionScreen> {
         'address': _controller.addressController == null
             ? _controller.addressController
             : _controller.addressController!.text,
-        'userType': 'Buyer',
+        'userType': PreferenceManager.getUserType(),
         'time': DateTime.now(),
       });
     })

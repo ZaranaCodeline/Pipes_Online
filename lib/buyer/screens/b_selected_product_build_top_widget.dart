@@ -36,6 +36,7 @@ class _CustomSelectedProductBuildTopWidgetState
     extends State<CustomSelectedProductBuildTopWidget> {
   @override
   Widget build(BuildContext context) {
+    print('ID  >>> ${widget.id}');
     return Container(
       child: Column(
         children: [

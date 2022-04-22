@@ -6,7 +6,6 @@ import 'package:flutter_share/flutter_share.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
-import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
@@ -45,25 +44,24 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
   String? phoneno;
   String? Img;
 
-  CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
+  CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
 
   Future<void> getData() async {
     print('demo....${PreferenceManager.getUId()}.');
     final user =
-        await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
-            // await ProfileCollection.doc('${PreferenceManager.getUId()}')
+        await ProfileCollection.doc('${PreferenceManager.getUId()}')
             .get();
     var m = user.data();
     print('--SelectedProductWidget--------m-- $m');
     // Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
     Map<String, dynamic>? getUserData = m as Map<String, dynamic>?;
-    setState(() {
+
       firstname = getUserData!['firstname'];
       email = getUserData['email'];
       address = getUserData['address'];
       phoneno = getUserData['phoneno'];
       Img = getUserData['imageProfile'];
-    });
+
 
     print('========SelectedProductWidget===========${getUserData}');
   }
@@ -120,103 +118,111 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: EdgeInsets.all(8.0.sp),
-              child: CustomSelectedProductBuildTopWidget(
-                name: widget.name.toString(),
-                price: widget.price.toString(),
-                desc: widget.desc.toString(),
-                image: widget.image.toString(),
-                category: widget.category,
-                id: widget.id,
+            Card(
+              elevation: 0.1,
+              child: Padding(
+                padding: EdgeInsets.all(8.0.sp),
+                child: CustomSelectedProductBuildTopWidget(
+                  name: widget.name.toString(),
+                  price: widget.price.toString(),
+                  desc: widget.desc.toString(),
+                  image: widget.image.toString(),
+                  category: widget.category,
+                  id: widget.id,
+                ),
               ),
             ),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 10.sp),
-              child: InkWell(
-                onTap: () {
-                  Get.to(() => SellerReviewWidget());
-                },
-                child: SingleChildScrollView(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(25),
-                        child: Image.network(
-                          Img == null
-                              ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
-                              : Img!,
-                          fit: BoxFit.cover,
-                        width: 30.sp,
-                        height: 30.sp,
-                        // color: AppColors.primaryColor,
-                          ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomRichTextSpanWidget(
-                            color1: AppColors.secondaryBlackColor,
-                            name1: firstname.toString(),
-                            name2: '  (6 listings)',
-                            color2: AppColors.hintTextColor,
-                            fontsize: 12.sp,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5.sp),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                CustomText(
-                                  text: '5.0',
-                                  color: AppColors.secondaryBlackColor,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                SmoothStarRating(
-                                    allowHalfRating: false,
-                                    onRatingChanged: (v) {
-                                      setState(() {
-                                        rating = v;
-                                      });
-                                    },
-                                    starCount: 5,
-                                    // rating: rating,
-                                    size: 18.0.sp,
-                                    rating: rating,
-                                    filledIconData: Icons.star,
-                                    halfFilledIconData: Icons.blur_on,
-                                    color: AppColors.starRatingColor,
-                                    borderColor: AppColors.starRatingColor,
-                                    spacing: 0.0),
-                                CustomText(
-                                    text: '(14 reviews)',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12.sp,
-                                    color: AppColors.secondaryBlackColor),
-                              ],
+            Card(
+              elevation: 0.2,
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 10.sp),
+                child: InkWell(
+                  onTap: () {
+                    Get.to(() => SellerReviewWidget(id: widget.id,));
+                  },
+                  child: SingleChildScrollView(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(25),
+                          child: Image.network(
+                            Img == null
+                                ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
+                                : Img!,
+                            fit: BoxFit.cover,
+                          width: 30.sp,
+                          height: 30.sp,
+                          // color: AppColors.primaryColor,
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: Get.width * 0.005.sp,
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: AppColors.secondaryBlackColor,
-                        size: 18,
-                      ),
-                      SizedBox(
-                        width: Get.width * 0.005.sp,
-                      ),
-                    ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomRichTextSpanWidget(
+                              color1: AppColors.secondaryBlackColor,
+                              name1: firstname.toString(),
+                              name2: '  (6 listings)',
+                              color2: AppColors.hintTextColor,
+                              fontsize: 12.sp,
+
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 5.sp),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  CustomText(
+                                    text: '5.0',
+                                    color: AppColors.secondaryBlackColor,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  SmoothStarRating(
+                                      allowHalfRating: false,
+                                      onRatingChanged: (v) {
+                                        setState(() {
+                                          rating = v;
+                                        });
+                                      },
+                                      starCount: 5,
+                                      // rating: rating,
+                                      size: 18.0.sp,
+                                      rating: rating,
+                                      filledIconData: Icons.star,
+                                      halfFilledIconData: Icons.blur_on,
+                                      color: AppColors.starRatingColor,
+                                      borderColor: AppColors.starRatingColor,
+                                      spacing: 0.0),
+                                  CustomText(
+                                      text: '(14 reviews)',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12.sp,
+                                      color: AppColors.secondaryBlackColor),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: Get.width * 0.005.sp,
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: AppColors.secondaryBlackColor,
+                          size: 18,
+                        ),
+                        SizedBox(
+                          width: Get.width * 0.005.sp,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
             Card(
+              elevation: 0.2,
               child: Container(
                 height: Get.height/15,
                 width: double.infinity,
@@ -230,6 +236,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
               ),
             ),
             Card(
+              elevation: 0.2,
               child: TextButton(
                 onPressed: () {
 
@@ -240,13 +247,14 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                   name2: ' For Sale',
                   color2: AppColors.secondaryBlackColor,
                   fontsize: 12.sp,
+
                 ),
               ),
             ),
-            Container(
-              height: Get.height/10,
-
-              child: Card(
+            Card(
+              elevation: 0.2,
+              child: Container(
+                height: Get.height/15,
 
                 child: Padding(
 
@@ -272,8 +280,8 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                                   color: Colors.green,
                                   borderRadius: BorderRadius.circular(50.sp),
                                 ),
-                                child: SvgPicture.asset(
-                                    'assets/images/icon/what_up_icon.svg')),
+                                child: Image.asset(
+                                    'assets/images/icon/what_up_icon.png',width: 20.sp,height: 20.sp,)),
                           ),
                           SizedBox(
                             width: 10.sp,
@@ -284,7 +292,8 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                                 Share.share(
                                     'https://pipesonline012.page.link/productPage');
                               },
-                              icon: Icon(Icons.share_outlined)),
+                              icon: SvgPicture.asset(
+                                  'assets/images/icon/share_icon.svg')),
                         ],
                       ),
                     ],
@@ -325,6 +334,7 @@ class CustomRichTextSpanWidget extends StatelessWidget {
     required this.fontsize,
     required this.name1,
     required this.name2,
+
   }) : super(key: key);
   Color color1, color2;
   String name1, name2;

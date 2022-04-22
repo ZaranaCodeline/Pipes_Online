@@ -100,8 +100,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
               bottomBarIndexController.bottomIndex.value = 0;
+
+              bottomBarIndexController.setSelectedScreen(value:'HomeScreen');
             },
             icon: Icon(Icons.arrow_back),
           ),

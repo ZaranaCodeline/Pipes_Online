@@ -11,7 +11,8 @@ import 'b_listing_review_tab_bar.dart';
 import 'custom_widget/custom_text.dart';
 
 class SellerReviewWidget extends StatefulWidget {
-  const SellerReviewWidget({Key? key}) : super(key: key);
+  final String? id;
+  const SellerReviewWidget({Key? key, this.id}) : super(key: key);
 
   @override
   State<SellerReviewWidget> createState() => _SellerReviewWidgetState();
@@ -33,15 +34,12 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
     firstname = getUserData!['firstname'];
     print('=========SellerReviewWidget===============${getUserData}');
-
-    /* email.text = getUserData['email'];
-    address.text = getUserData['address'];
-    phoneno.text = getUserData['phoneno'];*/
     setState(() {
       Img = getUserData['imageProfile'];
     });
     print('============================${user.get('imageProfile')}');
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -85,10 +83,10 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
           PopupMenuItem<String>(
             child: Column(
               children: [
-               SizedBox(
+                SizedBox(
                   height: Get.height * 0.008,
                 ),
-               /* Center(
+                /* Center(
                   child: CustomText(
                     text: '\$5',
                     color: AppColors.commonWhiteTextColor,
@@ -153,7 +151,7 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                   ),
                   CustomText(
                     text:
-                        ' By this subscription\n you can call and chat\n with seller at any time.',
+                    ' By this subscription\n you can call and chat\n with seller at any time.',
                     color: AppColors.commonWhiteTextColor,
                     fontWeight: FontWeight.w600,
                     fontSize: 14.sp,
@@ -164,9 +162,9 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
               value: '5'),
           PopupMenuItem<String>(
             child: Center(
-              child: SizedBox(
-                height: Get.height * 0.01,
-              )
+                child: SizedBox(
+                  height: Get.height * 0.01,
+                )
             ),
             value: '6',
           ),
@@ -201,7 +199,7 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                                   decoration: BoxDecoration(
                                       color: AppColors.primaryColor,
                                       borderRadius:
-                                          const BorderRadius.vertical(
+                                      const BorderRadius.vertical(
                                         bottom: Radius.circular(25),
                                       )),
                                 ),
@@ -238,7 +236,7 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                             ),
                           ),
                           Positioned(
-                              top: 15,
+                              top: 3.sp,
                               left: 0,
                               child: BackButton(
                                 color: AppColors.commonWhiteTextColor,
@@ -303,12 +301,12 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                     height: 40,
                     decoration: BoxDecoration(
                       color: SColorPicker.white,
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black12,
-                                spreadRadius: 0.5,
-                                blurRadius: 1),
-                          ],
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black12,
+                            spreadRadius: 0.5,
+                            blurRadius: 1),
+                      ],
                       /*border: Border.all(
                         color: AppColors.hintTextColor,
                         width: 0.8,
@@ -337,8 +335,8 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                                 Icons.folder,
                                 color: AppColors.primaryColor,
                               )
-                              // SvgPicture.asset('assets/images/folder_icon.svg'),
-                              ),
+                            // SvgPicture.asset('assets/images/folder_icon.svg'),
+                          ),
                           const SizedBox(
                             width: 10,
                           ),

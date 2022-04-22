@@ -205,6 +205,12 @@ class _SLoginScreenState extends State<SLoginScreen> {
                                     .LogIn(email.text.trim().toString(),
                                     pass.text.trim().toString())
                                     .then((value) async {
+                                  PreferenceManager.setUserType('Seller');
+                                  PreferenceManager.getUserType() == 'Seller';
+                                  print('addData==seller==login=========${PreferenceManager.getUId()}');
+                                  print('addData==seller==getUserType=========${PreferenceManager.getUserType()}');
+
+
                                   await Get.offAll(
                                           () => NavigationBarScreen());
                                  /* PreferenceManager.setUId('uid');

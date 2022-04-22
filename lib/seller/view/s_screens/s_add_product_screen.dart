@@ -422,7 +422,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
   }
   FirebaseAuth _auth = FirebaseAuth.instance;
   Future<void> addData(File? file) async {
-    print('demo.PreferenceManager.getTime().toString()....${PreferenceManager.getTime().toString()}');
+    print('demo.PreferenceManager.getTime().toString()....${PreferenceManager.getUId()}');
 
     var snapshot = await bFirebaseStorage
         .ref()
@@ -433,6 +433,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
     SAuthMethods().getCurrentUser()
         .then((value) {
       userCollection.add({
+        'sellerID':PreferenceManager.getUId(),
         'imageProfile': downloadUrl,
         'category': dropdownvalue,
         'prdName': prdName.text,

@@ -70,7 +70,6 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
       body: GestureDetector(
         onTap: () {
           Get.to(CartPage(
-            id: widget.id,
             category: widget.category,
             name: widget.name,
             desc: widget.desc,
@@ -187,7 +186,7 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                                               .collection("Cart")
                                               .doc(PreferenceManager.getUId())
                                               .collection("MyCart")
-                                              .doc(snapShot.data?.docs.first.toString())
+                                              .doc(PreferenceManager.getUId())
                                               .delete();
                                         } catch (e) {
                                           print(e.toString());

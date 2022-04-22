@@ -69,9 +69,9 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print('image:-${name}');
-    print('firstname:-${phoneNo}');
-    print('phoneno:-${Img}');
+    print('image:-${Img}');
+    print('firstname:-${name}');
+    print('phoneno:-${phoneNo}');
     print('address:-${address}');
 
     return Drawer(

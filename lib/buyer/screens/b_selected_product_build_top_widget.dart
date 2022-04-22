@@ -46,7 +46,6 @@ class _CustomSelectedProductBuildTopWidgetState
             color: AppColors.primaryColor,
             alignment: Alignment.topLeft,
           ),
-          // SizedBox(height: Get.height * 0.01),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -105,6 +104,7 @@ class _CustomSelectedProductBuildTopWidgetState
                                   desc: widget.desc,
                                   image: widget.image,
                                   price: widget.price,
+                                  id: widget.id,
                                 ),
                               );
                             });

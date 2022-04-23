@@ -6,7 +6,8 @@ import 'b_listing_widget.dart';
 import 'b_review_widgets.dart';
 
 class ListingReviewTabBarWidget extends StatefulWidget {
-  const ListingReviewTabBarWidget({Key? key}) : super(key: key);
+  final String? id,category;
+  const ListingReviewTabBarWidget({Key? key, this.id, this.category}) : super(key: key);
 
   @override
   State<ListingReviewTabBarWidget> createState() =>
@@ -33,6 +34,7 @@ class _ListingReviewTabBarWidgetState extends State<ListingReviewTabBarWidget>
 
   @override
   Widget build(BuildContext context) {
+    print('====>b listing review tab===>${widget.category}');
     return Card(
       child: Container(
         height: Get.height * 0.001,
@@ -85,13 +87,13 @@ class _ListingReviewTabBarWidgetState extends State<ListingReviewTabBarWidget>
                 Expanded(
                   child: TabBarView(
                     controller: _tabController,
-                    children: const [
+                    children:  [
                       // first tab bar view widget
                       Center(
                         child: BListingWidget(),
                       ),
                       Center(
-                        child: BReviewWidget(),
+                        child: BReviewWidget(id: widget.id,category: widget.category,),
                       ),
                     ],
                   ),

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/b_home_screen_widget.dart';
+import 'package:pipes_online/buyer/screens/b_seller_review_widget.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
@@ -23,12 +24,11 @@ class AddReviewsPage extends StatefulWidget {
 }
 
 class _AddReviewsPageState extends State<AddReviewsPage> {
-  var rating = 3.0;
+  double rating = 3.0;
   TextEditingController desc = TextEditingController();
   CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
   String? Img;
   String? firstname;
-  String? dsc;
 
   Future<void> getData() async {
     print('demo.....');
@@ -54,16 +54,20 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
         .then((value) async {
           CollectionReference ProfileCollection =
               bFirebaseStore.collection('Reviews');
-          ProfileCollection.doc('${PreferenceManager.getUId()}').set({
-            'email': PreferenceManager.getEmail(),
-            'dsc': dsc,
+          ProfileCollection
+              .doc('${PreferenceManager.getUId()}').set({
+            'userID':PreferenceManager.getUId(),
+            'name':firstname,
+            'imageProfile': Img,
+            'dsc': desc.text,
             'rating': rating,
             'userType': PreferenceManager.getUserType(),
-            'time': DateTime.now(),
+            'time': DateTime.now().day,
           });
         })
         .catchError((e) => print('Error ====buyer=====>>> $e'))
         .then((value) {
+          print('review uploaded succefully');
           bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
           bottomBarIndexController.bottomIndex.value = 0;
         });
@@ -116,7 +120,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                     ],
                                   ),
                                   Positioned(
-                                    top: 40.sp,
+                                    top: 44.sp,
                                     child: Container(
                                       height: 50.sp,
                                       width: 50.sp,
@@ -138,7 +142,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                     ),
                                   ),
                                   Positioned(
-                                    top: 20.sp,
+                                    top: 10.sp,
                                     left: 0,
                                     child: BackButton(
                                       color: AppColors.commonWhiteTextColor,
@@ -162,7 +166,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                 children: [
                                   Padding(
                                     padding: EdgeInsets.only(
-                                      top: 55.sp,
+                                      top: 40.sp,
                                     ),
                                     child: CustomText(
                                         text: firstname.toString(),
@@ -172,11 +176,11 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                   ),
                                   Padding(
                                     padding: EdgeInsets.symmetric(
-                                        vertical: 15.sp, horizontal: 0),
+                                        vertical: 10.sp, horizontal: 0),
                                     child: CustomText(
                                         text: 'How was your experience?',
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 18.sp,
+                                        fontSize: 14.sp,
                                         color: AppColors.secondaryBlackColor),
                                   ),
                                   SmoothStarRating(
@@ -184,14 +188,14 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                       onRatingChanged: (v) {
                                         setState(
                                           () {
-                                            rating = v;
+                                            rating = v ;
                                             print('rating====>${rating}');
                                           },
                                         );
                                       },
                                       starCount: 5,
                                       rating: rating,
-                                      size: 22.sp,
+                                      size: 20.sp,
                                       filledIconData: Icons.star,
                                       halfFilledIconData: Icons.blur_on,
                                       color: AppColors.hintTextColor,
@@ -238,7 +242,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                     name: 'Submit'.toUpperCase(),
                                     function: () {
                                       addData();
-                                      Get.back();
+                                      Get.to(SellerReviewWidget());
                                     },
                                     // Get.to(() => HomePage()),
                                     height: Get.height * 0.06.sp,

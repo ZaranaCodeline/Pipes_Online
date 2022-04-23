@@ -180,180 +180,180 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
       child: Scaffold(
         body: Column(
           children: [
-            Container(
-              margin: EdgeInsets.only(top: 0, bottom: 10),
-              child: Column(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    child: SingleChildScrollView(
-                      child: Stack(
-                        alignment: Alignment.bottomCenter,
-                        overflow: Overflow.visible,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Container(
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                      color: AppColors.primaryColor,
-                                      borderRadius:
-                                      const BorderRadius.vertical(
-                                        bottom: Radius.circular(25),
-                                      )),
-                                ),
-                              )
-                            ],
-                          ),
-                          Positioned(
-                            top: 0.0,
-                            child: Container(
-                              width: 200,
-                              height: 52,
+            Expanded(
+              flex: 2,
+              child: Container(
+                margin: EdgeInsets.only(top: 0, bottom: 10),
+                child: Column(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      child: SingleChildScrollView(
+                        child: Stack(
+                          alignment: Alignment.bottomCenter,
+                          overflow: Overflow.visible,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Container(
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                        color: AppColors.primaryColor,
+                                        borderRadius:
+                                        const BorderRadius.vertical(
+                                          bottom: Radius.circular(25),
+                                        )),
+                                  ),
+                                )
+                              ],
                             ),
-                          ),
-                          Positioned(
-                            top: 15.sp,
-                            child: Container(
-                              height: 60.sp,
-                              width: 60.sp,
-                              child: ClipRRect(
-                                borderRadius:
-                                BorderRadius.circular(50.0),
-                                child: Image.network(
-                                  Img == null
-                                      ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
-                                      : Img!,
-                                  fit: BoxFit.cover,
-                                ),
-                              )
-                              /*Image.asset(
-                                      'assets/images/png/cat_1.png',
-                                      fit: BoxFit.fill,
-                                    )*/
-                              ,
+                            Positioned(
+                              top: 0.0,
+                              child: Container(
+                                width: 200,
+                                height: 52,
+                              ),
                             ),
-                          ),
-                          Positioned(
-                              top: 3.sp,
-                              left: 0,
-                              child: BackButton(
-                                color: AppColors.commonWhiteTextColor,
-                              )),
-                        ],
+                            Positioned(
+                              top: 15.sp,
+                              child: Container(
+                                height: 60.sp,
+                                width: 60.sp,
+                                child: ClipRRect(
+                                  borderRadius:
+                                  BorderRadius.circular(50.0),
+                                  child: Image.network(
+                                    Img == null
+                                        ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
+                                        : Img!,
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                                /*Image.asset(
+                                        'assets/images/png/cat_1.png',
+                                        fit: BoxFit.fill,
+                                      )*/
+                                ,
+                              ),
+                            ),
+                            Positioned(
+                                top: 3.sp,
+                                left: 0,
+                                child: BackButton(
+                                  color: AppColors.commonWhiteTextColor,
+                                )),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
 
-                  SizedBox(
-                    height: Get.height * 0.049,
-                  ),
-                  CustomText(
-                      text: firstname.toString(),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 24,
-                      color: AppColors.secondaryBlackColor),
-                  SizedBox(
-                    height: Get.height * 0.01,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomText(
-                          text: '5.0',
-                          color: AppColors.secondaryBlackColor,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        SmoothStarRating(
-                            allowHalfRating: false,
-                            onRatingChanged: (v) {
-                              setState(() {
-                                rating = v;
-                              });
-                            },
-                            starCount: 5,
-                            rating: rating,
-                            size: 20.0,
-                            filledIconData: Icons.star,
-                            halfFilledIconData: Icons.blur_on,
-                            color: AppColors.starRatingColor,
-                            borderColor: AppColors.starRatingColor,
-                            spacing: 0.0),
-                        SizedBox(
-                          width: Get.width * 0.01,
-                        ),
-                        CustomText(
-                            text: '(14 reviews)',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
-                            color: AppColors.secondaryBlackColor),
-                      ],
+                    SizedBox(
+                      height: Get.height * 0.049,
                     ),
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.01,
-                  ),
-                  Container(
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: SColorPicker.white,
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black12,
-                            spreadRadius: 0.5,
-                            blurRadius: 1),
-                      ],
-                      /*border: Border.all(
-                        color: AppColors.hintTextColor,
-                        width: 0.8,
-                      ),*/
-                      borderRadius: BorderRadius.circular(5),
+                    CustomText(
+                        text: firstname.toString(),
+                        fontWeight: FontWeight.w600,
+                        fontSize: 24,
+                        color: AppColors.secondaryBlackColor),
+                    SizedBox(
+                      height: Get.height * 0.01,
                     ),
-                    margin: EdgeInsets.symmetric(horizontal: 80, vertical: 5),
-                    child: InkWell(
-                      onTap: () {
-                        print('Get Contatc Detail');
-                        _showPopupMenu();
-                      },
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                              width: 27,
-                              height: 27,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 2,
-                                    color: AppColors.starRatingColor),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Icon(
-                                Icons.folder,
-                                color: AppColors.primaryColor,
-                              )
-                            // SvgPicture.asset('assets/images/folder_icon.svg'),
+                        children: [
+                          CustomText(
+                            text: '5.0',
+                            color: AppColors.secondaryBlackColor,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
                           ),
-                          const SizedBox(
-                            width: 10,
+                          SmoothStarRating(
+                              allowHalfRating: false,
+                              onRatingChanged: (v) {
+                                setState(() {
+                                  rating = v;
+                                });
+                              },
+                              starCount: 5,
+                              rating: rating,
+                              size: 20.0,
+                              filledIconData: Icons.star,
+                              halfFilledIconData: Icons.blur_on,
+                              color: AppColors.starRatingColor,
+                              borderColor: AppColors.starRatingColor,
+                              spacing: 0.0),
+                          SizedBox(
+                            width: Get.width * 0.01,
                           ),
                           CustomText(
-                              text: 'Get contact details',
+                              text: '(14 reviews)',
                               fontWeight: FontWeight.w600,
                               fontSize: 18,
                               color: AppColors.secondaryBlackColor),
                         ],
                       ),
                     ),
-                  ),
-                  // SizedBox(height: Get.height * 0.02,),
-                ],
+                    SizedBox(
+                      height: Get.height * 0.01,
+                    ),
+                    Container(
+                      height: 40,
+
+                      decoration: BoxDecoration(
+                        color: SColorPicker.white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black12,
+                              spreadRadius: 0.5,
+                              blurRadius: 1),
+                        ],
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      margin: EdgeInsets.symmetric(horizontal: 60, vertical: 10),
+                      child: InkWell(
+                        onTap: () {
+                          print('Get Contatc Detail');
+                          _showPopupMenu();
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                                width: 27,
+                                height: 27,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 2,
+                                      color: AppColors.starRatingColor),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Icon(
+                                  Icons.folder,
+                                  color: AppColors.primaryColor,
+                                )
+                              // SvgPicture.asset('assets/images/folder_icon.svg'),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            CustomText(
+                                text: 'Get contact details',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                                color: AppColors.secondaryBlackColor),
+                          ],
+                        ),
+                      ),
+                    ),
+                    // SizedBox(height: Get.height * 0.02,),
+                  ],
+                ),
               ),
             ),
-            Expanded(flex: 6, child: ListingReviewTabBarWidget()),
+            Expanded(flex: 3, child: ListingReviewTabBarWidget()),
           ],
         ),
       ),

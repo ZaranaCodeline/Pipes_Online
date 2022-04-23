@@ -38,8 +38,8 @@ class SeditProductScreen extends StatefulWidget {
 class _SeditProductScreenState extends State<SeditProductScreen> {
   EditProductContoller editProductContoller = Get.put(EditProductContoller());
   BottomController homeController = Get.find();
-  // TextEditingController prdName = TextEditingController();
-  // TextEditingController dsc = TextEditingController();
+  TextEditingController prdName = TextEditingController();
+  TextEditingController dsc = TextEditingController();
   final formGlobalKey = GlobalKey<FormState>();
   BBottomBarIndexController bottomBarIndexController =
       Get.put(BBottomBarIndexController());
@@ -49,8 +49,8 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
   String? Img;
   String? cat;
   String? price;
-  String? prdName;
-  String? dsc;
+  // String? prdName;
+  // String? dsc;
 
   String dropdownvalue = 'Plastic';
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -304,14 +304,14 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                               color: AppColors.commonWhiteTextColor),
                           child: widget.name != null
                               ? TextFormField(
-                                  // controller: prdName,
+                                  controller: prdName,
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
                                     focusedBorder: InputBorder.none,
                                     enabledBorder: InputBorder.none,
                                     errorBorder: InputBorder.none,
                                     disabledBorder: InputBorder.none,
-                                    hintText:prdName.toString() /*('ABX')*/,
+                                    // hintText:prdName.toString() /*('ABX')*/,
                                   ),
                                 )
                               : Text('$prdName'),
@@ -363,9 +363,9 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                               color: AppColors.commonWhiteTextColor),
                           child: Container(
                             child: TextField(
-                              // controller: dsc,
+                              controller: dsc,
                               decoration: InputDecoration(
-                                hintText: dsc,
+                                // hintText: dsc,
                               ),
                               maxLines: 3,
                               keyboardType: TextInputType.multiline,

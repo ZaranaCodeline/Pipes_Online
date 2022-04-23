@@ -3,11 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
+import 'package:pipes_online/buyer/screens/b_home_screen_widget.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
+import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 import 'custom_widget/custom_button.dart';
 import 'custom_widget/custom_text.dart';
 
@@ -20,10 +24,11 @@ class AddReviewsPage extends StatefulWidget {
 
 class _AddReviewsPageState extends State<AddReviewsPage> {
   var rating = 3.0;
-
+  TextEditingController desc = TextEditingController();
   CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
   String? Img;
   String? firstname;
+  String? dsc;
 
   Future<void> getData() async {
     print('demo.....');
@@ -33,21 +38,45 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
     firstname = getUserData!['firstname'];
     print('=========firstname===============${getUserData}');
-
-    /* email.text = getUserData['email'];
-    address.text = getUserData['address'];
-    phoneno.text = getUserData['phoneno'];*/
     setState(() {
       Img = getUserData['imageProfile'];
     });
     print('============================${user.get('imageProfile')}');
   }
-@override
+
+  Future<void> addData() async {
+    print(
+        'buyer addData Preference Id==============>${PreferenceManager.getUId().toString()}');
+    print(
+        'buyer addData-getTime==============>${PreferenceManager.getTime().toString()}');
+
+    BRegisterRepo.emailRegister()
+        .then((value) async {
+          CollectionReference ProfileCollection =
+              bFirebaseStore.collection('Reviews');
+          ProfileCollection.doc('${PreferenceManager.getUId()}').set({
+            'email': PreferenceManager.getEmail(),
+            'dsc': dsc,
+            'rating': rating,
+            'userType': PreferenceManager.getUserType(),
+            'time': DateTime.now(),
+          });
+        })
+        .catchError((e) => print('Error ====buyer=====>>> $e'))
+        .then((value) {
+          bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
+          bottomBarIndexController.bottomIndex.value = 0;
+        });
+  }
+
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getData();
+    addData();
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -109,11 +138,12 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                     ),
                                   ),
                                   Positioned(
-                                      top: 20.sp,
-                                      left: 0,
-                                      child: BackButton(
-                                        color: AppColors.commonWhiteTextColor,
-                                      ),),
+                                    top: 20.sp,
+                                    left: 0,
+                                    child: BackButton(
+                                      color: AppColors.commonWhiteTextColor,
+                                    ),
+                                  ),
                                   Positioned(
                                     top: 20.sp,
                                     child: Text(
@@ -152,10 +182,12 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                   SmoothStarRating(
                                       allowHalfRating: false,
                                       onRatingChanged: (v) {
-                                        setState(() {
-                                          rating = v;
-                                          print('rating====>${rating}');
-                                        },);
+                                        setState(
+                                          () {
+                                            rating = v;
+                                            print('rating====>${rating}');
+                                          },
+                                        );
                                       },
                                       starCount: 5,
                                       rating: rating,
@@ -184,7 +216,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                       padding: EdgeInsets.all(10.0.sp),
                                       child: Container(
                                         child: TextFormField(
-                                          // controller: ,
+                                          controller: desc,
                                           decoration: InputDecoration(
                                             fillColor: SColorPicker.fontGrey,
                                             hintText: 'Enter your review',
@@ -205,6 +237,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                   Custombutton(
                                     name: 'Submit'.toUpperCase(),
                                     function: () {
+                                      addData();
                                       Get.back();
                                     },
                                     // Get.to(() => HomePage()),

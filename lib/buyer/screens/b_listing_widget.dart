@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
@@ -53,68 +50,70 @@ class _BListingWidgetState extends State<BListingWidget> {
                         //ToDo getUserType as Seller can't fetch
                         if (snapShot.data!.docs[index] !=
                             PreferenceManager.getUserType()) {
-                          return Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 15),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Expanded(
-                                  flex: 3,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    child: Image.network(
-                                      snapShot.data!.docs[index]
-                                          ['imageProfile'],
-                                      fit: BoxFit.cover,
-                                      width: Get.width * 0.1,
-                                      height: Get.height / 6,
+                          print('getUserType=======>${PreferenceManager.getUserType()}');
+                          return Card(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 15),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Expanded(
+                                    flex: 3,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: Image.network(
+                                        snapShot.data!.docs[index]['imageProfile'],
+                                        fit: BoxFit.cover,
+                                        width: Get.width * 0.1,
+                                        height: Get.height / 6,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Expanded(
-                                  flex: 4,
-                                  child: Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 20),
-                                    child: Column(
-                                      children: [
-                                        CustomText(
-                                          text: snapShot.data!.docs[index]
-                                              ['prdName'],
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14.sp,
-                                          color: AppColors.primaryColor,
-                                          alignment: Alignment.topLeft,
-                                        ),
-                                        SizedBox(
-                                          height: Get.height * 0.01,
-                                        ),
-                                        CustomText(
-                                          text: snapShot.data!.docs[index]
-                                              ['category'],
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14.sp,
-                                          color: AppColors.secondaryBlackColor,
-                                          alignment: Alignment.centerLeft,
-                                        ),
-                                        SizedBox(
-                                          height: Get.height * 0.01,
-                                        ),
-                                        CustomText(
-                                          text: snapShot.data!.docs[index]
-                                              ['price'],
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14.sp,
-                                          color: AppColors.secondaryBlackColor,
-                                          alignment: Alignment.centerLeft,
-                                        ),
-                                      ],
+                                  Expanded(
+                                    flex: 4,
+                                    child: Container(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 20),
+                                      child: Column(
+                                        children: [
+                                          CustomText(
+                                            text: snapShot.data!.docs[index]
+                                                ['prdName'],
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14.sp,
+                                            color: AppColors.primaryColor,
+                                            alignment: Alignment.topLeft,
+                                          ),
+                                          SizedBox(
+                                            height: Get.height * 0.01,
+                                          ),
+                                          CustomText(
+                                            text: snapShot.data!.docs[index]
+                                                ['category'],
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14.sp,
+                                            color: AppColors.secondaryBlackColor,
+                                            alignment: Alignment.centerLeft,
+                                          ),
+                                          SizedBox(
+                                            height: Get.height * 0.01,
+                                          ),
+                                          CustomText(
+                                            text: snapShot.data!.docs[index]
+                                                ['price'],
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14.sp,
+                                            color: AppColors.secondaryBlackColor,
+                                            alignment: Alignment.centerLeft,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           );
                         }

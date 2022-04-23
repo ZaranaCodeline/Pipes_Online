@@ -702,36 +702,36 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
     print(    'buyer addData-getTime==============>${PreferenceManager.getTime().toString()}');
     String? imageUrl = await uploadImageToFirebase(
         context: context, file: _image, fileName: '${email.text}_profile.jpg');
-    BRegisterRepo.currentUser()
+    BRegisterRepo.emailRegister()
         .then((value) async {
-          CollectionReference ProfileCollection =
-              bFirebaseStore.collection('BProfile');
-          ProfileCollection.doc('${PreferenceManager.getUId()}').set({
-            'buyerID':'1',
-            'email': email.text,
-            'password': pass.text,
-            'phoneno': phn.text,
-            'firstname': fname.text,
-            'lastname': lname.text,
-            'imageProfile': imageUrl,
-            'address': _controller.addressController == null
-                ? _controller.addressController
-                : _controller.addressController!.text,
-            'userType': 'Buyer',
-            'time': DateTime.now(),
-          });
-        })
+      CollectionReference ProfileCollection =
+      bFirebaseStore.collection('BProfile');
+      ProfileCollection.doc('${PreferenceManager.getUId()}').set({
+        'buyerID':'1',
+        'email': email.text,
+        'password': pass.text,
+        'phoneno': phn.text,
+        'firstname': fname.text,
+        'lastname': lname.text,
+        'imageProfile': imageUrl,
+        'address': _controller.addressController == null
+            ? _controller.addressController
+            : _controller.addressController!.text,
+        'userType': 'Buyer',
+        'time': DateTime.now(),
+      });
+    })
         .catchError((e) => print('Error ====buyer=====>>> $e'))
         .then(
           (value) => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return BLoginScreen();
-              },
-            ),
-          ),
-        );
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return BLoginScreen();
+          },
+        ),
+      ),
+    );
   }
 
   bool isPasswordValid(String password) => password.length <= 8;

@@ -219,87 +219,85 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                                             ),
                                           ),
                                           Expanded(
-                                            child: Flexible(
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    padding: EdgeInsets.symmetric(horizontal: 20),
-                                                    child: CustomText(
-                                                      text: snapShot.data?.docs[index]['name'],
-                                                      fontWeight: FontWeight.w400,
-                                                      fontSize: 14.sp,
-                                                      color: AppColors.secondaryBlackColor,
-                                                      alignment: Alignment.topLeft,
-                                                      textAlign: TextAlign.start,
-                                                    ),
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                                  child: CustomText(
+                                                    text: snapShot.data?.docs[index]['name'],
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 14.sp,
+                                                    color: AppColors.secondaryBlackColor,
+                                                    alignment: Alignment.topLeft,
+                                                    textAlign: TextAlign.start,
                                                   ),
-                                                  SizedBox(
-                                                    height: Get.height * 0.01,
-                                                  ),
-                                                  Container(
-                                                    padding: EdgeInsets.symmetric(horizontal: 20),
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      children: [
-                                                        CustomText(
-                                                            text:snapShot.data?.docs[index]['userType'],
-                                                            fontWeight: FontWeight.w400,
-                                                            fontSize: 12.sp,
-                                                            color: AppColors.secondaryBlackColor,
-                                                        textOverflow: TextOverflow.ellipsis,max: 1,),
-                                                        SizedBox(
-                                                          width: Get.width * 0.03,
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Container(
-                                                              width: 6,
-                                                              height: 6,
-                                                              decoration: BoxDecoration(
-                                                                borderRadius:
-                                                                BorderRadius.circular(50),
-                                                                color:
-                                                                AppColors.secondaryBlackColor,
-                                                              ),
+                                                ),
+                                                SizedBox(
+                                                  height: Get.height * 0.01,
+                                                ),
+                                                Container(
+                                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: [
+                                                      CustomText(
+                                                          text:snapShot.data?.docs[index]['userType'],
+                                                          fontWeight: FontWeight.w400,
+                                                          fontSize: 12.sp,
+                                                          color: AppColors.secondaryBlackColor,
+                                                      textOverflow: TextOverflow.ellipsis,max: 1,),
+                                                      SizedBox(
+                                                        width: Get.width * 0.03,
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Container(
+                                                            width: 6,
+                                                            height: 6,
+                                                            decoration: BoxDecoration(
+                                                              borderRadius:
+                                                              BorderRadius.circular(50),
+                                                              color:
+                                                              AppColors.secondaryBlackColor,
                                                             ),
-                                                            SizedBox(
-                                                              width: Get.width * 0.03,
-                                                            ),
-                                                            CustomText(
-                                                                text: widget.category.toString(),
-                                                                fontWeight: FontWeight.w400,
-                                                                fontSize: 12.sp,
-                                                                color:
-                                                                AppColors.secondaryBlackColor),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: Get.width * 0.03,
+                                                          ),
+                                                          CustomText(
+                                                              text: widget.category.toString(),
+                                                              fontWeight: FontWeight.w400,
+                                                              fontSize: 12.sp,
+                                                              color:
+                                                              AppColors.secondaryBlackColor),
+                                                        ],
+                                                      ),
+                                                    ],
                                                   ),
-                                                  SizedBox(
-                                                    height: Get.height * 0.01,
-                                                  ),
-                                                  Container(
-                                                    margin: EdgeInsets.symmetric(horizontal: 15),
-                                                    width: Get.width * 0.7,
-                                                    child: SmoothStarRating(
-                                                        allowHalfRating: false,
-                                                        // onRatingChanged: (v) {
-                                                        //   setState(() {
-                                                        //     rating = v;
-                                                        //   });
-                                                        // },
-                                                        starCount: 5,
-                                                        rating:snapShot.data?.docs[index]['rating'] ,
-                                                        size: 15.sp,
-                                                        filledIconData: Icons.star,
-                                                        halfFilledIconData: Icons.blur_on,
-                                                        color: AppColors.starRatingColor,
-                                                        borderColor: AppColors.starRatingColor,
-                                                        spacing: 0.0),
-                                                  ),
-                                                ],
-                                              ),
+                                                ),
+                                                SizedBox(
+                                                  height: Get.height * 0.01,
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.symmetric(horizontal: 15),
+                                                  width: Get.width * 0.7,
+                                                  child: SmoothStarRating(
+                                                      allowHalfRating: false,
+                                                      // onRatingChanged: (v) {
+                                                      //   setState(() {
+                                                      //     rating = v;
+                                                      //   });
+                                                      // },
+                                                      starCount: 5,
+                                                      rating:snapShot.data?.docs[index]['rating'] ,
+                                                      size: 15.sp,
+                                                      filledIconData: Icons.star,
+                                                      halfFilledIconData: Icons.blur_on,
+                                                      color: AppColors.starRatingColor,
+                                                      borderColor: AppColors.starRatingColor,
+                                                      spacing: 0.0),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                           CustomText(

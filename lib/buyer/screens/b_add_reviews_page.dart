@@ -17,8 +17,8 @@ import 'custom_widget/custom_button.dart';
 import 'custom_widget/custom_text.dart';
 
 class AddReviewsPage extends StatefulWidget {
-  const AddReviewsPage({Key? key}) : super(key: key);
-
+  const AddReviewsPage({Key? key, this.category}) : super(key: key);
+final String? category;
   @override
   State<AddReviewsPage> createState() => _AddReviewsPageState();
 }
@@ -52,11 +52,13 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
 
     BRegisterRepo.emailRegister()
         .then((value) async {
+          print('==>category${widget.category}');
           CollectionReference ProfileCollection =
               bFirebaseStore.collection('Reviews');
           ProfileCollection
               .doc('${PreferenceManager.getUId()}').set({
             'userID':PreferenceManager.getUId(),
+            'category':widget.category,
             'name':firstname,
             'imageProfile': Img,
             'dsc': desc.text,
@@ -77,6 +79,8 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print('==>category===${widget.category}');
+
     getData();
     addData();
   }

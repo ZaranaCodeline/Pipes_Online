@@ -45,6 +45,7 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
     // TODO: implement initState
     super.initState();
     getData();
+    print('=========seller_reviewwidget_category---${widget.category}');
   }
 
   @override

@@ -138,7 +138,8 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                 padding: EdgeInsets.symmetric(vertical: 10.sp),
                 child: InkWell(
                   onTap: () {
-                    Get.to(() => SellerReviewWidget(id: widget.id,));
+                    print('selectedProduct===========>${widget.category}');
+                    Get.to(() => SellerReviewWidget(id: widget.id,category: widget.category,));
                   },
                   child: SingleChildScrollView(
                     child: Row(

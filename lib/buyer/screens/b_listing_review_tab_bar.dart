@@ -24,6 +24,7 @@ class _ListingReviewTabBarWidgetState extends State<ListingReviewTabBarWidget>
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
+    print('=========Category widget========${widget.category}');
   }
 
   @override

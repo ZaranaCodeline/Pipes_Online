@@ -160,7 +160,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                             Center(
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
+                                const EdgeInsets.symmetric(vertical: 10),
                                 child: Center(
                                   child: Column(
                                     children: [
@@ -171,74 +171,74 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                             shape: RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.only(
                                                     topLeft:
-                                                        const Radius.circular(
-                                                            20.0),
+                                                    const Radius.circular(
+                                                        20.0),
                                                     topRight:
-                                                        const Radius.circular(
-                                                            20.0))),
+                                                    const Radius.circular(
+                                                        20.0))),
                                             backgroundColor: Colors.white,
                                             context: context,
                                             builder: (context) =>
                                                 FractionallySizedBox(
-                                              heightFactor: 0.2.sp,
-                                              child: Row(
-                                                mainAxisAlignment:
+                                                  heightFactor: 0.2.sp,
+                                                  child: Row(
+                                                    mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceEvenly,
-                                                children: [
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                        color: AppColors
-                                                            .primaryColor,
-                                                        borderRadius:
+                                                    children: [
+                                                      Container(
+                                                        decoration: BoxDecoration(
+                                                            color: AppColors
+                                                                .primaryColor,
+                                                            borderRadius:
                                                             BorderRadius
                                                                 .circular(
-                                                                    25.sp),
-                                                        border: Border.all(
-                                                            color: AppColors
-                                                                .primaryColor)),
-                                                    child: MaterialButton(
-                                                      child: Text(
-                                                        'GALLERY'.toUpperCase(),
-                                                        style: TextStyle(
-                                                            color: AppColors
-                                                                .commonWhiteTextColor,
-                                                            fontSize: 14.sp),
+                                                                25.sp),
+                                                            border: Border.all(
+                                                                color: AppColors
+                                                                    .primaryColor)),
+                                                        child: MaterialButton(
+                                                          child: Text(
+                                                            'GALLERY'.toUpperCase(),
+                                                            style: TextStyle(
+                                                                color: AppColors
+                                                                    .commonWhiteTextColor,
+                                                                fontSize: 14.sp),
+                                                          ),
+                                                          onPressed: () {
+                                                            getGalleryImage();
+                                                            Get.back();
+                                                          },
+                                                        ),
                                                       ),
-                                                      onPressed: () {
-                                                        getGalleryImage();
-                                                        Get.back();
-                                                      },
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                        color: AppColors
-                                                            .primaryColor,
-                                                        borderRadius:
+                                                      Container(
+                                                        decoration: BoxDecoration(
+                                                            color: AppColors
+                                                                .primaryColor,
+                                                            borderRadius:
                                                             BorderRadius
                                                                 .circular(
-                                                                    25.sp),
-                                                        border: Border.all(
-                                                            color: AppColors
-                                                                .primaryColor)),
-                                                    child: MaterialButton(
-                                                      child: Text(
-                                                        'camera'.toUpperCase(),
-                                                        style: TextStyle(
-                                                            color: AppColors
-                                                                .commonWhiteTextColor,
-                                                            fontSize: 14.sp),
+                                                                25.sp),
+                                                            border: Border.all(
+                                                                color: AppColors
+                                                                    .primaryColor)),
+                                                        child: MaterialButton(
+                                                          child: Text(
+                                                            'camera'.toUpperCase(),
+                                                            style: TextStyle(
+                                                                color: AppColors
+                                                                    .commonWhiteTextColor,
+                                                                fontSize: 14.sp),
+                                                          ),
+                                                          onPressed: () {
+                                                            getCamaroImage();
+                                                            Get.back();
+                                                          },
+                                                        ),
                                                       ),
-                                                      onPressed: () {
-                                                        getCamaroImage();
-                                                        Get.back();
-                                                      },
-                                                    ),
+                                                    ],
                                                   ),
-                                                ],
-                                              ),
-                                            ),
+                                                ),
                                           );
                                         },
                                         child: Column(
@@ -248,20 +248,20 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                               width: 50.sp,
                                               decoration: BoxDecoration(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          50)),
+                                                  BorderRadius.circular(
+                                                      50)),
                                               child: ClipRRect(
                                                 borderRadius:
-                                                    BorderRadius.circular(50),
+                                                BorderRadius.circular(50),
                                                 child: _image == null
                                                     ? Image.network(
-                                                        Img == null
-                                                            ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
-                                                            : Img!,
-                                                        fit: BoxFit.cover,
-                                                      )
+                                                  Img == null
+                                                      ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
+                                                      : Img!,
+                                                  fit: BoxFit.cover,
+                                                )
                                                     : Image.file(_image!,
-                                                        fit: BoxFit.fill),
+                                                    fit: BoxFit.fill),
                                               ),
                                             ),
                                             SizedBox(
@@ -312,27 +312,27 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                         filled: true,
                                         focusedBorder: OutlineInputBorder(
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                            BorderRadius.circular(10),
                                             borderSide: BorderSide(
                                                 color: Colors.blue
                                                     .withOpacity(0.5),
                                                 width: 2)),
                                         enabledBorder: OutlineInputBorder(
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                            BorderRadius.circular(10),
                                             borderSide: BorderSide(
                                                 color: Colors.grey
                                                     .withOpacity(0.5),
                                                 width: 2)),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderRadius:
-                                              BorderRadius.circular(10),
+                                          BorderRadius.circular(10),
                                           borderSide: BorderSide(
                                               color: Colors.red, width: 2),
                                         ),
                                         errorBorder: OutlineInputBorder(
                                           borderRadius:
-                                              BorderRadius.circular(10),
+                                          BorderRadius.circular(10),
                                           borderSide: BorderSide(
                                               color: Colors.red, width: 2),
                                         )),
@@ -359,17 +359,17 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                       filled: true,
                                       focusedBorder: OutlineInputBorder(
                                           borderRadius:
-                                              BorderRadius.circular(10),
+                                          BorderRadius.circular(10),
                                           borderSide: BorderSide(
                                               color:
-                                                  Colors.blue.withOpacity(0.5),
+                                              Colors.blue.withOpacity(0.5),
                                               width: 2)),
                                       enabledBorder: OutlineInputBorder(
                                           borderRadius:
-                                              BorderRadius.circular(10),
+                                          BorderRadius.circular(10),
                                           borderSide: BorderSide(
                                               color:
-                                                  Colors.grey.withOpacity(0.5),
+                                              Colors.grey.withOpacity(0.5),
                                               width: 2)),
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
@@ -397,7 +397,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                   focusedErrorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide:
-                                        BorderSide(color: Colors.red, width: 2),
+                                    BorderSide(color: Colors.red, width: 2),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
@@ -412,7 +412,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                   errorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide:
-                                        BorderSide(color: Colors.red, width: 2),
+                                    BorderSide(color: Colors.red, width: 2),
                                   )),
                               validator: (email) {
                                 if (isEmailValid(email!)) {
@@ -447,7 +447,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                 focusedErrorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide:
-                                      BorderSide(color: Colors.red, width: 2),
+                                  BorderSide(color: Colors.red, width: 2),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -462,7 +462,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                 errorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide:
-                                      BorderSide(color: Colors.red, width: 2),
+                                  BorderSide(color: Colors.red, width: 2),
                                 ),
                               ),
                             ),
@@ -481,7 +481,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                           ? Icons.remove_red_eye
                                           : Icons.remove_red_eye_outlined,
                                       color:
-                                          selected ? Colors.black : Colors.grey,
+                                      selected ? Colors.black : Colors.grey,
                                     ),
                                     onPressed: () {
                                       setState(() {
@@ -492,7 +492,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                   focusedErrorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide:
-                                        BorderSide(color: Colors.red, width: 2),
+                                    BorderSide(color: Colors.red, width: 2),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
@@ -531,7 +531,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                   focusedErrorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide:
-                                        BorderSide(color: Colors.red, width: 2),
+                                    BorderSide(color: Colors.red, width: 2),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
@@ -546,7 +546,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                   errorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide:
-                                        BorderSide(color: Colors.red, width: 2),
+                                    BorderSide(color: Colors.red, width: 2),
                                   )),
                               validator: (value) {
                                 if (value!.isNotEmpty) {
@@ -590,7 +590,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                   ),
                                   child: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                     children: [
                                       SvgPicture.asset(
                                         "${SImagePick.locationColorIcon}",
@@ -614,12 +614,12 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Center(
                                     child: Text(
-                                  'Submit',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 17),
-                                )),
+                                      'Submit',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 17),
+                                    )),
                               ),
                               onTap: () async {
                                 if (formGlobalKey.currentState!.validate()) {
@@ -632,8 +632,13 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
                                   );
                                   formGlobalKey.currentState!.save();
                                   BRegisterRepo.emailRegister(
-                                          email: email.text, pass: pass.text)
+                                    
+                                      email: email.text, pass: pass.text)
                                       .then((value) async {
+                                        PreferenceManager.setEmail(email.text);
+                                        PreferenceManager.setPassword(pass.text);
+                                        PreferenceManager.getEmail();
+                                        PreferenceManager.getPassword();
                                     await addData();
                                   });
                                   Get.to(BLoginScreen());
@@ -706,8 +711,11 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
         .then((value) async {
       CollectionReference ProfileCollection =
       bFirebaseStore.collection('BProfile');
-      ProfileCollection.doc('${PreferenceManager.getUId()}').set({
-        'buyerID':'1',
+      ProfileCollection.doc('${PreferenceManager.getUId()}')
+          // .collection('UserID')
+          // .add({
+          .set({
+        'buyerID':PreferenceManager.getUId(),
         'email': email.text,
         'password': pass.text,
         'phoneno': phn.text,
@@ -717,7 +725,7 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
         'address': _controller.addressController == null
             ? _controller.addressController
             : _controller.addressController!.text,
-        'userType': 'Buyer',
+        'userType': PreferenceManager.getUserType(),
         'time': DateTime.now(),
       });
     })

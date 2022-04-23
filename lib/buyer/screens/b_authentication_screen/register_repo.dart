@@ -9,9 +9,15 @@ class BRegisterRepo {
   Future<UserCredential?> LogIn(String email, String password) async {
     UserCredential? firebaseuser = await bFirebaseAuth.signInWithEmailAndPassword(
         email: email, password: password).then((value) async  {
-
       await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
-      print('UID ${PreferenceManager.getUId()}');
+      PreferenceManager.getUId();
+      PreferenceManager.getUserType();
+      print('UID BRegisterRepo==========${PreferenceManager.getUId()}');
+
+      print('getUserType BRegisterRepo====getUserType=====${PreferenceManager.getUserType()}');
+      print('BRegisterRepo vemailRegister----UID ${PreferenceManager.getUId()}');
+      print('BRegisterRepo  emailRegister------LogIn==${bFirebaseAuth.currentUser!.uid}');
+
       print('LogIn==${bFirebaseAuth.currentUser!.uid}');
       await Get.offAll(
               () => BottomNavigationBarScreen());
@@ -26,6 +32,16 @@ class BRegisterRepo {
     try {
       await bFirebaseAuth.createUserWithEmailAndPassword(
           email: email!, password: pass!);
+      print('UID BRegisterRepo==========${PreferenceManager.getUId()}');
+      await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
+      PreferenceManager.getUId();
+      PreferenceManager.getUserType();
+      print('UID BRegisterRepo==========${PreferenceManager.getUId()}');
+
+      print('getUserType BRegisterRepo====getUserType=====${PreferenceManager.getUserType()}');
+      print('BRegisterRepo vemailRegister----UID ${PreferenceManager.getUId()}');
+      print('BRegisterRepo  emailRegister------LogIn==${bFirebaseAuth.currentUser!.uid}');
+
     } catch (e) {
       print('registration error?????????$e');
     }
@@ -94,9 +110,7 @@ class SRegisterRepo {
   //   print('${bFirebaseAuth.currentUser!.uid}');
   //   await PreferenceManager.setEmail(bFirebaseAuth.currentUser!.email!);
   //   await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
-  //   await PreferenceManager.setTime(bFirebaseAuth.currentUser!.uid);
   //
-  //   print('getTime ${PreferenceManager.getTime()}');
   //   print('EMAIL ${PreferenceManager.getEmail()}');
   //   print('UID ${PreferenceManager.getUId()}');
   // }

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -102,7 +103,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
             onPressed: () {
               bottomBarIndexController.bottomIndex.value = 0;
 
-              bottomBarIndexController.setSelectedScreen(value:'HomeScreen');
+              bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
             },
             icon: Icon(Icons.arrow_back),
           ),
@@ -146,7 +147,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                 Container(
                                   decoration: BoxDecoration(
                                       color: AppColors.primaryColor,
-                                      borderRadius: BorderRadius.circular(25.sp),
+                                      borderRadius:
+                                          BorderRadius.circular(25.sp),
                                       border: Border.all(
                                           color: AppColors.primaryColor)),
                                   child: MaterialButton(
@@ -166,7 +168,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                 Container(
                                   decoration: BoxDecoration(
                                       color: AppColors.primaryColor,
-                                      borderRadius: BorderRadius.circular(25.sp),
+                                      borderRadius:
+                                          BorderRadius.circular(25.sp),
                                       border: Border.all(
                                           color: AppColors.primaryColor)),
                                   child: MaterialButton(
@@ -339,7 +342,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                       child: SCommonButton().sCommonPurpleButton(
                         name: 'SAVE',
                         onTap: () {
-                          if(formGlobalKey.currentState!.validate()){
+                          if (formGlobalKey.currentState!.validate()) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text('Processing Data'),
@@ -348,7 +351,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                             );
                             UpdateData();
                             formGlobalKey.currentState!.save();
-                            bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
+                            bottomBarIndexController.setSelectedScreen(
+                                value: 'HomeScreen');
                             bottomBarIndexController.bottomIndex.value = 0;
                           }
                         },
@@ -367,11 +371,31 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     );
   }
 
+  uploadImagetFirebase(String imagePath) async {
+    await FirebaseStorage.instance
+        .ref(imagePath)
+        .putFile(File(imagePath))
+        .then((taskSnapshot) {
+      print("task done");
+
+// download url when it is uploaded
+      if (taskSnapshot.state == TaskState.success) {
+        FirebaseStorage.instance.ref(imagePath).getDownloadURL().then((url) {
+          print("Here is the URL of Image $url");
+          return url;
+        }).catchError((onError) {
+          print("Got Error $onError");
+        });
+      }
+    });
+  }
+
   Future<String?> uploadImageToFirebase(
-      {BuildContext? context, File? file}) async {
+      {BuildContext? context, File? file, String? fileName}) async {
     try {
       var response = await firebase_storage.FirebaseStorage.instance
-          .ref('uploads/$file')
+          .ref('uploads/$fileName')
+          // .ref('uploads/$file')
           .putFile(file!);
       print("Response>>>>>>>>>>>>>>>>>>$response");
       return response.storage.ref().getDownloadURL();
@@ -381,16 +405,17 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   }
 
   Future<void> UpdateData() async {
-    String? imageUrl = await uploadImageToFirebase(
-      context: context,
-      file: _image,
-    );
+    String? imageUrl = await uploadImagetFirebase(_image!.path);
+    // context: context,
+    // file: _image,
+    // );
     print(imageUrl);
     uploadImage = imageUrl;
-    await ProfileCollection.doc('${PreferenceManager.getUId()}')
-        .get();
-    print('====>Update PreferenceManager.getUId() ---${PreferenceManager.getUId()}');
-    print('====>Update FirebaseAuth.instance.currentUser!.uid ---${FirebaseAuth.instance.currentUser!.uid}');
+    await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
+    print(
+        '====>Update PreferenceManager.getUId() ---${PreferenceManager.getUId()}');
+    print(
+        '====>Update FirebaseAuth.instance.currentUser!.uid ---${FirebaseAuth.instance.currentUser!.uid}');
     await ProfileCollection.doc('${PreferenceManager.getUId()}')
         .update({
           'imageProfile': imageUrl == null ? Img : imageUrl,
@@ -402,6 +427,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         .then((value) => print('success full updated'))
         .catchError((e) => print('not updated updated =>$e'));
   }
+
   bool isEmailValid(String email) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';

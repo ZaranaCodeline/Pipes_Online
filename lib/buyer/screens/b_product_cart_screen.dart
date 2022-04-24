@@ -14,21 +14,21 @@ import 'package:sizer/sizer.dart';
 import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 
 class ProductCartScreen extends StatefulWidget {
-  String? id;
-  String? desc;
-  String? price;
-  String? name;
-  String? category;
-  String? image;
-
-  ProductCartScreen(
-      {Key? key,
-      this.price,
-      this.desc,
-      this.name,
-      this.image,
-      this.category,
-      this.id});
+  // String? id;
+  // String? desc;
+  // String? price;
+  // String? name;
+  // String? category;
+  // String? image;
+  //
+  // ProductCartScreen(
+  //     {Key? key,
+  //     this.price,
+  //     this.desc,
+  //     this.name,
+  //     this.image,
+  //     this.category,
+  //     this.id});
 
   @override
   State<ProductCartScreen> createState() => _ProductCartScreenState();
@@ -46,6 +46,12 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // print('==============${widget.id}');
+    // print('==============${widget.name}');
+    // print('==============${widget.category}');
+    // print('==============${widget.price}');
+    // print('==============${widget.desc}');
+    // print('==============${widget.image}');
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -67,28 +73,31 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
           ),
         ),
       ),
-      body: GestureDetector(
-        onTap: () {
-          Get.to(CartPage(
-            category: widget.category,
-            name: widget.name,
-            desc: widget.desc,
-            image: widget.image,
-            price: widget.price,
-          ));
-        },
-        child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection('Cart')
-              .doc(PreferenceManager.getUId())
-              .collection('MyCart')
-              .snapshots(),
-          builder: (context, snapShot) {
-            if (snapShot.hasData) {
-              return ListView.builder(
-                itemCount: snapShot.data!.docs.length,
-                itemBuilder: (context, index) {
-                  return Padding(
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('Cart')
+            .doc(PreferenceManager.getUId())
+            .collection('MyCart')
+            .snapshots(),
+        builder: (context, snapShot) {
+          if (snapShot.hasData) {
+            return ListView.builder(
+              itemCount: snapShot.data!.docs.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    Get.to(
+                      () => CartPage(
+                        name: snapShot.data!.docs[index]['category'],
+                        category: snapShot.data!.docs[index]['category'],
+                        desc: snapShot.data!.docs[index]['dsc'],
+                        image: snapShot.data!.docs[index]['imageProfile'],
+                        price: snapShot.data!.docs[index]['price'],
+                        productID: snapShot.data!.docs[index]['productID'],
+                      ),
+                    );
+                  },
+                  child: Padding(
                     padding: EdgeInsets.all(15.sp),
                     child: Column(
                       children: [
@@ -161,32 +170,31 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                                         color: AppColors.hintTextColor),
                                   ]),
                               child: StreamBuilder<QuerySnapshot>(
-                                  stream: FirebaseFirestore.instance
-                                      .collection('Cart')
-                                      .doc(PreferenceManager.getUId())
-                                      .collection('MyCart')
-                                      .snapshots(),
-                                  builder: (context, snapShot) {
+                                stream: FirebaseFirestore.instance
+                                    .collection('Cart')
+                                    .doc(PreferenceManager.getUId())
+                                    .collection('MyCart')
+                                    .snapshots(),
+                                builder: (context, snapShot) {
+                                  if (snapShot.hasData) {
                                     return TextButton(
                                       onPressed: () {
-                                        // print(
-                                        //     'Delete.....${snapShot.data!.docs[index]['3zNTeLja4u49vhnBO36O']}.');
                                         try {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
-                                              content: Text('Your Product has been deleted From cart'),
-                                              backgroundColor:
-                                                  Colors.greenAccent,
+                                              content: Text(
+                                                  'Your Product has been deleted From cart'),
+                                              backgroundColor: Colors.redAccent,
                                             ),
                                           );
-                                          print(
-                                              'Delete..${snapShot.data?.docs.first.toString()}.');
+
                                           FirebaseFirestore.instance
                                               .collection("Cart")
                                               .doc(PreferenceManager.getUId())
                                               .collection("MyCart")
-                                              .doc(PreferenceManager.getUId())
+                                              .doc(
+                                                  snapShot.data?.docs[index].id)
                                               .delete();
                                         } catch (e) {
                                           print(e.toString());
@@ -195,23 +203,43 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                                       child: SvgPicture.asset(
                                           BImagePick.deleteIcon),
                                     );
-                                  }),
+                                  }
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  );
+                                  //   Container(
+                                  //   width: Get.width * 0.1,
+                                  //   height: Get.height / 15,
+                                  //   decoration: BoxDecoration(
+                                  //       borderRadius: BorderRadius.circular(30),
+                                  //       color: AppColors.primaryColor),
+                                  //   child: CustomText(
+                                  //     text: 'No Items',
+                                  //     fontSize: 14.sp,
+                                  //     color: AppColors.commonWhiteTextColor,
+                                  //     fontWeight: FontWeight.w700,
+                                  //   ),
+                                  // );
+                                },
+                              ),
                             ),
                           ],
                         ),
                       ],
                     ),
-                  );
-                },
-              );
-            }
-            return Center(
-              child: CircularProgressIndicator(
-                color: AppColors.primaryColor,
-              ),
+                  ),
+                );
+              },
             );
-          },
-        ),
+          }
+          return Center(
+            child: CircularProgressIndicator(
+              color: AppColors.primaryColor,
+            ),
+          );
+        },
       ),
     );
   }

@@ -176,87 +176,78 @@ class _SSignUpRagistraionScreenState extends State<SSignUpRagistraionScreen> {
                                       //assets/images/profile.png
                                       GestureDetector(
                                         onTap: () {
-                                          showDialog(
+                                          showModalBottomSheet<void>(
+                                            elevation: 0.5,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft:
+                                                        const Radius.circular(
+                                                            20.0),
+                                                    topRight:
+                                                        const Radius.circular(
+                                                            20.0))),
+                                            backgroundColor: Colors.white,
                                             context: context,
-                                            builder: (context) => SimpleDialog(
-                                              children: [
-                                                Container(
-                                                  height: 125.sp,
-                                                  width: double.infinity,
-                                                  child: Column(
-                                                    children: [
-                                                      Container(
-                                                        child: MaterialButton(
-                                                          child: Text(
-                                                            'GALLERY',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize:
-                                                                    14.sp),
-                                                          ),
-                                                          onPressed: () {
-                                                            getGalleryImage();
-                                                            Get.back();
-                                                          },
-                                                        ),
-                                                        width: 220,
-                                                        height: 60.sp,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                gradient: LinearGradient(
-                                                                    begin: Alignment
-                                                                        .centerLeft,
-                                                                    colors: [
-                                                                      AppColors
-                                                                          .primaryColor,
-                                                                      AppColors
-                                                                          .offLightPurpalColor,
-                                                                    ]),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            25)),
+                                            builder: (context) =>
+                                                FractionallySizedBox(
+                                              heightFactor: 0.2.sp,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                        color: AppColors
+                                                            .primaryColor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    25.sp),
+                                                        border: Border.all(
+                                                            color: AppColors
+                                                                .primaryColor)),
+                                                    child: MaterialButton(
+                                                      child: Text(
+                                                        'GALLERY'.toUpperCase(),
+                                                        style: TextStyle(
+                                                            color: AppColors
+                                                                .commonWhiteTextColor,
+                                                            fontSize: 14.sp),
                                                       ),
-                                                      SizedBox(
-                                                        height: 5,
-                                                      ),
-                                                      Container(
-                                                        child: MaterialButton(
-                                                          child: Text(
-                                                            'camera',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 20),
-                                                          ),
-                                                          onPressed: () {
-                                                            getCamaroImage();
-                                                            Get.back();
-                                                          },
-                                                        ),
-                                                        width: 220,
-                                                        height: 60.sp,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                gradient: LinearGradient(
-                                                                    begin: Alignment
-                                                                        .centerLeft,
-                                                                    colors: [
-                                                                      AppColors
-                                                                          .primaryColor,
-                                                                      AppColors
-                                                                          .offLightPurpalColor,
-                                                                    ]),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            25)),
-                                                      ),
-                                                    ],
+                                                      onPressed: () {
+                                                        getGalleryImage();
+                                                        Get.back();
+                                                      },
+                                                    ),
                                                   ),
-                                                )
-                                              ],
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                        color: AppColors
+                                                            .primaryColor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    25.sp),
+                                                        border: Border.all(
+                                                            color: AppColors
+                                                                .primaryColor)),
+                                                    child: MaterialButton(
+                                                      child: Text(
+                                                        'camera'.toUpperCase(),
+                                                        style: TextStyle(
+                                                            color: AppColors
+                                                                .commonWhiteTextColor,
+                                                            fontSize: 14.sp),
+                                                      ),
+                                                      onPressed: () {
+                                                        getCamaroImage();
+                                                        Get.back();
+                                                      },
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           );
                                         },

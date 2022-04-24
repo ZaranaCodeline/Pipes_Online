@@ -23,9 +23,9 @@ class CustomSelectedProductBuildTopWidget extends StatefulWidget {
       this.name,
       this.category,
       this.image,
-      this.id})
+      this.ProductID})
       : super(key: key);
-  final String? name, image, desc, price, category, id;
+  final String? name, image, desc, price, category, ProductID;
 
   @override
   State<CustomSelectedProductBuildTopWidget> createState() =>
@@ -36,7 +36,7 @@ class _CustomSelectedProductBuildTopWidgetState
     extends State<CustomSelectedProductBuildTopWidget> {
   @override
   Widget build(BuildContext context) {
-    print('ID  >>> ${widget.id}');
+    print('ID  >>> ${widget.ProductID}');
     return Container(
       child: Column(
         children: [
@@ -79,17 +79,19 @@ class _CustomSelectedProductBuildTopWidgetState
                           onTap: () {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('Addes Into Cart'),
-                                backgroundColor: AppColors.primaryColor,
+                                content: Text('Added Into Cart'),
+                                backgroundColor: Colors.greenAccent,
                               ),
                             );
                             print('CATEGORY----->${widget.category}');
                             File? imagUrl;
+
                             FirebaseFirestore.instance
                                 .collection('Cart')
                                 .doc(PreferenceManager.getUId().toString())
                                 .collection('MyCart')
                                 .add({
+                              'productID': widget.ProductID,
                               'cartID': PreferenceManager.getUId().toString(),
                               'imageProfile': widget.image,
                               'category': widget.category,
@@ -105,13 +107,13 @@ class _CustomSelectedProductBuildTopWidgetState
                                   desc: widget.desc,
                                   image: widget.image,
                                   price: widget.price,
-                                  id: widget.id,
+                                  productID: widget.ProductID,
                                 ),
                               );
                             });
                           },
                           child: CustomText(
-                            text: 'ADD TO CART',
+                            text: 'ADD TO CART'.toUpperCase(),
                             fontWeight: FontWeight.w600,
                             fontSize: 11.sp,
                             color: AppColors.commonWhiteTextColor,
@@ -150,5 +152,4 @@ class _CustomSelectedProductBuildTopWidgetState
       print(e);
     }
   }
-
 }

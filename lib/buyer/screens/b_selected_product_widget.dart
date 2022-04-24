@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
@@ -18,14 +17,17 @@ import 'custom_widget/custom_text.dart';
 import 'b_seller_review_widget.dart';
 
 class SelectedProductWidget extends StatefulWidget {
-
-  final String? name, image, desc, price, category, id;
-
+  final String? name, image, desc, price, category, ProductID;
 
   SelectedProductWidget(
-      {Key? key, this.name, this.price, this.image, this.category, this.desc,this.id})
+      {Key? key,
+      this.name,
+      this.price,
+      this.image,
+      this.category,
+      this.desc,
+      this.ProductID})
       : super(key: key);
-
 
   @override
   State<SelectedProductWidget> createState() => _SelectedProductWidgetState();
@@ -44,24 +46,22 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
   String? phoneno;
   String? Img;
 
-  CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
+  CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
 
   Future<void> getData() async {
     print('demo....${PreferenceManager.getUId()}.');
     final user =
-        await ProfileCollection.doc('${PreferenceManager.getUId()}')
-            .get();
+        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
     var m = user.data();
     print('--SelectedProductWidget--------m-- $m');
     // Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
     Map<String, dynamic>? getUserData = m as Map<String, dynamic>?;
 
-      firstname = getUserData!['firstname'];
-      email = getUserData['email'];
-      address = getUserData['address'];
-      phoneno = getUserData['phoneno'];
-      Img = getUserData['imageProfile'];
-
+    firstname = getUserData!['firstname'];
+    email = getUserData['email'];
+    address = getUserData['address'];
+    phoneno = getUserData['phoneno'];
+    Img = getUserData['imageProfile'];
 
     print('========SelectedProductWidget===========${getUserData}');
   }
@@ -128,7 +128,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                   desc: widget.desc.toString(),
                   image: widget.image.toString(),
                   category: widget.category,
-                  id: widget.id,
+                  ProductID: widget.ProductID,
                 ),
               ),
             ),
@@ -139,7 +139,10 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                 child: InkWell(
                   onTap: () {
                     print('selectedProduct===========>${widget.category}');
-                    Get.to(() => SellerReviewWidget(id: widget.id,category: widget.category,));
+                    Get.to(() => SellerReviewWidget(
+                          id: widget.ProductID,
+                          category: widget.category,
+                        ));
                   },
                   child: SingleChildScrollView(
                     child: Row(
@@ -152,10 +155,10 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                                 ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
                                 : Img!,
                             fit: BoxFit.cover,
-                          width: 30.sp,
-                          height: 30.sp,
-                          // color: AppColors.primaryColor,
-                            ),
+                            width: 30.sp,
+                            height: 30.sp,
+                            // color: AppColors.primaryColor,
+                          ),
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -166,12 +169,12 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                               name2: '  (6 listings)',
                               color2: AppColors.hintTextColor,
                               fontsize: 12.sp,
-
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 5.sp),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   CustomText(
                                     text: '5.0',
@@ -225,7 +228,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
             Card(
               elevation: 0.2,
               child: Container(
-                height: Get.height/15,
+                height: Get.height / 15,
                 width: double.infinity,
                 padding: EdgeInsets.all(10.sp),
                 child: CustomText(
@@ -239,26 +242,21 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
             Card(
               elevation: 0.2,
               child: TextButton(
-                onPressed: () {
-
-                },
+                onPressed: () {},
                 child: CustomRichTextSpanWidget(
                   name1: 'Status :',
                   color1: AppColors.secondaryBlackColor,
                   name2: ' For Sale',
                   color2: AppColors.secondaryBlackColor,
                   fontsize: 12.sp,
-
                 ),
               ),
             ),
             Card(
               elevation: 0.2,
               child: Container(
-                height: Get.height/15,
-
+                height: Get.height / 15,
                 child: Padding(
-
                   padding: const EdgeInsets.all(5.0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -282,7 +280,10 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                                   borderRadius: BorderRadius.circular(50.sp),
                                 ),
                                 child: Image.asset(
-                                    'assets/images/icon/what_up_icon.png',width: 20.sp,height: 20.sp,)),
+                                  'assets/images/icon/what_up_icon.png',
+                                  width: 20.sp,
+                                  height: 20.sp,
+                                )),
                           ),
                           SizedBox(
                             width: 10.sp,
@@ -335,7 +336,6 @@ class CustomRichTextSpanWidget extends StatelessWidget {
     required this.fontsize,
     required this.name1,
     required this.name2,
-
   }) : super(key: key);
   Color color1, color2;
   String name1, name2;

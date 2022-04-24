@@ -115,8 +115,6 @@ import 'package:upi_pay/upi_pay.dart';
 
 import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 
-
-
 class Screen extends StatefulWidget {
   @override
   _ScreenState createState() => _ScreenState();
@@ -175,16 +173,17 @@ class _ScreenState extends State<Screen> {
     print("Starting transaction with id $transactionRef");
 
     final a = await UpiPay.initiateTransaction(
-      amount: _amountController.text,
-      app: app.upiApplication,
-      receiverName: 'Sharad',
-      receiverUpiAddress: _upiAddressController.text,
-      transactionRef: transactionRef,
-      transactionNote: 'UPI Payment',
-      url:'https://www.npci.org.in/sites/default/files/UPI%20Linking%20Specs_ver%201.6.pdf'
+        amount: _amountController.text,
+        app: app.upiApplication,
+        receiverName: 'Sharad',
+        receiverUpiAddress: _upiAddressController.text,
+        transactionRef: transactionRef,
+        transactionNote: 'UPI Payment',
+        url:
+            'https://www.npci.org.in/sites/default/files/UPI%20Linking%20Specs_ver%201.6.pdf'
 
-      // merchantCode: '7372'
-    );
+        // merchantCode: '7372'
+        );
 
     print(a);
   }
@@ -197,8 +196,7 @@ class _ScreenState extends State<Screen> {
           leading: IconButton(
             onPressed: () {
               bottomBarIndexController.bottomIndex.value = 0;
-              bottomBarIndexController.setSelectedScreen(
-                  value: 'BottomNavigationBarScreen');
+              bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
             },
             icon: Icon(Icons.arrow_back),
           ),
@@ -356,7 +354,7 @@ class _ScreenState extends State<Screen> {
             margin: EdgeInsets.only(bottom: 24),
             child: Text(
               'One of these will be invoked automatically by your phone to '
-                  'make a payment',
+              'make a payment',
               style: Theme.of(context).textTheme.bodyText2,
             ),
           ),
@@ -416,28 +414,28 @@ class _ScreenState extends State<Screen> {
       children: apps
           .map(
             (it) => Material(
-          key: ObjectKey(it.upiApplication),
-          // color: Colors.grey[200],
-          child: InkWell(
-            onTap: Platform.isAndroid ? () async => await _onTap(it) : null,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                it.iconImage(48),
-                Container(
-                  margin: EdgeInsets.only(top: 4),
-                  alignment: Alignment.center,
-                  child: Text(
-                    it.upiApplication.getAppName(),
-                    textAlign: TextAlign.center,
-                  ),
+              key: ObjectKey(it.upiApplication),
+              // color: Colors.grey[200],
+              child: InkWell(
+                onTap: Platform.isAndroid ? () async => await _onTap(it) : null,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    it.iconImage(48),
+                    Container(
+                      margin: EdgeInsets.only(top: 4),
+                      alignment: Alignment.center,
+                      child: Text(
+                        it.upiApplication.getAppName(),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      )
+          )
           .toList(),
     );
   }

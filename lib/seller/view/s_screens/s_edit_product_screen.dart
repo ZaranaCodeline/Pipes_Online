@@ -2,21 +2,15 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
-import 'package:pipes_online/seller/view/s_screens/s_add_product_screen.dart';
-import 'package:pipes_online/seller/view/s_screens/s_cateloge_home_screen.dart';
-import 'package:pipes_online/seller/view_model/s_add_product_controller.dart';
 import 'package:pipes_online/seller/view_model/s_edit_product_controller.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/view_model/b_bottom_bar_controller.dart';
 import '../../../routes/bottom_controller.dart';
@@ -27,9 +21,9 @@ import '../../common/s_text_style.dart';
 
 class SeditProductScreen extends StatefulWidget {
   SeditProductScreen(
-      {Key? key, this.img, this.name, this.price, this.desc, this.id})
+      {Key? key, /* this.img, this.name, this.price, this.desc,*/ this.id})
       : super(key: key);
-  final String? img, name, price, desc, id;
+  final String? /*img, name, price, desc, */ id;
 
   @override
   State<SeditProductScreen> createState() => _SeditProductScreenState();
@@ -38,8 +32,10 @@ class SeditProductScreen extends StatefulWidget {
 class _SeditProductScreenState extends State<SeditProductScreen> {
   EditProductContoller editProductContoller = Get.put(EditProductContoller());
   BottomController homeController = Get.find();
-  TextEditingController prdName = TextEditingController();
-  TextEditingController dsc = TextEditingController();
+  TextEditingController? prdName;
+  TextEditingController? dsc;
+  TextEditingController? price;
+  TextEditingController? cat;
   final formGlobalKey = GlobalKey<FormState>();
   BBottomBarIndexController bottomBarIndexController =
       Get.put(BBottomBarIndexController());
@@ -47,53 +43,50 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
   String? uploadImage;
   File? _image;
   String? Img;
-  String? cat;
-  String? price;
-  // String? prdName;
-  // String? dsc;
 
   String dropdownvalue = 'Plastic';
   FirebaseAuth _auth = FirebaseAuth.instance;
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('Products');
+  // Future<void> getData() async {
+  //   print('demo seller.....');
+  //   final user =
+  //       await userCollection.doc('${PreferenceManager.getUId()}').get();
+  //   Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+  //   // prdName = getUserData?['prdName'];
+  //   // dsc = getUserData?['dsc'];
+  //   // Img = getUserData?['imageProfile'];
+  //   // price = getUserData?['price'];
+  //
+  //   setState(() {
+  //     Img = getUserData?['imageProfile'];
+  //   });
+  //   print('=======SeditProductScreen=======${getUserData}');
+  //   print('=======SeditProductScreen===========${user.get('$prdName')}');
+  //   print('=======SeditProductScreen=======${user.get('$dsc')}');
+  //   print('=======SeditProductScreen=======${user.get('$Img')}');
+  //   print('=======SeditProductScreen======${user.get('$price')}');
+  // }
 
   @override
   void initState() {
-    // TODO: implement initState
-    getData(editProductContoller.id);
+    print('editProductContoller.id--------- ==>${editProductContoller.id}');
+    print('selectedCatName=> ${editProductContoller.selectedCatName}');
+    prdName = TextEditingController(text: editProductContoller.selectedName);
+    price = TextEditingController(text: editProductContoller.selectedPrice);
+    dsc = TextEditingController(text: editProductContoller.selecteddesc);
+    cat = TextEditingController(text: editProductContoller.selectedCatName);
+    // dsc = TextEditingController(text: widget.desc);
+    // price = TextEditingController(text: widget.price);
+    // getData();
     super.initState();
   }
-  Future<void> getData(String id) async {
-    print('demo.selected product seller....');
-    final user = await userCollection
-        .doc('${FirebaseAuth.instance.currentUser!.uid}')
-        .collection('data')
-        .doc(id)
-        .get();
-    Map<String, dynamic>? getUserData = user.data();
-    setState(() {
-      prdName = getUserData?['prdName'] ?? "";
-      dsc = getUserData?['dsc'] ?? "";
-      Img = getUserData?['imageProfile'] ?? "";
-      price = getUserData?['price']?? "" ;
-      cat = getUserData?['category'] ?? "";
-    });
 
-    print('prdName ==>$prdName');
-    print('dsc=> $dsc');
-    print('price= >$price');
-    print('imageProfile = >$Img');
-
-    // getUserData!.forEach((key, value) {
-    //   print('=========================key value=================${key}--${value}');
-    // });
-
-  }
   Future pickImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     setState(() {
       _image = File(pickedFile!.path);
-      print(_image);
+      print('=====pickImage======updatedimage=========>$_image');
     });
   }
 
@@ -136,10 +129,10 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
           leading: IconButton(
             onPressed: () {
               // Get.back();
-             setState(() {
-               homeController.bottomIndex.value = 0;
-               homeController.selectedScreen('SSelectedProductScreen');
-             });
+              setState(() {
+                homeController.bottomIndex.value = 0;
+                homeController.selectedScreen('SSelectedProductScreen');
+              });
             },
             icon: Icon(Icons.arrow_back),
           ),
@@ -193,7 +186,8 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                                               blurRadius: 10)
                                         ]),
                                     child: _image == null
-                                        ? Image.network(Img.toString())
+                                        ? Image.network(
+                                            editProductContoller.selectedImage)
                                         : Image.file(_image!),
                                   ),
                                   FlatButton(
@@ -268,17 +262,24 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             CustomText(
-                                text: 'Category',
+                                text: 'Category : ',
                                 fontWeight: FontWeight.w600,
                                 fontSize: 14.sp,
                                 color: AppColors.secondaryBlackColor,
                                 alignment: Alignment.topLeft),
                             SizedBox(
-                              width: Get.width * 0.001,
+                              width: Get.width * 0.1,
                             ),
                             Container(
                               alignment: Alignment.topLeft,
-                              child: SCustomDropDownWidget(),
+                              child: cat != null
+                                  ? Text(
+                                      '${editProductContoller.selectedCatName}',
+                                      style: TextStyle(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w600),
+                                    )
+                                  : SCustomDropDownWidget(),
                             ),
                           ],
                         ),
@@ -297,24 +298,22 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                         ),
                         Container(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 10.sp, vertical: 10.sp),
+                              horizontal: 10.sp, vertical: 0.sp),
                           alignment: Alignment.topLeft,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: AppColors.commonWhiteTextColor),
-                          child: widget.name != null
-                              ? TextFormField(
-                                  controller: prdName,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    focusedBorder: InputBorder.none,
-                                    enabledBorder: InputBorder.none,
-                                    errorBorder: InputBorder.none,
-                                    disabledBorder: InputBorder.none,
-                                    // hintText:prdName.toString() /*('ABX')*/,
-                                  ),
-                                )
-                              : Text('$prdName'),
+                          child: TextFormField(
+                            controller: prdName,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              // hintText:prdName.toString() /*('ABX')*/,
+                            ),
+                          ),
                         ),
                         SizedBox(
                           height: Get.height * 0.01,
@@ -330,15 +329,23 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                           height: Get.height * 0.01,
                         ),
                         Container(
-                          alignment: Alignment.center,
-                          width: Get.width * 0.26,
-                          height: Get.height * 0.06,
                           padding: EdgeInsets.symmetric(
                               horizontal: 10.sp, vertical: 0.sp),
+                          alignment: Alignment.topLeft,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: AppColors.commonWhiteTextColor),
-                          child: Text('${price}'),
+                          child: TextFormField(
+                            controller: price,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              // hintText:prdName.toString() /*('ABX')*/,
+                            ),
+                          ),
                         ),
                         SizedBox(
                           height: Get.height * 0.01,
@@ -362,11 +369,11 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                               borderRadius: BorderRadius.circular(15),
                               color: AppColors.commonWhiteTextColor),
                           child: Container(
-                            child: TextField(
+                            child: TextFormField(
                               controller: dsc,
                               decoration: InputDecoration(
-                                // hintText: dsc,
-                              ),
+                                  // hintText: dsc,
+                                  ),
                               maxLines: 3,
                               keyboardType: TextInputType.multiline,
                               // minLines: 1,
@@ -398,10 +405,11 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                               ),
                             );
                             formGlobalKey.currentState!.save();
-                            await UpdateData();
-                            Get.to(
-                              () => NavigationBarScreen(),
-                            );
+                            await UpdateData().then((value) {
+                              Get.to(
+                                () => NavigationBarScreen(),
+                              );
+                            });
                           }
                         },
                       ),
@@ -469,33 +477,37 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
   }
 
   Future<void> UpdateData() async {
+    print('==========editProductContoller.id====${editProductContoller.id}');
+    print('==========editProductContoller.selectedName====${prdName?.text}');
+    print('==========editProductContoller.selecteddesc====${dsc?.text}');
+    print('========== editProductContoller.selectedPrice====${price?.text}');
+    print('========== editProductContoller.selectedPrice====${_image}');
+    print('========== editProductContoller.selectedPrice====${cat?.text}');
     var snapshot = await bFirebaseStorage
         .ref()
         .child('ChatImage/${DateTime.now().microsecondsSinceEpoch}')
         .putFile(_image!);
     String downloadUrl = await snapshot.ref.getDownloadURL();
     print('url=$downloadUrl');
-    await userCollection
-        .doc('${FirebaseAuth.instance.currentUser!.uid}')
-        .collection('data')
-        .doc(widget.id)
+    userCollection
+        .doc(editProductContoller.id)
         .update({
-          'prdName': editProductContoller.selectedName,
-          'dsc': editProductContoller.selectedDesc,
-          'category': dropdownvalue,
+          'prdName': prdName?.text,
+          'dsc': dsc?.text,
+          'category': cat?.text,
           'imageProfile': downloadUrl,
-          'price': editProductContoller.selectedPrice,
+          'price': price?.text,
         })
-        .catchError((e) => print(e))
+        .catchError((e) => print(e.toString()))
         .then((value) {
-      editProductContoller.selectedName=prdName.toString() ;
-      editProductContoller.images=downloadUrl;
-      editProductContoller.selectedDesc=dsc.toString() ;
-      editProductContoller.selectedPrice=editProductContoller.selectedPrice;
+          editProductContoller.selectedName = prdName;
+          editProductContoller.selectedImage = downloadUrl;
+          editProductContoller.selecteddesc = dsc.toString();
+          editProductContoller.selectedPrice = price.toString();
 
-      // editProductContoller.=addProductController.category;
-      homeController.bottomIndex.value = 0;
-      homeController.selectedScreen('SCatelogeHomeScreen');
-    });
+          editProductContoller.selectedCatName = cat.toString();
+          homeController.bottomIndex.value = 0;
+          homeController.selectedScreen('SCatelogeHomeScreen');
+        });
   }
 }

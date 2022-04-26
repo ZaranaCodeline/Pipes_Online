@@ -12,30 +12,28 @@ class ProductCartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-              onPressed: () {
-                if (bottomBarIndexController.bottomIndex.value == 1) {
-                  bottomBarIndexController.setSelectedScreen(
-                      value: 'HomeScreen');
-                  bottomBarIndexController.bottomIndex.value = 0;
-                } else {
-                  Get.back();
-                }
-              },
-              icon: Icon(Icons.arrow_back_rounded)),
-          title: Text(
-            'cart'.toUpperCase(),
-            style: STextStyle.bold700White14,
-          ),
-          centerTitle: true,
-          backgroundColor: AppColors.primaryColor,
-          toolbarHeight: Get.height * 0.1,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(25),
-            ),
-          ),
-        )
-    );
+      leading: IconButton(
+          onPressed: () {
+            if (bottomBarIndexController.bottomIndex.value == 1) {
+              bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
+              bottomBarIndexController.bottomIndex.value = 0;
+            } else {
+              Get.back();
+            }
+          },
+          icon: Icon(Icons.arrow_back_rounded)),
+      title: Text(
+        'cart'.toUpperCase(),
+        style: STextStyle.bold700White14,
+      ),
+      centerTitle: true,
+      backgroundColor: AppColors.primaryColor,
+      toolbarHeight: Get.height * 0.1,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(25),
+        ),
+      ),
+    ));
   }
 }

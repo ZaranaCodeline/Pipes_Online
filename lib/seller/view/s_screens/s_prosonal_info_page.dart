@@ -322,15 +322,19 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                     child: SCommonButton().sCommonPurpleButton(
                       name: 'SAVE',
                       onTap: () {
-                        UpdateData();
-                        Get.back();
-                        if (bottomBarIndexController.bottomIndex.value == 3) {
-                          bottomBarIndexController.setSelectedScreen(
-                              value: 'ProfileScreen');
-                          bottomBarIndexController.bottomIndex.value = 0;
-                        } else {
-                          Get.back();
-                        }
+                        UpdateData().then((value) => Get.off(() {
+                              bottomBarIndexController.setSelectedScreen(
+                                  value: 'ProfileScreen');
+                              bottomBarIndexController.bottomIndex.value = 3;
+                            }));
+                        // Get.back();
+                        // if (bottomBarIndexController.bottomIndex.value == 3) {
+                        //   bottomBarIndexController.setSelectedScreen(
+                        //       value: 'ProfileScreen');
+                        //   bottomBarIndexController.bottomIndex.value = 0;
+                        // } else {
+                        //   Get.back();
+                        // }
                       },
                     ),
                   ),
@@ -353,7 +357,8 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
           .ref('uploads/$file')
           .putFile(file!);
       print("Response>>>>>>>>>>>>>>>>>>$response");
-      return response.storage.ref().getDownloadURL();
+      final url = await response.storage.ref().getDownloadURL().toString();
+      return url;
     } catch (e) {
       print(e);
     }

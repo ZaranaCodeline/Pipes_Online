@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:pipes_online/seller/view/s_screens/s_show_subscription_val_screen.dart';
 
 import '../../../routes/bottom_controller.dart';
 import '../../view/s_screens/s_add_product_screen.dart';
@@ -17,19 +17,20 @@ Widget categorySubScreen() {
     case 'SCatelogeHomeScreen':
       return SCatelogeHomeScreen();
 
-      case 'SSelectedProductScreen':
+    case 'SSelectedProductScreen':
       return SSelectedProductScreen();
 
-      case 'SSubscribeScreen':
+    case 'SSubscribeScreen':
       return SSubscribeScreen();
 
-      case 'SAddProductScreen':
+    case 'SShowSubcriptionValueScreen':
+      return SShowSubcriptionValueScreen();
+
+    case 'SAddProductScreen':
       return SAddProductScreen();
 
-      case 'SeditProductScreen':
+    case 'SeditProductScreen':
       return SeditProductScreen();
-
-
 
     default:
       return SCatelogeHomeScreen();

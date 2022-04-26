@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import '../../seller/view/s_screens/s_color_picker.dart';
@@ -11,8 +12,9 @@ import 'b_listing_review_tab_bar.dart';
 import 'custom_widget/custom_text.dart';
 
 class SellerReviewWidget extends StatefulWidget {
-  final String? id,category;
-  const SellerReviewWidget({Key? key, this.id, this.category}) : super(key: key);
+  final String? id, category;
+  const SellerReviewWidget({Key? key, this.id, this.category})
+      : super(key: key);
 
   @override
   State<SellerReviewWidget> createState() => _SellerReviewWidgetState();
@@ -21,7 +23,6 @@ class SellerReviewWidget extends StatefulWidget {
 class _SellerReviewWidgetState extends State<SellerReviewWidget> {
   var rating = 3.0;
 
-
   CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
   String? Img;
   String? firstname;
@@ -29,8 +30,7 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
   Future<void> getData() async {
     print('demo.....');
     final user =
-    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
-        .get();
+        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
     firstname = getUserData!['firstname'];
     print('=========SellerReviewWidget===============${getUserData}');
@@ -60,7 +60,7 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
       showMenu<String>(
         context: context,
         color: AppColors.primaryColor,
-        position: RelativeRect.fromLTRB(25,-2,25,25),
+        position: RelativeRect.fromLTRB(25, -2, 25, 25),
         //position where you want to show the menu on screen
         items: [
           PopupMenuItem<String>(
@@ -68,7 +68,7 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
               child: Column(
                 children: [
                   SizedBox(
-                    height : Get.height * 0.04,
+                    height: Get.height * 0.04,
                   ),
                   CustomText(
                     text: 'Contact to seller',
@@ -130,9 +130,8 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
           PopupMenuItem<String>(
             child: Center(
                 child: SizedBox(
-                  height: Get.height * 0.008,
-                )
-            ),
+              height: Get.height * 0.008,
+            )),
             value: '4',
           ),
           PopupMenuItem<String>(
@@ -152,7 +151,7 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                   ),
                   CustomText(
                     text:
-                    ' By this subscription\n you can call and chat\n with seller at any time.',
+                        ' By this subscription\n you can call and chat\n with seller at any time.',
                     color: AppColors.commonWhiteTextColor,
                     fontWeight: FontWeight.w600,
                     fontSize: 14.sp,
@@ -164,9 +163,8 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
           PopupMenuItem<String>(
             child: Center(
                 child: SizedBox(
-                  height: Get.height * 0.01,
-                )
-            ),
+              height: Get.height * 0.01,
+            )),
             value: '6',
           ),
         ],
@@ -203,7 +201,7 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                                       decoration: BoxDecoration(
                                           color: AppColors.primaryColor,
                                           borderRadius:
-                                          const BorderRadius.vertical(
+                                              const BorderRadius.vertical(
                                             bottom: Radius.circular(25),
                                           )),
                                     ),
@@ -223,8 +221,7 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                                   height: 60.sp,
                                   width: 60.sp,
                                   child: ClipRRect(
-                                    borderRadius:
-                                    BorderRadius.circular(50.0),
+                                    borderRadius: BorderRadius.circular(50.0),
                                     child: Image.network(
                                       Img == null
                                           ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
@@ -303,7 +300,6 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                       ),
                       Container(
                         height: 40,
-
                         decoration: BoxDecoration(
                           color: SColorPicker.white,
                           boxShadow: [
@@ -314,7 +310,8 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                           ],
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        margin: EdgeInsets.symmetric(horizontal: 60, vertical: 10),
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 60, vertical: 10),
                         child: InkWell(
                           onTap: () {
                             print('Get Contatc Detail');
@@ -336,8 +333,8 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                                     Icons.folder,
                                     color: AppColors.primaryColor,
                                   )
-                                // SvgPicture.asset('assets/images/folder_icon.svg'),
-                              ),
+                                  // SvgPicture.asset('assets/images/folder_icon.svg'),
+                                  ),
                               const SizedBox(
                                 width: 10,
                               ),
@@ -356,7 +353,12 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                 ),
               ),
             ),
-            Expanded(flex: 3, child: ListingReviewTabBarWidget(id: widget.id,category: widget.category,)),
+            Expanded(
+                flex: 3,
+                child: ListingReviewTabBarWidget(
+                  id: widget.id,
+                  category: widget.category,
+                )),
           ],
         ),
       ),

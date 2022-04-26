@@ -8,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/seller/Authentication/s_function.dart';
+import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view_model/s_add_product_controller.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
@@ -19,27 +20,30 @@ import '../../common/s_common_button.dart';
 import '../../common/s_text_style.dart';
 
 CollectionReference userCollection = bFirebaseStore.collection('Products');
-class SAddProductScreen extends StatefulWidget {
 
-  SAddProductScreen({Key? key, }) : super(key: key);
+class SAddProductScreen extends StatefulWidget {
+  SAddProductScreen({
+    Key? key,
+  }) : super(key: key);
   @override
   State<SAddProductScreen> createState() => _SAddProductScreenState();
 }
 
 class _SAddProductScreenState extends State<SAddProductScreen> {
-
   AddProductController addProductController = Get.put(AddProductController());
   BottomController homeController = Get.find();
 
   TextEditingController prdName = TextEditingController();
   TextEditingController dsc = TextEditingController();
+  TextEditingController prdPrice = TextEditingController();
   final formGlobalKey = GlobalKey<FormState>();
   BBottomBarIndexController bottomBarIndexController =
-  Get.put(BBottomBarIndexController());
+      Get.put(BBottomBarIndexController());
   final picker = ImagePicker();
   String? uploadImage;
   File? _image;
   String dropdownvalue = 'Plastic';
+  bool isLoading = false;
 
   Future pickImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -48,6 +52,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
       print(_image);
     });
   }
+
   Future<String?> uploadImageToFirebase(
       {BuildContext? context, String? fileName, File? file}) async {
     try {
@@ -61,6 +66,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
       print(e);
     }
   }
+
   var items = [
     'Plastic',
     'Steel',
@@ -78,16 +84,15 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-
         appBar: AppBar(
           title: Text(
             'ADD PRODUCT',
             style: STextStyle.bold700White14,
           ),
           leading: IconButton(
-            onPressed: (){
+            onPressed: () {
               homeController.bottomIndex.value = 0;
-              homeController.selectedScreen('SSubscribeScreen');
+              homeController.selectedScreen('ScatelogHomeScreen');
             },
             icon: Icon(Icons.arrow_back),
           ),
@@ -111,8 +116,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                 children: [
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10.sp),
-                    margin:
-                    EdgeInsets.symmetric(vertical: 5.sp),
+                    margin: EdgeInsets.symmetric(vertical: 5.sp),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       color: AppColors.primaryColor.withOpacity(0.3),
@@ -122,22 +126,26 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                       children: [
                         Center(
                           child: Padding(
-                            padding:   EdgeInsets.symmetric(vertical: 5.sp),
+                            padding: EdgeInsets.symmetric(vertical: 5.sp),
                             child: Row(
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(bottom: 10, right: 30),
+                                  margin:
+                                      EdgeInsets.only(bottom: 10, right: 30),
                                   height: 150,
                                   width: 150,
                                   decoration: BoxDecoration(
                                       color: Colors.white.withOpacity(0.9),
-                                      border: Border.all(color: Colors.white, width: 10),
+                                      border: Border.all(
+                                          color: Colors.white, width: 10),
                                       borderRadius: BorderRadius.circular(25),
                                       boxShadow: [
-                                        BoxShadow(color: Colors.grey, blurRadius: 10)
+                                        BoxShadow(
+                                            color: Colors.grey, blurRadius: 10)
                                       ]),
-                                  child: _image==null?
-                                  Image.network( 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB4x3H3i8szbt2TfefSCNwMpzF28ZM1Hvx907uC6ybDPBBb7uUdi3AIQbD7x7Wpnezv6M&usqp=CAU')
+                                  child: _image == null
+                                      ? Image.network(
+                                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB4x3H3i8szbt2TfefSCNwMpzF28ZM1Hvx907uC6ybDPBBb7uUdi3AIQbD7x7Wpnezv6M&usqp=CAU')
                                       : Image.file(_image!),
                                 ),
                                 FlatButton(
@@ -154,7 +162,8 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                                         borderRadius: BorderRadius.circular(25),
                                         boxShadow: [
                                           BoxShadow(
-                                              color: Colors.grey, blurRadius: 10)
+                                              color: Colors.grey,
+                                              blurRadius: 10)
                                         ]),
                                     child: Icon(
                                       Icons.camera_alt,
@@ -166,7 +175,6 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                             ),
                           ),
                         ),
-
                       ],
                     ),
                   ),
@@ -195,7 +203,8 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                                 new BoxShadow(
                                     blurRadius: 1,
                                     color: AppColors.hintTextColor),
-                              ],),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -242,18 +251,18 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                             color: AppColors.commonWhiteTextColor),
                         child: TextFormField(
                           controller: prdName,
-                          validator: (value){
-                            if(value!.isEmpty){
+                          validator: (value) {
+                            if (value!.isEmpty) {
                               return 'Please Enter Name';
                             }
                           },
                           decoration: InputDecoration(
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            hintText:  ('ABX'),
+                            // border: InputBorder.none,
+                            // focusedBorder: InputBorder.none,
+                            // enabledBorder: InputBorder.none,
+                            // errorBorder: InputBorder.none,
+                            // disabledBorder: InputBorder.none,
+                            hintText: ('ABX'),
                           ),
                         ),
                       ),
@@ -261,7 +270,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                         height: Get.height * 0.01,
                       ),
                       CustomText(
-                        text: 'price' ,
+                        text: 'price',
                         fontWeight: FontWeight.w600,
                         fontSize: 14.sp,
                         color: AppColors.secondaryBlackColor,
@@ -270,16 +279,41 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                       SizedBox(
                         height: Get.height * 0.01,
                       ),
-                      Container(
+                      /*Container(
                         alignment: Alignment.center,
                         width: Get.width * 0.26,
-                        height :Get.height * 0.06,
+                        height: Get.height * 0.06,
                         padding: EdgeInsets.symmetric(
                             horizontal: 10.sp, vertical: 0.sp),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: AppColors.commonWhiteTextColor),
-                        child:Text('${addProductController.selectedPrice}'),
+                        // child:Text('${addProductController.selectedPrice}'),
+                        child: Text('${prdPrice}'),
+                      )*/
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.sp, vertical: 0.sp),
+                        alignment: Alignment.topLeft,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColors.commonWhiteTextColor),
+                        child: TextFormField(
+                          controller: prdPrice,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please Enter Price';
+                            }
+                          },
+                          decoration: InputDecoration(
+                            // border: InputBorder.none,
+                            // focusedBorder: InputBorder.none,
+                            // enabledBorder: InputBorder.none,
+                            // errorBorder: InputBorder.none,
+                            // disabledBorder: InputBorder.none,
+                            hintText: ('PRICE'),
+                          ),
+                        ),
                       ),
                       SizedBox(
                         height: Get.height * 0.01,
@@ -303,9 +337,9 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                             borderRadius: BorderRadius.circular(15),
                             color: AppColors.commonWhiteTextColor),
                         child: Container(
-                          child:  TextFormField(
-                            validator: (value){
-                              if(value!.isEmpty){
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
                                 return 'Please Enter Address';
                               }
                             },
@@ -320,45 +354,95 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: Get.height * 0.01,
+                        height: Get.height * 0.03,
                       ),
                     ],
                   ),
                   Padding(
-                    padding:   EdgeInsets.symmetric(vertical: 15.sp,horizontal:  30.sp),
+                    padding: EdgeInsets.symmetric(
+                        vertical: 15.sp, horizontal: 30.sp),
                     child: SCommonButton().sCommonPurpleButton(
                       name: 'Add Product',
-                      /* onTap: () {
-                        addData();
-                        Get.to(() => SCatelogeHomeScreen());
-                        print('edit product seller side');
-                        // Get.toNamed(SRoutes.SSubmitProfileScreen);
-                      },*/
                       onTap: () async {
                         if (formGlobalKey.currentState!.validate()) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content:   Text('Processing data'),
+                              content: Text('Processing data'),
                               backgroundColor: AppColors.primaryColor,
                             ),
                           );
-                          if(_image==null){
+                          if (_image == null) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content:   Text('Please Select Image'),
+                                content: Text('Please Select Image'),
                                 backgroundColor: Colors.redAccent,
                               ),
                             );
                           }
                           formGlobalKey.currentState!.save();
-                          await addData(_image).then((value)  {
-                            homeController.selectedScreen('SCatelogeHomeScreen');
-                            homeController.bottomIndex.value=0;
+                          await addData(_image).then((value) {
+                            homeController
+                                .selectedScreen('SCatelogeHomeScreen');
+                            homeController.bottomIndex.value = 0;
                           });
                         }
-
                       },
                     ),
+                  ),
+                  // Container(
+                  //   alignment: Alignment.center,
+                  //   width: Get.width,
+                  //   height: Get.height * 0.07,
+                  //   decoration: BoxDecoration(
+                  //     color: SColorPicker.purple,
+                  //     borderRadius: BorderRadius.circular(10.sp),
+                  //   ),
+                  //   child: GestureDetector(
+                  //     onTap: () async {
+                  //       if (formGlobalKey.currentState!.validate()) {
+                  //         // ScaffoldMessenger.of(context).showSnackBar(
+                  //         //   SnackBar(
+                  //         //     content: Text('Processing data'),
+                  //         //     backgroundColor: AppColors.primaryColor,
+                  //         //   ),
+                  //         // );
+                  //         // if (_image == null) {
+                  //         //   ScaffoldMessenger.of(context).showSnackBar(
+                  //         //     SnackBar(
+                  //         //       content: Text('Please Select Image'),
+                  //         //       backgroundColor: Colors.redAccent,
+                  //         //     ),
+                  //         //   );
+                  //         // }
+                  //         setState(() {
+                  //           isLoading = true;
+                  //         });
+                  //         Future.delayed(Duration(seconds: 5), () {
+                  //           setState(() {
+                  //             isLoading = false;
+                  //           });
+                  //         });
+                  //         formGlobalKey.currentState!.save();
+                  //         await addData(_image).then((value) {
+                  //           homeController
+                  //               .selectedScreen('SCatelogeHomeScreen');
+                  //           homeController.bottomIndex.value = 0;
+                  //         });
+                  //       }
+                  //     },
+                  //     child: isLoading
+                  //         ? CircularProgressIndicator(
+                  //             color: AppColors.commonWhiteTextColor,
+                  //           )
+                  //         : Text(
+                  //             'Add Product',
+                  //             style: TextStyle(
+                  //                 color: AppColors.commonWhiteTextColor),
+                  //           ),
+                  //   ),
+                  // ),
+                  SizedBox(
+                    height: Get.height * 0.03,
                   ),
                 ],
               ),
@@ -420,9 +504,11 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
       ),
     );
   }
+
   FirebaseAuth _auth = FirebaseAuth.instance;
   Future<void> addData(File? file) async {
-    print('demo.PreferenceManager.getTime().toString()....${PreferenceManager.getUId()}');
+    print(
+        'demo.PreferenceManager.getTime().toString()....${PreferenceManager.getUId()}');
     print('userCollection.id....${userCollection.id}');
 
     var snapshot = await bFirebaseStorage
@@ -431,29 +517,31 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
         .putFile(file!);
     String downloadUrl = await snapshot.ref.getDownloadURL();
     print('url=$downloadUrl');
-    SAuthMethods().getCurrentUser()
-        .then((value) {
-      userCollection.add({
-        // 'productID':,
-        'sellerID':PreferenceManager.getUId(),
-        'imageProfile': downloadUrl,
-        'category': dropdownvalue,
-        'prdName': prdName.text,
-        'dsc': dsc.text,
-        'price':addProductController.selectedPrice,
-        'createdOn': DateTime.now(),
-      })
+    SAuthMethods().getCurrentUser().then((value) {
+      userCollection
+          .add({
+            // 'productID':,
+            'sellerID': PreferenceManager.getUId(),
+            'imageProfile': downloadUrl,
+            'category': dropdownvalue,
+            'prdName': prdName.text,
+            'dsc': dsc.text,
+            'price': prdPrice.text,
+            // 'price':addProductController.selectedPrice,
+            'createdOn': DateTime.now(),
+          })
           .catchError((e) => print('Error ===>>> $e'))
           .then((value) {
-        addProductController.name=prdName.text;
-        addProductController.images=downloadUrl;
-        addProductController.descs=dsc.text;
-        addProductController.prices=addProductController.selectedPrice;
-        addProductController.category=addProductController.category;
-        homeController.bottomIndex.value = 0;
-        homeController.selectedScreen('SCatelogeHomeScreen');
-      }
-        /*  Navigator.push(context, MaterialPageRoute(
+            addProductController.name = prdName.text;
+            addProductController.images = downloadUrl;
+            addProductController.descs = dsc.text;
+            addProductController.prices = prdPrice.text;
+            // addProductController.prices = addProductController.selectedPrice;
+            addProductController.category = addProductController.category;
+            homeController.bottomIndex.value = 0;
+            homeController.selectedScreen('SCatelogeHomeScreen');
+          }
+              /*  Navigator.push(context, MaterialPageRoute(
             builder: (context) {
               return SCatelogeHomeScreen(
                 image: downloadUrl,
@@ -462,8 +550,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                 desc: dsc.text,);
             },
           ))*/
-      );
-    }
-    );
+              );
+    });
   }
 }

@@ -47,8 +47,15 @@ class _SorderReviewScreenState extends State<SorderReviewScreen> {
                   Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      CustomCarouselSliderWidget(
+                      /*CustomCarouselSliderWidget(
                         image: image,
+                      )*/
+                      Container(
+                        child: Image.network(
+                          image,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                        ),
                       ),
                       // CarouselWirhDotsWidgets(imgList: imageList,),
                       Padding(
@@ -84,7 +91,7 @@ class _SorderReviewScreenState extends State<SorderReviewScreen> {
                                         text: 'Order ID 000001',
                                         fontWeight: FontWeight.w400,
                                         fontSize: 12.sp,
-                                        color:SColorPicker.fontGrey),
+                                        color: SColorPicker.fontGrey),
                                   ],
                                 ),
                                 SizedBox(
@@ -110,7 +117,7 @@ class _SorderReviewScreenState extends State<SorderReviewScreen> {
                                             text: 'Product ID 09456789',
                                             fontWeight: FontWeight.w400,
                                             fontSize: 12.sp,
-                                            color:SColorPicker.fontGrey),
+                                            color: SColorPicker.fontGrey),
                                       ],
                                     ),
                                     CustomText(
@@ -182,7 +189,7 @@ class _SorderReviewScreenState extends State<SorderReviewScreen> {
                                             text: 'Weight',
                                             fontWeight: FontWeight.w600,
                                             fontSize: 12.sp,
-                                            color:SColorPicker.fontGrey,
+                                            color: SColorPicker.fontGrey,
                                             alignment: Alignment.centerLeft,
                                           ),
                                           SizedBox(
@@ -204,7 +211,7 @@ class _SorderReviewScreenState extends State<SorderReviewScreen> {
                                             text: 'Oil',
                                             fontWeight: FontWeight.w600,
                                             fontSize: 12.sp,
-                                            color:SColorPicker.fontGrey,
+                                            color: SColorPicker.fontGrey,
                                             alignment: Alignment.centerLeft,
                                           ),
                                           CustomText(
@@ -227,8 +234,8 @@ class _SorderReviewScreenState extends State<SorderReviewScreen> {
                             height: Get.height * 0.01,
                           ),
                           GestureDetector(
-                            onTap: (){
-                              Get.to(()=>ScustomerReviewScreen());
+                            onTap: () {
+                              Get.to(() => ScustomerReviewScreen());
                             },
                             child: Card(
                               child: Column(
@@ -252,7 +259,8 @@ class _SorderReviewScreenState extends State<SorderReviewScreen> {
                                             text: 'Jan Doe',
                                             fontWeight: FontWeight.w600,
                                             fontSize: 14.sp,
-                                            color: AppColors.secondaryBlackColor),
+                                            color:
+                                                AppColors.secondaryBlackColor),
                                         Padding(
                                           padding: EdgeInsets.symmetric(
                                               vertical: 5.sp),
@@ -265,8 +273,8 @@ class _SorderReviewScreenState extends State<SorderReviewScreen> {
                                               ),
                                               CustomText(
                                                 text: '5.0',
-                                                color:
-                                                    AppColors.secondaryBlackColor,
+                                                color: AppColors
+                                                    .secondaryBlackColor,
                                                 fontSize: 16.sp,
                                                 fontWeight: FontWeight.w600,
                                               ),
@@ -354,7 +362,9 @@ class _SorderReviewScreenState extends State<SorderReviewScreen> {
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       child: SvgPicture.asset(
-                                          BImagePick.ReviewsIcon,color: SColorPicker.purple,),
+                                        BImagePick.ReviewsIcon,
+                                        color: SColorPicker.purple,
+                                      ),
                                       // SvgPicture.asset('assets/images/folder_icon.svg'),
                                     ),
                                     const SizedBox(
@@ -430,10 +440,16 @@ class _SorderReviewScreenState extends State<SorderReviewScreen> {
                     onPressed: () {
                       FirebaseFirestore.instance
                           .collection("Products")
-                          .where(PreferenceManager.getTime(), isEqualTo :"createdOn")
-                          .get().then((value){
+                          .where(PreferenceManager.getTime(),
+                              isEqualTo: "createdOn")
+                          .get()
+                          .then((value) {
                         value.docs.forEach((element) {
-                          FirebaseFirestore.instance.collection("Products").doc(element.id).delete().then((value){
+                          FirebaseFirestore.instance
+                              .collection("Products")
+                              .doc(element.id)
+                              .delete()
+                              .then((value) {
                             print("Success!");
                           });
                         });

@@ -1,48 +1,61 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-class EditProductContoller extends GetxController{
+class EditProductContoller extends GetxController {
+  dynamic selectedName = 'AAA'.obs;
 
-  String _selectedPrice='';
+  TextEditingController? nameController;
 
-  String get selectedPrice => _selectedPrice;
+  String selectedPrice = '';
+  String selectedCatName = '';
+  String selecteddesc = '';
+  String selectedImage = '';
+  String id = '';
 
-  set selectedPrice(String value) {
-    _selectedPrice = value;
-    update();
-  }
-  String id='';
-
-void selectedID(String value) {
-  id = value;
-    update();
-  }
-
-
-  String _name='';
-
-  String get selectedName => _name;
-
-  set selectedName(String value) {
-    _name = value;
+  void selectedID(String value) {
+    id = value;
     update();
   }
 
-  String _dsc='';
+  void selectedProductPrice(String price) {
+    selectedPrice = price;
+    update();
+  }
 
-  String get selectedDesc => _dsc;
+  void selectedProductName(String pName) {
+    selectedName = pName;
+    update();
+  }
+
+  void selectedCategoryName(String cName) {
+    selectedCatName = cName;
+    update();
+  }
+
+  void selectedImages(String image) {
+    selectedImage = image;
+    update();
+  }
+
+  void selectedDescription(String dsc) {
+    selecteddesc = dsc;
+    update();
+  }
+
+  String _dsc = '';
+
+  String get selectedPName => _dsc;
 
   set selectedDesc(String value) {
     _dsc = value;
     update();
   }
-
-
-  String _images='';
-  String get images => _images;
-
-  set images(String value) {
-    _images = value;
-    update();
-  }
-
+  //
+  // String _images = '';
+  // String get images => _images;
+  //
+  // set images(String value) {
+  //   _images = value;
+  //   update();
+  // }
 }

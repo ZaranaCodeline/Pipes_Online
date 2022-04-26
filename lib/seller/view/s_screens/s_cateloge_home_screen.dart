@@ -16,17 +16,16 @@ import '../../view_model/s_add_product_controller.dart';
 import 's_subscribe_screen.dart';
 
 class SCatelogeHomeScreen extends StatefulWidget {
-  const SCatelogeHomeScreen({Key? key,}) : super(key: key);
-
-
+  const SCatelogeHomeScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<SCatelogeHomeScreen> createState() => _SCatelogeHomeScreenState();
 }
 
 class _SCatelogeHomeScreenState extends State<SCatelogeHomeScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldKey =
-new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   BottomController homeController = Get.find();
   AddProductController addProductController = Get.put(AddProductController());
   @override
@@ -36,8 +35,7 @@ new GlobalKey<ScaffoldState>();
         key: _scaffoldKey,
         appBar: AppBar(
           leading: IconButton(
-            padding:
-            EdgeInsets.only(bottom: Get.height / 9.sp, left: 15.sp),
+            padding: EdgeInsets.only(bottom: Get.height / 9.sp, left: 15.sp),
             icon: SvgPicture.asset(
               'assets/images/svg/drawer_icon.svg',
               width: 15.sp,
@@ -50,13 +48,15 @@ new GlobalKey<ScaffoldState>();
               padding: const EdgeInsets.all(8.0),
               child: IconButton(
                 padding:
-                EdgeInsets.only(bottom: Get.height / 9.sp, left: 15.sp),
+                    EdgeInsets.only(bottom: Get.height / 9.sp, left: 15.sp),
                 icon: SvgPicture.asset(
                   'assets/images/svg/s_add_pro_icon.svg',
                   width: 23.sp,
                   height: 23.sp,
-                ), onPressed: () {Get.to(()=>SOrdersScreen());  },
-
+                ),
+                onPressed: () {
+                  Get.to(() => SOrdersScreen());
+                },
               ),
             ),
           ],
@@ -64,10 +64,10 @@ new GlobalKey<ScaffoldState>();
             background: Column(
               children: [
                 SizedBox(
-                  height: Get.height*0.07,
+                  height: Get.height * 0.07,
                 ),
                 Padding(
-                  padding:  EdgeInsets.only(top:5.sp),
+                  padding: EdgeInsets.only(top: 5.sp),
                   child: const SCustomHomeSearchWidget(),
                 ),
               ],
@@ -78,7 +78,11 @@ new GlobalKey<ScaffoldState>();
           title: Container(
               padding: EdgeInsets.only(top: 0.sp),
               margin: EdgeInsets.only(bottom: Get.height / 9.sp),
-              child:Image.asset('assets/images/png/pipe_logo.png',fit: BoxFit.fill,height: 35,)),
+              child: Image.asset(
+                'assets/images/png/pipe_logo.png',
+                fit: BoxFit.fill,
+                height: 35,
+              )),
           centerTitle: true,
           toolbarHeight: Get.height * 0.13.sp,
           shape: const RoundedRectangleBorder(
@@ -89,8 +93,8 @@ new GlobalKey<ScaffoldState>();
         ),
         drawer: Container(
             child: const Drawer(
-              child: SDrawerScreen(),
-            )),
+          child: SDrawerScreen(),
+        )),
         body: SafeArea(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10.sp),
@@ -110,7 +114,6 @@ new GlobalKey<ScaffoldState>();
                   SizedBox(
                     height: Get.height * 0.01.sp,
                   ),
-
                   SCustomProductCard(),
                 ],
               ),
@@ -120,8 +123,9 @@ new GlobalKey<ScaffoldState>();
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             print('hello');
-            homeController.selectedScreen('SSubscribeScreen');
-            homeController.bottomIndex.value=0;
+            // homeController.selectedScreen('SSubscribeScreen');
+            homeController.selectedScreen('SShowSubcriptionValueScreen');
+            homeController.bottomIndex.value = 0;
             // Get.to(() => SSubscribeScreen());
           },
           child: Container(
@@ -138,8 +142,7 @@ new GlobalKey<ScaffoldState>();
             ),
           ),
         ),
-
-        ),
+      ),
     );
   }
 }

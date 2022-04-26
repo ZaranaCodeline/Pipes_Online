@@ -8,6 +8,7 @@ import 'package:pipes_online/seller/bottombar/widget/category_bottom_bar_route.d
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_add_product_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_selected_product_screen.dart';
+import 'package:pipes_online/seller/view_model/s_add_product_controller.dart';
 import 'package:pipes_online/seller/view_model/s_edit_product_controller.dart';
 import 'package:sizer/sizer.dart';
 
@@ -21,7 +22,8 @@ class SCustomProductCard extends StatefulWidget {
 class _SCustomProductCardState extends State<SCustomProductCard> {
   EditProductContoller editProductContoller = Get.put(EditProductContoller());
   FirebaseAuth _auth = FirebaseAuth.instance;
-  String? proName,desc,price,image;
+  String? proName, desc, price, image;
+
   // Future<void> getData() async {
   //   print('demo.....');
   //   final  user =
@@ -41,10 +43,7 @@ class _SCustomProductCardState extends State<SCustomProductCard> {
     return Container(
       height: Get.height * 0.7,
       child: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('Products')
-
-            .snapshots(),
+        stream: FirebaseFirestore.instance.collection('Products').snapshots(),
         builder: (context, snapShot) {
           if (snapShot.hasData) {
             if (snapShot.connectionState == ConnectionState.waiting) {
@@ -67,14 +66,39 @@ class _SCustomProductCardState extends State<SCustomProductCard> {
                       print('gfvf');
                       print('DATA OF ID${snapShot.data!.docs[index].id}');
 
-                    /*  editProductContoller.selectedName=proName.toString();
+                      /*  editProductContoller.selectedName=proName.toString();
                       // editProductContoller.images=downloadUrl;
                       editProductContoller.selectedDesc=desc.toString();
                       editProductContoller.selectedPrice=editProductContoller.selectedPrice;
                       */
+                      EditProductContoller editProductContoller =
+                          Get.put(EditProductContoller());
+                      print(
+                          '====================>${editProductContoller.selectedName = snapShot.data!.docs[index]['prdName']}');
+                      print(
+                          '====================>${editProductContoller.selectedPrice = editProductContoller.selectedPrice}');
+                      print(
+                          '===editProductContoller.selectedPrice====>${editProductContoller.selectedPrice = (snapShot.data!.docs[index]['price'])}');
+                      // editProductContoller.selectedName =
+                      //     (snapShot.data!.docs[index]['prdName']);
+                      // editProductContoller.selectedName =
+                      //     snapShot.data!.docs[index]['prdName'];
+                      // // editProductContoller.selectedName;
+                      // editProductContoller.images = editProductContoller.images;
+                      // editProductContoller.selectedDesc =
+                      //     editProductContoller.selectedDesc;
+                      // // editProductContoller.selectedPrice =
+                      // editProductContoller.selectedProductName(
+                      //     snapShot.data!.docs[index]['prdName']);
+                      //
+                      // editProductContoller.selectedProductPrice(
+                      //     snapShot.data!.docs[index]['price']);
+
+                      editProductContoller
+                          .selectedID(snapShot.data!.docs[index].id);
+
                       homeController.selectedScreen('SSelectedProductScreen');
-                      homeController.bottomIndex.value=0;
-                      editProductContoller.selectedID(snapShot.data!.docs[index].id);
+                      homeController.bottomIndex.value = 0;
                       // Get.to(SSelectedProductScreen(
                       //   name: snapShot.data!.docs[index]['prdName'],
                       //   price: snapShot.data!.docs[index]['price'],
@@ -131,7 +155,7 @@ class _SCustomProductCardState extends State<SCustomProductCard> {
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10.sp),
                               child: CustomText(
-                                text:snapShot.data!.docs[index]['prdName'],
+                                text: snapShot.data!.docs[index]['prdName'],
                                 fontWeight: FontWeight.w600,
                                 fontSize: 14.sp,
                                 color: SColorPicker.purple,

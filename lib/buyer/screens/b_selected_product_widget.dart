@@ -5,6 +5,7 @@ import 'package:flutter_share/flutter_share.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/seller/view_model/s_edit_product_controller.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
@@ -45,6 +46,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
   String? address;
   String? phoneno;
   String? Img;
+  EditProductContoller editProductContoller = Get.find();
 
   CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
 
@@ -88,9 +90,17 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                   Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      CustomCarouselSliderWidget(
+                      Container(
+                        child: Image.network(
+                          widget.image.toString(),
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                        ),
+                      )
+                      /* CustomCarouselSliderWidget(
                         image: widget.image.toString(),
-                      ),
+                      )*/
+                      ,
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5.sp),
                         child: BackButton(
@@ -139,10 +149,12 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                 child: InkWell(
                   onTap: () {
                     print('selectedProduct===========>${widget.category}');
-                    Get.to(() => SellerReviewWidget(
-                          id: widget.ProductID,
-                          category: widget.category,
-                        ));
+                    Get.to(
+                      () => SellerReviewWidget(
+                        id: widget.ProductID,
+                        category: widget.category,
+                      ),
+                    );
                   },
                   child: SingleChildScrollView(
                     child: Row(
@@ -151,9 +163,12 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(25),
                           child: Image.network(
-                            Img == null
+                            // editProductContoller.images
+                            editProductContoller.selectedImage
+                            /*Img == null
                                 ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
-                                : Img!,
+                                : Img!*/
+                            ,
                             fit: BoxFit.cover,
                             width: 30.sp,
                             height: 30.sp,

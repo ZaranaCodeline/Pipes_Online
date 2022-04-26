@@ -10,11 +10,9 @@ Widget homeSubScreen() {
   switch (bottomBarIndexController.selectedScreen.value) {
     case 'HomeScreen':
       return CatelogeHomeWidget();
-      break;
 
     case 'BCategoryDetailsPage':
       return BCategoryDetailsPage();
-      break;
 
     default:
       return CatelogeHomeWidget();

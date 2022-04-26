@@ -7,20 +7,23 @@ import '../../../shared_prefarence/shared_prefarance.dart';
 
 class BRegisterRepo {
   Future<UserCredential?> LogIn(String email, String password) async {
-    UserCredential? firebaseuser = await bFirebaseAuth.signInWithEmailAndPassword(
-        email: email, password: password).then((value) async  {
+    UserCredential? firebaseuser = await bFirebaseAuth
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((value) async {
       await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
       PreferenceManager.getUId();
       PreferenceManager.getUserType();
       print('UID BRegisterRepo==========${PreferenceManager.getUId()}');
 
-      print('getUserType BRegisterRepo====getUserType=====${PreferenceManager.getUserType()}');
-      print('BRegisterRepo vemailRegister----UID ${PreferenceManager.getUId()}');
-      print('BRegisterRepo  emailRegister------LogIn==${bFirebaseAuth.currentUser!.uid}');
+      print(
+          'getUserType BRegisterRepo====getUserType=====${PreferenceManager.getUserType()}');
+      print(
+          'BRegisterRepo vemailRegister----UID ${PreferenceManager.getUId()}');
+      print(
+          'BRegisterRepo  emailRegister------LogIn==${bFirebaseAuth.currentUser!.uid}');
 
       print('LogIn==${bFirebaseAuth.currentUser!.uid}');
-      await Get.offAll(
-              () => BottomNavigationBarScreen());
+      await Get.offAll(() => BottomNavigationBarScreen());
     });
     assert(firebaseuser != null);
     assert(await firebaseuser?.credential?.token != null);
@@ -28,6 +31,7 @@ class BRegisterRepo {
     assert(firebaseuser?.user!.uid == currentUser.uid);
     return firebaseuser;
   }
+
   static Future<void> emailRegister({String? email, String? pass}) async {
     try {
       await bFirebaseAuth.createUserWithEmailAndPassword(
@@ -38,15 +42,18 @@ class BRegisterRepo {
       PreferenceManager.getUserType();
       print('UID BRegisterRepo==========${PreferenceManager.getUId()}');
 
-      print('getUserType BRegisterRepo====getUserType=====${PreferenceManager.getUserType()}');
-      print('BRegisterRepo vemailRegister----UID ${PreferenceManager.getUId()}');
-      print('BRegisterRepo  emailRegister------LogIn==${bFirebaseAuth.currentUser!.uid}');
-
+      print(
+          'getUserType BRegisterRepo====getUserType=====${PreferenceManager.getUserType()}');
+      print(
+          'BRegisterRepo vemailRegister----UID ${PreferenceManager.getUId()}');
+      print(
+          'BRegisterRepo  emailRegister------LogIn==${bFirebaseAuth.currentUser!.uid}');
     } catch (e) {
       print('registration error?????????$e');
     }
-      await bFirebaseAuth
-        .createUserWithEmailAndPassword(email: email.toString(), password: pass.toString())
+    await bFirebaseAuth
+        .createUserWithEmailAndPassword(
+            email: email.toString(), password: pass.toString())
         .then((value) => print(value.user!.email))
         .catchError((e) => print(e.toString()));
     await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
@@ -60,21 +67,23 @@ class BRegisterRepo {
     print('Log Out');
   }
 }
+
 //seller
 class SRegisterRepo {
   Future<UserCredential?> LogIn(String email, String password) async {
-    UserCredential? firebaseuser = await bFirebaseAuth.signInWithEmailAndPassword(
-        email: email, password: password).then((value) async  {
+    UserCredential? firebaseuser = await bFirebaseAuth
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((value) async {
       await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
       await PreferenceManager.setUserType('seller');
       PreferenceManager.getUId();
       PreferenceManager.getUserType();
-      print('getUserType SRegisterRepo=========${PreferenceManager.getUserType()}');
+      print(
+          'getUserType SRegisterRepo=========${PreferenceManager.getUserType()}');
       print('UID SRegisterRepo==========${PreferenceManager.getUId()}');
       print('LogIn ================${bFirebaseAuth.currentUser!.uid}');
 
-      await Get.offAll(
-              () => NavigationBarScreen());
+      await Get.offAll(() => NavigationBarScreen());
     });
     assert(firebaseuser != null);
     assert(await firebaseuser?.credential?.token != null);
@@ -82,6 +91,7 @@ class SRegisterRepo {
     assert(firebaseuser?.user!.uid == currentUser.uid);
     return firebaseuser;
   }
+
   static Future<void> emailRegister({String? email, String? pass}) async {
     try {
       await bFirebaseAuth.createUserWithEmailAndPassword(
@@ -92,15 +102,18 @@ class SRegisterRepo {
       PreferenceManager.getUserType();
       print('UID SRegisterRepo==========${PreferenceManager.getUId()}');
 
-      print('getUserType SRegisterRepo====getUserType=====${PreferenceManager.getUserType()}');
-      print('SRegisterRepo vemailRegister----UID ${PreferenceManager.getUId()}');
-      print('SRegisterRepo  emailRegister------LogIn==${bFirebaseAuth.currentUser!.uid}');
-
+      print(
+          'getUserType SRegisterRepo====getUserType=====${PreferenceManager.getUserType()}');
+      print(
+          'SRegisterRepo vemailRegister----UID ${PreferenceManager.getUId()}');
+      print(
+          'SRegisterRepo  emailRegister------LogIn==${bFirebaseAuth.currentUser!.uid}');
     } catch (e) {
       print('registration error?????????$e');
     }
     await bFirebaseAuth
-        .createUserWithEmailAndPassword(email: email.toString(), password: pass.toString())
+        .createUserWithEmailAndPassword(
+            email: email.toString(), password: pass.toString())
         .then((value) => print(value.user!.email))
         .catchError((e) => print(e.toString()));
   }
@@ -116,6 +129,7 @@ class SRegisterRepo {
   // }
 
   static Future<void> logOut() async {
+    PreferenceManager.clearData();
     bFirebaseAuth.signOut();
     print('Log Out');
   }

@@ -536,21 +536,10 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
             addProductController.images = downloadUrl;
             addProductController.descs = dsc.text;
             addProductController.prices = prdPrice.text;
-            // addProductController.prices = addProductController.selectedPrice;
             addProductController.category = addProductController.category;
             homeController.bottomIndex.value = 0;
             homeController.selectedScreen('SCatelogeHomeScreen');
-          }
-              /*  Navigator.push(context, MaterialPageRoute(
-            builder: (context) {
-              return SCatelogeHomeScreen(
-                image: downloadUrl,
-                name: prdName.text,
-                price: addProductController.selectedPrice,
-                desc: dsc.text,);
-            },
-          ))*/
-              );
+          });
     });
   }
 }

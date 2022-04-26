@@ -11,7 +11,9 @@ import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/routes/bottom_controller.dart';
 import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
+import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_common_button.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import '../../../buyer/screens/bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
@@ -30,33 +32,29 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
   File? _image;
   String? Img;
   String? uploadImage;
-  String _userName = '';
   final picker = ImagePicker();
-  TextEditingController firstname = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController address = TextEditingController();
-  TextEditingController phoneno = TextEditingController();
+  TextEditingController? firstname;
+  TextEditingController? email;
+  TextEditingController? address;
+  TextEditingController? phoneno;
   CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
+  BottomController homeController = Get.find();
+  bool isLoading = false;
 
   Future<void> getData() async {
     print('demo.....');
-    BottomController homeController = Get.find();
 
     final user =
         await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
             .get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    firstname.text = getUserData!['firstname'];
-    email.text = getUserData['email'];
-    address.text = getUserData['address'];
-    phoneno.text = getUserData['phoneno'];
+    firstname = TextEditingController(text: getUserData!['firstname']);
+    email = TextEditingController(text: getUserData['email']);
+    address = TextEditingController(text: getUserData['address']);
+    phoneno = TextEditingController(text: getUserData['phoneno']);
     setState(() {
       Img = getUserData['imageProfile'];
     });
-    print('============================${user.get('$firstname')}');
-    print('============================${user.get('$email')}');
-    print('============================${user.get('$address')}');
-    print('============================${user.get('$phoneno')}');
   }
 
   Future getGalleryImage() async {
@@ -92,6 +90,7 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
   void initState() {
     // TODO: implement initState
     getData();
+    print('=S=PreferenceManager.getUId()=====>${PreferenceManager.getUId()}');
   }
 
   @override
@@ -102,8 +101,8 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
           leading: IconButton(
             onPressed: () {
               Get.back();
-              // homeController.bottomIndex.value = 0;
-              // homeController.selectedScreen('NavigationBarScreen');
+              homeController.bottomIndex.value = 0;
+              homeController.selectedScreen('SCatelogeHomeScreen');
               // Get.to(() => NavigationBarScreen());
             },
             icon: Icon(Icons.arrow_back),
@@ -199,11 +198,14 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                             child: _image == null
                                 ? Image.network(
                                     Img == null
-                                        ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
+                                        ? 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'
                                         : Img!,
-                                    fit: BoxFit.cover,
+                                    fit: BoxFit.fill,
                                   )
-                                : Image.file(_image!, fit: BoxFit.fill),
+                                : Image.file(
+                                    _image!,
+                                    fit: BoxFit.fill,
+                                  ),
                           ),
                         ),
                         SizedBox(
@@ -253,7 +255,7 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                   ),
                   TextField(
                     controller: phoneno,
-                    // maxLength: 10,
+                    maxLength: 10,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       suffixIcon: Icon(Icons.edit),
@@ -310,32 +312,46 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                     ),
                     maxLines: 2,
                     keyboardType: TextInputType.multiline,
-                    // minLines: 1,
                   ),
                   SizedBox(
                     height: Get.height * 0.03,
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10.sp,
-                    ),
-                    child: SCommonButton().sCommonPurpleButton(
-                      name: 'SAVE',
-                      onTap: () {
-                        UpdateData().then((value) => Get.off(() {
-                              bottomBarIndexController.setSelectedScreen(
-                                  value: 'ProfileScreen');
-                              bottomBarIndexController.bottomIndex.value = 3;
-                            }));
-                        // Get.back();
-                        // if (bottomBarIndexController.bottomIndex.value == 3) {
-                        //   bottomBarIndexController.setSelectedScreen(
-                        //       value: 'ProfileScreen');
-                        //   bottomBarIndexController.bottomIndex.value = 0;
-                        // } else {
-                        //   Get.back();
-                        // }
-                      },
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isLoading = true;
+                      });
+                      uploadImgFirebaseStorage(file: _image).then((value) {
+                        homeController.selectedScreen('SCatelogHomeScreen');
+                        homeController.bottomIndex.value = 0;
+                      });
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: Get.width,
+                      height: Get.height * 0.06,
+                      decoration: BoxDecoration(
+                        color: SColorPicker.purple,
+                        borderRadius: BorderRadius.circular(10.sp),
+                      ),
+                      child: isLoading
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CustomText(
+                                    text: 'Loading...  ',
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12.sp,
+                                    color: AppColors.commonWhiteTextColor),
+                                CircularProgressIndicator(
+                                  color: AppColors.commonWhiteTextColor,
+                                ),
+                              ],
+                            )
+                          : Text(
+                              'SAVE',
+                              style: STextStyle.bold700White14,
+                            ),
                     ),
                   ),
                   SizedBox(
@@ -350,39 +366,23 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
     );
   }
 
-  Future<String?> uploadImageToFirebase(
-      {BuildContext? context, File? file}) async {
-    try {
-      var response = await firebase_storage.FirebaseStorage.instance
-          .ref('uploads/$file')
-          .putFile(file!);
-      print("Response>>>>>>>>>>>>>>>>>>$response");
-      final url = await response.storage.ref().getDownloadURL().toString();
-      return url;
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<void> UpdateData() async {
-    String? imageUrl = await uploadImageToFirebase(
-      context: context,
-      file: _image,
-    );
-    print(imageUrl);
-    uploadImage = imageUrl;
-    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
-        .get();
-    print('====>Update data ---${FirebaseAuth.instance.currentUser!.uid}');
-    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
-        .update({
-          'imageProfile': imageUrl == null ? Img : imageUrl,
-          'firstname': firstname.text,
-          'email': email.text,
-          'address': address.text,
-          'phoneno': phoneno.text
-        })
-        .then((value) => print('success'))
-        .catchError((e) => print(e));
+  uploadImgFirebaseStorage({File? file}) async {
+    var snapshot = await bFirebaseStorage
+        .ref()
+        .child('profileImage/${DateTime.now().microsecondsSinceEpoch}')
+        .putFile(file!);
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    print('url=$downloadUrl');
+    print('====PreferenceManager.getUId()=====>${PreferenceManager.getUId()}');
+    await ProfileCollection.doc(PreferenceManager.getUId()).update({
+      'imageProfile': downloadUrl == null ? Img : downloadUrl,
+      'firstname': firstname?.text,
+      'email': email?.text,
+      'address': address?.text,
+      'phoneno': phoneno?.text
+    }).then((value) {
+      print('success add');
+      // con.clearImage();
+    }).catchError((e) => print('upload error'));
   }
 }

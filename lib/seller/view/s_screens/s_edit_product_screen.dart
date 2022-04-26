@@ -44,7 +44,7 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
   File? _image;
   String? Img;
 
-  String dropdownvalue = 'Plastic';
+  String? dropdownvalue;
   FirebaseAuth _auth = FirebaseAuth.instance;
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('Products');
@@ -270,17 +270,58 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                             SizedBox(
                               width: Get.width * 0.1,
                             ),
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: cat != null
-                                  ? Text(
-                                      '${editProductContoller.selectedCatName}',
-                                      style: TextStyle(
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w600),
-                                    )
-                                  : SCustomDropDownWidget(),
+                            Card(
+                              elevation: 0,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 5.sp,
+                                ),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          blurRadius: 1,
+                                          color: AppColors.offWhiteColor),
+                                    ]),
+                                child: DropdownButton(
+                                  value: editProductContoller.selectedCatName,
+                                  icon: Icon(
+                                    Icons.arrow_drop_down_outlined,
+                                    color: AppColors.primaryColor,
+                                    size: 18.sp,
+                                  ),
+                                  items: items.map((String items) {
+                                    return DropdownMenuItem(
+                                      value: items,
+                                      child: CustomText(
+                                        text: items,
+                                        color: AppColors.secondaryBlackColor,
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w600,
+                                        textDecoration: TextDecoration.none,
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      editProductContoller.selectedCatName =
+                                          newValue!;
+                                    });
+                                  },
+                                ),
+                              ),
                             ),
+                            // Container(
+                            //   alignment: Alignment.topLeft,
+                            //   child: cat != null
+                            //       ? Text(
+                            //           '${editProductContoller.selectedCatName}',
+                            //           style: TextStyle(
+                            //               fontSize: 14.sp,
+                            //               fontWeight: FontWeight.w600),
+                            //         )
+                            //       : SCustomDropDownWidget(),
+                            // ),
                           ],
                         ),
                         SizedBox(

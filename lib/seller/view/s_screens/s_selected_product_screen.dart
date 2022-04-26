@@ -36,7 +36,6 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
   void initState() {
     // TODO: implement initState
     print('ID:-${editProductContoller.id}');
-    // getData(editProductContoller.id);
     super.initState();
   }
 

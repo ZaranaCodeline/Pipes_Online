@@ -28,26 +28,29 @@ class _SplashState extends State<Splash> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 2), () {
-      print('Splash.....Preferance Id =============>${PreferenceManager.getUId().toString()}');
-      print('bFirebaseAuth.currentUser!.uid =============>${bFirebaseAuth.currentUser?.uid }');
-      print('PreferenceManager.getUId().toString()=============>${PreferenceManager.getUId().toString() }');
+      print(
+          'Splash.....Preferance Id =============>${PreferenceManager.getUId().toString()}');
+      print(
+          'bFirebaseAuth.currentUser!.uid =============>${bFirebaseAuth.currentUser?.uid}');
+      print(
+          'PreferenceManager.getUId().toString()=============>${PreferenceManager.getUId().toString()}');
       if (PreferenceManager.getUId().toString() != null) {
         print('TEST:- 1');
-       if(PreferenceManager.getUserType() == '' || PreferenceManager.getUserType() == null){
-         print('TEST:- 2');
-         Get.offAll(SBuyerSellerScreen());
-       }else{
-         if(PreferenceManager.getUserType()=='Buyer'){
-           print('TEST:- 3');
-           Get.offAll(BottomNavigationBarScreen());
-         }else{
-           print('TEST:- 4');
-           PreferenceManager.getUserType()=='Seller';
-           Get.offAll(NavigationBarScreen());
-         }
-       }
-      }
-      else {
+        if (PreferenceManager.getUserType() == '' ||
+            PreferenceManager.getUserType() == null) {
+          print('TEST:- 2');
+          Get.offAll(SBuyerSellerScreen());
+        } else {
+          if (PreferenceManager.getUserType() == 'Buyer') {
+            print('TEST:- 3');
+            Get.offAll(BottomNavigationBarScreen());
+          } else {
+            print('TEST:- 4');
+            PreferenceManager.getUserType() == 'Seller';
+            Get.offAll(NavigationBarScreen());
+          }
+        }
+      } else {
         print('TEST:- 5');
         Get.offAll(SOnBoardingScreen());
       }
@@ -64,7 +67,10 @@ class _SplashState extends State<Splash> {
             padding: const EdgeInsets.all(15.0),
             child: Center(
               child: Image.asset(
-                'assets/images/png/splash_logo.png',fit: BoxFit.contain,width: 200,height: 200,
+                'assets/images/png/splash_logo.png',
+                fit: BoxFit.contain,
+                width: 200,
+                height: 200,
               ),
             ),
           ),

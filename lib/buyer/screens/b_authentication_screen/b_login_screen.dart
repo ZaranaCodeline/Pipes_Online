@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/b_phone_firebase.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/routes/app_routes.dart';
@@ -148,7 +149,7 @@ class _BLoginScreenState extends State<BLoginScreen> {
                                         ? Icons.remove_red_eye
                                         : Icons.remove_red_eye_outlined,
                                     color:
-                                    selected ? Colors.black : Colors.grey,
+                                        selected ? Colors.black : Colors.grey,
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -159,7 +160,7 @@ class _BLoginScreenState extends State<BLoginScreen> {
                                 focusedErrorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide:
-                                  BorderSide(color: Colors.red, width: 2),
+                                      BorderSide(color: Colors.red, width: 2),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -184,7 +185,7 @@ class _BLoginScreenState extends State<BLoginScreen> {
                               return null;
                             },
                           ),
-                         /* TextFormField(
+                          /* TextFormField(
                               obscureText: selected ? false : true,
                               controller: pass,
                               decoration: InputDecoration(
@@ -268,14 +269,14 @@ class _BLoginScreenState extends State<BLoginScreen> {
                                     .then((value) async {
                                   await Get.offAll(
                                       () => BottomNavigationBarScreen());
-                                 /* PreferenceManager.setUId('uid');
+                                  /* PreferenceManager.setUId('uid');
                                   PreferenceManager.setUserType('Buyer');
                                   PreferenceManager.setUId('email');*/
-
                                 }).catchError((e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('The login is invalid.Please Try again'),
+                                      content: Text(
+                                          'The login is invalid.Please Try again'),
                                       backgroundColor: Colors.redAccent,
                                     ),
                                   );

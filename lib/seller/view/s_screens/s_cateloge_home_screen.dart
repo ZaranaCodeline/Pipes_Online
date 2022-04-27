@@ -123,8 +123,8 @@ class _SCatelogeHomeScreenState extends State<SCatelogeHomeScreen> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             print('hello');
-            // homeController.selectedScreen('SSubscribeScreen');
-            homeController.selectedScreen('SShowSubcriptionValueScreen');
+            homeController.selectedScreen('SSubscribeScreen');
+            // homeController.selectedScreen('SShowSubcriptionValueScreen');
             homeController.bottomIndex.value = 0;
             // Get.to(() => SSubscribeScreen());
           },

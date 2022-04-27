@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/b_phone_firebase.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_phone_otp_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_ragistraion_screen.dart';
 import 'package:pipes_online/buyer/screens/b_chat_screen.dart';
@@ -10,7 +11,6 @@ import 'package:pipes_online/s_onboarding_screen/s_permission_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/s_login_creen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/s_phone_otp_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/s_ragistraion_screen.dart';
-
 
 import 'package:pipes_online/seller/view/s_authentication_screen/s_welcome_screen.dart';
 import '../buyer/Splesh_Screen/splash.dart';
@@ -36,19 +36,20 @@ class AppPages {
 
     GetPage(name: BRoutes.BLoginScreen, page: () => BLoginScreen()),
     GetPage(name: BRoutes.BPhoneOTP_Screen, page: () => BPhoneOTP_Screen()),
-    GetPage(name: BRoutes.BSignUpRagistraionScreen, page: () => BSignUpRagistraionScreen()),
+    GetPage(
+        name: BRoutes.BSignUpRagistraionScreen,
+        page: () => BSignUpRagistraionScreen()),
     GetPage(name: BRoutes.BChatScreen, page: () => BChatScreen()),
 
     // GetPage(name: Routes.PROFILE, page: () => DrawerProfilePage()),
     GetPage(name: Routes.BMYORDER, page: () => BMyOrderPage()),
     GetPage(name: Routes.SETTINGPAGE, page: () => BSettingsScreen()),
 
-
-    GetPage(name: SRoutes.SSignUpRagistraionScreen, page: () => SSignUpRagistraionScreen()),
+    GetPage(
+        name: SRoutes.SSignUpRagistraionScreen,
+        page: () => SSignUpRagistraionScreen()),
     GetPage(name: SRoutes.SLoginScreen, page: () => SLoginScreen()),
     GetPage(name: SRoutes.SPhoneOTP_Screen, page: () => SPhoneOTP_Screen()),
     GetPage(name: SRoutes.SBottomBar, page: () => NavigationBarScreen()),
-
-
   ];
 }

@@ -117,16 +117,6 @@ class SRegisterRepo {
         .then((value) => print(value.user!.email))
         .catchError((e) => print(e.toString()));
   }
-  // static Future<void> currentUser() async {
-  //   print('seller kFirebaseAuth.currentUser!.uid==============>${kFirebaseAuth.currentUser!.uid}');
-  //   print('seller Preference Id==============>${PreferenceManager.getUId().toString()}');
-  //   print('${bFirebaseAuth.currentUser!.uid}');
-  //   await PreferenceManager.setEmail(bFirebaseAuth.currentUser!.email!);
-  //   await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
-  //
-  //   print('EMAIL ${PreferenceManager.getEmail()}');
-  //   print('UID ${PreferenceManager.getUId()}');
-  // }
 
   static Future<void> logOut() async {
     PreferenceManager.clearData();

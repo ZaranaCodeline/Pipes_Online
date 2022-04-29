@@ -53,7 +53,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
   Future<void> getData() async {
     print('demo....${PreferenceManager.getUId()}.');
     final user =
-        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
+        await ProfileCollection.doc('OBsxPSRZruUlv2IThFSu3WiQS7v2').get();
     var m = user.data();
     print('--SelectedProductWidget--------m-- $m');
     // Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
@@ -91,6 +91,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                     clipBehavior: Clip.none,
                     children: [
                       Container(
+                        height: 200.sp,
                         child: Image.network(
                           widget.image.toString(),
                           fit: BoxFit.cover,
@@ -164,11 +165,10 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                           borderRadius: BorderRadius.circular(25),
                           child: Image.network(
                             // editProductContoller.images
-                            editProductContoller.selectedImage
-                            /*Img == null
+                            // editProductContoller.selectedImage
+                            Img == null
                                 ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
-                                : Img!*/
-                            ,
+                                : Img!,
                             fit: BoxFit.cover,
                             width: 30.sp,
                             height: 30.sp,

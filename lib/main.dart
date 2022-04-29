@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
 import 'package:pipes_online/routes/app_pages.dart';
 import 'package:pipes_online/routes/bottom_controller.dart';
 import 'package:sizer/sizer.dart';
@@ -17,7 +18,7 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
     playSound: true);
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -32,7 +33,7 @@ void main() async {
 
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
-      AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
   var status1;
 
- /* data() async {
+  /* data() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     status1 = prefs.getBool('isLoggedIn');
   }*/
@@ -60,11 +61,11 @@ class MyApp extends StatelessWidget {
       builder: (context, orientation, deviceType) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute:AppPages.initial,
+          // initialRoute:AppPages.initial,
           /*initialRoute: status1 == true ? BRoutes. BSubmitProfileScreen : AppPages.initial,*/
-          getPages: AppPages.routes,
+          // getPages: AppPages.routes,
           initialBinding: Binding(),
-          // home: NavigationBarScreen(),
+          home: BSignUpEmailScreen(),
           defaultTransition: Transition.fadeIn,
           title: 'Flutter Demo',
           theme: ThemeData(

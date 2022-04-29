@@ -60,6 +60,7 @@ class _SLoginScreenState extends State<SLoginScreen> {
                     children: [
                       GestureDetector(
                         onTap: () {
+                          print('seller');
                           Get.back();
                         },
                         child: Icon(
@@ -98,7 +99,7 @@ class _SLoginScreenState extends State<SLoginScreen> {
                                 focusedErrorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide:
-                                  BorderSide(color: Colors.red, width: 2),
+                                      BorderSide(color: Colors.red, width: 2),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -113,7 +114,7 @@ class _SLoginScreenState extends State<SLoginScreen> {
                                 errorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide:
-                                  BorderSide(color: Colors.red, width: 2),
+                                      BorderSide(color: Colors.red, width: 2),
                                 )),
                             validator: (email) {
                               if (isEmailValid(email!)) {
@@ -138,7 +139,7 @@ class _SLoginScreenState extends State<SLoginScreen> {
                                           ? Icons.remove_red_eye
                                           : Icons.remove_red_eye_outlined,
                                       color:
-                                      selected ? Colors.black : Colors.grey,
+                                          selected ? Colors.black : Colors.grey,
                                     ),
                                     onPressed: () {
                                       setState(() {
@@ -149,7 +150,7 @@ class _SLoginScreenState extends State<SLoginScreen> {
                                   focusedErrorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide:
-                                    BorderSide(color: Colors.red, width: 2),
+                                        BorderSide(color: Colors.red, width: 2),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
@@ -185,12 +186,12 @@ class _SLoginScreenState extends State<SLoginScreen> {
                                   borderRadius: BorderRadius.circular(10)),
                               child: Center(
                                   child: Text(
-                                    'Login',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 17),
-                                  )),
+                                'Login',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17),
+                              )),
                             ),
                             onTap: () async {
                               if (formGlobalKey.currentState!.validate()) {
@@ -203,23 +204,24 @@ class _SLoginScreenState extends State<SLoginScreen> {
                                 formGlobalKey.currentState!.save();
                                 SRegisterRepo()
                                     .LogIn(email.text.trim().toString(),
-                                    pass.text.trim().toString())
+                                        pass.text.trim().toString())
                                     .then((value) async {
                                   PreferenceManager.setUserType('Seller');
                                   PreferenceManager.getUserType() == 'Seller';
-                                  print('addData==seller==login=========${PreferenceManager.getUId()}');
-                                  print('addData==seller==getUserType=========${PreferenceManager.getUserType()}');
+                                  print(
+                                      'addData==seller==login=========${PreferenceManager.getUId()}');
+                                  print(
+                                      'addData==seller==getUserType=========${PreferenceManager.getUserType()}');
 
-
-                                  await Get.offAll(
-                                          () => NavigationBarScreen());
-                                 /* PreferenceManager.setUId('uid');
+                                  await Get.to(() => NavigationBarScreen());
+                                  /* PreferenceManager.setUId('uid');
                                   PreferenceManager.setUId('email');
                                   PreferenceManager.setUserType('Seller');*/
-                                }).catchError((e){
+                                }).catchError((e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('The login is invalid.Please Try again'),
+                                      content: Text(
+                                          'The login is invalid.Please Try again'),
                                       backgroundColor: Colors.redAccent,
                                     ),
                                   );

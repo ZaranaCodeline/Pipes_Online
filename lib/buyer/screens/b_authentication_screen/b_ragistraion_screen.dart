@@ -106,586 +106,607 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
   }
 
   Widget build(BuildContext context) {
-    return Sizer(builder: (context, orientation, deviceType) {
-      return SafeArea(
-        child: Scaffold(
-          body: SingleChildScrollView(
-            child: GetBuilder<GeolocationController>(
-              builder: (controller) {
-                return Column(
-                  children: [
-                    Container(
-                      height: Get.height * 0.1,
-                      width: Get.width,
-                      padding: EdgeInsets.only(
-                        top: Get.height * 0.03,
-                        right: Get.width * 0.05,
-                        left: Get.width * 0.05,
-                      ),
-                      decoration: BoxDecoration(
-                          color: SColorPicker.purple,
-                          borderRadius: BorderRadius.vertical(
-                              bottom: Radius.circular(20.sp))),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Get.back();
-                            },
-                            child: Icon(
-                              Icons.arrow_back_rounded,
-                              color: SColorPicker.white,
-                            ),
-                          ),
-                          Text(
-                            'sign up'.toUpperCase(),
-                            style: STextStyle.bold700White14,
-                          ),
-                          SizedBox(width: 20.sp),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Form(
-                        key: formGlobalKey,
-                        child: Column(
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Sizer(builder: (context, orientation, deviceType) {
+        return SafeArea(
+          child: Scaffold(
+            body: SingleChildScrollView(
+              child: GetBuilder<GeolocationController>(
+                builder: (controller) {
+                  return Column(
+                    children: [
+                      Container(
+                        height: Get.height * 0.1,
+                        width: Get.width,
+                        padding: EdgeInsets.only(
+                          top: Get.height * 0.03,
+                          right: Get.width * 0.05,
+                          left: Get.width * 0.05,
+                        ),
+                        decoration: BoxDecoration(
+                            color: SColorPicker.purple,
+                            borderRadius: BorderRadius.vertical(
+                                bottom: Radius.circular(20.sp))),
+                        child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SizedBox(
-                              height: Get.height * 0.02,
+                            GestureDetector(
+                              onTap: () {
+                                Get.back();
+                              },
+                              child: Icon(
+                                Icons.arrow_back_rounded,
+                                color: SColorPicker.white,
+                              ),
                             ),
-                            Center(
-                              child: Padding(
-                                padding:
-                                const EdgeInsets.symmetric(vertical: 10),
-                                child: Center(
-                                  child: Column(
-                                    children: [
-                                      //assets/images/profile.png
-                                      GestureDetector(
-                                        onTap: () {
-                                          showModalBottomSheet<void>(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                    const Radius.circular(
-                                                        20.0),
-                                                    topRight:
-                                                    const Radius.circular(
-                                                        20.0))),
-                                            backgroundColor: Colors.white,
-                                            context: context,
-                                            builder: (context) =>
-                                                FractionallySizedBox(
-                                                  heightFactor: 0.2.sp,
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                    children: [
-                                                      Container(
-                                                        decoration: BoxDecoration(
-                                                            color: AppColors
-                                                                .primaryColor,
-                                                            borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                25.sp),
-                                                            border: Border.all(
-                                                                color: AppColors
-                                                                    .primaryColor)),
-                                                        child: MaterialButton(
-                                                          child: Text(
-                                                            'GALLERY'.toUpperCase(),
-                                                            style: TextStyle(
-                                                                color: AppColors
-                                                                    .commonWhiteTextColor,
-                                                                fontSize: 14.sp),
-                                                          ),
-                                                          onPressed: () {
-                                                            getGalleryImage();
-                                                            Get.back();
-                                                          },
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        decoration: BoxDecoration(
-                                                            color: AppColors
-                                                                .primaryColor,
-                                                            borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                25.sp),
-                                                            border: Border.all(
-                                                                color: AppColors
-                                                                    .primaryColor)),
-                                                        child: MaterialButton(
-                                                          child: Text(
-                                                            'camera'.toUpperCase(),
-                                                            style: TextStyle(
-                                                                color: AppColors
-                                                                    .commonWhiteTextColor,
-                                                                fontSize: 14.sp),
-                                                          ),
-                                                          onPressed: () {
-                                                            getCamaroImage();
-                                                            Get.back();
-                                                          },
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                          );
-                                        },
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              height: 50.sp,
-                                              width: 50.sp,
-                                              decoration: BoxDecoration(
+                            Text(
+                              'sign up'.toUpperCase(),
+                              style: STextStyle.bold700White14,
+                            ),
+                            SizedBox(width: 20.sp),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Form(
+                          key: formGlobalKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: Get.height * 0.02,
+                              ),
+                              Center(
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: Center(
+                                    child: Column(
+                                      children: [
+                                        //assets/images/profile.png
+                                        GestureDetector(
+                                          onTap: () {
+                                            showModalBottomSheet<void>(
+                                              shape: RoundedRectangleBorder(
                                                   borderRadius:
-                                                  BorderRadius.circular(
-                                                      50)),
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                BorderRadius.circular(50),
-                                                child: _image == null
-                                                    ? Image.network(
-                                                  Img == null
-                                                      ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
-                                                      : Img!,
-                                                  fit: BoxFit.cover,
-                                                )
-                                                    : Image.file(_image!,
-                                                    fit: BoxFit.fill),
+                                                      BorderRadius.only(
+                                                          topLeft: const Radius
+                                                              .circular(20.0),
+                                                          topRight: const Radius
+                                                              .circular(20.0))),
+                                              backgroundColor: Colors.white,
+                                              context: context,
+                                              builder: (context) =>
+                                                  FractionallySizedBox(
+                                                heightFactor: 0.2.sp,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: [
+                                                    Container(
+                                                      decoration: BoxDecoration(
+                                                          color: AppColors
+                                                              .primaryColor,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      25.sp),
+                                                          border: Border.all(
+                                                              color: AppColors
+                                                                  .primaryColor)),
+                                                      child: MaterialButton(
+                                                        child: Text(
+                                                          'GALLERY'
+                                                              .toUpperCase(),
+                                                          style: TextStyle(
+                                                              color: AppColors
+                                                                  .commonWhiteTextColor,
+                                                              fontSize: 14.sp),
+                                                        ),
+                                                        onPressed: () {
+                                                          getGalleryImage();
+                                                          Get.back();
+                                                        },
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      decoration: BoxDecoration(
+                                                          color: AppColors
+                                                              .primaryColor,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      25.sp),
+                                                          border: Border.all(
+                                                              color: AppColors
+                                                                  .primaryColor)),
+                                                      child: MaterialButton(
+                                                        child: Text(
+                                                          'camera'
+                                                              .toUpperCase(),
+                                                          style: TextStyle(
+                                                              color: AppColors
+                                                                  .commonWhiteTextColor,
+                                                              fontSize: 14.sp),
+                                                        ),
+                                                        onPressed: () {
+                                                          getCamaroImage();
+                                                          Get.back();
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: Get.height * 0.02,
-                                            ),
-                                            CustomText(
-                                                text: 'Change profile picture.',
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 14.sp,
-                                                color: AppColors.primaryColor),
-                                          ],
+                                            );
+                                          },
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                height: 50.sp,
+                                                width: 50.sp,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50)),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
+                                                  child: _image == null
+                                                      ? Image.network(
+                                                          Img == null
+                                                              ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
+                                                              : Img!,
+                                                          fit: BoxFit.cover,
+                                                        )
+                                                      : Image.file(_image!,
+                                                          fit: BoxFit.fill),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: Get.height * 0.02,
+                                              ),
+                                              CustomText(
+                                                  text:
+                                                      'Change profile picture.',
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 14.sp,
+                                                  color:
+                                                      AppColors.primaryColor),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: Get.height * 0.02,
-                                      ),
-                                    ],
+                                        SizedBox(
+                                          height: Get.height * 0.02,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: Get.height * 0.02,
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: TextFormField(
-                                    controller: fname,
-                                    validator: (value) {
-                                      if (value!.trim().isEmpty) {
-                                        return 'This field is required';
-                                      } else if (!RegExp('[a-zA-Z]')
-                                          .hasMatch(value)) {
-                                        return 'please enter valid name';
-                                      }
-                                      return null;
-                                    },
-                                    keyboardType: TextInputType.name,
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(20)
-                                    ],
-                                    onChanged: (value) => _userName = value,
-                                    decoration: InputDecoration(
-                                        hintText: 'First Name',
+                              SizedBox(
+                                height: Get.height * 0.02,
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: TextFormField(
+                                      controller: fname,
+                                      validator: (value) {
+                                        if (value!.trim().isEmpty) {
+                                          return 'This field is required';
+                                        } else if (!RegExp('[a-zA-Z]')
+                                            .hasMatch(value)) {
+                                          return 'please enter valid name';
+                                        }
+                                        return null;
+                                      },
+                                      keyboardType: TextInputType.name,
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(20)
+                                      ],
+                                      onChanged: (value) => _userName = value,
+                                      decoration: InputDecoration(
+                                          hintText: 'First Name',
+                                          filled: true,
+                                          focusedBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: BorderSide(
+                                                  color: Colors.blue
+                                                      .withOpacity(0.5),
+                                                  width: 2)),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: BorderSide(
+                                                  color: Colors.grey
+                                                      .withOpacity(0.5),
+                                                  width: 2)),
+                                          focusedErrorBorder:
+                                              OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: BorderSide(
+                                                color: Colors.red, width: 2),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: BorderSide(
+                                                color: Colors.red, width: 2),
+                                          )),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    child: TextFormField(
+                                      validator: (value) {
+                                        if (value!.trim().isEmpty) {
+                                          return 'This field is required';
+                                        } else if (!RegExp('[a-zA-Z]')
+                                            .hasMatch(value)) {
+                                          return 'please enter valid name';
+                                        }
+                                        return null;
+                                      },
+                                      onTap: () {},
+                                      controller: lname,
+                                      decoration: InputDecoration(
+                                        hintText: 'Last Name',
                                         filled: true,
                                         focusedBorder: OutlineInputBorder(
                                             borderRadius:
-                                            BorderRadius.circular(10),
+                                                BorderRadius.circular(10),
                                             borderSide: BorderSide(
                                                 color: Colors.blue
                                                     .withOpacity(0.5),
                                                 width: 2)),
                                         enabledBorder: OutlineInputBorder(
                                             borderRadius:
-                                            BorderRadius.circular(10),
+                                                BorderRadius.circular(10),
                                             borderSide: BorderSide(
                                                 color: Colors.grey
                                                     .withOpacity(0.5),
                                                 width: 2)),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(10),
+                                              BorderRadius.circular(10),
                                           borderSide: BorderSide(
                                               color: Colors.red, width: 2),
                                         ),
                                         errorBorder: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(10),
+                                              BorderRadius.circular(10),
                                           borderSide: BorderSide(
                                               color: Colors.red, width: 2),
-                                        )),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  child: TextFormField(
-                                    validator: (value) {
-                                      if (value!.trim().isEmpty) {
-                                        return 'This field is required';
-                                      } else if (!RegExp('[a-zA-Z]')
-                                          .hasMatch(value)) {
-                                        return 'please enter valid name';
-                                      }
-                                      return null;
-                                    },
-                                    onTap: () {},
-                                    controller: lname,
-                                    decoration: InputDecoration(
-                                      hintText: 'Last Name',
-                                      filled: true,
-                                      focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(10),
-                                          borderSide: BorderSide(
-                                              color:
-                                              Colors.blue.withOpacity(0.5),
-                                              width: 2)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(10),
-                                          borderSide: BorderSide(
-                                              color:
-                                              Colors.grey.withOpacity(0.5),
-                                              width: 2)),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
-                                            color: Colors.red, width: 2),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
-                                            color: Colors.red, width: 2),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            TextFormField(
-                              controller: email,
-                              decoration: InputDecoration(
-                                  hintText: 'Email',
-                                  filled: true,
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide:
-                                    BorderSide(color: Colors.red, width: 2),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                          color: Colors.blue.withOpacity(0.5),
-                                          width: 2)),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          width: 2)),
-                                  errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide:
-                                    BorderSide(color: Colors.red, width: 2),
-                                  )),
-                              validator: (email) {
-                                if (isEmailValid(email!)) {
-                                  return null;
-                                } else {
-                                  return 'Enter a valid email address';
-                                }
-                              },
-                            ),
-                            SizedBox(
-                              height: Get.height * 0.02,
-                            ),
-                            TextFormField(
-                              validator: (value) {
-                                if (value!.trim().isEmpty) {
-                                  return 'This field is required';
-                                }
-                                if (!RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)')
-                                    .hasMatch(value)) {
-                                  return 'please enter valid number';
-                                }
-                                return null;
-                              },
-                              controller: phn,
-                              keyboardType: TextInputType.phone,
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(10)
-                              ],
-                              decoration: InputDecoration(
-                                hintText: 'Mobile no.',
-                                filled: true,
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide:
-                                  BorderSide(color: Colors.red, width: 2),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(
-                                        color: Colors.blue.withOpacity(0.5),
-                                        width: 2)),
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        width: 2)),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide:
-                                  BorderSide(color: Colors.red, width: 2),
-                                ),
+                                ],
                               ),
-                            ),
-                            SizedBox(
-                              height: Get.height * 0.02,
-                            ),
-                            TextFormField(
-                              obscureText: selected ? false : true,
-                              controller: pass,
-                              decoration: InputDecoration(
-                                  hintText: 'Password',
-                                  filled: true,
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      selected == false
-                                          ? Icons.remove_red_eye
-                                          : Icons.remove_red_eye_outlined,
-                                      color:
-                                      selected ? Colors.black : Colors.grey,
+                              SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                controller: email,
+                                decoration: InputDecoration(
+                                    hintText: 'Email',
+                                    filled: true,
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                          color: Colors.red, width: 2),
                                     ),
-                                    onPressed: () {
-                                      setState(() {
-                                        selected = !selected;
-                                      });
-                                    },
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide:
-                                    BorderSide(color: Colors.red, width: 2),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                            color: Colors.blue.withOpacity(0.5),
+                                            width: 2)),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            width: 2)),
+                                    errorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                       borderSide: BorderSide(
-                                          color: Colors.blue.withOpacity(0.5),
-                                          width: 2)),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          width: 2)),
-                                  errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                          color: Colors.red, width: 2))),
-                              validator: (password) {
-                                if (password!.isEmpty) {
-                                  return 'Please enter password';
-                                } else if (!isPasswordValid(password)) {
-                                  return 'Enter a valid password';
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(
-                              height: Get.height * 0.02,
-                            ),
-                            TextFormField(
-                              maxLines: 2,
-                              controller: _controller.addressController == null
-                                  ? _controller.addressController
-                                  : _controller.addressController,
-                              decoration: InputDecoration(
-                                  hintText: 'Address',
-                                  filled: true,
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide:
-                                    BorderSide(color: Colors.red, width: 2),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                          color: Colors.blue.withOpacity(0.5),
-                                          width: 2)),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          width: 2)),
-                                  errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide:
-                                    BorderSide(color: Colors.red, width: 2),
-                                  )),
-                              validator: (value) {
-                                if (value!.isNotEmpty) {
-                                  return null;
-                                } else {
-                                  return 'Enter a valid email address';
-                                }
-                              },
-                            ),
-                            SizedBox(
-                              height: Get.height * 0.02,
-                            ),
-                            Center(
-                              child: Text(
-                                'Add location using google map',
-                                style: STextStyle.semiBold600Black13,
-                              ),
-                            ),
-                            SizedBox(height: 15.sp),
-                            Center(
-                              child: GestureDetector(
-                                onTap: () {
-                                  print('it is map');
-                                  setState(() {
-                                    Get.to(MapsScreen());
-                                  });
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(12.sp),
-                                  height: Get.height * 0.075,
-                                  width: Get.height * 0.23,
-                                  decoration: BoxDecoration(
-                                    color: SColorPicker.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black12,
-                                          spreadRadius: 0.5,
-                                          blurRadius: 1),
-                                    ],
-                                    borderRadius: BorderRadius.circular(10.sp),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      SvgPicture.asset(
-                                        "${SImagePick.locationColorIcon}",
-                                      ),
-                                      Text(
-                                        'Get Locaton',
-                                        style: STextStyle.semiBold600Black13,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 15.sp),
-                            InkWell(
-                              child: Container(
-                                width: 400,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                    color: AppColors.primaryColor,
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Center(
-                                    child: Text(
-                                      'Submit',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17),
+                                          color: Colors.red, width: 2),
                                     )),
+                                validator: (email) {
+                                  if (isEmailValid(email!)) {
+                                    return null;
+                                  } else {
+                                    return 'Enter a valid email address';
+                                  }
+                                },
                               ),
-                              onTap: () async {
-                                if (formGlobalKey.currentState!.validate()) {
-                                  // _register();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text('Processing Data'),
-                                      backgroundColor: AppColors.primaryColor,
-                                    ),
-                                  );
-                                  formGlobalKey.currentState!.save();
-                                  BRegisterRepo.emailRegister(
-                                    
-                                      email: email.text, pass: pass.text)
-                                      .then((value) async {
-                                        PreferenceManager.setEmail(email.text);
-                                        PreferenceManager.setPassword(pass.text);
-                                        PreferenceManager.getEmail();
-                                        PreferenceManager.getPassword();
-                                    await addData();
-                                  });
-                                  Get.to(BLoginScreen());
-                                  // PreferenceManager.setUId('uid');
-                                  // PreferenceManager.setUserType('Buyer');
-
-                                }
-                              },
-                            ),
-                            SizedBox(
-                              height: Get.height * 0.05,
-                            ),
-                            Center(
-                              child: RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: 'Already registered?',
-                                      style: STextStyle.regular400Black13,
-                                    ),
-                                    TextSpan(
-                                        text: '  Log In',
-                                        style: STextStyle.medium400Purple13,
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            print('aaa');
-                                            Get.off(BLoginScreen());
-                                          }),
-                                  ],
+                              SizedBox(
+                                height: Get.height * 0.02,
+                              ),
+                              TextFormField(
+                                validator: (value) {
+                                  if (value!.trim().isEmpty) {
+                                    return 'This field is required';
+                                  }
+                                  if (!RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)')
+                                      .hasMatch(value)) {
+                                    return 'please enter valid number';
+                                  }
+                                  return null;
+                                },
+                                controller: phn,
+                                keyboardType: TextInputType.phone,
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(10)
+                                ],
+                                decoration: InputDecoration(
+                                  hintText: 'Mobile no.',
+                                  filled: true,
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        BorderSide(color: Colors.red, width: 2),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                          color: Colors.blue.withOpacity(0.5),
+                                          width: 2)),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          width: 2)),
+                                  errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        BorderSide(color: Colors.red, width: 2),
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: Get.height * 0.05,
-                            ),
-                          ],
+                              SizedBox(
+                                height: Get.height * 0.02,
+                              ),
+                              TextFormField(
+                                obscureText: selected ? false : true,
+                                controller: pass,
+                                decoration: InputDecoration(
+                                    hintText: 'Password',
+                                    filled: true,
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        selected == false
+                                            ? Icons.remove_red_eye
+                                            : Icons.remove_red_eye_outlined,
+                                        color: selected
+                                            ? Colors.black
+                                            : Colors.grey,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          selected = !selected;
+                                        });
+                                      },
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                          color: Colors.red, width: 2),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                            color: Colors.blue.withOpacity(0.5),
+                                            width: 2)),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            width: 2)),
+                                    errorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                            color: Colors.red, width: 2))),
+                                validator: (password) {
+                                  if (password!.isEmpty) {
+                                    return 'Please enter password';
+                                  } else if (!isPasswordValid(password)) {
+                                    return 'Enter a valid password';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(
+                                height: Get.height * 0.02,
+                              ),
+                              TextFormField(
+                                maxLines: 2,
+                                controller:
+                                    _controller.addressController == null
+                                        ? _controller.addressController
+                                        : _controller.addressController,
+                                decoration: InputDecoration(
+                                    hintText: 'Address',
+                                    filled: true,
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                          color: Colors.red, width: 2),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                            color: Colors.blue.withOpacity(0.5),
+                                            width: 2)),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            width: 2)),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                          color: Colors.red, width: 2),
+                                    )),
+                                validator: (value) {
+                                  if (value!.isNotEmpty) {
+                                    return null;
+                                  } else {
+                                    return 'Enter a valid email address';
+                                  }
+                                },
+                              ),
+                              SizedBox(
+                                height: Get.height * 0.02,
+                              ),
+                              Center(
+                                child: Text(
+                                  'Add location using google map',
+                                  style: STextStyle.semiBold600Black13,
+                                ),
+                              ),
+                              SizedBox(height: 15.sp),
+                              Center(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    print('it is map');
+                                    setState(() {
+                                      Get.to(MapsScreen());
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(12.sp),
+                                    height: Get.height * 0.075,
+                                    width: Get.height * 0.23,
+                                    decoration: BoxDecoration(
+                                      color: SColorPicker.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black12,
+                                            spreadRadius: 0.5,
+                                            blurRadius: 1),
+                                      ],
+                                      borderRadius:
+                                          BorderRadius.circular(10.sp),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        SvgPicture.asset(
+                                          "${SImagePick.locationColorIcon}",
+                                        ),
+                                        Text(
+                                          'Get Locaton',
+                                          style: STextStyle.semiBold600Black13,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 15.sp),
+                              InkWell(
+                                child: Container(
+                                  width: 400,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      color: AppColors.primaryColor,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Center(
+                                      child: Text(
+                                    'Submit',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 17),
+                                  )),
+                                ),
+                                onTap: () async {
+                                  if (formGlobalKey.currentState!.validate()) {
+                                    // _register();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('Processing Data'),
+                                        backgroundColor: AppColors.primaryColor,
+                                      ),
+                                    );
+                                    formGlobalKey.currentState!.save();
+                                    BRegisterRepo.emailRegister(
+                                            email: email.text, pass: pass.text)
+                                        .then((value) async {
+                                      PreferenceManager.setEmail(email.text);
+                                      PreferenceManager.setPassword(pass.text);
+                                      PreferenceManager.setPhoneNumber(
+                                          phn.text);
+                                      PreferenceManager.getEmail();
+                                      PreferenceManager.getPassword();
+                                      PreferenceManager.getPhoneNumber();
+                                      await addData();
+                                      print(
+                                          'setPhoneNumber=>${PreferenceManager.setPhoneNumber(phn.text)}');
+                                      print(
+                                          'getPhoneNumber=>${PreferenceManager.getPhoneNumber()}');
+                                    });
+                                    Get.to(BLoginScreen());
+                                    // PreferenceManager.setUId('uid');
+                                    // PreferenceManager.setUserType('Buyer');
+
+                                  }
+                                },
+                              ),
+                              SizedBox(
+                                height: Get.height * 0.05,
+                              ),
+                              Center(
+                                child: RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: 'Already registered?',
+                                        style: STextStyle.regular400Black13,
+                                      ),
+                                      TextSpan(
+                                          text: '  Log In',
+                                          style: STextStyle.medium400Purple13,
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () {
+                                              print('aaa');
+                                              Get.off(BLoginScreen());
+                                            }),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: Get.height * 0.05,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                );
-              },
+                    ],
+                  );
+                },
+              ),
             ),
           ),
-        ),
-      );
-    });
+        );
+      }),
+    );
   }
 
   Future<String?> uploadImageToFirebase(
@@ -704,42 +725,43 @@ class _BSignUpRagistraionScreenState extends State<BSignUpRagistraionScreen> {
   Future<void> addData() async {
     print(
         'buyer addData Preference Id==============>${PreferenceManager.getUId().toString()}');
-    print(    'buyer addData-getTime==============>${PreferenceManager.getTime().toString()}');
+    print(
+        'buyer addData-getTime==============>${PreferenceManager.getTime().toString()}');
     String? imageUrl = await uploadImageToFirebase(
         context: context, file: _image, fileName: '${email.text}_profile.jpg');
     BRegisterRepo.emailRegister()
         .then((value) async {
-      CollectionReference ProfileCollection =
-      bFirebaseStore.collection('BProfile');
-      ProfileCollection.doc('${PreferenceManager.getUId()}')
-          // .collection('UserID')
-          // .add({
-          .set({
-        'buyerID':PreferenceManager.getUId(),
-        'email': email.text,
-        'password': pass.text,
-        'phoneno': phn.text,
-        'firstname': fname.text,
-        'lastname': lname.text,
-        'imageProfile': imageUrl,
-        'address': _controller.addressController == null
-            ? _controller.addressController
-            : _controller.addressController!.text,
-        'userType': PreferenceManager.getUserType(),
-        'time': DateTime.now(),
-      });
-    })
+          CollectionReference ProfileCollection =
+              bFirebaseStore.collection('BProfile');
+          ProfileCollection.doc('${PreferenceManager.getUId()}')
+              // .collection('UserID')
+              // .add({
+              .set({
+            'buyerID': PreferenceManager.getUId(),
+            'email': email.text,
+            'password': pass.text,
+            'phoneno': phn.text,
+            'firstname': fname.text,
+            'lastname': lname.text,
+            'imageProfile': imageUrl,
+            'address': _controller.addressController == null
+                ? _controller.addressController
+                : _controller.addressController!.text,
+            'userType': PreferenceManager.getUserType(),
+            'time': DateTime.now(),
+          });
+        })
         .catchError((e) => print('Error ====buyer=====>>> $e'))
         .then(
           (value) => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return BLoginScreen();
-          },
-        ),
-      ),
-    );
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return BLoginScreen();
+              },
+            ),
+          ),
+        );
   }
 
   bool isPasswordValid(String password) => password.length <= 8;

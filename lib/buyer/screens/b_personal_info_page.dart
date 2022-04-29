@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
@@ -92,289 +93,292 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              if (bottomBarIndexController.bottomIndex.value == 2) {
+    return WillPopScope(
+      onWillPop: () async {
+        return true;
+      },
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              onPressed: () {
                 bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
                 bottomBarIndexController.bottomIndex.value = 0;
-              } else {
-                Get.back();
-              }
-            },
-            icon: Icon(Icons.arrow_back),
-          ),
-          title: Text(
-            'PROFILE'.toUpperCase(),
-            style: STextStyle.bold700White14,
-          ),
-          centerTitle: true,
-          backgroundColor: AppColors.primaryColor,
-          toolbarHeight: Get.height * 0.1,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(25),
+              },
+              icon: Icon(Icons.arrow_back),
+            ),
+            title: Text(
+              'PROFILE'.toUpperCase(),
+              style: STextStyle.bold700White14,
+            ),
+            centerTitle: true,
+            backgroundColor: AppColors.primaryColor,
+            toolbarHeight: Get.height * 0.1,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(25),
+              ),
             ),
           ),
-        ),
-        body: SafeArea(
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 20.sp),
-            padding: EdgeInsets.symmetric(horizontal: Get.height * 0.04),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(height: Get.height * 0.02),
-                  GestureDetector(
-                    onTap: () {
-                      showModalBottomSheet<void>(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: const Radius.circular(20.0),
-                                topRight: const Radius.circular(20.0))),
-                        backgroundColor: Colors.white,
-                        context: context,
-                        builder: (context) => FractionallySizedBox(
-                          heightFactor: 0.2.sp,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: AppColors.primaryColor,
-                                    borderRadius: BorderRadius.circular(25.sp),
-                                    border: Border.all(
-                                        color: AppColors.primaryColor)),
-                                child: MaterialButton(
-                                  child: Text(
-                                    'GALLERY'.toUpperCase(),
-                                    style: TextStyle(
-                                        color: AppColors.commonWhiteTextColor,
-                                        fontSize: 14.sp),
-                                  ),
-                                  onPressed: () {
-                                    getGalleryImage();
-                                    Get.back();
-                                  },
-                                ),
-                              ),
-                              SizedBox(width: Get.width * 0.05),
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: AppColors.primaryColor,
-                                    borderRadius: BorderRadius.circular(25.sp),
-                                    border: Border.all(
-                                        color: AppColors.primaryColor)),
-                                child: MaterialButton(
-                                  child: Text(
-                                    'camera'.toUpperCase(),
-                                    style: TextStyle(
-                                        color: AppColors.commonWhiteTextColor,
-                                        fontSize: 14.sp),
-                                  ),
-                                  onPressed: () {
-                                    getCamaroImage();
-                                    Get.back();
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 50.sp,
-                          width: 50.sp,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50)),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: _image == null
-                                ? Image.network(
-                                    Img == null
-                                        ? 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'
-                                        : Img!,
-                                    fit: BoxFit.fill,
-                                  )
-                                : Image.file(
-                                    _image!,
-                                    fit: BoxFit.fill,
-                                  ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.02,
-                        ),
-                        CustomText(
-                            text: 'Change profile picture.',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14.sp,
-                            color: AppColors.primaryColor),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: Get.height * 0.01),
-                  CustomText(
-                    text: 'Name',
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12.sp,
-                    color: AppColors.primaryColor,
-                    alignment: Alignment.topLeft,
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.01,
-                  ),
-                  TextField(
-                    controller: firstname,
-                    decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.edit),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      ),
-                      hintText: 'Your Name',
-                    ),
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.01,
-                  ),
-                  CustomText(
-                    text: 'Mobile',
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12.sp,
-                    color: AppColors.primaryColor,
-                    alignment: Alignment.topLeft,
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.01,
-                  ),
-                  TextField(
-                    controller: phoneno,
-                    maxLength: 10,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.edit),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      ),
-                      hintText: '+91 0000000000',
-                    ),
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.01,
-                  ),
-                  CustomText(
-                    text: 'Email',
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12.sp,
-                    color: AppColors.primaryColor,
-                    alignment: Alignment.topLeft,
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.01,
-                  ),
-                  TextField(
-                    controller: email,
-                    decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.edit),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      ),
-                      hintText: 'Enter Email',
-                    ),
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.01,
-                  ),
-                  CustomText(
-                    text: 'Address',
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12.sp,
-                    color: AppColors.primaryColor,
-                    alignment: Alignment.topLeft,
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.01,
-                  ),
-                  TextField(
-                    controller: address,
-                    decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.edit),
-                      hintText: 'Enter Your Address',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      ),
-                    ),
-                    maxLines: 2,
-                    keyboardType: TextInputType.multiline,
-                    // minLines: 1,
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.03,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      uploadImgFirebaseStorage(file: _image).then((value) {
-                        bottomBarIndexController.setSelectedScreen(
-                            value: 'HomeScreen');
-                        bottomBarIndexController.bottomIndex.value = 0;
-                        isLoading = false;
-                      });
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: Get.width,
-                      height: Get.height * 0.06,
-                      decoration: BoxDecoration(
-                        color: SColorPicker.purple,
-                        borderRadius: BorderRadius.circular(10.sp),
-                      ),
-                      child: isLoading
-                          ? Row(
+          body: SafeArea(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 20.sp),
+              padding: EdgeInsets.symmetric(horizontal: Get.height * 0.04),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(height: Get.height * 0.02),
+                    GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet<void>(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: const Radius.circular(20.0),
+                                  topRight: const Radius.circular(20.0))),
+                          backgroundColor: Colors.white,
+                          context: context,
+                          builder: (context) => FractionallySizedBox(
+                            heightFactor: 0.2.sp,
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                CustomText(
-                                    text: 'Loading...  ',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12.sp,
-                                    color: AppColors.commonWhiteTextColor),
-                                CircularProgressIndicator(
-                                  color: AppColors.commonWhiteTextColor,
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: AppColors.primaryColor,
+                                      borderRadius:
+                                          BorderRadius.circular(25.sp),
+                                      border: Border.all(
+                                          color: AppColors.primaryColor)),
+                                  child: MaterialButton(
+                                    child: Text(
+                                      'GALLERY'.toUpperCase(),
+                                      style: TextStyle(
+                                          color: AppColors.commonWhiteTextColor,
+                                          fontSize: 14.sp),
+                                    ),
+                                    onPressed: () {
+                                      getGalleryImage();
+                                      Get.back();
+                                    },
+                                  ),
+                                ),
+                                SizedBox(width: Get.width * 0.05),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: AppColors.primaryColor,
+                                      borderRadius:
+                                          BorderRadius.circular(25.sp),
+                                      border: Border.all(
+                                          color: AppColors.primaryColor)),
+                                  child: MaterialButton(
+                                    child: Text(
+                                      'camera'.toUpperCase(),
+                                      style: TextStyle(
+                                          color: AppColors.commonWhiteTextColor,
+                                          fontSize: 14.sp),
+                                    ),
+                                    onPressed: () {
+                                      getCamaroImage();
+                                      Get.back();
+                                    },
+                                  ),
                                 ),
                               ],
-                            )
-                          : Text(
-                              'SAVE',
-                              style: STextStyle.bold700White14,
                             ),
+                          ),
+                        );
+                      },
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 50.sp,
+                            width: 50.sp,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50)),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: _image == null
+                                  ? Image.network(
+                                      Img == null
+                                          ? 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'
+                                          : Img!,
+                                      fit: BoxFit.fill,
+                                    )
+                                  : Image.file(
+                                      _image!,
+                                      fit: BoxFit.fill,
+                                    ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.02,
+                          ),
+                          CustomText(
+                              text: 'Change profile picture.',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14.sp,
+                              color: AppColors.primaryColor),
+                        ],
+                      ),
                     ),
-                  ),
-                  // Padding(
-                  //   padding: EdgeInsets.symmetric(
-                  //     horizontal: 10.sp,
-                  //   ),
-                  //   child: SCommonButton().sCommonPurpleButton(
-                  //     name: 'SAVE',
-                  //     onTap: () {
-                  //       uploadImgFirebaseStorage(file: _image).then((value) {
-                  //         bottomBarIndexController.setSelectedScreen(
-                  //             value: 'PersonalInfoPage');
-                  //         bottomBarIndexController.bottomIndex.value = 3;
-                  //       });
-                  //     },
-                  //   ),
-                  // ),
-                  SizedBox(
-                    height: Get.height * 0.03,
-                  ),
-                ],
+                    SizedBox(height: Get.height * 0.01),
+                    CustomText(
+                      text: 'Name',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12.sp,
+                      color: AppColors.primaryColor,
+                      alignment: Alignment.topLeft,
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.01,
+                    ),
+                    TextField(
+                      controller: firstname,
+                      decoration: InputDecoration(
+                        suffixIcon: Icon(Icons.edit),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        hintText: 'Your Name',
+                      ),
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.01,
+                    ),
+                    CustomText(
+                      text: 'Mobile',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12.sp,
+                      color: AppColors.primaryColor,
+                      alignment: Alignment.topLeft,
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.01,
+                    ),
+                    TextField(
+                      controller: phoneno,
+                      inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        suffixIcon: Icon(Icons.edit),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        hintText: '+91 0000000000',
+                      ),
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.01,
+                    ),
+                    CustomText(
+                      text: 'Email',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12.sp,
+                      color: AppColors.primaryColor,
+                      alignment: Alignment.topLeft,
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.01,
+                    ),
+                    TextField(
+                      controller: email,
+                      decoration: InputDecoration(
+                        suffixIcon: Icon(Icons.edit),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        hintText: 'Enter Email',
+                      ),
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.01,
+                    ),
+                    CustomText(
+                      text: 'Address',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12.sp,
+                      color: AppColors.primaryColor,
+                      alignment: Alignment.topLeft,
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.01,
+                    ),
+                    TextField(
+                      controller: address,
+                      decoration: InputDecoration(
+                        suffixIcon: Icon(Icons.edit),
+                        hintText: 'Enter Your Address',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                      ),
+                      maxLines: 2,
+                      keyboardType: TextInputType.multiline,
+                      // minLines: 1,
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.03,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        uploadImgFirebaseStorage(file: _image).then((value) {
+                          bottomBarIndexController.setSelectedScreen(
+                              value: 'HomeScreen');
+                          bottomBarIndexController.bottomIndex.value = 0;
+                          isLoading = false;
+                        });
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: Get.width,
+                        height: Get.height * 0.06,
+                        decoration: BoxDecoration(
+                          color: SColorPicker.purple,
+                          borderRadius: BorderRadius.circular(10.sp),
+                        ),
+                        child: isLoading
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CustomText(
+                                      text: 'Loading...  ',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12.sp,
+                                      color: AppColors.commonWhiteTextColor),
+                                  CircularProgressIndicator(
+                                    color: AppColors.commonWhiteTextColor,
+                                  ),
+                                ],
+                              )
+                            : Text(
+                                'SAVE',
+                                style: STextStyle.bold700White14,
+                              ),
+                      ),
+                    ),
+                    // Padding(
+                    //   padding: EdgeInsets.symmetric(
+                    //     horizontal: 10.sp,
+                    //   ),
+                    //   child: SCommonButton().sCommonPurpleButton(
+                    //     name: 'SAVE',
+                    //     onTap: () {
+                    //       uploadImgFirebaseStorage(file: _image).then((value) {
+                    //         bottomBarIndexController.setSelectedScreen(
+                    //             value: 'PersonalInfoPage');
+                    //         bottomBarIndexController.bottomIndex.value = 3;
+                    //       });
+                    //     },
+                    //   ),
+                    // ),
+                    SizedBox(
+                      height: Get.height * 0.03,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

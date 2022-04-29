@@ -5,11 +5,9 @@ import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_contoller.dart';
-import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
 import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/view/s_screens/s_onboarding_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
-import 'package:sizer/sizer.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -39,7 +37,8 @@ class _SplashState extends State<Splash> {
         if (PreferenceManager.getUserType() == '' ||
             PreferenceManager.getUserType() == null) {
           print('TEST:- 2');
-          Get.offAll(SBuyerSellerScreen());
+          // Get.offAll(SBuyerSellerScreen());
+          Get.offAll(SOnBoardingScreen());
         } else {
           if (PreferenceManager.getUserType() == 'Buyer') {
             print('TEST:- 3');

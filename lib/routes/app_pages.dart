@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_phone_firebase.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/b_phone_otp_screen.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/b_phone_number_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_ragistraion_screen.dart';
 import 'package:pipes_online/buyer/screens/b_chat_screen.dart';
 import 'package:pipes_online/buyer/screens/b_my_order_page.dart';
@@ -14,7 +14,7 @@ import 'package:pipes_online/seller/view/s_authentication_screen/s_ragistraion_s
 
 import 'package:pipes_online/seller/view/s_authentication_screen/s_welcome_screen.dart';
 import '../buyer/Splesh_Screen/splash.dart';
-import '../buyer/screens/b_authentication_screen/b_phone_otp_screen.dart';
+import '../buyer/screens/b_authentication_screen/b_phone_number_screen.dart';
 import '../buyer/screens/b_authentication_screen/b_ragistraion_screen.dart';
 import '../buyer/screens/b_authentication_screen/b_login_screen.dart';
 import '../seller/bottombar/s_navigation_bar.dart';

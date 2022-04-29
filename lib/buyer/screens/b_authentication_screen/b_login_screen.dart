@@ -12,7 +12,7 @@ import 'package:sizer/sizer.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import '../../../seller/view/s_screens/s_color_picker.dart';
 import '../../../seller/view/s_screens/s_text_style.dart';
-import 'b_phone_otp_screen.dart';
+import 'b_phone_number_screen.dart';
 
 class BLoginScreen extends StatefulWidget {
   const BLoginScreen({Key? key}) : super(key: key);

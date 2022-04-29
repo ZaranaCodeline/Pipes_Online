@@ -658,7 +658,7 @@ class _SSignUpRagistraionScreenState extends State<SSignUpRagistraionScreen> {
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () {
                                             print('aaa');
-                                            Get.off(SLoginScreen());
+                                            Get.to(SLoginScreen());
                                           }),
                                   ],
                                 ),

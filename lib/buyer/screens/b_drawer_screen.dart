@@ -17,13 +17,15 @@ import 'package:sizer/sizer.dart';
 import '../app_constant/app_colors.dart';
 import '../authentificaion/b_functions.dart';
 import '../view_model/geolocation_controller.dart';
-import 'b_review_screen.dart';
+import 'b_review_info_screen.dart';
 import 'b_my_order_page.dart';
 import 'b_settings_page.dart';
 import 'bottom_bar_screen_page/widget/b_personal_info_bottom_bar_route.dart';
 
 class CustomDrawerWidget extends StatefulWidget {
-    CustomDrawerWidget({Key? key, }) : super(key: key);
+  CustomDrawerWidget({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<CustomDrawerWidget> createState() => _CustomDrawerWidgetState();
@@ -40,14 +42,13 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
   String? Img;
   String? address;
 
-
   Future<void> getData() async {
     print('demo.....');
     final user =
-    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser?.uid}')
-        .get();
+        await ProfileCollection.doc('${FirebaseAuth.instance.currentUser?.uid}')
+            .get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-   /* name = getUserData!['firstname'];
+    /* name = getUserData!['firstname'];
     phoneNo = getUserData['phoneno'];
     Img = getUserData['imageProfile'];
     address = getUserData['address'];*/
@@ -89,7 +90,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                   builtTopItem(
                     urlImage: Img.toString(),
                     name: name.toString(),
-                    phone:phoneNo.toString(),
+                    phone: phoneNo.toString(),
                     onClicked: () {
                       bottomBarIndexController.setSelectedScreen(
                           value: 'PersonalInfoPage');
@@ -125,10 +126,10 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                                 // controller: _address,
                                 cursorColor: AppColors.primaryColor,
                                 decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: address
-                                ),
-                              ),),
+                                    border: InputBorder.none,
+                                    hintText: address),
+                              ),
+                            ),
                           ),
                           IconButton(
                             onPressed: () {
@@ -227,9 +228,13 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                   height: Get.height * 0.1,
                 ),
                 Padding(
-                  padding:  EdgeInsets.all(5.0.sp),
+                  padding: EdgeInsets.all(5.0.sp),
                   child: CircleAvatar(
-                    radius: 30, backgroundImage: NetworkImage(urlImage,),),
+                    radius: 30,
+                    backgroundImage: NetworkImage(
+                      urlImage,
+                    ),
+                  ),
                 ),
                 SizedBox(width: Get.width * 0.02),
                 Column(
@@ -240,9 +245,10 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                       name,
                       style: GoogleFonts.ubuntu(
                         textStyle: TextStyle(
-                            fontSize: 14.sp,
-                            color: AppColors.secondaryBlackColor,
-                            fontWeight: FontWeight.w400,),
+                          fontSize: 14.sp,
+                          color: AppColors.secondaryBlackColor,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -251,20 +257,25 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                     Text(
                       phone,
                       style: TextStyle(
-                          fontSize: 12.sp, color: AppColors.secondaryBlackColor),
+                          fontSize: 12.sp,
+                          color: AppColors.secondaryBlackColor),
                     ),
                   ],
                 ),
                 Spacer(),
-                SvgPicture.asset('assets/images/svg/dots.svg',width: 15.sp,height: 15.sp,),
+                SvgPicture.asset(
+                  'assets/images/svg/dots.svg',
+                  width: 15.sp,
+                  height: 15.sp,
+                ),
               ],
             ),
           ));
 
   Widget buildMenuItem(
       {required String text,
-        required String imageName,
-        VoidCallback? onClicked}) {
+      required String imageName,
+      VoidCallback? onClicked}) {
     final color = AppColors.commonWhiteTextColor;
     final hoverColor = Colors.white70;
 
@@ -303,7 +314,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
         Get.to(() => BMyOrderPage());
         break;
       case 3:
-        Get.to(() => BReviewScreen());
+        Get.to(() => BReviewInfoScreen());
         break;
       case 4:
         Get.to(() => HelpCenterPage());
@@ -313,8 +324,8 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
         Get.to(() => TermsAndConditionPage());
         break;
       case 6:
-        BAuthMethods.logOut().then((value) =>
-            Get.off(()=>SBuyerSellerScreen()));
+        BAuthMethods.logOut()
+            .then((value) => Get.off(() => SBuyerSellerScreen()));
         PreferenceManager.clearData();
 
         break;

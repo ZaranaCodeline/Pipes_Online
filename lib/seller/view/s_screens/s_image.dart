@@ -10,6 +10,9 @@ class SImagePick {
   static String authOTP = 'assets/images/svg/auth_otp.svg';
   static String googleIcon = 'assets/images/icon/google.svg';
   static String uploadImageIcon = 'assets/images/icon/upload_image.svg';
-  static String locationColorIcon = 'assets/images/icon/location_color_icon.svg';
+  static String locationColorIcon =
+      'assets/images/icon/location_color_icon.svg';
   static String pipesDealLogo = 'assets/images/icon/pipe_deal_lg.svg';
+  static String pipesphoneLogo = 'assets/images/png/phone.png';
+  static String pipesEmailLogo = 'assets/images/png/email.png';
 }

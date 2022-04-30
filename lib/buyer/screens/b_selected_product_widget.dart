@@ -59,7 +59,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
     // Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
     Map<String, dynamic>? getUserData = m as Map<String, dynamic>?;
 
-    firstname = getUserData!['firstname'];
+    firstname = getUserData!['user_name'];
     email = getUserData['email'];
     address = getUserData['address'];
     phoneno = getUserData['phoneno'];

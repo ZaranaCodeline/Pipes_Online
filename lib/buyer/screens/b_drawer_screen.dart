@@ -54,7 +54,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
     address = getUserData['address'];*/
 
     setState(() {
-      name = getUserData?['firstname'];
+      name = getUserData?['user_name'];
       phoneNo = getUserData?['phoneno'];
       Img = getUserData?['imageProfile'];
       address = getUserData?['address'];

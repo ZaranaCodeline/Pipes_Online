@@ -11,27 +11,28 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_first_user_info_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/phone.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_login_email_screen.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_phone_no_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
-class BSignUpEmailScreen extends StatefulWidget {
-  const BSignUpEmailScreen({Key? key}) : super(key: key);
+import 's_first_user_info_screen.dart';
+
+class SSignUpEmailScreen extends StatefulWidget {
+  const SSignUpEmailScreen({Key? key}) : super(key: key);
 
   @override
-  State<BSignUpEmailScreen> createState() => _BSignUpEmailScreenState();
+  State<SSignUpEmailScreen> createState() => _SSignUpEmailScreenState();
 }
 
-class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
+class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
   TextEditingController email = TextEditingController();
   TextEditingController pass = TextEditingController();
   TextEditingController conPass = TextEditingController();
@@ -180,9 +181,6 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                           obscureText:
                                               selectedPass ? false : true,
                                           controller: pass,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(10)
-                                          ],
                                           decoration: InputDecoration(
                                               suffixIcon: IconButton(
                                             icon: Icon(
@@ -229,9 +227,6 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                           obscureText:
                                               selectedCPass ? false : true,
                                           controller: conPass,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(10)
-                                          ],
                                           decoration: InputDecoration(
                                             suffixIcon: IconButton(
                                               icon: Icon(
@@ -296,7 +291,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                       isLoading = true;
                                     });
                                     formGlobalKey.currentState!.save();
-                                    BRegisterRepo.emailRegister(
+                                    SRegisterRepo.emailRegister(
                                             email: email.text, pass: pass.text)
                                         .then((value) async {
                                       PreferenceManager.setEmail(email.text);
@@ -306,7 +301,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                       PreferenceManager.getPassword();
                                       PreferenceManager.getUserType();
 
-                                      Get.to(() => BFirstUserInfoScreen(
+                                      Get.to(() => SFirstUserInfoScreen(
                                             email: email.text,
                                             pass: pass.text,
                                           ));
@@ -363,7 +358,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                   onTap: () {
                                     print('it is Signup with Mobile Number');
                                     // setState(() {
-                                    Get.to(() => BSignUpPhoneNumberScreen());
+                                    Get.to(SSignUpPhoneNumberScreen());
                                     // });
                                   },
                                   child: Container(
@@ -404,12 +399,8 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                 child: GestureDetector(
                                   onTap: () {
                                     print('it is Signup with Google');
-                                    print(
-                                        '---------->${PreferenceManager.getUId()}');
                                     loginwithgoogle().then((value) {
-                                      PreferenceManager.setUserType('Buyer');
-                                      Get.to(() => BFirstUserInfoScreen());
-                                      PreferenceManager.getUId();
+                                      Get.to(() => SFirstUserInfoScreen());
                                     });
                                   },
                                   child: Container(
@@ -460,7 +451,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                           recognizer: TapGestureRecognizer()
                                             ..onTap = () {
                                               print('=====>Login');
-                                              Get.off(BLoginEmailScreen());
+                                              Get.off(SLoginEmailScreen());
                                             }),
                                     ],
                                   ),

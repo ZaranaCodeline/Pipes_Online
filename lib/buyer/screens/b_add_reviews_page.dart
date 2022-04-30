@@ -18,7 +18,7 @@ import 'custom_widget/custom_text.dart';
 
 class AddReviewsPage extends StatefulWidget {
   const AddReviewsPage({Key? key, this.category}) : super(key: key);
-final String? category;
+  final String? category;
   @override
   State<AddReviewsPage> createState() => _AddReviewsPageState();
 }
@@ -36,7 +36,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
         await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
             .get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    firstname = getUserData!['firstname'];
+    firstname = getUserData!['user_name'];
     print('=========firstname===============${getUserData}');
     setState(() {
       Img = getUserData['imageProfile'];
@@ -55,11 +55,10 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
           print('==>category${widget.category}');
           CollectionReference ProfileCollection =
               bFirebaseStore.collection('Reviews');
-          ProfileCollection
-              .doc('${PreferenceManager.getUId()}').set({
-            'userID':PreferenceManager.getUId(),
-            'category':widget.category,
-            'name':firstname,
+          ProfileCollection.doc('${PreferenceManager.getUId()}').set({
+            'userID': PreferenceManager.getUId(),
+            'category': widget.category,
+            'user_name': firstname,
             'imageProfile': Img,
             'dsc': desc.text,
             'rating': rating,
@@ -192,7 +191,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                       onRatingChanged: (v) {
                                         setState(
                                           () {
-                                            rating = v ;
+                                            rating = v;
                                             print('rating====>${rating}');
                                           },
                                         );

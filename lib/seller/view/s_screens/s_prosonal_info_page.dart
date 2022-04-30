@@ -48,7 +48,7 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
         await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
             .get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    firstname = TextEditingController(text: getUserData!['firstname']);
+    firstname = TextEditingController(text: getUserData!['user_name']);
     email = TextEditingController(text: getUserData['email']);
     address = TextEditingController(text: getUserData['address']);
     phoneno = TextEditingController(text: getUserData['phoneno']);

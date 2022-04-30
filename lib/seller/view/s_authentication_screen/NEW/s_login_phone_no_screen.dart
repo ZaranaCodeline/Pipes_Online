@@ -9,31 +9,31 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_login_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_phone_otp_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_no_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_otp_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/otp.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/phone.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_email_screen.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_phone_otp_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
 import 'package:sizer/sizer.dart';
 
-class BLoginPhoneNumberScreen extends StatefulWidget {
+class SLoginPhoneNumberScreen extends StatefulWidget {
   final String? phone;
 
-  const BLoginPhoneNumberScreen({Key? key, this.phone}) : super(key: key);
+  const SLoginPhoneNumberScreen({Key? key, this.phone}) : super(key: key);
   @override
-  State<BLoginPhoneNumberScreen> createState() =>
-      _BLoginPhoneNumberScreenState();
+  State<SLoginPhoneNumberScreen> createState() =>
+      _SLoginPhoneNumberScreenState();
 }
 
-class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
+class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
   bool isLoading = false;
   TextEditingController? phoneController;
   @override
@@ -50,7 +50,7 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
 
   Future sendOtp(FirebaseAuth auth) async {
     await auth.verifyPhoneNumber(
-      phoneNumber: "${phoneController?.text}",
+      phoneNumber: '${"+91" + "${phoneController!.text}"}',
       verificationCompleted: (phoneAuthCredential) async {
         print('Verification Completed');
       },
@@ -221,9 +221,9 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              BSignUpPhoneOtpScreen(
-                                                  // phone: phoneController!.text,
-                                                  ),
+                                              SSignUpPhoneOtpScreen(
+                                            phone: phoneController!.text,
+                                          ),
                                         ),
                                       ),
                                     );
@@ -339,7 +339,7 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                     onTap: () {
                                       print('Login with Email');
                                       // setState(() {
-                                      Get.to(BLoginEmailScreen());
+                                      Get.to(SSignUpEmailScreen());
                                       // });
                                     },
                                     child: Container(
@@ -435,7 +435,7 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
                                                 print('=====>Login');
-                                                Get.off(BSignUpEmailScreen());
+                                                Get.off(SSignUpEmailScreen());
                                               }),
                                       ],
                                     ),

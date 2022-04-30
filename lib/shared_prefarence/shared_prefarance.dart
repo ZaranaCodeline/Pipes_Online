@@ -6,6 +6,7 @@ class PreferenceManager {
   static Future setEmail(String value) async {
     await getStorage.write('email', value);
   }
+
   static String getEmail() {
     return getStorage.read('email');
   }
@@ -13,53 +14,58 @@ class PreferenceManager {
   static Future setUserType(String value) async {
     await getStorage.write('userType', value);
   }
-  static  getUserType() {
+
+  static getUserType() {
     return getStorage.read('userType');
   }
-
 
   static Future setPassword(var value) async {
     await getStorage.write('password', value);
   }
-  static   getPassword() {
+
+  static getPassword() {
     return getStorage.read('password');
   }
 
   static Future setUId(String value) async {
-    await  getStorage.write('uid', value);
+    await getStorage.write('uid', value);
   }
-  static   getUId() {
+
+  static getUId() {
     return getStorage.read('uid');
   }
 
   static Future setAddress(String value) async {
     await getStorage.write('address', value);
   }
-  static  getAddress() {
+
+  static getAddress() {
     return getStorage.read('address');
   }
 
   static Future setName(String value) async {
-    await getStorage.write('firstname', value);
+    await getStorage.write('user_name', value);
   }
-  static  getName() {
-    return getStorage.read('firstname');
+
+  static getName() {
+    return getStorage.read('user_name');
   }
 
   static Future setPhoneNumber(String value) async {
     await getStorage.write('phoneno', value);
   }
-  static  getPhoneNumber() {
+
+  static getPhoneNumber() {
     return getStorage.read('phoneno');
   }
 
   static Future setTime(String value) async {
     await getStorage.write('time', value);
   }
-  static  getTime() {
+
+  static getTime() {
     return getStorage.read('time');
   }
-
 
   static Future<void> clearData() async {
     // await getStorage.erase();
@@ -67,10 +73,8 @@ class PreferenceManager {
     await getStorage.remove('userType');
     await getStorage.remove('password');
     await getStorage.remove('phoneno');
-    await getStorage.remove('firstname');
+    await getStorage.remove('user_name');
     await getStorage.remove('address');
-    await  getStorage.remove('uid');
+    await getStorage.remove('uid');
   }
-
 }
-

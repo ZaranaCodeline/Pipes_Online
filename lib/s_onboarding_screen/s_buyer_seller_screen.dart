@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -20,8 +21,7 @@ class SBuyerSellerScreen extends StatefulWidget {
 }
 
 class _SBuyerSellerScreenState extends State<SBuyerSellerScreen> {
-  BuyerSellerController buyerSellerController =
-      Get.find();
+  BuyerSellerController buyerSellerController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -98,16 +98,20 @@ class _SBuyerSellerScreenState extends State<SBuyerSellerScreen> {
                           if (controller.radioValue != null) {
                             if (controller.radioValue == 'Seller') {
                               print('Seller');
-                              PreferenceManager.setUId('id');
+                              // PreferenceManager.setUId(
+                              //     FirebaseAuth.instance.currentUser!.uid);
                               PreferenceManager.setUserType('Seller');
-                              PreferenceManager.setTime('time');
-                              Get.offAll(()=>SWelcomeScreen());
+                              PreferenceManager.setTime(
+                                  DateTime.now().toString());
+                              print('Seller=>${PreferenceManager.getTime()}');
+                              Get.offAll(() => SWelcomeScreen());
                             } else {
                               print('Buyer');
-                              PreferenceManager.setUId('id');
                               PreferenceManager.setUserType('Buyer');
-                              PreferenceManager.setTime('time');
-                              Get.offAll(()=>BWelcomeScreen());
+                              PreferenceManager.setTime(
+                                  DateTime.now().toString());
+                              Get.offAll(() => BWelcomeScreen());
+                              print('Seller=>${PreferenceManager.getTime()}');
                             }
                           } else {
                             Get.showSnackbar(GetSnackBar(

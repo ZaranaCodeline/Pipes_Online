@@ -32,7 +32,7 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
     final user =
         await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    firstname = getUserData!['firstname'];
+    firstname = getUserData!['user_name'];
     print('=========SellerReviewWidget===============${getUserData}');
     setState(() {
       Img = getUserData['imageProfile'];

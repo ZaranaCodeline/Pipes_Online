@@ -3,9 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/b_welcome_screen.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_contoller.dart';
 import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/s_welcome_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_onboarding_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 
@@ -27,40 +29,50 @@ class _SplashState extends State<Splash> {
     super.initState();
     Timer(Duration(seconds: 2), () {
       print(
-          'Splash.....Preferance Id =============>${PreferenceManager.getUId().toString()}');
-      print(
-          'bFirebaseAuth.currentUser!.uid =============>${bFirebaseAuth.currentUser?.uid}');
-      print(
-          'PreferenceManager.getUId().toString()=============>${PreferenceManager.getUId()}');
-      if (PreferenceManager.getUId().toString() != null) {
+          'PreferenceManager.getUId=============>${PreferenceManager.getUId()}');
+      if (PreferenceManager.getUId() != null) {
         print('TEST:- 1');
         if (PreferenceManager.getUserType() == '' ||
-            PreferenceManager.getUserType() == null) {
+            PreferenceManager.getUserType() == null ||
+            PreferenceManager.getUId() == 'uid') {
           print('TEST:- 2');
 
           // Get.offAll(SBuyerSellerScreen());
-          Get.offAll(SOnBoardingScreen());
+          Get.offAll(() => BWelcomeScreen());
         } else {
           if (PreferenceManager.getUserType() == 'Buyer') {
-            if (FirebaseAuth.instance.currentUser!.uid != null)
+            if (PreferenceManager.getUId() != null) {
+              print('============>3)${PreferenceManager.getUId()}');
               print('TEST:- 3');
-            print('==Email==>${PreferenceManager.getEmail()}');
-            print('==PhoneNumber==>${PreferenceManager.getPhoneNumber()}');
-
-            Get.offAll(BottomNavigationBarScreen());
+              // print('==Email==>${PreferenceManager.getEmail()}');
+              // print('==PhoneNumber==>${PreferenceManager.getPhoneNumber()}');
+              Get.offAll(() => BottomNavigationBarScreen());
+            } else if (PreferenceManager.getUserType() == '' ||
+                PreferenceManager.getUId() == null ||
+                PreferenceManager.getUId() == 'uid') {
+              print('TEST:- 4');
+              print('============>4)${PreferenceManager.getUId()}');
+              Get.to(() => BWelcomeScreen());
+            }
           } else {
-            print('TEST:- 4');
+            print('TEST:- 5');
+            print('============>5)${PreferenceManager.getUId()}');
             print('=========Email==>${PreferenceManager.getEmail()}');
-            print(
-                '=========PhoneNumber==>${PreferenceManager.getPhoneNumber()}');
+            print('==PhoneNumber==>${PreferenceManager.getPhoneNumber()}');
             PreferenceManager.getUserType() == 'Seller';
-            if (FirebaseAuth.instance.currentUser!.uid != null)
-              Get.offAll(NavigationBarScreen());
+            if (PreferenceManager.getUId() != null) {
+              print('============>6)${PreferenceManager.getUId()}');
+              print('TEST:- 6');
+              Get.offAll(() => NavigationBarScreen());
+            } else if (PreferenceManager.getUId() == null) {
+              print('TEST:- 7');
+              Get.to(() => SWelcomeScreen());
+            }
           }
         }
       } else {
-        print('TEST:- 5');
-        Get.offAll(SOnBoardingScreen());
+        print('TEST:- 10');
+        Get.offAll(() => SOnBoardingScreen());
       }
     });
   }

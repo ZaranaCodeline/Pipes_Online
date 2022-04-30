@@ -5,8 +5,9 @@ import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_logi
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_phone_no_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_phone_otp_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_no_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_otp_screen.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/otp.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/phone.dart';
 import 'package:pipes_online/buyer/screens/b_chat_screen.dart';
 import 'package:pipes_online/buyer/screens/b_my_order_page.dart';
 import 'package:pipes_online/buyer/screens/b_settings_page.dart';
@@ -38,8 +39,8 @@ class AppPages {
     GetPage(name: SRoutes.SBuyerSellerScreen, page: () => SBuyerSellerScreen()),
     GetPage(name: SRoutes.SWelcomeScreen, page: () => SWelcomeScreen()),
 
-    GetPage(name: BRoutes.BLoginScreen, page: () => BLoginScreen()),
-    GetPage(name: BRoutes.BPhoneOTP_Screen, page: () => BPhoneOTP_Screen()),
+    // GetPage(name: BRoutes.BLoginScreen, page: () => BLoginScreen()),
+    // GetPage(name: BRoutes.BPhoneOTP_Screen, page: () => BPhoneOTP_Screen()),
     GetPage(name: BRoutes.BSignUpEmailScreen, page: () => BSignUpEmailScreen()),
     GetPage(
         name: BRoutes.BSignUpPhoneNumberScreen,

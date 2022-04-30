@@ -1,38 +1,37 @@
 import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/phone.dart';
+import 'package:pipes_online/buyer/app_constant/app_colors.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_first_user_info_screen.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
-import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
+import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_first_user_info_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
-import 'package:pipes_online/seller/view/s_screens/s_common_button.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
 import 'package:sizer/sizer.dart';
 
-class BSignUpPhoneOtpScreen extends StatefulWidget {
-  const BSignUpPhoneOtpScreen({
-    Key? key,
-  }) : super(key: key);
+class SSignUpPhoneOtpScreen extends StatefulWidget {
+  final String? phone;
+
+  const SSignUpPhoneOtpScreen({Key? key, this.phone}) : super(key: key);
 
   @override
-  _BSignUpPhoneOtpScreenState createState() => _BSignUpPhoneOtpScreenState();
+  _SSignUpPhoneOtpScreenState createState() => _SSignUpPhoneOtpScreenState();
 }
 
-class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
+class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
   final _globalKey = GlobalKey<ScaffoldState>();
 
   final _otpController = OtpFieldController();
   String? verificationCode;
   FirebaseAuth _auth = FirebaseAuth.instance;
-
+  bool isLoading = false;
   Future<void> verificationOTPCode(String otp) async {
     PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
         verificationId: verificationCode!, smsCode: otp);
@@ -47,11 +46,59 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => BottomNavigationBarScreen(),
+          builder: (context) => SFirstUserInfoScreen(
+            phone: widget.phone,
+          ),
         ),
       );
     }
-    _auth.signInWithCredential(phoneAuthCredential);
+    _auth.signInWithCredential(phoneAuthCredential).then((value) {
+      print("You are Signed in successfully");
+      Get.showSnackbar(GetSnackBar(
+        backgroundColor: SColorPicker.red,
+        duration: Duration(seconds: 2),
+        message: 'You are logged in successfully',
+      ));
+    });
+    ;
+  }
+  // Future<void> verificationOTPCode(String otp) async {
+  //   PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
+  //       verificationId: verificationCode!, smsCode: otp);
+  //
+  //   if (phoneAuthCredential == null) {
+  //     _globalKey.currentState!.showSnackBar(
+  //       SnackBar(
+  //         content: Text("Please enter valid otp"),
+  //       ),
+  //     );
+  //     return;
+  //   } else {
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => BottomNavigationBarScreen(),
+  //       ),
+  //     );
+  //   }
+  //
+  //   await _auth.signInWithCredential(phoneAuthCredential).then((value) {
+  //     print("You are logged in successfully");
+  //     Get.showSnackbar(GetSnackBar(
+  //       backgroundColor: SColorPicker.red,
+  //       duration: Duration(seconds: 2),
+  //       message: 'You are logged in successfully',
+  //     ));
+  //   });
+  // }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(
+      'OTP Sent to +91${widget.phone} ',
+    );
   }
 
   @override
@@ -88,7 +135,7 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                       ),
                     ),
                     Text(
-                      'SIGN UP',
+                      'SIGN UP'.toUpperCase(),
                       style: STextStyle.bold700White14,
                     ),
                     SizedBox(width: 20.sp),
@@ -137,14 +184,14 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Enter Mobile Number',
+                                      'Enter OTP',
                                       style: STextStyle.semiBold600Black15,
                                     ),
                                     SizedBox(
                                       height: Get.height * 0.01,
                                     ),
                                     Text(
-                                      'OTP will be sent to this number',
+                                      'OTP Sent to +91${widget.phone} ',
                                       style: STextStyle.regular400Black11,
                                     ),
                                   ],
@@ -185,93 +232,82 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                                   // ),
                                 ],
                               ),
-                              // SizedBox(
-                              //   height: Get.height * 0.04,
-                              // ),
-                              // Container(
-                              //   decoration: BoxDecoration(
-                              //       borderRadius:
-                              //           BorderRadius.circular(10.sp),
-                              //       border: Border.all(color: Colors.grey)),
-                              //   height: Get.height * 0.07,
-                              //   width: Get.width * 0.9,
-                              //   child: TextFormField(
-                              //     keyboardType: TextInputType.number,
-                              //     controller: otpCode,
-                              //     obscureText: true,
-                              //     decoration: InputDecoration(
-                              //         hintText: 'Enter Otp',
-                              //         focusedBorder: OutlineInputBorder(
-                              //             borderRadius:
-                              //                 BorderRadius.circular(10.sp),
-                              //             borderSide: BorderSide.none),
-                              //         enabledBorder: OutlineInputBorder(
-                              //             borderRadius:
-                              //                 BorderRadius.circular(10.sp),
-                              //             borderSide: BorderSide.none),
-                              //         border: OutlineInputBorder(
-                              //             borderRadius:
-                              //                 BorderRadius.circular(10.sp),
-                              //             borderSide: BorderSide.none)),
+                              SizedBox(
+                                height: Get.height * 0.04,
+                              ),
+                              TextButton(
+                                onPressed: () {},
+                                child: CustomText(
+                                  alignment: Alignment.topLeft,
+                                  text: 'Resend OTP',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12.sp,
+                                  color: AppColors.primaryColor,
+                                ),
+                              ),
+                              SizedBox(
+                                height: Get.height * 0.04,
+                              ),
+                              GestureDetector(
+                                onTap: () async {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  verificationOTPCode;
+                                  // Get.to(BFirstUserInfoScreen(
+                                  //   phone: widget.phone,
+                                  // ));
+                                  isLoading = false;
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  width: Get.width * 0.6,
+                                  height: Get.height * 0.08,
+                                  decoration: BoxDecoration(
+                                    color: SColorPicker.purple,
+                                    borderRadius: BorderRadius.circular(10.sp),
+                                  ),
+                                  child: isLoading
+                                      ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            CustomText(
+                                                text: 'Loading...  ',
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12.sp,
+                                                color: AppColors
+                                                    .commonWhiteTextColor),
+                                            CircularProgressIndicator(
+                                              color: AppColors
+                                                  .commonWhiteTextColor,
+                                            ),
+                                          ],
+                                        )
+                                      : Text(
+                                          'SIGN UP',
+                                          style: TextStyle(
+                                              color: AppColors
+                                                  .commonWhiteTextColor,
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w700),
+                                        ),
+                                ),
+                              ),
+                              // Padding(
+                              //   padding:
+                              //       EdgeInsets.symmetric(horizontal: 40.sp),
+                              //   child: SCommonButton().sCommonPurpleButton(
+                              //     name: "SIGN UP",
+                              //     onTap: () async {
+                              //       setState(() {
+                              //         isLoading = true;
+                              //       });
+                              //       Get.to(BFirstUserInfoScreen());
+                              //       isLoading = false;
+                              //     },
                               //   ),
                               // ),
-                              SizedBox(
-                                height: Get.height * 0.04,
-                              ),
-                              RichText(
-                                textAlign: TextAlign.center,
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: 'By continuing, you agree to the',
-                                      style: STextStyle.regular600Black11,
-                                    ),
-                                    TextSpan(
-                                        text: ' terms and conditions',
-                                        style: STextStyle.semiBold600Purple11,
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            Get.to(
-                                                () => TermsAndConditionPage());
-                                            print('Terms and Conditons');
-                                          }),
-                                    TextSpan(
-                                      text: ' of this app.',
-                                      style: STextStyle.regular600Black11,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: Get.height * 0.04,
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsets.symmetric(horizontal: 40.sp),
-                                child: SCommonButton().sCommonPurpleButton(
-                                  name: "SIGN UP",
-                                  onTap: () async {
-                                    // if (phoneNumber.text.isNotEmpty) {
-                                    //   // if (otpCodeVisible) {
-                                    //   //   // verify();
-                                    //   //   verifyCode();
-                                    //   // } else {
-                                    //   //   await phoneSignIn(
-                                    //   //       phoneNumber: phoneNumber.text);
-                                    //   // }
-                                    //
-                                    //   await sendOtp(_auth).then(
-                                    //     (value) => Navigator.push(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //         builder: (context) => VerifyOTP(),
-                                    //       ),
-                                    //     ),
-                                    //   );
-                                    // } else {}
-                                  },
-                                ),
-                              ),
                             ],
                           ),
                         )
@@ -285,49 +321,5 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
         ),
       ),
     );
-
-    //   Scaffold(
-    //   key: _globalKey,
-    //   body: Padding(
-    //     padding: const EdgeInsets.symmetric(horizontal: 15),
-    //     child: Column(
-    //       mainAxisAlignment: MainAxisAlignment.center,
-    //       children: [
-    //         Container(
-    //           width: Get.width * 0.9,
-    //           child: OTPTextField(
-    //               controller: _otpController,
-    //               length: 6,
-    //               width: MediaQuery.of(context).size.width,
-    //               fieldWidth: 30,
-    //               style: TextStyle(fontSize: 17),
-    //               textFieldAlignment: MainAxisAlignment.spaceAround,
-    //               fieldStyle: FieldStyle.underline,
-    //               onCompleted: (pin) {
-    //                 print("Completed: " + pin);
-    //               },
-    //               onChanged: (pin) {
-    //                 print("onChanged: " + pin);
-    //               }),
-    //         ),
-    //         ElevatedButton(
-    //           onPressed: () {
-    //             verificationOTPCode(_otpController.toString());
-    //             log("OTP==>>${_otpController.toString()}");
-    //           },
-    //           child: Text("Verify Otp"),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
-
-  // void verifyCode() async {
-  //   PhoneAuthCredential credential = PhoneAuthProvider.credential(
-  //       verificationId: verificationId!, smsCode: otpCode.text);
-  //   await _auth.signInWithCredential(credential).then((value) {
-  //     print('You are logged in successfully');
-  //   });
-  // }
 }

@@ -280,7 +280,7 @@ class _CartPageState extends State<CartPage> {
                                   setState(() {});
                                 },
                               )
-                            : SizedBox(),
+                            : Container(),
                       ],
                     ),
                   ),

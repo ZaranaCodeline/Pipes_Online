@@ -10,62 +10,67 @@ import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_login_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_phone_otp_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_no_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_otp_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/otp.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/phone.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_login_email_screen.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_email_screen.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_phone_otp_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
-class BLoginPhoneNumberScreen extends StatefulWidget {
-  final String? phone;
+String? verificationCode;
 
-  const BLoginPhoneNumberScreen({Key? key, this.phone}) : super(key: key);
+class SSignUpPhoneNumberScreen extends StatefulWidget {
+  const SSignUpPhoneNumberScreen({Key? key}) : super(key: key);
+
   @override
-  State<BLoginPhoneNumberScreen> createState() =>
-      _BLoginPhoneNumberScreenState();
+  State<SSignUpPhoneNumberScreen> createState() =>
+      _SSignUpPhoneNumberScreenState();
 }
 
-class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
+class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
   bool isLoading = false;
-  TextEditingController? phoneController;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print('==>category===${widget.phone}');
-  }
-
-  final _globalKey = GlobalKey<ScaffoldState>();
-  FirebaseAuth _auth = FirebaseAuth.instance;
 
   int? resendingTokenID;
 
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final _phoneController = TextEditingController();
+  final _globalKey = GlobalKey<ScaffoldState>();
+
   Future sendOtp(FirebaseAuth auth) async {
-    await auth.verifyPhoneNumber(
-      phoneNumber: "${phoneController?.text}",
-      verificationCompleted: (phoneAuthCredential) async {
-        print('Verification Completed');
-      },
-      verificationFailed: (verificationFailed) async {
-        log("verificationFailed error ${verificationFailed.message}");
-        _globalKey.currentState!.showSnackBar(SnackBar(
-          content: Text(verificationFailed.message!),
-        ));
-      },
-      codeSent: (verificationId, resendingToken) async {
-        verificationCode = verificationId;
-        resendingTokenID = resendingToken;
-      },
-      codeAutoRetrievalTimeout: (verificationId) async {},
-    );
+    await auth
+        .verifyPhoneNumber(
+          phoneNumber: '${"+91" + "${_phoneController.text}"}',
+          timeout: const Duration(seconds: 60),
+          verificationCompleted: (phoneAuthCredential) async {
+            print('Verification Completed');
+          },
+          verificationFailed: (FirebaseAuthException e) async {
+            if (e.code == 'invalid-phone-number') {
+              print('The provided phone number is not valid.');
+            }
+            log("verificationFailed error ${e.message}");
+            _globalKey.currentState?.showSnackBar(SnackBar(
+              content: Text(e.message!),
+            ));
+          },
+          codeSent: (verificationId, resendingToken) async {
+            verificationCode = verificationId;
+            resendingTokenID = resendingToken;
+          },
+          codeAutoRetrievalTimeout: (verificationId) async {},
+        )
+        .then((value) {})
+        .catchError((onError) {
+      print(onError.toString());
+    });
   }
 
   @override
@@ -104,7 +109,7 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                       ),
                     ),
                     Text(
-                      'Login'.toUpperCase(),
+                      'SIGN UP'.toUpperCase(),
                       style: STextStyle.bold700White14,
                     ),
                     SizedBox(width: 20.sp),
@@ -140,7 +145,7 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                     fontSize: 14.sp,
                                     color: AppColors.secondaryBlackColor),
                                 SizedBox(
-                                  height: Get.height * 0.04,
+                                  height: Get.height * 0.05,
                                 ),
                                 Row(
                                   mainAxisAlignment:
@@ -152,8 +157,8 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10.sp),
-                                          border:
-                                              Border.all(color: Colors.grey)),
+                                          border: Border.all(
+                                              color: Colors.grey, width: 0.5)),
                                       alignment: Alignment.centerLeft,
                                       child: CountryCodePicker(
                                         onChanged: (val) {
@@ -166,68 +171,75 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                       height: Get.height * 0.07,
                                       width: Get.width * 0.6,
                                       child: TextFormField(
-                                        controller: phoneController,
+                                        controller: _phoneController,
                                         inputFormatters: [
                                           LengthLimitingTextInputFormatter(10)
                                         ],
-                                        keyboardType: TextInputType.number,
+                                        keyboardType: TextInputType.phone,
                                         decoration: InputDecoration(
                                           hintText: "Enter phone Number",
                                         ),
+                                        validator: (value) {
+                                          if (value!.trim().isEmpty) {
+                                            return 'This field is required';
+                                          }
+                                          if (!RegExp(
+                                                  r'(^(?:[+0]9)?[0-9]{10,12}$)')
+                                              .hasMatch(value)) {
+                                            return 'please enter valid number';
+                                          }
+                                          return null;
+                                        },
                                       ),
                                     ),
                                   ],
                                 ),
                                 SizedBox(
-                                  height: Get.height * 0.04,
+                                  height: Get.height * 0.05,
                                 ),
-                                // RichText(
-                                //   textAlign: TextAlign.start,
-                                //   text: TextSpan(
-                                //     children: [
-                                //       TextSpan(
-                                //         text: 'By continuing, you agree to the',
-                                //         style: STextStyle.regular600Black11,
-                                //       ),
-                                //       TextSpan(
-                                //           text: ' terms and conditions',
-                                //           style: STextStyle.semiBold600Purple11,
-                                //           recognizer: TapGestureRecognizer()
-                                //             ..onTap = () {
-                                //               Get.to(() =>
-                                //                   TermsAndConditionPage());
-                                //               print('Terms and Conditons');
-                                //             }),
-                                //       TextSpan(
-                                //         text: ' of this app.',
-                                //         style: STextStyle.regular600Black11,
-                                //       ),
-                                //     ],
-                                //   ),
-                                // ),
+                                RichText(
+                                  textAlign: TextAlign.start,
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: 'By continuing, you agree to the',
+                                        style: STextStyle.regular600Black11,
+                                      ),
+                                      TextSpan(
+                                          text: ' terms and conditions',
+                                          style: STextStyle.semiBold600Purple11,
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () {
+                                              Get.to(() =>
+                                                  TermsAndConditionPage());
+                                              print('Terms and Conditons');
+                                            }),
+                                      TextSpan(
+                                        text: ' of this app.',
+                                        style: STextStyle.regular600Black11,
+                                      ),
+                                    ],
+                                  ),
+                                ),
                                 SizedBox(
-                                  height: Get.height * 0.04,
+                                  height: Get.height * 0.10,
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    // setState(() {
-                                    //   isLoading = false;
-                                    // });
-                                    // Get.to(()=>BLoginPhoneOtpScreen());
-
-                                    isLoading = true;
-                                    await sendOtp(_auth).then(
-                                      (value) => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              BSignUpPhoneOtpScreen(
-                                                  // phone: phoneController!.text,
-                                                  ),
+                                    if (_phoneController.text.isNotEmpty) {
+                                      isLoading = true;
+                                      await sendOtp(_auth).then(
+                                        (value) => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                SSignUpPhoneOtpScreen(
+                                              phone: _phoneController.text,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    );
-
+                                      );
+                                    }
                                     isLoading = false;
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
@@ -275,31 +287,32 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                       borderRadius:
                                           BorderRadius.circular(10.sp),
                                     ),
-                                    child: isLoading
-                                        ? Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              CustomText(
-                                                  text: 'Loading...  ',
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 12.sp,
-                                                  color: AppColors
-                                                      .commonWhiteTextColor),
-                                              CircularProgressIndicator(
-                                                color: AppColors
-                                                    .commonWhiteTextColor,
-                                              ),
-                                            ],
-                                          )
-                                        : Text(
-                                            'Send OTP',
-                                            style: TextStyle(
-                                                color: AppColors
-                                                    .commonWhiteTextColor,
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w700),
-                                          ),
+                                    child:
+                                        // isLoading
+                                        //     ? Row(
+                                        //   mainAxisAlignment:
+                                        //   MainAxisAlignment.center,
+                                        //   children: [
+                                        //     CustomText(
+                                        //         text: 'Loading...  ',
+                                        //         fontWeight: FontWeight.w600,
+                                        //         fontSize: 12.sp,
+                                        //         color: AppColors
+                                        //             .commonWhiteTextColor),
+                                        //     CircularProgressIndicator(
+                                        //       color: AppColors
+                                        //           .commonWhiteTextColor,
+                                        //     ),
+                                        //   ],
+                                        // )
+                                        //     :
+                                        Text(
+                                      'Sign Up',
+                                      style: TextStyle(
+                                          color: AppColors.commonWhiteTextColor,
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w700),
+                                    ),
                                   ),
                                 ),
                                 // Padding(
@@ -337,9 +350,9 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                 Center(
                                   child: GestureDetector(
                                     onTap: () {
-                                      print('Login with Email');
+                                      print('it is Signup with Mobile Number');
                                       // setState(() {
-                                      Get.to(BLoginEmailScreen());
+                                      Get.to(SSignUpEmailScreen());
                                       // });
                                     },
                                     child: Container(
@@ -367,7 +380,7 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                             height: 15.sp,
                                           ),
                                           Text(
-                                            'Login with Email',
+                                            'Signup with Email',
                                             style: STextStyle.medium400Purple13,
                                           ),
                                         ],
@@ -408,7 +421,7 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                             "${SImagePick.locationColorIcon}",
                                           ),
                                           Text(
-                                            'Login with Google',
+                                            'Signup with Google',
                                             style:
                                                 STextStyle.semiBold600Black13,
                                           ),
@@ -425,17 +438,16 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                     text: TextSpan(
                                       children: [
                                         TextSpan(
-                                          text:
-                                              'Don’t have an Account? Sign Up',
+                                          text: 'Already registered?',
                                           style: STextStyle.regular400Black13,
                                         ),
                                         TextSpan(
-                                            text: ' Sign Up',
+                                            text: '  Login',
                                             style: STextStyle.medium400Purple13,
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
                                                 print('=====>Login');
-                                                Get.off(BSignUpEmailScreen());
+                                                Get.off(SLoginEmailScreen());
                                               }),
                                       ],
                                     ),

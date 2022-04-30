@@ -46,10 +46,10 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
   Future<void> getData() async {
     print('demo seller.....');
     final user =
-    await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
-        .get();
+        await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
+            .get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    name = getUserData!['firstname'];
+    name = getUserData!['user_name'];
     phoneNo = getUserData['phoneno'];
     Img = getUserData['imageProfile'];
     address = getUserData['address'];
@@ -70,6 +70,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
     super.initState();
     getData();
   }
+
   @override
   Widget build(BuildContext context) {
     print('image:-${Img}');
@@ -80,22 +81,22 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
     return Drawer(
       backgroundColor: AppColors.drawerColor,
       child: GetBuilder<SDrawerController>(
-        builder: (controller){
+        builder: (controller) {
           return Center(
             child: ListView(
               children: <Widget>[
                 builtTopItem(
                   urlImage: Img.toString(),
                   name: name.toString(),
-                  phone:phoneNo.toString(),
+                  phone: phoneNo.toString(),
                   onClicked: () => Get.to(() => PersonalInfoPage()),
-
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(
                     horizontal: 15.sp,
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 5.sp,vertical: 0.sp),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 5.sp, vertical: 0.sp),
                   height: Get.height * 0.07,
                   // width: Get.width,
                   decoration: BoxDecoration(
@@ -114,25 +115,24 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
                         Flexible(
                           child: Container(
                             // color: Colors.red,
-                              height: Get.height * 0.07,
-                              // width: Get.width * 0.9,
-                              alignment: Alignment.centerLeft,
-                              child: TextFormField(
-                                readOnly: sDrawerController.readOnly,
-                                // controller: _address,
-                                cursorColor: AppColors.primaryColor,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                hintText: address),
-
-                              ),),
+                            height: Get.height * 0.07,
+                            // width: Get.width * 0.9,
+                            alignment: Alignment.centerLeft,
+                            child: TextFormField(
+                              readOnly: sDrawerController.readOnly,
+                              // controller: _address,
+                              cursorColor: AppColors.primaryColor,
+                              decoration: InputDecoration(
+                                  border: InputBorder.none, hintText: address),
+                            ),
+                          ),
                         ),
                         // Text('Yogichowk, Varachha, Surat'),
                         IconButton(
                           onPressed: () {
                             // controller.setEdit();
                             homeController.selectedScreen('SPersonalInfoPage');
-                            homeController.bottomIndex.value=0;
+                            homeController.bottomIndex.value = 0;
                           },
                           icon: Icon(
                             controller.readOnly == true
@@ -251,7 +251,6 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
             ),
           ));
 
-
   Widget buildMenuItem(
       {required String text, required IconData icon, VoidCallback? onClicked}) {
     final color = AppColors.commonWhiteTextColor;
@@ -306,8 +305,8 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
         Get.to(() => STermsAndConditions());
         break;
       case 8:
-        SAuthMethods.logOut().then((value) =>
-            Get.off(()=>SBuyerSellerScreen()));
+        SAuthMethods.logOut()
+            .then((value) => Get.off(() => SBuyerSellerScreen()));
         PreferenceManager.clearData();
 
         break;

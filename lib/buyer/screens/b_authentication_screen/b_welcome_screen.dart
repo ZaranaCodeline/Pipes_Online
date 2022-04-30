@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -53,11 +54,12 @@ class _BWelcomeScreenState extends State<BWelcomeScreen> {
                     child: SCommonButton().sCommonPurpleButton(
                       name: 'Sign up',
                       onTap: () {
-                        // PreferenceManager.setUId('uid');
-                        PreferenceManager.setEmail('email');
+                        // PreferenceManager.setUId(
+                        //     FirebaseAuth.instance.currentUser!.uid);
+
                         PreferenceManager.setUserType('Buyer');
-                        // Get.to(BSignUpRagistraionScreen());
-                        Get.to(BSignUpEmailScreen());
+
+                        Get.to(() => BSignUpEmailScreen());
                       },
                     ),
                   ),
@@ -66,9 +68,10 @@ class _BWelcomeScreenState extends State<BWelcomeScreen> {
                     child: SCommonButton().sCommonPurpleButton(
                       name: 'Login',
                       onTap: () {
-                        Get.to(BLoginEmailScreen());
-                        PreferenceManager.setUId('uid');
-                        PreferenceManager.setEmail('email');
+                        Get.to(() => BLoginEmailScreen());
+                        // PreferenceManager.setUId(
+                        //     FirebaseAuth.instance.currentUser!.uid);
+
                         PreferenceManager.setUserType('Buyer');
                       },
                     ),

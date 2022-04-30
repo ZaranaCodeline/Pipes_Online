@@ -31,13 +31,19 @@ class SRoutes {
   static final ScustomerReviewScreen = '/ScustomerReviewScreen';
 }
 
-class BRoutes{
+class BRoutes {
   static final BPhoneOTP_Screen = '/BPhoneOTP_Screen';
+  static final BSignUpPhoneNumberScreen = '/BSignUpPhoneNumberScreen';
+  static final BSignUpPhoneOtpScreen = '/BSignUpPhoneOtpScreen';
+  static final BLoginEmailScreen = '/BLoginEmailScreen';
+  static final BLoginPhoneNumberScreen = '/BLoginPhoneNumberScreen';
+  static final BLoginPhoneOtpScreen = '/BLoginPhoneOtpScreen';
+  static final BFirstUserInfoScreen = '/BFirstUserInfoScreen';
   static final DrawerProfilePage = '/DrawerProfilePage';
   static final BLoginScreen = '/BLoginScreen';
   static final BSubmitProfileScreen = '/BSubmitProfileScreen';
   static final BLogInHomeScreen = '/BLogInHomeScreen';
-  static final BSignUpRagistraionScreen = '/BSignUpRagistraionScreen';
+  static final BSignUpEmailScreen = '/BSignUpEmailScreen';
   static final ConfirmOrderPage = '/ConfirmOrderPage';
   static final PaymentWidget = '/PaymentWidget';
   static final PersonalInfoPage = '/PersonalInfoPage';
@@ -53,5 +59,4 @@ class BRoutes{
   static final AddressPage = '/AddressPage';
   static final AddReviewsPage = '/AddReviewsPage';
   static final BottomNavigationBarScreen = '/BottomNavigationBarScreen';
-
 }

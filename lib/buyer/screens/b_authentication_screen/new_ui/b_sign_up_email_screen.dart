@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
@@ -40,6 +42,15 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
   bool isLoading = false;
   bool selectedPass = false;
   bool selectedCPass = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(
+        'b sign up screen getUserType ======>${PreferenceManager.getUserType()}');
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -124,14 +135,12 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                         height: Get.height * 0.06,
                                         width: Get.width * 1,
                                         child: TextFormField(
-                                          validator: (value) {
-                                            if (value!.trim().isEmpty) {
-                                              return 'This field is required';
-                                            } else if (!RegExp('[a-zA-Z]')
-                                                .hasMatch(value)) {
-                                              return 'please enter valid name';
+                                          validator: (email) {
+                                            if (isEmailValid(email!)) {
+                                              return null;
+                                            } else {
+                                              return 'Enter a valid email address';
                                             }
-                                            return null;
                                           },
                                           controller: email,
                                           keyboardType:
@@ -284,11 +293,11 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                               ),
                               GestureDetector(
                                 onTap: () async {
-                                  setState(() {
-                                    isLoading = true;
-                                  });
                                   print('It is me');
                                   if (formGlobalKey.currentState!.validate()) {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
                                     formGlobalKey.currentState!.save();
                                     BRegisterRepo.emailRegister(
                                             email: email.text, pass: pass.text)
@@ -298,10 +307,19 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
 
                                       PreferenceManager.getEmail();
                                       PreferenceManager.getPassword();
+                                      PreferenceManager.getUserType();
+
                                       Get.to(() => BFirstUserInfoScreen(
                                             email: email.text,
                                             pass: pass.text,
                                           ));
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    }).then((value) {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
                                     });
                                   }
                                 },
@@ -389,7 +407,9 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                 child: GestureDetector(
                                   onTap: () {
                                     print('it is Signup with Google');
-                                    BAuthMethods().signInWithGoogle;
+                                    loginwithgoogle().then((value) {
+                                      Get.to(() => BFirstUserInfoScreen());
+                                    });
                                   },
                                   child: Container(
                                     padding: EdgeInsets.all(12.sp),
@@ -473,6 +493,27 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
       return response.storage.ref('uploads/$fileName').getDownloadURL();
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<bool?> loginwithgoogle() async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    try {
+      GoogleSignIn googleSignIn = GoogleSignIn();
+      final googleUser = await googleSignIn.signIn();
+      final googleAuth = await googleUser!.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken, // accessToken
+        idToken: googleAuth.idToken,
+      );
+      User? users = (await _auth.signInWithCredential(credential)).user;
+      if (users == null) {
+        return false;
+      }
+      return true;
+    } catch (e) {
+      print('this is error .......$e');
+      return null;
     }
   }
 

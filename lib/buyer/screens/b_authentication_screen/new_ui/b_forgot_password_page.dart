@@ -1,58 +1,34 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:otp_text_field/otp_text_field.dart';
-import 'package:otp_text_field/style.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_first_user_info_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/phone.dart';
-import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
-import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
-import 'package:pipes_online/routes/app_routes.dart';
-import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
-import 'package:pipes_online/seller/view/s_screens/s_common_button.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
-import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
 import 'package:sizer/sizer.dart';
 
-class BLoginPhoneOtpScreen extends StatefulWidget {
+import '../../../../seller/view/s_screens/s_color_picker.dart';
+import '../../../../seller/view/s_screens/s_common_button.dart';
+import '../../../../seller/view/s_screens/s_text_style.dart';
+
+class BForgotPasswordScreen extends StatefulWidget {
+  const BForgotPasswordScreen({Key? key}) : super(key: key);
+
   @override
-  _BLoginPhoneOtpScreenState createState() => _BLoginPhoneOtpScreenState();
+  State<BForgotPasswordScreen> createState() => _BForgotPasswordScreenState();
 }
 
-class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
-  final _globalKey = GlobalKey<ScaffoldState>();
+class _BForgotPasswordScreenState extends State<BForgotPasswordScreen> {
+  final formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
 
-  final _otpController = OtpFieldController();
-  String? verificationCode;
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  bool isLoading = false;
-  Future<void> verificationOTPCode(String otp) async {
-    PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
-        verificationId: verificationCode!, smsCode: otp);
-    if (phoneAuthCredential == null) {
-      _globalKey.currentState!.showSnackBar(
-        SnackBar(
-          content: Text("Please enter valid otp"),
-        ),
-      );
-      return;
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BottomNavigationBarScreen(),
-        ),
-      );
-    }
-    _auth.signInWithCredential(phoneAuthCredential);
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    emailController.dispose();
   }
 
   @override
@@ -89,7 +65,7 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                       ),
                     ),
                     Text(
-                      'Login'.toUpperCase(),
+                      'Forgot Password'.toUpperCase(),
                       style: STextStyle.bold700White14,
                     ),
                     SizedBox(width: 20.sp),
@@ -138,65 +114,51 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Enter OTP',
+                                      'Forgot Password',
                                       style: STextStyle.semiBold600Black15,
                                     ),
                                     SizedBox(
-                                      height: Get.height * 0.01,
+                                      height: Get.height * 0.02,
                                     ),
                                     Text(
-                                      'OTP Sent to +91......000 ',
+                                      'Enter the Email address\nassociated with your account.',
                                       style: STextStyle.regular400Black11,
+                                      textAlign: TextAlign.start,
                                     ),
                                   ],
                                 ),
                               ),
                               SizedBox(
-                                height: Get.height * 0.04,
+                                height: Get.height * 0.06,
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    width: Get.width * 0.85,
-                                    child: OTPTextField(
-                                        controller: _otpController,
-                                        length: 6,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        fieldWidth: 30,
-                                        style: TextStyle(fontSize: 15),
-                                        textFieldAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        fieldStyle: FieldStyle.underline,
-                                        onCompleted: (pin) {
-                                          print("Completed: " + pin);
-                                        },
-                                        onChanged: (pin) {
-                                          print("onChanged: " + pin);
-                                        }),
-                                  ),
-                                  // ElevatedButton(
-                                  //   onPressed: () {
-                                  //     // verificationOTPCode(_otpController.toString());
-                                  //     // log("OTP==>>${_otpController.toString()}");
-                                  //   },
-                                  //   child: Text("Verify Otp"),
-                                  // ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: Get.height * 0.04,
-                              ),
-                              TextButton(
-                                onPressed: () {},
-                                child: CustomText(
+                              CustomText(
+                                  text: 'Email',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14.sp,
                                   alignment: Alignment.topLeft,
-                                  text: 'Resend OTP',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12.sp,
-                                  color: AppColors.primaryColor,
+                                  color: AppColors.secondaryBlackColor),
+                              SizedBox(
+                                height: Get.height * 0.02,
+                              ),
+                              Container(
+                                height: Get.height * 0.06,
+                                width: Get.width * 1,
+                                child: TextFormField(
+                                  validator: (email) {
+                                    if (isEmailValid(email!)) {
+                                      return null;
+                                    } else {
+                                      return 'Enter a valid email address';
+                                    }
+                                  },
+                                  textInputAction: TextInputAction.done,
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  controller: emailController,
+                                  keyboardType: TextInputType.emailAddress,
+                                  decoration: InputDecoration(
+                                      // hintText: "Email",
+                                      ),
                                 ),
                               ),
                               SizedBox(
@@ -206,17 +168,19 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                 padding:
                                     EdgeInsets.symmetric(horizontal: 40.sp),
                                 child: SCommonButton().sCommonPurpleButton(
-                                  name: "Login".toUpperCase(),
+                                  name: "Reset Password".toUpperCase(),
                                   onTap: () async {
-                                    setState(() {
-                                      isLoading = true;
+                                    resetPassword().then((value) {
+                                      Get.to(() => BLoginEmailScreen());
                                     });
-                                    verificationOTPCode;
+                                    // setState(() {
+                                    //   isLoading = true;
+                                    // });
                                     // Get.offAll(BottomNavigationBarScreen());
-
-                                    setState(() {
-                                      isLoading = false;
-                                    });
+                                    //
+                                    // setState(() {
+                                    //   isLoading = false;
+                                    // });
 
                                     // if (phoneNumber.text.isNotEmpty) {
                                     //   // if (otpCodeVisible) {
@@ -252,5 +216,35 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
         ),
       ),
     );
+  }
+
+  bool isEmailValid(String email) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern.toString());
+    return regex.hasMatch(email);
+  }
+
+  Future resetPassword() async {
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: emailController.text.trim())
+          .then((value) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Password Reset Email Sent'),
+            backgroundColor: Colors.redAccent,
+          ),
+        );
+      });
+    } on FirebaseException catch (e) {
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${e.message}'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+    }
   }
 }

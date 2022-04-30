@@ -18,6 +18,7 @@ import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 String? verificationCode;
@@ -41,23 +42,32 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
   final _globalKey = GlobalKey<ScaffoldState>();
 
   Future sendOtp(FirebaseAuth auth) async {
-    await auth.verifyPhoneNumber(
-      phoneNumber: '${"+91" + "${_phoneController.text}"}',
-      verificationCompleted: (phoneAuthCredential) async {
-        print('Verification Completed');
-      },
-      verificationFailed: (verificationFailed) async {
-        log("verificationFailed error ${verificationFailed.message}");
-        _globalKey.currentState!.showSnackBar(SnackBar(
-          content: Text(verificationFailed.message!),
-        ));
-      },
-      codeSent: (verificationId, resendingToken) async {
-        verificationCode = verificationId;
-        resendingTokenID = resendingToken;
-      },
-      codeAutoRetrievalTimeout: (verificationId) async {},
-    );
+    await auth
+        .verifyPhoneNumber(
+          phoneNumber: '${"+91" + "${_phoneController.text}"}',
+          timeout: const Duration(seconds: 60),
+          verificationCompleted: (phoneAuthCredential) async {
+            print('Verification Completed');
+          },
+          verificationFailed: (FirebaseAuthException e) async {
+            if (e.code == 'invalid-phone-number') {
+              print('The provided phone number is not valid.');
+            }
+            log("verificationFailed error ${e.message}");
+            _globalKey.currentState!.showSnackBar(SnackBar(
+              content: Text(e.message!),
+            ));
+          },
+          codeSent: (verificationId, resendingToken) async {
+            verificationCode = verificationId;
+            resendingTokenID = resendingToken;
+          },
+          codeAutoRetrievalTimeout: (verificationId) async {},
+        )
+        .then((value) {})
+        .catchError((onError) {
+      print(onError.toString());
+    });
   }
 
   @override
@@ -220,7 +230,9 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                BSignUpPhoneOtpScreen(),
+                                                BSignUpPhoneOtpScreen(
+                                              phone: _phoneController.text,
+                                            ),
                                           ),
                                         ),
                                       );

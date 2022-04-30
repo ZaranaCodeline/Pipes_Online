@@ -6,7 +6,8 @@ import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/authentificaion/b_functions.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_login_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_phone_number_screen.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_forgot_password_page.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_phone_no_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_no_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
@@ -140,6 +141,9 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                           'Password',
                                           style: STextStyle.semiBold600Black13,
                                         ),
+                                        SizedBox(
+                                          height: Get.height * 0.01,
+                                        ),
                                         Container(
                                           height: Get.height * 0.07,
                                           width: Get.width * 1,
@@ -161,10 +165,6 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                               return null;
                                             },
                                             controller: pass,
-                                            inputFormatters: [
-                                              LengthLimitingTextInputFormatter(
-                                                  10)
-                                            ],
                                             decoration: InputDecoration(
                                                 // hintText: "Password",
                                                 ),
@@ -174,7 +174,10 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                           height: Get.height * 0.02,
                                         ),
                                         TextButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            Get.to(
+                                                () => BForgotPasswordScreen());
+                                          },
                                           child: CustomText(
                                             alignment: Alignment.topLeft,
                                             text: 'Forgot Password?',
@@ -219,11 +222,12 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                 GestureDetector(
                                   onTap: () async {
                                     print('login click');
-                                    setState(() {
-                                      isLoading = true;
-                                    });
+
                                     if (formGlobalKey.currentState!
                                         .validate()) {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
                                       print(
                                           'login email========>${email.text.toString()}');
                                       print(
@@ -238,11 +242,16 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                           .then((value) async {
                                         await Get.offAll(
                                             () => BottomNavigationBarScreen());
-                                        isLoading = false;
+                                        setState(() {
+                                          isLoading = false;
+                                        });
                                         /* PreferenceManager.setUId('uid');
                                   PreferenceManager.setUserType('Buyer');
                                   PreferenceManager.setUId('email');*/
                                       }).catchError((e) {
+                                        setState(() {
+                                          isLoading = false;
+                                        });
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
@@ -450,8 +459,10 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                             style: STextStyle.medium400Purple13,
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
-                                                print('=====>Login');
-                                                Get.off(BSignUpEmailScreen());
+                                                print(
+                                                    '=====>BSignUpEmailScreen');
+                                                Get.off(
+                                                    () => BSignUpEmailScreen());
                                               }),
                                       ],
                                     ),
@@ -476,7 +487,7 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
     );
   }
 
-  bool isPasswordValid(String password) => password.length <= 8;
+  bool isPasswordValid(String password) => password.length <= 6;
 
   bool isEmailValid(String email) {
     Pattern pattern =

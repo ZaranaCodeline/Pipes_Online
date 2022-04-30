@@ -318,8 +318,9 @@ class _SLoginScreenState extends State<SLoginScreen> {
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
                                           print('aaa');
+                                          //TODO
                                           Get.offNamed(
-                                              BRoutes.BSignUpRagistraionScreen);
+                                              SRoutes.SSignUpRagistraionScreen);
                                         }),
                                 ],
                               ),

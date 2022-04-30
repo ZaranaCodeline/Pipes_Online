@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_ragistraion_screen.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
@@ -51,7 +53,11 @@ class _BWelcomeScreenState extends State<BWelcomeScreen> {
                     child: SCommonButton().sCommonPurpleButton(
                       name: 'Sign up',
                       onTap: () {
-                        Get.to(BSignUpRagistraionScreen());
+                        // PreferenceManager.setUId('uid');
+                        PreferenceManager.setEmail('email');
+                        PreferenceManager.setUserType('Buyer');
+                        // Get.to(BSignUpRagistraionScreen());
+                        Get.to(BSignUpEmailScreen());
                       },
                     ),
                   ),
@@ -60,7 +66,7 @@ class _BWelcomeScreenState extends State<BWelcomeScreen> {
                     child: SCommonButton().sCommonPurpleButton(
                       name: 'Login',
                       onTap: () {
-                        Get.to(BLoginScreen());
+                        Get.to(BLoginEmailScreen());
                         PreferenceManager.setUId('uid');
                         PreferenceManager.setEmail('email');
                         PreferenceManager.setUserType('Buyer');

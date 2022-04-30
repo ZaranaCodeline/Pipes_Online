@@ -42,7 +42,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     print('demo.....');
     final user = await ProfileCollection.doc(PreferenceManager.getUId()).get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    firstname = TextEditingController(text: getUserData?['firstname']);
+    firstname = TextEditingController(text: getUserData?['user_name']);
     email = TextEditingController(text: getUserData?['email']);
     address = TextEditingController(text: getUserData?['address']);
     phoneno = TextEditingController(text: getUserData?['phoneno']);
@@ -95,7 +95,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        return true;
+        return false;
       },
       child: SafeArea(
         child: Scaffold(
@@ -398,12 +398,13 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     // print('path=$fileImageArray');
     await ProfileCollection.doc(PreferenceManager.getUId()).update({
       'imageProfile': downloadUrl == null ? Img : downloadUrl,
-      'firstname': firstname?.text,
+      'user_name': firstname?.text,
       'email': email?.text,
       'address': address?.text,
       'phoneno': phoneno?.text
     }).then((value) {
       print('success add');
+
       // con.clearImage();
     }).catchError((e) => print('upload error'));
   }

@@ -22,165 +22,172 @@ class _BChatScreenState extends State<BChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'CHAT',
-            style: STextStyle.bold700White14,
-          ),
-          centerTitle: true,
-          leading: IconButton(
-            onPressed: () {
-              if (bottomBarIndexController.bottomIndex.value == 2) {
-                bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
-                bottomBarIndexController.bottomIndex.value = 0;
-              } else {
-                Get.back();
-              }
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              color: AppColors.commonWhiteTextColor,
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              'CHAT',
+              style: STextStyle.bold700White14,
             ),
-          ),
-          backgroundColor: AppColors.primaryColor,
-          toolbarHeight: Get.height * 0.1,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(25),
-            ),
-          ),
-        ),
-        body: Container(
-          child: Column(
-            children: [
-              SizedBox(
-                height: Get.height * 0.02,
+            centerTitle: true,
+            leading: IconButton(
+              onPressed: () {
+                if (bottomBarIndexController.bottomIndex.value == 2) {
+                  bottomBarIndexController.setSelectedScreen(
+                      value: 'HomeScreen');
+                  bottomBarIndexController.bottomIndex.value = 0;
+                } else {
+                  Get.back();
+                }
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                color: AppColors.commonWhiteTextColor,
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: Get.width * 0.05),
-                child: CustomText(
-                  text: 'Messages',
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.primaryColor,
-                  textAlign: TextAlign.start,
-                  alignment: Alignment.topLeft,
+            ),
+            backgroundColor: AppColors.primaryColor,
+            toolbarHeight: Get.height * 0.1,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(25),
+              ),
+            ),
+          ),
+          body: Container(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: Get.height * 0.02,
                 ),
-              ),
-              SizedBox(
-                height: Get.height * 0.01,
-              ),
-              Divider(color: AppColors.primaryColor, thickness: 1.sp),
-              InkWell(
-                onTap: () {
-                  BAuthMethods().getCurrentUser();
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: Get.width * 0.05),
+                  child: CustomText(
+                    text: 'Messages',
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.primaryColor,
+                    textAlign: TextAlign.start,
+                    alignment: Alignment.topLeft,
+                  ),
+                ),
+                SizedBox(
+                  height: Get.height * 0.01,
+                ),
+                Divider(color: AppColors.primaryColor, thickness: 1.sp),
+                InkWell(
+                  onTap: () {
+                    BAuthMethods().getCurrentUser();
 
-                  Get.to(ChatMessagePage(
-                    userImg:
-                    // _auth.currentUser!.photoURL,
-                    'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d',
-                    // receiverId: _auth.currentUser!.uid,
-                    receiverId:'100247364098702824893' ,
-                    // userName: _auth.currentUser!.displayName,
-                    userName:'milan',
-                  ));
-                },
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: Get.height * 0.02),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: Get.width * 0.05),
-                            child: Container(
-                              child: Stack(
-                                children: [
-                                  CircleAvatar(
-                                    child: Image.asset(
-                                      '${BImagePick.proIcon}',
-                                      width: 50.sp,
-                                      height: 50.sp,
-                                      fit: BoxFit.fill,
+                    Get.to(ChatMessagePage(
+                      userImg:
+                          // _auth.currentUser!.photoURL,
+                          'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d',
+                      // receiverId: _auth.currentUser!.uid,
+                      receiverId: '100247364098702824893',
+                      // userName: _auth.currentUser!.displayName,
+                      userName: 'milan',
+                    ));
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: Get.height * 0.02),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Get.width * 0.05),
+                              child: Container(
+                                child: Stack(
+                                  children: [
+                                    CircleAvatar(
+                                      child: Image.asset(
+                                        '${BImagePick.proIcon}',
+                                        width: 50.sp,
+                                        height: 50.sp,
+                                        fit: BoxFit.fill,
+                                      ),
+                                      backgroundColor: AppColors.offWhiteColor,
                                     ),
-                                    backgroundColor: AppColors.offWhiteColor,
-                                  ),
-                                  Positioned(
-                                    right: 0,
-                                    child: Container(
-                                      width: 10.sp,
-                                      height: 10.sp,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: Colors.green,
+                                    Positioned(
+                                      right: 0,
+                                      child: Container(
+                                        width: 10.sp,
+                                        height: 10.sp,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          color: Colors.green,
+                                        ),
                                       ),
                                     ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CustomText(
+                                      text: 'John',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15.sp,
+                                      color: AppColors.secondaryBlackColor),
+                                  CustomText(
+                                    text: 'Hii',
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12.sp,
+                                    color: AppColors.secondaryBlackColor,
                                   ),
                                 ],
                               ),
                             ),
-                          ),
-                          Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CustomText(
-                                    text: 'John',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15.sp,
-                                    color: AppColors.secondaryBlackColor),
-                                CustomText(
-                                  text: 'Hii',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12.sp,
-                                  color: AppColors.secondaryBlackColor,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: Get.width * 0.4,
-                        padding: EdgeInsets.only(right: Get.width * 0.05),
-                        child: Column(
-                          children: [
-                            CustomText(
-                                text: '1 Minute ago',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 13.sp,
-                                color: AppColors.secondaryBlackColor),
-                            CircleAvatar(
-                              radius: 8.sp,
-                              child: Center(
-                                child: CustomText(
-                                  text: '1',
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.commonWhiteTextColor,
-                                  fontSize: 10.sp,
-                                ),
-                              ),
-                              backgroundColor: AppColors.primaryColor,
-                            ),
                           ],
                         ),
-                      ),
-                    ],
+                        Container(
+                          alignment: Alignment.center,
+                          width: Get.width * 0.4,
+                          padding: EdgeInsets.only(right: Get.width * 0.05),
+                          child: Column(
+                            children: [
+                              CustomText(
+                                  text: '1 Minute ago',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13.sp,
+                                  color: AppColors.secondaryBlackColor),
+                              CircleAvatar(
+                                radius: 8.sp,
+                                child: Center(
+                                  child: CustomText(
+                                    text: '1',
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.commonWhiteTextColor,
+                                    fontSize: 10.sp,
+                                  ),
+                                ),
+                                backgroundColor: AppColors.primaryColor,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Divider(
-                color: AppColors.hintTextColor,
-                thickness: 1.sp,
-                indent: Get.width * 0.05,
-                endIndent: Get.width * 0.05,
-              ),
-            ],
+                Divider(
+                  color: AppColors.hintTextColor,
+                  thickness: 1.sp,
+                  indent: Get.width * 0.05,
+                  endIndent: Get.width * 0.05,
+                ),
+              ],
+            ),
           ),
         ),
       ),

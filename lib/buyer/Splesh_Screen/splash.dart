@@ -31,22 +31,31 @@ class _SplashState extends State<Splash> {
       print(
           'bFirebaseAuth.currentUser!.uid =============>${bFirebaseAuth.currentUser?.uid}');
       print(
-          'PreferenceManager.getUId().toString()=============>${PreferenceManager.getUId().toString()}');
+          'PreferenceManager.getUId().toString()=============>${PreferenceManager.getUId()}');
       if (PreferenceManager.getUId().toString() != null) {
         print('TEST:- 1');
         if (PreferenceManager.getUserType() == '' ||
             PreferenceManager.getUserType() == null) {
           print('TEST:- 2');
+
           // Get.offAll(SBuyerSellerScreen());
           Get.offAll(SOnBoardingScreen());
         } else {
           if (PreferenceManager.getUserType() == 'Buyer') {
-            print('TEST:- 3');
+            if (FirebaseAuth.instance.currentUser!.uid != null)
+              print('TEST:- 3');
+            print('==Email==>${PreferenceManager.getEmail()}');
+            print('==PhoneNumber==>${PreferenceManager.getPhoneNumber()}');
+
             Get.offAll(BottomNavigationBarScreen());
           } else {
             print('TEST:- 4');
+            print('=========Email==>${PreferenceManager.getEmail()}');
+            print(
+                '=========PhoneNumber==>${PreferenceManager.getPhoneNumber()}');
             PreferenceManager.getUserType() == 'Seller';
-            Get.offAll(NavigationBarScreen());
+            if (FirebaseAuth.instance.currentUser!.uid != null)
+              Get.offAll(NavigationBarScreen());
           }
         }
       } else {

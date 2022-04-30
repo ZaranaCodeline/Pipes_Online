@@ -1,7 +1,5 @@
 import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -9,19 +7,19 @@ import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_first_user_info_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/phone.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
-import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
-import 'package:pipes_online/seller/view/s_screens/s_common_button.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
 import 'package:sizer/sizer.dart';
 
 class BSignUpPhoneOtpScreen extends StatefulWidget {
+  final String? phone;
+
+  const BSignUpPhoneOtpScreen({Key? key, this.phone}) : super(key: key);
+
   @override
   _BSignUpPhoneOtpScreenState createState() => _BSignUpPhoneOtpScreenState();
 }
@@ -47,11 +45,59 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => BottomNavigationBarScreen(),
+          builder: (context) => BFirstUserInfoScreen(
+            phone: widget.phone,
+          ),
         ),
       );
     }
-    _auth.signInWithCredential(phoneAuthCredential);
+    _auth.signInWithCredential(phoneAuthCredential).then((value) {
+      print("You are Signed in successfully");
+      Get.showSnackbar(GetSnackBar(
+        backgroundColor: SColorPicker.red,
+        duration: Duration(seconds: 2),
+        message: 'You are logged in successfully',
+      ));
+    });
+    ;
+  }
+  // Future<void> verificationOTPCode(String otp) async {
+  //   PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
+  //       verificationId: verificationCode!, smsCode: otp);
+  //
+  //   if (phoneAuthCredential == null) {
+  //     _globalKey.currentState!.showSnackBar(
+  //       SnackBar(
+  //         content: Text("Please enter valid otp"),
+  //       ),
+  //     );
+  //     return;
+  //   } else {
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => BottomNavigationBarScreen(),
+  //       ),
+  //     );
+  //   }
+  //
+  //   await _auth.signInWithCredential(phoneAuthCredential).then((value) {
+  //     print("You are logged in successfully");
+  //     Get.showSnackbar(GetSnackBar(
+  //       backgroundColor: SColorPicker.red,
+  //       duration: Duration(seconds: 2),
+  //       message: 'You are logged in successfully',
+  //     ));
+  //   });
+  // }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(
+      'OTP Sent to +91${widget.phone} ',
+    );
   }
 
   @override
@@ -144,7 +190,7 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                                       height: Get.height * 0.01,
                                     ),
                                     Text(
-                                      'OTP Sent to +91  ',
+                                      'OTP Sent to +91 ..${widget.phone} ',
                                       style: STextStyle.regular400Black11,
                                     ),
                                   ],
@@ -206,7 +252,10 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                                   setState(() {
                                     isLoading = true;
                                   });
-                                  Get.to(BFirstUserInfoScreen());
+                                  verificationOTPCode;
+                                  // Get.to(BFirstUserInfoScreen(
+                                  //   phone: widget.phone,
+                                  // ));
                                   isLoading = false;
                                 },
                                 child: Container(

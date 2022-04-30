@@ -68,8 +68,9 @@ class GeolocationController extends GetxController {
     List<Placemark> placemark =
         await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placemark[0];
-    address.value =
-        '${place.subLocality},'' ${place.thoroughfare},'' ${place.locality},'
+    address.value = '${place.subLocality},'
+        ' ${place.thoroughfare},'
+        ' ${place.locality},\n'
         ' ${place.country},'
         ' ${place.subThoroughfare}${place.postalCode}';
   }

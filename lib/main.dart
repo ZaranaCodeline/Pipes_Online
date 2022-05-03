@@ -63,11 +63,11 @@ class MyApp extends StatelessWidget {
       builder: (context, orientation, deviceType) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          // initialRoute: AppPages.initial,
+          initialRoute: AppPages.initial,
           /*initialRoute: status1 == true ? BRoutes. BSubmitProfileScreen : AppPages.initial,*/
-          // getPages: AppPages.routes,
+          getPages: AppPages.routes,
           initialBinding: Binding(),
-          home: BWelcomeScreen(),
+          // home: BWelcomeScreen(),
           defaultTransition: Transition.fadeIn,
           title: 'Flutter Demo',
           theme: ThemeData(

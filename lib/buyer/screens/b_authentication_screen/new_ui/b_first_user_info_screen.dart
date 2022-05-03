@@ -556,8 +556,12 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
         .then((value) {
           print(widget.phone);
           print(emailController.text);
+          print(emailController.text);
           print('==============>${mobilecontroller.text}');
           PreferenceManager.setEmail(emailController.text);
+          print(
+              '==Email Profile==>${PreferenceManager.setEmail(emailController.text)}');
+          PreferenceManager.setPhoneNumber(mobilecontroller.text);
           print(
               '==Email Profile==>${PreferenceManager.setEmail(emailController.text)}');
           print(
@@ -578,7 +582,11 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
               '==Email login==>${PreferenceManager.setEmail(widget.email.toString())}');
           print(
               '==Email Profile==>${PreferenceManager.setEmail(emailController.text)}');
-          print('==PhoneNumber==>${PreferenceManager.getEmail()}');
+          print(
+              '==Email login==>${PreferenceManager.setPhoneNumber(widget.phone.toString())}');
+          print(
+              '==Email Profile==>${PreferenceManager.setPhoneNumber(mobilecontroller.text)}');
+          print('==PhoneNumber==>${PreferenceManager.getPhoneNumber()}');
 
           Get.offAll(() => BottomNavigationBarScreen());
         }

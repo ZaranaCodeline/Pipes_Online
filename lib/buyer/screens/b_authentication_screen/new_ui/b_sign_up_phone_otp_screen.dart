@@ -143,7 +143,11 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
             },
             timeout: Duration(seconds: 60))
         .then(
-          (value) => Get.to(() => BFirstUserInfoScreen()),
+          (value) => Get.to(() {
+            PreferenceManager.setUId(_auth.currentUser!.uid.toString());
+            PreferenceManager.getUId();
+            BFirstUserInfoScreen();
+          }),
         )
         .catchError((onError) {
       print(onError.toString());
@@ -241,7 +245,7 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                                       height: Get.height * 0.01,
                                     ),
                                     Text(
-                                      'OTP Sent to.. +${controller.countryCode}-${widget.phone} ',
+                                      'OTP Sent to ${controller.countryCode}-${widget.phone} ',
                                       style: STextStyle.regular400Black11,
                                     ),
                                   ],

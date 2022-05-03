@@ -99,8 +99,9 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
 
           Get.to(BSignUpPhoneOtpScreen(
             phone: _phoneController.text,
-            // verificationId: verificationId,
+            verificationId: verificationId,
           ));
+          print('====${verificationId}');
         });
       },
       codeAutoRetrievalTimeout: (verificationId) async {},

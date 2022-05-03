@@ -191,7 +191,7 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
                                       height: Get.height * 0.01,
                                     ),
                                     Text(
-                                      'OTP Sent to +91${widget.phone} ',
+                                      'OTP Sent to ${widget.phone} ',
                                       style: STextStyle.regular400Black11,
                                     ),
                                   ],

@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class BLogInController extends GetxController {
-  CountryCode? countryCode = CountryCode(code: '+91');
+  CountryCode? countryCode = CountryCode(code: '+00');
   TextEditingController mobileNumber = TextEditingController();
 
   bool isLoading = false;

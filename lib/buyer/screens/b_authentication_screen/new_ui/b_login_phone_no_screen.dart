@@ -8,16 +8,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/b_login_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_phone_otp_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_no_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_otp_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/otp.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/phone.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
-import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
@@ -40,14 +37,16 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print('==>dialCodeDigit===${dialCodeDigits}');
     print('==>category===${widget.phone}');
   }
 
   final _globalKey = GlobalKey<ScaffoldState>();
   FirebaseAuth _auth = FirebaseAuth.instance;
+  String? verificationId;
 
   int? resendingTokenID;
-
+  String? dialCodeDigits = "+91";
   Future sendOtp(FirebaseAuth auth) async {
     await auth.verifyPhoneNumber(
       phoneNumber: "${phoneController?.text}",
@@ -56,12 +55,12 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
       },
       verificationFailed: (verificationFailed) async {
         log("verificationFailed error ${verificationFailed.message}");
-        _globalKey.currentState!.showSnackBar(SnackBar(
+        _globalKey.currentState?.showSnackBar(SnackBar(
           content: Text(verificationFailed.message!),
         ));
       },
       codeSent: (verificationId, resendingToken) async {
-        verificationCode = verificationId;
+        verificationId = verificationId;
         resendingTokenID = resendingToken;
       },
       codeAutoRetrievalTimeout: (verificationId) async {},
@@ -157,9 +156,10 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                       alignment: Alignment.centerLeft,
                                       child: CountryCodePicker(
                                         onChanged: (val) {
-                                          controller.setCountryCode(val);
+                                          // controller.setCountryCode(val);
+                                          dialCodeDigits = val.dialCode;
                                         },
-                                        initialSelection: '+91',
+                                        initialSelection: 'IT',
                                       ),
                                     ),
                                     Container(
@@ -222,8 +222,8 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               BSignUpPhoneOtpScreen(
-                                                  // phone: phoneController!.text,
-                                                  ),
+                                            phone: phoneController!.text,
+                                          ),
                                         ),
                                       ),
                                     );

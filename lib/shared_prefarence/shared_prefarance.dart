@@ -1,80 +1,81 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_storage/get_storage.dart';
 
 class PreferenceManager {
   static GetStorage getStorage = GetStorage();
 
-  static Future setEmail(String value) async {
-    await getStorage.write('email', value);
+  static setEmail(String value) {
+    getStorage.write('email', value);
   }
 
   static String getEmail() {
     return getStorage.read('email');
   }
 
-  static Future setUserType(String value) async {
-    await getStorage.write('userType', value);
+  static setUserType(String value) {
+    getStorage.write('userType', value);
   }
 
   static getUserType() {
     return getStorage.read('userType');
   }
 
-  static Future setPassword(var value) async {
-    await getStorage.write('password', value);
+  static setPassword(var value) {
+    getStorage.write('password', value);
   }
 
   static getPassword() {
     return getStorage.read('password');
   }
 
-  static Future setUId(String value) async {
-    await getStorage.write('uid', value);
+  static setUId(String value) {
+    getStorage.write('uid', FirebaseAuth.instance.currentUser!.uid);
   }
 
   static getUId() {
     return getStorage.read('uid');
   }
 
-  static Future setAddress(String value) async {
-    await getStorage.write('address', value);
+  static setAddress(String value) {
+    getStorage.write('address', value);
   }
 
   static getAddress() {
     return getStorage.read('address');
   }
 
-  static Future setName(String value) async {
-    await getStorage.write('user_name', value);
+  static setName(String value) {
+    getStorage.write('user_name', value);
   }
 
   static getName() {
     return getStorage.read('user_name');
   }
 
-  static Future setPhoneNumber(String value) async {
-    await getStorage.write('phoneno', value);
+  static setPhoneNumber(String value) {
+    getStorage.write('phoneno', value);
   }
 
   static getPhoneNumber() {
     return getStorage.read('phoneno');
   }
 
-  static Future setTime(String value) async {
-    await getStorage.write('time', value);
+  static setTime(String value) {
+    getStorage.write('time', value);
   }
 
   static getTime() {
     return getStorage.read('time');
   }
 
-  static Future<void> clearData() async {
+  static clearData() {
     // await getStorage.erase();
-    await getStorage.remove('email');
-    await getStorage.remove('userType');
-    await getStorage.remove('password');
-    await getStorage.remove('phoneno');
-    await getStorage.remove('user_name');
-    await getStorage.remove('address');
-    await getStorage.remove('uid');
+    getStorage.remove('email');
+    getStorage.remove('userType');
+    getStorage.remove('password');
+    getStorage.remove('phoneno');
+    getStorage.remove('user_name');
+    getStorage.remove('address');
+    getStorage.remove('uid');
   }
 }

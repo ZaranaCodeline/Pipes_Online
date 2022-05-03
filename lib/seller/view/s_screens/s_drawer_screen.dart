@@ -21,6 +21,7 @@ import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/app_constant/b_image.dart';
+import '../../../buyer/screens/b_authentication_screen/register_repo.dart';
 import '../../../s_onboarding_screen/s_buyer_seller_screen.dart';
 import '../../view_model/s_drawer_controller.dart';
 import 's_insight_screen.dart';
@@ -305,6 +306,9 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
         Get.to(() => STermsAndConditions());
         break;
       case 8:
+        FirebaseAuth.instance.signOut();
+        PreferenceManager.clearData();
+        SRegisterRepo.sLogOut;
         SAuthMethods.logOut()
             .then((value) => Get.off(() => SBuyerSellerScreen()));
         PreferenceManager.clearData();

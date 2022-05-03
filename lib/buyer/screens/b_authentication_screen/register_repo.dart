@@ -61,7 +61,7 @@ class BRegisterRepo {
     print('emailRegister setUId==${bFirebaseAuth.currentUser!.uid}');
   }
 
-  static Future<void> logOut() async {
+  static Future<void> bLogOut() async {
     PreferenceManager.clearData();
     bFirebaseAuth.signOut();
     print('Log Out');
@@ -118,7 +118,7 @@ class SRegisterRepo {
         .catchError((e) => print(e.toString()));
   }
 
-  static Future<void> logOut() async {
+  static Future<void> sLogOut() async {
     PreferenceManager.clearData();
     bFirebaseAuth.signOut();
     print('Log Out');

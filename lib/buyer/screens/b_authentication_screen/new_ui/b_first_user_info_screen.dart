@@ -329,7 +329,10 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                 height: Get.height * 0.02,
                               ),
                               Text(
-                                widget.email != null ? 'Mobile' : 'Email',
+                                widget.email != null ||
+                                        bFirebaseAuth.currentUser?.email != null
+                                    ? 'Mobile'
+                                    : 'Email',
                                 style: STextStyle.semiBold600Black13,
                               ),
                               SizedBox(
@@ -551,15 +554,31 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
         })
         .catchError((e) => print('Error ====buyer=====>>> $e'))
         .then((value) {
-          PreferenceManager.setPhoneNumber(mobilecontroller.text);
+          print(widget.phone);
+          print(emailController.text);
           print('==============>${mobilecontroller.text}');
-          PreferenceManager.getPhoneNumber();
+          PreferenceManager.setEmail(emailController.text);
+          print(
+              '==Email Profile==>${PreferenceManager.setEmail(emailController.text)}');
           print(
               '== PreferenceManager.getPhoneNumber()=== =>${PreferenceManager.getPhoneNumber()}');
-          PreferenceManager.getEmail();
-          PreferenceManager.getEmail();
-          PreferenceManager.getPhoneNumber();
-          print('==PhoneNumber==>${PreferenceManager.getPhoneNumber()}');
+          widget.phone != null
+              ? PreferenceManager.setPhoneNumber(widget.phone.toString())
+              : PreferenceManager.setPhoneNumber(mobilecontroller.text);
+
+          widget.email != null
+              ? PreferenceManager.setEmail(widget.email.toString())
+              : PreferenceManager.setEmail(emailController.text);
+
+          //PreferenceManager.getPhoneNumber();
+
+          // PreferenceManager.getEmail();
+          //
+          print(
+              '==Email login==>${PreferenceManager.setEmail(widget.email.toString())}');
+          print(
+              '==Email Profile==>${PreferenceManager.setEmail(emailController.text)}');
+          print('==PhoneNumber==>${PreferenceManager.getEmail()}');
 
           Get.offAll(() => BottomNavigationBarScreen());
         }

@@ -78,8 +78,7 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
         'b sign up screen getUserType ======>${PreferenceManager.getUserType()}');
     print(
         'buyer addData Preference Id==============>${PreferenceManager.getUId().toString()}');
-    print(
-        'buyer addData-getTime==============>${PreferenceManager.getTime().toString()}');
+    print('buyer addData-getTime==============>${PreferenceManager.getTime()}');
     print('=======>${widget.email}');
   }
 

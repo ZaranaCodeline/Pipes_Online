@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/b_welcome_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_first_user_info_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
 import 'package:pipes_online/routes/app_pages.dart';
@@ -62,11 +63,11 @@ class MyApp extends StatelessWidget {
       builder: (context, orientation, deviceType) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: AppPages.initial,
+          // initialRoute: AppPages.initial,
           /*initialRoute: status1 == true ? BRoutes. BSubmitProfileScreen : AppPages.initial,*/
-          getPages: AppPages.routes,
+          // getPages: AppPages.routes,
           initialBinding: Binding(),
-          // home: BFirstUserInfoScreen(),
+          home: BWelcomeScreen(),
           defaultTransition: Transition.fadeIn,
           title: 'Flutter Demo',
           theme: ThemeData(

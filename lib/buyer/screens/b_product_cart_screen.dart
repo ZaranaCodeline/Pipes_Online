@@ -43,9 +43,9 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
 
   CartProductcontroller cartProductcontroller =
       Get.put(CartProductcontroller());
-
   @override
   Widget build(BuildContext context) {
+    print('============${PreferenceManager.getUId()}');
     // print('==============${widget.id}');
     // print('==============${widget.name}');
     // print('==============${widget.category}');
@@ -80,6 +80,13 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
             .collection('MyCart')
             .snapshots(),
         builder: (context, snapShot) {
+          if (snapShot.connectionState == ConnectionState.waiting) {
+            Center(
+              child: CircularProgressIndicator(
+                color: AppColors.primaryColor,
+              ),
+            );
+          }
           if (snapShot.hasData) {
             return ListView.builder(
               itemCount: snapShot.data!.docs.length,
@@ -232,6 +239,16 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                   ),
                 );
               },
+            );
+          } else if (snapShot.data?.docs.length == 0) {
+            Center(
+              child: Container(
+                width: Get.width * 0.1,
+                height: Get.height / 8,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(25.sp)),
+                child: Text('Add Products in Cart'),
+              ),
             );
           }
           return Center(

@@ -8,14 +8,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/b_login_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_phone_otp_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_no_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_otp_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/phone.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
-import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_email_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_phone_otp_screen.dart';
@@ -45,6 +40,7 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
 
   final _globalKey = GlobalKey<ScaffoldState>();
   FirebaseAuth _auth = FirebaseAuth.instance;
+  String? verificationId;
 
   int? resendingTokenID;
 
@@ -61,7 +57,7 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
         ));
       },
       codeSent: (verificationId, resendingToken) async {
-        verificationCode = verificationId;
+        verificationId = verificationId;
         resendingTokenID = resendingToken;
       },
       codeAutoRetrievalTimeout: (verificationId) async {},

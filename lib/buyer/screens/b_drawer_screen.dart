@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/app_constant/b_image.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/buyer/screens/help_center_page.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
@@ -324,9 +325,11 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
         Get.to(() => TermsAndConditionPage());
         break;
       case 6:
+        FirebaseAuth.instance.signOut();
+        PreferenceManager.clearData();
+        BRegisterRepo.bLogOut;
         BAuthMethods.logOut()
             .then((value) => Get.off(() => SBuyerSellerScreen()));
-        PreferenceManager.clearData();
 
         break;
     }

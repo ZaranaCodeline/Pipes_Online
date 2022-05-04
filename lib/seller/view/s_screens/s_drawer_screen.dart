@@ -47,17 +47,14 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
   Future<void> getData() async {
     print('demo seller.....');
     final user =
-        await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
-            .get();
+        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    name = getUserData!['user_name'];
-    phoneNo = getUserData['phoneno'];
-    Img = getUserData['imageProfile'];
-    address = getUserData['address'];
 
     setState(() {
-      Img = getUserData['imageProfile'];
-      address = getUserData['address'];
+      name = getUserData?['user_name'];
+      phoneNo = getUserData?['phoneno'];
+      Img = getUserData?['imageProfile'];
+      address = getUserData?['address'];
     });
     print('=======SDrawerScreen=======${getUserData}');
     print('=======SDrawerScreen===========${user.get('$name')}');
@@ -70,6 +67,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
   void initState() {
     super.initState();
     getData();
+    print('=======SDrawerScreen=======${PreferenceManager.getUId()}');
   }
 
   @override
@@ -90,7 +88,11 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
                   urlImage: Img.toString(),
                   name: name.toString(),
                   phone: phoneNo.toString(),
-                  onClicked: () => Get.to(() => PersonalInfoPage()),
+                  onClicked: () {
+                    homeController.selectedScreen('SPersonalInfoPage');
+                    homeController.bottomIndex.value = 3;
+                    // Get.to(() => PersonalInfoPage());
+                  },
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(
@@ -133,7 +135,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
                           onPressed: () {
                             // controller.setEdit();
                             homeController.selectedScreen('SPersonalInfoPage');
-                            homeController.bottomIndex.value = 0;
+                            homeController.bottomIndex.value = 3;
                           },
                           icon: Icon(
                             controller.readOnly == true
@@ -198,7 +200,8 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
   }) =>
       InkWell(
           onTap: () {
-            Get.to(() => SPersonalInfoPage());
+            homeController.selectedScreen('SPersonalInfoPage');
+            homeController.bottomIndex.value = 3;
           },
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 18.sp, vertical: 15.sp),

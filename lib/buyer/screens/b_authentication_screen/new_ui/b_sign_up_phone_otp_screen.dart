@@ -44,18 +44,16 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
     try {
       final authCredential =
           await _auth.signInWithCredential(phoneAuthCredential);
+
       // PreferenceManager.setTokenId(_auth.currentUser!.uid.toString());
       PreferenceManager.setUId(_auth.currentUser!.uid.toString());
 
       if (authCredential.user != null) {
-        // PreferenceManager.setLoginType('mobile');
-        // String bearer = await _auth.currentUser!.getIdToken();
-        // PreferenceManager.setAuthTokenFirebase(
-        //     authTokenFirebase: bearer.toString());
         print('Login successful');
-        // CommonSnackBar.showSnackBar(
-        //     successStatus: true, msg: 'Login successful');
-
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Login successful'),
+          duration: Duration(seconds: 5),
+        ));
       }
     } on FirebaseAuthException catch (e) {
       isLoading = false;
@@ -90,7 +88,7 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
       Get.showSnackbar(GetSnackBar(
         backgroundColor: SColorPicker.red,
         duration: Duration(seconds: 2),
-        message: 'You are logged in successfully',
+        message: 'You are Signed in successfully',
       ));
     });
     ;
@@ -117,7 +115,7 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                   .then((value) {
                 if (value.user != null) {
                   String? uid = FirebaseAuth.instance.currentUser!.uid;
-                  PreferenceManager.setEmail(uid);
+                  PreferenceManager.setUId(uid);
                   Get.to(BFirstUserInfoScreen());
                   setState(() {
                     isLoading = false;
@@ -126,6 +124,18 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
               });
             },
             verificationFailed: (FirebaseAuthException e) {
+              setState(() {
+                isLoading = false;
+              });
+              print('----verificationFailed---${e.message}');
+              Get.showSnackbar(
+                GetSnackBar(
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: SColorPicker.red,
+                  duration: Duration(seconds: 5),
+                  message: e.message.toString(),
+                ),
+              );
               // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               //   content: Text(e.message.toString()),
               //   duration: Duration(seconds: 5),
@@ -137,16 +147,20 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
               });
             },
             codeAutoRetrievalTimeout: (String? vID) {
-              setState(() {
-                verificationCode = vID;
-              });
+              verificationCode = vID;
             },
             timeout: Duration(seconds: 60))
         .then(
           (value) => Get.to(() {
             PreferenceManager.setUId(_auth.currentUser!.uid.toString());
             PreferenceManager.getUId();
-            BFirstUserInfoScreen();
+            PreferenceManager.setPhoneNumber(widget.phone.toString());
+            print('P========${widget.phone.toString()}');
+
+            if (PreferenceManager.getUId() != null) {
+              BFirstUserInfoScreen();
+            }
+            Get.snackbar('Oops', 'Invalid OTP');
           }),
         )
         .catchError((onError) {
@@ -357,27 +371,78 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                               ),
                               GestureDetector(
                                 onTap: () async {
-                                  PhoneAuthCredential phoneAuthCredential =
-                                      PhoneAuthProvider.credential(
-                                          verificationId:
-                                              widget.verificationId!,
-                                          smsCode: pinOTPController.text);
-                                  await signInWithPhoneAuthCredential(
-                                          phoneAuthCredential)
-                                      .then((value) async {
-                                    PreferenceManager.setUserType('Buyer');
-                                    PreferenceManager.getUserType() == 'Buyer';
-                                    print(
-                                        'addData==Buyer==login=========${PreferenceManager.getUId()}');
-                                    print(
-                                        'addData==Buyer==getUserType=========${PreferenceManager.getUserType()}');
+                                  try {
+                                    print('Test:------');
 
-                                    await Get.to(() => BFirstUserInfoScreen());
-                                    /* PreferenceManager.setUId('uid');
-                                  PreferenceManager.setUId('email');
-                                  PreferenceManager.setUserType('Seller');*/
-                                  });
+                                    PhoneAuthCredential phoneAuthCredential =
+                                        PhoneAuthProvider.credential(
+                                            verificationId:
+                                                widget.verificationId!,
+                                            smsCode: pinOTPController.text);
+                                    await signInWithPhoneAuthCredential(
+                                            phoneAuthCredential)
+                                        .then((value) async {
+                                      PreferenceManager.setUId(FirebaseAuth
+                                          .instance.currentUser!.uid);
+                                      PreferenceManager.getUId();
+                                      PreferenceManager.setPhoneNumber(
+                                          widget.phone.toString());
+                                      PreferenceManager.getPhoneNumber();
 
+                                      PreferenceManager.setUserType('Buyer');
+                                      PreferenceManager.getUserType() ==
+                                          'Buyer';
+                                      print(
+                                          'addData==Buyer==login=========${PreferenceManager.getUId()}');
+                                      print(
+                                          'addData==Buyer==getUserType=========${PreferenceManager.getUserType()}');
+                                      try {
+                                        print('Test:-1');
+
+                                        if (PreferenceManager.getUId() !=
+                                            null) {
+                                          print('Test:-2');
+                                          PreferenceManager.getPhoneNumber();
+                                          print(
+                                              '=========${PreferenceManager.getPhoneNumber()}');
+                                          await Get.to(
+                                              () => BFirstUserInfoScreen(
+                                                    phone: widget.phone,
+                                                  ));
+                                        } else {
+                                          print('Test:-3');
+                                          GetSnackBar(
+                                            snackPosition: SnackPosition.BOTTOM,
+                                            backgroundColor: SColorPicker.red,
+                                            duration: Duration(seconds: 5),
+                                            message: 'Invalid Credantial',
+                                          );
+                                        }
+                                      } on FirebaseAuthException catch (e) {
+                                        print('Test:-4');
+
+                                        print(e);
+                                        Get.showSnackbar(
+                                          GetSnackBar(
+                                            snackPosition: SnackPosition.BOTTOM,
+                                            backgroundColor: SColorPicker.red,
+                                            duration: Duration(seconds: 5),
+                                            message: e.message,
+                                          ),
+                                        );
+                                      }
+                                    });
+                                  } catch (e) {
+                                    print('=-=-=-${e}');
+                                    Get.showSnackbar(
+                                      GetSnackBar(
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        backgroundColor: SColorPicker.red,
+                                        duration: Duration(seconds: 5),
+                                        message: 'Please Resend OTP ',
+                                      ),
+                                    );
+                                  }
                                   // setState(() {
                                   //   isLoading = true;
                                   // });

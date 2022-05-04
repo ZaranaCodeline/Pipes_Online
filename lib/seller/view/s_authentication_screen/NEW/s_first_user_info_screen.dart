@@ -20,6 +20,8 @@ import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../bottombar/widget/category_bottom_bar_route.dart';
+
 class SFirstUserInfoScreen extends StatefulWidget {
   const SFirstUserInfoScreen({
     Key? key,
@@ -519,7 +521,7 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
     SRegisterRepo.emailRegister()
         .then((value) async {
           CollectionReference ProfileCollection =
-              bFirebaseStore.collection('BProfile');
+              bFirebaseStore.collection('SProfile');
           ProfileCollection.doc('${PreferenceManager.getUId()}')
               // .collection('UserID')
               // .add({
@@ -539,7 +541,7 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
             'time': DateTime.now(),
           });
         })
-        .catchError((e) => print('Error ====buyer=====>>> $e'))
+        .catchError((e) => print('Error ====seller=====>>> $e'))
         .then(
           (value) => Navigator.push(
             context,

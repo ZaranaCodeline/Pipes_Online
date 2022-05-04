@@ -25,10 +25,10 @@ import 'package:sizer/sizer.dart';
 import '../phone.dart';
 
 // String? verificationCode;
-enum MobileVerificationState {
-  SHOW_MOBILE_FORM_STATE,
-  SHOW_OTP_FORM_STATE,
-}
+// enum MobileVerificationState {
+//   SHOW_MOBILE_FORM_STATE,
+//   SHOW_OTP_FORM_STATE,
+// }
 
 class BSignUpPhoneNumberScreen extends StatefulWidget {
   const BSignUpPhoneNumberScreen({Key? key}) : super(key: key);
@@ -43,17 +43,14 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
 // String? dialogCodeDigits="+00";
   int? resendingTokenID;
   String? verificationId;
-  MobileVerificationState currentState =
-      MobileVerificationState.SHOW_MOBILE_FORM_STATE;
+  // MobileVerificationState currentState =
+  //     MobileVerificationState.SHOW_MOBILE_FORM_STATE;
   FirebaseAuth _auth = FirebaseAuth.instance;
   BLogInController bLogInController = Get.find();
   final _phoneController = TextEditingController();
   final _globalKey = GlobalKey<ScaffoldState>();
   // String? dialCodeDigits = "+91";
   Future sendOtp() async {
-    setState(() {
-      isLoading = true;
-    });
     print(
         '========code===${bLogInController.countryCode}${_phoneController.text}');
 
@@ -64,7 +61,6 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
         setState(() {
           isLoading = false;
         });
-        // signInWithPhoneAuthCredential(phoneAuthCredential);
       },
       verificationFailed: (verificationFailed) async {
         setState(() {
@@ -79,90 +75,26 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
             message: verificationFailed.message,
           ),
         );
-        // CommonSnackBar.showSnackBar(
-        //     msg: verificationFailed.message, successStatus: false);
         print('${verificationFailed.message}');
       },
       codeSent: (verificationId, resendingToken) async {
         setState(() {
           isLoading = false;
-          currentState = MobileVerificationState.SHOW_OTP_FORM_STATE;
+          // currentState = MobileVerificationState.SHOW_OTP_FORM_STATE;
           this.verificationId = verificationId;
           print('---------verificationId-------$verificationId');
           print('---------this.verificationId-------${this.verificationId}');
-
-          // Get.to(OtpScreen(
-          //   mobileNumber: controller.countryCode +
-          //       _textEditingController.text,
-          //   verificationId: verificationId,
-          // ));
-
-          Get.to(BSignUpPhoneOtpScreen(
-            phone: _phoneController.text,
-            verificationId: verificationId,
-          ));
+          Get.to(
+            BSignUpPhoneOtpScreen(
+              phone: _phoneController.text,
+              verificationId: verificationId,
+            ),
+          );
           print('====${verificationId}');
         });
       },
       codeAutoRetrievalTimeout: (verificationId) async {},
     );
-
-    ///
-    // await auth
-    //     .verifyPhoneNumber(
-    //       phoneNumber: "+91" + "${_phoneController.text}",
-    //       timeout: const Duration(seconds: 60),
-    //       verificationCompleted: (PhoneAuthCredential credential) async {
-    //         await FirebaseAuth.instance
-    //             .signInWithCredential(credential)
-    //             .then((value) async {
-    //           if (value.user != null) {
-    //             print('user logged in');
-    //           }
-    //         });
-    //       },
-    //       // verificationCompleted: (phoneAuthCredential) async {
-    //       //   print('Verification Completed');
-    //       // },
-    //       verificationFailed: (FirebaseAuthException e) async {
-    //         if (e.code == 'invalid-phone-number') {
-    //           print(e.message);
-    //           Get.showSnackbar(
-    //             GetSnackBar(
-    //               snackPosition: SnackPosition.BOTTOM,
-    //               backgroundColor: SColorPicker.red,
-    //               duration: Duration(seconds: 5),
-    //               message: e.message,
-    //             ),
-    //           );
-    //           print('The provided phone number is not valid.');
-    //         }
-    //         log("verificationFailed error ${e.message}");
-    //
-    //         _globalKey.currentState?.showSnackBar(SnackBar(
-    //           content: Text(e.message!),
-    //         ));
-    //       },
-    //       codeSent: (verificationId, resendingToken) async {
-    //         setState(() {
-    //           verificationCode = verificationId;
-    //           resendingTokenID = resendingToken;
-    //         });
-    //       },
-    //       codeAutoRetrievalTimeout: (verificationId) async {
-    //         setState(() {
-    //           verificationCode = verificationId;
-    //         });
-    //       },
-    //     )
-    //     .then(
-    //       (value) => Get.to(() => BSignUpPhoneOtpScreen(
-    //             phone: _phoneController.text.trim(),
-    //           )),
-    //     )
-    //     .catchError((onError) {
-    //   print(onError.toString());
-    // });
   }
 
   @override
@@ -171,9 +103,7 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
     super.initState();
     print(
         '========code===${bLogInController.countryCode} ${_phoneController.text}');
-
     print('==>dialCodeDigit===${bLogInController.countryCode}');
-    // sendOtp(FirebaseAuth.instance);
   }
 
   @override
@@ -332,6 +262,9 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                 ),
                                 GestureDetector(
                                   onTap: () async {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
                                     sendOtp();
                                     // if (_phoneController.text.isNotEmpty) {
                                     //   isLoading = true;
@@ -384,32 +317,31 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                       borderRadius:
                                           BorderRadius.circular(10.sp),
                                     ),
-                                    child:
-                                        // isLoading
-                                        //     ? Row(
-                                        //   mainAxisAlignment:
-                                        //   MainAxisAlignment.center,
-                                        //   children: [
-                                        //     CustomText(
-                                        //         text: 'Loading...  ',
-                                        //         fontWeight: FontWeight.w600,
-                                        //         fontSize: 12.sp,
-                                        //         color: AppColors
-                                        //             .commonWhiteTextColor),
-                                        //     CircularProgressIndicator(
-                                        //       color: AppColors
-                                        //           .commonWhiteTextColor,
-                                        //     ),
-                                        //   ],
-                                        // )
-                                        //     :
-                                        Text(
-                                      'Sign Up',
-                                      style: TextStyle(
-                                          color: AppColors.commonWhiteTextColor,
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w700),
-                                    ),
+                                    child: isLoading
+                                        ? Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              CustomText(
+                                                  text: 'Loading...  ',
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 12.sp,
+                                                  color: AppColors
+                                                      .commonWhiteTextColor),
+                                              CircularProgressIndicator(
+                                                color: AppColors
+                                                    .commonWhiteTextColor,
+                                              ),
+                                            ],
+                                          )
+                                        : Text(
+                                            'Sign Up',
+                                            style: TextStyle(
+                                                color: AppColors
+                                                    .commonWhiteTextColor,
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w700),
+                                          ),
                                   ),
                                 ),
                                 // Padding(
@@ -447,7 +379,7 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                 Center(
                                   child: GestureDetector(
                                     onTap: () {
-                                      print('it is Signup with Mobile Number');
+                                      print('it is Signup with Email');
                                       // setState(() {
                                       Get.to(BSignUpEmailScreen());
                                       // });
@@ -490,7 +422,6 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                 Center(
                                   child: GestureDetector(
                                     onTap: () {
-                                      print('it is map');
                                       // setState(() {
                                       //   Get.to(MapsScreen());
                                       // });
@@ -569,75 +500,3 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
     );
   }
 }
-
-// class BSignUpPhoneNumberScreen extends StatefulWidget {
-//   const BSignUpPhoneNumberScreen({Key? key}) : super(key: key);
-//
-//   @override
-//   State<BSignUpPhoneNumberScreen> createState() =>
-//       _BSignUpPhoneNumberScreenState();
-// }
-//
-// class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
-//   int? resendingTokenID;
-//
-//   FirebaseAuth _auth = FirebaseAuth.instance;
-//
-//   final _phoneController = TextEditingController();
-//   final _globalKey = GlobalKey<ScaffoldState>();
-//
-//   Future sendOtp(FirebaseAuth auth) async {
-//     await auth.verifyPhoneNumber(
-//       phoneNumber: '${"+91" + "${_phoneController.text}"}',
-//       verificationCompleted: (phoneAuthCredential) async {
-//         print('Verification Completed');
-//       },
-//       verificationFailed: (verificationFailed) async {
-//         log("verificationFailed error ${verificationFailed.message}");
-//         _globalKey.currentState!.showSnackBar(SnackBar(
-//           content: Text(verificationFailed.message!),
-//         ));
-//       },
-//       codeSent: (verificationId, resendingToken) async {
-//         verificationCode = verificationId;
-//         resendingTokenID = resendingToken;
-//       },
-//       codeAutoRetrievalTimeout: (verificationId) async {},
-//     );
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Padding(
-//         padding: const EdgeInsets.symmetric(horizontal: 20),
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             TextFormField(
-//               controller: _phoneController,
-//               inputFormatters: [LengthLimitingTextInputFormatter(10)],
-//               keyboardType: TextInputType.number,
-//               decoration: InputDecoration(
-//                 hintText: "Enter phone Number",
-//               ),
-//             ),
-//             ElevatedButton(
-//               onPressed: () async {
-//                 await sendOtp(_auth).then(
-//                   (value) => Navigator.push(
-//                     context,
-//                     MaterialPageRoute(
-//                       builder: (context) => BSignUpPhoneOtpScreen(),
-//                     ),
-//                   ),
-//                 );
-//               },
-//               child: Text("Send Otp"),
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

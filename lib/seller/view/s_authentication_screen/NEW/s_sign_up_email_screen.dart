@@ -1,14 +1,11 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
@@ -488,26 +485,26 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
     }
   }
 
-  Future<bool?> loginwithgoogle() async {
-    FirebaseAuth _auth = FirebaseAuth.instance;
-    try {
-      GoogleSignIn googleSignIn = GoogleSignIn();
-      final googleUser = await googleSignIn.signIn();
-      final googleAuth = await googleUser!.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken, // accessToken
-        idToken: googleAuth.idToken,
-      );
-      User? users = (await _auth.signInWithCredential(credential)).user;
-      if (users == null) {
-        return false;
-      }
-      return true;
-    } catch (e) {
-      print('this is error .......$e');
-      return null;
-    }
-  }
+  // Future<bool?> loginwithgoogle() async {
+  //   FirebaseAuth _auth = FirebaseAuth.instance;
+  //   try {
+  //     GoogleSignIn googleSignIn = GoogleSignIn();
+  //     final googleUser = await googleSignIn.signIn();
+  //     final googleAuth = await googleUser!.authentication;
+  //     final AuthCredential credential = GoogleAuthProvider.credential(
+  //       accessToken: googleAuth.accessToken, // accessToken
+  //       idToken: googleAuth.idToken,
+  //     );
+  //     User? users = (await _auth.signInWithCredential(credential)).user;
+  //     if (users == null) {
+  //       return false;
+  //     }
+  //     return true;
+  //   } catch (e) {
+  //     print('this is error .......$e');
+  //     return null;
+  //   }
+  // }
 
   bool isPasswordValid(String password) => password.length <= 6;
 

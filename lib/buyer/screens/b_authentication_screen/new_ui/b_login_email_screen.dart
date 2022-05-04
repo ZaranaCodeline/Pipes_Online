@@ -409,7 +409,7 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                   child: GestureDetector(
                                     onTap: () {
                                       print('it is map');
-                                      BAuthMethods().googleSignIn;
+                                      loginwithgoogle();
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(12.sp),

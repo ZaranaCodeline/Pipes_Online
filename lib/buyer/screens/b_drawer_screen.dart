@@ -326,9 +326,10 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
         break;
       case 6:
         FirebaseAuth.instance.signOut();
-        PreferenceManager.clearData();
+        // PreferenceManager.clearData();
         BRegisterRepo.bLogOut;
-        BAuthMethods.logOut()
+        logOutFormGoogle()
+            // BAuthMethods.logOut()
             .then((value) => Get.off(() => SBuyerSellerScreen()));
 
         break;

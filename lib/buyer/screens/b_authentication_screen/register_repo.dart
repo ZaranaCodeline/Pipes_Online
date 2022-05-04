@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
@@ -63,6 +64,7 @@ class BRegisterRepo {
 
   static Future<void> bLogOut() async {
     PreferenceManager.clearData();
+    // BAuthMethods.logOut();
     bFirebaseAuth.signOut();
     print('Log Out');
   }
@@ -119,8 +121,49 @@ class SRegisterRepo {
   }
 
   static Future<void> sLogOut() async {
-    PreferenceManager.clearData();
+    // PreferenceManager.clearData();
     bFirebaseAuth.signOut();
+    // BAuthMethods.logOut();
     print('Log Out');
   }
+}
+
+Future<bool?> loginwithgoogle() async {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  try {
+    GoogleSignIn googleSignIn = GoogleSignIn();
+    final googleUser = await googleSignIn.signIn();
+    final googleAuth = await googleUser!.authentication;
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken, // accessToken
+      idToken: googleAuth.idToken,
+    );
+    User? users = (await _auth.signInWithCredential(credential)).user;
+    PreferenceManager.setUId(users!.uid);
+    PreferenceManager.setEmail(users.email!);
+    PreferenceManager.setName(users.displayName!);
+    PreferenceManager.setPhoneNumber(users.phoneNumber!);
+    PreferenceManager.getUId();
+    PreferenceManager.getEmail();
+    PreferenceManager.getName();
+    PreferenceManager.getPhoneNumber();
+    print('uid------${users.uid}');
+    print('phoneNumber------${users.phoneNumber}');
+    print('displayName------${users.displayName}');
+    print('email------${users.email}');
+    print('photoURL------${users.photoURL}');
+    if (users == null) {
+      return false;
+    }
+    return true;
+  } catch (e) {
+    print('this is error .......$e');
+    return null;
+  }
+}
+
+Future<bool?> logOutFormGoogle() async {
+  await bFirebaseAuth.signOut();
+  PreferenceManager.clearData();
+  print('Log Out');
 }

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/authentificaion/b_functions.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
@@ -80,7 +81,7 @@ class _BChatScreenState extends State<BChatScreen> {
                 Divider(color: AppColors.primaryColor, thickness: 1.sp),
                 InkWell(
                   onTap: () {
-                    BAuthMethods().getCurrentUser();
+                    loginwithgoogle();
 
                     Get.to(ChatMessagePage(
                       userImg:

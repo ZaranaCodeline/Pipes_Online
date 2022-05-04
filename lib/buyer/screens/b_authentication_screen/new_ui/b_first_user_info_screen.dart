@@ -342,7 +342,11 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                 width: Get.width * 0.8,
                                 height: Get.height * 0.07,
                                 child: TextFormField(
-                                  keyboardType: TextInputType.emailAddress,
+                                  keyboardType: widget.email != null &&
+                                          bFirebaseAuth.currentUser?.email !=
+                                              null
+                                      ? TextInputType.emailAddress
+                                      : TextInputType.text,
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return 'Required';
@@ -577,7 +581,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
           //PreferenceManager.getPhoneNumber();
 
           // PreferenceManager.getEmail();
-          //
+
           print(
               '==Email login==>${PreferenceManager.setEmail(widget.email.toString())}');
           print(

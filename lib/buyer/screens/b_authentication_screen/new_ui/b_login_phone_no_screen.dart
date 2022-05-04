@@ -9,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_phone_otp_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_no_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_otp_screen.dart';
@@ -19,12 +20,13 @@ import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 class BLoginPhoneNumberScreen extends StatefulWidget {
-  final String? phone;
-
-  const BLoginPhoneNumberScreen({Key? key, this.phone}) : super(key: key);
+  const BLoginPhoneNumberScreen({
+    Key? key,
+  }) : super(key: key);
   @override
   State<BLoginPhoneNumberScreen> createState() =>
       _BLoginPhoneNumberScreenState();
@@ -32,14 +34,8 @@ class BLoginPhoneNumberScreen extends StatefulWidget {
 
 class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
   bool isLoading = false;
-  TextEditingController? phoneController;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print('==>dialCodeDigit===${dialCodeDigits}');
-    print('==>category===${widget.phone}');
-  }
+  final _phoneController = TextEditingController();
+  BLogInController bLogInController = Get.find();
 
   final _globalKey = GlobalKey<ScaffoldState>();
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -47,24 +43,64 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
 
   int? resendingTokenID;
   String? dialCodeDigits = "+91";
-  Future sendOtp(FirebaseAuth auth) async {
-    await auth.verifyPhoneNumber(
-      phoneNumber: "${phoneController?.text}",
+
+  Future sendOtp() async {
+    print(
+        '========code===${bLogInController.countryCode}${PreferenceManager.getPhoneNumber()}');
+
+    await _auth.verifyPhoneNumber(
+      phoneNumber:
+          bLogInController.countryCode.toString() + _phoneController.text,
       verificationCompleted: (phoneAuthCredential) async {
-        print('Verification Completed');
+        setState(() {
+          isLoading = false;
+        });
       },
       verificationFailed: (verificationFailed) async {
-        log("verificationFailed error ${verificationFailed.message}");
-        _globalKey.currentState?.showSnackBar(SnackBar(
-          content: Text(verificationFailed.message!),
-        ));
+        setState(() {
+          isLoading = false;
+        });
+        print('----verificationFailed---${verificationFailed.message}');
+        Get.showSnackbar(
+          GetSnackBar(
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: SColorPicker.red,
+            duration: Duration(seconds: 5),
+            message: verificationFailed.message,
+          ),
+        );
+        print(
+            'The phone number entered is invalid!====${verificationFailed.message}');
       },
       codeSent: (verificationId, resendingToken) async {
-        verificationId = verificationId;
-        resendingTokenID = resendingToken;
+        setState(() {
+          isLoading = false;
+          // currentState = MobileVerificationState.SHOW_OTP_FORM_STATE;
+          this.verificationId = verificationId;
+          print('---------verificationId-------$verificationId');
+          print('---------this.verificationId-------${this.verificationId}');
+          Get.to(
+            BLoginPhoneOtpScreen(
+              phone: _phoneController.text,
+              verificationId: verificationId,
+            ),
+          );
+          print('====${verificationId}');
+        });
       },
       codeAutoRetrievalTimeout: (verificationId) async {},
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('_phoneController.text=>${_phoneController.text}');
+    print(
+        '_phoneController.PreferenceManager=>${PreferenceManager.getPhoneNumber()}');
+    print(
+        '_phoneController.PreferenceManager getUId=>${PreferenceManager.getUId()}');
   }
 
   @override
@@ -156,17 +192,31 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                       alignment: Alignment.centerLeft,
                                       child: CountryCodePicker(
                                         onChanged: (val) {
-                                          // controller.setCountryCode(val);
-                                          dialCodeDigits = val.dialCode;
+                                          controller.setCountryCode(val);
+                                          // dialCodeDigits = val.dialCode;
                                         },
-                                        initialSelection: 'IT',
+                                        initialSelection: '+00',
+                                        favorite: ['+91', 'IN'],
+                                        showCountryOnly: false,
+                                        showOnlyCountryWhenClosed: false,
                                       ),
                                     ),
                                     Container(
                                       height: Get.height * 0.07,
                                       width: Get.width * 0.6,
                                       child: TextFormField(
-                                        controller: phoneController,
+                                        validator: (value) {
+                                          if (value!.trim().isEmpty) {
+                                            return 'This field is required';
+                                          }
+                                          if (!RegExp(
+                                                  r'(^(?:[+0]9)?[0-9]{10,12}$)')
+                                              .hasMatch(value)) {
+                                            return 'please enter valid number';
+                                          }
+                                          return null;
+                                        },
+                                        controller: _phoneController,
                                         inputFormatters: [
                                           LengthLimitingTextInputFormatter(10)
                                         ],
@@ -179,7 +229,7 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                   ],
                                 ),
                                 SizedBox(
-                                  height: Get.height * 0.04,
+                                  height: Get.height * 0.05,
                                 ),
                                 // RichText(
                                 //   textAlign: TextAlign.start,
@@ -206,36 +256,39 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                 //   ),
                                 // ),
                                 SizedBox(
-                                  height: Get.height * 0.04,
+                                  height: Get.height * 0.08,
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    // setState(() {
-                                    //   isLoading = false;
-                                    // });
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    sendOtp();
                                     // Get.to(()=>BLoginPhoneOtpScreen());
 
-                                    isLoading = true;
-                                    await sendOtp(_auth).then(
-                                      (value) => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              BSignUpPhoneOtpScreen(
-                                            phone: phoneController!.text,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-
-                                    isLoading = false;
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content:
-                                            Text('Enter valid phone number'),
-                                        backgroundColor: Colors.redAccent,
-                                      ),
-                                    );
+                                    // isLoading = true;
+                                    // await sendOtp().then(
+                                    //   (value) => Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //       builder: (context) =>
+                                    //           BLoginPhoneOtpScreen(
+                                    //         phone: PreferenceManager
+                                    //             .getPhoneNumber(),
+                                    //         verificationId: verificationId,
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // );
+                                    //
+                                    // isLoading = false;
+                                    // ScaffoldMessenger.of(context).showSnackBar(
+                                    //   SnackBar(
+                                    //     content:
+                                    //         Text('Enter valid phone number'),
+                                    //     backgroundColor: Colors.redAccent,
+                                    //   ),
+                                    // );
 
                                     // await sendOtp(_auth).then(
                                     //   (value) => Navigator.push(
@@ -425,8 +478,7 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                     text: TextSpan(
                                       children: [
                                         TextSpan(
-                                          text:
-                                              'Don’t have an Account? Sign Up',
+                                          text: 'Don’t have an Account?',
                                           style: STextStyle.regular400Black13,
                                         ),
                                         TextSpan(

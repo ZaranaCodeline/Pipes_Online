@@ -68,6 +68,7 @@ class _SplashState extends State<Splash> {
               print('TEST:- 7');
               Get.to(() => SWelcomeScreen());
             }
+            Get.to(() => SWelcomeScreen());
           }
         }
       } else {

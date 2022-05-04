@@ -24,6 +24,10 @@ import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
 import 'package:sizer/sizer.dart';
 
 class SLoginPhoneOtpScreen extends StatefulWidget {
+  final String? phone, verificationId;
+
+  const SLoginPhoneOtpScreen({Key? key, this.phone, this.verificationId})
+      : super(key: key);
   @override
   _SLoginPhoneOtpScreenState createState() => _SLoginPhoneOtpScreenState();
 }

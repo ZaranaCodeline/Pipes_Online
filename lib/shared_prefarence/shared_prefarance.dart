@@ -8,8 +8,8 @@ class PreferenceManager {
     getStorage.write('email', value);
   }
 
-  static String getEmail() {
-    return getStorage.read('email');
+  static Future<String> getEmail() async {
+    return await getStorage.read('email');
   }
 
   static setUserType(String value) {
@@ -29,7 +29,7 @@ class PreferenceManager {
   }
 
   static setUId(String value) {
-    getStorage.write('uid', FirebaseAuth.instance.currentUser!.uid);
+    getStorage.write('uid', value);
   }
 
   static getUId() {

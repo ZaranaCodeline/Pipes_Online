@@ -12,11 +12,11 @@ import 'package:pipes_online/buyer/screens/b_authentication_screen/b_login_scree
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_otp_screen.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/otp.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
-import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_login_email_screen.dart';
-import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_email_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_phone_otp_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
@@ -24,7 +24,11 @@ import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
-String? verificationCode;
+// String? verificationCode;
+// enum MobileVerificationState {
+//   SHOW_MOBILE_FORM_STATE,
+//   SHOW_OTP_FORM_STATE,
+// }
 
 class SSignUpPhoneNumberScreen extends StatefulWidget {
   const SSignUpPhoneNumberScreen({Key? key}) : super(key: key);
@@ -36,41 +40,70 @@ class SSignUpPhoneNumberScreen extends StatefulWidget {
 
 class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
   bool isLoading = false;
-
+// String? dialogCodeDigits="+00";
   int? resendingTokenID;
-
+  String? verificationId;
+  // MobileVerificationState currentState =
+  //     MobileVerificationState.SHOW_MOBILE_FORM_STATE;
   FirebaseAuth _auth = FirebaseAuth.instance;
-
+  BLogInController bLogInController = Get.find();
   final _phoneController = TextEditingController();
   final _globalKey = GlobalKey<ScaffoldState>();
+  // String? dialCodeDigits = "+91";
+  Future sendOtp() async {
+    print(
+        '========code===${bLogInController.countryCode}${_phoneController.text}');
 
-  Future sendOtp(FirebaseAuth auth) async {
-    await auth
-        .verifyPhoneNumber(
-          phoneNumber: '${"+91" + "${_phoneController.text}"}',
-          timeout: const Duration(seconds: 60),
-          verificationCompleted: (phoneAuthCredential) async {
-            print('Verification Completed');
-          },
-          verificationFailed: (FirebaseAuthException e) async {
-            if (e.code == 'invalid-phone-number') {
-              print('The provided phone number is not valid.');
-            }
-            log("verificationFailed error ${e.message}");
-            _globalKey.currentState?.showSnackBar(SnackBar(
-              content: Text(e.message!),
-            ));
-          },
-          codeSent: (verificationId, resendingToken) async {
-            verificationCode = verificationId;
-            resendingTokenID = resendingToken;
-          },
-          codeAutoRetrievalTimeout: (verificationId) async {},
-        )
-        .then((value) {})
-        .catchError((onError) {
-      print(onError.toString());
-    });
+    await _auth.verifyPhoneNumber(
+      phoneNumber:
+          bLogInController.countryCode.toString() + _phoneController.text,
+      verificationCompleted: (phoneAuthCredential) async {
+        setState(() {
+          isLoading = false;
+        });
+      },
+      verificationFailed: (verificationFailed) async {
+        setState(() {
+          isLoading = false;
+        });
+        print('----verificationFailed---${verificationFailed.message}');
+        Get.showSnackbar(
+          GetSnackBar(
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: SColorPicker.red,
+            duration: Duration(seconds: 5),
+            message: verificationFailed.message,
+          ),
+        );
+        print('${verificationFailed.message}');
+      },
+      codeSent: (verificationId, resendingToken) async {
+        setState(() {
+          isLoading = false;
+          // currentState = MobileVerificationState.SHOW_OTP_FORM_STATE;
+          this.verificationId = verificationId;
+          print('---------verificationId-------$verificationId');
+          print('---------this.verificationId-------${this.verificationId}');
+          Get.to(
+            SSignUpPhoneOtpScreen(
+              phone: _phoneController.text,
+              verificationId: verificationId,
+            ),
+          );
+          print('====${verificationId}');
+        });
+      },
+      codeAutoRetrievalTimeout: (verificationId) async {},
+    );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(
+        '========code===${bLogInController.countryCode} ${_phoneController.text}');
+    print('==>dialCodeDigit===${bLogInController.countryCode}');
   }
 
   @override
@@ -164,7 +197,10 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
                                         onChanged: (val) {
                                           controller.setCountryCode(val);
                                         },
-                                        initialSelection: '+91',
+                                        initialSelection: '+00',
+                                        favorite: ['+91', 'IN'],
+                                        showCountryOnly: false,
+                                        showOnlyCountryWhenClosed: false,
                                       ),
                                     ),
                                     Container(
@@ -226,28 +262,22 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    if (_phoneController.text.isNotEmpty) {
+                                    setState(() {
                                       isLoading = true;
-                                      await sendOtp(_auth).then(
-                                        (value) => Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                SSignUpPhoneOtpScreen(
-                                              phone: _phoneController.text,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                    isLoading = false;
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content:
-                                            Text('Enter valid phone number'),
-                                        backgroundColor: Colors.redAccent,
-                                      ),
-                                    );
+                                    });
+                                    sendOtp();
+                                    // if (_phoneController.text.isNotEmpty) {
+                                    //   isLoading = true;
+                                    //   await sendOtp();
+                                    // }
+                                    // isLoading = false;
+                                    // ScaffoldMessenger.of(context).showSnackBar(
+                                    //   SnackBar(
+                                    //     content:
+                                    //         Text('Enter valid phone number'),
+                                    //     backgroundColor: Colors.redAccent,
+                                    //   ),
+                                    // );
 
                                     // await sendOtp(_auth).then(
                                     //   (value) => Navigator.push(
@@ -258,7 +288,7 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
                                     //   ),
                                     // );
                                     // isLoading = true;
-                                    // if (phoneNumber.text.isNotEmpty) {
+                                    // if (_phoneController.text.isNotEmpty) {
                                     //   if (otpCodeVisible) {
                                     //     // verify();
                                     //     verifyCode();
@@ -266,7 +296,7 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
                                     //     await phoneSignIn(
                                     //         phoneNumber: phoneNumber.text);
                                     //   }
-
+                                    //
                                     //   await sendOtp(_auth).then(
                                     //         (value) => Navigator.push(
                                     //       context,
@@ -287,72 +317,42 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
                                       borderRadius:
                                           BorderRadius.circular(10.sp),
                                     ),
-                                    child:
-                                        // isLoading
-                                        //     ? Row(
-                                        //   mainAxisAlignment:
-                                        //   MainAxisAlignment.center,
-                                        //   children: [
-                                        //     CustomText(
-                                        //         text: 'Loading...  ',
-                                        //         fontWeight: FontWeight.w600,
-                                        //         fontSize: 12.sp,
-                                        //         color: AppColors
-                                        //             .commonWhiteTextColor),
-                                        //     CircularProgressIndicator(
-                                        //       color: AppColors
-                                        //           .commonWhiteTextColor,
-                                        //     ),
-                                        //   ],
-                                        // )
-                                        //     :
-                                        Text(
-                                      'Sign Up',
-                                      style: TextStyle(
-                                          color: AppColors.commonWhiteTextColor,
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w700),
-                                    ),
+                                    child: isLoading
+                                        ? Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              CustomText(
+                                                  text: 'Loading...  ',
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 12.sp,
+                                                  color: AppColors
+                                                      .commonWhiteTextColor),
+                                              CircularProgressIndicator(
+                                                color: AppColors
+                                                    .commonWhiteTextColor,
+                                              ),
+                                            ],
+                                          )
+                                        : Text(
+                                            'Sign Up',
+                                            style: TextStyle(
+                                                color: AppColors
+                                                    .commonWhiteTextColor,
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w700),
+                                          ),
                                   ),
                                 ),
-                                // Padding(
-                                //   padding:
-                                //       EdgeInsets.symmetric(horizontal: 40.sp),
-                                //   child: SCommonButton().sCommonPurpleButton(
-                                //     name: otpCodeVisible ? "Login" : "Verify",
-                                //     onTap: () async {
-                                // isLoading = true;
-                                // if (phoneNumber.text.isNotEmpty) {
-                                //   // if (otpCodeVisible) {
-                                //   //   // verify();
-                                //   //   verifyCode();
-                                //   // } else {
-                                //   //   await phoneSignIn(
-                                //   //       phoneNumber: phoneNumber.text);
-                                //   // }
-                                //
-                                //   await sendOtp(_auth).then(
-                                //     (value) => Navigator.push(
-                                //       context,
-                                //       MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             VerifyOTP(),
-                                //       ),
-                                //     ),
-                                //   );
-                                // } else {}
-                                // },
-                                //   ),
-                                // ),
                                 SizedBox(
                                   height: Get.height * 0.03,
                                 ),
                                 Center(
                                   child: GestureDetector(
                                     onTap: () {
-                                      print('it is Signup with Mobile Number');
+                                      print('it is Signup with Email');
                                       // setState(() {
-                                      Get.to(SSignUpEmailScreen());
+                                      Get.to(BSignUpEmailScreen());
                                       // });
                                     },
                                     child: Container(
@@ -388,12 +388,11 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
                                     ),
                                   ),
                                 ),
-
                                 SizedBox(height: Get.height * 0.03),
                                 Center(
                                   child: GestureDetector(
                                     onTap: () {
-                                      print('it is map');
+                                      loginwithgoogle();
                                       // setState(() {
                                       //   Get.to(MapsScreen());
                                       // });
@@ -447,7 +446,7 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
                                                 print('=====>Login');
-                                                Get.off(SLoginEmailScreen());
+                                                Get.off(BLoginEmailScreen());
                                               }),
                                       ],
                                     ),

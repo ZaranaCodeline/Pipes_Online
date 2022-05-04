@@ -12,11 +12,14 @@ import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign
 import 'package:pipes_online/buyer/screens/b_authentication_screen/phone.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_first_user_info_screen.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_login_phone_otp_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_email_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_phone_otp_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 class SLoginPhoneNumberScreen extends StatefulWidget {
@@ -43,25 +46,62 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
   String? verificationId;
 
   int? resendingTokenID;
+  BLogInController bLogInController = Get.find();
+  Future sendOtp() async {
+    try {
+      print(
+          '========code===${bLogInController.countryCode}${PreferenceManager.getPhoneNumber()}');
 
-  Future sendOtp(FirebaseAuth auth) async {
-    await auth.verifyPhoneNumber(
-      phoneNumber: '${"+91" + "${phoneController!.text}"}',
-      verificationCompleted: (phoneAuthCredential) async {
-        print('Verification Completed');
-      },
-      verificationFailed: (verificationFailed) async {
-        log("verificationFailed error ${verificationFailed.message}");
-        _globalKey.currentState!.showSnackBar(SnackBar(
-          content: Text(verificationFailed.message!),
-        ));
-      },
-      codeSent: (verificationId, resendingToken) async {
-        verificationId = verificationId;
-        resendingTokenID = resendingToken;
-      },
-      codeAutoRetrievalTimeout: (verificationId) async {},
-    );
+      await _auth.verifyPhoneNumber(
+        phoneNumber:
+            bLogInController.countryCode.toString() + phoneController!.text,
+        verificationCompleted: (phoneAuthCredential) async {
+          setState(() {
+            isLoading = false;
+          });
+        },
+        verificationFailed: (verificationFailed) async {
+          setState(() {
+            isLoading = false;
+          });
+          print('----verificationFailed---${verificationFailed.message}');
+          Get.showSnackbar(
+            GetSnackBar(
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: SColorPicker.red,
+              duration: Duration(seconds: 5),
+              message: verificationFailed.message,
+            ),
+          );
+          print(
+              'The phone number entered is invalid!====${verificationFailed.message}');
+        },
+        codeSent: (verificationId, resendingToken) async {
+          setState(() {
+            isLoading = false;
+            // currentState = MobileVerificationState.SHOW_OTP_FORM_STATE;
+            this.verificationId = verificationId;
+            print('---------verificationId-------$verificationId');
+            print('---------this.verificationId-------${this.verificationId}');
+            Get.to(
+              SLoginPhoneOtpScreen(
+                phone: phoneController?.text,
+                verificationId: verificationId,
+              ),
+            );
+            print('====${verificationId}');
+          });
+        },
+        codeAutoRetrievalTimeout: (verificationId) async {},
+      );
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${e.message}'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+    }
   }
 
   @override
@@ -210,28 +250,24 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
                                     //   isLoading = false;
                                     // });
                                     // Get.to(()=>BLoginPhoneOtpScreen());
-
+                                    setState(() {
+                                      isLoading = true;
+                                    });
                                     isLoading = true;
-                                    await sendOtp(_auth).then(
-                                      (value) => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              SSignUpPhoneOtpScreen(
-                                            phone: phoneController!.text,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-
-                                    isLoading = false;
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content:
-                                            Text('Enter valid phone number'),
-                                        backgroundColor: Colors.redAccent,
-                                      ),
-                                    );
+                                    sendOtp();
+                                    // Get.to(SFirstUserInfoScreen());
+                                    // await sendOtp().then(
+                                    //   (value) => Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //       builder: (context) =>
+                                    //           SLoginPhoneOtpScreen(
+                                    //         phone: phoneController?.text,
+                                    //         verificationId: verificationId,
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // );
 
                                     // await sendOtp(_auth).then(
                                     //   (value) => Navigator.push(
@@ -421,8 +457,7 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
                                     text: TextSpan(
                                       children: [
                                         TextSpan(
-                                          text:
-                                              'Don’t have an Account? Sign Up',
+                                          text: 'Don’t have an Account?',
                                           style: STextStyle.regular400Black13,
                                         ),
                                         TextSpan(

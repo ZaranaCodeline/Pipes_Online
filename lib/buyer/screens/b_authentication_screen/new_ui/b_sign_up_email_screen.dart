@@ -408,6 +408,11 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                     print(
                                         '---------->${PreferenceManager.getUId()}');
                                     loginwithgoogle().then((value) {
+                                      // PreferenceManager.getUId();
+                                      // PreferenceManager.getEmail();
+                                      // PreferenceManager.getName();
+                                      // PreferenceManager.getPhoneNumber();
+                                      print('it is map');
                                       PreferenceManager.setUserType('Buyer');
                                       Get.to(() => BFirstUserInfoScreen());
                                       PreferenceManager.getUId();
@@ -498,26 +503,26 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
     }
   }
 
-  Future<bool?> loginwithgoogle() async {
-    FirebaseAuth _auth = FirebaseAuth.instance;
-    try {
-      GoogleSignIn googleSignIn = GoogleSignIn();
-      final googleUser = await googleSignIn.signIn();
-      final googleAuth = await googleUser!.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken, // accessToken
-        idToken: googleAuth.idToken,
-      );
-      User? users = (await _auth.signInWithCredential(credential)).user;
-      if (users == null) {
-        return false;
-      }
-      return true;
-    } catch (e) {
-      print('this is error .......$e');
-      return null;
-    }
-  }
+  // Future<bool?> loginwithgoogle() async {
+  //   FirebaseAuth _auth = FirebaseAuth.instance;
+  //   try {
+  //     GoogleSignIn googleSignIn = GoogleSignIn();
+  //     final googleUser = await googleSignIn.signIn();
+  //     final googleAuth = await googleUser!.authentication;
+  //     final AuthCredential credential = GoogleAuthProvider.credential(
+  //       accessToken: googleAuth.accessToken, // accessToken
+  //       idToken: googleAuth.idToken,
+  //     );
+  //     User? users = (await _auth.signInWithCredential(credential)).user;
+  //     if (users == null) {
+  //       return false;
+  //     }
+  //     return true;
+  //   } catch (e) {
+  //     print('this is error .......$e');
+  //     return null;
+  //   }
+  // }
 
   bool isPasswordValid(String password) => password.length <= 6;
 

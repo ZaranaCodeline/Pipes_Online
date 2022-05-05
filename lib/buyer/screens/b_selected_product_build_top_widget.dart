@@ -77,40 +77,58 @@ class _CustomSelectedProductBuildTopWidgetState
                         SizedBox(width: Get.width * 0.01),
                         GestureDetector(
                           onTap: () {
+                            if (widget.ProductID != 'productID') {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Added Into Cart'),
+                                  backgroundColor: Colors.greenAccent,
+                                ),
+                              );
+                              print('CATEGORY----->${widget.category}');
+                              File? imagUrl;
+
+                              FirebaseFirestore.instance
+                                  .collection('Cart')
+                                  .doc(PreferenceManager.getUId().toString())
+                                  .collection('MyCart')
+                                  .add({
+                                'productID': widget.ProductID,
+                                'cartID': PreferenceManager.getUId().toString(),
+                                'imageProfile': widget.image,
+                                'category': widget.category,
+                                'prdName': widget.name,
+                                'dsc': widget.desc,
+                                'price': widget.price,
+                                'createdOn': DateTime.now(),
+                              }).then((value) {
+                                Get.to(
+                                  () => CartPage(
+                                    category: widget.category,
+                                    name: widget.name,
+                                    desc: widget.desc,
+                                    image: widget.image,
+                                    price: widget.price,
+                                    productID: widget.ProductID,
+                                  ),
+                                );
+                              });
+                            }
+                            Get.to(
+                              () => CartPage(
+                                category: widget.category,
+                                name: widget.name,
+                                desc: widget.desc,
+                                image: widget.image,
+                                price: widget.price,
+                                productID: widget.ProductID,
+                              ),
+                            );
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('Added Into Cart'),
+                                content: Text('Go Into Cart'),
                                 backgroundColor: Colors.greenAccent,
                               ),
                             );
-                            print('CATEGORY----->${widget.category}');
-                            File? imagUrl;
-
-                            FirebaseFirestore.instance
-                                .collection('Cart')
-                                .doc(PreferenceManager.getUId().toString())
-                                .collection('MyCart')
-                                .add({
-                              'productID': widget.ProductID,
-                              'cartID': PreferenceManager.getUId().toString(),
-                              'imageProfile': widget.image,
-                              'category': widget.category,
-                              'prdName': widget.name,
-                              'dsc': widget.desc,
-                              'price': widget.price,
-                              'createdOn': DateTime.now(),
-                            }).then((value) {
-                              Get.to(
-                                () => CartPage(
-                                  category: widget.category,
-                                  name: widget.name,
-                                  desc: widget.desc,
-                                  image: widget.image,
-                                  price: widget.price,
-                                  productID: widget.ProductID,
-                                ),
-                              );
-                            });
                           },
                           child: CustomText(
                             text: 'ADD TO CART'.toUpperCase(),

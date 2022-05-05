@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:octo_image/octo_image.dart';
 import 'package:pipes_online/buyer/screens/zoom_img.dart';
 import 'package:pipes_online/seller/view_model/chat_controller.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../convert_date_formate_chat.dart';
@@ -26,14 +27,16 @@ CollectionReference chatCollection = kFireStore.collection('Chat');
 FirebaseAuth _auth = FirebaseAuth.instance;
 
 class ChatMessagePage extends StatefulWidget {
-  final String? receiverId ;
+  final String? receiverId;
   final String? userName;
   final String? userImg;
+  final String? phone;
 
   ChatMessagePage(
       {required this.receiverId,
       required this.userName,
-      required this.userImg});
+      required this.userImg,
+      this.phone});
 
   @override
   State<ChatMessagePage> createState() => _ChatMessagePageState();
@@ -50,6 +53,8 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
   String? documentName;
   final File? file1 = File('');
   final String? type = '';
+  String? senderId;
+  String? recieverId;
 
   String chatId(String id1, String id2) {
     print('--------id1--id1--------$id1');
@@ -63,8 +68,17 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
   }
 
   @override
+  void initState() {
+    senderId = PreferenceManager.getUId();
+    recieverId = widget.receiverId;
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     print('AuthId====${_auth.currentUser!.uid}');
+    print('PreferenceManager.getUId()====${PreferenceManager.getUId()}');
 
     return SafeArea(
       child: Scaffold(
@@ -83,10 +97,12 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                             borderRadius: BorderRadius.circular(50)),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(50),
-                          child: Image.asset(
-                            '${BImagePick.proIcon}',
-                            fit: BoxFit.cover,
-                          ),
+                          child: widget.userImg != null
+                              ? Image.network(widget.userImg.toString())
+                              : Image.asset(
+                                  '${BImagePick.proIcon}',
+                                  fit: BoxFit.cover,
+                                ),
                         ),
                       ),
                       Positioned(
@@ -136,8 +152,9 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                 ),
                 child: TextButton(
                     onPressed: () {
+                      print('Phone---${widget.phone}');
                       print('click...');
-                      launch('tel:1234567892');
+                      launch('tel:${widget.phone}');
                     },
                     child: Icon(
                       Icons.call,
@@ -169,7 +186,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                       StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
                             .collection('Chat')
-                            .doc(chatId(_auth.currentUser!.uid,'payal',))
+                            .doc(chatId(senderId!, recieverId!))
                             .collection('Data')
                             .orderBy('date', descending: false)
                             .snapshots(),
@@ -180,17 +197,19 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                               physics: BouncingScrollPhysics(),
                               itemCount: snapShot.data!.docs.length,
                               itemBuilder: (context, index) {
-                                print('SENDErId====${snapShot.data!.docs[index]
-                                ['senderId']}');
+                                print(
+                                    'SENDErId====${snapShot.data!.docs[index]['senderId']}');
                                 return snapShot.data!.docs[index]['Type'] ==
                                         'Text'
                                     ? Padding(
-                                        padding: const EdgeInsets.only(bottom: 8),
+                                        padding:
+                                            const EdgeInsets.only(bottom: 8),
                                         child: snapShot.data!.docs[index]
                                                     ['senderId'] ==
-                                            _auth.currentUser!.uid
+                                                senderId
                                             ? Align(
-                                                alignment: Alignment.centerRight,
+                                                alignment:
+                                                    Alignment.centerRight,
                                                 child: Padding(
                                                   padding: EdgeInsets.only(
                                                       left: Get.width / 5,
@@ -203,28 +222,31 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                     children: [
                                                       Flexible(
                                                         child: Card(
-                                                          margin: EdgeInsets.zero,
+                                                          margin:
+                                                              EdgeInsets.zero,
                                                           color: AppColors
-                                                              .primaryColor.withOpacity(0.5),
+                                                              .primaryColor
+                                                              .withOpacity(0.5),
                                                           shape:
                                                               const RoundedRectangleBorder(
                                                             borderRadius:
-                                                                BorderRadius.only(
-                                                              topLeft:
-                                                                  Radius.circular(
-                                                                      15),
+                                                                BorderRadius
+                                                                    .only(
+                                                              topLeft: Radius
+                                                                  .circular(15),
                                                               bottomRight:
-                                                                  Radius.circular(
-                                                                      15),
-                                                              bottomLeft:
-                                                                  Radius.circular(
-                                                                      15),
+                                                                  Radius
+                                                                      .circular(
+                                                                          15),
+                                                              bottomLeft: Radius
+                                                                  .circular(15),
                                                             ),
                                                           ),
                                                           elevation: 1,
                                                           child: Row(
                                                             mainAxisSize:
-                                                                MainAxisSize.min,
+                                                                MainAxisSize
+                                                                    .min,
                                                             crossAxisAlignment:
                                                                 CrossAxisAlignment
                                                                     .end,
@@ -268,10 +290,15 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                               //   ),
                                                               // ),
                                                               Padding(
-                                                                padding: const EdgeInsets.only(right: 10),
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        right:
+                                                                            10),
                                                                 child: MsgDate(
-                                                                  date: (snapShot.data!.docs[index]
-                                                                  ['date'] as Timestamp)
+                                                                  date: (snapShot
+                                                                          .data!
+                                                                          .docs[index]['date'] as Timestamp)
                                                                       .toDate(),
                                                                 ),
                                                               ),
@@ -301,8 +328,9 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                             : Align(
                                                 alignment: Alignment.centerLeft,
                                                 child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 10),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10),
                                                   child: Row(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment.end,
@@ -319,17 +347,17 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                           child: Card(
                                                             color: AppColors
                                                                 .primaryColor
-                                                                .withOpacity(0.5),
+                                                                .withOpacity(
+                                                                    0.5),
                                                             shape:
                                                                 RoundedRectangleBorder(
                                                               borderRadius: BorderRadius.only(
                                                                   topRight: Radius
                                                                       .circular(
                                                                           15),
-                                                                  bottomRight:
-                                                                      Radius
-                                                                          .circular(
-                                                                              15),
+                                                                  bottomRight: Radius
+                                                                      .circular(
+                                                                          15),
                                                                   bottomLeft: Radius
                                                                       .circular(
                                                                           15)),
@@ -349,16 +377,15 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                                 children: [
                                                                   Flexible(
                                                                     child: Text(
-                                                                      snapShot.data!
-                                                                              .docs[index]
-                                                                          ['msg'],
+                                                                      snapShot
+                                                                          .data!
+                                                                          .docs[index]['msg'],
                                                                       style:
                                                                           TextStyle(
                                                                         fontSize:
                                                                             16,
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .w400,
+                                                                            FontWeight.w400,
                                                                         color: Colors
                                                                             .white,
                                                                         fontFamily:
@@ -392,99 +419,132 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                 ),
                                               ),
                                       )
-
-                                    : snapShot.data!.docs[index]['Type'] == 'Image'
-                                    ? snapShot.data!.docs[index]['senderId'] == _auth.currentUser!.uid
-                                    ? snapShot.data!.docs[index]['msg'] != ''
-                                    ? Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Container(
-                                            constraints: BoxConstraints(
-                                              maxHeight: double.infinity,),
-                                            // height: Get.height * 0.39,
-                                            width: Get.width * 0.53,
-                                            decoration: BoxDecoration(
-                                                color: AppColors.primaryColor.withOpacity(0.5),
-                                                borderRadius:
-                                                BorderRadius.circular(10)),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                              children: [
-                                                Padding(
-                                                  padding:   EdgeInsets.only(
-                                                      bottom: 5.sp, top: 8),
-                                                  child: Center(
-                                                    child: InkWell(
-                                                      onTap: () {
-                                                        Get.to(ZoomImage(
-                                                          img: snapShot.data!
-                                                              .docs[index]['image'],
-                                                        ));
-                                                      },
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                        BorderRadius.circular(
-                                                            5),
-                                                        child: OctoImage(
-                                                          image:
-                                                          CachedNetworkImageProvider(
-                                                             snapShot.data!.docs[index]['image']),
-                                                          placeholderBuilder:
-                                                          OctoPlaceholder
-                                                              .blurHash(
-                                                            'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                                    : snapShot.data!.docs[index]['Type'] ==
+                                            'Image'
+                                        ? snapShot.data!.docs[index]
+                                                    ['senderId'] ==
+                                                /* _auth.currentUser!.uid*/
+                                                senderId
+                                            ? snapShot.data!.docs[index]
+                                                        ['msg'] !=
+                                                    ''
+                                                ? Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Container(
+                                                              constraints:
+                                                                  BoxConstraints(
+                                                                maxHeight: double
+                                                                    .infinity,
+                                                              ),
+                                                              // height: Get.height * 0.39,
+                                                              width: Get.width *
+                                                                  0.53,
+                                                              decoration: BoxDecoration(
+                                                                  color: AppColors
+                                                                      .primaryColor
+                                                                      .withOpacity(
+                                                                          0.5),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10)),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .end,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: EdgeInsets.only(
+                                                                        bottom:
+                                                                            5.sp,
+                                                                        top: 8),
+                                                                    child:
+                                                                        Center(
+                                                                      child:
+                                                                          InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          Get.to(
+                                                                              ZoomImage(
+                                                                            img:
+                                                                                snapShot.data!.docs[index]['image'],
+                                                                          ));
+                                                                        },
+                                                                        child:
+                                                                            ClipRRect(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(5),
+                                                                          child:
+                                                                              OctoImage(
+                                                                            image:
+                                                                                CachedNetworkImageProvider(snapShot.data!.docs[index]['image']),
+                                                                            placeholderBuilder:
+                                                                                OctoPlaceholder.blurHash(
+                                                                              'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                                                                            ),
+                                                                            errorBuilder:
+                                                                                OctoError.icon(color: Colors.red),
+                                                                            height:
+                                                                                200,
+                                                                            width:
+                                                                                200,
+                                                                            fit:
+                                                                                BoxFit.cover,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: EdgeInsets
+                                                                        .all(5
+                                                                            .sp),
+                                                                    child: Text(
+                                                                      "${snapShot.data!.docs[index]['msg']}",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            16,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontFamily:
+                                                                            'Poppins',
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  // Padding(
+                                                                  //   padding:   EdgeInsets.only(right: 10,bottom: 15),
+                                                                  //   child: MsgDate(
+                                                                  //     date: (snapShot.data!.docs[index]
+                                                                  //     ['date'] as Timestamp)
+                                                                  //         .toDate(),
+                                                                  //   ),
+                                                                  // ),
+                                                                ],
+                                                              ),
+                                                            ),
                                                           ),
-                                                          errorBuilder:
-                                                          OctoError.icon(
-                                                              color:
-                                                              Colors.red),
-                                                          height: 200,
-                                                          width: 200,
-                                                          fit: BoxFit.cover,
-                                                        ),
+                                                        ],
                                                       ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                    EdgeInsets.all(5.sp),
-                                                  child: Text(
-                                                    "${snapShot.data!.docs[index]['msg']}",
-                                                    style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.w400,
-                                                      color: Colors.white,
-                                                      fontFamily: 'Poppins',
-                                                    ),
-                                                  ),
-                                                ),
-                                                // Padding(
-                                                //   padding:   EdgeInsets.only(right: 10,bottom: 15),
-                                                //   child: MsgDate(
-                                                //     date: (snapShot.data!.docs[index]
-                                                //     ['date'] as Timestamp)
-                                                //         .toDate(),
-                                                //   ),
-                                                // ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
 
-                                      ],
-                                    ),
-
-                                    /* PreferenceManager.getCustomerPImg() == null ||
+                                                      /* PreferenceManager.getCustomerPImg() == null ||
                 PreferenceManager.getCustomerPImg() == ''
                 ? imageNotFound()
                 : ClipOval(
@@ -495,93 +555,121 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                 width: Get.height * 0.05,
               ),
             ),*/
-                                  ],
-                                )
-                                    : Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Container(
-                                            height: Get.height * 0.3,
-                                            width: Get.width * 0.53,
-                                            decoration: BoxDecoration(
-                                                color: AppColors.primaryColor.withOpacity(0.5),
-                                                borderRadius:
-                                                BorderRadius.circular(10)),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      bottom: 5, top: 5,right: 5,left: 5),
-                                                  child: Center(
-                                                    child: InkWell(
-                                                      onTap: () {
-                                                        Get.to(ZoomImage(
-                                                          img: snapShot.data!
-                                                              .docs[index]['image'],
-                                                        ));
-                                                      },
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                        BorderRadius.circular(
-                                                            5),
-                                                        child: OctoImage(
-                                                          image:
-                                                          CachedNetworkImageProvider(
-                                                              snapShot.data!
-                                                                  .docs[
-                                                              index]
-                                                              ['image']),
-                                                          placeholderBuilder:
-                                                          OctoPlaceholder
-                                                              .blurHash(
-                                                            'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                                                    ],
+                                                  )
+                                                : Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Container(
+                                                              height:
+                                                                  Get.height *
+                                                                      0.3,
+                                                              width: Get.width *
+                                                                  0.53,
+                                                              decoration: BoxDecoration(
+                                                                  color: AppColors
+                                                                      .primaryColor
+                                                                      .withOpacity(
+                                                                          0.5),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10)),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .end,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets
+                                                                            .only(
+                                                                        bottom:
+                                                                            5,
+                                                                        top: 5,
+                                                                        right:
+                                                                            5,
+                                                                        left:
+                                                                            5),
+                                                                    child:
+                                                                        Center(
+                                                                      child:
+                                                                          InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          Get.to(
+                                                                              ZoomImage(
+                                                                            img:
+                                                                                snapShot.data!.docs[index]['image'],
+                                                                          ));
+                                                                        },
+                                                                        child:
+                                                                            ClipRRect(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(5),
+                                                                          child:
+                                                                              OctoImage(
+                                                                            image:
+                                                                                CachedNetworkImageProvider(snapShot.data!.docs[index]['image']),
+                                                                            placeholderBuilder:
+                                                                                OctoPlaceholder.blurHash(
+                                                                              'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                                                                            ),
+                                                                            errorBuilder:
+                                                                                OctoError.icon(color: Colors.red),
+                                                                            height:
+                                                                                Get.height * 0.255,
+                                                                            width:
+                                                                                Get.width * 0.5,
+                                                                            fit:
+                                                                                BoxFit.cover,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets
+                                                                            .only(
+                                                                        right:
+                                                                            10),
+                                                                    child:
+                                                                        MsgDate(
+                                                                      date: (snapShot
+                                                                              .data!
+                                                                              .docs[index]['date'] as Timestamp)
+                                                                          .toDate(),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
                                                           ),
-                                                          errorBuilder:
-                                                          OctoError.icon(
-                                                              color:
-                                                              Colors.red),
-                                                          height:
-                                                          Get.height * 0.255,
-                                                          width: Get.width * 0.5,
-                                                          fit: BoxFit.cover,
-                                                        ),
+                                                          // Padding(
+                                                          //   padding: const EdgeInsets.only(right: 10),
+                                                          //   child: MsgDate(
+                                                          //     date: (snapShot.data!.docs[index]
+                                                          //     ['date'] as Timestamp)
+                                                          //         .toDate(),
+                                                          //   ),
+                                                          // ),
+                                                        ],
                                                       ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right: 10),
-                                                  child: MsgDate(
-                                                    date: (snapShot.data!.docs[index]
-                                                    ['date'] as Timestamp)
-                                                        .toDate(),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        // Padding(
-                                        //   padding: const EdgeInsets.only(right: 10),
-                                        //   child: MsgDate(
-                                        //     date: (snapShot.data!.docs[index]
-                                        //     ['date'] as Timestamp)
-                                        //         .toDate(),
-                                        //   ),
-                                        // ),
-                                      ],
-                                    ),
 
-                                    /* PreferenceManager.getCustomerPImg() == null ||
+                                                      /* PreferenceManager.getCustomerPImg() == null ||
                 PreferenceManager.getCustomerPImg() == ''
                 ? imageNotFound()
                 : ClipOval(
@@ -592,79 +680,99 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                 width: Get.height * 0.05,
               ),
             ),*/
-                                  ],
-                                )
-                                    : Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    widget.userImg == null || widget.userImg == ''
-                                        ? imageNotFound()
-                                        : ClipOval(
-                                      child: commonProfileOctoImage(
-                                        image: widget.userImg,
-                                        height: Get.height * 0.05,
-                                        width: Get.height * 0.05,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 10, top: 10),
-                                      child: Column(
-                                        children: (snapShot.data!.docs[index]['image']
-                                        as List)
-                                            .map(
-                                              (e) => Padding(
-                                            padding:
-                                            const EdgeInsets.only(bottom: 5),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                              BorderRadius.circular(5),
-                                              child: InkWell(
-                                                onTap: () {
-                                                  Get.to(ZoomImage(
-                                                    img: e,
-                                                  ));
-                                                },
-                                                child: OctoImage(
-                                                  image: CachedNetworkImageProvider(
-                                                      '$e'),
-                                                  placeholderBuilder:
-                                                  OctoPlaceholder.blurHash(
-                                                    'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                                                    ],
+                                                  )
+                                            : Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  widget.userImg == null ||
+                                                          widget.userImg == ''
+                                                      ? imageNotFound()
+                                                      : ClipOval(
+                                                          child:
+                                                              commonProfileOctoImage(
+                                                            image:
+                                                                widget.userImg,
+                                                            height: Get.height *
+                                                                0.05,
+                                                            width: Get.height *
+                                                                0.05,
+                                                          ),
+                                                        ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 10, top: 10),
+                                                    child: Column(
+                                                      children: (snapShot.data!
+                                                                  .docs[index]
+                                                              ['image'] as List)
+                                                          .map(
+                                                            (e) => Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      bottom:
+                                                                          5),
+                                                              child: ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5),
+                                                                child: InkWell(
+                                                                  onTap: () {
+                                                                    Get.to(
+                                                                        ZoomImage(
+                                                                      img: e,
+                                                                    ));
+                                                                  },
+                                                                  child:
+                                                                      OctoImage(
+                                                                    image:
+                                                                        CachedNetworkImageProvider(
+                                                                            '$e'),
+                                                                    placeholderBuilder:
+                                                                        OctoPlaceholder
+                                                                            .blurHash(
+                                                                      'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                                                                    ),
+                                                                    errorBuilder:
+                                                                        OctoError.icon(
+                                                                            color:
+                                                                                Colors.red),
+                                                                    height: 200,
+                                                                    width: 200,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          )
+                                                          .toList(),
+                                                    ),
                                                   ),
-                                                  errorBuilder: OctoError.icon(
-                                                      color: Colors.red),
-                                                  height: 200,
-                                                  width: 200,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                            .toList(),
-                                      ),
-                                    ),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.only(left: 10),
-                                    //   child: MsgDate(
-                                    //     date: (snapShot.data!.docs[index]['date']
-                                    //     as Timestamp)
-                                    //         .toDate(),
-                                    //   ),
-                                    // )
-                                  ],
-                                )
-                                    :SizedBox();
+                                                  // Padding(
+                                                  //   padding: const EdgeInsets.only(left: 10),
+                                                  //   child: MsgDate(
+                                                  //     date: (snapShot.data!.docs[index]['date']
+                                                  //     as Timestamp)
+                                                  //         .toDate(),
+                                                  //   ),
+                                                  // )
+                                                ],
+                                              )
+                                        : SizedBox();
                               },
                             );
-                          }else{
+                          } else {
                             return Center(
                               child: CircularProgressIndicator(
                                 color: AppColors.primaryColor.withOpacity(0.5),
                               ),
                             );
                           }
-
                         },
                       ),
                     ],
@@ -690,10 +798,13 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                 suffixIcon: InkWell(
                                   onTap: () {
                                     print('it camara');
-                                     // _pickImageFromGallery();
+                                    // _pickImageFromGallery();
                                     pickFile();
                                   },
-                                  child: Icon(Icons.image,color: AppColors.primaryColor,),
+                                  child: Icon(
+                                    Icons.image,
+                                    color: AppColors.primaryColor,
+                                  ),
                                 ),
                                 fillColor: AppColors.backGroudColor,
                                 filled: true,
@@ -708,7 +819,6 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                             ))),
                     IconButton(
                       onPressed: () {
-
                         addMsg();
                       },
                       icon: Icon(Icons.send,
@@ -724,22 +834,21 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
     );
   }
 
-
   Future<void> addMsg() async {
     if (_msg.text.isEmpty) {
       log('Please first write meaage..');
-      print('------SEnderwidget.uid----   ${_auth.currentUser?.uid}');
+      print(
+          '------BPreferenceManager.getUId()----   ${PreferenceManager.getUId()}');
     } else {
       FirebaseFirestore.instance
           .collection('Chat')
-          .doc(chatId(
-        _auth.currentUser!.uid,'payal',))
+          .doc(chatId(senderId!, recieverId!))
           .collection('Data')
           .add({
             'date': DateTime.now(),
             'Type': 'Text',
-            'senderId': _auth.currentUser?.uid,
-            'receiveId': 'payal',
+            'senderId': senderId,
+            'receiveId': recieverId,
             'seen': false,
             'msg': _msg.text,
             'image': '',
@@ -760,13 +869,13 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
     // print('path=$fileImageArray');
     FirebaseFirestore.instance
         .collection('Chat')
-        .doc(chatId(_auth.currentUser!.uid,'payal',))
+        .doc(chatId(senderId!, recieverId!))
         .collection('Data')
         .add({
       'date': DateTime.now(),
       'Type': 'Image',
-      'senderId': _auth.currentUser!.uid,
-      'receiveId': 'payal' ,
+      'senderId': senderId,
+      'receiveId': recieverId,
       'seen': false,
       'msg': _msg,
       'image': downloadUrl,
@@ -782,29 +891,29 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
 
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['jpg','png','PNG','JPG','jpeg','image'],
+      allowedExtensions: ['jpg', 'png', 'PNG', 'JPG', 'jpeg', 'image'],
     );
     String? splites = result!.paths[0];
-   setState(() {
-     if(splites != null){
-       path = File(splites);
-     }
-
-   });
+    setState(() {
+      if (splites != null) {
+        path = File(splites);
+      }
+    });
     print('PATH::::$path');
     String attach = splites!.split('.').last;
     print('PATH  ${attach}');
     if (path != null) {
       Get.to(ShowDocument(
-        receiverId:  'payal',
-        senderId:  _auth.currentUser!.uid,
+        receiverId: recieverId,
+        senderId: senderId,
         file: path,
         type: attach == 'jpg' ||
-            attach == 'png' ||
-            attach == 'PNG' ||
-            attach == 'JPG' ||
-            attach == ' jpeg'
-            ? 'image' : '',
+                attach == 'png' ||
+                attach == 'PNG' ||
+                attach == 'JPG' ||
+                attach == ' jpeg'
+            ? 'image'
+            : '',
       ));
     } else {
       SizedBox();
@@ -814,7 +923,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
   Future<File?> pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['jpg','png','PNG','JPG','jpeg','image'],
+      allowedExtensions: ['jpg', 'png', 'PNG', 'JPG', 'jpeg', 'image'],
     );
     String? splites = result!.paths[0];
     path = File(splites!);
@@ -823,15 +932,16 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
     print('PATH  ${attach}');
     if (path != null) {
       Get.to(ShowDocument(
-        receiverId:  'payal',
-        senderId:  _auth.currentUser!.uid,
+        receiverId: recieverId,
+        senderId: senderId,
         file: path,
         type: attach == 'jpg' ||
-            attach == 'png' ||
-            attach == 'PNG' ||
-            attach == 'JPG' ||
-            attach == ' jpeg'
-            ? 'image' : '',
+                attach == 'png' ||
+                attach == 'PNG' ||
+                attach == 'JPG' ||
+                attach == ' jpeg'
+            ? 'image'
+            : '',
       ));
     } else {
       SizedBox();
@@ -872,11 +982,11 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
   //   }
   // }
 
-
 }
+
 class FlutterAbsolutePath {
   static const MethodChannel _channel =
-  const MethodChannel('flutter_absolute_path');
+      const MethodChannel('flutter_absolute_path');
 
   /// Gets absolute path of the file from android URI or iOS PHAsset identifier
   /// The return of this method can be used directly with flutter [File] class
@@ -888,6 +998,7 @@ class FlutterAbsolutePath {
     return path;
   }
 }
+
 class ShowDocument extends StatelessWidget {
   final String? senderId, receiverId;
   final String? type;
@@ -913,9 +1024,16 @@ class ShowDocument extends StatelessWidget {
           Expanded(
             child: Center(
               child: Container(
-                child: Type != null && file != null
-                    ? Image.file(file!,fit: BoxFit.cover,):SizedBox(child: Center(child: CircularProgressIndicator(),),)
-              ),
+                  child: Type != null && file != null
+                      ? Image.file(
+                          file!,
+                          fit: BoxFit.cover,
+                        )
+                      : SizedBox(
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )),
             ),
           ),
           Row(
@@ -959,11 +1077,11 @@ class ShowDocument extends StatelessWidget {
     String downloadUrl = await snapshot.ref.getDownloadURL();
     print('url=$downloadUrl');
     // print('path=$fileImageArray');
-    chatCollection.doc(chatId(_auth.currentUser!.uid, 'payal')).collection('Data').add({
+    chatCollection.doc(chatId(senderId!, receiverId!)).collection('Data').add({
       'date': DateTime.now(),
       'Type': 'Image',
-      'senderId': _auth.currentUser!.uid,
-      'receiveId': 'payal',
+      'senderId': senderId,
+      'receiveId': receiverId,
       'seen': false,
       'msg': msg,
       'text': true,
@@ -975,4 +1093,3 @@ class ShowDocument extends StatelessWidget {
     }).catchError((e) => print('upload error'));
   }
 }
-

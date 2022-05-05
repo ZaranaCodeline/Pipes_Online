@@ -59,11 +59,11 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
     // Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
     Map<String, dynamic>? getUserData = m as Map<String, dynamic>?;
 
-    firstname = getUserData!['user_name'];
-    email = getUserData['email'];
-    address = getUserData['address'];
-    phoneno = getUserData['phoneno'];
-    Img = getUserData['imageProfile'];
+    firstname = getUserData?['user_name'];
+    email = getUserData?['email'];
+    address = getUserData?['address'];
+    phoneno = getUserData?['phoneno'];
+    Img = getUserData?['imageProfile'];
 
     print('========SelectedProductWidget===========${getUserData}');
   }
@@ -192,7 +192,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   CustomText(
-                                    text: '5.0',
+                                    text: rating.toString(),
                                     color: AppColors.secondaryBlackColor,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w600,
@@ -213,11 +213,37 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                                       color: AppColors.starRatingColor,
                                       borderColor: AppColors.starRatingColor,
                                       spacing: 0.0),
-                                  CustomText(
+                                  StreamBuilder<QuerySnapshot>(
+                                    stream: FirebaseFirestore.instance
+                                        .collection("Reviews")
+                                        .doc(PreferenceManager.getUId()
+                                            .toString())
+                                        .collection('ReviewID')
+                                        .snapshots(),
+                                    builder: (context, snapShot) {
+                                      if (snapShot.hasData) {
+                                        print(
+                                            'length=====${snapShot.data!.docs.length}');
+                                        return CustomText(
+                                            text:
+                                                '${snapShot.data!.docs.length} Reviews ',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 12.sp,
+                                            color:
+                                                AppColors.secondaryBlackColor);
+                                      }
+                                      return CustomText(
+                                          text: '(Reviews)',
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 12.sp,
+                                          color: AppColors.secondaryBlackColor);
+                                    },
+                                  )
+                                  /* CustomText(
                                       text: '(14 reviews)',
                                       fontWeight: FontWeight.w600,
                                       fontSize: 12.sp,
-                                      color: AppColors.secondaryBlackColor),
+                                      color: AppColors.secondaryBlackColor),*/
                                 ],
                               ),
                             ),

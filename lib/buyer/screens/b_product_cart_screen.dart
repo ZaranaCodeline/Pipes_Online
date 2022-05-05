@@ -14,21 +14,21 @@ import 'package:sizer/sizer.dart';
 import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 
 class ProductCartScreen extends StatefulWidget {
-  // String? id;
+  String? id;
   // String? desc;
   // String? price;
   // String? name;
   // String? category;
   // String? image;
   //
-  // ProductCartScreen(
-  //     {Key? key,
-  //     this.price,
-  //     this.desc,
-  //     this.name,
-  //     this.image,
-  //     this.category,
-  //     this.id});
+  ProductCartScreen(
+      {Key? key,
+      // this.price,
+      // this.desc,
+      // this.name,
+      // this.image,
+      // this.category,
+      this.id});
 
   @override
   State<ProductCartScreen> createState() => _ProductCartScreenState();
@@ -45,13 +45,9 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
       Get.put(CartProductcontroller());
   @override
   Widget build(BuildContext context) {
-    print('============${PreferenceManager.getUId()}');
-    // print('==============${widget.id}');
-    // print('==============${widget.name}');
-    // print('==============${widget.category}');
-    // print('==============${widget.price}');
-    // print('==============${widget.desc}');
-    // print('==============${widget.image}');
+    print('getUId==========${PreferenceManager.getUId()}');
+    print('widget.id==========${widget.id}');
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -78,16 +74,26 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
             .collection('Cart')
             .doc(PreferenceManager.getUId())
             .collection('MyCart')
+            // .where('id', isEqualTo: PreferenceManager.getUId())
             .snapshots(),
         builder: (context, snapShot) {
-          if (snapShot.connectionState == ConnectionState.waiting) {
+          if (!snapShot.hasData || snapShot.data?.docs.length == null) {
+            return Center(
+              child: Container(
+                width: Get.width * 0.1,
+                height: Get.height / 8,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(25.sp)),
+                child: Text('Add Products in Cart'),
+              ),
+            );
+          } else if (snapShot.connectionState == ConnectionState.waiting) {
             Center(
               child: CircularProgressIndicator(
                 color: AppColors.primaryColor,
               ),
             );
-          }
-          if (snapShot.hasData) {
+          } else if (snapShot.hasData) {
             return ListView.builder(
               itemCount: snapShot.data!.docs.length,
               itemBuilder: (context, index) {
@@ -240,7 +246,7 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                 );
               },
             );
-          } else if (snapShot.data?.docs.length == 0) {
+          } else if (snapShot.data?.docs.length == null) {
             Center(
               child: Container(
                 width: Get.width * 0.1,

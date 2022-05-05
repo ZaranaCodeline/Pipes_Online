@@ -55,7 +55,11 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
           print('==>category${widget.category}');
           CollectionReference ProfileCollection =
               bFirebaseStore.collection('Reviews');
-          ProfileCollection.doc('${PreferenceManager.getUId()}').set({
+          ProfileCollection.doc('${PreferenceManager.getUId()}')
+              .collection('ReviewID')
+              .add({
+            // .set({
+            'reviewID': ProfileCollection.doc().id,
             'userID': PreferenceManager.getUId(),
             'category': widget.category,
             'user_name': firstname,
@@ -63,7 +67,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
             'dsc': desc.text,
             'rating': rating,
             'userType': PreferenceManager.getUserType(),
-            'time': DateTime.now().day,
+            'time': DateTime.now().year,
           });
         })
         .catchError((e) => print('Error ====buyer=====>>> $e'))

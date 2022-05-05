@@ -325,6 +325,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                     ),
                     TextField(
                       controller: email,
+                      keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         suffixIcon: Icon(Icons.edit),
                         border: OutlineInputBorder(

@@ -1,186 +1,56 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
-import 'package:pipes_online/buyer/screens/b_review_seller_contact_details_screen.dart';
+import 'package:pipes_online/buyer/screens/b_listing_review_tab_bar.dart';
+import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
+import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
-import '../../seller/view/s_screens/s_color_picker.dart';
-import '../app_constant/app_colors.dart';
-import 'b_listing_review_tab_bar.dart';
-import 'custom_widget/custom_text.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class SellerReviewWidget extends StatefulWidget {
-  final String? id, category;
-  const SellerReviewWidget({Key? key, this.id, this.category})
-      : super(key: key);
+class BReviewSellerContactDetailsScreen extends StatefulWidget {
+  const BReviewSellerContactDetailsScreen({Key? key}) : super(key: key);
 
   @override
-  State<SellerReviewWidget> createState() => _SellerReviewWidgetState();
+  State<BReviewSellerContactDetailsScreen> createState() =>
+      _BReviewSellerContactDetailsScreenState();
 }
 
-class _SellerReviewWidgetState extends State<SellerReviewWidget> {
+class _BReviewSellerContactDetailsScreenState
+    extends State<BReviewSellerContactDetailsScreen> {
   var rating = 3.0;
 
   CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
   String? Img;
-  String? firstname;
+  String? firstname, phone;
 
   Future<void> getData() async {
-    print('demo.....');
+    print('BProfile============');
     final user =
         await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    firstname = getUserData!['user_name'];
+    firstname = getUserData?['user_name'];
+    phone = getUserData?['phoneno'];
     print('=========SellerReviewWidget===============${getUserData}');
     setState(() {
-      Img = getUserData['imageProfile'];
+      Img = getUserData?['imageProfile'];
     });
     print('============================${user.get('imageProfile')}');
+    print('phoneno============================${user.get('phoneno')}');
   }
 
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
     getData();
-    print('=========seller_reviewwidget_category---${widget.category}');
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    _showPopupMenu() {
-      final RenderBox renderBox = context.findRenderObject() as RenderBox;
-      final offset = renderBox.localToGlobal(Offset.zero);
-      final left = offset.dx;
-      final top = offset.dy + renderBox.size.height;
-      final right = left + renderBox.size.width;
-      final bottom = offset.dx;
-      showMenu<String>(
-        context: context,
-        color: AppColors.primaryColor,
-        position: RelativeRect.fromLTRB(25, -2, 25, 25),
-        //position where you want to show the menu on screen
-        items: [
-          PopupMenuItem<String>(
-            child: Center(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: Get.height * 0.04,
-                  ),
-                  CustomText(
-                    text: 'Contact to seller',
-                    color: AppColors.commonWhiteTextColor,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14.sp,
-                  ),
-                ],
-              ),
-            ),
-            value: '1',
-          ),
-          PopupMenuItem<String>(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: Get.height * 0.008,
-                ),
-                Center(
-                  child: CustomText(
-                    text: '\$5',
-                    color: AppColors.commonWhiteTextColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 35,
-                  ),
-                ),
-                SizedBox(
-                  height: Get.height * 0.008,
-                ),
-              ],
-            ),
-            value: '2',
-          ),
-          PopupMenuItem<String>(
-            child: GestureDetector(
-              onTap: () {
-                Get.to(BReviewSellerContactDetailsScreen());
-              },
-              child: Container(
-                height: Get.height * 0.08,
-                width: Get.width * 1,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: AppColors.commonWhiteTextColor,
-                  ),
-                  child: CustomText(
-                    textAlign: TextAlign.center,
-                    text: 'Get Contact details',
-                    alignment: Alignment.center,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14.sp,
-                    color: AppColors.secondaryBlackColor,
-                  ),
-                ),
-              ),
-            ),
-            value: '3',
-          ),
-          PopupMenuItem<String>(
-            child: Center(
-                child: SizedBox(
-              height: Get.height * 0,
-            )),
-            value: '4',
-          ),
-          PopupMenuItem<String>(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    width: 6,
-                    height: 6,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: AppColors.commonWhiteTextColor,
-                    ),
-                  ),
-                  CustomText(
-                    text:
-                        ' By this subscription\n you can call and chat\n with seller at any time.',
-                    color: AppColors.commonWhiteTextColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14.sp,
-                    textAlign: TextAlign.justify,
-                  ),
-                ],
-              ),
-              value: '5'),
-          PopupMenuItem<String>(
-            child: Center(
-                child: SizedBox(
-              height: Get.height * 0.01,
-            )),
-            value: '6',
-          ),
-        ],
-        elevation: 8.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
-      );
-    }
-
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -270,7 +140,7 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CustomText(
-                              text: rating.toString(),
+                              text: '5.0',
                               color: AppColors.secondaryBlackColor,
                               fontSize: 15,
                               fontWeight: FontWeight.w400,
@@ -343,7 +213,8 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                         child: InkWell(
                           onTap: () {
                             print('Get Contatc Detail');
-                            _showPopupMenu();
+
+                            // _showPopupMenu();
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -352,24 +223,69 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                                   width: 27,
                                   height: 27,
                                   decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 2,
-                                        color: AppColors.starRatingColor),
+                                    /*border: Border.all(
+                                        width: 1,
+                                        color: AppColors.hintTextColor),*/
                                     borderRadius: BorderRadius.circular(5),
                                   ),
-                                  child: Icon(
-                                    Icons.folder,
-                                    color: AppColors.primaryColor,
+                                  child: IconButton(
+                                    onPressed: () {},
+                                    icon: Container(
+                                      width: 30.sp,
+                                      height: 30.sp,
+                                      decoration: BoxDecoration(
+                                        color: SColorPicker.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.black12,
+                                              spreadRadius: 0.5,
+                                              blurRadius: 1),
+                                        ],
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Icon(
+                                        Icons.message_outlined,
+                                        size: 15.sp,
+                                        color: AppColors.secondaryBlackColor,
+                                      ),
+                                    ),
                                   )
                                   // SvgPicture.asset('assets/images/folder_icon.svg'),
                                   ),
                               const SizedBox(
                                 width: 10,
                               ),
+                              IconButton(
+                                onPressed: () {
+                                  launch('tel:1234567892');
+                                },
+                                icon: Container(
+                                  width: 20.sp,
+                                  height: 20.sp,
+                                  decoration: BoxDecoration(
+                                    color: SColorPicker.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black12,
+                                          spreadRadius: 0.5,
+                                          blurRadius: 1),
+                                    ],
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Icon(
+                                    Icons.call,
+                                    size: 15.sp,
+                                    color: AppColors.secondaryBlackColor,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
                               CustomText(
-                                  text: 'Get contact details',
+                                  text: phone.toString(),
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 18,
+                                  fontSize: 14.sp,
                                   color: AppColors.secondaryBlackColor),
                             ],
                           ),
@@ -384,9 +300,9 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
             Expanded(
                 flex: 3,
                 child: ListingReviewTabBarWidget(
-                  id: widget.id,
-                  category: widget.category,
-                )),
+                    // id: widget.id,
+                    // category: widget.category,
+                    )),
           ],
         ),
       ),

@@ -526,7 +526,7 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
               // .collection('UserID')
               // .add({
               .set({
-            'buyerID': PreferenceManager.getUId(),
+            'sellerID': PreferenceManager.getUId(),
             'email': widget.email != null ? widget.email : emailController.text,
             // 'password': widget.pass,
             'phoneno':

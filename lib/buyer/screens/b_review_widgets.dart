@@ -116,11 +116,26 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                               SizedBox(
                                 height: Get.height * 0.01,
                               ),
-                              CustomText(
-                                  text: '(14 reviews)',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12.sp,
-                                  color: AppColors.hintTextColor),
+                              StreamBuilder<QuerySnapshot>(
+                                stream: FirebaseFirestore.instance
+                                    .collection("Reviews")
+                                    .doc(PreferenceManager.getUId().toString())
+                                    .collection('ReviewID')
+                                    .snapshots(),
+                                builder: (context, snapShot) {
+                                  if (snapShot.hasData) {
+                                    print(
+                                        'length=====${snapShot.data!.docs.length}');
+                                    return CustomText(
+                                        text:
+                                            '${snapShot.data!.docs.length} Reviews ',
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 12.sp,
+                                        color: AppColors.hintTextColor);
+                                  }
+                                  return Container();
+                                },
+                              )
                             ],
                           ),
                         ),
@@ -154,14 +169,35 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        CustomText(
-                            text: '14 reviews',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 12.sp,
-                            color: AppColors.secondaryBlackColor),
+                        StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection("Reviews")
+                              .doc(PreferenceManager.getUId().toString())
+                              .collection('ReviewID')
+                              .snapshots(),
+                          builder: (context, snapShot) {
+                            if (snapShot.hasData) {
+                              print('length=====${snapShot.data!.docs.length}');
+                              return CustomText(
+                                  text:
+                                      '${snapShot.data!.docs.length} Reviews ',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12.sp,
+                                  color: AppColors.secondaryBlackColor);
+                            }
+                            return Container();
+                          },
+                        ),
+                        // CustomText(
+                        //     text: '14',
+                        //     fontWeight: FontWeight.w600,
+                        //     fontSize: 12.sp,
+                        //     color: AppColors.secondaryBlackColor),
                         GestureDetector(
                           onTap: () {
-                            Get.to(() => AddReviewsPage());
+                            Get.to(() => AddReviewsPage(
+                                  category: widget.category,
+                                ));
                           },
                           child: CustomText(
                               text: 'Review Now',
@@ -181,6 +217,8 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                             child: StreamBuilder<QuerySnapshot>(
                               stream: FirebaseFirestore.instance
                                   .collection("Reviews")
+                                  .doc(PreferenceManager.getUId().toString())
+                                  .collection('ReviewID')
                                   .snapshots(),
                               builder: (context, snapShot) {
                                 if (snapShot.hasData) {
@@ -198,7 +236,7 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                                     physics: BouncingScrollPhysics(),
                                     itemBuilder: (context, index) {
                                       print(
-                                          '=====>${snapShot.data!.docs.length}');
+                                          'length=====>${snapShot.data!.docs.length}');
                                       return Container(
                                         margin: EdgeInsets.symmetric(
                                             horizontal: 15),
@@ -218,7 +256,10 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                                                           ''
                                                   ? Center(
                                                       child: Image.network(
-                                                          'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'))
+                                                      'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+                                                      width: 30.sp,
+                                                      height: 30.sp,
+                                                    ))
                                                   : Image.network(
                                                       /*  snapShot.data?.docs[index]
                                                           ['imageProfile']*/
@@ -238,8 +279,10 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                                                         EdgeInsets.symmetric(
                                                             horizontal: 20),
                                                     child: CustomText(
-                                                      text: snapShot.data
-                                                          ?.docs[index]['name'],
+                                                      text: (snapShot.data!
+                                                                  .docs[index]
+                                                              ['user_name'])
+                                                          .toString(),
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       fontSize: 14.sp,
@@ -301,8 +344,11 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                                                                   0.03,
                                                             ),
                                                             CustomText(
-                                                                text: widget
-                                                                    .category
+                                                                text: (snapShot
+                                                                            .data
+                                                                            ?.docs[index]
+                                                                        [
+                                                                        'category'])
                                                                     .toString(),
                                                                 fontWeight:
                                                                     FontWeight

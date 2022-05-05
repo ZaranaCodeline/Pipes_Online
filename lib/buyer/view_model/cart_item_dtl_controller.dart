@@ -46,7 +46,6 @@ class ItemDetailController extends GetxController {
   Future<void> addItemsToCart() async {
     isLoading = true;
     update();
-
     try {
       await _firestore
           .collection('Products')

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/convert_date_formate_chat.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
@@ -25,7 +26,7 @@ class _BChatScreenState extends State<BChatScreen> {
   CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
   String? Img;
   String? firstname, phone;
-
+  bool? isStatus;
   Future<void> getData() async {
     print('demo.....');
     final user =
@@ -45,19 +46,14 @@ class _BChatScreenState extends State<BChatScreen> {
     // TODO: implement initState
     super.initState();
     // getData();
-    print('PreferenceManager.getUId()====${PreferenceManager.getUId()}');
-    print('doc( sellerID )==>${ProfileCollection.doc('sellerID')}');
+    print('Buyer PreferenceManager.getUId()====${PreferenceManager.getUId()}');
   }
 
   String chatId(String id1, String id2) {
     print('--------id1--id1--------$id1');
 
     print('id1 length => ${id1.length} id2 length=> ${id2.length}');
-    if (id1.compareTo(id2) > 0) {
-      return id1 + '-' + id2;
-    } else {
-      return id2 + '-' + id1;
-    }
+    return id1 + '-' + id2;
   }
 
   @override
@@ -119,10 +115,15 @@ class _BChatScreenState extends State<BChatScreen> {
                         .snapshots(),
                     builder: (BuildContext context,
                         AsyncSnapshot<dynamic> snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
                       return Container(
-                        height: Get.height * 0.6,
+                        height: Get.height * 0.7,
                         child: ListView.builder(
-                          itemCount: snapshot.data!.docs.length,
+                          itemCount: snapshot.data?.docs.length,
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
                               onTap: () {
@@ -131,20 +132,14 @@ class _BChatScreenState extends State<BChatScreen> {
                                     'SENDER ID ${PreferenceManager.getUId()}');
                                 print(
                                     'RECIEVER ID ${snapshot.data.docs[index]['sellerID']}');
-                                // loginwithgoogle();
-
                                 Get.to(
                                   ChatMessagePage(
                                     userImg: snapshot.data.docs[index]
                                         ['imageProfile'],
-                                    // _auth.currentUser!.photoURL,
-                                    // 'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cat_1.png?alt=media&token=a8b761df-c503-466b-baf3-d4ef73d5650d',
-                                    // receiverId: _auth.currentUser!.uid,
                                     receiverId: snapshot.data.docs[index][
                                         'sellerID'] /*'100247364098702824893'*/,
-                                    // userName: _auth.currentUser!.displayName,
                                     userName: snapshot.data.docs[index]
-                                        ['user_name'] /*'milan'*/,
+                                        ['user_name'],
                                   ),
                                 );
                               },
@@ -163,16 +158,18 @@ class _BChatScreenState extends State<BChatScreen> {
                                           child: Container(
                                             child: Stack(
                                               children: [
-                                                CircleAvatar(
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          50.sp),
                                                   child: Image.network(
-                                                    snapshot.data.docs[index]
-                                                        ['imageProfile'],
-                                                    width: 50.sp,
-                                                    height: 50.sp,
-                                                    fit: BoxFit.fill,
+                                                    (snapshot.data?.docs[index]
+                                                            ['imageProfile'])
+                                                        .toString(),
+                                                    width: 35.sp,
+                                                    height: 35.sp,
+                                                    fit: BoxFit.cover,
                                                   ),
-                                                  backgroundColor:
-                                                      AppColors.offWhiteColor,
                                                 ),
                                                 Positioned(
                                                   right: 0,
@@ -183,7 +180,9 @@ class _BChatScreenState extends State<BChatScreen> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               50),
-                                                      color: Colors.green,
+                                                      color: isStatus == true
+                                                          ? Colors.green
+                                                          : Colors.transparent,
                                                     ),
                                                   ),
                                                 ),
@@ -197,19 +196,23 @@ class _BChatScreenState extends State<BChatScreen> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               CustomText(
-                                                  text: snapshot.data
-                                                      .docs[index]['user_name'],
+                                                  text: (snapshot
+                                                              .data?.docs[index]
+                                                          ['user_name'])
+                                                      .toString(),
                                                   fontWeight: FontWeight.w600,
-                                                  fontSize: 15.sp,
+                                                  fontSize: 13.sp,
+                                                  alignment: Alignment.topLeft,
+                                                  textOverflow:
+                                                      TextOverflow.clip,
+                                                  max: 1,
                                                   color: AppColors
                                                       .secondaryBlackColor),
-                                              CustomText(
-                                                text: 'Hii',
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 12.sp,
-                                                color: AppColors
-                                                    .secondaryBlackColor,
-                                              ),
+                                              /*_time(
+                                                  snapshot.data
+                                                      .docs[index]['sellerID']
+                                                      .toString(),
+                                                  index)*/
                                             ],
                                           ),
                                         ),
@@ -222,28 +225,11 @@ class _BChatScreenState extends State<BChatScreen> {
                                           right: Get.width * 0.05),
                                       child: Column(
                                         children: [
-                                          CustomText(
-                                              text: DateTime.now()
-                                                  .minute
+                                          _time(
+                                              snapshot
+                                                  .data.docs[index]['sellerID']
                                                   .toString(),
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 13.sp,
-                                              color: AppColors
-                                                  .secondaryBlackColor),
-                                          CircleAvatar(
-                                            radius: 8.sp,
-                                            child: Center(
-                                              child: CustomText(
-                                                text: '1',
-                                                fontWeight: FontWeight.w600,
-                                                color: AppColors
-                                                    .commonWhiteTextColor,
-                                                fontSize: 10.sp,
-                                              ),
-                                            ),
-                                            backgroundColor:
-                                                AppColors.primaryColor,
-                                          ),
+                                              index)
                                         ],
                                       ),
                                     ),
@@ -251,17 +237,10 @@ class _BChatScreenState extends State<BChatScreen> {
                                 ),
                               ),
                             );
-                            ;
                           },
                         ),
                       );
                     },
-                  ),
-                  Divider(
-                    color: AppColors.hintTextColor,
-                    thickness: 1.sp,
-                    indent: Get.width * 0.05,
-                    endIndent: Get.width * 0.05,
                   ),
                 ],
               ),
@@ -270,5 +249,132 @@ class _BChatScreenState extends State<BChatScreen> {
         ),
       ),
     );
+  }
+
+  Column _time(String id, int index) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        StreamBuilder<QuerySnapshot>(
+          stream: getLastMsgData(id),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return SizedBox();
+            }
+            String? lastMsg;
+            List<DocumentSnapshot> docs = snapshot.data!.docs;
+            if (docs.length == 1) {
+              lastMsg = docs[0].get('msg');
+            }
+            print('last Msg :$lastMsg');
+            return lastMsg == null
+                ? SizedBox()
+                : CustomText(
+                    text: (lastMsg),
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12.sp,
+                    color: AppColors.secondaryBlackColor,
+                    textOverflow: TextOverflow.ellipsis,
+                    max: 1,
+                  );
+          },
+        ),
+        SizedBox(
+          height: Get.height * 0.01,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            StreamBuilder<QuerySnapshot>(
+                stream: getPendingSeenData(id),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    int length = 0;
+                    length = snapshot.data!.docs.fold(
+                        0,
+                        (previousValue, element) =>
+                            previousValue +
+                            (element.get('senderId') == id ? 1 : 0));
+                    return length == 0
+                        ? SizedBox()
+                        : Container(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColors.primaryColor),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Center(
+                                child: Text(
+                                  '$length',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12),
+                                ),
+                              ),
+                            ));
+                  } else {
+                    return SizedBox();
+                  }
+                }),
+            SizedBox(
+              width: Get.width * 0.04,
+            ),
+            StreamBuilder<QuerySnapshot>(
+              stream: getLastMsgData(id),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return SizedBox();
+                }
+                DateTime? lastMsgTime;
+                List<DocumentSnapshot> docs = snapshot.data!.docs;
+                if (docs.length == 1) {
+                  lastMsgTime = docs[0].get('date').toDate();
+                }
+                print('last Msg :$lastMsgTime');
+                return lastMsgTime == null
+                    ? SizedBox()
+                    : MsgDate(
+                        date: docs[0].get('date').toDate(),
+                      );
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Stream<QuerySnapshot> getPendingSeenData(String id) {
+    String senderId = PreferenceManager.getUId();
+    String receiverId = id.toString();
+    return FirebaseFirestore.instance
+        .collection('Chat')
+        .doc(chatId(senderId, receiverId))
+        .collection('Data')
+        .where('seen', isEqualTo: false)
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot> getLastMsgData(String id) {
+    String senderId = PreferenceManager.getUId();
+    String receiverId = id.toString();
+    return FirebaseFirestore.instance
+        .collection('Chat')
+        .doc(chatId(senderId, receiverId))
+        .collection('Data')
+        .orderBy('date')
+        .limitToLast(1)
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot> getLastMsg(String id) {
+    String senderId = PreferenceManager.getUId();
+    String receiverId = id.toString();
+    return FirebaseFirestore.instance
+        .collection('Chat')
+        .doc(chatId(senderId, receiverId))
+        .collection('Data')
+        .orderBy('date')
+        .limitToLast(1)
+        .snapshots();
   }
 }

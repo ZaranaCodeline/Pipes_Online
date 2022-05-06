@@ -12,6 +12,7 @@ import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/app_constant/b_image.dart';
 import '../../../buyer/screens/custom_widget/custom_text.dart';
+import '../../../convert_date_formate_chat.dart';
 import '../../bottombar/widget/category_bottom_bar_route.dart';
 
 class SChatScreen extends StatefulWidget {
@@ -25,6 +26,7 @@ class _SChatScreenState extends State<SChatScreen> {
   CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
   String? Img;
   String? firstname, phone;
+  bool? isStatus;
 
   Future<void> getData() async {
     print('buyer chat demo.....');
@@ -45,18 +47,14 @@ class _SChatScreenState extends State<SChatScreen> {
     // TODO: implement initState
     super.initState();
     // getData();
-    print('PreferenceManager.getUId()====${PreferenceManager.getUId()}');
+    print('Seller PreferenceManager.getUId()====${PreferenceManager.getUId()}');
   }
 
   String chatId(String id1, String id2) {
     print('--------id1--id1--------$id1');
 
     print('id1 length => ${id1.length} id2 length=> ${id2.length}');
-    if (id1.compareTo(id2) > 0) {
-      return id1 + '-' + id2;
-    } else {
-      return id2 + '-' + id1;
-    }
+    return id2 + '-' + id1;
   }
 
   @override
@@ -106,13 +104,18 @@ class _SChatScreenState extends State<SChatScreen> {
                 SizedBox(
                   height: Get.height * 0.01,
                 ),
-                Divider(color: AppColors.primaryColor, thickness: 1.sp),
+                Divider(color: AppColors.primaryColor, thickness: 0.5.sp),
                 StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('BProfile')
                       .snapshots(),
                   builder:
                       (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
                     return Container(
                       height: Get.height * 0.7,
                       child: ListView.builder(
@@ -128,13 +131,14 @@ class _SChatScreenState extends State<SChatScreen> {
 
                                 FirebaseAuth _auth = FirebaseAuth.instance;
                                 Get.to(
-                                  () => SChatMessagePage(
-                                      userImg: snapshot.data.docs[index]
-                                          ['imageProfile'],
-                                      receiverId: snapshot.data.docs[index][
-                                          'buyerID'] /*_auth.currentUser!.uid*/,
-                                      userName: snapshot.data.docs[index]
-                                          ['user_name']),
+                                  () => ChatMessagePage(
+                                    userImg: snapshot.data.docs[index]
+                                        ['imageProfile'],
+                                    receiverId: snapshot.data.docs[index]
+                                        ['buyerID'] /*_auth.currentUser!.uid*/,
+                                    userName: snapshot.data.docs[index]
+                                        ['user_name'],
+                                  ),
                                 );
                               },
                               child: Padding(
@@ -157,18 +161,19 @@ class _SChatScreenState extends State<SChatScreen> {
                                                       BorderRadius.circular(
                                                           50.sp),
                                                   // radius: 50,
-                                                  child: Img == null
+                                                  child: snapshot.data
+                                                                  ?.docs[index][
+                                                              'imageProfile'] ==
+                                                          null
                                                       ? Image.asset(
-                                                          BImagePick.proIcon,
-                                                          width: 35.sp,
-                                                          height: 35.sp)
+                                                          BImagePick.proIcon)
                                                       : Image.network(
                                                           snapshot.data
-                                                                  .docs[index]
+                                                                  ?.docs[index]
                                                               ['imageProfile'],
                                                           width: 35.sp,
                                                           height: 35.sp,
-                                                          fit: BoxFit.fill,
+                                                          fit: BoxFit.cover,
                                                         ),
                                                 ),
                                                 Positioned(
@@ -180,7 +185,9 @@ class _SChatScreenState extends State<SChatScreen> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               50),
-                                                      color: Colors.green,
+                                                      color: isStatus == true
+                                                          ? Colors.green
+                                                          : Colors.transparent,
                                                     ),
                                                   ),
                                                 ),
@@ -194,20 +201,14 @@ class _SChatScreenState extends State<SChatScreen> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               CustomText(
-                                                  text:
-                                                      snapshot.data?.docs[index]
-                                                          ['user_name'],
+                                                  text: (snapshot
+                                                              .data?.docs[index]
+                                                          ['user_name'])
+                                                      .toString(),
                                                   fontWeight: FontWeight.w600,
-                                                  fontSize: 15.sp,
+                                                  fontSize: 13.sp,
                                                   color: AppColors
                                                       .secondaryBlackColor),
-                                              CustomText(
-                                                text: 'Hii',
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 12.sp,
-                                                color: AppColors
-                                                    .secondaryBlackColor,
-                                              ),
                                             ],
                                           ),
                                         ),
@@ -218,32 +219,10 @@ class _SChatScreenState extends State<SChatScreen> {
                                       width: Get.width * 0.4,
                                       padding: EdgeInsets.only(
                                           right: Get.width * 0.05),
-                                      child: Column(
-                                        children: [
-                                          CustomText(
-                                              text: DateTime.now()
-                                                  .minute
-                                                  .toString(),
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 13.sp,
-                                              color: AppColors
-                                                  .secondaryBlackColor),
-                                          CircleAvatar(
-                                            radius: 8.sp,
-                                            child: Center(
-                                              child: CustomText(
-                                                text: '1',
-                                                fontWeight: FontWeight.w600,
-                                                color: AppColors
-                                                    .commonWhiteTextColor,
-                                                fontSize: 10.sp,
-                                              ),
-                                            ),
-                                            backgroundColor:
-                                                AppColors.primaryColor,
-                                          ),
-                                        ],
-                                      ),
+                                      child: _time(
+                                          snapshot.data!.docs[index]['buyerID']
+                                              .toString(),
+                                          index),
                                     ),
                                   ],
                                 ),
@@ -259,5 +238,132 @@ class _SChatScreenState extends State<SChatScreen> {
         ),
       ),
     );
+  }
+
+  Column _time(String id, int index) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        StreamBuilder<QuerySnapshot>(
+          stream: getLastMsgData(id),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return SizedBox();
+            }
+            String? lastMsg;
+            List<DocumentSnapshot> docs = snapshot.data!.docs;
+            if (docs.length == 1) {
+              lastMsg = docs[0].get('msg');
+            }
+            print('last Msg :$lastMsg');
+            return lastMsg == null
+                ? SizedBox()
+                : CustomText(
+                    text: (lastMsg),
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12.sp,
+                    color: AppColors.secondaryBlackColor,
+                    textOverflow: TextOverflow.ellipsis,
+                    max: 1,
+                  );
+          },
+        ),
+        SizedBox(
+          height: Get.height * 0.01,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            StreamBuilder<QuerySnapshot>(
+                stream: getPendingSeenData(id),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    int length = 0;
+                    length = snapshot.data!.docs.fold(
+                        0,
+                        (previousValue, element) =>
+                            previousValue +
+                            (element.get('senderId') == id ? 1 : 0));
+                    return length == 0
+                        ? SizedBox()
+                        : Container(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColors.primaryColor),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Center(
+                                child: Text(
+                                  '$length',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12),
+                                ),
+                              ),
+                            ));
+                  } else {
+                    return SizedBox();
+                  }
+                }),
+            SizedBox(
+              width: Get.width * 0.04,
+            ),
+            StreamBuilder<QuerySnapshot>(
+              stream: getLastMsgData(id),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return SizedBox();
+                }
+                DateTime? lastMsgTime;
+                List<DocumentSnapshot> docs = snapshot.data!.docs;
+                if (docs.length == 1) {
+                  lastMsgTime = docs[0].get('date').toDate();
+                }
+                print('last Msg :$lastMsgTime');
+                return lastMsgTime == null
+                    ? SizedBox()
+                    : MsgDate(
+                        date: docs[0].get('date').toDate(),
+                      );
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Stream<QuerySnapshot> getPendingSeenData(String id) {
+    String senderId = PreferenceManager.getUId();
+    String receiverId = id.toString();
+    return FirebaseFirestore.instance
+        .collection('Chat')
+        .doc(chatId(senderId, receiverId))
+        .collection('Data')
+        .where('seen', isEqualTo: false)
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot> getLastMsgData(String id) {
+    String senderId = PreferenceManager.getUId();
+    String receiverId = id.toString();
+    return FirebaseFirestore.instance
+        .collection('Chat')
+        .doc(chatId(senderId, receiverId))
+        .collection('Data')
+        .orderBy('date')
+        .limitToLast(1)
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot> getLastMsg(String id) {
+    String senderId = PreferenceManager.getUId();
+    String receiverId = id.toString();
+    return FirebaseFirestore.instance
+        .collection('Chat')
+        .doc(chatId(senderId, receiverId))
+        .collection('Data')
+        .orderBy('date')
+        .limitToLast(1)
+        .snapshots();
   }
 }

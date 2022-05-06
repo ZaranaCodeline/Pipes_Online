@@ -438,7 +438,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         SvgPicture.asset(
-                                          "${SImagePick.locationColorIcon}",
+                                          "${SImagePick.googleIcon}",
                                         ),
                                         Text(
                                           'Signup with Google',

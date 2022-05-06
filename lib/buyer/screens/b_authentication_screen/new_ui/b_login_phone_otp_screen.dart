@@ -141,6 +141,8 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
       );
       return;
     } else {
+      await FirebaseAuth.instance.signInWithCredential(phoneAuthCredential);
+      print("successful");
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

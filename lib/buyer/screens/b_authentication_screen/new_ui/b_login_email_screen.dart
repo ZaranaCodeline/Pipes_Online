@@ -431,10 +431,10 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
                                           SvgPicture.asset(
-                                            "${SImagePick.locationColorIcon}",
+                                            "${SImagePick.googleIcon}",
                                           ),
                                           Text(
-                                            'Login with Google',
+                                            'Sign Up with Google',
                                             style:
                                                 STextStyle.semiBold600Black13,
                                           ),

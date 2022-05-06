@@ -49,8 +49,7 @@ String? convertDateForm(DateTime tm) {
       break;
   }
 
-  Duration difference = today.difference(tm)
-  ;
+  Duration difference = today.difference(tm);
   if (difference.compareTo(Duration(minutes: 1)) < 1) {
     return 'Now';
   } else if (difference.compareTo(Duration(hours: 1)) < 1) {
@@ -95,14 +94,11 @@ String chatId(String id1, String id2) {
 }
 
 class MsgDate extends StatefulWidget {
-  const MsgDate({Key? key,this.date}) : super(key: key);
+  const MsgDate({Key? key, this.date}) : super(key: key);
   final date;
   @override
   State<MsgDate> createState() => _MsgDateState();
 }
-
-
-
 
 class _MsgDateState extends State<MsgDate> {
   Timer? timer;
@@ -125,7 +121,7 @@ class _MsgDateState extends State<MsgDate> {
   Widget build(BuildContext context) {
     return Text(
       '${convertDateForm(widget.date)}',
-      style: TextStyle(color:AppColors.commonWhiteTextColor),
+      style: TextStyle(color: AppColors.primaryColor),
     );
   }
 }

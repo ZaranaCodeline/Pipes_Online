@@ -77,7 +77,7 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
             // .where('id', isEqualTo: PreferenceManager.getUId())
             .snapshots(),
         builder: (context, snapShot) {
-          if (!snapShot.hasData || snapShot.data?.docs.length == null) {
+          if (!snapShot.hasData) {
             return Center(
               child: Container(
                 width: Get.width * 0.1,
@@ -222,19 +222,6 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                                       color: AppColors.primaryColor,
                                     ),
                                   );
-                                  //   Container(
-                                  //   width: Get.width * 0.1,
-                                  //   height: Get.height / 15,
-                                  //   decoration: BoxDecoration(
-                                  //       borderRadius: BorderRadius.circular(30),
-                                  //       color: AppColors.primaryColor),
-                                  //   child: CustomText(
-                                  //     text: 'No Items',
-                                  //     fontSize: 14.sp,
-                                  //     color: AppColors.commonWhiteTextColor,
-                                  //     fontWeight: FontWeight.w700,
-                                  //   ),
-                                  // );
                                 },
                               ),
                             ),
@@ -246,20 +233,14 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                 );
               },
             );
-          } else if (snapShot.data?.docs.length == null) {
-            Center(
-              child: Container(
-                width: Get.width * 0.1,
-                height: Get.height / 8,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(25.sp)),
-                child: Text('Add Products in Cart'),
-              ),
-            );
           }
           return Center(
-            child: CircularProgressIndicator(
-              color: AppColors.primaryColor,
+            child: Container(
+              width: Get.width * 0.1,
+              height: Get.height / 8,
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(25.sp)),
+              child: Text('Add Products in Cart'),
             ),
           );
         },

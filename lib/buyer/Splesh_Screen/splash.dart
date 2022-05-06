@@ -36,43 +36,40 @@ class _SplashState extends State<Splash> {
             PreferenceManager.getUserType() == null ||
             PreferenceManager.getUId() == 'uid') {
           print('TEST:- 2');
-
-          // Get.offAll(SBuyerSellerScreen());
           Get.offAll(() => BWelcomeScreen());
         } else {
           if (PreferenceManager.getUserType() == 'Buyer') {
             if (PreferenceManager.getUId() != null) {
-              print('============>3)${PreferenceManager.getUId()}');
+              print('Buyer====>3)${PreferenceManager.getUId()}');
               print('TEST:- 3');
-              // print('==Email==>${PreferenceManager.getEmail()}');
-              // print('==PhoneNumber==>${PreferenceManager.getPhoneNumber()}');
               Get.offAll(() => BottomNavigationBarScreen());
-            } else if (PreferenceManager.getUserType() == '' ||
+            }
+            if (PreferenceManager.getUserType() == '' ||
                 PreferenceManager.getUId() == null ||
                 PreferenceManager.getUId() == 'uid') {
               print('TEST:- 4');
-              print('============>4)${PreferenceManager.getUId()}');
+              print('Buyer====>4)${PreferenceManager.getUId()}');
               Get.to(() => BWelcomeScreen());
             }
           } else {
             print('TEST:- 5');
-            print('============>5)${PreferenceManager.getUId()}');
-            print('=========Email==>${PreferenceManager.getEmail()}');
-            print('==PhoneNumber==>${PreferenceManager.getPhoneNumber()}');
             PreferenceManager.getUserType() == 'Seller';
             if (PreferenceManager.getUId() != null) {
-              print('============>6)${PreferenceManager.getUId()}');
+              print('Seller==>6)${PreferenceManager.getUId()}');
               print('TEST:- 6');
               Get.offAll(() => NavigationBarScreen());
-            } else if (PreferenceManager.getUId() == null) {
-              print('TEST:- 7');
-              Get.to(() => SWelcomeScreen());
             }
-            Get.to(() => SWelcomeScreen());
+            if (PreferenceManager.getUserType() == '' ||
+                PreferenceManager.getUId() == null ||
+                PreferenceManager.getUId() == 'uid') {
+              print('TEST:- 7');
+              print('Seller==>7)${PreferenceManager.getUId()}');
+              Get.to(() => BWelcomeScreen());
+            }
           }
         }
       } else {
-        print('TEST:- 10');
+        print('TEST:- 7');
         Get.offAll(() => SOnBoardingScreen());
       }
     });

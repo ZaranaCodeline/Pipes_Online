@@ -443,7 +443,7 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
                                           SvgPicture.asset(
-                                            "${SImagePick.locationColorIcon}",
+                                            "${SImagePick.googleIcon}",
                                           ),
                                           Text(
                                             'Signup with Google',

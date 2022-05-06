@@ -544,6 +544,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
             'buyerID': PreferenceManager.getUId(),
             'email': widget.email != null ? widget.email : emailController.text,
             // 'password': widget.pass,
+            'isOnline': false,
             'phoneno':
                 widget.phone != null ? widget.phone : mobilecontroller.text,
             'user_name': nameController.text,

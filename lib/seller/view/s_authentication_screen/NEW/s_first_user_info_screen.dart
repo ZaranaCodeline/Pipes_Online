@@ -93,6 +93,15 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
 
   BottomController bottomController = Get.find();
 
+  @override
+  void dispose() {
+    emailController.dispose();
+    addressController.dispose();
+    nameController.dispose();
+    mobilecontroller.dispose();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
       return Builder(
@@ -526,6 +535,7 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
               // .collection('UserID')
               // .add({
               .set({
+            'isOnline': false,
             'sellerID': PreferenceManager.getUId(),
             'email': widget.email != null ? widget.email : emailController.text,
             // 'password': widget.pass,

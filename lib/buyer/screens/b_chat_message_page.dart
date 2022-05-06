@@ -65,14 +65,36 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
     } else {
       return id2 + '-' + id1;
     }
+    return id1 + '-' + id2;
   }
 
   @override
   void initState() {
     senderId = PreferenceManager.getUId();
     recieverId = widget.receiverId;
+    seenOldMessage();
     // TODO: implement initState
     super.initState();
+  }
+
+  Future<void> seenOldMessage() async {
+    QuerySnapshot data = await FirebaseFirestore.instance
+        .collection('Chat')
+        .doc(chatId(senderId!, recieverId!))
+        .collection('Data')
+        .where('seen', isEqualTo: false)
+        .get();
+
+    data.docs.forEach((element) {
+      if (recieverId! == element.get('senderId')) {
+        FirebaseFirestore.instance
+            .collection('Chat')
+            .doc(chatId(senderId!, recieverId!))
+            .collection('Data')
+            .doc(element.id)
+            .update({'seen': true});
+      }
+    });
   }
 
   @override
@@ -83,6 +105,12 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          leading: InkWell(
+              onTap: () async {
+                Get.back();
+                await seenOldMessage();
+              },
+              child: Icon(Icons.arrow_back)),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -98,7 +126,10 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(50),
                           child: widget.userImg != null
-                              ? Image.network(widget.userImg.toString())
+                              ? Image.network(
+                                  widget.userImg.toString(),
+                                  fit: BoxFit.cover,
+                                )
                               : Image.asset(
                                   '${BImagePick.proIcon}',
                                   fit: BoxFit.cover,
@@ -126,7 +157,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                         alignment: Alignment.center,
                         text: '${widget.userName}',
                         fontWeight: FontWeight.w500,
-                        fontSize: 22,
+                        fontSize: 14.sp,
                         color: AppColors.commonWhiteTextColor,
                       ),
                       CustomText(
@@ -226,7 +257,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                               EdgeInsets.zero,
                                                           color: AppColors
                                                               .primaryColor
-                                                              .withOpacity(0.5),
+                                                              .withOpacity(0.4),
                                                           shape:
                                                               const RoundedRectangleBorder(
                                                             borderRadius:

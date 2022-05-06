@@ -15,6 +15,7 @@ import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_otp_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/otp.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/phone.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
@@ -434,6 +435,7 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                   child: GestureDetector(
                                     onTap: () {
                                       print('it is map');
+                                      loginwithgoogle();
                                       // setState(() {
                                       //   Get.to(MapsScreen());
                                       // });
@@ -458,10 +460,10 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
                                           SvgPicture.asset(
-                                            "${SImagePick.locationColorIcon}",
+                                            "${SImagePick.googleIcon}",
                                           ),
                                           Text(
-                                            'Login with Google',
+                                            'Sign Up with Google',
                                             style:
                                                 STextStyle.semiBold600Black13,
                                           ),

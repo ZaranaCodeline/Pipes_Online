@@ -420,7 +420,7 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         SvgPicture.asset(
-                                          "${SImagePick.locationColorIcon}",
+                                          "${SImagePick.googleIcon}",
                                         ),
                                         Text(
                                           'Signup with Google',

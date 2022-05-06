@@ -10,9 +10,11 @@ import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_firs
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_first_user_info_screen.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_login_phone_otp_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
+import 'package:pipes_online/seller/view_model/s_login_home_controller.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
@@ -50,9 +52,9 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
       PreferenceManager.setUId(_auth.currentUser!.uid.toString());
 
       if (authCredential.user != null) {
-        print('Login successful');
+        print('You are Signed in successfully');
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Login successful'),
+          content: Text('Sign Up successful'),
           duration: Duration(seconds: 5),
         ));
       }
@@ -62,38 +64,38 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
     }
   }
 
-  Future<void> verificationOTPCode(String otp) async {
-    PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
-        verificationId: verificationCode!, smsCode: otp);
-    if (phoneAuthCredential == null) {
-      _scaffoldState.currentState!.showSnackBar(
-        SnackBar(
-          content: Text("Please enter valid otp"),
-        ),
-      );
-      return;
-    } else {
-      PreferenceManager.setPhoneNumber(widget.phone.toString());
-      print('phone=========>${widget.phone}');
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SFirstUserInfoScreen(
-            phone: widget.phone,
-          ),
-        ),
-      );
-    }
-    _auth.signInWithCredential(phoneAuthCredential).then((value) {
-      print("You are Signed in successfully");
-      Get.showSnackbar(GetSnackBar(
-        backgroundColor: SColorPicker.red,
-        duration: Duration(seconds: 2),
-        message: 'You are logged in successfully',
-      ));
-    });
-    ;
-  }
+  // Future<void> verificationOTPCode(String otp) async {
+  //   PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
+  //       verificationId: verificationCode!, smsCode: otp);
+  //   if (phoneAuthCredential == null) {
+  //     _scaffoldState.currentState!.showSnackBar(
+  //       SnackBar(
+  //         content: Text("Please enter valid otp"),
+  //       ),
+  //     );
+  //     return;
+  //   } else {
+  //     PreferenceManager.setPhoneNumber(widget.phone.toString());
+  //     print('phone=========>${widget.phone}');
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => SFirstUserInfoScreen(
+  //           phone: widget.phone,
+  //         ),
+  //       ),
+  //     );
+  //   }
+  //   _auth.signInWithCredential(phoneAuthCredential).then((value) {
+  //     print("You are Signed in successfully");
+  //     Get.showSnackbar(GetSnackBar(
+  //       backgroundColor: SColorPicker.red,
+  //       duration: Duration(seconds: 2),
+  //       message: 'You are logged in successfully',
+  //     ));
+  //   });
+  //   ;
+  // }
 
   @override
   void initState() {
@@ -104,6 +106,54 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
     );
     // verificationOTPCode();
     verifyPhoneNumber();
+  }
+
+  SLogInController sLogInController = Get.find();
+  Future sendOtp() async {
+    print(
+        '========code===${sLogInController.countryCode}${PreferenceManager.getPhoneNumber()}');
+
+    await _auth.verifyPhoneNumber(
+      phoneNumber:
+          sLogInController.countryCode.toString() + widget.phone.toString(),
+      verificationCompleted: (phoneAuthCredential) async {
+        setState(() {
+          isLoading = false;
+        });
+      },
+      verificationFailed: (verificationFailed) async {
+        setState(() {
+          isLoading = false;
+        });
+        print('----verificationFailed---${verificationFailed.message}');
+        Get.showSnackbar(
+          GetSnackBar(
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: SColorPicker.red,
+            duration: Duration(seconds: 5),
+            message: verificationFailed.message,
+          ),
+        );
+        print(
+            'The phone number entered is invalid!====${verificationFailed.message}');
+      },
+      codeSent: (verificationId, resendingToken) async {
+        setState(() {
+          isLoading = false;
+          this.verificationCode = verificationId;
+          print('---------verificationId-------$verificationId');
+          print('---------this.verificationId-------${this.verificationCode}');
+          Get.to(
+            SLoginPhoneOtpScreen(
+              phone: widget.phone,
+              verificationId: verificationId,
+            ),
+          );
+          print('====${verificationId}');
+        });
+      },
+      codeAutoRetrievalTimeout: (verificationId) async {},
+    );
   }
 
   verifyPhoneNumber() async {
@@ -211,7 +261,7 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
                   ],
                 ),
               ),
-              GetBuilder<BLogInController>(
+              GetBuilder<SLogInController>(
                 builder: (controller) {
                   return Container(
                     height: Get.height * 0.864,
@@ -273,47 +323,6 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  // Container(
-                                  //   width: Get.width * 0.85,
-                                  //   child: OTPTextField(
-                                  //       controller: _otpController,
-                                  //       length: 6,
-                                  //       width:
-                                  //           MediaQuery.of(context).size.width,
-                                  //       fieldWidth: 30,
-                                  //       style: TextStyle(fontSize: 15),
-                                  //       textFieldAlignment:
-                                  //           MainAxisAlignment.spaceAround,
-                                  //       fieldStyle: FieldStyle.underline,
-                                  //       onCompleted: (pin) async {
-                                  //         print("Completed: " + pin);
-                                  //       },
-                                  //       // onCompleted: (pin) async {
-                                  //       //   print("Completed: " + pin);
-                                  //       //   await FirebaseAuth.instance
-                                  //       //       .signInWithCredential(
-                                  //       //           PhoneAuthProvider.credential(
-                                  //       //               verificationId:
-                                  //       //                   verificationCode!,
-                                  //       //               smsCode: _otpController
-                                  //       //                   .toString()))
-                                  //       //       .then((value) async {
-                                  //       //     if (value.user != null) {
-                                  //       //       print(
-                                  //       //           '===============>paas to home');
-                                  //       //     }
-                                  //       //   }).catchError((e) => print(
-                                  //       //           'error===>${e.toString()}'));
-                                  //       //   FocusScope.of(context).unfocus();
-                                  //       //   _globalKey.currentState?.showSnackBar(
-                                  //       //       SnackBar(
-                                  //       //           content:
-                                  //       //               Text('invalid OTP')));
-                                  //       // },
-                                  //       onChanged: (pin) {
-                                  //         print("onChanged: " + pin);
-                                  //       }),
-                                  // ),
                                   Container(
                                     width: Get.width * 0.865,
                                     child: Pinput(
@@ -358,7 +367,9 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
                                 height: Get.height * 0.04,
                               ),
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  sendOtp();
+                                },
                                 child: CustomText(
                                   alignment: Alignment.topLeft,
                                   text: 'Resend OTP',
@@ -444,12 +455,6 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
                                       ),
                                     );
                                   }
-                                  // setState(() {
-                                  //   isLoading = true;
-                                  // });
-                                  // verifyPhoneNumber();
-
-                                  // await verificationOTPCode;
                                 },
                                 child: Container(
                                   alignment: Alignment.center,

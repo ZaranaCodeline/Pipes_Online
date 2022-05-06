@@ -417,7 +417,7 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
                                           SvgPicture.asset(
-                                            "${SImagePick.locationColorIcon}",
+                                            "${SImagePick.googleIcon}",
                                           ),
                                           Text(
                                             'Signup with Google',

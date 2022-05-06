@@ -1,26 +1,20 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
+import 'package:pinput/pinput.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_first_user_info_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/phone.dart';
-import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
-import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
-import 'package:pipes_online/routes/app_routes.dart';
 import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_common_button.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
+import 'package:pipes_online/seller/view_model/s_login_home_controller.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 class SLoginPhoneOtpScreen extends StatefulWidget {
@@ -34,30 +28,164 @@ class SLoginPhoneOtpScreen extends StatefulWidget {
 
 class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
   final _globalKey = GlobalKey<ScaffoldState>();
-
+  final TextEditingController pinOTPController = TextEditingController();
+  final FocusNode _pinOTPCodeFocus = FocusNode();
   final _otpController = OtpFieldController();
   String? verificationCode;
   FirebaseAuth _auth = FirebaseAuth.instance;
   bool isLoading = false;
-  Future<void> verificationOTPCode(String otp) async {
-    PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
-        verificationId: verificationCode!, smsCode: otp);
-    if (phoneAuthCredential == null) {
-      _globalKey.currentState!.showSnackBar(
-        SnackBar(
-          content: Text("Please enter valid otp"),
-        ),
-      );
-      return;
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => NavigationBarScreen(),
-        ),
-      );
+
+  // Future<void> verificationOTPCode(String otp) async {
+  //   PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
+  //       verificationId: verificationCode!, smsCode: otp);
+  //   if (phoneAuthCredential == null) {
+  //     _globalKey.currentState!.showSnackBar(
+  //       SnackBar(
+  //         content: Text("Please enter valid otp"),
+  //       ),
+  //     );
+  //     return;
+  //   } else {
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => NavigationBarScreen(),
+  //       ),
+  //     );
+  //   }
+  //   _auth.signInWithCredential(phoneAuthCredential);
+  // }
+  verifyPhoneNumber() async {
+    await FirebaseAuth.instance
+        .verifyPhoneNumber(
+            phoneNumber: "+91 ${widget.phone}",
+            verificationCompleted: (PhoneAuthCredential credential) async {
+              await FirebaseAuth.instance
+                  .signInWithCredential(credential)
+                  .then((value) {
+                if (value.user != null) {
+                  String? uid = FirebaseAuth.instance.currentUser!.uid;
+                  PreferenceManager.setUId(uid);
+                  print('=========${PreferenceManager.getUId()}');
+
+                  ///TODO fix routes
+                  Get.to(() => NavigationBarScreen());
+                  setState(() {
+                    isLoading = false;
+                  });
+                }
+              });
+            },
+            verificationFailed: (FirebaseAuthException e) {
+              setState(() {
+                isLoading = false;
+              });
+              print('----verificationFailed---${e.message}');
+              Get.showSnackbar(
+                GetSnackBar(
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: SColorPicker.red,
+                  duration: Duration(seconds: 5),
+                  message: e.message.toString(),
+                ),
+              );
+            },
+            codeSent: (String? vID, int? resendToken) {
+              verificationCode = vID;
+            },
+            codeAutoRetrievalTimeout: (String? vID) {
+              verificationCode = vID;
+            },
+            timeout: Duration(seconds: 60))
+        .then(
+          (value) => Get.to(() {
+            PreferenceManager.getUId();
+            PreferenceManager.setPhoneNumber(widget.phone.toString());
+            print('P========${widget.phone.toString()}');
+            if (PreferenceManager.getUId() != null) {
+              NavigationBarScreen();
+            }
+            Get.snackbar('Oops', 'Invalid OTP');
+          }),
+        )
+        .catchError((onError) {
+      print(onError.toString());
+    });
+  }
+
+  SLogInController sLogInController = Get.find();
+
+  Future sendOtp() async {
+    print(
+        '========code===${sLogInController.countryCode}${PreferenceManager.getPhoneNumber()}');
+
+    await _auth.verifyPhoneNumber(
+      phoneNumber:
+          sLogInController.countryCode.toString() + widget.phone.toString(),
+      verificationCompleted: (phoneAuthCredential) async {
+        setState(() {
+          isLoading = false;
+        });
+      },
+      verificationFailed: (verificationFailed) async {
+        setState(() {
+          isLoading = false;
+        });
+        print('----verificationFailed---${verificationFailed.message}');
+        Get.showSnackbar(
+          GetSnackBar(
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: SColorPicker.red,
+            duration: Duration(seconds: 5),
+            message: verificationFailed.message,
+          ),
+        );
+        print(
+            'The phone number entered is invalid!====${verificationFailed.message}');
+      },
+      codeSent: (verificationId, resendingToken) async {
+        setState(() {
+          isLoading = false;
+          this.verificationCode = verificationId;
+          print('---------verificationId-------$verificationId');
+          print('---------this.verificationId-------${this.verificationCode}');
+          Get.to(
+            SLoginPhoneOtpScreen(
+              phone: widget.phone,
+              verificationId: verificationId,
+            ),
+          );
+          print('====${verificationId}');
+        });
+      },
+      codeAutoRetrievalTimeout: (verificationId) async {},
+    );
+  }
+
+  signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) async {
+    isLoading = true;
+
+    try {
+      final authCredential =
+          await _auth.signInWithCredential(phoneAuthCredential);
+      PreferenceManager.setUId(_auth.currentUser!.uid.toString());
+      if (authCredential.user != null) {
+        print('Login successful');
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Login successful'),
+          duration: Duration(seconds: 5),
+        ));
+        Future.delayed(Duration(seconds: 2), () {
+          // PreferenceManager.setLoginValue(widget.mobileNumber!);
+          isLoading = false;
+          Get.to(() => NavigationBarScreen());
+        });
+      }
+    } on FirebaseAuthException catch (e) {
+      print('--ERROR----');
+      isLoading = false;
+      print(e.message);
     }
-    _auth.signInWithCredential(phoneAuthCredential);
   }
 
   @override
@@ -101,7 +229,7 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
                   ],
                 ),
               ),
-              GetBuilder<BLogInController>(
+              GetBuilder<SLogInController>(
                 builder: (controller) {
                   return Container(
                     height: Get.height * 0.864,
@@ -150,7 +278,7 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
                                       height: Get.height * 0.01,
                                     ),
                                     Text(
-                                      'OTP Sent to +91......000 ',
+                                      'OTP Sent to +91 ${widget.phone}',
                                       style: STextStyle.regular400Black11,
                                     ),
                                   ],
@@ -165,37 +293,51 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
                                 children: [
                                   Container(
                                     width: Get.width * 0.85,
-                                    child: OTPTextField(
-                                        controller: _otpController,
-                                        length: 6,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        fieldWidth: 30,
-                                        style: TextStyle(fontSize: 15),
-                                        textFieldAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        fieldStyle: FieldStyle.underline,
-                                        onCompleted: (pin) {
-                                          print("Completed: " + pin);
-                                        },
-                                        onChanged: (pin) {
-                                          print("onChanged: " + pin);
-                                        }),
+                                    child: Pinput(
+                                      length: 6,
+                                      focusNode: _pinOTPCodeFocus,
+                                      controller: pinOTPController,
+                                      pinAnimationType:
+                                          PinAnimationType.rotation,
+                                      onSubmitted: (pin) async {
+                                        try {
+                                          FirebaseAuth.instance
+                                              .signInWithCredential(
+                                                  PhoneAuthProvider.credential(
+                                                      verificationId:
+                                                          verificationCode!,
+                                                      smsCode: pin))
+                                              .then(
+                                            (value) {
+                                              if (value.user != null) {
+                                                Get.to(() =>
+                                                    NavigationBarScreen());
+                                              }
+                                            },
+                                          );
+                                        } catch (e) {
+                                          FocusScope.of(context).unfocus();
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text('Invalid OTP'),
+                                              duration: Duration(seconds: 5),
+                                            ),
+                                          );
+                                          print(e);
+                                        }
+                                      },
+                                    ),
                                   ),
-                                  // ElevatedButton(
-                                  //   onPressed: () {
-                                  //     // verificationOTPCode(_otpController.toString());
-                                  //     // log("OTP==>>${_otpController.toString()}");
-                                  //   },
-                                  //   child: Text("Verify Otp"),
-                                  // ),
                                 ],
                               ),
                               SizedBox(
                                 height: Get.height * 0.04,
                               ),
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  sendOtp();
+                                },
                                 child: CustomText(
                                   alignment: Alignment.topLeft,
                                   text: 'Resend OTP',
@@ -213,34 +355,80 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
                                 child: SCommonButton().sCommonPurpleButton(
                                   name: "Login".toUpperCase(),
                                   onTap: () async {
-                                    setState(() {
-                                      isLoading = true;
-                                    });
-                                    verificationOTPCode;
-                                    // Get.offAll(BottomNavigationBarScreen());
+                                    try {
+                                      print('Test:------');
 
-                                    setState(() {
-                                      isLoading = false;
-                                    });
+                                      PhoneAuthCredential phoneAuthCredential =
+                                          PhoneAuthProvider.credential(
+                                              verificationId:
+                                                  widget.verificationId!,
+                                              smsCode: pinOTPController.text);
+                                      await signInWithPhoneAuthCredential(
+                                              phoneAuthCredential)
+                                          .then((value) async {
+                                        PreferenceManager.setUId(FirebaseAuth
+                                            .instance.currentUser!.uid);
+                                        PreferenceManager.getUId();
+                                        PreferenceManager.setPhoneNumber(
+                                            widget.phone.toString());
+                                        PreferenceManager.getPhoneNumber();
 
-                                    // if (phoneNumber.text.isNotEmpty) {
-                                    //   // if (otpCodeVisible) {
-                                    //   //   // verify();
-                                    //   //   verifyCode();
-                                    //   // } else {
-                                    //   //   await phoneSignIn(
-                                    //   //       phoneNumber: phoneNumber.text);
-                                    //   // }
-                                    //
-                                    //   await sendOtp(_auth).then(
-                                    //     (value) => Navigator.push(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //         builder: (context) => VerifyOTP(),
-                                    //       ),
-                                    //     ),
-                                    //   );
-                                    // } else {}
+                                        PreferenceManager.setUserType('Seller');
+                                        PreferenceManager.getUserType() ==
+                                            'Seller';
+                                        print(
+                                            'addData==Buyer==login=========${PreferenceManager.getUId()}');
+                                        print(
+                                            'addData==Buyer==getUserType=========${PreferenceManager.getUserType()}');
+                                        try {
+                                          print('Test:-1');
+
+                                          if (PreferenceManager.getUId() !=
+                                              null) {
+                                            print('Test:-2');
+                                            PreferenceManager.getPhoneNumber();
+                                            print(
+                                                '=========${PreferenceManager.getPhoneNumber()}');
+                                            await Get.to(
+                                                () => NavigationBarScreen()
+                                                // phone: widget.phone,
+                                                );
+                                          } else {
+                                            print('Test:-3');
+                                            GetSnackBar(
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM,
+                                              backgroundColor: SColorPicker.red,
+                                              duration: Duration(seconds: 5),
+                                              message: 'Invalid Credantial',
+                                            );
+                                          }
+                                        } on FirebaseAuthException catch (e) {
+                                          print('Test:-4');
+
+                                          print(e);
+                                          Get.showSnackbar(
+                                            GetSnackBar(
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM,
+                                              backgroundColor: SColorPicker.red,
+                                              duration: Duration(seconds: 5),
+                                              message: e.message,
+                                            ),
+                                          );
+                                        }
+                                      });
+                                    } catch (e) {
+                                      print('=-=-=-${e}');
+                                      Get.showSnackbar(
+                                        GetSnackBar(
+                                          snackPosition: SnackPosition.BOTTOM,
+                                          backgroundColor: SColorPicker.red,
+                                          duration: Duration(seconds: 5),
+                                          message: 'Please Resend OTP ',
+                                        ),
+                                      );
+                                    }
                                   },
                                 ),
                               ),

@@ -334,35 +334,6 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                           ),
                                   ),
                                 ),
-                                // Padding(
-                                //   padding:
-                                //       EdgeInsets.symmetric(horizontal: 40.sp),
-                                //   child: SCommonButton().sCommonPurpleButton(
-                                //     name: otpCodeVisible ? "Login" : "Verify",
-                                //     onTap: () async {
-                                // isLoading = true;
-                                // if (phoneNumber.text.isNotEmpty) {
-                                //   // if (otpCodeVisible) {
-                                //   //   // verify();
-                                //   //   verifyCode();
-                                //   // } else {
-                                //   //   await phoneSignIn(
-                                //   //       phoneNumber: phoneNumber.text);
-                                //   // }
-                                //
-                                //   await sendOtp(_auth).then(
-                                //     (value) => Navigator.push(
-                                //       context,
-                                //       MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             VerifyOTP(),
-                                //       ),
-                                //     ),
-                                //   );
-                                // } else {}
-                                // },
-                                //   ),
-                                // ),
                                 SizedBox(
                                   height: Get.height * 0.04,
                                 ),
@@ -434,10 +405,10 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
                                           SvgPicture.asset(
-                                            "${SImagePick.locationColorIcon}",
+                                            "${SImagePick.googleIcon}",
                                           ),
                                           Text(
-                                            'Login with Google',
+                                            'Sign Up with Google',
                                             style:
                                                 STextStyle.semiBold600Black13,
                                           ),

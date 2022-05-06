@@ -11,6 +11,7 @@ import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_otp_screen.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
@@ -20,12 +21,6 @@ import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
 import 'package:sizer/sizer.dart';
 
 import '../phone.dart';
-
-// String? verificationCode;
-// enum MobileVerificationState {
-//   SHOW_MOBILE_FORM_STATE,
-//   SHOW_OTP_FORM_STATE,
-// }
 
 class BSignUpPhoneNumberScreen extends StatefulWidget {
   const BSignUpPhoneNumberScreen({Key? key}) : super(key: key);
@@ -37,16 +32,13 @@ class BSignUpPhoneNumberScreen extends StatefulWidget {
 
 class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
   bool isLoading = false;
-// String? dialogCodeDigits="+00";
   int? resendingTokenID;
   String? verificationId;
-  // MobileVerificationState currentState =
-  //     MobileVerificationState.SHOW_MOBILE_FORM_STATE;
   FirebaseAuth _auth = FirebaseAuth.instance;
   BLogInController bLogInController = Get.find();
   final _phoneController = TextEditingController();
   final _globalKey = GlobalKey<ScaffoldState>();
-  // String? dialCodeDigits = "+91";
+
   Future sendOtp() async {
     print(
         '========code===${bLogInController.countryCode}${_phoneController.text}');
@@ -72,12 +64,12 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
             message: verificationFailed.message,
           ),
         );
-        print('${verificationFailed.message}');
+        print(
+            'The phone number entered is invalid!====${verificationFailed.message}');
       },
       codeSent: (verificationId, resendingToken) async {
         setState(() {
           isLoading = false;
-          // currentState = MobileVerificationState.SHOW_OTP_FORM_STATE;
           this.verificationId = verificationId;
           print('---------verificationId-------$verificationId');
           print('---------this.verificationId-------${this.verificationId}');
@@ -263,47 +255,6 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                       isLoading = true;
                                     });
                                     sendOtp();
-                                    // if (_phoneController.text.isNotEmpty) {
-                                    //   isLoading = true;
-                                    //   await sendOtp();
-                                    // }
-                                    // isLoading = false;
-                                    // ScaffoldMessenger.of(context).showSnackBar(
-                                    //   SnackBar(
-                                    //     content:
-                                    //         Text('Enter valid phone number'),
-                                    //     backgroundColor: Colors.redAccent,
-                                    //   ),
-                                    // );
-
-                                    // await sendOtp(_auth).then(
-                                    //   (value) => Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //       builder: (context) => VerifyOTP(),
-                                    //     ),
-                                    //   ),
-                                    // );
-                                    // isLoading = true;
-                                    // if (_phoneController.text.isNotEmpty) {
-                                    //   if (otpCodeVisible) {
-                                    //     // verify();
-                                    //     verifyCode();
-                                    //   } else {
-                                    //     await phoneSignIn(
-                                    //         phoneNumber: phoneNumber.text);
-                                    //   }
-                                    //
-                                    //   await sendOtp(_auth).then(
-                                    //         (value) => Navigator.push(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             VerifyOTP(),
-                                    //       ),
-                                    //     ),
-                                    //   );
-                                    // } else {}
                                   },
                                   child: Container(
                                     alignment: Alignment.center,
@@ -341,35 +292,6 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                           ),
                                   ),
                                 ),
-                                // Padding(
-                                //   padding:
-                                //       EdgeInsets.symmetric(horizontal: 40.sp),
-                                //   child: SCommonButton().sCommonPurpleButton(
-                                //     name: otpCodeVisible ? "Login" : "Verify",
-                                //     onTap: () async {
-                                // isLoading = true;
-                                // if (phoneNumber.text.isNotEmpty) {
-                                //   // if (otpCodeVisible) {
-                                //   //   // verify();
-                                //   //   verifyCode();
-                                //   // } else {
-                                //   //   await phoneSignIn(
-                                //   //       phoneNumber: phoneNumber.text);
-                                //   // }
-                                //
-                                //   await sendOtp(_auth).then(
-                                //     (value) => Navigator.push(
-                                //       context,
-                                //       MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             VerifyOTP(),
-                                //       ),
-                                //     ),
-                                //   );
-                                // } else {}
-                                // },
-                                //   ),
-                                // ),
                                 SizedBox(
                                   height: Get.height * 0.03,
                                 ),
@@ -414,11 +336,11 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                     ),
                                   ),
                                 ),
-
                                 SizedBox(height: Get.height * 0.03),
                                 Center(
                                   child: GestureDetector(
                                     onTap: () {
+                                      loginwithgoogle();
                                       // setState(() {
                                       //   Get.to(MapsScreen());
                                       // });

@@ -10,15 +10,18 @@ import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_no_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/phone.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_first_user_info_screen.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_login_email_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_login_phone_otp_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_email_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_phone_otp_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
+import 'package:pipes_online/seller/view_model/s_login_home_controller.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
@@ -33,28 +36,25 @@ class SLoginPhoneNumberScreen extends StatefulWidget {
 
 class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
   bool isLoading = false;
-  TextEditingController? phoneController;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print('==>category===${widget.phone}');
-  }
+  final _phoneController = TextEditingController();
 
-  final _globalKey = GlobalKey<ScaffoldState>();
+  ///BLOgincontroller
+  SLogInController sLogInController = Get.find();
   FirebaseAuth _auth = FirebaseAuth.instance;
   String? verificationId;
 
   int? resendingTokenID;
-  BLogInController bLogInController = Get.find();
+
+  final _globalKey = GlobalKey<ScaffoldState>();
+
   Future sendOtp() async {
     try {
       print(
-          '========code===${bLogInController.countryCode}${PreferenceManager.getPhoneNumber()}');
+          '========code===${sLogInController.countryCode}${PreferenceManager.getPhoneNumber()}');
 
       await _auth.verifyPhoneNumber(
         phoneNumber:
-            bLogInController.countryCode.toString() + phoneController!.text,
+            sLogInController.countryCode.toString() + _phoneController.text,
         verificationCompleted: (phoneAuthCredential) async {
           setState(() {
             isLoading = false;
@@ -85,7 +85,7 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
             print('---------this.verificationId-------${this.verificationId}');
             Get.to(
               SLoginPhoneOtpScreen(
-                phone: phoneController?.text,
+                phone: _phoneController.text,
                 verificationId: verificationId,
               ),
             );
@@ -102,6 +102,23 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
         ),
       );
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('_phoneController.text=>${_phoneController.text}');
+    print(
+        '_phoneController.PreferenceManager=>${PreferenceManager.getPhoneNumber()}');
+    print(
+        '_phoneController.PreferenceManager getUId=>${PreferenceManager.getUId()}');
+  }
+
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    super.dispose();
   }
 
   @override
@@ -147,7 +164,7 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
                   ],
                 ),
               ),
-              GetBuilder<BLogInController>(
+              GetBuilder<SLogInController>(
                 builder: (controller) {
                   return Container(
                     height: Get.height * 0.864,
@@ -196,13 +213,16 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
                                           controller.setCountryCode(val);
                                         },
                                         initialSelection: '+91',
+                                        favorite: ['+91', 'IN'],
+                                        showCountryOnly: false,
+                                        showOnlyCountryWhenClosed: false,
                                       ),
                                     ),
                                     Container(
                                       height: Get.height * 0.07,
                                       width: Get.width * 0.6,
                                       child: TextFormField(
-                                        controller: phoneController,
+                                        controller: _phoneController,
                                         inputFormatters: [
                                           LengthLimitingTextInputFormatter(10)
                                         ],
@@ -215,7 +235,7 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
                                   ],
                                 ),
                                 SizedBox(
-                                  height: Get.height * 0.04,
+                                  height: Get.height * 0.08,
                                 ),
                                 // RichText(
                                 //   textAlign: TextAlign.start,
@@ -241,62 +261,12 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
                                 //     ],
                                 //   ),
                                 // ),
-                                SizedBox(
-                                  height: Get.height * 0.04,
-                                ),
                                 GestureDetector(
                                   onTap: () async {
-                                    // setState(() {
-                                    //   isLoading = false;
-                                    // });
-                                    // Get.to(()=>BLoginPhoneOtpScreen());
                                     setState(() {
                                       isLoading = true;
                                     });
-                                    isLoading = true;
                                     sendOtp();
-                                    // Get.to(SFirstUserInfoScreen());
-                                    // await sendOtp().then(
-                                    //   (value) => Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //       builder: (context) =>
-                                    //           SLoginPhoneOtpScreen(
-                                    //         phone: phoneController?.text,
-                                    //         verificationId: verificationId,
-                                    //       ),
-                                    //     ),
-                                    //   ),
-                                    // );
-
-                                    // await sendOtp(_auth).then(
-                                    //   (value) => Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //       builder: (context) => VerifyOTP(),
-                                    //     ),
-                                    //   ),
-                                    // );
-                                    // isLoading = true;
-                                    // if (phoneNumber.text.isNotEmpty) {
-                                    //   if (otpCodeVisible) {
-                                    //     // verify();
-                                    //     verifyCode();
-                                    //   } else {
-                                    //     await phoneSignIn(
-                                    //         phoneNumber: phoneNumber.text);
-                                    //   }
-
-                                    //   await sendOtp(_auth).then(
-                                    //         (value) => Navigator.push(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             VerifyOTP(),
-                                    //       ),
-                                    //     ),
-                                    //   );
-                                    // } else {}
                                   },
                                   child: Container(
                                     alignment: Alignment.center,
@@ -334,35 +304,6 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
                                           ),
                                   ),
                                 ),
-                                // Padding(
-                                //   padding:
-                                //       EdgeInsets.symmetric(horizontal: 40.sp),
-                                //   child: SCommonButton().sCommonPurpleButton(
-                                //     name: otpCodeVisible ? "Login" : "Verify",
-                                //     onTap: () async {
-                                // isLoading = true;
-                                // if (phoneNumber.text.isNotEmpty) {
-                                //   // if (otpCodeVisible) {
-                                //   //   // verify();
-                                //   //   verifyCode();
-                                //   // } else {
-                                //   //   await phoneSignIn(
-                                //   //       phoneNumber: phoneNumber.text);
-                                //   // }
-                                //
-                                //   await sendOtp(_auth).then(
-                                //     (value) => Navigator.push(
-                                //       context,
-                                //       MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             VerifyOTP(),
-                                //       ),
-                                //     ),
-                                //   );
-                                // } else {}
-                                // },
-                                //   ),
-                                // ),
                                 SizedBox(
                                   height: Get.height * 0.03,
                                 ),
@@ -371,7 +312,7 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
                                     onTap: () {
                                       print('Login with Email');
                                       // setState(() {
-                                      Get.to(SSignUpEmailScreen());
+                                      Get.to(() => SLoginEmailScreen());
                                       // });
                                     },
                                     child: Container(
@@ -412,7 +353,9 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
                                 Center(
                                   child: GestureDetector(
                                     onTap: () {
-                                      print('it is map');
+                                      print('seller---login with google');
+                                      loginwithgoogle();
+
                                       // setState(() {
                                       //   Get.to(MapsScreen());
                                       // });
@@ -437,10 +380,10 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
                                           SvgPicture.asset(
-                                            "${SImagePick.locationColorIcon}",
+                                            "${SImagePick.googleIcon}",
                                           ),
                                           Text(
-                                            'Login with Google',
+                                            'Sign Up with Google',
                                             style:
                                                 STextStyle.semiBold600Black13,
                                           ),

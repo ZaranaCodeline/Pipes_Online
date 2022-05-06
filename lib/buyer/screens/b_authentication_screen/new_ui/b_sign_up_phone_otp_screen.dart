@@ -7,6 +7,7 @@ import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_first_user_info_screen.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_phone_otp_screen.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
@@ -27,11 +28,8 @@ class BSignUpPhoneOtpScreen extends StatefulWidget {
 }
 
 class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
-  // GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
-
   final _scaffoldState = GlobalKey<ScaffoldState>();
 
-  // final _otpController = OtpFieldController();
   final TextEditingController pinOTPController = TextEditingController();
   final FocusNode _pinOTPCodeFocus = FocusNode();
   String? verificationCode;
@@ -49,9 +47,9 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
       PreferenceManager.setUId(_auth.currentUser!.uid.toString());
 
       if (authCredential.user != null) {
-        print('Login successful');
+        print('You are Signed in successfully');
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Login successful'),
+          content: Text('Sign Up successful'),
           duration: Duration(seconds: 5),
         ));
       }
@@ -61,38 +59,87 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
     }
   }
 
-  Future<void> verificationOTPCode(String otp) async {
-    PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
-        verificationId: verificationCode!, smsCode: otp);
-    if (phoneAuthCredential == null) {
-      _scaffoldState.currentState!.showSnackBar(
-        SnackBar(
-          content: Text("Please enter valid otp"),
-        ),
-      );
-      return;
-    } else {
-      PreferenceManager.setPhoneNumber(widget.phone.toString());
-      print('phone=========>${widget.phone}');
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BFirstUserInfoScreen(
-            phone: widget.phone,
+  BLogInController bLogInController = Get.find();
+
+  Future sendOtp() async {
+    print(
+        '========code===${bLogInController.countryCode}${PreferenceManager.getPhoneNumber()}');
+
+    await _auth.verifyPhoneNumber(
+      phoneNumber:
+          bLogInController.countryCode.toString() + widget.phone.toString(),
+      verificationCompleted: (phoneAuthCredential) async {
+        setState(() {
+          isLoading = false;
+        });
+      },
+      verificationFailed: (verificationFailed) async {
+        setState(() {
+          isLoading = false;
+        });
+        print('----verificationFailed---${verificationFailed.message}');
+        Get.showSnackbar(
+          GetSnackBar(
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: SColorPicker.red,
+            duration: Duration(seconds: 5),
+            message: verificationFailed.message,
           ),
-        ),
-      );
-    }
-    _auth.signInWithCredential(phoneAuthCredential).then((value) {
-      print("You are Signed in successfully");
-      Get.showSnackbar(GetSnackBar(
-        backgroundColor: SColorPicker.red,
-        duration: Duration(seconds: 2),
-        message: 'You are Signed in successfully',
-      ));
-    });
-    ;
+        );
+        print(
+            'The phone number entered is invalid!====${verificationFailed.message}');
+      },
+      codeSent: (verificationId, resendingToken) async {
+        setState(() {
+          isLoading = false;
+          this.verificationCode = verificationId;
+          print('---------verificationId-------$verificationId');
+          print('---------this.verificationId-------${this.verificationCode}');
+          Get.to(
+            BLoginPhoneOtpScreen(
+              phone: widget.phone,
+              verificationId: verificationId,
+            ),
+          );
+          print('====${verificationId}');
+        });
+      },
+      codeAutoRetrievalTimeout: (verificationId) async {},
+    );
   }
+
+  // Future<void> verificationOTPCode(String otp) async {
+  //   PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
+  //       verificationId: verificationCode!, smsCode: otp);
+  //   if (phoneAuthCredential == null) {
+  //     _scaffoldState.currentState!.showSnackBar(
+  //       SnackBar(
+  //         content: Text("Please enter valid otp"),
+  //       ),
+  //     );
+  //     return;
+  //   } else {
+  //     PreferenceManager.setPhoneNumber(widget.phone.toString());
+  //     print('phone=========>${widget.phone}');
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => BFirstUserInfoScreen(
+  //           phone: widget.phone,
+  //         ),
+  //       ),
+  //     );
+  //   }
+  //   _auth.signInWithCredential(phoneAuthCredential).then((value) {
+  //     print("You are Signed in successfully");
+  //     Get.showSnackbar(GetSnackBar(
+  //       backgroundColor: SColorPicker.red,
+  //       duration: Duration(seconds: 2),
+  //       message: 'You are Signed in successfully',
+  //     ));
+  //   });
+  //   ;
+  // }
 
   @override
   void initState() {
@@ -136,10 +183,6 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                   message: e.message.toString(),
                 ),
               );
-              // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              //   content: Text(e.message.toString()),
-              //   duration: Duration(seconds: 5),
-              // ));
             },
             codeSent: (String? vID, int? resendToken) {
               setState(() {
@@ -272,47 +315,6 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  // Container(
-                                  //   width: Get.width * 0.85,
-                                  //   child: OTPTextField(
-                                  //       controller: _otpController,
-                                  //       length: 6,
-                                  //       width:
-                                  //           MediaQuery.of(context).size.width,
-                                  //       fieldWidth: 30,
-                                  //       style: TextStyle(fontSize: 15),
-                                  //       textFieldAlignment:
-                                  //           MainAxisAlignment.spaceAround,
-                                  //       fieldStyle: FieldStyle.underline,
-                                  //       onCompleted: (pin) async {
-                                  //         print("Completed: " + pin);
-                                  //       },
-                                  //       // onCompleted: (pin) async {
-                                  //       //   print("Completed: " + pin);
-                                  //       //   await FirebaseAuth.instance
-                                  //       //       .signInWithCredential(
-                                  //       //           PhoneAuthProvider.credential(
-                                  //       //               verificationId:
-                                  //       //                   verificationCode!,
-                                  //       //               smsCode: _otpController
-                                  //       //                   .toString()))
-                                  //       //       .then((value) async {
-                                  //       //     if (value.user != null) {
-                                  //       //       print(
-                                  //       //           '===============>paas to home');
-                                  //       //     }
-                                  //       //   }).catchError((e) => print(
-                                  //       //           'error===>${e.toString()}'));
-                                  //       //   FocusScope.of(context).unfocus();
-                                  //       //   _globalKey.currentState?.showSnackBar(
-                                  //       //       SnackBar(
-                                  //       //           content:
-                                  //       //               Text('invalid OTP')));
-                                  //       // },
-                                  //       onChanged: (pin) {
-                                  //         print("onChanged: " + pin);
-                                  //       }),
-                                  // ),
                                   Container(
                                     width: Get.width * 0.865,
                                     child: Pinput(
@@ -443,12 +445,6 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                                       ),
                                     );
                                   }
-                                  // setState(() {
-                                  //   isLoading = true;
-                                  // });
-                                  // verifyPhoneNumber();
-
-                                  // await verificationOTPCode;
                                 },
                                 child: Container(
                                   alignment: Alignment.center,

@@ -5,17 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:otp_text_field/otp_text_field.dart';
-import 'package:otp_text_field/style.dart';
 import 'package:pinput/pinput.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_first_user_info_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/phone.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
-import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
-import 'package:pipes_online/routes/app_routes.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_common_button.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
@@ -55,7 +49,9 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                   String? uid = FirebaseAuth.instance.currentUser!.uid;
                   PreferenceManager.setUId(uid);
                   print('=========${PreferenceManager.getUId()}');
-                  Get.to(BFirstUserInfoScreen());
+
+                  ///TODO fix routes
+                  Get.to(() => BottomNavigationBarScreen());
                   setState(() {
                     isLoading = false;
                   });
@@ -75,10 +71,6 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                   message: e.message.toString(),
                 ),
               );
-              // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              //   content: Text(e.message.toString()),
-              //   duration: Duration(seconds: 5),
-              // ));
             },
             codeSent: (String? vID, int? resendToken) {
               verificationCode = vID;
@@ -89,13 +81,11 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
             timeout: Duration(seconds: 60))
         .then(
           (value) => Get.to(() {
-            // PreferenceManager.setUId(_auth.currentUser!.uid.toString());
             PreferenceManager.getUId();
             PreferenceManager.setPhoneNumber(widget.phone.toString());
             print('P========${widget.phone.toString()}');
-
             if (PreferenceManager.getUId() != null) {
-              BFirstUserInfoScreen();
+              BottomNavigationBarScreen();
             }
             Get.snackbar('Oops', 'Invalid OTP');
           }),
@@ -105,28 +95,30 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
     });
   }
 
-  logInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) async {
-    try {
-      isLoading = true;
+  signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) async {
+    isLoading = true;
 
+    try {
       final authCredential =
           await _auth.signInWithCredential(phoneAuthCredential);
-
+      PreferenceManager.setUId(_auth.currentUser!.uid.toString());
       if (authCredential.user != null) {
         print('Login successful');
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Login successful'),
           duration: Duration(seconds: 5),
         ));
+        Future.delayed(Duration(seconds: 2), () {
+          // PreferenceManager.setLoginValue(widget.mobileNumber!);
+          isLoading = false;
+
+          Get.to(() => BottomNavigationBarScreen());
+        });
       }
     } on FirebaseAuthException catch (e) {
+      print('--ERROR----');
       isLoading = false;
       print(e.message);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(e.toString()),
-        duration: Duration(seconds: 5),
-      ));
-      print('----------ERROR----------');
     }
   }
 
@@ -142,6 +134,7 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
       return;
     } else {
       await FirebaseAuth.instance.signInWithCredential(phoneAuthCredential);
+
       print("successful");
       Navigator.pushReplacement(
         context,
@@ -167,13 +160,64 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
       'OTP Sent to Login +91 ${widget.phone} ',
     );
     print(
-      'OTP Sent to Login +91 ${PreferenceManager.getPhoneNumber()} ',
-    );
-    print(
         'store in PreferenceManager.getPhoneNumber=========${PreferenceManager.getPhoneNumber()}');
-    // verificationOTPCode();
-    verifyPhoneNumber();
+    // verificationOTPCode(widget.verificationId!);
+    // verifyPhoneNumber();
+
     super.initState();
+  }
+
+  BLogInController bLogInController = Get.find();
+  Future sendOtp() async {
+    print('========code===${bLogInController.countryCode}${widget.phone}');
+
+    await _auth.verifyPhoneNumber(
+      phoneNumber:
+          bLogInController.countryCode.toString() + widget.phone.toString(),
+      verificationCompleted: (phoneAuthCredential) async {
+        setState(() {
+          isLoading = false;
+        });
+      },
+      verificationFailed: (verificationFailed) async {
+        setState(() {
+          isLoading = false;
+        });
+        print('----verificationFailed---${verificationFailed.message}');
+        Get.showSnackbar(
+          GetSnackBar(
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: SColorPicker.red,
+            duration: Duration(seconds: 5),
+            message: verificationFailed.message,
+          ),
+        );
+        print(
+            'The phone number entered is invalid!====${verificationFailed.message}');
+      },
+      codeSent: (verificationId, resendingToken) async {
+        setState(() {
+          isLoading = false;
+          this.verificationCode = verificationId;
+          print('---------verificationId-------$verificationId');
+          print('---------this.verificationId-------${this.verificationCode}');
+          Get.to(
+            BLoginPhoneOtpScreen(
+              phone: widget.phone,
+              verificationId: verificationId,
+            ),
+          );
+          print('====${verificationId}');
+        });
+      },
+      codeAutoRetrievalTimeout: (verificationId) async {},
+    );
+  }
+
+  @override
+  void dispose() {
+    pinOTPController.dispose();
+    super.dispose();
   }
 
   @override
@@ -281,23 +325,7 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                 children: [
                                   Container(
                                     width: Get.width * 0.85,
-                                    child: /*OTPTextField(
-                                        controller: _otpController,
-                                        length: 6,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        fieldWidth: 30,
-                                        style: TextStyle(fontSize: 15),
-                                        textFieldAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        fieldStyle: FieldStyle.underline,
-                                        onCompleted: (pin) {
-                                          print("Completed: " + pin);
-                                        },
-                                        onChanged: (pin) {
-                                          print("onChanged: " + pin);
-                                        })*/
-                                        Container(
+                                    child: Container(
                                       width: Get.width * 0.865,
                                       child: Pinput(
                                         length: 6,
@@ -317,7 +345,7 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                               (value) {
                                                 if (value.user != null) {
                                                   Get.to(() =>
-                                                      BFirstUserInfoScreen());
+                                                      BottomNavigationBarScreen());
                                                 }
                                               },
                                             );
@@ -342,7 +370,9 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                 height: Get.height * 0.04,
                               ),
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  sendOtp();
+                                },
                                 child: CustomText(
                                   alignment: Alignment.topLeft,
                                   text: 'Resend OTP',
@@ -360,65 +390,47 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                 child: SCommonButton().sCommonPurpleButton(
                                     name: "Login".toUpperCase(),
                                     onTap: () async {
-                                      // setState(() {
-                                      //   isLoading = true;
-                                      // });
-                                      // verifyPhoneNumber();
-                                      // // verificationOTPCode(
-                                      // //     _otpController.toString());
-                                      // // Get.offAll(BottomNavigationBarScreen());
-                                      //
-                                      // setState(() {
-                                      //   isLoading = false;
-                                      // });
-                                      ///
                                       try {
-                                        print(
-                                            'Test:----${PreferenceManager.getUId()}--');
-                                        PreferenceManager.getUId();
+                                        print('Test:------');
+
                                         PhoneAuthCredential
                                             phoneAuthCredential =
                                             PhoneAuthProvider.credential(
                                                 verificationId:
                                                     widget.verificationId!,
-                                                smsCode:
-                                                    _otpController.toString());
-                                        await logInWithPhoneAuthCredential(
+                                                smsCode: pinOTPController.text);
+                                        await signInWithPhoneAuthCredential(
                                                 phoneAuthCredential)
                                             .then((value) async {
-                                          // PreferenceManager.setUId(FirebaseAuth
-                                          //     .instance.currentUser!.uid);
+                                          PreferenceManager.setUId(FirebaseAuth
+                                              .instance.currentUser!.uid);
                                           PreferenceManager.getUId();
-                                          // PreferenceManager.setPhoneNumber(
-                                          //     widget.phone.toString());
-                                          // PreferenceManager.getPhoneNumber();
-                                          //
-                                          // PreferenceManager.setUserType(
-                                          //     'Buyer');
-                                          // PreferenceManager.getUserType() ==
-                                          //     'Buyer';
-                                          // print(
-                                          //     'addData==Buyer==getUID=========${PreferenceManager.getUId()}');
-                                          // print(
-                                          //     'addData==Buyer==getUserType=========${PreferenceManager.getUserType()}');
+                                          PreferenceManager.setPhoneNumber(
+                                              widget.phone.toString());
+                                          PreferenceManager.getPhoneNumber();
+
+                                          PreferenceManager.setUserType(
+                                              'Buyer');
+                                          PreferenceManager.getUserType() ==
+                                              'Buyer';
+                                          print(
+                                              'addData==Buyer==login=========${PreferenceManager.getUId()}');
+                                          print(
+                                              'addData==Buyer==getUserType=========${PreferenceManager.getUserType()}');
                                           try {
                                             print('Test:-1');
 
                                             if (PreferenceManager.getUId() !=
                                                 null) {
                                               print('Test:-2');
-                                              // PreferenceManager
-                                              //     .getPhoneNumber();
                                               PreferenceManager
                                                   .getPhoneNumber();
                                               print(
-                                                  '===getUId======${PreferenceManager.getUId()}');
-                                              print(
-                                                  '===getPhone======${PreferenceManager.getPhoneNumber()}');
-                                              await Get.to(
-                                                  () => BFirstUserInfoScreen(
-                                                        phone: widget.phone,
-                                                      ));
+                                                  '=========${PreferenceManager.getPhoneNumber()}');
+                                              await Get.to(() =>
+                                                      BottomNavigationBarScreen()
+                                                  // phone: widget.phone,
+                                                  );
                                             } else {
                                               print('Test:-3');
                                               GetSnackBar(
@@ -447,7 +459,7 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                           }
                                         });
                                       } catch (e) {
-                                        print('Firebase Exception:- ${e}');
+                                        print('=-=-=-${e}');
                                         Get.showSnackbar(
                                           GetSnackBar(
                                             snackPosition: SnackPosition.BOTTOM,
@@ -457,27 +469,7 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                           ),
                                         );
                                       }
-                                    }
-                                    // if (phoneNumber.text.isNotEmpty) {
-                                    //   // if (otpCodeVisible) {
-                                    //   //   // verify();
-                                    //   //   verifyCode();
-                                    //   // } else {
-                                    //   //   await phoneSignIn(
-                                    //   //       phoneNumber: phoneNumber.text);
-                                    //   // }
-                                    //
-                                    //   await sendOtp(_auth).then(
-                                    //     (value) => Navigator.push(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //         builder: (context) => VerifyOTP(),
-                                    //       ),
-                                    //     ),
-                                    //   );
-                                    // } else {}
-
-                                    ),
+                                    }),
                               ),
                             ],
                           ),

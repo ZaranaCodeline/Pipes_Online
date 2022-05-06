@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SLogInController extends GetxController {
-  CountryCode? countryCode = CountryCode(code: '+91');
+  CountryCode? countryCode = CountryCode(code: '+00');
   TextEditingController mobileNumber = TextEditingController();
 
   bool isLoading = false;
@@ -15,7 +15,6 @@ class SLogInController extends GetxController {
 
   bool otpCodeVisible = false;
   String? verificationId;
-
 
   void setCountryCode(value) {
     countryCode = value;

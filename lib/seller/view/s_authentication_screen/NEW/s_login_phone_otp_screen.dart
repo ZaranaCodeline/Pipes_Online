@@ -189,6 +189,13 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    pinOTPController.clear();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(

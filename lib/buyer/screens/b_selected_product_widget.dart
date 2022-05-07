@@ -5,6 +5,7 @@ import 'package:flutter_share/flutter_share.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view_model/s_edit_product_controller.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:share_plus/share_plus.dart';
@@ -163,7 +164,26 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(25),
-                          child: Image.network(
+                          child: Img != null
+                              ? Container(
+                                  height: 35.sp,
+                                  width: 35.sp,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50)),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Image.network(
+                                      Img.toString(),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  child: SvgPicture.asset(
+                                    "${SImagePick.uploadImageIcon}",
+                                  ),
+                                ),
+                          /* Image.network(
                             // editProductContoller.images
                             // editProductContoller.selectedImage
                             Img == null
@@ -173,7 +193,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                             width: 30.sp,
                             height: 30.sp,
                             // color: AppColors.primaryColor,
-                          ),
+                          ),*/
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

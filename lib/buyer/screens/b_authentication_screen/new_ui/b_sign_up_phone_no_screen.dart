@@ -96,6 +96,13 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _phoneController.clear();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -394,7 +401,8 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
                                                 print('=====>Login');
-                                                Get.off(BLoginEmailScreen());
+                                                Get.off(
+                                                    () => BLoginEmailScreen());
                                               }),
                                       ],
                                     ),

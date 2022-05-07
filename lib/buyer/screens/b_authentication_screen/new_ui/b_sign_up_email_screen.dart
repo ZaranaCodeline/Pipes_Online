@@ -50,6 +50,14 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
   }
 
   @override
+  void dispose() {
+    email.clear();
+    pass.clear();
+    conPass.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(

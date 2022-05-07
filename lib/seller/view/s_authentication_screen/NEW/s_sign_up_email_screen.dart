@@ -47,6 +47,15 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    email.clear();
+    pass.clear();
+    conPass.clear();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(

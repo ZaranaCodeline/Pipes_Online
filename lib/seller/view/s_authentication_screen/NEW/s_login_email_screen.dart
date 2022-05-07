@@ -37,6 +37,15 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
   TextEditingController pass = TextEditingController();
   GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
   bool isLoading = false;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    email.clear();
+    pass.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

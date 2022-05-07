@@ -169,6 +169,7 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
 
   BLogInController bLogInController = Get.find();
   Future sendOtp() async {
+    isLoading = true;
     print('========code===${bLogInController.countryCode}${widget.phone}');
 
     await _auth.verifyPhoneNumber(
@@ -216,7 +217,7 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
 
   @override
   void dispose() {
-    pinOTPController.dispose();
+    pinOTPController.clear();
     super.dispose();
   }
 
@@ -224,6 +225,7 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        key: _globalKey,
         backgroundColor: SColorPicker.purple,
         body: SingleChildScrollView(
           child: Column(
@@ -334,6 +336,10 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                         pinAnimationType:
                                             PinAnimationType.rotation,
                                         onSubmitted: (pin) async {
+                                          print('Check--1');
+                                          setState(() {
+                                            isLoading = true;
+                                          });
                                           try {
                                             FirebaseAuth.instance
                                                 .signInWithCredential(
@@ -350,6 +356,11 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                               },
                                             );
                                           } catch (e) {
+                                            print('Check--1');
+
+                                            setState(() {
+                                              isLoading = false;
+                                            });
                                             FocusScope.of(context).unfocus();
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
@@ -390,7 +401,12 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                 child: SCommonButton().sCommonPurpleButton(
                                     name: "Login".toUpperCase(),
                                     onTap: () async {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
                                       try {
+                                        print('Check--3');
+
                                         print('Test:------');
 
                                         PhoneAuthCredential
@@ -402,9 +418,15 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                         await signInWithPhoneAuthCredential(
                                                 phoneAuthCredential)
                                             .then((value) async {
+                                          print(
+                                              '--------sss-${phoneAuthCredential.signInMethod}');
                                           PreferenceManager.setUId(FirebaseAuth
                                               .instance.currentUser!.uid);
                                           PreferenceManager.getUId();
+                                          print(
+                                              '==User id===${PreferenceManager.getUId()}');
+                                          print(
+                                              '==User phone===${PreferenceManager.getPhoneNumber()}');
                                           PreferenceManager.setPhoneNumber(
                                               widget.phone.toString());
                                           PreferenceManager.getPhoneNumber();
@@ -418,21 +440,33 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                           print(
                                               'addData==Buyer==getUserType=========${PreferenceManager.getUserType()}');
                                           try {
-                                            print('Test:-1');
+                                            print('Check--4');
 
                                             if (PreferenceManager.getUId() !=
                                                 null) {
-                                              print('Test:-2');
+                                              print('Check--5');
                                               PreferenceManager
                                                   .getPhoneNumber();
                                               print(
                                                   '=========${PreferenceManager.getPhoneNumber()}');
-                                              await Get.to(() =>
-                                                      BottomNavigationBarScreen()
-                                                  // phone: widget.phone,
-                                                  );
+                                              if (phoneAuthCredential == null) {
+                                                _globalKey.currentState!
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                        "Please enter valid otp"),
+                                                  ),
+                                                );
+                                                return await Get.to(() =>
+                                                        BottomNavigationBarScreen()
+                                                    // phone: widget.phone,
+                                                    );
+                                              }
                                             } else {
-                                              print('Test:-3');
+                                              setState(() {
+                                                isLoading = false;
+                                              });
+                                              print('Check--6');
                                               GetSnackBar(
                                                 snackPosition:
                                                     SnackPosition.BOTTOM,
@@ -443,8 +477,10 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                               );
                                             }
                                           } on FirebaseAuthException catch (e) {
-                                            print('Test:-4');
-
+                                            print('Test:-7');
+                                            setState(() {
+                                              isLoading = false;
+                                            });
                                             print(e);
                                             Get.showSnackbar(
                                               GetSnackBar(
@@ -459,7 +495,10 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                           }
                                         });
                                       } catch (e) {
-                                        print('=-=-=-${e}');
+                                        setState(() {
+                                          isLoading = false;
+                                        });
+                                        print('Check--7-${e}');
                                         Get.showSnackbar(
                                           GetSnackBar(
                                             snackPosition: SnackPosition.BOTTOM,

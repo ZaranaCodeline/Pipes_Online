@@ -107,6 +107,13 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _phoneController.clear();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(

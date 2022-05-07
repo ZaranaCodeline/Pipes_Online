@@ -68,6 +68,16 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    nameController.clear();
+    mobilecontroller.clear();
+    emailController.clear();
+    addressController.clear();
+  }
+
+  @override
   void initState() {
     super.initState();
     print('user name===${nameController.text}');
@@ -90,7 +100,6 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
   GeolocationController _controller = Get.find();
 
   BottomController bottomController = Get.find();
-
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
       return Builder(

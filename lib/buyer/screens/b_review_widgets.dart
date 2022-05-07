@@ -256,7 +256,10 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                                                           ''
                                                   ? Center(
                                                       child: Image.network(
-                                                      'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+                                                      (snapShot.data
+                                                                  ?.docs[index]
+                                                              ['imageProfile'])
+                                                          .toString(),
                                                       width: 30.sp,
                                                       height: 30.sp,
                                                     ))
@@ -264,7 +267,9 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                                                       /*  snapShot.data?.docs[index]
                                                           ['imageProfile']*/
                                                       Img == null
-                                                          ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
+                                                          ? snapShot.data
+                                                                  ?.docs[index]
+                                                              ['imageProfile']
                                                           : Img!,
                                                       fit: BoxFit.cover,
                                                       width: 30.sp,

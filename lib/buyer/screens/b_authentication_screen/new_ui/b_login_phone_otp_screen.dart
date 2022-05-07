@@ -68,7 +68,8 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                   snackPosition: SnackPosition.BOTTOM,
                   backgroundColor: SColorPicker.red,
                   duration: Duration(seconds: 5),
-                  message: e.message.toString(),
+                  message:
+                      'The format of the phone number provided is incorrect.',
                 ),
               );
             },

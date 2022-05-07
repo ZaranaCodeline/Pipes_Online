@@ -23,9 +23,9 @@ class CustomSelectedProductBuildTopWidget extends StatefulWidget {
       this.name,
       this.category,
       this.image,
-      this.ProductID})
+      this.productID})
       : super(key: key);
-  final String? name, image, desc, price, category, ProductID;
+  final String? name, image, desc, price, category, productID;
 
   @override
   State<CustomSelectedProductBuildTopWidget> createState() =>
@@ -34,9 +34,10 @@ class CustomSelectedProductBuildTopWidget extends StatefulWidget {
 
 class _CustomSelectedProductBuildTopWidgetState
     extends State<CustomSelectedProductBuildTopWidget> {
+  List data = [];
   @override
   Widget build(BuildContext context) {
-    print('ID  >>> ${widget.ProductID}');
+    print('ID  >>> ${widget.productID}');
     return Container(
       child: Column(
         children: [
@@ -75,69 +76,101 @@ class _CustomSelectedProductBuildTopWidgetState
                           size: 15.sp,
                         ),
                         SizedBox(width: Get.width * 0.01),
-                        GestureDetector(
-                          onTap: () {
-                            if (widget.ProductID != 'productID') {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Added Into Cart'),
-                                  backgroundColor: Colors.greenAccent,
-                                ),
-                              );
-                              print('CATEGORY----->${widget.category}');
-                              File? imagUrl;
-
-                              FirebaseFirestore.instance
-                                  .collection('Cart')
-                                  .doc(PreferenceManager.getUId().toString())
-                                  .collection('MyCart')
-                                  .add({
-                                'productID': widget.ProductID,
-                                'cartID': PreferenceManager.getUId().toString(),
-                                'imageProfile': widget.image,
-                                'category': widget.category,
-                                'prdName': widget.name,
-                                'dsc': widget.desc,
-                                'price': widget.price,
-                                'createdOn': DateTime.now(),
-                              }).then((value) {
-                                Get.to(
-                                  () => CartPage(
-                                    category: widget.category,
-                                    name: widget.name,
-                                    desc: widget.desc,
-                                    image: widget.image,
-                                    price: widget.price,
-                                    productID: widget.ProductID,
-                                  ),
-                                );
-                              });
-                            }
-                            Get.to(
-                              () => CartPage(
-                                category: widget.category,
-                                name: widget.name,
-                                desc: widget.desc,
-                                image: widget.image,
-                                price: widget.price,
-                                productID: widget.ProductID,
-                              ),
-                            );
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Go Into Cart'),
-                                backgroundColor: Colors.greenAccent,
+                        StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection('Cart')
+                              .doc(PreferenceManager.getUId())
+                              .collection('MyCart')
+                              .snapshots(),
+                          builder: (BuildContext context, snapshot) {
+                            return GestureDetector(
+                              onTap: () {
+                                if (snapshot.data!.docs.isEmpty) {
+                                  print('hello1....');
+                                  FirebaseFirestore.instance
+                                      .collection('Cart')
+                                      .doc(
+                                          PreferenceManager.getUId().toString())
+                                      .collection('MyCart')
+                                      .add({
+                                    'productID': widget.productID,
+                                    'cartID':
+                                        PreferenceManager.getUId().toString(),
+                                    'imageProfile': widget.image,
+                                    'category': widget.category,
+                                    'prdName': widget.name,
+                                    'dsc': widget.desc,
+                                    'price': widget.price,
+                                    'createdOn': DateTime.now(),
+                                  }).then((value) {
+                                    Get.to(
+                                      () => CartPage(
+                                        category: widget.category,
+                                        name: widget.name,
+                                        desc: widget.desc,
+                                        image: widget.image,
+                                        price: widget.price,
+                                        productID: widget.productID,
+                                      ),
+                                    );
+                                  });
+                                } else {
+                                  snapshot.data!.docs.forEach((element) {
+                                    data.add(element['productID']);
+                                    print('PRODUCT ID ${data}');
+                                  });
+                                  if (data.contains(widget.productID)) {
+                                    print('hello4....');
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                            'Product is Already added into Cart..'),
+                                      ),
+                                    );
+                                  } else {
+                                    print('hello3....');
+                                    FirebaseFirestore.instance
+                                        .collection('Cart')
+                                        .doc(PreferenceManager.getUId()
+                                            .toString())
+                                        .collection('MyCart')
+                                        .add({
+                                      'productID': widget.productID,
+                                      'cartID':
+                                          PreferenceManager.getUId().toString(),
+                                      'imageProfile': widget.image,
+                                      'category': widget.category,
+                                      'prdName': widget.name,
+                                      'dsc': widget.desc,
+                                      'price': widget.price,
+                                      'createdOn': DateTime.now(),
+                                    }).then((value) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: Text('Go to Cart'),
+                                        duration: Duration(seconds: 5),
+                                      ));
+                                    });
+                                    data.clear();
+                                  }
+                                  print('hello2....');
+                                  print(
+                                      'widget.productID-----${widget.productID}');
+                                  print('data----${data}');
+                                }
+                              },
+                              child: CustomText(
+                                text: data.contains(widget.productID)
+                                    ? 'GO TO Cart'
+                                    : 'ADD TO CART'.toUpperCase(),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 11.sp,
+                                color: AppColors.commonWhiteTextColor,
+                                textAlign: TextAlign.left,
                               ),
                             );
                           },
-                          child: CustomText(
-                            text: 'ADD TO CART'.toUpperCase(),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 11.sp,
-                            color: AppColors.commonWhiteTextColor,
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
+                        )
                       ],
                     ),
                   ),

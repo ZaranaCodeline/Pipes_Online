@@ -56,7 +56,6 @@ class _ProductCardListState extends State<ProductCardList> {
                         print(
                             'DATA OF ID=snapShot.data!.docs[index].id=======${snapShot.data!.docs[index].id}');
 
-
                         Get.to(
                           SelectedProductWidget(
                             name: snapShot.data!.docs[index]['prdName'],
@@ -64,7 +63,7 @@ class _ProductCardListState extends State<ProductCardList> {
                             image: snapShot.data!.docs[index]['imageProfile'],
                             desc: snapShot.data!.docs[index]['dsc'],
                             category: snapShot.data!.docs[index]['category'],
-                            ProductID: snapShot.data!.docs[index].id,
+                            productID: snapShot.data!.docs[index].id,
                           ),
                         );
                       },

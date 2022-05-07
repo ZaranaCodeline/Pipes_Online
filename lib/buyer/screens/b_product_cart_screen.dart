@@ -197,8 +197,7 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                                               .showSnackBar(
                                             SnackBar(
                                               content: Text(
-                                                  'Your Product has been deleted From cart'),
-                                              backgroundColor: Colors.redAccent,
+                                                  'Product has been Removed From Cart'),
                                             ),
                                           );
 

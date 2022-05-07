@@ -86,7 +86,8 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
                   snackPosition: SnackPosition.BOTTOM,
                   backgroundColor: SColorPicker.red,
                   duration: Duration(seconds: 5),
-                  message: e.message.toString(),
+                  message:
+                      'The format of the phone number provided is incorrect.',
                 ),
               );
             },
@@ -137,7 +138,8 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: SColorPicker.red,
             duration: Duration(seconds: 5),
-            message: verificationFailed.message,
+            message:
+                'The format of the phone number provided is incorrect.' /*verificationFailed.message*/,
           ),
         );
         print(
@@ -396,10 +398,20 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
                                             PreferenceManager.getPhoneNumber();
                                             print(
                                                 '=========${PreferenceManager.getPhoneNumber()}');
-                                            await Get.to(
-                                                () => NavigationBarScreen()
-                                                // phone: widget.phone,
-                                                );
+                                            if (phoneAuthCredential == null) {
+                                              print('clicked me');
+                                              _globalKey.currentState!
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                      "Please enter valid otp"),
+                                                ),
+                                              );
+                                              return await Get.to(
+                                                  () => NavigationBarScreen()
+                                                  // phone: widget.phone,
+                                                  );
+                                            }
                                           } else {
                                             print('Test:-3');
                                             GetSnackBar(

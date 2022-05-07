@@ -19,7 +19,7 @@ import 'custom_widget/custom_text.dart';
 import 'b_seller_review_widget.dart';
 
 class SelectedProductWidget extends StatefulWidget {
-  final String? name, image, desc, price, category, ProductID;
+  final String? name, image, desc, price, category, productID;
 
   SelectedProductWidget(
       {Key? key,
@@ -28,7 +28,7 @@ class SelectedProductWidget extends StatefulWidget {
       this.image,
       this.category,
       this.desc,
-      this.ProductID})
+      this.productID})
       : super(key: key);
 
   @override
@@ -140,7 +140,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                   desc: widget.desc.toString(),
                   image: widget.image.toString(),
                   category: widget.category,
-                  ProductID: widget.ProductID,
+                  productID: widget.productID,
                 ),
               ),
             ),
@@ -153,7 +153,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                     print('selectedProduct===========>${widget.category}');
                     Get.to(
                       () => SellerReviewWidget(
-                        id: widget.ProductID,
+                        id: widget.productID,
                         category: widget.category,
                       ),
                     );

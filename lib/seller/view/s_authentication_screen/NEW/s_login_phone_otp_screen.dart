@@ -407,10 +407,27 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
                                                       "Please enter valid otp"),
                                                 ),
                                               );
-                                              return await Get.to(
-                                                  () => NavigationBarScreen()
-                                                  // phone: widget.phone,
-                                                  );
+                                              return await Navigator.of(context)
+                                                  .pushReplacement(
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              NavigationBarScreen()));
+
+                                              /*   navigator?.pushReplacement<
+                                                      void, void>(
+                                                MaterialPageRoute<void>(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          NavigationBarScreen(),
+                                                ),
+                                              );*/
+                                              /* Navigator.pushAndRemoveUntil(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (BuildContext
+                                                                  context) =>
+                                                              NavigationBarScreen()),
+                                                      ModalRoute.withName('/'));*/
                                             }
                                           } else {
                                             print('Test:-3');

@@ -459,7 +459,15 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                   isLoading = true;
                                 });
                                 print('Validate');
-                                addData();
+                                addData().then((value) {
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              BottomNavigationBarScreen()));
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                });
                                 // Get.offAll(() => BottomNavigationBarScreen());
                               } else {
                                 print('InValidate');
@@ -602,7 +610,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
               '==Email Profile==>${PreferenceManager.setPhoneNumber(mobilecontroller.text)}');
           print('==PhoneNumber==>${PreferenceManager.getPhoneNumber()}');
 
-          Get.offAll(() => BottomNavigationBarScreen());
+          // Get.offAll(() => BottomNavigationBarScreen());
         }
             // => Navigator.pushReplacement(
             //       context,

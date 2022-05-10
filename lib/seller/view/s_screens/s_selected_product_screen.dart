@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/bottombar/widget/category_bottom_bar_route.dart';
 import 'package:pipes_online/seller/view/s_screens/s_review_screen.dart';
 import 'package:pipes_online/seller/view_model/s_edit_product_controller.dart';
@@ -159,7 +160,32 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                                                                     .hintTextColor),
                                                           ]),
                                                       child: TextButton(
-                                                          onPressed: () {},
+                                                          onPressed: () {
+                                                            try {
+                                                              FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                      'Products')
+                                                                  .doc(snapshot
+                                                                      .data
+                                                                      ?.docs[
+                                                                          index]
+                                                                      .id)
+                                                                  .delete()
+                                                                  .then(
+                                                                      (value) {
+                                                                homeController
+                                                                    .bottomIndex
+                                                                    .value = 0;
+                                                                homeController
+                                                                    .selectedScreen(
+                                                                        'SCatelogeHomeScreen');
+                                                              });
+                                                            } catch (e) {
+                                                              print(
+                                                                  e.toString());
+                                                            }
+                                                          },
                                                           child: SvgPicture.asset(
                                                               'assets/images/svg/delete_icon.svg')),
                                                     ),

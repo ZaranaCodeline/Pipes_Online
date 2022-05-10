@@ -15,20 +15,7 @@ import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 
 class ProductCartScreen extends StatefulWidget {
   String? id;
-  // String? desc;
-  // String? price;
-  // String? name;
-  // String? category;
-  // String? image;
-  //
-  ProductCartScreen(
-      {Key? key,
-      // this.price,
-      // this.desc,
-      // this.name,
-      // this.image,
-      // this.category,
-      this.id});
+  ProductCartScreen({Key? key, this.id});
 
   @override
   State<ProductCartScreen> createState() => _ProductCartScreenState();
@@ -74,10 +61,178 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
             .collection('Cart')
             .doc(PreferenceManager.getUId())
             .collection('MyCart')
-            // .where('id', isEqualTo: PreferenceManager.getUId())
             .snapshots(),
         builder: (context, snapShot) {
           if (!snapShot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            if (snapShot.data!.docs.isEmpty) {
+              print('has data');
+              return Center(
+                child: Container(
+                  width: Get.width * 0.6,
+                  height: Get.height / 11,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.sp),
+                      color: AppColors.primaryColor),
+                  child: Center(
+                      child: CustomText(
+                    text: 'No Products in Cart',
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.commonWhiteTextColor,
+                  )),
+                ),
+              );
+            } else {
+              return ListView.builder(
+                itemCount: snapShot.data!.docs.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Get.to(
+                        () => CartPage(
+                          name: snapShot.data!.docs[index]['category'],
+                          category: snapShot.data!.docs[index]['category'],
+                          desc: snapShot.data!.docs[index]['dsc'],
+                          image: snapShot.data!.docs[index]['imageProfile'],
+                          price: snapShot.data!.docs[index]['price'],
+                          productID: snapShot.data!.docs[index]['productID'],
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(15.sp),
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: Get.width * 0.35,
+                                height: Get.height / 7,
+                                // flex: 3,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  child: Image.network(
+                                    snapShot.data!.docs[index]['imageProfile'],
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              Flexible(
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  margin:
+                                      EdgeInsets.symmetric(horizontal: 15.sp),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      CustomText(
+                                        text: snapShot.data!.docs[index]
+                                            ['prdName'],
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16.sp,
+                                        color: AppColors.primaryColor,
+                                        alignment: Alignment.topLeft,
+                                        textOverflow: TextOverflow.ellipsis,
+                                        max: 1,
+                                      ),
+                                      SizedBox(
+                                        height: Get.height * 0.01.sp,
+                                      ),
+                                      CustomText(
+                                        text: snapShot.data!.docs[index]
+                                            ['category'],
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12.sp,
+                                        color: AppColors.secondaryBlackColor,
+                                        alignment: Alignment.centerLeft,
+                                      ),
+                                      SizedBox(
+                                        height: Get.height * 0.01.sp,
+                                      ),
+                                      CustomText(
+                                        text: snapShot.data!.docs[index]
+                                            ['price'],
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12.sp,
+                                        color: AppColors.secondaryBlackColor,
+                                        alignment: Alignment.centerLeft,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                height: Get.height / 15.sp,
+                                width: Get.width * 0.1,
+                                decoration: BoxDecoration(
+                                    color: AppColors.commonWhiteTextColor,
+                                    borderRadius: BorderRadius.circular(5),
+                                    boxShadow: [
+                                      new BoxShadow(
+                                          blurRadius: 1,
+                                          color: AppColors.hintTextColor),
+                                    ]),
+                                child: StreamBuilder<QuerySnapshot>(
+                                  stream: FirebaseFirestore.instance
+                                      .collection('Cart')
+                                      .doc(PreferenceManager.getUId())
+                                      .collection('MyCart')
+                                      .snapshots(),
+                                  builder: (context, snapShot) {
+                                    if (snapShot.hasData) {
+                                      return TextButton(
+                                        onPressed: () {
+                                          try {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    'Product has been Removed From Cart'),
+                                              ),
+                                            );
+
+                                            FirebaseFirestore.instance
+                                                .collection("Cart")
+                                                .doc(PreferenceManager.getUId())
+                                                .collection("MyCart")
+                                                .doc(snapShot
+                                                    .data?.docs[index].id)
+                                                .delete();
+                                          } catch (e) {
+                                            print(e.toString());
+                                          }
+                                        },
+                                        child: SvgPicture.asset(
+                                            BImagePick.deleteIcon),
+                                      );
+                                    }
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        color: AppColors.primaryColor,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
+          }
+
+          /* if (!snapShot.hasData) {
+            print('has not data');
             return Center(
               child: Container(
                 width: Get.width * 0.1,
@@ -87,13 +242,10 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                 child: Text('Add Products in Cart'),
               ),
             );
-          } else if (snapShot.connectionState == ConnectionState.waiting) {
-            Center(
-              child: CircularProgressIndicator(
-                color: AppColors.primaryColor,
-              ),
-            );
-          } else if (snapShot.hasData) {
+          }
+          else*/
+          if (snapShot.hasData) {
+            print('has data');
             return ListView.builder(
               itemCount: snapShot.data!.docs.length,
               itemBuilder: (context, index) {
@@ -232,16 +384,16 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                 );
               },
             );
-          }
-          return Center(
-            child: Container(
-              width: Get.width * 0.1,
-              height: Get.height / 8,
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(25.sp)),
-              child: Text('Add Products in Cart'),
-            ),
-          );
+          } else
+            return Center(
+              child: Container(
+                width: Get.width * 0.1,
+                height: Get.height / 8,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(25.sp)),
+                child: Text('Add Products in Cart'),
+              ),
+            );
         },
       ),
     );

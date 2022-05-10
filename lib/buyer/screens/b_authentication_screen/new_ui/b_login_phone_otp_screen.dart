@@ -458,7 +458,7 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                                         "Please enter valid otp"),
                                                   ),
                                                 );
-                                                return await Get.to(() =>
+                                                return await Get.off(() =>
                                                         BottomNavigationBarScreen()
                                                     // phone: widget.phone,
                                                     );

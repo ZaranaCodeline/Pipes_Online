@@ -116,6 +116,9 @@ import 'package:upi_pay/upi_pay.dart';
 import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 
 class Screen extends StatefulWidget {
+  final String? price;
+
+  const Screen({Key? key, this.price}) : super(key: key);
   @override
   _ScreenState createState() => _ScreenState();
 }

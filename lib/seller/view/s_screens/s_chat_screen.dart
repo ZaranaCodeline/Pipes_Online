@@ -196,33 +196,31 @@ class _SChatScreenState extends State<SChatScreen> {
                                           ),
                                         ),
                                         Container(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              CustomText(
-                                                  text: (snapshot
-                                                              .data?.docs[index]
-                                                          ['user_name'])
-                                                      .toString(),
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 13.sp,
-                                                  color: AppColors
-                                                      .secondaryBlackColor),
-                                            ],
-                                          ),
+                                          child: CustomText(
+                                              text: (snapshot.data?.docs[index]
+                                                      ['user_name'])
+                                                  .toString(),
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 13.sp,
+                                              color: AppColors
+                                                  .secondaryBlackColor),
                                         ),
                                       ],
                                     ),
-                                    Container(
-                                      alignment: Alignment.center,
-                                      width: Get.width * 0.4,
-                                      padding: EdgeInsets.only(
-                                          right: Get.width * 0.05),
-                                      child: _time(
-                                          snapshot.data!.docs[index]['buyerID']
-                                              .toString(),
-                                          index),
+                                    Column(
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.center,
+                                          width: Get.width * 0.4,
+                                          padding: EdgeInsets.only(
+                                              right: Get.width * 0.05),
+                                          child: _time(
+                                              snapshot
+                                                  .data!.docs[index]['buyerID']
+                                                  .toString(),
+                                              index),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),

@@ -47,7 +47,7 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
       PreferenceManager.setUId(_auth.currentUser!.uid.toString());
 
       if (authCredential.user != null) {
-        print('You are Signed in successfully');
+        print('You are Signed Up successfully');
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Sign Up successful'),
           duration: Duration(seconds: 5),
@@ -107,39 +107,6 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
       codeAutoRetrievalTimeout: (verificationId) async {},
     );
   }
-
-  // Future<void> verificationOTPCode(String otp) async {
-  //   PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
-  //       verificationId: verificationCode!, smsCode: otp);
-  //   if (phoneAuthCredential == null) {
-  //     _scaffoldState.currentState!.showSnackBar(
-  //       SnackBar(
-  //         content: Text("Please enter valid otp"),
-  //       ),
-  //     );
-  //     return;
-  //   } else {
-  //     PreferenceManager.setPhoneNumber(widget.phone.toString());
-  //     print('phone=========>${widget.phone}');
-  //     Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => BFirstUserInfoScreen(
-  //           phone: widget.phone,
-  //         ),
-  //       ),
-  //     );
-  //   }
-  //   _auth.signInWithCredential(phoneAuthCredential).then((value) {
-  //     print("You are Signed in successfully");
-  //     Get.showSnackbar(GetSnackBar(
-  //       backgroundColor: SColorPicker.red,
-  //       duration: Duration(seconds: 2),
-  //       message: 'You are Signed in successfully',
-  //     ));
-  //   });
-  //   ;
-  // }
 
   @override
   void initState() {
@@ -216,7 +183,9 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
     // TODO: implement dispose
     super.dispose();
     pinOTPController.clear();
+    pinOTPController.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -342,6 +311,9 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                                               if (value.user != null) {
                                                 Get.to(() =>
                                                     BFirstUserInfoScreen());
+                                                setState(() {
+                                                  isLoading = false;
+                                                });
                                               }
                                             },
                                           );
@@ -354,6 +326,9 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                                               duration: Duration(seconds: 5),
                                             ),
                                           );
+                                          setState(() {
+                                            isLoading = false;
+                                          });
                                           print(e);
                                         }
                                       },
@@ -365,7 +340,9 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                                 height: Get.height * 0.04,
                               ),
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  sendOtp();
+                                },
                                 child: CustomText(
                                   alignment: Alignment.topLeft,
                                   text: 'Resend OTP',
@@ -417,6 +394,9 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                                               () => BFirstUserInfoScreen(
                                                     phone: widget.phone,
                                                   ));
+                                          setState(() {
+                                            isLoading = false;
+                                          });
                                         } else {
                                           print('Test:-3');
                                           GetSnackBar(

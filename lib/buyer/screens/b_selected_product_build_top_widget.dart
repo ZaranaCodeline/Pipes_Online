@@ -35,6 +35,7 @@ class CustomSelectedProductBuildTopWidget extends StatefulWidget {
 class _CustomSelectedProductBuildTopWidgetState
     extends State<CustomSelectedProductBuildTopWidget> {
   List data = [];
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     print('ID  >>> ${widget.productID}');
@@ -86,6 +87,9 @@ class _CustomSelectedProductBuildTopWidgetState
                             return GestureDetector(
                               onTap: () {
                                 if (snapshot.data!.docs.isEmpty) {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
                                   print('hello1....');
                                   FirebaseFirestore.instance
                                       .collection('Cart')
@@ -115,6 +119,7 @@ class _CustomSelectedProductBuildTopWidgetState
                                     );
                                   });
                                 } else {
+                                  print('test:-2');
                                   snapshot.data!.docs.forEach((element) {
                                     data.add(element['productID']);
                                     print('PRODUCT ID ${data}');
@@ -145,9 +150,12 @@ class _CustomSelectedProductBuildTopWidgetState
                                       'price': widget.price,
                                       'createdOn': DateTime.now(),
                                     }).then((value) {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
-                                        content: Text('Go to Cart'),
+                                        content: Text('Added into Cart'),
                                         duration: Duration(seconds: 5),
                                       ));
                                     });
@@ -160,9 +168,7 @@ class _CustomSelectedProductBuildTopWidgetState
                                 }
                               },
                               child: CustomText(
-                                text: data.contains(widget.productID)
-                                    ? 'GO TO Cart'
-                                    : 'ADD TO CART'.toUpperCase(),
+                                text: 'ADD TO CART'.toUpperCase(),
                                 fontWeight: FontWeight.w600,
                                 fontSize: 11.sp,
                                 color: AppColors.commonWhiteTextColor,

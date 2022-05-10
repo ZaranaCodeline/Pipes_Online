@@ -155,45 +155,6 @@ class _CartPageState extends State<CartPage> {
                                   ),
                                 ),
                               ),
-                              // Expanded(
-                              //     child: Container(
-                              //   height: Get.height / 12.sp,
-                              //   decoration: BoxDecoration(
-                              //       color: AppColors.commonWhiteTextColor,
-                              //       borderRadius: BorderRadius.circular(5),
-                              //       boxShadow: [
-                              //         new BoxShadow(
-                              //             blurRadius: 1,
-                              //             color: AppColors.hintTextColor),
-                              //       ]),
-                              //   child: TextButton(
-                              //     onPressed: () {
-                              //       print(
-                              //           'widget.productID=======>${widget.productID}');
-                              //       try {
-                              //         ScaffoldMessenger.of(context).showSnackBar(
-                              //           SnackBar(
-                              //             content: Text(
-                              //                 'Your Product has been deleted From cart'),
-                              //             backgroundColor: Colors.redAccent,
-                              //           ),
-                              //         );
-                              //         FirebaseFirestore.instance
-                              //             .collection("Cart")
-                              //             .doc(PreferenceManager.getUId())
-                              //             .collection("MyCart")
-                              //             .doc(widget.productID)
-                              //             .delete()
-                              //             .then((value) {
-                              //           Get.back();
-                              //         });
-                              //       } catch (e) {
-                              //         print(e.toString());
-                              //       }
-                              //     },
-                              //     child: SvgPicture.asset(BImagePick.deleteIcon),
-                              //   ),
-                              // )),
                             ],
                           ),
                         ),
@@ -326,13 +287,13 @@ class _CartPageState extends State<CartPage> {
                                             MainAxisAlignment.spaceAround,
                                         children: [
                                           CustomText(
-                                              text: 'Cart total',
+                                              text: 'Cart total :',
                                               fontWeight: FontWeight.w600,
                                               fontSize: 14.sp,
                                               color: AppColors
                                                   .secondaryBlackColor),
                                           CustomText(
-                                              text: '\$10',
+                                              text: widget.price.toString(),
                                               fontWeight: FontWeight.w600,
                                               fontSize: 14.sp,
                                               color: AppColors
@@ -342,7 +303,9 @@ class _CartPageState extends State<CartPage> {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        Get.to(Screen());
+                                        Get.to(() => Screen(
+                                              price: widget.price,
+                                            ));
                                       },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
@@ -357,13 +320,13 @@ class _CartPageState extends State<CartPage> {
                                               MainAxisAlignment.spaceAround,
                                           children: [
                                             CustomText(
-                                                text: 'Checkout Now',
+                                                text: 'Checkout Now : ',
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 14.sp,
                                                 color: AppColors
                                                     .commonWhiteTextColor),
                                             CustomText(
-                                                text: 'Total: \$10',
+                                                text: widget.price.toString(),
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 14.sp,
                                                 color: AppColors

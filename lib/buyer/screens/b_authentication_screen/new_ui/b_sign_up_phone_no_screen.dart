@@ -78,7 +78,9 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
               phone: _phoneController.text,
               verificationId: verificationId,
             ),
-          );
+          )?.then((value) {
+            _phoneController.clear();
+          });
           print('====${verificationId}');
         });
       },

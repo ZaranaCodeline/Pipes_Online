@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/seller/view_model/s_subscribe_controller.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/screens/custom_widget/custom_text.dart';
@@ -20,6 +21,7 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
   String? radioValue;
   int? selectedRadioTile;
   String? selected;
+  String? selectedTime;
   BottomController homeController = Get.find();
   AddProductController addProductController = Get.put(AddProductController());
 
@@ -38,6 +40,7 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
   }
 
   List<dynamic> list_name = ['\$ 100/yr', '\$ 75/6/Mo', '\$15/30/d'];
+  List<dynamic> list_time = ['1 year', '6 monthes', '30 Days'];
   SSubScribeController controller = Get.put(SSubScribeController());
 
   @override
@@ -75,7 +78,7 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
                       : AppColors.primaryColor,
                   groupValue: selectedRadioTile,
                   title: CustomText(
-                    text: '1 year',
+                    text: list_time[0],
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
                     color: selectedRadioTile == 0
@@ -94,7 +97,7 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
                     print('Radio tile pressed $value');
                     setState(() {
                       selectedRadioTile = value as int?;
-                      value = list_name[0];
+                      value = list_time[0] + ' ' + list_name[0];
                       selected = value as String;
                       print('Radio tile pressed $selected');
                     });
@@ -119,7 +122,7 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
                       : AppColors.primaryColor,
                   groupValue: selectedRadioTile,
                   title: CustomText(
-                    text: '6 months',
+                    text: list_time[1],
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
                     color: selectedRadioTile == 1
@@ -138,7 +141,7 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
                     print('Radio tile pressed $value');
                     setState(() {
                       selectedRadioTile = value as int?;
-                      value = list_name[1];
+                      value = list_time[1] + ' ' + list_name[1];
                       selected = value as String;
                       print('Radio tile pressed $selected');
                     });
@@ -163,7 +166,7 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
                       : AppColors.primaryColor,
                   groupValue: selectedRadioTile,
                   title: CustomText(
-                    text: '30 Days',
+                    text: list_time[2],
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
                     color: selectedRadioTile == 2
@@ -182,7 +185,7 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
                     print('Radio tile pressed $value');
                     setState(() {
                       selectedRadioTile = value as int?;
-                      value = list_name[2];
+                      value = list_time[2] + ' ' + list_name[2];
                       selected = value as String;
                       print('Radio tile pressed $selected');
                     });
@@ -199,7 +202,10 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
             name: 'Subscribe Now',
             onTap: () {
               if (selected != null) {
-                addProductController.selectedPrice = selected!;
+                PreferenceManager.setSubscribeCategory('simple');
+                PreferenceManager.setSubscribeTime(
+                    '${addProductController.selectedSubscribe}');
+                addProductController.selectedSubscribe = selected!;
                 homeController.bottomIndex.value = 0;
                 homeController.selectedScreen('SAddProductScreen');
               } else {

@@ -22,8 +22,10 @@ import '../../common/s_text_style.dart';
 CollectionReference userCollection = bFirebaseStore.collection('Products');
 
 class SAddProductScreen extends StatefulWidget {
+  final String? selectedSubscribeVal;
   SAddProductScreen({
     Key? key,
+    this.selectedSubscribeVal,
   }) : super(key: key);
   @override
   State<SAddProductScreen> createState() => _SAddProductScreenState();
@@ -79,6 +81,15 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
     'Coil Rode',
     'Sucker Rode',
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    addProductController.selectedSubscribe;
+    print(
+        '----addProductController.selectedSubscribe--${addProductController.selectedSubscribe}');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -384,6 +395,10 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                             homeController
                                 .selectedScreen('SCatelogeHomeScreen');
                             homeController.bottomIndex.value = 0;
+                            PreferenceManager.getSubscribeCategory();
+                            PreferenceManager.getSubscribeTime();
+                            print(
+                                'getSubscribeTime---${PreferenceManager.getSubscribeTime()}-getSubscribeCategory--${PreferenceManager.getSubscribeCategory()}');
                           });
                         }
                       },

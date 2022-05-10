@@ -48,6 +48,8 @@ class _SplashState extends State<Splash> {
             }
 
             if (PreferenceManager.getName() != null) {
+              PreferenceManager.getSubscribeCategory();
+              PreferenceManager.getSubscribeTime();
               Get.offAll(() => NavigationBarScreen());
             }
             Get.offAll(() => BFirstUserInfoScreen());
@@ -70,7 +72,7 @@ class _SplashState extends State<Splash> {
             if (PreferenceManager.getName() != null) {
               Get.offAll(() => NavigationBarScreen());
             }
-            Get.off(() => SFirstUserInfoScreen());
+            Get.off(() => NavigationBarScreen());
             if (PreferenceManager.getUserType() == '' ||
                 PreferenceManager.getUId() == null ||
                 PreferenceManager.getUId() == 'uid') {

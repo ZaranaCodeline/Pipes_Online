@@ -6,6 +6,7 @@ import 'package:pipes_online/seller/view/s_screens/s_custom_product_card.dart';
 import 'package:pipes_online/seller/view/s_screens/s_drawer_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_home_screen_search_widget.dart';
 import 'package:pipes_online/seller/view/s_screens/s_order_screen.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/app_constant/b_image.dart';
@@ -123,10 +124,23 @@ class _SCatelogeHomeScreenState extends State<SCatelogeHomeScreen> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             print('hello');
-            homeController.selectedScreen('SSubscribeScreen');
-            // homeController.selectedScreen('SShowSubcriptionValueScreen');
-            homeController.bottomIndex.value = 0;
-            // Get.to(() => SSubscribeScreen());
+            if (PreferenceManager.getSubscribeCategory() != null ||
+                PreferenceManager.getSubscribeCategory() != '' &&
+                    PreferenceManager.getSubscribeTime() != null ||
+                PreferenceManager.getSubscribeTime() != null) {
+              print(
+                  '---subscribe category----->${PreferenceManager.getSubscribeCategory()}');
+              print('else if if part');
+              homeController.selectedScreen('SShowSubcriptionValueScreen');
+              homeController.bottomIndex.value = 0;
+            } else if (PreferenceManager.getSubscribeCategory() == null ||
+                PreferenceManager.getSubscribeCategory() == '' &&
+                    PreferenceManager.getSubscribeTime() == null ||
+                PreferenceManager.getSubscribeTime() == null) {
+              print('else if part');
+              homeController.selectedScreen('SSubscribeScreen');
+              homeController.bottomIndex.value = 0;
+            }
           },
           child: Container(
             width: Get.width * 0.15.sp,

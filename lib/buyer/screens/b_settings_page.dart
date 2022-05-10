@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:pipes_online/main.dart';
 import 'package:sizer/sizer.dart';
 
-
 import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
 import 'custom_widget/custom_text.dart';
@@ -31,8 +30,6 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
     // InitializationSettings(android: initialzationSettingsAndroid);
     // flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-
-
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
@@ -48,7 +45,6 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
                 // channel.description,
                 color: Colors.blue,
                 playSound: true,
-
               ),
             ));
       }
@@ -76,10 +72,12 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
     });
     getToken();
   }
+
   String? token;
   getToken() async {
     token = await FirebaseMessaging.instance.getToken();
   }
+
   void showNotification() {
     setState(() {
       _counter++;
@@ -90,8 +88,7 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
         "Testing $_counter",
         "This is an Flutter Push Notification",
         NotificationDetails(
-            android: AndroidNotificationDetails(
-                channel.id, channel.name,
+            android: AndroidNotificationDetails(channel.id, channel.name,
                 importance: Importance.high,
                 color: AppColors.primaryColor,
                 playSound: true,
@@ -106,9 +103,12 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
           'SETTINGS',
           style: STextStyle.bold700White14,
         ),
-        leading: IconButton(onPressed: (){
-          Get.back();
-        },icon: Icon(Icons.arrow_back),),
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
         backgroundColor: AppColors.primaryColor,
         toolbarHeight: Get.height * 0.1,
         shape: const RoundedRectangleBorder(
@@ -153,7 +153,10 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
                       // mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        CircleAvatar(radius: 15.sp, backgroundColor: AppColors.hintTextColor,),
+                        CircleAvatar(
+                          radius: 15.sp,
+                          backgroundColor: AppColors.hintTextColor,
+                        ),
                         SizedBox(width: 15.sp),
                         Flexible(
                           child: Container(
@@ -298,9 +301,12 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
         backgroundColor: AppColors.primaryColor,
         onPressed: showNotification,
         tooltip: 'Increment',
-        child: FittedBox(child: Text('Show \n Notification',textAlign: TextAlign.center,)),
+        child: FittedBox(
+            child: Text(
+          'Show \n Notification',
+          textAlign: TextAlign.center,
+        )),
       ),
     );
   }
 }
-

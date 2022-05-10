@@ -105,7 +105,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
       return Builder(
         builder: (context) => WillPopScope(
           onWillPop: () async {
-            return true;
+            return false;
           },
           child: SafeArea(
             child: Scaffold(
@@ -142,9 +142,13 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                     color: SColorPicker.white,
                                   ),
                                 ),
-                                Text(
-                                  'PROFILE',
-                                  style: STextStyle.bold700White14,
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'PROFILE..',
+                                    style: STextStyle.bold700White14,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                                 SizedBox(width: 20.sp),
                               ],

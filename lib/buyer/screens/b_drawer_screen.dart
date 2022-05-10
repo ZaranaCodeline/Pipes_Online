@@ -16,7 +16,6 @@ import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import '../app_constant/app_colors.dart';
-import '../authentificaion/b_functions.dart';
 import '../view_model/geolocation_controller.dart';
 import 'b_review_info_screen.dart';
 import 'b_my_order_page.dart';

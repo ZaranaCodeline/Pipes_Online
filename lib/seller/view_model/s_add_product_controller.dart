@@ -5,6 +5,24 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddProductController extends GetxController {
+  String _selectedSubscribeTime = '';
+
+  String get selectedSubscribeTime => _selectedSubscribeTime;
+
+  set selectedSubscribeTime(String value) {
+    _selectedSubscribeTime = value;
+    update();
+  }
+
+  String _selectedSubscribe = '';
+
+  String get selectedSubscribe => _selectedSubscribe;
+
+  set selectedSubscribe(String value) {
+    _selectedSubscribe = value;
+    update();
+  }
+
   String _selectedPrice = '';
 
   String get selectedPrice => _selectedPrice;
@@ -50,7 +68,6 @@ class AddProductController extends GetxController {
     update();
   }
 
-//dd
   String _cat = '';
 
   String get category => _cat;

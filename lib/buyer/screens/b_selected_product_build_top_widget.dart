@@ -5,14 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
-import 'package:pipes_online/buyer/authentificaion/b_functions.dart';
 import 'package:pipes_online/buyer/screens/b_cart_page.dart';
 import 'package:pipes_online/buyer/screens/b_product_cart_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
-
 import '../app_constant/app_colors.dart';
-import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 import 'custom_widget/custom_text.dart';
 
 class CustomSelectedProductBuildTopWidget extends StatefulWidget {

@@ -393,7 +393,9 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                                           await Get.to(
                                               () => BFirstUserInfoScreen(
                                                     phone: widget.phone,
-                                                  ));
+                                                  ))?.then((value) {
+                                            pinOTPController.clear();
+                                          });
                                           setState(() {
                                             isLoading = false;
                                           });

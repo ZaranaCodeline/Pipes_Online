@@ -173,33 +173,6 @@ class _BForgotPasswordScreenState extends State<BForgotPasswordScreen> {
                                     resetPassword().then((value) {
                                       Get.to(() => BLoginEmailScreen());
                                     });
-                                    // setState(() {
-                                    //   isLoading = true;
-                                    // });
-                                    // Get.offAll(BottomNavigationBarScreen());
-                                    //
-                                    // setState(() {
-                                    //   isLoading = false;
-                                    // });
-
-                                    // if (phoneNumber.text.isNotEmpty) {
-                                    //   // if (otpCodeVisible) {
-                                    //   //   // verify();
-                                    //   //   verifyCode();
-                                    //   // } else {
-                                    //   //   await phoneSignIn(
-                                    //   //       phoneNumber: phoneNumber.text);
-                                    //   // }
-                                    //
-                                    //   await sendOtp(_auth).then(
-                                    //     (value) => Navigator.push(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //         builder: (context) => VerifyOTP(),
-                                    //       ),
-                                    //     ),
-                                    //   );
-                                    // } else {}
                                   },
                                 ),
                               ),

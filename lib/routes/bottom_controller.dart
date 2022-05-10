@@ -5,7 +5,7 @@ class BottomController extends GetxController {
   RxString _selectedScreen = ''.obs;
 
   RxString get selectedScreen => _selectedScreen;
-  void setSelectedScreen({String? value}) {
+  setSelectedScreen({String? value}) {
     _selectedScreen.value = value!;
     print('selectedScreen :- ${_selectedScreen.value}');
     update();

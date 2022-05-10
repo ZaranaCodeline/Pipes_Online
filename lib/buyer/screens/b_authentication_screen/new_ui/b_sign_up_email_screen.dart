@@ -315,10 +315,15 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                       PreferenceManager.getPassword();
                                       PreferenceManager.getUserType();
 
-                                      Get.to(() => BFirstUserInfoScreen(
+                                      Get.offAll(() => BFirstUserInfoScreen(
                                             email: email.text,
                                             pass: pass.text,
-                                          ));
+                                          ))?.then((value) {
+                                        print('---clear');
+                                        email.clear();
+                                        pass.clear();
+                                        conPass.clear();
+                                      });
                                       setState(() {
                                         isLoading = false;
                                       });

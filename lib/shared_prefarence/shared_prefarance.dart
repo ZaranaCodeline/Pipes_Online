@@ -68,6 +68,22 @@ class PreferenceManager {
     return getStorage.read('time');
   }
 
+  static setSubscribeTime(String value) {
+    getStorage.write('subscribeTime', value);
+  }
+
+  static getSubscribeTime() {
+    return getStorage.read('subscribeTime');
+  }
+
+  static setSubscribeCategory(String value) {
+    getStorage.write('subscribeCategory', value);
+  }
+
+  static getSubscribeCategory() {
+    return getStorage.read('subscribeCategory');
+  }
+
   static clearData() {
     // await getStorage.erase();
     getStorage.remove('email');
@@ -77,5 +93,7 @@ class PreferenceManager {
     getStorage.remove('user_name');
     getStorage.remove('address');
     getStorage.remove('uid');
+    getStorage.remove('subscribeCategory');
+    getStorage.remove('subscribeTime');
   }
 }

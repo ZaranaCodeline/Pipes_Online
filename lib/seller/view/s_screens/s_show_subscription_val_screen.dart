@@ -5,6 +5,8 @@ import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/seller/view/s_screens/s_common_button.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
+import 'package:pipes_online/seller/view_model/s_add_product_controller.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../bottombar/widget/category_bottom_bar_route.dart';
@@ -19,7 +21,20 @@ class SShowSubcriptionValueScreen extends StatefulWidget {
 
 class _SShowSubcriptionValueScreenState
     extends State<SShowSubcriptionValueScreen> {
+  AddProductController addProductController = Get.put(AddProductController());
+
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    addProductController.selectedSubscribe;
+    print('-Stored-time-${PreferenceManager.getSubscribeTime()}');
+    print('-Stored cat--${PreferenceManager.getSubscribeCategory()}');
+    print(
+        'addProductController.selectedSubscribe--${addProductController.selectedSubscribe}');
+    PreferenceManager.setSubscribeTime(addProductController.selectedSubscribe);
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -29,7 +44,6 @@ class _SShowSubcriptionValueScreenState
         ),
         leading: IconButton(
           onPressed: () {
-            // Get.back();
             setState(() {
               homeController.bottomIndex.value = 0;
               homeController.selectedScreen('NavigationBarScreen');
@@ -72,17 +86,18 @@ class _SShowSubcriptionValueScreenState
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       CustomText(
-                          text: 'Plus',
+                          text: PreferenceManager.getSubscribeCategory()
+                              .toString(),
                           fontWeight: FontWeight.w700,
                           fontSize: 14.sp,
                           color: AppColors.secondaryBlackColor),
-                      CustomText(
-                          text: '1 year',
+                      /* CustomText(
+                          text: addProductController.selectedSubscribeTime,
                           fontWeight: FontWeight.w700,
                           fontSize: 14.sp,
-                          color: AppColors.secondaryBlackColor),
+                          color: AppColors.secondaryBlackColor),*/
                       CustomText(
-                          text: '\$ 135/Yr',
+                          text: PreferenceManager.getSubscribeTime().toString(),
                           fontWeight: FontWeight.w700,
                           fontSize: 14.sp,
                           color: AppColors.secondaryBlackColor),

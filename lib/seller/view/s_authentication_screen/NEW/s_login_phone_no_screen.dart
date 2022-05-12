@@ -108,6 +108,7 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print('--code---${sLogInController.countryCode.toString()}');
     print('_phoneController.text=>${_phoneController.text}');
     print(
         '_phoneController.PreferenceManager=>${PreferenceManager.getPhoneNumber()}');
@@ -212,7 +213,7 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
                                         onChanged: (val) {
                                           controller.setCountryCode(val);
                                         },
-                                        initialSelection: '+91',
+                                        initialSelection: '+00',
                                         favorite: ['+91', 'IN'],
                                         showCountryOnly: false,
                                         showOnlyCountryWhenClosed: false,
@@ -237,30 +238,7 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
                                 SizedBox(
                                   height: Get.height * 0.08,
                                 ),
-                                // RichText(
-                                //   textAlign: TextAlign.start,
-                                //   text: TextSpan(
-                                //     children: [
-                                //       TextSpan(
-                                //         text: 'By continuing, you agree to the',
-                                //         style: STextStyle.regular600Black11,
-                                //       ),
-                                //       TextSpan(
-                                //           text: ' terms and conditions',
-                                //           style: STextStyle.semiBold600Purple11,
-                                //           recognizer: TapGestureRecognizer()
-                                //             ..onTap = () {
-                                //               Get.to(() =>
-                                //                   TermsAndConditionPage());
-                                //               print('Terms and Conditons');
-                                //             }),
-                                //       TextSpan(
-                                //         text: ' of this app.',
-                                //         style: STextStyle.regular600Black11,
-                                //       ),
-                                //     ],
-                                //   ),
-                                // ),
+
                                 GestureDetector(
                                   onTap: () async {
                                     setState(() {

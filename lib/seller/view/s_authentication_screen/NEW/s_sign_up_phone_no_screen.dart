@@ -51,8 +51,7 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
   final _globalKey = GlobalKey<ScaffoldState>();
   // String? dialCodeDigits = "+91";
   Future sendOtp() async {
-    print(
-        '========code===${bLogInController.countryCode}${_phoneController.text}');
+    print('=code===${bLogInController.countryCode}${_phoneController.text}');
 
     await _auth.verifyPhoneNumber(
       phoneNumber:
@@ -89,7 +88,9 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
               phone: _phoneController.text,
               verificationId: verificationId,
             ),
-          );
+          )?.then((value) {
+            _phoneController.clear();
+          });
           print('====${verificationId}');
         });
       },
@@ -273,47 +274,6 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
                                       isLoading = true;
                                     });
                                     sendOtp();
-                                    // if (_phoneController.text.isNotEmpty) {
-                                    //   isLoading = true;
-                                    //   await sendOtp();
-                                    // }
-                                    // isLoading = false;
-                                    // ScaffoldMessenger.of(context).showSnackBar(
-                                    //   SnackBar(
-                                    //     content:
-                                    //         Text('Enter valid phone number'),
-                                    //     backgroundColor: Colors.redAccent,
-                                    //   ),
-                                    // );
-
-                                    // await sendOtp(_auth).then(
-                                    //   (value) => Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //       builder: (context) => VerifyOTP(),
-                                    //     ),
-                                    //   ),
-                                    // );
-                                    // isLoading = true;
-                                    // if (_phoneController.text.isNotEmpty) {
-                                    //   if (otpCodeVisible) {
-                                    //     // verify();
-                                    //     verifyCode();
-                                    //   } else {
-                                    //     await phoneSignIn(
-                                    //         phoneNumber: phoneNumber.text);
-                                    //   }
-                                    //
-                                    //   await sendOtp(_auth).then(
-                                    //         (value) => Navigator.push(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             VerifyOTP(),
-                                    //       ),
-                                    //     ),
-                                    //   );
-                                    // } else {}
                                   },
                                   child: Container(
                                     alignment: Alignment.center,

@@ -162,14 +162,24 @@ class _BChatScreenState extends State<BChatScreen> {
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           50.sp),
-                                                  child: Image.network(
-                                                    (snapshot.data?.docs[index]
-                                                            ['imageProfile'])
-                                                        .toString(),
-                                                    width: 35.sp,
-                                                    height: 35.sp,
-                                                    fit: BoxFit.cover,
-                                                  ),
+                                                  child: snapshot.data
+                                                                  ?.docs[index][
+                                                              'imageProfile'] ==
+                                                          null
+                                                      ? Image.asset(
+                                                          BImagePick.PersonIcon,
+                                                          width: 50,
+                                                          height: 50,
+                                                        )
+                                                      : Image.network(
+                                                          (snapshot.data?.docs[
+                                                                      index][
+                                                                  'imageProfile'])
+                                                              .toString(),
+                                                          width: 35.sp,
+                                                          height: 35.sp,
+                                                          fit: BoxFit.cover,
+                                                        ),
                                                 ),
                                                 Positioned(
                                                   right: 0,

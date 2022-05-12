@@ -331,7 +331,7 @@ class _SChatScreenState extends State<SChatScreen> {
   }
 
   Stream<QuerySnapshot> getPendingSeenData(String id) {
-    String senderId = PreferenceManager.getUId();
+    String senderId = PreferenceManager.getUId().toString();
     String receiverId = id.toString();
     return FirebaseFirestore.instance
         .collection('Chat')
@@ -342,7 +342,7 @@ class _SChatScreenState extends State<SChatScreen> {
   }
 
   Stream<QuerySnapshot> getLastMsgData(String id) {
-    String senderId = PreferenceManager.getUId();
+    String senderId = PreferenceManager.getUId().toString();
     String receiverId = id.toString();
     return FirebaseFirestore.instance
         .collection('Chat')
@@ -354,7 +354,7 @@ class _SChatScreenState extends State<SChatScreen> {
   }
 
   Stream<QuerySnapshot> getLastMsg(String id) {
-    String senderId = PreferenceManager.getUId();
+    String senderId = PreferenceManager.getUId().toString();
     String receiverId = id.toString();
     return FirebaseFirestore.instance
         .collection('Chat')

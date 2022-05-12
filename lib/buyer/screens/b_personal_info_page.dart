@@ -39,19 +39,38 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
 
   Future<void> getData() async {
-    print('demo.....');
-    final user = await ProfileCollection.doc(PreferenceManager.getUId()).get();
+    print('demo seller.....');
+    final user =
+        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    firstname = TextEditingController(text: getUserData?['user_name']);
-    email = TextEditingController(text: getUserData?['email']);
-    address = TextEditingController(text: getUserData?['address']);
-    phoneno = TextEditingController(text: getUserData?['phoneno']);
+
     setState(() {
+      firstname = TextEditingController(text: getUserData?['user_name']);
+      phoneno = TextEditingController(text: getUserData?['phoneno']);
+      email = TextEditingController(text: getUserData?['email']);
+      address = TextEditingController(text: getUserData?['address']);
       Img = getUserData?['imageProfile'];
     });
-    print('========IMG========${user.get('imageProfile')}');
-    // print('=====getUserData=======${getUserData}');
+    print('=======SDrawerScreen=======${getUserData}');
+    print('=======SDrawerScreen===========${user.get('$firstname')}');
+    print('=======SDrawerScreen=======${user.get('$phoneno')}');
+    print('=======SDrawerScreen=======${user.get('$Img')}');
+    print('=======SDrawerScreen======${user.get('$address')}');
   }
+  // Future<void> getData() async {
+  //   print('demo.....');
+  //   final user = await ProfileCollection.doc(PreferenceManager.getUId()).get();
+  //   Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+  //   firstname = TextEditingController(text: getUserData?['user_name']);
+  //   email = TextEditingController(text: getUserData?['email']);
+  //   address = TextEditingController(text: getUserData?['address']);
+  //   phoneno = TextEditingController(text: getUserData?['phoneno']);
+  //   setState(() {
+  //     Img = getUserData?['imageProfile'];
+  //   });
+  //   print('========IMG========${user.get('imageProfile')}');
+  //   // print('=====getUserData=======${getUserData}');
+  // }
 
   Future getGalleryImage() async {
     var imaGe = await picker.getImage(source: ImageSource.gallery);

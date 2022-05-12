@@ -199,221 +199,233 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: SColorPicker.purple,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                height: Get.height * 0.1,
-                width: Get.width,
-                padding: EdgeInsets.only(
-                  top: Get.height * 0.03,
-                  right: Get.width * 0.05,
-                  left: Get.width * 0.05,
-                ),
-                decoration: BoxDecoration(
-                    color: SColorPicker.purple,
-                    borderRadius:
-                        BorderRadius.vertical(bottom: Radius.circular(20.sp))),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: Icon(
-                        Icons.arrow_back_rounded,
-                        color: SColorPicker.white,
-                      ),
+    return WillPopScope(
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: SColorPicker.purple,
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    height: Get.height * 0.1,
+                    width: Get.width,
+                    padding: EdgeInsets.only(
+                      top: Get.height * 0.03,
+                      right: Get.width * 0.05,
+                      left: Get.width * 0.05,
                     ),
-                    Text(
-                      'Login'.toUpperCase(),
-                      style: STextStyle.bold700White14,
-                    ),
-                    SizedBox(width: 20.sp),
-                  ],
-                ),
-              ),
-              GetBuilder<SLogInController>(
-                builder: (controller) {
-                  return Container(
-                    height: Get.height * 0.864,
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30.sp),
-                      ),
-                    ),
-                    child: Stack(
-                      overflow: Overflow.visible,
+                        color: SColorPicker.purple,
+                        borderRadius: BorderRadius.vertical(
+                            bottom: Radius.circular(20.sp))),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Positioned(
-                          left: Get.width * 0.1,
-                          top: -Get.height * 0.04,
-                          child: Container(
-                            height: 50.sp,
-                            width: 50.sp,
-                            padding: EdgeInsets.only(top: 10.sp),
-                            child: SvgPicture.asset(
-                              "${SImagePick.authHome}",
-                            ),
-                            decoration: BoxDecoration(
-                                color: SColorPicker.lightGrey,
-                                shape: BoxShape.circle),
+                        GestureDetector(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Icon(
+                            Icons.arrow_back_rounded,
+                            color: SColorPicker.white,
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: Get.height * 0.1,
-                              left: Get.width * 0.06,
-                              right: Get.width * 0.06),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: Get.width,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Enter OTP',
-                                      style: STextStyle.semiBold600Black15,
-                                    ),
-                                    SizedBox(
-                                      height: Get.height * 0.01,
-                                    ),
-                                    Text(
-                                      'OTP Sent to +91 ${widget.phone}',
-                                      style: STextStyle.regular400Black11,
-                                    ),
-                                  ],
+                        Text(
+                          'Login'.toUpperCase(),
+                          style: STextStyle.bold700White14,
+                        ),
+                        SizedBox(width: 20.sp),
+                      ],
+                    ),
+                  ),
+                  GetBuilder<SLogInController>(
+                    builder: (controller) {
+                      return Container(
+                        height: Get.height * 0.864,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30.sp),
+                          ),
+                        ),
+                        child: Stack(
+                          overflow: Overflow.visible,
+                          children: [
+                            Positioned(
+                              left: Get.width * 0.1,
+                              top: -Get.height * 0.04,
+                              child: Container(
+                                height: 50.sp,
+                                width: 50.sp,
+                                padding: EdgeInsets.only(top: 10.sp),
+                                child: SvgPicture.asset(
+                                  "${SImagePick.authHome}",
                                 ),
+                                decoration: BoxDecoration(
+                                    color: SColorPicker.lightGrey,
+                                    shape: BoxShape.circle),
                               ),
-                              SizedBox(
-                                height: Get.height * 0.04,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: Get.height * 0.1,
+                                  left: Get.width * 0.06,
+                                  right: Get.width * 0.06),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Container(
-                                    width: Get.width * 0.85,
-                                    child: Pinput(
-                                      length: 6,
-                                      focusNode: _pinOTPCodeFocus,
-                                      controller: pinOTPController,
-                                      pinAnimationType:
-                                          PinAnimationType.rotation,
-                                      onSubmitted: (pin) async {
-                                        try {
-                                          FirebaseAuth.instance
-                                              .signInWithCredential(
-                                                  PhoneAuthProvider.credential(
-                                                      verificationId:
-                                                          verificationCode!,
-                                                      smsCode: pin))
-                                              .then(
-                                            (value) {
-                                              if (value.user != null) {
-                                                Get.to(() =>
-                                                    NavigationBarScreen());
-                                              }
-                                            },
-                                          );
-                                        } catch (e) {
-                                          FocusScope.of(context).unfocus();
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text('Invalid OTP'),
-                                              duration: Duration(seconds: 5),
-                                            ),
-                                          );
-                                          print(e);
-                                        }
-                                      },
+                                    width: Get.width,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Enter OTP',
+                                          style: STextStyle.semiBold600Black15,
+                                        ),
+                                        SizedBox(
+                                          height: Get.height * 0.01,
+                                        ),
+                                        Text(
+                                          'OTP Sent to +91 ${widget.phone}',
+                                          style: STextStyle.regular400Black11,
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: Get.height * 0.04,
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  sendOtp();
-                                },
-                                child: CustomText(
-                                  alignment: Alignment.topLeft,
-                                  text: 'Resend OTP',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12.sp,
-                                  color: AppColors.primaryColor,
-                                ),
-                              ),
-                              SizedBox(
-                                height: Get.height * 0.04,
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsets.symmetric(horizontal: 40.sp),
-                                child: SCommonButton().sCommonPurpleButton(
-                                  name: "Login".toUpperCase(),
-                                  onTap: () async {
-                                    try {
-                                      print('Test:------');
-
-                                      PhoneAuthCredential phoneAuthCredential =
-                                          PhoneAuthProvider.credential(
-                                              verificationId:
-                                                  widget.verificationId!,
-                                              smsCode: pinOTPController.text);
-                                      await signInWithPhoneAuthCredential(
-                                              phoneAuthCredential)
-                                          .then((value) async {
-                                        PreferenceManager.setUId(FirebaseAuth
-                                            .instance.currentUser!.uid);
-                                        PreferenceManager.getUId();
-                                        PreferenceManager.setPhoneNumber(
-                                            widget.phone.toString());
-                                        PreferenceManager.getPhoneNumber();
-
-                                        PreferenceManager.setUserType('Seller');
-                                        PreferenceManager.getUserType() ==
-                                            'Seller';
-                                        print(
-                                            'addData==Buyer==login=========${PreferenceManager.getUId()}');
-                                        print(
-                                            'addData==Buyer==getUserType=========${PreferenceManager.getUserType()}');
-                                        try {
-                                          print('Test:-1');
-
-                                          if (PreferenceManager.getUId() !=
-                                              null) {
-                                            print('Test:-2');
-                                            PreferenceManager.getPhoneNumber();
-                                            print(
-                                                '=========${PreferenceManager.getPhoneNumber()}');
-                                            if (phoneAuthCredential == null) {
-                                              print('clicked me');
-                                              _globalKey.currentState!
+                                  SizedBox(
+                                    height: Get.height * 0.04,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        width: Get.width * 0.85,
+                                        child: Pinput(
+                                          length: 6,
+                                          focusNode: _pinOTPCodeFocus,
+                                          controller: pinOTPController,
+                                          pinAnimationType:
+                                              PinAnimationType.rotation,
+                                          onSubmitted: (pin) async {
+                                            try {
+                                              FirebaseAuth.instance
+                                                  .signInWithCredential(
+                                                      PhoneAuthProvider.credential(
+                                                          verificationId:
+                                                              verificationCode!,
+                                                          smsCode: pin))
+                                                  .then(
+                                                (value) {
+                                                  if (value.user != null) {
+                                                    Get.to(() =>
+                                                        NavigationBarScreen());
+                                                  }
+                                                },
+                                              );
+                                            } catch (e) {
+                                              FocusScope.of(context).unfocus();
+                                              ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 SnackBar(
-                                                  content: Text(
-                                                      "Please enter valid otp"),
+                                                  content: Text('Invalid OTP'),
+                                                  duration:
+                                                      Duration(seconds: 5),
                                                 ),
                                               );
-                                              return await Navigator.of(context)
+                                              print(e);
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: Get.height * 0.04,
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      sendOtp();
+                                    },
+                                    child: CustomText(
+                                      alignment: Alignment.topLeft,
+                                      text: 'Resend OTP',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12.sp,
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: Get.height * 0.04,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 40.sp),
+                                    child: SCommonButton().sCommonPurpleButton(
+                                      name: "Login".toUpperCase(),
+                                      onTap: () async {
+                                        try {
+                                          print('Test:------');
+
+                                          PhoneAuthCredential
+                                              phoneAuthCredential =
+                                              PhoneAuthProvider.credential(
+                                                  verificationId:
+                                                      widget.verificationId!,
+                                                  smsCode:
+                                                      pinOTPController.text);
+                                          await signInWithPhoneAuthCredential(
+                                                  phoneAuthCredential)
+                                              .then((value) async {
+                                            PreferenceManager.setUId(
+                                                FirebaseAuth
+                                                    .instance.currentUser!.uid);
+                                            PreferenceManager.getUId();
+                                            PreferenceManager.setPhoneNumber(
+                                                widget.phone.toString());
+                                            PreferenceManager.getPhoneNumber();
+
+                                            PreferenceManager.setUserType(
+                                                'Seller');
+                                            PreferenceManager.getUserType() ==
+                                                'Seller';
+                                            print(
+                                                'addData==Buyer==login=========${PreferenceManager.getUId()}');
+                                            print(
+                                                'addData==Buyer==getUserType=========${PreferenceManager.getUserType()}');
+                                            try {
+                                              print('Test:-1');
+
+                                              if (PreferenceManager.getUId() !=
+                                                  null) {
+                                                print('Test:-2');
+                                                PreferenceManager
+                                                    .getPhoneNumber();
+                                                print(
+                                                    '=========${PreferenceManager.getPhoneNumber()}');
+                                                if (phoneAuthCredential ==
+                                                    null) {
+                                                  print('clicked me');
+                                                  _globalKey.currentState!
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                          "Please enter valid otp"),
+                                                    ),
+                                                  );
+                                                  return Get.offAll(
+                                                      NavigationBarScreen());
+
+                                                  /*Navigator.of(context)
                                                   .pushReplacement(
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              NavigationBarScreen()));
+                                                              NavigationBarScreen()));*/
 
-                                              /*   navigator?.pushReplacement<
+                                                  /*   navigator?.pushReplacement<
                                                       void, void>(
                                                 MaterialPageRoute<void>(
                                                   builder:
@@ -421,65 +433,73 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
                                                           NavigationBarScreen(),
                                                 ),
                                               );*/
-                                              /* Navigator.pushAndRemoveUntil(
+                                                  /* Navigator.pushAndRemoveUntil(
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (BuildContext
                                                                   context) =>
                                                               NavigationBarScreen()),
                                                       ModalRoute.withName('/'));*/
-                                            }
-                                          } else {
-                                            print('Test:-3');
-                                            GetSnackBar(
-                                              snackPosition:
-                                                  SnackPosition.BOTTOM,
-                                              backgroundColor: SColorPicker.red,
-                                              duration: Duration(seconds: 5),
-                                              message: 'Invalid Credantial',
-                                            );
-                                          }
-                                        } on FirebaseAuthException catch (e) {
-                                          print('Test:-4');
+                                                }
+                                              } else {
+                                                print('Test:-3');
+                                                GetSnackBar(
+                                                  snackPosition:
+                                                      SnackPosition.BOTTOM,
+                                                  backgroundColor:
+                                                      SColorPicker.red,
+                                                  duration:
+                                                      Duration(seconds: 5),
+                                                  message: 'Invalid Credantial',
+                                                );
+                                              }
+                                            } on FirebaseAuthException catch (e) {
+                                              print('Test:-4');
 
-                                          print(e);
+                                              print(e);
+                                              Get.showSnackbar(
+                                                GetSnackBar(
+                                                  snackPosition:
+                                                      SnackPosition.BOTTOM,
+                                                  backgroundColor:
+                                                      SColorPicker.red,
+                                                  duration:
+                                                      Duration(seconds: 5),
+                                                  message: e.message,
+                                                ),
+                                              );
+                                            }
+                                          });
+                                        } catch (e) {
+                                          print('=-=-=-${e}');
                                           Get.showSnackbar(
                                             GetSnackBar(
                                               snackPosition:
                                                   SnackPosition.BOTTOM,
                                               backgroundColor: SColorPicker.red,
                                               duration: Duration(seconds: 5),
-                                              message: e.message,
+                                              message: 'Please Resend OTP ',
                                             ),
                                           );
                                         }
-                                      });
-                                    } catch (e) {
-                                      print('=-=-=-${e}');
-                                      Get.showSnackbar(
-                                        GetSnackBar(
-                                          snackPosition: SnackPosition.BOTTOM,
-                                          backgroundColor: SColorPicker.red,
-                                          duration: Duration(seconds: 5),
-                                          message: 'Please Resend OTP ',
-                                        ),
-                                      );
-                                    }
-                                  },
-                                ),
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                },
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
-      ),
-    );
+        onWillPop: () async {
+          return false;
+        });
   }
 }

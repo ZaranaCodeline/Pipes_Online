@@ -99,7 +99,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
 
   @override
   Widget build(BuildContext context) {
-    print('AuthId====${_auth.currentUser!.uid}');
+    print('AuthId====${_auth.currentUser?.uid}');
     print('PreferenceManager.getUId()====${PreferenceManager.getUId()}');
 
     return SafeArea(

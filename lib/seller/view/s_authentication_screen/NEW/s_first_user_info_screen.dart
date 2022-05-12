@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -94,14 +95,6 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
   BottomController bottomController = Get.find();
 
   @override
-  void dispose() {
-    emailController.dispose();
-    addressController.dispose();
-    nameController.dispose();
-    mobilecontroller.dispose();
-    super.dispose();
-  }
-
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
       return WillPopScope(
@@ -135,7 +128,7 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                GestureDetector(
+                                /* GestureDetector(
                                   onTap: () {
                                     Get.back();
                                   },
@@ -143,7 +136,8 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                                     Icons.arrow_back_rounded,
                                     color: SColorPicker.white,
                                   ),
-                                ),
+                                ),*/
+                                Container(),
                                 Text(
                                   'PROFILE',
                                   style: STextStyle.bold700White14,
@@ -340,7 +334,10 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                                 height: Get.height * 0.02,
                               ),
                               Text(
-                                widget.email != null ? 'Mobile' : 'Email',
+                                widget.email != null ||
+                                        bFirebaseAuth.currentUser?.email != null
+                                    ? 'Mobile'
+                                    : 'Email',
                                 style: STextStyle.semiBold600Black13,
                               ),
                               SizedBox(
@@ -350,7 +347,11 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                                 width: Get.width * 0.8,
                                 height: Get.height * 0.07,
                                 child: TextFormField(
-                                  keyboardType: TextInputType.emailAddress,
+                                  keyboardType: widget.email != null ||
+                                          bFirebaseAuth.currentUser?.email !=
+                                              null
+                                      ? TextInputType.number
+                                      : TextInputType.emailAddress,
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return 'Required';
@@ -449,7 +450,19 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                                   isLoading = true;
                                 });
                                 print('Validate');
-                                addData();
+                                addData().then((value) {
+                                  PreferenceManager.setName(
+                                      nameController.text);
+                                  PreferenceManager.getName();
+                                });
+                                // uploadImgFirebaseStorage(file: _image)
+                                //     .then((value) {
+                                //   homeController.bottomIndex.value = 0;
+                                //   homeController
+                                //       .selectedScreen('SCatelogeHomeScreen');
+                                //
+                                //   isLoading = false;
+                                // });
                                 // Get.offAll(() => BottomNavigationBarScreen());
                               } else {
                                 print('InValidate');
@@ -520,6 +533,39 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
     }
   }
 
+  CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
+  uploadImgFirebaseStorage({File? file}) async {
+    var snapshot = await bFirebaseStorage
+        .ref()
+        .child('profileImage/${DateTime.now().microsecondsSinceEpoch}')
+        .putFile(file!);
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    print('url=$downloadUrl');
+    print('====PreferenceManager.getUId()=====>${PreferenceManager.getUId()}');
+    // print('path=$fileImageArray');
+    await ProfileCollection.doc(PreferenceManager.getUId()).update({
+      'imageProfile': downloadUrl == null ? _image : downloadUrl,
+      'user_name': nameController.text,
+      'email': widget.email != null || bFirebaseAuth.currentUser?.email != null
+          ? PreferenceManager.getEmail()
+          : emailController.text,
+      'address': addressController.text,
+      'phoneno': mobilecontroller.text
+    }).then((value) {
+      print('success add');
+      PreferenceManager.setName(nameController.text);
+      PreferenceManager.getName();
+      print('=NAME===${PreferenceManager.getName()}');
+      PreferenceManager.setEmail(emailController.text);
+      PreferenceManager.getEmail();
+      PreferenceManager.setPhoneNumber(mobilecontroller.text);
+      PreferenceManager.getPhoneNumber();
+
+      homeController.bottomIndex.value = 0;
+      homeController.selectedScreen('SCatelogeHomeScreen');
+    }).catchError((e) => print('upload error'));
+  }
+
   Future<void> addData() async {
     print('user name===${nameController.text}');
     print('user mobilevontroller===${mobilecontroller.text}');
@@ -529,17 +575,14 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
     print(
         'buyer addData-getTime==============>${PreferenceManager.getTime().toString()}');
     String? imageUrl = await uploadImageToFirebase(
-        context: context,
-        file: _image,
-        fileName: '${emailController.text}_profile.jpg');
+      context: context,
+      file: _image, /*fileName: '${emailController.text}_profile.jpg'*/
+    );
     SRegisterRepo.emailRegister()
         .then((value) async {
           CollectionReference ProfileCollection =
               bFirebaseStore.collection('SProfile');
-          ProfileCollection.doc('${PreferenceManager.getUId()}')
-              // .collection('UserID')
-              // .add({
-              .set({
+          ProfileCollection.doc('${PreferenceManager.getUId()}').set({
             'isOnline': false,
             'sellerID': PreferenceManager.getUId(),
             'email': widget.email != null ? widget.email : emailController.text,
@@ -549,7 +592,7 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
             'user_name': nameController.text,
             'imageProfile': imageUrl,
             'address': _controller.addressController == null
-                ? _controller.addressController
+                ? _controller.addressController!.text
                 : _controller.addressController!.text,
             'userType': PreferenceManager.getUserType(),
             'userDetails': 'true',

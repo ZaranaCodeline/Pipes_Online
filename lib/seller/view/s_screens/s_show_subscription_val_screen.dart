@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/seller/view/s_screens/s_common_button.dart';
@@ -22,7 +23,8 @@ class SShowSubcriptionValueScreen extends StatefulWidget {
 class _SShowSubcriptionValueScreenState
     extends State<SShowSubcriptionValueScreen> {
   AddProductController addProductController = Get.put(AddProductController());
-
+  String formattedDateTime =
+      DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 180)));
   @override
   void initState() {
     // TODO: implement initState
@@ -129,7 +131,7 @@ class _SShowSubcriptionValueScreenState
                             width: Get.width * 0.05,
                           ),
                           CustomText(
-                              text: 'Expires on 00/00/00',
+                              text: 'Expires on ${formattedDateTime}',
                               fontWeight: FontWeight.w700,
                               fontSize: 14.sp,
                               color: AppColors.secondaryBlackColor),

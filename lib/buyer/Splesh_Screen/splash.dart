@@ -29,6 +29,59 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
+    // Timer(Duration(seconds: 2), () {
+    //   print(
+    //       'PreferenceManager.getUId=============>${PreferenceManager.getUId()}');
+    //
+    //   if (PreferenceManager.getUId() != null) {
+    //     print('TEST:- 1');
+    //
+    //     if (PreferenceManager.getUserType() == 'Buyer') {
+    //       print('TEST:- 2');
+    //       if (PreferenceManager.getUId() != null) {
+    //         print('Buyer====>${PreferenceManager.getUId()}');
+    //         print('TEST:- 3');
+    //         Get.offAll(() => BottomNavigationBarScreen());
+    //       }
+    //       if (PreferenceManager.getName() == null) {
+    //         print('B---Name--${PreferenceManager.getName()}');
+    //         print('TEST:- 4');
+    //         Get.offAll(() => BFirstUserInfoScreen());
+    //       }
+    //     } else if (PreferenceManager.getUserType() == '' ||
+    //         PreferenceManager.getUserType() == null ||
+    //         PreferenceManager.getUId() == 'uid') {
+    //       print('TEST:- 5');
+    //       Get.offAll(() => BWelcomeScreen());
+    //     } else {
+    //       print('TEST:- 6');
+    //       PreferenceManager.getUserType() == 'Seller';
+    //       if (PreferenceManager.getUId() != null &&
+    //           PreferenceManager.getName() != null) {
+    //         PreferenceManager.getSubscribeCategory();
+    //         PreferenceManager.getSubscribeTime();
+    //         print('Seller==>)${PreferenceManager.getUId()}');
+    //         print('TEST:- 7');
+    //         Get.offAll(() => NavigationBarScreen());
+    //       } else if (PreferenceManager.getName() == null) {
+    //         print('s---Name--${PreferenceManager.getName()}');
+    //
+    //         print('TEST:- 8');
+    //         Get.offAll(() => SFirstUserInfoScreen());
+    //       } else if (PreferenceManager.getUserType() == '' ||
+    //           PreferenceManager.getUserType() == null ||
+    //           PreferenceManager.getUId() == 'uid') {
+    //         print('TEST:-9');
+    //         Get.offAll(() => SWelcomeScreen());
+    //       }
+    //       /* Get.off(() => NavigationBarScreen());
+    //       print('TEST:- 9');*/
+    //     }
+    //   } else {
+    //     print('TEST:- 10');
+    //     Get.offAll(() => SOnBoardingScreen());
+    //   }
+    // });
     Timer(Duration(seconds: 2), () {
       print(
           'PreferenceManager.getUId=============>${PreferenceManager.getUId()}');

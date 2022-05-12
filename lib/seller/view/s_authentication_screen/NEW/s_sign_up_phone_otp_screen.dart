@@ -202,7 +202,7 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
             },
             timeout: Duration(seconds: 60))
         .then(
-          (value) => Get.to(() {
+          (value) => Get.offAll(() {
             PreferenceManager.setUId(_auth.currentUser!.uid.toString());
             PreferenceManager.getUId();
             PreferenceManager.setPhoneNumber(widget.phone.toString());

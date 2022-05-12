@@ -92,6 +92,7 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    bLogInController.countryCode;
     print(
         '========code===${bLogInController.countryCode} ${_phoneController.text}');
     print('==>dialCodeDigit===${bLogInController.countryCode}');

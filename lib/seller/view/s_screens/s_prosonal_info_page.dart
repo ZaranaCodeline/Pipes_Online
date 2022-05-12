@@ -39,18 +39,23 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
   CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
 
   Future<void> getData() async {
-    print('demo.....');
-    final user = await ProfileCollection.doc(PreferenceManager.getUId()).get();
+    print('demo seller.....');
+    final user =
+        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    firstname = TextEditingController(text: getUserData?['user_name']);
-    email = TextEditingController(text: getUserData?['email']);
-    address = TextEditingController(text: getUserData?['address']);
-    phoneno = TextEditingController(text: getUserData?['phoneno']);
+
     setState(() {
+      firstname = TextEditingController(text: getUserData?['user_name']);
+      phoneno = TextEditingController(text: getUserData?['phoneno']);
+      email = TextEditingController(text: getUserData?['email']);
+      address = TextEditingController(text: getUserData?['address']);
       Img = getUserData?['imageProfile'];
     });
-    print('========IMG========${user.get('imageProfile')}');
-    // print('=====getUserData=======${getUserData}');
+    print('=======SDrawerScreen=======${getUserData}');
+    print('=======SDrawerScreen===========${user.get('$firstname')}');
+    print('=======SDrawerScreen=======${user.get('$phoneno')}');
+    print('=======SDrawerScreen=======${user.get('$Img')}');
+    print('=======SDrawerScreen======${user.get('$address')}');
   }
 
   Future getGalleryImage() async {
@@ -86,6 +91,8 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
   void initState() {
     // TODO: implement initState
     getData();
+    firstname;
+    print('firstname --${firstname}');
     print('====PreferenceManager.getUId()=====>${PreferenceManager.getUId()}');
     print(
         '====FirebaseAuth.instance.currentUser?.uid=====>${FirebaseAuth.instance.currentUser?.uid}');
@@ -131,7 +138,6 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                     GestureDetector(
                       onTap: () {
                         print('it is openable image');
-
                         showModalBottomSheet<void>(
                           elevation: 0.5,
                           shape: RoundedRectangleBorder(

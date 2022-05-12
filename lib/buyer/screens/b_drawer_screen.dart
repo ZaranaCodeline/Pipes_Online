@@ -43,15 +43,10 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
   String? address;
 
   Future<void> getData() async {
-    print('demo.....');
+    print('demo seller.....');
     final user =
-        await ProfileCollection.doc('${FirebaseAuth.instance.currentUser?.uid}')
-            .get();
+        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    /* name = getUserData!['firstname'];
-    phoneNo = getUserData['phoneno'];
-    Img = getUserData['imageProfile'];
-    address = getUserData['address'];*/
 
     setState(() {
       name = getUserData?['user_name'];
@@ -59,8 +54,28 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
       Img = getUserData?['imageProfile'];
       address = getUserData?['address'];
     });
-    print('============================${user.get('imageProfile')}');
+    print('=======SDrawerScreen=======${getUserData}');
+    print('=======SDrawerScreen===========${user.get('$name')}');
+    print('=======SDrawerScreen=======${user.get('$phoneNo')}');
+    print('=======SDrawerScreen=======${user.get('$Img')}');
+    print('=======SDrawerScreen======${user.get('$address')}');
   }
+
+  // Future<void> getData() async {
+  //   print('demo.....');
+  //   final user =
+  //       await ProfileCollection.doc('${FirebaseAuth.instance.currentUser?.uid}')
+  //           .get();
+  //   Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+  //
+  //   setState(() {
+  //     name = getUserData?['user_name'];
+  //     phoneNo = getUserData?['phoneno'];
+  //     Img = getUserData?['imageProfile'];
+  //     address = getUserData?['address'];
+  //   });
+  //   print('============================${user.get('imageProfile')}');
+  // }
 
   @override
   void initState() {

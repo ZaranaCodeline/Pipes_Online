@@ -170,18 +170,20 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
                                         child: TextFormField(
                                           validator: (password) {
                                             RegExp regex = RegExp(
-                                                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,}$');
+                                                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
                                             if (password!.isEmpty) {
                                               return 'Please enter password';
-                                            } else if (!isPasswordValid(
+                                            }
+                                            /*else if (!isPasswordValid(
                                                 password)) {
                                               return 'Enter a valid password';
                                             } else if (password.length < 6) {
                                               return 'Password must be altest 6 degit';
+                                            }*/
+                                            else if (!regex
+                                                .hasMatch(password)) {
+                                              return 'Password must be Formatted';
                                             }
-                                            // else if (!regex.hasMatch(value)) {
-                                            //   return 'Enter valid password';
-                                            // }
                                             return null;
                                           },
                                           obscureText:

@@ -37,7 +37,6 @@ class BRegisterRepo {
     try {
       await bFirebaseAuth.createUserWithEmailAndPassword(
           email: email!, password: pass!);
-      print('UID BRegisterRepo==========${PreferenceManager.getUId()}');
       await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
       PreferenceManager.getUId();
       PreferenceManager.getUserType();
@@ -52,14 +51,6 @@ class BRegisterRepo {
     } catch (e) {
       print('registration error?????????$e');
     }
-    await bFirebaseAuth
-        .createUserWithEmailAndPassword(
-            email: email.toString(), password: pass.toString())
-        .then((value) => print(value.user!.email))
-        .catchError((e) => print(e.toString()));
-    await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
-    print('emailRegister UID ${PreferenceManager.getUId()}');
-    print('emailRegister setUId==${bFirebaseAuth.currentUser!.uid}');
   }
 
   static Future<void> bLogOut() async {
@@ -76,16 +67,19 @@ class SRegisterRepo {
     UserCredential? firebaseuser = await bFirebaseAuth
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) async {
-      await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
+      /* await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
       await PreferenceManager.setUserType('seller');
       PreferenceManager.getUId();
-      PreferenceManager.getUserType();
+      PreferenceManager.getUserType();*/
       print(
           'getUserType SRegisterRepo=========${PreferenceManager.getUserType()}');
       print('UID SRegisterRepo==========${PreferenceManager.getUId()}');
       print('LogIn ================${bFirebaseAuth.currentUser!.uid}');
 
-      await Get.offAll(() => NavigationBarScreen());
+      await Get.offAll(() => NavigationBarScreen())?.then((value) {
+        PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
+        PreferenceManager.setUserType('seller');
+      });
     });
     assert(firebaseuser != null);
     assert(await firebaseuser?.credential?.token != null);

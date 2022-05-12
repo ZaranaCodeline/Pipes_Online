@@ -80,6 +80,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
   @override
   void initState() {
     super.initState();
+    print('email---${PreferenceManager.getEmail()}');
     print('user name===${nameController.text}');
     print('user mobilevontroller===${mobilecontroller.text}');
     print('user phone===${widget.phone}');
@@ -133,7 +134,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                GestureDetector(
+                                /* GestureDetector(
                                   onTap: () {
                                     Get.back();
                                   },
@@ -141,13 +142,12 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                     Icons.arrow_back_rounded,
                                     color: SColorPicker.white,
                                   ),
-                                ),
-                                Align(
-                                  alignment: Alignment.center,
+                                ),*/
+                                Container(),
+                                Center(
                                   child: Text(
-                                    'PROFILE..',
+                                    'PROFILE',
                                     style: STextStyle.bold700White14,
-                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                                 SizedBox(width: 20.sp),
@@ -161,117 +161,113 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                             decoration: BoxDecoration(
                                 color: SColorPicker.purple,
                                 borderRadius: BorderRadius.circular(20.sp)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    print('it is openable image');
+                            child: GestureDetector(
+                              onTap: () {
+                                print('it is openable image');
 
-                                    showModalBottomSheet<void>(
-                                      elevation: 0.5,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                              topLeft:
-                                                  const Radius.circular(20.0),
-                                              topRight:
-                                                  const Radius.circular(20.0))),
-                                      backgroundColor: Colors.white,
-                                      context: context,
-                                      builder: (context) =>
-                                          FractionallySizedBox(
-                                        heightFactor: 0.5.sp,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(15),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Container(
-                                                width: 35.sp,
-                                                height: 5.sp,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                    color:
-                                                        AppColors.primaryColor),
-                                              ),
-                                              SizedBox(
-                                                height: 0.2,
-                                              ),
-                                              CustomText(
-                                                  alignment: Alignment.topLeft,
-                                                  text: '    Add profile photo',
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 14.sp,
-                                                  color: AppColors
-                                                      .secondaryBlackColor),
-                                              Container(
-                                                child: MaterialButton(
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      Image.asset(
-                                                        'assets/images/png/camera.png',
-                                                        width: 15.sp,
-                                                        height: 15.sp,
-                                                      ),
-                                                      SizedBox(
-                                                        width: Get.width * 0.05,
-                                                      ),
-                                                      Text(
-                                                        ' Take a photo',
-                                                        style: TextStyle(
-                                                            color: AppColors
-                                                                .primaryColor,
-                                                            fontSize: 14.sp),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  onPressed: () {
-                                                    getCamaroImage();
-                                                    Get.back();
-                                                  },
-                                                ),
-                                              ),
-                                              Container(
-                                                child: MaterialButton(
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      Image.asset(
-                                                        'assets/images/png/gallery.png',
-                                                        width: 15.sp,
-                                                        height: 15.sp,
-                                                      ),
-                                                      SizedBox(
-                                                        width: Get.width * 0.05,
-                                                      ),
-                                                      Text(
-                                                        ' Upload from photos',
-                                                        style: TextStyle(
-                                                            color: AppColors
-                                                                .primaryColor,
-                                                            fontSize: 14.sp),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  onPressed: () {
-                                                    getGalleryImage();
-                                                    Get.back();
-                                                  },
-                                                ),
-                                              ),
-                                            ],
+                                showModalBottomSheet<void>(
+                                  elevation: 0.5,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: const Radius.circular(20.0),
+                                          topRight:
+                                              const Radius.circular(20.0))),
+                                  backgroundColor: Colors.white,
+                                  context: context,
+                                  builder: (context) => FractionallySizedBox(
+                                    heightFactor: 0.5.sp,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Container(
+                                            width: 35.sp,
+                                            height: 5.sp,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                color: AppColors.primaryColor),
                                           ),
-                                        ),
+                                          SizedBox(
+                                            height: 0.2,
+                                          ),
+                                          CustomText(
+                                              alignment: Alignment.topLeft,
+                                              text: '    Add profile photo',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14.sp,
+                                              color: AppColors
+                                                  .secondaryBlackColor),
+                                          Container(
+                                            child: MaterialButton(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Image.asset(
+                                                    'assets/images/png/camera.png',
+                                                    width: 15.sp,
+                                                    height: 15.sp,
+                                                  ),
+                                                  SizedBox(
+                                                    width: Get.width * 0.05,
+                                                  ),
+                                                  Text(
+                                                    ' Take a photo',
+                                                    style: TextStyle(
+                                                        color: AppColors
+                                                            .primaryColor,
+                                                        fontSize: 14.sp),
+                                                  ),
+                                                ],
+                                              ),
+                                              onPressed: () {
+                                                getCamaroImage();
+                                                Get.back();
+                                              },
+                                            ),
+                                          ),
+                                          Container(
+                                            child: MaterialButton(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Image.asset(
+                                                    'assets/images/png/gallery.png',
+                                                    width: 15.sp,
+                                                    height: 15.sp,
+                                                  ),
+                                                  SizedBox(
+                                                    width: Get.width * 0.05,
+                                                  ),
+                                                  Text(
+                                                    ' Upload from photos',
+                                                    style: TextStyle(
+                                                        color: AppColors
+                                                            .primaryColor,
+                                                        fontSize: 14.sp),
+                                                  ),
+                                                ],
+                                              ),
+                                              onPressed: () {
+                                                getGalleryImage();
+                                                Get.back();
+                                              },
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    );
-                                  },
-                                  child: _image != null
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  _image != null
                                       ? Container(
                                           height: 35.sp,
                                           width: 35.sp,
@@ -292,19 +288,19 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                             "${SImagePick.uploadImageIcon}",
                                           ),
                                         ),
-                                ),
-                                SizedBox(
-                                  width: 10.sp,
-                                ),
-                                Text(
-                                  'Upload your Image',
-                                  style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: SColorPicker.white,
-                                      fontWeight: FontWeight.w700,
-                                      fontFamily: 'Nunito-Bold'),
-                                )
-                              ],
+                                  SizedBox(
+                                    width: 10.sp,
+                                  ),
+                                  Text(
+                                    'Upload your Image',
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: SColorPicker.white,
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: 'Nunito-Bold'),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                           SizedBox(height: 25.sp),
@@ -355,11 +351,11 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                 width: Get.width * 0.8,
                                 height: Get.height * 0.07,
                                 child: TextFormField(
-                                  keyboardType: widget.email != null &&
+                                  keyboardType: widget.email != null ||
                                           bFirebaseAuth.currentUser?.email !=
                                               null
-                                      ? TextInputType.emailAddress
-                                      : TextInputType.text,
+                                      ? TextInputType.number
+                                      : TextInputType.emailAddress,
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return 'Required';
@@ -464,13 +460,14 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                 });
                                 print('Validate');
                                 addData().then((value) {
+                                  // Get.offAll(() => BottomNavigationBarScreen());
                                   Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               BottomNavigationBarScreen()));
-                                  setState(() {
-                                    isLoading = false;
-                                  });
+                                });
+                                setState(() {
+                                  isLoading = false;
                                 });
                                 // Get.offAll(() => BottomNavigationBarScreen());
                               } else {

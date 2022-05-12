@@ -172,18 +172,20 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                         child: TextFormField(
                                           validator: (password) {
                                             RegExp regex = RegExp(
-                                                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,}$');
+                                                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
                                             if (password!.isEmpty) {
                                               return 'Please enter password';
-                                            } else if (!isPasswordValid(
+                                            }
+                                            /*else if (!isPasswordValid(
                                                 password)) {
                                               return 'Enter a valid password';
                                             } else if (password.length < 6) {
                                               return 'Password must be altest 6 degit';
+                                            }*/
+                                            else if (!regex
+                                                .hasMatch(password)) {
+                                              return 'Password must be Formatted';
                                             }
-                                            // else if (!regex.hasMatch(value)) {
-                                            //   return 'Enter valid password';
-                                            // }
                                             return null;
                                           },
                                           obscureText:
@@ -192,6 +194,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                           inputFormatters: [
                                             LengthLimitingTextInputFormatter(10)
                                           ],
+                                          keyboardType: TextInputType.text,
                                           decoration: InputDecoration(
                                               suffixIcon: IconButton(
                                             icon: Icon(
@@ -421,13 +424,22 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                     print(
                                         '---------->${PreferenceManager.getUId()}');
                                     loginwithgoogle().then((value) {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
                                       // PreferenceManager.getUId();
                                       // PreferenceManager.getEmail();
                                       // PreferenceManager.getName();
                                       // PreferenceManager.getPhoneNumber();
                                       print('it is map');
                                       PreferenceManager.setUserType('Buyer');
-                                      Get.to(() => BFirstUserInfoScreen());
+                                      Get.to(() => BFirstUserInfoScreen(
+                                            email: email.text.trim(),
+                                          ))?.then((value) {
+                                        setState(() {
+                                          isLoading = false;
+                                        });
+                                      });
                                       PreferenceManager.getUId();
                                     });
                                   },
@@ -536,8 +548,41 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
   //     return null;
   //   }
   // }
+  Future<bool?> loginwithgoogle() async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    try {
+      GoogleSignIn googleSignIn = GoogleSignIn();
+      final googleUser = await googleSignIn.signIn();
+      final googleAuth = await googleUser!.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken, // accessToken
+        idToken: googleAuth.idToken,
+      );
+      User? users = (await _auth.signInWithCredential(credential)).user;
+      PreferenceManager.setUId(users!.uid);
+      PreferenceManager.setEmail(users.email!);
+      PreferenceManager.setName(users.displayName!);
+      PreferenceManager.setPhoneNumber(users.phoneNumber!);
+      PreferenceManager.getUId();
+      PreferenceManager.getEmail();
+      PreferenceManager.getName();
+      PreferenceManager.getPhoneNumber();
+      print('uid------${users.uid}');
+      print('phoneNumber------${users.phoneNumber}');
+      print('displayName------${users.displayName}');
+      print('email------${users.email}');
+      print('photoURL------${users.photoURL}');
+      if (users == null) {
+        return false;
+      }
+      return true;
+    } catch (e) {
+      print('this is error .......$e');
+      return null;
+    }
+  }
 
-  bool isPasswordValid(String password) => password.length <= 6;
+  bool isPasswordValid(String password) => password.length <= 10;
 
   bool isEmailValid(String email) {
     Pattern pattern =

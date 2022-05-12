@@ -31,128 +31,133 @@ class _SCatelogeHomeScreenState extends State<SCatelogeHomeScreen> {
   AddProductController addProductController = Get.put(AddProductController());
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          leading: IconButton(
-            padding: EdgeInsets.only(bottom: Get.height / 9.sp, left: 15.sp),
-            icon: SvgPicture.asset(
-              'assets/images/svg/drawer_icon.svg',
-              width: 15.sp,
-              height: 15.sp,
-            ),
-            onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                padding:
-                    EdgeInsets.only(bottom: Get.height / 9.sp, left: 15.sp),
-                icon: SvgPicture.asset(
-                  'assets/images/svg/s_add_pro_icon.svg',
-                  width: 23.sp,
-                  height: 23.sp,
-                ),
-                onPressed: () {
-                  Get.to(() => SOrdersScreen());
-                },
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: SafeArea(
+        child: Scaffold(
+          key: _scaffoldKey,
+          appBar: AppBar(
+            leading: IconButton(
+              padding: EdgeInsets.only(bottom: Get.height / 9.sp, left: 15.sp),
+              icon: SvgPicture.asset(
+                'assets/images/svg/drawer_icon.svg',
+                width: 15.sp,
+                height: 15.sp,
               ),
+              onPressed: () => _scaffoldKey.currentState?.openDrawer(),
             ),
-          ],
-          flexibleSpace: FlexibleSpaceBar(
-            background: Column(
-              children: [
-                SizedBox(
-                  height: Get.height * 0.07,
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  padding:
+                      EdgeInsets.only(bottom: Get.height / 9.sp, left: 15.sp),
+                  icon: SvgPicture.asset(
+                    'assets/images/svg/s_add_pro_icon.svg',
+                    width: 23.sp,
+                    height: 23.sp,
+                  ),
+                  onPressed: () {
+                    Get.to(() => SOrdersScreen());
+                  },
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 5.sp),
-                  child: const SCustomHomeSearchWidget(),
-                ),
-              ],
-            ),
-          ),
-          foregroundColor: AppColors.commonWhiteTextColor,
-          backgroundColor: AppColors.primaryColor,
-          title: Container(
-              padding: EdgeInsets.only(top: 0.sp),
-              margin: EdgeInsets.only(bottom: Get.height / 9.sp),
-              child: Image.asset(
-                'assets/images/png/pipe_logo.png',
-                fit: BoxFit.fill,
-                height: 35,
-              )),
-          centerTitle: true,
-          toolbarHeight: Get.height * 0.13.sp,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(25),
-            ),
-          ),
-        ),
-        drawer: Container(
-            child: const Drawer(
-          child: SDrawerScreen(),
-        )),
-        body: SafeArea(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10.sp),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+            ],
+            flexibleSpace: FlexibleSpaceBar(
+              background: Column(
                 children: [
                   SizedBox(
-                    height: Get.height * 0.02.sp,
+                    height: Get.height * 0.07,
                   ),
-                  Container(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'My Products',
-                        style: STextStyle.bold700Purple16,
-                      )),
-                  SizedBox(
-                    height: Get.height * 0.01.sp,
+                  Padding(
+                    padding: EdgeInsets.only(top: 5.sp),
+                    child: const SCustomHomeSearchWidget(),
                   ),
-                  SCustomProductCard(),
                 ],
               ),
             ),
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            print('hello');
-            if (PreferenceManager.getSubscribeCategory() != null ||
-                PreferenceManager.getSubscribeCategory() != '' &&
-                    PreferenceManager.getSubscribeTime() != null ||
-                PreferenceManager.getSubscribeTime() != null) {
-              print(
-                  '---subscribe category----->${PreferenceManager.getSubscribeCategory()}');
-              print('else if if part');
-              homeController.selectedScreen('SShowSubcriptionValueScreen');
-              homeController.bottomIndex.value = 0;
-            } else if (PreferenceManager.getSubscribeCategory() == null ||
-                PreferenceManager.getSubscribeCategory() == '' &&
-                    PreferenceManager.getSubscribeTime() == null ||
-                PreferenceManager.getSubscribeTime() == null) {
-              print('else if part');
-              homeController.selectedScreen('SSubscribeScreen');
-              homeController.bottomIndex.value = 0;
-            }
-          },
-          child: Container(
-            width: Get.width * 0.15.sp,
-            height: Get.height / 9.sp,
-            decoration: BoxDecoration(
-              color: AppColors.primaryColor,
-              borderRadius: BorderRadius.circular(50.sp),
+            foregroundColor: AppColors.commonWhiteTextColor,
+            backgroundColor: AppColors.primaryColor,
+            title: Container(
+                padding: EdgeInsets.only(top: 0.sp),
+                margin: EdgeInsets.only(bottom: Get.height / 9.sp),
+                child: Image.asset(
+                  'assets/images/png/pipe_logo.png',
+                  fit: BoxFit.fill,
+                  height: 35,
+                )),
+            centerTitle: true,
+            toolbarHeight: Get.height * 0.13.sp,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(25),
+              ),
             ),
-            child: Icon(
-              Icons.add,
-              color: AppColors.commonWhiteTextColor,
-              size: 20.sp,
+          ),
+          drawer: Container(
+              child: const Drawer(
+            child: SDrawerScreen(),
+          )),
+          body: SafeArea(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 10.sp),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: Get.height * 0.02.sp,
+                    ),
+                    Container(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          'My Products',
+                          style: STextStyle.bold700Purple16,
+                        )),
+                    SizedBox(
+                      height: Get.height * 0.01.sp,
+                    ),
+                    SCustomProductCard(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              print('hello');
+              if (PreferenceManager.getSubscribeCategory() != null ||
+                  PreferenceManager.getSubscribeCategory() != '' &&
+                      PreferenceManager.getSubscribeTime() != null ||
+                  PreferenceManager.getSubscribeTime() != null) {
+                print(
+                    '---subscribe category----->${PreferenceManager.getSubscribeCategory()}');
+                print('else if if part');
+                homeController.selectedScreen('SShowSubcriptionValueScreen');
+                homeController.bottomIndex.value = 0;
+              } else if (PreferenceManager.getSubscribeCategory() == null ||
+                  PreferenceManager.getSubscribeCategory() == '' &&
+                      PreferenceManager.getSubscribeTime() == null ||
+                  PreferenceManager.getSubscribeTime() == null) {
+                print('else if part');
+                homeController.selectedScreen('SSubscribeScreen');
+                homeController.bottomIndex.value = 0;
+              }
+            },
+            child: Container(
+              width: Get.width * 0.15.sp,
+              height: Get.height / 9.sp,
+              decoration: BoxDecoration(
+                color: AppColors.primaryColor,
+                borderRadius: BorderRadius.circular(50.sp),
+              ),
+              child: Icon(
+                Icons.add,
+                color: AppColors.commonWhiteTextColor,
+                size: 20.sp,
+              ),
             ),
           ),
         ),

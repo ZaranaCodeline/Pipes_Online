@@ -56,11 +56,11 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
       Img = getUserData?['imageProfile'];
       address = getUserData?['address'];
     });
-    print('=======SDrawerScreen=======${getUserData}');
+    /*print('=======SDrawerScreen=======${getUserData}');
     print('=======SDrawerScreen===========${user.get('$name')}');
     print('=======SDrawerScreen=======${user.get('$phoneNo')}');
     print('=======SDrawerScreen=======${user.get('$Img')}');
-    print('=======SDrawerScreen======${user.get('$address')}');
+    print('=======SDrawerScreen======${user.get('$address')}');*/
   }
 
   @override

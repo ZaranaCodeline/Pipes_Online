@@ -51,11 +51,11 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
       address = TextEditingController(text: getUserData?['address']);
       Img = getUserData?['imageProfile'];
     });
-    print('=======SDrawerScreen=======${getUserData}');
+    /* print('=======SDrawerScreen=======${getUserData}');
     print('=======SDrawerScreen===========${user.get('$firstname')}');
     print('=======SDrawerScreen=======${user.get('$phoneno')}');
     print('=======SDrawerScreen=======${user.get('$Img')}');
-    print('=======SDrawerScreen======${user.get('$address')}');
+    print('=======SDrawerScreen======${user.get('$address')}');*/
   }
 
   Future getGalleryImage() async {
@@ -92,7 +92,11 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
     // TODO: implement initState
     getData();
     firstname;
-    print('firstname --${firstname}');
+    email;
+    phoneno;
+    print('firstname --${PreferenceManager.getName()}');
+    print('email --${email}');
+    print('phoneno --${phoneno}');
     print('====PreferenceManager.getUId()=====>${PreferenceManager.getUId()}');
     print(
         '====FirebaseAuth.instance.currentUser?.uid=====>${FirebaseAuth.instance.currentUser?.uid}');
@@ -308,7 +312,7 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                         ),
-                        hintText: '+91 0000000000',
+                        hintText: '+00 0000000000',
                       ),
                     ),
                     SizedBox(

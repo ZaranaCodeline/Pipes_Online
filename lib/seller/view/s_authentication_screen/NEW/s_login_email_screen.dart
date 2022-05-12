@@ -162,18 +162,20 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                           child: TextFormField(
                                             validator: (password) {
                                               RegExp regex = RegExp(
-                                                  r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,}$');
+                                                  r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
                                               if (password!.isEmpty) {
                                                 return 'Please enter password';
-                                              } else if (!isPasswordValid(
-                                                  password)) {
-                                                return 'Enter a valid password';
-                                              } else if (password.length < 6) {
-                                                return 'Password must be altest 6 degit';
                                               }
-                                              // else if (!regex.hasMatch(value)) {
-                                              //   return 'Enter valid password';
-                                              // }
+                                              /*else if (!isPasswordValid(
+                                                password)) {
+                                              return 'Enter a valid password';
+                                            } else if (password.length < 6) {
+                                              return 'Password must be altest 6 degit';
+                                            }*/
+                                              else if (!regex
+                                                  .hasMatch(password)) {
+                                                return 'Password must be Formatted';
+                                              }
                                               return null;
                                             },
                                             controller: pass,
@@ -253,7 +255,11 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                               pass.text.trim().toString())
                                           .then((value) async {
                                         await Get.offAll(
-                                            () => NavigationBarScreen());
+                                                () => NavigationBarScreen())
+                                            ?.then((value) {
+                                          email.clear();
+                                          pass.clear();
+                                        });
                                         setState(() {
                                           isLoading = false;
                                         });
@@ -274,37 +280,6 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                         );
                                       });
                                     }
-                                    // setState(() {
-                                    //   isLoading = true;
-                                    // });
-                                    // await sendOtp(_auth).then(
-                                    //   (value) => Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //       builder: (context) => VerifyOTP(),
-                                    //     ),
-                                    //   ),
-                                    // );
-                                    // isLoading = true;
-                                    // if (phoneNumber.text.isNotEmpty) {
-                                    //   if (otpCodeVisible) {
-                                    //     // verify();
-                                    //     verifyCode();
-                                    //   } else {
-                                    //     await phoneSignIn(
-                                    //         phoneNumber: phoneNumber.text);
-                                    //   }
-
-                                    //   await sendOtp(_auth).then(
-                                    //         (value) => Navigator.push(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             VerifyOTP(),
-                                    //       ),
-                                    //     ),
-                                    //   );
-                                    // } else {}
                                   },
                                   child: Container(
                                     alignment: Alignment.center,
@@ -469,7 +444,7 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
     );
   }
 
-  bool isPasswordValid(String password) => password.length <= 6;
+  bool isPasswordValid(String password) => password.length <= 20;
 
   bool isEmailValid(String email) {
     Pattern pattern =

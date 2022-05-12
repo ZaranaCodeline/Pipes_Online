@@ -158,18 +158,20 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                           child: TextFormField(
                                             validator: (password) {
                                               RegExp regex = RegExp(
-                                                  r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,}$');
+                                                  r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
                                               if (password!.isEmpty) {
                                                 return 'Please enter password';
-                                              } else if (!isPasswordValid(
-                                                  password)) {
-                                                return 'Enter a valid password';
-                                              } else if (password.length < 6) {
-                                                return 'Password must be altest 6 degit';
                                               }
-                                              // else if (!regex.hasMatch(value)) {
-                                              //   return 'Enter valid password';
-                                              // }
+                                              /*else if (!isPasswordValid(
+                                                password)) {
+                                              return 'Enter a valid password';
+                                            } else if (password.length < 6) {
+                                              return 'Password must be altest 6 degit';
+                                            }*/
+                                              else if (!regex
+                                                  .hasMatch(password)) {
+                                                return 'Password must be Formatted';
+                                              }
                                               return null;
                                             },
                                             controller: pass,
@@ -499,7 +501,7 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
     );
   }
 
-  bool isPasswordValid(String password) => password.length <= 6;
+  bool isPasswordValid(String password) => password.length <= 20;
 
   bool isEmailValid(String email) {
     Pattern pattern =

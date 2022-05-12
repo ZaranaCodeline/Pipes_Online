@@ -312,7 +312,12 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
                                       Get.to(() => SFirstUserInfoScreen(
                                             email: email.text,
                                             pass: pass.text,
-                                          ));
+                                          ))?.then((value) {
+                                        print('---clear');
+                                        email.clear();
+                                        pass.clear();
+                                        conPass.clear();
+                                      });
                                       setState(() {
                                         isLoading = false;
                                       });
@@ -408,7 +413,12 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
                                   onTap: () {
                                     print('it is Signup with Google');
                                     loginwithgoogle().then((value) {
-                                      Get.to(() => SFirstUserInfoScreen());
+                                      Get.to(() => SFirstUserInfoScreen())
+                                          ?.then((value) {
+                                        print(
+                                            '======EMAIL====${PreferenceManager.getEmail()}');
+                                        PreferenceManager.getEmail();
+                                      });
                                     });
                                   },
                                   child: Container(
@@ -517,7 +527,7 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
   //   }
   // }
 
-  bool isPasswordValid(String password) => password.length <= 6;
+  bool isPasswordValid(String password) => password.length <= 20;
 
   bool isEmailValid(String email) {
     Pattern pattern =

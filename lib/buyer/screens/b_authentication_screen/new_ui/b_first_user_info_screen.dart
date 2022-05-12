@@ -597,10 +597,6 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
               ? PreferenceManager.setEmail(widget.email.toString())
               : PreferenceManager.setEmail(emailController.text);
 
-          //PreferenceManager.getPhoneNumber();
-
-          // PreferenceManager.getEmail();
-
           print(
               '==Email login==>${PreferenceManager.setEmail(widget.email.toString())}');
           print(
@@ -610,18 +606,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
           print(
               '==Email Profile==>${PreferenceManager.setPhoneNumber(mobilecontroller.text)}');
           print('==PhoneNumber==>${PreferenceManager.getPhoneNumber()}');
-
-          // Get.offAll(() => BottomNavigationBarScreen());
-        }
-            // => Navigator.pushReplacement(
-            //       context,
-            //       MaterialPageRoute(
-            //         builder: (context) {
-            //           return BottomNavigationBarScreen();
-            //         },
-            //       ),
-            //     ),
-            );
+        });
   }
 
   bool isPasswordValid(String password) => password.length <= 8;

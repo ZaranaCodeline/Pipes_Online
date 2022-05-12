@@ -548,41 +548,41 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
   //     return null;
   //   }
   // }
-  Future<bool?> loginwithgoogle() async {
-    FirebaseAuth _auth = FirebaseAuth.instance;
-    try {
-      GoogleSignIn googleSignIn = GoogleSignIn();
-      final googleUser = await googleSignIn.signIn();
-      final googleAuth = await googleUser!.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken, // accessToken
-        idToken: googleAuth.idToken,
-      );
-      User? users = (await _auth.signInWithCredential(credential)).user;
-      PreferenceManager.setUId(users!.uid);
-      PreferenceManager.setEmail(users.email!);
-      PreferenceManager.setName(users.displayName!);
-      PreferenceManager.setPhoneNumber(users.phoneNumber!);
-      PreferenceManager.getUId();
-      PreferenceManager.getEmail();
-      PreferenceManager.getName();
-      PreferenceManager.getPhoneNumber();
-      print('uid------${users.uid}');
-      print('phoneNumber------${users.phoneNumber}');
-      print('displayName------${users.displayName}');
-      print('email------${users.email}');
-      print('photoURL------${users.photoURL}');
-      if (users == null) {
-        return false;
-      }
-      return true;
-    } catch (e) {
-      print('this is error .......$e');
-      return null;
-    }
-  }
+  // Future<bool?> loginwithgoogle() async {
+  //   FirebaseAuth _auth = FirebaseAuth.instance;
+  //   try {
+  //     GoogleSignIn googleSignIn = GoogleSignIn();
+  //     final googleUser = await googleSignIn.signIn();
+  //     final googleAuth = await googleUser!.authentication;
+  //     final AuthCredential credential = GoogleAuthProvider.credential(
+  //       accessToken: googleAuth.accessToken, // accessToken
+  //       idToken: googleAuth.idToken,
+  //     );
+  //     User? users = (await _auth.signInWithCredential(credential)).user;
+  //     PreferenceManager.setUId(users!.uid);
+  //     PreferenceManager.setEmail(users.email!);
+  //     PreferenceManager.setName(users.displayName!);
+  //     PreferenceManager.setPhoneNumber(users.phoneNumber!);
+  //     PreferenceManager.getUId();
+  //     PreferenceManager.getEmail();
+  //     PreferenceManager.getName();
+  //     PreferenceManager.getPhoneNumber();
+  //     print('uid------${users.uid}');
+  //     print('phoneNumber------${users.phoneNumber}');
+  //     print('displayName------${users.displayName}');
+  //     print('email------${users.email}');
+  //     print('photoURL------${users.photoURL}');
+  //     if (users == null) {
+  //       return false;
+  //     }
+  //     return true;
+  //   } catch (e) {
+  //     print('this is error .......$e');
+  //     return null;
+  //   }
+  // }
 
-  bool isPasswordValid(String password) => password.length <= 10;
+  bool isPasswordValid(String password) => password.length <= 20;
 
   bool isEmailValid(String email) {
     Pattern pattern =

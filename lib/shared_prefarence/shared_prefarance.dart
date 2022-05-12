@@ -8,8 +8,8 @@ class PreferenceManager {
     getStorage.write('email', value);
   }
 
-  static Future<String> getEmail() async {
-    return await getStorage.read('email');
+  static getEmail() {
+    return getStorage.read('email');
   }
 
   static setUserType(String value) {

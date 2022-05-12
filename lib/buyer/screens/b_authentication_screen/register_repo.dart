@@ -61,25 +61,51 @@ class BRegisterRepo {
   }
 }
 
-//seller
+///-------------seller------------------
 class SRegisterRepo {
+  // Future<UserCredential?> LogIn(String email, String password) async {
+  //   UserCredential? firebaseuser = await bFirebaseAuth
+  //       .signInWithEmailAndPassword(email: email, password: password)
+  //       .then((value) async {
+  //     /* await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
+  //     await PreferenceManager.setUserType('seller');
+  //     PreferenceManager.getUId();
+  //     PreferenceManager.getUserType();*/
+  //     print(
+  //         'getUserType SRegisterRepo=========${PreferenceManager.getUserType()}');
+  //     print('UID SRegisterRepo==========${PreferenceManager.getUId()}');
+  //     print('LogIn ================${bFirebaseAuth.currentUser!.uid}');
+  //
+  //     await Get.offAll(() => NavigationBarScreen())?.then((value) {
+  //       PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
+  //       PreferenceManager.setUserType('seller');
+  //     });
+  //   });
+  //   assert(firebaseuser != null);
+  //   assert(await firebaseuser?.credential?.token != null);
+  //   final User currentUser = await bFirebaseAuth.currentUser!;
+  //   assert(firebaseuser?.user!.uid == currentUser.uid);
+  //   return firebaseuser;
+  // }
   Future<UserCredential?> LogIn(String email, String password) async {
     UserCredential? firebaseuser = await bFirebaseAuth
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) async {
-      /* await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
-      await PreferenceManager.setUserType('seller');
+      print('-LogIn==${value.user!.uid}');
+      await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
       PreferenceManager.getUId();
-      PreferenceManager.getUserType();*/
-      print(
-          'getUserType SRegisterRepo=========${PreferenceManager.getUserType()}');
+      PreferenceManager.getUserType();
       print('UID SRegisterRepo==========${PreferenceManager.getUId()}');
-      print('LogIn ================${bFirebaseAuth.currentUser!.uid}');
 
-      await Get.offAll(() => NavigationBarScreen())?.then((value) {
-        PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
-        PreferenceManager.setUserType('seller');
-      });
+      print(
+          'getUserType SRegisterRepo====getUserType=====${PreferenceManager.getUserType()}');
+      print(
+          'SRegisterRepo vemailRegister----UID ${PreferenceManager.getUId()}');
+      print(
+          'SRegisterRepo  emailRegister------LogIn==${bFirebaseAuth.currentUser!.uid}');
+
+      print('LogIn==${bFirebaseAuth.currentUser!.uid}');
+      await Get.offAll(() => NavigationBarScreen());
     });
     assert(firebaseuser != null);
     assert(await firebaseuser?.credential?.token != null);
@@ -90,9 +116,10 @@ class SRegisterRepo {
 
   static Future<void> emailRegister({String? email, String? pass}) async {
     try {
-      await bFirebaseAuth.createUserWithEmailAndPassword(
-          email: email!, password: pass!);
-      print('UID SRegisterRepo==========${PreferenceManager.getUId()}');
+      await bFirebaseAuth
+          .createUserWithEmailAndPassword(email: email!, password: pass!)
+          .then((value) => print('-LogIn==${value.user!.uid}'));
+
       await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
       PreferenceManager.getUId();
       PreferenceManager.getUserType();
@@ -107,12 +134,35 @@ class SRegisterRepo {
     } catch (e) {
       print('registration error?????????$e');
     }
-    await bFirebaseAuth
-        .createUserWithEmailAndPassword(
-            email: email.toString(), password: pass.toString())
-        .then((value) => print(value.user!.email))
-        .catchError((e) => print(e.toString()));
   }
+  // static Future<void> emailRegister({String? email, String? pass}) async {
+  //   try {
+  //     await bFirebaseAuth.createUserWithEmailAndPassword(
+  //         email: email!, password: pass!);
+  //     print('UID SRegisterRepo==========${PreferenceManager.getUId()}');
+  //     print(
+  //         'getUserType SRegisterRepo=========${PreferenceManager.getUserType()}');
+  //
+  //     await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
+  //     PreferenceManager.getUId();
+  //     PreferenceManager.getUserType();
+  //     print('UID SRegisterRepo==========${PreferenceManager.getUId()}');
+  //
+  //     print(
+  //         'getUserType SRegisterRepo====getUserType=====${PreferenceManager.getUserType()}');
+  //     print(
+  //         'SRegisterRepo vemailRegister----UID ${PreferenceManager.getUId()}');
+  //     print(
+  //         'SRegisterRepo  emailRegister------LogIn==${bFirebaseAuth.currentUser!.uid}');
+  //   } catch (e) {
+  //     print('registration error?????????$e');
+  //   }
+  //   await bFirebaseAuth
+  //       .createUserWithEmailAndPassword(
+  //           email: email.toString(), password: pass.toString())
+  //       .then((value) => print(value.user!.email))
+  //       .catchError((e) => print(e.toString()));
+  // }
 
   static Future<void> sLogOut() async {
     // PreferenceManager.clearData();
@@ -137,6 +187,8 @@ Future<bool?> loginwithgoogle() async {
     PreferenceManager.setEmail(users.email!);
     PreferenceManager.setName(users.displayName!);
     PreferenceManager.setPhoneNumber(users.phoneNumber!);
+    print(
+        'buyer addData Preference ==>${PreferenceManager.getUId().toString()}');
     PreferenceManager.getUId();
     PreferenceManager.getEmail();
     PreferenceManager.getName();

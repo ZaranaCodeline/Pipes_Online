@@ -57,14 +57,12 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
 
   Future getCamaroImage() async {
     var imaGe = await picker.getImage(source: ImageSource.camera);
-    print("==========ImagePath=============${imaGe!.path}");
+
     setState(() {
       if (imaGe != null) {
         _image = File(imaGe.path);
-        print("===========ImagePath============${_image}");
-        print("=============ImagePath==========${imaGe.path}");
 
-        imageCache!.clear();
+        print("=============ImagePath==========${imaGe.path}");
       } else {
         print('no image selected');
       }
@@ -451,19 +449,14 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                                 });
                                 print('Validate');
                                 addData().then((value) {
-                                  PreferenceManager.setName(
-                                      nameController.text);
-                                  PreferenceManager.getName();
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              NavigationBarScreen()));
                                 });
-                                // uploadImgFirebaseStorage(file: _image)
-                                //     .then((value) {
-                                //   homeController.bottomIndex.value = 0;
-                                //   homeController
-                                //       .selectedScreen('SCatelogeHomeScreen');
-                                //
-                                //   isLoading = false;
-                                // });
-                                // Get.offAll(() => BottomNavigationBarScreen());
+                                setState(() {
+                                  isLoading = false;
+                                });
                               } else {
                                 print('InValidate');
                                 setState(() {
@@ -533,82 +526,161 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
     }
   }
 
-  CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
-  uploadImgFirebaseStorage({File? file}) async {
-    var snapshot = await bFirebaseStorage
-        .ref()
-        .child('profileImage/${DateTime.now().microsecondsSinceEpoch}')
-        .putFile(file!);
-    String downloadUrl = await snapshot.ref.getDownloadURL();
-    print('url=$downloadUrl');
-    print('====PreferenceManager.getUId()=====>${PreferenceManager.getUId()}');
-    // print('path=$fileImageArray');
-    await ProfileCollection.doc(PreferenceManager.getUId()).update({
-      'imageProfile': downloadUrl == null ? _image : downloadUrl,
-      'user_name': nameController.text,
-      'email': widget.email != null || bFirebaseAuth.currentUser?.email != null
-          ? PreferenceManager.getEmail()
-          : emailController.text,
-      'address': addressController.text,
-      'phoneno': mobilecontroller.text
-    }).then((value) {
-      print('success add');
-      PreferenceManager.setName(nameController.text);
-      PreferenceManager.getName();
-      print('=NAME===${PreferenceManager.getName()}');
-      PreferenceManager.setEmail(emailController.text);
-      PreferenceManager.getEmail();
-      PreferenceManager.setPhoneNumber(mobilecontroller.text);
-      PreferenceManager.getPhoneNumber();
-
-      homeController.bottomIndex.value = 0;
-      homeController.selectedScreen('SCatelogeHomeScreen');
-    }).catchError((e) => print('upload error'));
-  }
-
   Future<void> addData() async {
     print('user name===${nameController.text}');
     print('user mobilevontroller===${mobilecontroller.text}');
     print('user phone===${widget.phone}');
     print(
-        'buyer addData Preference Id==============>${PreferenceManager.getUId().toString()}');
+        'seller addData Preference Id==============>${PreferenceManager.getUId().toString()}');
     print(
-        'buyer addData-getTime==============>${PreferenceManager.getTime().toString()}');
+        'seller addData-getTime==============>${PreferenceManager.getTime().toString()}');
     String? imageUrl = await uploadImageToFirebase(
-      context: context,
-      file: _image, /*fileName: '${emailController.text}_profile.jpg'*/
-    );
+        context: context,
+        file: _image,
+        fileName: '${emailController.text}_profile.jpg');
     SRegisterRepo.emailRegister()
         .then((value) async {
           CollectionReference ProfileCollection =
               bFirebaseStore.collection('SProfile');
           ProfileCollection.doc('${PreferenceManager.getUId()}').set({
-            'isOnline': false,
             'sellerID': PreferenceManager.getUId(),
             'email': widget.email != null ? widget.email : emailController.text,
             // 'password': widget.pass,
+            'isOnline': false,
             'phoneno':
                 widget.phone != null ? widget.phone : mobilecontroller.text,
             'user_name': nameController.text,
             'imageProfile': imageUrl,
             'address': _controller.addressController == null
-                ? _controller.addressController!.text
+                ? _controller.addressController
                 : _controller.addressController!.text,
             'userType': PreferenceManager.getUserType(),
             'userDetails': 'true',
             'time': DateTime.now(),
           });
         })
-        .catchError((e) => print('Error ====seller=====>>> $e'))
-        .then((value) => Navigator.of(context)
-                .pushReplacement(MaterialPageRoute(
-                    builder: (context) => NavigationBarScreen()))
-                .then((value) {
-              setState(() {
-                isLoading = false;
-              });
-            }));
+        .catchError((e) => print('Error ====buyer=====>>> $e'))
+        .then((value) {
+          print(widget.phone);
+          print(emailController.text);
+          print(emailController.text);
+          print('==============>${mobilecontroller.text}');
+          PreferenceManager.setEmail(emailController.text);
+          print(
+              '==Email Profile==>${PreferenceManager.setEmail(emailController.text)}');
+          PreferenceManager.setPhoneNumber(mobilecontroller.text);
+          print(
+              '==Email Profile==>${PreferenceManager.setEmail(emailController.text)}');
+          print(
+              '== PreferenceManager.getPhoneNumber()=== =>${PreferenceManager.getPhoneNumber()}');
+          widget.phone != null
+              ? PreferenceManager.setPhoneNumber(widget.phone.toString())
+              : PreferenceManager.setPhoneNumber(mobilecontroller.text);
+
+          widget.email != null
+              ? PreferenceManager.setEmail(widget.email.toString())
+              : PreferenceManager.setEmail(emailController.text);
+
+          print(
+              '==Email login==>${PreferenceManager.setEmail(widget.email.toString())}');
+          print(
+              '==Email Profile==>${PreferenceManager.setEmail(emailController.text)}');
+          print(
+              '==Email login==>${PreferenceManager.setPhoneNumber(widget.phone.toString())}');
+          print(
+              '==Email Profile==>${PreferenceManager.setPhoneNumber(mobilecontroller.text)}');
+          print('==PhoneNumber==>${PreferenceManager.getPhoneNumber()}');
+        });
   }
+  // Future<String?> uploadImageToFirebase(
+  //     {BuildContext? context, String? fileName, File? file}) async {
+  //   try {
+  //     var response = await firebase_storage.FirebaseStorage.instance
+  //         .ref('uploads/$fileName')
+  //         .putFile(file!);
+  //     print("Response>>>>>>>>>>>>>>>>>>$response");
+  //     return response.storage.ref('uploads/$fileName').getDownloadURL();
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+  //
+  // CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
+  // uploadImgFirebaseStorage({File? file}) async {
+  //   var snapshot = await bFirebaseStorage
+  //       .ref()
+  //       .child('profileImage/${DateTime.now().microsecondsSinceEpoch}')
+  //       .putFile(file!);
+  //   String downloadUrl = await snapshot.ref.getDownloadURL();
+  //   print('url=$downloadUrl');
+  //   print('====PreferenceManager.getUId()=====>${PreferenceManager.getUId()}');
+  //   // print('path=$fileImageArray');
+  //   await ProfileCollection.doc(PreferenceManager.getUId()).update({
+  //     'imageProfile': downloadUrl == null ? _image : downloadUrl,
+  //     'user_name': nameController.text,
+  //     'email': widget.email != null || bFirebaseAuth.currentUser?.email != null
+  //         ? PreferenceManager.getEmail()
+  //         : emailController.text,
+  //     'address': addressController.text,
+  //     'phoneno': mobilecontroller.text
+  //   }).then((value) {
+  //     print('success add');
+  //     PreferenceManager.setName(nameController.text);
+  //     PreferenceManager.getName();
+  //     print('=NAME===${PreferenceManager.getName()}');
+  //     PreferenceManager.setEmail(emailController.text);
+  //     PreferenceManager.getEmail();
+  //     PreferenceManager.setPhoneNumber(mobilecontroller.text);
+  //     PreferenceManager.getPhoneNumber();
+  //
+  //     homeController.bottomIndex.value = 0;
+  //     homeController.selectedScreen('SCatelogeHomeScreen');
+  //   }).catchError((e) => print('upload error'));
+  // }
+  //
+  // Future<void> addData() async {
+  //   print('user name===${nameController.text}');
+  //   print('user mobilevontroller===${mobilecontroller.text}');
+  //   print('user phone===${widget.phone}');
+  //   print(
+  //       'buyer addData Preference Id==============>${PreferenceManager.getUId().toString()}');
+  //   print(
+  //       'buyer addData-getTime==============>${PreferenceManager.getTime().toString()}');
+  //   String? imageUrl = await uploadImageToFirebase(
+  //     context: context,
+  //     file: _image, /*fileName: '${emailController.text}_profile.jpg'*/
+  //   );
+  //   SRegisterRepo.emailRegister()
+  //       .then((value) async {
+  //         CollectionReference ProfileCollection =
+  //             bFirebaseStore.collection('SProfile');
+  //         ProfileCollection.doc('${PreferenceManager.getUId()}').set({
+  //           'isOnline': false,
+  //           'sellerID': PreferenceManager.getUId(),
+  //           'email': widget.email != null ? widget.email : emailController.text,
+  //           // 'password': widget.pass,
+  //           'phoneno':
+  //               widget.phone != null ? widget.phone : mobilecontroller.text,
+  //           'user_name': nameController.text,
+  //           'imageProfile': imageUrl,
+  //           'address': _controller.addressController == null
+  //               ? _controller.addressController!.text
+  //               : _controller.addressController!.text,
+  //           'userType': PreferenceManager.getUserType(),
+  //           'userDetails': 'true',
+  //           'time': DateTime.now(),
+  //         });
+  //       })
+  //       .catchError((e) => print('Error ====seller=====>>> $e'))
+  //       .then((value) => Navigator.of(context)
+  //               .pushReplacement(MaterialPageRoute(
+  //                   builder: (context) => NavigationBarScreen()))
+  //               .then((value) {
+  //             setState(() {
+  //               isLoading = false;
+  //             });
+  //           }));
+  // }
 
   bool isPasswordValid(String password) => password.length <= 8;
 

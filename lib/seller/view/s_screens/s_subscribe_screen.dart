@@ -18,7 +18,6 @@ class _SSubscribeScreenState extends State<SSubscribeScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
-
   int selectedPage = 0;
   @override
   void initState() {
@@ -43,9 +42,11 @@ class _SSubscribeScreenState extends State<SSubscribeScreen>
         backgroundColor: AppColors.primaryColor,
         toolbarHeight: Get.height * 0.1,
         leading: IconButton(
-          onPressed: (){
-            homeController.selectedScreen('SCatelogeHomeScreen');
-            homeController.bottomIndex.value=0;
+          onPressed: () {
+            setState(() {
+              homeController.bottomIndex.value = 0;
+              homeController.selectedScreen('NavigationBarScreen');
+            });
           },
           icon: Icon(Icons.arrow_back),
         ),
@@ -81,7 +82,7 @@ class _SSubscribeScreenState extends State<SSubscribeScreen>
                   },
                   indicator: UnderlineTabIndicator(
                     borderSide:
-                    BorderSide(width: 3, color: AppColors.primaryColor),
+                        BorderSide(width: 3, color: AppColors.primaryColor),
                     insets: EdgeInsets.symmetric(horizontal: 40),
                   ),
                   labelColor: AppColors.primaryColor,
@@ -108,7 +109,7 @@ class _SSubscribeScreenState extends State<SSubscribeScreen>
                     ),
                     // second tab bar view widget
                     Center(
-                      child: SPlusSubscribeScreen() ,
+                      child: SPlusSubscribeScreen(),
                     ),
                   ],
                 ),
@@ -118,6 +119,5 @@ class _SSubscribeScreenState extends State<SSubscribeScreen>
         ),
       ),
     );
-
   }
 }

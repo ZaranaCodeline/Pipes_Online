@@ -180,6 +180,20 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                                                                 homeController
                                                                     .selectedScreen(
                                                                         'SCatelogeHomeScreen');
+                                                              }).then((value) {
+                                                                print(
+                                                                    'You are Signed in successfully');
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                        SnackBar(
+                                                                  content: Text(
+                                                                      'Removed Successfully'),
+                                                                  duration:
+                                                                      Duration(
+                                                                          seconds:
+                                                                              5),
+                                                                ));
                                                               });
                                                             } catch (e) {
                                                               print(

@@ -7,10 +7,11 @@ import 'package:pipes_online/seller/view_model/s_subscribe_controller.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/screens/custom_widget/custom_text.dart';
+import '../../../shared_prefarence/shared_prefarance.dart';
 import '../../common/s_common_button.dart';
 
 class SPlusSubscribeScreen extends StatefulWidget {
-    SPlusSubscribeScreen({Key? key}) : super(key: key);
+  SPlusSubscribeScreen({Key? key}) : super(key: key);
 
   @override
   State<SPlusSubscribeScreen> createState() => _SPlusSubscribeScreenState();
@@ -37,13 +38,14 @@ class _SPlusSubscribeScreenState extends State<SPlusSubscribeScreen> {
     // update();
   }
 
-  List<dynamic> list_name = ['\$ 100/yr','\$ 75/6/Mo','\$15/30/d'];
+  List<dynamic> list_name = ['\$ 100/yr', '\$ 75/6/Mo', '\$15/30/d'];
+  List<dynamic> list_time = ['1 year', '6 monthes', '30 Days'];
   SSubScribeController controller = Get.put(SSubScribeController());
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child:Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
@@ -76,7 +78,7 @@ class _SPlusSubscribeScreenState extends State<SPlusSubscribeScreen> {
                         : AppColors.primaryColor,
                     groupValue: selectedRadioTile,
                     title: CustomText(
-                      text: '1 year',
+                      text: '${list_time[0]}',
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
                       color: selectedRadioTile == 0
@@ -95,8 +97,9 @@ class _SPlusSubscribeScreenState extends State<SPlusSubscribeScreen> {
                       print('Radio tile pressed $value');
                       setState(() {
                         selectedRadioTile = value as int?;
-                        value=list_name[0];
-                        selected=value as String;
+                        value = list_name[0] + ' ' + list_time[0];
+                        ;
+                        selected = value as String;
                         print('Radio tile pressed $selected');
                       });
                     }),
@@ -108,18 +111,19 @@ class _SPlusSubscribeScreenState extends State<SPlusSubscribeScreen> {
                 width: Get.width / 1,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  color: selectedRadioTile == 1  ? AppColors.primaryColor
-                      : AppColors.commonWhiteTextColor
-                  ,
+                  color: selectedRadioTile == 1
+                      ? AppColors.primaryColor
+                      : AppColors.commonWhiteTextColor,
                 ),
                 child: RadioListTile(
                     selectedTileColor: AppColors.commonWhiteTextColor,
                     value: 1,
-                    activeColor: selectedRadioTile == 1 ? AppColors.commonWhiteTextColor
+                    activeColor: selectedRadioTile == 1
+                        ? AppColors.commonWhiteTextColor
                         : AppColors.primaryColor,
                     groupValue: selectedRadioTile,
                     title: CustomText(
-                      text: '6 months',
+                      text: '${list_time[1]}',
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
                       color: selectedRadioTile == 1
@@ -138,8 +142,8 @@ class _SPlusSubscribeScreenState extends State<SPlusSubscribeScreen> {
                       print('Radio tile pressed $value');
                       setState(() {
                         selectedRadioTile = value as int?;
-                        value=list_name[1];
-                        selected=value as String;
+                        value = list_name[1] + ' ' + list_time[1];
+                        selected = value as String;
                         print('Radio tile pressed $selected');
                       });
                     }),
@@ -163,7 +167,7 @@ class _SPlusSubscribeScreenState extends State<SPlusSubscribeScreen> {
                         : AppColors.primaryColor,
                     groupValue: selectedRadioTile,
                     title: CustomText(
-                      text: '30 Days',
+                      text: '${list_time[2]}',
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
                       color: selectedRadioTile == 2
@@ -182,8 +186,9 @@ class _SPlusSubscribeScreenState extends State<SPlusSubscribeScreen> {
                       print('Radio tile pressed $value');
                       setState(() {
                         selectedRadioTile = value as int?;
-                        value=list_name[2];
-                        selected=value as String;
+                        value = list_name[2] + ' ' + list_time[2];
+                        ;
+                        selected = value as String;
                         print('Radio tile pressed $selected');
                       });
                     }),
@@ -200,8 +205,15 @@ class _SPlusSubscribeScreenState extends State<SPlusSubscribeScreen> {
               onTap: () {
                 print('edit product seller side');
                 if (selected != null) {
-                  addProductController.selectedPrice=selected!;
-                  homeController.bottomIndex.value=0;
+                  PreferenceManager.setSubscribeCategory('plus');
+                  print(
+                      '===PLUS=selectedPrice==${addProductController.selectedPrice}');
+                  print(
+                      '===PLUS=selectedSubscribe==${addProductController.selectedSubscribe}');
+                  PreferenceManager.setSubscribeTime(
+                      '${addProductController.selectedSubscribe}');
+                  addProductController.selectedPrice = selected!;
+                  homeController.bottomIndex.value = 0;
                   homeController.selectedScreen('SAddProductScreen');
                 } else {
                   Get.showSnackbar(GetSnackBar(
@@ -214,6 +226,7 @@ class _SPlusSubscribeScreenState extends State<SPlusSubscribeScreen> {
             ),
           )
         ],
-      ),);
+      ),
+    );
   }
 }

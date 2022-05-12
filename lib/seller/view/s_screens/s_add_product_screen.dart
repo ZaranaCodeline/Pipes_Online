@@ -310,6 +310,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                             borderRadius: BorderRadius.circular(10),
                             color: AppColors.commonWhiteTextColor),
                         child: TextFormField(
+                          keyboardType: TextInputType.number,
                           controller: prdPrice,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -376,12 +377,15 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                       name: 'Add Product',
                       onTap: () async {
                         if (formGlobalKey.currentState!.validate()) {
-                          ScaffoldMessenger.of(context).showSnackBar(
+                          /* ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text('Processing data'),
                               backgroundColor: AppColors.primaryColor,
                             ),
-                          );
+                          );*/
+                          setState(() {
+                            isLoading = true;
+                          });
                           if (_image == null) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(

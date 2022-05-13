@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AddProductController extends GetxController {
   String _selectedSubscribeTime = '';
@@ -92,15 +93,25 @@ class AddProductController extends GetxController {
   }
 
   Future getCamaroImage() async {
-    var imaGe = await picker.getImage(source: ImageSource.camera);
-    print("==========ImagePath=============${imaGe!.path}");
-    if (imaGe != null) {
-      image = File(imaGe.path);
-      print("===========ImagePath============${image}");
-      print("=============ImagePath==========${imaGe.path}");
-      imageCache!.clear();
-    } else {
-      print('no image selected');
+    if (await Permission.camera.request().isGranted) {
+      Map<Permission, PermissionStatus> statuses = await [
+        Permission.camera,
+      ].request();
+      print(statuses[Permission.camera]);
+      final imaGe = await picker.pickImage(source: ImageSource.camera);
+
+      if (imaGe != null) {
+        // setState(() {
+        // _image = File(imaGe.path);
+        // });
+
+        print("=============ImagePath==========${imaGe.path}");
+      } else {
+        print('no image selected');
+      }
+      // Either the permission was already granted before or the user just granted it.
     }
+
+// You can request multiple permissions at once.
   }
 }

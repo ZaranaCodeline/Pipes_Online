@@ -49,15 +49,19 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
   String? Img;
   EditProductContoller editProductContoller = Get.find();
 
-  CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
+  DocumentReference profileCollection = bFirebaseStore
+      .collection("SProfile")
+      .doc(PreferenceManager.getUId().toString());
 
   Future<void> getData() async {
-    print('demo.b selected products...${PreferenceManager.getUId()}.');
-    final user = await ProfileCollection.doc(PreferenceManager.getUId()).get();
+    print('============profileCollection==========${profileCollection}');
+
+    print('=======SELLER ID___${PreferenceManager.getUId()}.');
+    final user = await profileCollection.get();
     var m = user.data();
     print('--SelectedProductWidget--------m-- $m');
     // Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    Map<String, dynamic>? getUserData = m as Map<String, dynamic>?;
+    dynamic getUserData = m;
 
     firstname = getUserData?['user_name'];
     email = getUserData?['email'];
@@ -72,9 +76,12 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
 
   @override
   void initState() {
+    print('============profileCollection==========${profileCollection}');
+
     // TODO: implement initState
     super.initState();
     getData();
+    print('demo.b selected products...${PreferenceManager.getUId()}.');
   }
 
   @override
@@ -379,13 +386,13 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
     }
   }
 
-  // Future<void> share() async {
-  //   await FlutterShare.share(
-  //       title: 'Example share',
-  //       text: 'Example share text',
-  //       linkUrl: 'https://flutter.dev/',
-  //       chooserTitle: 'Example Chooser Title');
-  // }
+// Future<void> share() async {
+//   await FlutterShare.share(
+//       title: 'Example share',
+//       text: 'Example share text',
+//       linkUrl: 'https://flutter.dev/',
+//       chooserTitle: 'Example Chooser Title');
+// }
 }
 
 class CustomRichTextSpanWidget extends StatelessWidget {

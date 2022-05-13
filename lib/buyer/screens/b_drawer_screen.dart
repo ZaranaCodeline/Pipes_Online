@@ -124,62 +124,78 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                           },
                         );
                       } else {
-                        return CircularProgressIndicator();
+                        return SizedBox();
                       }
                     },
                   ),
 
                   ///TODO Address
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                      horizontal: 15.sp,
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 5.sp),
-                    height: Get.height * 0.09,
-                    // width: Get.width,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8.sp),
-                    ),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SvgPicture.asset(
-                            BImagePick.DrawerLocationIcon,
-                            width: 14.sp,
-                            height: 14.sp,
+                  FutureBuilder<DocumentSnapshot>(
+                    future: FirebaseFirestore.instance
+                        .collection('BProfile')
+                        .doc(PreferenceManager.getUId().toString())
+                        .get(),
+                    builder: (BuildContext context, snapshot) {
+                      if (snapshot.hasData) {
+                        var output = snapshot.data;
+                        print('SNAPSHOT ${output?['phoneno']}');
+
+                        return Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 15.sp,
                           ),
-                          SizedBox(width: 5.sp),
-                          Flexible(
-                            child: Container(
-                              // height: Get.height * 0.07,
-                              alignment: Alignment.centerLeft,
-                              child: TextFormField(
-                                readOnly: controller.readOnly,
-                                controller: _address,
-                                cursorColor: AppColors.primaryColor,
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: address),
-                              ),
-                            ),
+                          padding: EdgeInsets.symmetric(horizontal: 5.sp),
+                          height: Get.height * 0.09,
+                          // width: Get.width,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8.sp),
                           ),
-                          IconButton(
-                            onPressed: () {
-                              // controller.setEdit();
-                              bottomBarIndexController.setSelectedScreen(
-                                  value: 'PersonalInfoPage');
-                              bottomBarIndexController.bottomIndex.value = 3;
-                            },
-                            icon: Icon(
-                              controller.readOnly == true
-                                  ? Icons.edit_outlined
-                                  : Icons.clear,
-                              color: AppColors.primaryColor,
-                              size: 12.sp,
-                            ),
-                          )
-                        ]),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SvgPicture.asset(
+                                  BImagePick.DrawerLocationIcon,
+                                  width: 14.sp,
+                                  height: 14.sp,
+                                ),
+                                SizedBox(width: 5.sp),
+                                Flexible(
+                                  child: Container(
+                                    // height: Get.height * 0.07,
+                                    alignment: Alignment.centerLeft,
+                                    child: TextFormField(
+                                      readOnly: controller.readOnly,
+                                      controller: _address,
+                                      cursorColor: AppColors.primaryColor,
+                                      decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: output?['address']),
+                                    ),
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    // controller.setEdit();
+                                    bottomBarIndexController.setSelectedScreen(
+                                        value: 'PersonalInfoPage');
+                                    bottomBarIndexController.bottomIndex.value =
+                                        3;
+                                  },
+                                  icon: Icon(
+                                    controller.readOnly == true
+                                        ? Icons.edit_outlined
+                                        : Icons.clear,
+                                    color: AppColors.primaryColor,
+                                    size: 12.sp,
+                                  ),
+                                )
+                              ]),
+                        );
+                      } else {
+                        return SizedBox();
+                      }
+                    },
                   ),
                   SizedBox(height: Get.height * 0.01),
                   buildMenuItem(

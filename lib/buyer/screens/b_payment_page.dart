@@ -110,6 +110,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
+import 'package:pipes_online/buyer/screens/b_home_screen_widget.dart';
+import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
 import 'package:upi_pay/upi_pay.dart';
 
@@ -198,8 +200,7 @@ class _ScreenState extends State<Screen> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              bottomBarIndexController.bottomIndex.value = 0;
-              bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
+              Get.to(() => BottomNavigationBarScreen());
             },
             icon: Icon(Icons.arrow_back),
           ),

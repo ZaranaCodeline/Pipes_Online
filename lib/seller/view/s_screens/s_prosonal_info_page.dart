@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
@@ -72,19 +73,26 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
   }
 
   Future getCamaroImage() async {
-    var imaGe = await picker.getImage(source: ImageSource.camera);
-    print("==========ImagePath=============${imaGe!.path}");
-    setState(() {
-      if (imaGe != null) {
-        _image = File(imaGe.path);
-        print("===========ImagePath============${_image}");
-        print("=============ImagePath==========${imaGe.path}");
+    if (await Permission.camera.request().isGranted) {
+      Map<Permission, PermissionStatus> statuses = await [
+        Permission.camera,
+      ].request();
+      print(statuses[Permission.camera]);
+      final imaGe = await picker.pickImage(source: ImageSource.camera);
 
-        imageCache!.clear();
+      if (imaGe != null) {
+        setState(() {
+          _image = File(imaGe.path);
+        });
+
+        print("=============ImagePath==========${imaGe.path}");
       } else {
         print('no image selected');
       }
-    });
+      // Either the permission was already granted before or the user just granted it.
+    }
+
+// You can request multiple permissions at once.
   }
 
   @override

@@ -26,15 +26,15 @@ class AddReviewsPage extends StatefulWidget {
 class _AddReviewsPageState extends State<AddReviewsPage> {
   double rating = 3.0;
   TextEditingController desc = TextEditingController();
-  CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
+  CollectionReference profileCollection = bFirebaseStore.collection('BProfile');
   String? Img;
   String? firstname;
 
   Future<void> getData() async {
     print('demo.....');
-    final user =
-        await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
-            .get();
+    final user = await profileCollection
+        .doc('${FirebaseAuth.instance.currentUser!.uid}')
+        .get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
     firstname = getUserData!['user_name'];
     print('=========firstname===============${getUserData}');

@@ -43,10 +43,9 @@ class _SSubscribeScreenState extends State<SSubscribeScreen>
         toolbarHeight: Get.height * 0.1,
         leading: IconButton(
           onPressed: () {
-            setState(() {
-              homeController.bottomIndex.value = 0;
-              homeController.selectedScreen('NavigationBarScreen');
-            });
+            // homeController.bottomIndex.value = 0;
+            // homeController.selectedScreen('NavigationBarScreen');
+            Get.back();
           },
           icon: Icon(Icons.arrow_back),
         ),

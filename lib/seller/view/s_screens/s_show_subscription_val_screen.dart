@@ -107,13 +107,13 @@ class _SShowSubcriptionValueScreenState
                           fontWeight: FontWeight.w700,
                           fontSize: 14.sp,
                           color: AppColors.secondaryBlackColor),
-                      /* CustomText(
-                          text: addProductController.selectedSubscribeTime,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 14.sp,
-                          color: AppColors.secondaryBlackColor),*/
                       CustomText(
                           text: PreferenceManager.getSubscribeTime().toString(),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14.sp,
+                          color: AppColors.secondaryBlackColor),
+                      CustomText(
+                          text: PreferenceManager.getSubscribeVal().toString(),
                           fontWeight: FontWeight.w700,
                           fontSize: 14.sp,
                           color: AppColors.secondaryBlackColor),

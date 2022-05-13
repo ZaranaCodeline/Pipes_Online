@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/app_constant/b_image.dart';
-import 'package:pipes_online/buyer/screens/b_cart_page.dart';
+import 'package:pipes_online/buyer/screens/b_cart_check_out_page.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/view_model/cart_product_controller.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
@@ -61,6 +61,7 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
             .collection('Cart')
             .doc(PreferenceManager.getUId())
             .collection('MyCart')
+            .orderBy('createdOn', descending: true)
             .snapshots(),
         builder: (context, snapShot) {
           if (!snapShot.hasData) {

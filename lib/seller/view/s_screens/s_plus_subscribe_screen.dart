@@ -21,6 +21,7 @@ class _SPlusSubscribeScreenState extends State<SPlusSubscribeScreen> {
   String? radioValue;
   int? selectedRadioTile;
   String? selected;
+  String? selectedTime;
   BottomController homeController = Get.find();
   AddProductController addProductController = Get.put(AddProductController());
 
@@ -206,12 +207,14 @@ class _SPlusSubscribeScreenState extends State<SPlusSubscribeScreen> {
                 print('edit product seller side');
                 if (selected != null) {
                   PreferenceManager.setSubscribeCategory('plus');
-                  print(
-                      '===PLUS=selectedPrice==${addProductController.selectedPrice}');
-                  print(
-                      '===PLUS=selectedSubscribe==${addProductController.selectedSubscribe}');
                   PreferenceManager.setSubscribeTime(
-                      '${addProductController.selectedSubscribe}');
+                      '${list_time[selectedRadioTile!]}');
+                  PreferenceManager.setSubscribeVal(
+                      '${list_name[selectedRadioTile!]}');
+                  print(
+                      '====setTime===${PreferenceManager.getSubscribeTime()}');
+                  print('====setGap===${PreferenceManager.getSubscribeVal()}');
+                  // PreferenceManager.setSubscribeTime('${selected}');
                   addProductController.selectedPrice = selected!;
                   homeController.bottomIndex.value = 0;
                   homeController.selectedScreen('SAddProductScreen');

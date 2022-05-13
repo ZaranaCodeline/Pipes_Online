@@ -99,14 +99,14 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
             },
             timeout: Duration(seconds: 60))
         .then(
-          (value) => Get.to(() {
+          (value) => Get.offAll(() {
             PreferenceManager.getUId();
             PreferenceManager.setPhoneNumber(widget.phone.toString());
             print('P========${widget.phone.toString()}');
             if (PreferenceManager.getUId() != null) {
               NavigationBarScreen();
             }
-            Get.snackbar('Oops', 'Invalid OTP');
+            Get.snackbar('Please Try again', 'Invalid OTP');
           }),
         )
         .catchError((onError) {

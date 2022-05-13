@@ -28,6 +28,7 @@ class SCatelogeHomeScreen extends StatefulWidget {
 class _SCatelogeHomeScreenState extends State<SCatelogeHomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   BottomController homeController = Get.find();
+  bool isLoading = false;
   AddProductController addProductController = Get.put(AddProductController());
   @override
   Widget build(BuildContext context) {
@@ -73,7 +74,11 @@ class _SCatelogeHomeScreenState extends State<SCatelogeHomeScreen> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 5.sp),
-                    child: const SCustomHomeSearchWidget(),
+                    child: GestureDetector(
+                        onTap: () {
+                          isLoading = true;
+                        },
+                        child: const SCustomHomeSearchWidget()),
                   ),
                 ],
               ),

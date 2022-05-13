@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/view/s_screens/s_order_review_screen.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
@@ -10,7 +13,8 @@ import '../../bottombar/widget/order_bottom_bar_route.dart';
 import '../../common/s_text_style.dart';
 
 class SOrdersScreen extends StatelessWidget {
-  const SOrdersScreen({Key? key}) : super(key: key);
+  SOrdersScreen({Key? key}) : super(key: key);
+  String? formattedDateTime;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,7 @@ class SOrdersScreen extends StatelessWidget {
           backgroundColor: AppColors.primaryColor,
           leading: IconButton(
               onPressed: () {
-                if (homeController.bottomIndex.value  == 1) {
+                if (homeController.bottomIndex.value == 1) {
                   homeController.setSelectedScreen(value: 'Order Screen');
                   homeController.bottomIndex.value = 0;
                 } else {
@@ -39,287 +43,402 @@ class SOrdersScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10.sp),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: Get.height * 0.05,
-                ),
-                Card(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 10.sp, horizontal: 10.sp),
-                    child: CustomText(
-                        text: 'Ordered on 24 Dec 12:20',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
-                        color: AppColors.secondaryBlackColor),
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 1, color: AppColors.offLightPurpalColor)),
-                  padding: EdgeInsets.zero,
-                  child: Card(
-                    elevation: 0,
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Container(
+        body: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance.collection('Orders').snapshots(),
+          builder: (context, snapShot) {
+            if (snapShot.hasData) {
+              print('========OrderID==========${PreferenceManager.getUId()}');
+              return ListView.builder(
+                itemCount: snapShot.data?.docs.length,
+                itemBuilder: (context, index) {
+                  formattedDateTime = (snapShot.data?.docs[index]['createdOn']);
+
+                  /* DateTime.fromMicrosecondsSinceEpoch(
+                      snapShot.data?.docs[index]['createdOn']).toString();*/
+                  print('--formattedDateTime-${formattedDateTime}');
+                  return Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: Get.height * 0.05,
+                          ),
+                          Card(
+                            child: Padding(
                               padding: EdgeInsets.symmetric(
-                                  vertical: 10.sp, horizontal: 15.sp),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10.0),
-                                child: Image.asset(
-                                  'assets/images/png/cart_page.png',
-                                  fit: BoxFit.fill,
-                                  width: Get.width * 0.3,
-                                  height: Get.height / 8,
-                                ),
-                              ),
+                                  vertical: 10.sp, horizontal: 10.sp),
+                              child: CustomText(
+                                  text: 'Ordered on $formattedDateTime',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                  color: AppColors.secondaryBlackColor),
                             ),
-                            Container(
-                              child: SingleChildScrollView(
+                          ),
+                          Card(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  /*border: Border.all(
+                                      width: 1,
+                                      color: AppColors.offLightPurpalColor)*/
+                                  ),
+                              padding: EdgeInsets.zero,
+                              child: Card(
+                                elevation: 0,
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        CustomText(
-                                          text: 'Round',
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14.sp,
-                                          color: AppColors.secondaryBlackColor,
-                                          alignment: Alignment.topLeft,
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 10.sp,
+                                              horizontal: 15.sp),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            child: snapShot.data?.docs[index]
+                                                        ['productImage'] !=
+                                                    null
+                                                ? Image.network(
+                                                    snapShot.data?.docs[index]
+                                                        ['productImage'],
+                                                    fit: BoxFit.fill,
+                                                    width: Get.width * 0.25,
+                                                    height: Get.height / 8,
+                                                  )
+                                                : Image.asset(
+                                                    'assets/images/png/cart_page.png',
+                                                    fit: BoxFit.fill,
+                                                    width: Get.width * 0.25,
+                                                    height: Get.height / 8,
+                                                  ),
+                                          ),
                                         ),
-                                        SizedBox(
-                                          width: Get.width * 0.05,
-                                        ),
-                                        CustomText(
-                                          textOverflow: TextOverflow.clip,
-                                          text: 'Order ID 000001',
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12.sp,
-                                          color: AppColors.hintTextColor,
-                                          alignment: Alignment.centerLeft,
+                                        Container(
+                                          height: Get.height / 6,
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    SizedBox(
+                                                      height: Get.height * 0.02,
+                                                    ),
+                                                    CustomText(
+                                                      textOverflow:
+                                                          TextOverflow.fade,
+                                                      max: 1,
+                                                      text: 'Product Name:- ',
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 12.sp,
+                                                      color: AppColors
+                                                          .hintTextColor,
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                    ),
+                                                    CustomText(
+                                                      textOverflow:
+                                                          TextOverflow.fade,
+                                                      max: 1,
+                                                      text: snapShot
+                                                              .data?.docs[index]
+                                                          ['prdName'],
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 12.sp,
+                                                      color: AppColors
+                                                          .secondaryBlackColor,
+                                                      alignment:
+                                                          Alignment.topLeft,
+                                                    ),
+                                                    SizedBox(
+                                                      width: Get.width * 0.01,
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: Get.height * 0.02,
+                                                ),
+                                                CustomText(
+                                                  textOverflow:
+                                                      TextOverflow.ellipsis,
+                                                  max: 1,
+                                                  text: 'Order ID :- ',
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 12.sp,
+                                                  color:
+                                                      AppColors.hintTextColor,
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                ),
+                                                SizedBox(
+                                                  height: Get.height * 0.005,
+                                                ),
+                                                CustomText(
+                                                  textOverflow:
+                                                      TextOverflow.ellipsis,
+                                                  max: 1,
+                                                  text:
+                                                      '${snapShot.data?.docs[index]['orderID']}',
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 10.sp,
+                                                  color: AppColors
+                                                      .secondaryBlackColor,
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                ),
+                                                SizedBox(
+                                                  height: Get.height * 0.02,
+                                                ),
+                                                RichText(
+                                                  text: TextSpan(
+                                                    text: 'Customer : ',
+                                                    style: STextStyle
+                                                        .semiBold600Grey12,
+                                                    children: <TextSpan>[
+                                                      TextSpan(
+                                                          text: snapShot.data
+                                                                  ?.docs[index]
+                                                              ['buyerName'],
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: AppColors
+                                                                  .secondaryBlackColor)),
+                                                      // TextSpan(text: ' world!'),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: Get.height * 0.01,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
-                                      height: Get.height * 0.005,
+                                    Divider(
+                                      thickness: 2,
                                     ),
-                                    RichText(
-                                      text: TextSpan(
-                                        text: 'Customer : ',
-                                        style: STextStyle.semiBold600Grey12,
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                              text: ' Jan Doe',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Column(
+                                          children: [
+                                            CustomText(
+                                              text: 'price',
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 12.sp,
+                                              color: AppColors.hintTextColor,
+                                              alignment: Alignment.centerLeft,
+                                            ),
+                                            SizedBox(
+                                              height: Get.height * 0.01,
+                                            ),
+                                            CustomText(
+                                              text: snapShot.data?.docs[index]
+                                                  ['price'],
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 12.sp,
+                                              color:
+                                                  AppColors.secondaryBlackColor,
+                                              alignment: Alignment.centerLeft,
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                          child: Column(
+                                            children: [
+                                              CustomText(
+                                                text: 'paymentMode',
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12.sp,
+                                                color: AppColors.hintTextColor,
+                                                alignment: Alignment.topLeft,
+                                              ),
+                                              SizedBox(
+                                                height: Get.height * 0.01,
+                                              ),
+                                              CustomText(
+                                                text: snapShot.data?.docs[index]
+                                                    ['paymentMode'],
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12.sp,
+                                                color: AppColors
+                                                    .secondaryBlackColor,
+                                                alignment: Alignment.centerLeft,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Column(
+                                          children: [
+                                            CustomText(
+                                              text: 'Order Status',
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 12.sp,
+                                              color: AppColors.hintTextColor,
+                                              alignment: Alignment.centerLeft,
+                                            ),
+                                            SizedBox(
+                                              height: Get.height * 0.01,
+                                            ),
+                                            CustomText(
+                                              text: snapShot.data?.docs[index]
+                                                  ['orderStatus'],
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 12.sp,
+                                              color:
+                                                  AppColors.secondaryBlackColor,
+                                              alignment: Alignment.centerLeft,
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    Divider(
+                                      thickness: 2,
+                                    ),
+                                    Container(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 5.sp),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              CustomText(
+                                                text: 'Size',
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12.sp,
+                                                color: AppColors.hintTextColor,
+                                                alignment: Alignment.centerLeft,
+                                              ),
+                                              SizedBox(
+                                                height: Get.height * 0.008,
+                                              ),
+                                              CustomText(
+                                                text: snapShot.data?.docs[index]
+                                                    ['size'],
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12.sp,
+                                                color: AppColors
+                                                    .secondaryBlackColor,
+                                                alignment: Alignment.centerLeft,
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                            child: Column(
+                                              children: [
+                                                CustomText(
+                                                  text: 'Length',
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 12.sp,
+                                                  color:
+                                                      AppColors.hintTextColor,
+                                                  alignment: Alignment.topLeft,
+                                                ),
+                                                SizedBox(
+                                                  height: Get.height * 0.008,
+                                                ),
+                                                CustomText(
+                                                  text: snapShot.data
+                                                      ?.docs[index]['length'],
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 12.sp,
                                                   color: AppColors
-                                                      .secondaryBlackColor)),
-                                          // TextSpan(text: ' world!'),
+                                                      .secondaryBlackColor,
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Column(
+                                            children: [
+                                              CustomText(
+                                                text: 'Weight',
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12.sp,
+                                                color: AppColors.hintTextColor,
+                                                alignment: Alignment.centerLeft,
+                                              ),
+                                              SizedBox(
+                                                height: Get.height * 0.008,
+                                              ),
+                                              CustomText(
+                                                text: snapShot.data?.docs[index]
+                                                    ['weight'],
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12.sp,
+                                                color: AppColors
+                                                    .secondaryBlackColor,
+                                                alignment: Alignment.centerLeft,
+                                              ),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              CustomText(
+                                                text: 'Oil',
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12.sp,
+                                                color: AppColors.hintTextColor,
+                                                alignment: Alignment.centerLeft,
+                                              ),
+                                              CustomText(
+                                                text: snapShot.data?.docs[index]
+                                                    ['oil'],
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12.sp,
+                                                color: AppColors
+                                                    .secondaryBlackColor,
+                                                alignment: Alignment.centerLeft,
+                                              ),
+                                            ],
+                                          ),
                                         ],
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: Get.height * 0.01,
-                                    ),
                                   ],
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                        Divider(
-                          thickness: 2,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Column(
-                              children: [
-                                CustomText(
-                                  text: 'Payment',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12.sp,
-                                  color: AppColors.hintTextColor,
-                                  alignment: Alignment.centerLeft,
-                                ),
-                                SizedBox(
-                                  height: Get.height * 0.01,
-                                ),
-                                CustomText(
-                                  text: '\$10',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12.sp,
-                                  color: AppColors.secondaryBlackColor,
-                                  alignment: Alignment.centerLeft,
-                                ),
-                              ],
-                            ),
-                            Container(
-                              child: Column(
-                                children: [
-                                  CustomText(
-                                    text: 'Payment mode',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12.sp,
-                                    color: AppColors.hintTextColor,
-                                    alignment: Alignment.topLeft,
-                                  ),
-                                  SizedBox(
-                                    height: Get.height * 0.01,
-                                  ),
-                                  CustomText(
-                                    text: 'Google pay',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12.sp,
-                                    color: AppColors.secondaryBlackColor,
-                                    alignment: Alignment.centerLeft,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Column(
-                              children: [
-                                CustomText(
-                                  text: 'Order Status',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12.sp,
-                                  color: AppColors.hintTextColor,
-                                  alignment: Alignment.centerLeft,
-                                ),
-                                SizedBox(
-                                  height: Get.height * 0.01,
-                                ),
-                                CustomText(
-                                  text: 'Pending',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12.sp,
-                                  color: AppColors.secondaryBlackColor,
-                                  alignment: Alignment.centerLeft,
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                        Divider(
-                          thickness: 2,
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 5.sp),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Column(
-                                children: [
-                                  CustomText(
-                                    text: 'Size',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12.sp,
-                                    color: AppColors.hintTextColor,
-                                    alignment: Alignment.centerLeft,
-                                  ),
-                                  SizedBox(
-                                    height: Get.height * 0.008,
-                                  ),
-                                  CustomText(
-                                    text: '2 ft',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12.sp,
-                                    color: AppColors.secondaryBlackColor,
-                                    alignment: Alignment.centerLeft,
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                child: Column(
-                                  children: [
-                                    CustomText(
-                                      text: 'Length',
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12.sp,
-                                      color: AppColors.hintTextColor,
-                                      alignment: Alignment.topLeft,
-                                    ),
-                                    SizedBox(
-                                      height: Get.height * 0.008,
-                                    ),
-                                    CustomText(
-                                      text: '2 kg',
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12.sp,
-                                      color: AppColors.secondaryBlackColor,
-                                      alignment: Alignment.centerLeft,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Column(
-                                children: [
-                                  CustomText(
-                                    text: 'Weight',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12.sp,
-                                    color: AppColors.hintTextColor,
-                                    alignment: Alignment.centerLeft,
-                                  ),
-                                  SizedBox(
-                                    height: Get.height * 0.008,
-                                  ),
-                                  CustomText(
-                                    text: 'Pending',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12.sp,
-                                    color: AppColors.secondaryBlackColor,
-                                    alignment: Alignment.centerLeft,
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  CustomText(
-                                    text: 'Oil',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12.sp,
-                                    color: AppColors.hintTextColor,
-                                    alignment: Alignment.centerLeft,
-                                  ),
-                                  CustomText(
-                                    text: '--',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12.sp,
-                                    color: AppColors.secondaryBlackColor,
-                                    alignment: Alignment.centerLeft,
-                                  ),
-                                ],
-                              ),
-                            ],
                           ),
-                        ),
-                      ],
+                          TextButton(
+                            onPressed: () {
+                              Get.to(() => SorderReviewScreen());
+                            },
+                            child: CustomText(
+                                text: 'Review Now',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14.sp,
+                                color: AppColors.primaryColor),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
-                SizedBox(height: Get.height * 0.01,),
-                TextButton(onPressed: (){
-                  Get.to(()=>SorderReviewScreen());
-                }, child: CustomText(
-                    text: 'Review Now',
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14.sp,
-                    color: AppColors.primaryColor),),
-              ],
-            ),
-          ),
+                  );
+                },
+              );
+            }
+            return Container(
+              child: Center(
+                child: Text('No Order'),
+              ),
+            );
+          },
         ),
       ),
     );

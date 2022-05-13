@@ -119,8 +119,21 @@ import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 
 class Screen extends StatefulWidget {
   final String? price;
+  final String? name;
+  final String? desc;
+  final String? image;
+  final String? category;
+  final String? productID;
 
-  const Screen({Key? key, this.price}) : super(key: key);
+  const Screen(
+      {Key? key,
+      this.price,
+      this.name,
+      this.desc,
+      this.image,
+      this.category,
+      this.productID})
+      : super(key: key);
   @override
   _ScreenState createState() => _ScreenState();
 }

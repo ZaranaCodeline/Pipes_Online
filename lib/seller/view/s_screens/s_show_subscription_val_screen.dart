@@ -23,18 +23,32 @@ class SShowSubcriptionValueScreen extends StatefulWidget {
 class _SShowSubcriptionValueScreenState
     extends State<SShowSubcriptionValueScreen> {
   AddProductController addProductController = Get.put(AddProductController());
-  String formattedDateTime =
-      DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 180)));
+
+  String? formattedDateTime;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    addProductController.selectedSubscribe;
+    PreferenceManager.getSubscribeTime();
+    PreferenceManager.getSubscribeVal();
     print('-Stored-time-${PreferenceManager.getSubscribeTime()}');
-    print('-Stored cat--${PreferenceManager.getSubscribeCategory()}');
-    print(
-        'addProductController.selectedSubscribe--${addProductController.selectedSubscribe}');
-    PreferenceManager.setSubscribeTime(addProductController.selectedSubscribe);
+    print('-Stored val--${PreferenceManager.getSubscribeVal()}');
+
+    if (PreferenceManager.getSubscribeTime().toString().contains('1')) {
+      print('year');
+      formattedDateTime = DateFormat('yyyy-MM-dd')
+          .format(DateTime.now().add(Duration(days: 365)));
+    } else if (PreferenceManager.getSubscribeTime().toString().contains('6')) {
+      print('month');
+      formattedDateTime = DateFormat('yyyy-MM-dd')
+          .format(DateTime.now().add(Duration(days: 180)));
+    } else {
+      formattedDateTime = DateFormat('yyyy-MM-dd')
+          .format(DateTime.now().add(Duration(days: 30)));
+      print('days');
+    }
+    ;
   }
 
   Widget build(BuildContext context) {

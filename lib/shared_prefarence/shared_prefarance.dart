@@ -12,6 +12,14 @@ class PreferenceManager {
     return getStorage.read('email');
   }
 
+  static setSellerID(String value) {
+    getStorage.write('sellerID', value);
+  }
+
+  static getSellerID() {
+    return getStorage.read('sellerID');
+  }
+
   static setUserType(String value) {
     getStorage.write('userType', value);
   }
@@ -74,6 +82,14 @@ class PreferenceManager {
 
   static getSubscribeTime() {
     return getStorage.read('subscribeTime');
+  }
+
+  static setSubscribeVal(String value) {
+    getStorage.write('subscribeVal', value);
+  }
+
+  static getSubscribeVal() {
+    return getStorage.read('subscribeVal');
   }
 
   static setSubscribeCategory(String value) {

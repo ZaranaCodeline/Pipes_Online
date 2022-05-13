@@ -81,6 +81,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     print('==>category===${widget.category}');
 
     getData();

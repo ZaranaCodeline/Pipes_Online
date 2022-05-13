@@ -123,9 +123,12 @@ class SRegisterRepo {
           .then((value) => print('-LogIn==${value.user!.uid}'));
 
       await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
+      await PreferenceManager.setSellerID(bFirebaseAuth.currentUser!.uid);
+      PreferenceManager.getSellerID();
       PreferenceManager.getUId();
       PreferenceManager.getUserType();
       print('UID SRegisterRepo==========${PreferenceManager.getUId()}');
+      print('UID getSellerID=========${PreferenceManager.getSellerID()}');
 
       print(
           'getUserType SRegisterRepo====getUserType=====${PreferenceManager.getUserType()}');

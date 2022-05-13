@@ -39,7 +39,7 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
     // update();
   }
 
-  List<dynamic> list_name = ['\$ 100/yr', '\$ 75/6/Mo', '\$15/30/d'];
+  List<dynamic> list_name = ['\$100/yr', '\$75/6/Mo', '\$15/30/d'];
   List<dynamic> list_time = ['1 year', '6 monthes', '30 Days'];
   SSubScribeController controller = Get.put(SSubScribeController());
 
@@ -203,8 +203,13 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
             onTap: () {
               if (selected != null) {
                 PreferenceManager.setSubscribeCategory('simple');
+                // PreferenceManager.setSubscribeTime('${selected}');
                 PreferenceManager.setSubscribeTime(
-                    '${addProductController.selectedSubscribe}');
+                    '${list_time[selectedRadioTile!]}');
+                PreferenceManager.setSubscribeVal(
+                    '${list_name[selectedRadioTile!]}');
+                print('====setTime===${PreferenceManager.getSubscribeTime()}');
+                print('====setGap===${PreferenceManager.getSubscribeVal()}');
                 addProductController.selectedSubscribe = selected!;
                 homeController.bottomIndex.value = 0;
                 homeController.selectedScreen('SAddProductScreen');
@@ -216,7 +221,7 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
                 ));
               }
               //Get.to(() => SAddProductScreen(selectedPrice:selected,));
-              print('edit product seller side');
+              print('edit product seller side${selected}');
               // Get.toNamed(SRoutes.SSubmitProfileScreen);
             },
           ),

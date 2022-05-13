@@ -32,10 +32,10 @@ class _BReviewWidgetState extends State<BReviewWidget> {
     final user =
         await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    firstname = getUserData!['user_name'];
+    firstname = getUserData?['user_name'];
     print('=========SellerReviewWidget===============${getUserData}');
     setState(() {
-      Img = getUserData['imageProfile'];
+      Img = getUserData?['imageProfile'];
     });
     print(
         '=imageProfile==BReviewWidget=============${user.get('imageProfile')}');
@@ -244,38 +244,38 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(50.sp),
-                                              child: snapShot.data?.docs[index][
-                                                              'imageProfile'] ==
-                                                          null ||
-                                                      snapShot.data?.docs[index]
-                                                              [
-                                                              'imageProfile'] ==
-                                                          ''
-                                                  ? Center(
-                                                      child: Image.network(
-                                                      (snapShot.data
-                                                                  ?.docs[index]
-                                                              ['imageProfile'])
-                                                          .toString(),
-                                                      width: 30.sp,
-                                                      height: 30.sp,
-                                                    ))
-                                                  : Image.network(
-                                                      /*  snapShot.data?.docs[index]
-                                                          ['imageProfile']*/
-                                                      Img == null
-                                                          ? snapShot.data
-                                                                  ?.docs[index]
-                                                              ['imageProfile']
-                                                          : Img!,
-                                                      fit: BoxFit.cover,
-                                                      width: 30.sp,
-                                                      height: 30.sp,
-                                                    ),
-                                            ),
+                                            // ClipRRect(
+                                            //   borderRadius:
+                                            //       BorderRadius.circular(50.sp),
+                                            //   child: snapShot.data?.docs[index][
+                                            //                   'imageProfile'] ==
+                                            //               null ||
+                                            //           snapShot.data?.docs[index]
+                                            //                   [
+                                            //                   'imageProfile'] ==
+                                            //               ''
+                                            //       ? Center(
+                                            //           child: Image.network(
+                                            //           (snapShot.data
+                                            //                       ?.docs[index]
+                                            //                   ['imageProfile'])
+                                            //               .toString(),
+                                            //           width: 30.sp,
+                                            //           height: 30.sp,
+                                            //         ))
+                                            //       : Image.network(
+                                            //           /*  snapShot.data?.docs[index]
+                                            //               ['imageProfile']*/
+                                            //           Img == null
+                                            //               ? snapShot.data
+                                            //                       ?.docs[index]
+                                            //                   ['imageProfile']
+                                            //               : Img!,
+                                            //           fit: BoxFit.cover,
+                                            //           width: 30.sp,
+                                            //           height: 30.sp,
+                                            //         ),
+                                            // ),
                                             Expanded(
                                               child: Column(
                                                 children: [

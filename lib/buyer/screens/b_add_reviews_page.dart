@@ -58,7 +58,6 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
           ProfileCollection.doc('${PreferenceManager.getUId()}')
               .collection('ReviewID')
               .add({
-            // .set({
             'reviewID': ProfileCollection.doc().id,
             'userID': PreferenceManager.getUId(),
             'category': widget.category,
@@ -248,8 +247,9 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                   Custombutton(
                                     name: 'Submit'.toUpperCase(),
                                     function: () {
-                                      addData();
-                                      Get.to(SellerReviewWidget());
+                                      addData().then((value) {
+                                        Get.to(() => SellerReviewWidget());
+                                      });
                                     },
                                     // Get.to(() => HomePage()),
                                     height: Get.height * 0.06.sp,

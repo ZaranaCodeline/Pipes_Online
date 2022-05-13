@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_share/flutter_share.dart';
+// import 'package:flutter_share/flutter_share.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
@@ -49,12 +49,11 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
   String? Img;
   EditProductContoller editProductContoller = Get.find();
 
-  CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
+  CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
 
   Future<void> getData() async {
-    print('demo....${PreferenceManager.getUId()}.');
-    final user =
-        await ProfileCollection.doc('OBsxPSRZruUlv2IThFSu3WiQS7v2').get();
+    print('demo.b selected products...${PreferenceManager.getUId()}.');
+    final user = await ProfileCollection.doc(PreferenceManager.getUId()).get();
     var m = user.data();
     print('--SelectedProductWidget--------m-- $m');
     // Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
@@ -380,13 +379,13 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
     }
   }
 
-  Future<void> share() async {
-    await FlutterShare.share(
-        title: 'Example share',
-        text: 'Example share text',
-        linkUrl: 'https://flutter.dev/',
-        chooserTitle: 'Example Chooser Title');
-  }
+  // Future<void> share() async {
+  //   await FlutterShare.share(
+  //       title: 'Example share',
+  //       text: 'Example share text',
+  //       linkUrl: 'https://flutter.dev/',
+  //       chooserTitle: 'Example Chooser Title');
+  // }
 }
 
 class CustomRichTextSpanWidget extends StatelessWidget {

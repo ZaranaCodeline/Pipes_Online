@@ -84,6 +84,14 @@ class PreferenceManager {
     return getStorage.read('subscribeCategory');
   }
 
+  static setUserImg(String value) {
+    getStorage.write('userImg', value);
+  }
+
+  static getUserImg() {
+    return getStorage.read('userImg');
+  }
+
   static clearData() {
     // await getStorage.erase();
     getStorage.remove('email');

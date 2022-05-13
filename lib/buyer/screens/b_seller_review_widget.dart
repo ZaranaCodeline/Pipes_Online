@@ -24,7 +24,7 @@ class SellerReviewWidget extends StatefulWidget {
 class _SellerReviewWidgetState extends State<SellerReviewWidget> {
   var rating = 3.0;
 
-  CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
+  CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
   String? Img;
   String? firstname;
 
@@ -33,10 +33,10 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
     final user =
         await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    firstname = getUserData!['user_name'];
+    firstname = getUserData?['user_name'];
     print('=========SellerReviewWidget===============${getUserData}');
     setState(() {
-      Img = getUserData['imageProfile'];
+      Img = getUserData?['imageProfile'];
     });
     print('============================${user.get('imageProfile')}');
   }
@@ -203,7 +203,7 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                                 children: <Widget>[
                                   Expanded(
                                     child: Container(
-                                      height: 60,
+                                      height: 55,
                                       decoration: BoxDecoration(
                                           color: AppColors.primaryColor,
                                           borderRadius:
@@ -224,16 +224,17 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                               Positioned(
                                 top: 15.sp,
                                 child: Container(
-                                  height: 60.sp,
-                                  width: 60.sp,
+                                  height: 55.sp,
+                                  width: 55.sp,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(50.0),
-                                    child: Image.network(
-                                      Img == null
-                                          ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
-                                          : Img!,
-                                      fit: BoxFit.cover,
-                                    ),
+                                    child: Img == null
+                                        ? Image.network(
+                                            'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png')
+                                        : Image.network(
+                                            Img.toString(),
+                                            fit: BoxFit.cover,
+                                          ),
                                   )
                                   /*Image.asset(
                                           'assets/images/png/cat_1.png',

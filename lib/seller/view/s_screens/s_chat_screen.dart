@@ -245,6 +245,7 @@ class _SChatScreenState extends State<SChatScreen> {
         StreamBuilder<QuerySnapshot>(
           stream: getLastMsgData(id),
           builder: (context, snapshot) {
+            print('=Chat==ID====${id}');
             if (!snapshot.hasData) {
               return SizedBox();
             }
@@ -253,6 +254,8 @@ class _SChatScreenState extends State<SChatScreen> {
             if (docs.length == 1) {
               lastMsg = docs[0].get('msg');
             }
+            print('=Chat==ID====${id}');
+
             print('last Msg :$lastMsg');
             return lastMsg == null
                 ? SizedBox()

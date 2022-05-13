@@ -12,6 +12,7 @@ class BRegisterRepo {
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) async {
       await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
+
       PreferenceManager.getUId();
       PreferenceManager.getUserType();
       print('UID BRegisterRepo==========${PreferenceManager.getUId()}');
@@ -35,8 +36,9 @@ class BRegisterRepo {
 
   static Future<void> emailRegister({String? email, String? pass}) async {
     try {
-      await bFirebaseAuth.createUserWithEmailAndPassword(
-          email: email!, password: pass!);
+      await bFirebaseAuth
+          .createUserWithEmailAndPassword(email: email!, password: pass!)
+          .then((value) => print('B-LogIn email==${value.user!.uid}'));
       await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
       PreferenceManager.getUId();
       PreferenceManager.getUserType();

@@ -42,23 +42,29 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
   String? Img;
   String? address;
 
-  Future<void> getData() async {
+  getData() async {
     print('demo seller.....');
-    final user =
-        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
-    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+    final user = FirebaseFirestore.instance
+        .collection('BProfile')
+        .doc(PreferenceManager.getUId())
+        .get();
 
-    setState(() {
-      name = getUserData?['user_name'];
-      phoneNo = getUserData?['phoneno'];
-      Img = getUserData?['imageProfile'];
-      address = getUserData?['address'];
-    });
-    print('=======SDrawerScreen=======${getUserData}');
-    print('=======SDrawerScreen===========${user.get('$name')}');
-    print('=======SDrawerScreen=======${user.get('$phoneNo')}');
-    print('=======SDrawerScreen=======${user.get('$Img')}');
-    print('=======SDrawerScreen======${user.get('$address')}');
+    // setState(() {
+    //   name = getUserData?['user_name'];
+    //   phoneNo = getUserData?['phoneno'];
+    //   Img = getUserData?['imageProfile'];
+    //   address = getUserData?['address'];
+    // });
+    // await PreferenceManager.setName(name.toString());
+    // await PreferenceManager.setPhoneNumber(phoneNo.toString());
+    // await PreferenceManager.setUserImg(Img.toString());
+    // await PreferenceManager.setAddress(address.toString());
+    // print('=======SDrawerScreen=======${getUserData}');
+
+    // print('=======SDrawerScreen===========${user.get('$name')}');
+    // print('=======SDrawerScreen=======${user.get('$phoneNo')}');
+    // print('=======SDrawerScreen=======${user.get('$Img')}');
+    // print('=======SDrawerScreen======${user.get('$address')}');
   }
 
   // Future<void> getData() async {
@@ -79,17 +85,11 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
 
   @override
   void initState() {
-    getData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print('image:-${Img}');
-    print('firstname:-${name}');
-    print('phoneno:-${phoneNo}');
-    print('address:-${address}');
-
     return Drawer(
       backgroundColor: AppColors.drawerColor,
       child: GetBuilder<BDrawerController>(
@@ -102,16 +102,34 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  builtTopItem(
-                    urlImage: Img.toString(),
-                    name: name.toString(),
-                    phone: phoneNo.toString(),
-                    onClicked: () {
-                      bottomBarIndexController.setSelectedScreen(
-                          value: 'PersonalInfoPage');
-                      bottomBarIndexController.bottomIndex.value = 3;
+                  FutureBuilder<DocumentSnapshot>(
+                    future: FirebaseFirestore.instance
+                        .collection('BProfile')
+                        .doc(PreferenceManager.getUId().toString())
+                        .get(),
+                    builder: (BuildContext context, snapshot) {
+                      if (snapshot.hasData) {
+                        var output = snapshot.data;
+                        print('SNAPSHOT ${output?['phoneno']}');
+
+                        return builtTopItem(
+                          urlImage: output!['imageProfile'] ??
+                              'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+                          name: output['user_name'] ?? '',
+                          phone: output['phoneno'] ?? "+00 0000000000",
+                          onClicked: () {
+                            bottomBarIndexController.setSelectedScreen(
+                                value: 'PersonalInfoPage');
+                            bottomBarIndexController.bottomIndex.value = 3;
+                          },
+                        );
+                      } else {
+                        return CircularProgressIndicator();
+                      }
                     },
                   ),
+
+                  ///TODO Address
                   Container(
                     margin: EdgeInsets.symmetric(
                       horizontal: 15.sp,
@@ -138,7 +156,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                               alignment: Alignment.centerLeft,
                               child: TextFormField(
                                 readOnly: controller.readOnly,
-                                // controller: _address,
+                                controller: _address,
                                 cursorColor: AppColors.primaryColor,
                                 decoration: InputDecoration(
                                     border: InputBorder.none,

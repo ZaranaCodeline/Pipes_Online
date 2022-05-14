@@ -11,7 +11,7 @@ import '../../../buyer/app_constant/b_image.dart';
 import '../../../buyer/screens/b_listing_review_tab_bar.dart';
 import '../../../buyer/screens/b_review_widgets.dart';
 import '../../common/s_color_picker.dart';
-import 's_reviews_feedback_screen.dart';
+import 's_add_review_screen.dart';
 
 class ScustomerReviewScreen extends StatefulWidget {
   const ScustomerReviewScreen({Key? key}) : super(key: key);
@@ -425,7 +425,7 @@ class _ScustomerReviewScreenState extends State<ScustomerReviewScreen> {
                                 color: AppColors.secondaryBlackColor),
                             GestureDetector(
                               onTap: () {
-                                Get.to(() => SReviewFeedBackScreen());
+                                Get.to(() => SAddReviewScreen());
                               },
                               child: CustomText(
                                   text: 'Review Now',

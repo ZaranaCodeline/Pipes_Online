@@ -9,14 +9,14 @@ import '../../../buyer/screens/custom_widget/custom_text.dart';
 import '../../common/s_color_picker.dart';
 import '../../common/s_text_style.dart';
 
-class SReviewFeedBackScreen extends StatefulWidget {
-  const SReviewFeedBackScreen({Key? key}) : super(key: key);
+class SAddReviewScreen extends StatefulWidget {
+  const SAddReviewScreen({Key? key}) : super(key: key);
 
   @override
-  State<SReviewFeedBackScreen> createState() => _SReviewFeedBackScreenState();
+  State<SAddReviewScreen> createState() => _SAddReviewScreenState();
 }
 
-class _SReviewFeedBackScreenState extends State<SReviewFeedBackScreen> {
+class _SAddReviewScreenState extends State<SAddReviewScreen> {
   var rating = 3.0;
 
   @override
@@ -45,11 +45,11 @@ class _SReviewFeedBackScreenState extends State<SReviewFeedBackScreen> {
                                   children: <Widget>[
                                     Expanded(
                                       child: Container(
-                                        height: Get.height/7,
+                                        height: Get.height / 7,
                                         decoration: BoxDecoration(
                                             color: AppColors.primaryColor,
                                             borderRadius:
-                                            const BorderRadius.vertical(
+                                                const BorderRadius.vertical(
                                               bottom: Radius.circular(25),
                                             )),
                                       ),
@@ -63,7 +63,8 @@ class _SReviewFeedBackScreenState extends State<SReviewFeedBackScreen> {
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         border: Border.all(
-                                            color: Color(0xffE8E8E8), )),
+                                          color: Color(0xffE8E8E8),
+                                        )),
                                     child: Image.asset(
                                       'assets/images/png/cat_1.png',
                                       fit: BoxFit.contain,
@@ -79,7 +80,7 @@ class _SReviewFeedBackScreenState extends State<SReviewFeedBackScreen> {
                                 Positioned(
                                   top: 20.sp,
                                   child: Text(
-                                    'ADD REVIEW',
+                                    'ADD REVIEW..',
                                     style: STextStyle.bold700White14,
                                   ),
                                 ),
@@ -93,7 +94,7 @@ class _SReviewFeedBackScreenState extends State<SReviewFeedBackScreen> {
                             child: Column(
                               children: [
                                 Padding(
-                                  padding:   EdgeInsets.only(
+                                  padding: EdgeInsets.only(
                                     top: 45.sp,
                                   ),
                                   child: CustomText(
@@ -103,7 +104,7 @@ class _SReviewFeedBackScreenState extends State<SReviewFeedBackScreen> {
                                       color: AppColors.secondaryBlackColor),
                                 ),
                                 Padding(
-                                  padding:   EdgeInsets.symmetric(
+                                  padding: EdgeInsets.symmetric(
                                       vertical: 15.sp, horizontal: 0),
                                   child: CustomText(
                                       text: 'How was your experience?',
@@ -129,9 +130,7 @@ class _SReviewFeedBackScreenState extends State<SReviewFeedBackScreen> {
                                 SizedBox(
                                   height: Get.height * 0.02.sp,
                                 ),
-                                Divider(
-                                    thickness: 1
-                                ),
+                                Divider(thickness: 1),
                                 SizedBox(
                                   height: Get.height * 0.02.sp,
                                 ),
@@ -140,15 +139,13 @@ class _SReviewFeedBackScreenState extends State<SReviewFeedBackScreen> {
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14.sp,
                                     color: AppColors.secondaryBlackColor),
-                                SizedBox(
-                                    height: Get.height * 0.01.sp
-                                ),
+                                SizedBox(height: Get.height * 0.01.sp),
                                 Card(
                                   elevation: 1,
                                   child: Padding(
-                                    padding:   EdgeInsets.all(10.0.sp),
+                                    padding: EdgeInsets.all(10.0.sp),
                                     child: Container(
-                                      child:   TextField(
+                                      child: TextField(
                                         decoration: InputDecoration(
                                           fillColor: SColorPicker.fontGrey,
                                           hintText: 'Enter your review',
@@ -165,9 +162,7 @@ class _SReviewFeedBackScreenState extends State<SReviewFeedBackScreen> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                    height: Get.height * 0.02.sp
-                                ),
+                                SizedBox(height: Get.height * 0.02.sp),
                                 Custombutton(
                                   name: 'Label',
                                   function: () {},

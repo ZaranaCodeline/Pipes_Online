@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
-import 'package:pipes_online/seller/view/s_screens/s_reviews_feedback_screen.dart';
+import 'package:pipes_online/seller/view/s_screens/s_add_review_screen.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
@@ -124,9 +124,8 @@ class _SReviewScreenState extends State<SReviewScreen> {
                 ],
               ),
             ),
-
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.sp,vertical: 10.sp),
+              padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -136,8 +135,8 @@ class _SReviewScreenState extends State<SReviewScreen> {
                       fontSize: 14.sp,
                       color: AppColors.secondaryBlackColor),
                   GestureDetector(
-                    onTap: (){
-                      Get.to(()=>SReviewFeedBackScreen());
+                    onTap: () {
+                      Get.to(() => SAddReviewScreen());
                     },
                     child: CustomText(
                         text: 'Review Now',
@@ -148,8 +147,10 @@ class _SReviewScreenState extends State<SReviewScreen> {
                 ],
               ),
             ),
-            Divider(thickness: 1,color: SColorPicker.lightGrey,),
-
+            Divider(
+              thickness: 1,
+              color: SColorPicker.lightGrey,
+            ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 15),
               child: Row(
@@ -246,8 +247,10 @@ class _SReviewScreenState extends State<SReviewScreen> {
                 ],
               ),
             ),
-
-            Divider(thickness: 1,color: SColorPicker.lightGrey,),
+            Divider(
+              thickness: 1,
+              color: SColorPicker.lightGrey,
+            ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 15),
               child: Row(
@@ -345,9 +348,10 @@ class _SReviewScreenState extends State<SReviewScreen> {
                 ],
               ),
             ),
-
-            Divider(thickness: 1,color: SColorPicker.lightGrey,),
-
+            Divider(
+              thickness: 1,
+              color: SColorPicker.lightGrey,
+            ),
           ],
         ),
       ),

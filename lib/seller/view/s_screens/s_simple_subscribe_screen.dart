@@ -220,9 +220,7 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
                   message: 'Please select one of above category!',
                 ));
               }
-              //Get.to(() => SAddProductScreen(selectedPrice:selected,));
               print('edit product seller side${selected}');
-              // Get.toNamed(SRoutes.SSubmitProfileScreen);
             },
           ),
         )

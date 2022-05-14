@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
-import 'package:pipes_online/seller/view/s_screens/s_reviews_feedback_screen.dart';
+import 'package:pipes_online/seller/view/s_screens/s_add_review_screen.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
@@ -15,7 +15,8 @@ class ScustomerBuyReviewScreen extends StatefulWidget {
   const ScustomerBuyReviewScreen({Key? key}) : super(key: key);
 
   @override
-  State<ScustomerBuyReviewScreen> createState() => _ScustomerBuyReviewScreenState();
+  State<ScustomerBuyReviewScreen> createState() =>
+      _ScustomerBuyReviewScreenState();
 }
 
 class _ScustomerBuyReviewScreenState extends State<ScustomerBuyReviewScreen> {
@@ -146,9 +147,18 @@ class _ScustomerBuyReviewScreenState extends State<ScustomerBuyReviewScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              IconButton(onPressed:(){},icon: Icon(Icons.chat_bubble_outline,size: 12.sp,)),
-                              IconButton(onPressed:(){},icon: Icon(Icons.call,size: 12.sp,)),
-
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.chat_bubble_outline,
+                                    size: 12.sp,
+                                  )),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.call,
+                                    size: 12.sp,
+                                  )),
                               CustomText(
                                   text: '+911122334455',
                                   fontWeight: FontWeight.w600,
@@ -195,7 +205,8 @@ class _ScustomerBuyReviewScreenState extends State<ScustomerBuyReviewScreen> {
                                         children: [
                                           CustomText(
                                             text: '5.0',
-                                            color: AppColors.secondaryBlackColor,
+                                            color:
+                                                AppColors.secondaryBlackColor,
                                             fontSize: 16.sp,
                                             fontWeight: FontWeight.w600,
                                           ),
@@ -233,14 +244,22 @@ class _ScustomerBuyReviewScreenState extends State<ScustomerBuyReviewScreen> {
                                       children: [
                                         CustomRatingView(
                                             '5', AppColors.primaryColor, '5'),
-                                        CustomRatingView('4',
-                                            AppColors.starRatingLightColor, '0'),
-                                        CustomRatingView('3',
-                                            AppColors.starRatingLightColor, '0'),
-                                        CustomRatingView('2',
-                                            AppColors.starRatingLightColor, '0'),
-                                        CustomRatingView('1',
-                                            AppColors.starRatingLightColor, '0'),
+                                        CustomRatingView(
+                                            '4',
+                                            AppColors.starRatingLightColor,
+                                            '0'),
+                                        CustomRatingView(
+                                            '3',
+                                            AppColors.starRatingLightColor,
+                                            '0'),
+                                        CustomRatingView(
+                                            '2',
+                                            AppColors.starRatingLightColor,
+                                            '0'),
+                                        CustomRatingView(
+                                            '1',
+                                            AppColors.starRatingLightColor,
+                                            '0'),
                                       ],
                                     ),
                                   ],
@@ -262,8 +281,8 @@ class _ScustomerBuyReviewScreenState extends State<ScustomerBuyReviewScreen> {
                                   fontSize: 12.sp,
                                   color: AppColors.secondaryBlackColor),
                               GestureDetector(
-                                onTap: (){
-                                  Get.to(()=>SReviewFeedBackScreen());
+                                onTap: () {
+                                  Get.to(() => SAddReviewScreen());
                                 },
                                 child: CustomText(
                                     text: 'Review Now',
@@ -320,8 +339,8 @@ class _ScustomerBuyReviewScreenState extends State<ScustomerBuyReviewScreen> {
                                               text: 'Buyer',
                                               fontWeight: FontWeight.w400,
                                               fontSize: 12.sp,
-                                              color:
-                                                  AppColors.secondaryBlackColor),
+                                              color: AppColors
+                                                  .secondaryBlackColor),
                                           SizedBox(
                                             width: Get.width * 0.03,
                                           ),
@@ -371,7 +390,8 @@ class _ScustomerBuyReviewScreenState extends State<ScustomerBuyReviewScreen> {
                                           filledIconData: Icons.star,
                                           halfFilledIconData: Icons.blur_on,
                                           color: AppColors.starRatingColor,
-                                          borderColor: AppColors.starRatingColor,
+                                          borderColor:
+                                              AppColors.starRatingColor,
                                           spacing: 0.0),
                                     ),
                                   ],
@@ -432,8 +452,8 @@ class _ScustomerBuyReviewScreenState extends State<ScustomerBuyReviewScreen> {
                                               text: 'Buyer',
                                               fontWeight: FontWeight.w400,
                                               fontSize: 12.sp,
-                                              color:
-                                                  AppColors.secondaryBlackColor),
+                                              color: AppColors
+                                                  .secondaryBlackColor),
                                           SizedBox(
                                             width: Get.width * 0.03,
                                           ),
@@ -483,7 +503,8 @@ class _ScustomerBuyReviewScreenState extends State<ScustomerBuyReviewScreen> {
                                           filledIconData: Icons.star,
                                           halfFilledIconData: Icons.blur_on,
                                           color: AppColors.starRatingColor,
-                                          borderColor: AppColors.starRatingColor,
+                                          borderColor:
+                                              AppColors.starRatingColor,
                                           spacing: 0.0),
                                     ),
                                   ],

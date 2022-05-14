@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_customer_review.dart';
@@ -11,32 +14,72 @@ import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
-import '../../../buyer/screens/b_carousel_slider.dart';
 import '../../../buyer/screens/custom_widget/custom_text.dart';
 import '../../../buyer/screens/b_add_reviews_page.dart';
 import '../../common/s_common_button.dart';
-import '../../common/s_text_style.dart';
 
-class SorderReviewScreen extends StatefulWidget {
-  const SorderReviewScreen({Key? key}) : super(key: key);
+class SorderReviewInfoScreen extends StatefulWidget {
+  SorderReviewInfoScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<SorderReviewScreen> createState() => _SorderReviewScreenState();
+  State<SorderReviewInfoScreen> createState() => _SorderReviewInfoScreenState();
 }
 
-class _SorderReviewScreenState extends State<SorderReviewScreen> {
+class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
   var rating = 3.0;
+  var orderDocID = Get.arguments;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    orderDocID = Get.arguments;
+    print('---ORDERID----${orderDocID}');
+    getData();
+  }
+
+  CollectionReference profileCollection = bFirebaseStore.collection('Orders');
+
+  String? buyerName,
+      orderID,
+      proName,
+      productId,
+      payment,
+      size,
+      length,
+      weigth,
+      oil,
+      address,
+      createdOn,
+      Img;
+  String? formattedDateTime;
+
+  Future<void> getData() async {
+    print('demo.....');
+    final user = await profileCollection.doc(orderDocID).get();
+    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+    print('=========firstname===============${getUserData}');
+    setState(() {
+      orderID = getUserData?['orderID'];
+      buyerName = getUserData?['buyerName'];
+      proName = getUserData?['prdName'];
+      productId = getUserData?['productID'];
+      payment = getUserData?['price'];
+      size = getUserData?['size'];
+      length = getUserData?['length'];
+      weigth = getUserData?['weight'];
+      oil = getUserData?['oil'];
+      address = getUserData?['address'];
+      Img = getUserData?['productImage'];
+      createdOn = getUserData?['createdOn'];
+    });
+    print('============================${user.get('imageProfile')}');
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<String> imageList = [
-      'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cart_page.png?alt=media&token=6a4d6e9a-51b3-449a-a2bd-eb54dcec0803',
-      'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cart_page.png?alt=media&token=6a4d6e9a-51b3-449a-a2bd-eb54dcec0803',
-    ];
-    String name = 'sdf',
-        image =
-            "https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cart_page.png?alt=media&token=6a4d6e9a-51b3-449a-a2bd-eb54dcec0803",
-        desc = "dsfs",
-        price = "10000";
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -47,17 +90,15 @@ class _SorderReviewScreenState extends State<SorderReviewScreen> {
                   Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      /*CustomCarouselSliderWidget(
-                        image: image,
-                      )*/
                       Container(
-                        child: Image.network(
-                          image,
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        ),
+                        child: Img != null
+                            ? Image.network(Img.toString())
+                            : Image.asset(
+                                BImagePick.proIcon,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                              ),
                       ),
-                      // CarouselWirhDotsWidgets(imgList: imageList,),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5.sp),
                         child: BackButton(
@@ -81,18 +122,7 @@ class _SorderReviewScreenState extends State<SorderReviewScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
-                                  children: [
-                                    CustomText(
-                                        text: 'Ordered on 24 Dec 12:20',
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14.sp,
-                                        color: AppColors.secondaryBlackColor),
-                                    CustomText(
-                                        text: 'Order ID 000001',
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12.sp,
-                                        color: SColorPicker.fontGrey),
-                                  ],
+                                  children: [],
                                 ),
                                 SizedBox(
                                   height: Get.height * 0.05,
@@ -109,19 +139,31 @@ class _SorderReviewScreenState extends State<SorderReviewScreen> {
                                           MainAxisAlignment.start,
                                       children: [
                                         CustomText(
-                                            text: 'Round',
+                                            text:
+                                                'Ordered on ${formattedDateTime = DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.parse(createdOn.toString()))}',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14.sp,
+                                            color:
+                                                AppColors.secondaryBlackColor),
+                                        CustomText(
+                                            text: 'Order ID ${orderDocID} ',
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 12.sp,
+                                            color: SColorPicker.fontGrey),
+                                        CustomText(
+                                            text: proName.toString(),
                                             fontWeight: FontWeight.w600,
                                             fontSize: 16.sp,
                                             color: AppColors.primaryColor),
                                         CustomText(
-                                            text: 'Product ID 09456789',
+                                            text: 'Product ID:- $productId',
                                             fontWeight: FontWeight.w400,
                                             fontSize: 12.sp,
                                             color: SColorPicker.fontGrey),
                                       ],
                                     ),
                                     CustomText(
-                                        text: '\$20',
+                                        text: payment.toString(),
                                         fontWeight: FontWeight.w600,
                                         fontSize: 14.sp,
                                         color: AppColors.secondaryBlackColor),
@@ -150,7 +192,7 @@ class _SorderReviewScreenState extends State<SorderReviewScreen> {
                                             height: Get.height * 0.008,
                                           ),
                                           CustomText(
-                                            text: '2 ft',
+                                            text: size.toString(),
                                             fontWeight: FontWeight.w600,
                                             fontSize: 12.sp,
                                             color:
@@ -173,7 +215,7 @@ class _SorderReviewScreenState extends State<SorderReviewScreen> {
                                               height: Get.height * 0.008,
                                             ),
                                             CustomText(
-                                              text: '2 kg',
+                                              text: length.toString(),
                                               fontWeight: FontWeight.w600,
                                               fontSize: 12.sp,
                                               color:
@@ -196,7 +238,7 @@ class _SorderReviewScreenState extends State<SorderReviewScreen> {
                                             height: Get.height * 0.008,
                                           ),
                                           CustomText(
-                                            text: 'Pending',
+                                            text: weigth.toString(),
                                             fontWeight: FontWeight.w600,
                                             fontSize: 12.sp,
                                             color:
@@ -215,7 +257,7 @@ class _SorderReviewScreenState extends State<SorderReviewScreen> {
                                             alignment: Alignment.centerLeft,
                                           ),
                                           CustomText(
-                                            text: '--',
+                                            text: oil.toString(),
                                             fontWeight: FontWeight.w600,
                                             fontSize: 12.sp,
                                             color:
@@ -256,7 +298,7 @@ class _SorderReviewScreenState extends State<SorderReviewScreen> {
                                           MainAxisAlignment.spaceAround,
                                       children: [
                                         CustomText(
-                                            text: 'Jan Doe',
+                                            text: buyerName.toString(),
                                             fontWeight: FontWeight.w600,
                                             fontSize: 14.sp,
                                             color:

@@ -571,7 +571,8 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
             'phoneno':
                 widget.phone != null ? widget.phone : mobilecontroller.text,
             'user_name': nameController.text,
-            'imageProfile': imageUrl,
+            'imageProfile': imageUrl ??
+                'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
             'address': _controller.addressController == null
                 ? _controller.addressController
                 : _controller.addressController!.text,

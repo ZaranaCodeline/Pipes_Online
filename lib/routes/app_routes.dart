@@ -28,7 +28,7 @@ class SRoutes {
   static final SChatMessagePage = '/SChatMessagePage';
   static final SChatScreen = '/SChatScreen';
   static final ScustomerBuyReviewScreen = '/ScustomerBuyReviewScreen';
-  static final ScustomerReviewScreen = '/ScustomerReviewScreen';
+  static final SSellerReviewScreen = '/SSellerReviewScreen';
 }
 
 class BRoutes {

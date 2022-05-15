@@ -65,30 +65,6 @@ class BRegisterRepo {
 
 ///-------------seller------------------
 class SRegisterRepo {
-  // Future<UserCredential?> LogIn(String email, String password) async {
-  //   UserCredential? firebaseuser = await bFirebaseAuth
-  //       .signInWithEmailAndPassword(email: email, password: password)
-  //       .then((value) async {
-  //     /* await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
-  //     await PreferenceManager.setUserType('seller');
-  //     PreferenceManager.getUId();
-  //     PreferenceManager.getUserType();*/
-  //     print(
-  //         'getUserType SRegisterRepo=========${PreferenceManager.getUserType()}');
-  //     print('UID SRegisterRepo==========${PreferenceManager.getUId()}');
-  //     print('LogIn ================${bFirebaseAuth.currentUser!.uid}');
-  //
-  //     await Get.offAll(() => NavigationBarScreen())?.then((value) {
-  //       PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
-  //       PreferenceManager.setUserType('seller');
-  //     });
-  //   });
-  //   assert(firebaseuser != null);
-  //   assert(await firebaseuser?.credential?.token != null);
-  //   final User currentUser = await bFirebaseAuth.currentUser!;
-  //   assert(firebaseuser?.user!.uid == currentUser.uid);
-  //   return firebaseuser;
-  // }
   Future<UserCredential?> LogIn(String email, String password) async {
     UserCredential? firebaseuser = await bFirebaseAuth
         .signInWithEmailAndPassword(email: email, password: password)

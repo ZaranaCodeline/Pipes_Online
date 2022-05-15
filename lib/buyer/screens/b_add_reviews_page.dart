@@ -32,9 +32,8 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
 
   Future<void> getData() async {
     print('demo.....');
-    final user = await profileCollection
-        .doc('${FirebaseAuth.instance.currentUser!.uid}')
-        .get();
+    final user =
+        await profileCollection.doc('${PreferenceManager.getUId()}').get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
     firstname = getUserData!['user_name'];
     print('=========firstname===============${getUserData}');
@@ -49,25 +48,21 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
         'buyer addData Preference Id==============>${PreferenceManager.getUId().toString()}');
     print(
         'buyer addData-getTime==============>${PreferenceManager.getTime().toString()}');
-
-    BRegisterRepo.emailRegister()
-        .then((value) async {
-          print('==>category${widget.category}');
-          CollectionReference ProfileCollection =
-              bFirebaseStore.collection('Reviews');
-          ProfileCollection.doc('${PreferenceManager.getUId()}')
-              .collection('ReviewID')
-              .add({
-            'reviewID': ProfileCollection.doc().id,
-            'userID': PreferenceManager.getUId(),
-            'category': widget.category,
-            'user_name': firstname,
-            'imageProfile': Img,
-            'dsc': desc.text,
-            'rating': rating,
-            'userType': PreferenceManager.getUserType(),
-            'time': DateTime.now().year,
-          });
+    FirebaseFirestore.instance
+        .collection("BReviews")
+        .doc('${PreferenceManager.getUId()}')
+        .collection('ReviewID')
+        .doc(profileCollection.doc().id)
+        .set({
+          'reviewID': profileCollection.doc().id,
+          'userID': PreferenceManager.getUId(),
+          'category': widget.category,
+          'user_name': firstname,
+          'imageProfile': Img,
+          'dsc': desc.text,
+          'rating': rating,
+          'userType': PreferenceManager.getUserType(),
+          'time': DateTime.now().toString(),
         })
         .catchError((e) => print('Error ====buyer=====>>> $e'))
         .then((value) {
@@ -137,7 +132,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                         child: Image.network(
                                           Img == null
                                               ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
-                                              : Img!,
+                                              : Img.toString(),
                                           fit: BoxFit.cover,
                                         ),
                                       )
@@ -245,16 +240,19 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                     ),
                                   ),
                                   SizedBox(height: Get.height * 0.02.sp),
-                                  Custombutton(
-                                    name: 'Submit'.toUpperCase(),
-                                    function: () {
-                                      addData().then((value) {
-                                        Get.to(() => SellerReviewWidget());
-                                      });
-                                    },
-                                    // Get.to(() => HomePage()),
-                                    height: Get.height * 0.06.sp,
-                                    width: Get.width / 1.2.sp,
+                                  Container(
+                                    height: 100,
+                                    child: Custombutton(
+                                      name: 'Submit'.toUpperCase(),
+                                      function: () {
+                                        addData().then((value) {
+                                          Get.to(() => SellerReviewWidget());
+                                        });
+                                      },
+                                      // Get.to(() => HomePage()),
+                                      height: Get.height * 0.06.sp,
+                                      width: Get.width / 1.2.sp,
+                                    ),
                                   ),
                                 ],
                               ),

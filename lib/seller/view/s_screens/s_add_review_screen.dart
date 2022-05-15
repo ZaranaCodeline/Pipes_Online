@@ -1,23 +1,87 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/screens/custom_widget/custom_button.dart';
 import '../../../buyer/screens/custom_widget/custom_text.dart';
+import '../../bottombar/widget/category_bottom_bar_route.dart';
 import '../../common/s_color_picker.dart';
 import '../../common/s_text_style.dart';
 
 class SAddReviewScreen extends StatefulWidget {
-  const SAddReviewScreen({Key? key}) : super(key: key);
-
+  const SAddReviewScreen({Key? key, this.category}) : super(key: key);
+  final String? category;
   @override
   State<SAddReviewScreen> createState() => _SAddReviewScreenState();
 }
 
 class _SAddReviewScreenState extends State<SAddReviewScreen> {
   var rating = 3.0;
+
+  String? Img;
+  String? firstname;
+  TextEditingController desc = TextEditingController();
+
+  Future<void> getData() async {
+    CollectionReference profileCollection =
+        bFirebaseStore.collection('SProfile');
+    final user = await profileCollection.doc().get();
+    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+    setState(() {
+      print('======ID=====${PreferenceManager.getUId()}');
+      print('=========getUserData===============${getUserData}');
+      firstname = getUserData?['user_name'];
+      Img = getUserData?['imageProfile'];
+    });
+  }
+
+  Future<void> addData() async {
+    print(
+        'seller addData Preference Id==============>${PreferenceManager.getUId().toString()}');
+    print(
+        'seller addData-getTime==============>${PreferenceManager.getTime().toString()}');
+
+    SRegisterRepo.emailRegister()
+        .then((value) async {
+          print('==>category${widget.category}');
+          CollectionReference ProfileCollection =
+              bFirebaseStore.collection('SReviews');
+          ProfileCollection.doc('${PreferenceManager.getUId()}')
+              .collection('ReviewID')
+              .add({
+            'reviewID': ProfileCollection.doc().id,
+            'userID': PreferenceManager.getUId(),
+            'category': widget.category,
+            'user_name': firstname,
+            'imageProfile': Img,
+            'dsc': desc.text,
+            'rating': rating,
+            'userType': PreferenceManager.getUserType(),
+            'time': DateTime.now().toString(),
+          });
+        })
+        .catchError((e) => print('Error ====buyer=====>>> $e'))
+        .then((value) {
+          print('seller review uploaded succefully');
+          homeController.bottomIndex.value = 0;
+          homeController.selectedScreen('SCatelogeHomeScreen');
+        });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+    addData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +144,7 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
                                 Positioned(
                                   top: 20.sp,
                                   child: Text(
-                                    'ADD REVIEW..',
+                                    'ADD REVIEW',
                                     style: STextStyle.bold700White14,
                                   ),
                                 ),

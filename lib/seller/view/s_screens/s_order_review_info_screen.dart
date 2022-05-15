@@ -8,7 +8,7 @@ import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
-import 'package:pipes_online/seller/view/s_screens/s_customer_review.dart';
+import 'package:pipes_online/seller/view/s_screens/s_seller_review_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_earning_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
@@ -277,7 +277,8 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Get.to(() => ScustomerReviewScreen());
+                              //ScustomerReviewScreen
+                              Get.to(() => SSellerReviewScreen());
                             },
                             child: Card(
                               child: Column(

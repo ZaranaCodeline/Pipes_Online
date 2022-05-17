@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -8,11 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/b_login_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_otp_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/otp.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
@@ -21,7 +16,6 @@ import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_p
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
-import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 // String? verificationCode;

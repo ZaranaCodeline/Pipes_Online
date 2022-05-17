@@ -86,7 +86,7 @@ class _SOnBoardingScreenState extends State<SOnBoardingScreen> {
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(10.sp),
-                                          child: SvgPicture.asset(
+                                          child: Image.asset(
                                               "${SImagePick.onBoarding1}"),
                                         )),
                                     SizedBox(
@@ -139,7 +139,7 @@ class _SOnBoardingScreenState extends State<SOnBoardingScreen> {
                                     child: ClipRRect(
                                       borderRadius:
                                           BorderRadius.circular(10.sp),
-                                      child: SvgPicture.asset(
+                                      child: Image.asset(
                                           "${SImagePick.onBoarding2}"),
                                     )),
                                 SizedBox(

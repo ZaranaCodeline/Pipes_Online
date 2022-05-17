@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,8 +29,9 @@ class BFirstUserInfoScreen extends StatefulWidget {
     this.name,
     this.pass,
     this.phone,
+    this.photoUrl,
   }) : super(key: key);
-  final String? email, mobile, name, pass, phone;
+  final String? email, mobile, name, pass, phone, photoUrl;
   @override
   _BFirstUserInfoScreenState createState() => _BFirstUserInfoScreenState();
 }
@@ -82,28 +84,20 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
     nameController.clear();
     mobilecontroller.clear();
     emailController.clear();
-    addressController.clear();
+    address.clear();
   }
 
   @override
   void initState() {
     super.initState();
-    print('email---${PreferenceManager.getEmail()}');
-    print('user name===${nameController.text}');
-    print('user mobilevontroller===${mobilecontroller.text}');
-    print('user phone===${widget.phone}');
-    print(
-        'b sign up screen getUserType ======>${PreferenceManager.getUserType()}');
-    print(
-        'buyer addData Preference Id==============>${PreferenceManager.getUId().toString()}');
-    print(
-        'buyer addData-getTime==============>${PreferenceManager.getTime().toString()}');
-    print('=======>${widget.email}');
+    print('email---${widget.email}');
+    print('name---${widget.name}');
+    print('photo---${widget.photoUrl}');
   }
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
+  TextEditingController address = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController mobilecontroller = TextEditingController();
   GeolocationController _controller = Get.find();
@@ -355,29 +349,49 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                               SizedBox(
                                 height: Get.height * 0.01,
                               ),
-                              Container(
-                                width: Get.width * 0.8,
-                                height: Get.height * 0.07,
-                                child: TextFormField(
-                                  keyboardType: widget.email != null ||
-                                          bFirebaseAuth.currentUser?.email !=
-                                              null
-                                      ? TextInputType.number
-                                      : TextInputType.emailAddress,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Required';
-                                    }
-                                  },
-                                  controller: widget.email != null
-                                      ? mobilecontroller
-                                      : emailController,
-                                  decoration: InputDecoration(
+                              widget.email != null ||
+                                      bFirebaseAuth.currentUser?.email != null
+                                  ? Container(
+                                      width: Get.width * 0.8,
+                                      height: Get.height * 0.07,
+                                      child: TextFormField(
+                                        inputFormatters: [
+                                          LengthLimitingTextInputFormatter(10),
+                                        ],
+                                        keyboardType: TextInputType.number,
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Required';
+                                          }
+                                        },
+                                        controller: widget.phone != null
+                                            ? PreferenceManager.getPhoneNumber()
+                                            : emailController,
+                                        decoration: InputDecoration(
 
-                                      // hintText: "Name",
+                                            // hintText: "Name",
+                                            ),
                                       ),
-                                ),
-                              ),
+                                    )
+                                  : Container(
+                                      width: Get.width * 0.8,
+                                      height: Get.height * 0.07,
+                                      child: TextFormField(
+                                        keyboardType:
+                                            TextInputType.emailAddress,
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Required';
+                                          }
+                                        },
+                                        controller: widget.email != null
+                                            ? PreferenceManager.getEmail()
+                                            : emailController,
+                                        decoration: InputDecoration(
+                                            // hintText: "Name",
+                                            ),
+                                      ),
+                                    ),
                               SizedBox(
                                 height: Get.height * 0.02,
                               ),
@@ -408,7 +422,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                   maxLines: 2,
                                   controller:
                                       _controller.addressController == null
-                                          ? controller.addressController
+                                          ? address
                                           : _controller.addressController,
                                   decoration: InputDecoration(
                                       // hintText: 'Enter Address',
@@ -468,6 +482,9 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                 });
                                 print('Validate');
                                 addData().then((value) {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
                                   // Get.offAll(() => BottomNavigationBarScreen());
                                   Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
@@ -477,7 +494,6 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                 setState(() {
                                   isLoading = false;
                                 });
-                                // Get.offAll(() => BottomNavigationBarScreen());
                               } else {
                                 print('InValidate');
                                 setState(() {
@@ -548,74 +564,51 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
   }
 
   Future<void> addData() async {
-    print('user name===${nameController.text}');
-    print('user mobilevontroller===${mobilecontroller.text}');
-    print('user phone===${widget.phone}');
-    print(
-        'buyer addData Preference Id==============>${PreferenceManager.getUId().toString()}');
-    print(
-        'buyer addData-getTime==============>${PreferenceManager.getTime().toString()}');
     String? imageUrl = await uploadImageToFirebase(
         context: context,
         file: _image,
         fileName: '${emailController.text}_profile.jpg');
-    BRegisterRepo.emailRegister()
-        .then((value) async {
-          CollectionReference ProfileCollection =
-              bFirebaseStore.collection('BProfile');
-          ProfileCollection.doc('${PreferenceManager.getUId()}').set({
-            'buyerID': PreferenceManager.getUId(),
-            'email': widget.email != null ? widget.email : emailController.text,
-            // 'password': widget.pass,
-            'isOnline': false,
-            'phoneno':
-                widget.phone != null ? widget.phone : mobilecontroller.text,
-            'user_name': nameController.text,
-            'imageProfile': imageUrl ??
-                'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
-            'address': _controller.addressController == null
-                ? _controller.addressController
-                : _controller.addressController!.text,
-            'userType': PreferenceManager.getUserType(),
-            'userDetails': 'true',
-            'time': DateTime.now(),
-          });
+    // FirebaseFirestore.instance
+    //     .collection("BReviews")
+    //     .doc('${PreferenceManager.getUId()}')
+    print(emailController.text);
+    print(mobilecontroller.text);
+    CollectionReference ProfileCollection =
+        bFirebaseStore.collection('BProfile');
+    ProfileCollection.doc('${PreferenceManager.getUId()}')
+        .set({
+          'buyerID': PreferenceManager.getUId(),
+          'email': widget.email != null
+              ? PreferenceManager.getEmail()
+              : emailController.text,
+          'isOnline': false,
+          'phoneno': widget.phone != null
+              ? PreferenceManager.getPhoneNumber()
+              : mobilecontroller.text,
+          'user_name': nameController.text,
+          'imageProfile': imageUrl ??
+              'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+          'address': _controller.addressController == null
+              ? address
+              : _controller.addressController!.text,
+          'userType': PreferenceManager.getUserType(),
+          'userDetails': 'true',
+          'time': DateTime.now(),
         })
         .catchError((e) => print('Error ====buyer=====>>> $e'))
-        .then((value) {
-          print(widget.phone);
-          print(emailController.text);
-          print(emailController.text);
-          print('==============>${mobilecontroller.text}');
-          PreferenceManager.setEmail(emailController.text);
-          print(
-              '==Email Profile==>${PreferenceManager.setEmail(emailController.text)}');
-          PreferenceManager.setPhoneNumber(mobilecontroller.text);
-          print(
-              '==Email Profile==>${PreferenceManager.setEmail(emailController.text)}');
-          print(
-              '== PreferenceManager.getPhoneNumber()=== =>${PreferenceManager.getPhoneNumber()}');
-          widget.phone != null
-              ? PreferenceManager.setPhoneNumber(widget.phone.toString())
+        .then((value) async {
+          PreferenceManager.getPhoneNumber() != null
+              ? PreferenceManager.setPhoneNumber(
+                  PreferenceManager.getPhoneNumber())
               : PreferenceManager.setPhoneNumber(mobilecontroller.text);
 
-          widget.email != null
-              ? PreferenceManager.setEmail(widget.email.toString())
+          PreferenceManager.getEmail() != null
+              ? PreferenceManager.setEmail(PreferenceManager.getEmail())
               : PreferenceManager.setEmail(emailController.text);
-
-          print(
-              '==Email login==>${PreferenceManager.setEmail(widget.email.toString())}');
-          print(
-              '==Email Profile==>${PreferenceManager.setEmail(emailController.text)}');
-          print(
-              '==Email login==>${PreferenceManager.setPhoneNumber(widget.phone.toString())}');
-          print(
-              '==Email Profile==>${PreferenceManager.setPhoneNumber(mobilecontroller.text)}');
-          print('==PhoneNumber==>${PreferenceManager.getPhoneNumber()}');
         });
   }
 
-  bool isPasswordValid(String password) => password.length <= 8;
+  bool isPasswordValid(String password) => password.length <= 50;
 
   bool isEmailValid(String email) {
     Pattern pattern =

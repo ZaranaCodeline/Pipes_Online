@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/b_login_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_forgot_password_page.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_phone_no_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
@@ -247,21 +246,16 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                       sp.setString('email', email.text);
                                       formGlobalKey.currentState!.save();
                                       BRegisterRepo()
-                                          .LogIn(email.text.trim().toString(),
-                                              pass.text.trim().toString())
+                                          .LogIn(email.text.trim(),
+                                              pass.text.trim())
                                           .then((value) async {
-                                        await Get.offAll(() =>
-                                                BottomNavigationBarScreen())
-                                            ?.then((value) {
-                                          email.clear();
-                                          pass.clear();
+                                        setState(() {
+                                          isLoading = true;
                                         });
+                                        print('login succefully');
                                         setState(() {
                                           isLoading = false;
                                         });
-                                        /* PreferenceManager.setUId('uid');
-                                  PreferenceManager.setUserType('Buyer');
-                                  PreferenceManager.setUId('email');*/
                                       }).catchError((e) {
                                         setState(() {
                                           isLoading = false;
@@ -501,7 +495,7 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
     );
   }
 
-  bool isPasswordValid(String password) => password.length <= 20;
+  bool isPasswordValid(String password) => password.length <= 50;
 
   bool isEmailValid(String email) {
     Pattern pattern =

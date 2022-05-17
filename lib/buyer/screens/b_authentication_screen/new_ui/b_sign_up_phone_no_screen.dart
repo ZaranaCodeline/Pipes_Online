@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -19,8 +17,6 @@ import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
 import 'package:sizer/sizer.dart';
-
-import '../phone.dart';
 
 class BSignUpPhoneNumberScreen extends StatefulWidget {
   const BSignUpPhoneNumberScreen({Key? key}) : super(key: key);
@@ -73,6 +69,7 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
           this.verificationId = verificationId;
           print('---------verificationId-------$verificationId');
           print('---------this.verificationId-------${this.verificationId}');
+          // PreferenceManager.setPhoneNumber(_phoneController.text);
           Get.to(
             BSignUpPhoneOtpScreen(
               phone: _phoneController.text,

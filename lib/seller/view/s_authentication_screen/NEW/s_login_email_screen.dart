@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/b_login_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_forgot_password_page.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_phone_no_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
@@ -444,7 +443,7 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
     );
   }
 
-  bool isPasswordValid(String password) => password.length <= 20;
+  bool isPasswordValid(String password) => password.length <= 50;
 
   bool isEmailValid(String email) {
     Pattern pattern =

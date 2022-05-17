@@ -17,7 +17,6 @@ import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo
 import 'package:pipes_online/buyer/screens/maps_screen.dart';
 import 'package:pipes_online/buyer/view_model/geolocation_controller.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/b_login_screen.dart';
 import 'package:pipes_online/routes/app_routes.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_contoller.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/s_login_creen.dart';
@@ -747,7 +746,7 @@ class _SSignUpRagistraionScreenState extends State<SSignUpRagistraionScreen> {
                 ? _controller.addressController
                 : _controller.addressController!.text,
             'userType': PreferenceManager.getUserType(),
-            'time': DateTime.now(),
+            'time': DateTime.now().toString(),
           });
         })
         .catchError((e) => print('Error ====seller=====>>> $e'))
@@ -763,7 +762,7 @@ class _SSignUpRagistraionScreenState extends State<SSignUpRagistraionScreen> {
         );
   }
 
-  bool isPasswordValid(String password) => password.length <= 8;
+  bool isPasswordValid(String password) => password.length <= 50;
 
   bool isEmailValid(String email) {
     Pattern pattern =

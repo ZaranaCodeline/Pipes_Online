@@ -1,20 +1,16 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_first_user_info_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_no_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/phone.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
@@ -103,7 +99,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
               GetBuilder<BLogInController>(
                 builder: (controller) {
                   return Container(
-                    height: Get.height * 1,
+                    // height: Get.height * 2,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
@@ -157,14 +153,14 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                         ),
                                       ),
                                       SizedBox(
-                                        height: Get.height * 0.02,
+                                        height: Get.height * 0.04,
                                       ),
                                       Text(
                                         'Password',
                                         style: STextStyle.semiBold600Black13,
                                       ),
                                       SizedBox(
-                                        height: Get.height * 0.02,
+                                        height: Get.height * 0.04,
                                       ),
                                       Container(
                                         height: Get.height * 0.06,
@@ -175,14 +171,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                                 r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
                                             if (password!.isEmpty) {
                                               return 'Please enter password';
-                                            }
-                                            /*else if (!isPasswordValid(
-                                                password)) {
-                                              return 'Enter a valid password';
-                                            } else if (password.length < 6) {
-                                              return 'Password must be altest 6 degit';
-                                            }*/
-                                            else if (!regex
+                                            } else if (!regex
                                                 .hasMatch(password)) {
                                               return 'Password must be Formatted';
                                             }
@@ -217,17 +206,17 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                         ),
                                       ),
                                       SizedBox(
-                                        height: Get.height * 0.02,
+                                        height: Get.height * 0.04,
                                       ),
                                       Text(
                                         'Confirm Password',
                                         style: STextStyle.semiBold600Black13,
                                       ),
                                       SizedBox(
-                                        height: Get.height * 0.02,
+                                        height: Get.height * 0.04,
                                       ),
                                       Container(
-                                        height: Get.height * 0.06,
+                                        height: Get.height * 0.07,
                                         width: Get.width * 1,
                                         child: TextFormField(
                                           validator: (password) {
@@ -308,33 +297,42 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                       isLoading = true;
                                     });
                                     formGlobalKey.currentState!.save();
-                                    BRegisterRepo.emailRegister(
-                                            email: email.text, pass: pass.text)
-                                        .then((value) async {
-                                      PreferenceManager.setEmail(email.text);
-                                      PreferenceManager.setPassword(pass.text);
+                                    try {
+                                      BRegisterRepo.emailRegister(
+                                              email: email.text,
+                                              pass: pass.text)
+                                          .then((value) async {
+                                        PreferenceManager.setEmail(email.text);
+                                        PreferenceManager.setPassword(
+                                            pass.text);
+                                        PreferenceManager.getEmail();
+                                        PreferenceManager.getPassword();
+                                        PreferenceManager.getUserType();
 
-                                      PreferenceManager.getEmail();
-                                      PreferenceManager.getPassword();
-                                      PreferenceManager.getUserType();
-
-                                      Get.offAll(() => BFirstUserInfoScreen(
-                                            email: email.text,
-                                            pass: pass.text,
-                                          ))?.then((value) {
-                                        print('---clear');
-                                        email.clear();
-                                        pass.clear();
-                                        conPass.clear();
+                                        // Get.to(() => BFirstUserInfoScreen(
+                                        //       email: email.text,
+                                        //       pass: pass.text,
+                                        //     ))?.then((value) {
+                                        //   print('---clear');
+                                        //
+                                        //   conPass.clear();
+                                        // });
+                                        setState(() {
+                                          isLoading = false;
+                                        });
+                                      }).then((value) {
+                                        setState(() {
+                                          isLoading = false;
+                                        });
                                       });
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-                                    }).then((value) {
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-                                    });
+                                    } on firebase_storage
+                                        .FirebaseException catch (error) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: Text('ERROR :- ${error}'),
+                                        duration: Duration(seconds: 5),
+                                      ));
+                                    }
                                   }
                                 },
                                 child: Container(
@@ -528,61 +526,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
     }
   }
 
-  // Future<bool?> loginwithgoogle() async {
-  //   FirebaseAuth _auth = FirebaseAuth.instance;
-  //   try {
-  //     GoogleSignIn googleSignIn = GoogleSignIn();
-  //     final googleUser = await googleSignIn.signIn();
-  //     final googleAuth = await googleUser!.authentication;
-  //     final AuthCredential credential = GoogleAuthProvider.credential(
-  //       accessToken: googleAuth.accessToken, // accessToken
-  //       idToken: googleAuth.idToken,
-  //     );
-  //     User? users = (await _auth.signInWithCredential(credential)).user;
-  //     if (users == null) {
-  //       return false;
-  //     }
-  //     return true;
-  //   } catch (e) {
-  //     print('this is error .......$e');
-  //     return null;
-  //   }
-  // }
-  // Future<bool?> loginwithgoogle() async {
-  //   FirebaseAuth _auth = FirebaseAuth.instance;
-  //   try {
-  //     GoogleSignIn googleSignIn = GoogleSignIn();
-  //     final googleUser = await googleSignIn.signIn();
-  //     final googleAuth = await googleUser!.authentication;
-  //     final AuthCredential credential = GoogleAuthProvider.credential(
-  //       accessToken: googleAuth.accessToken, // accessToken
-  //       idToken: googleAuth.idToken,
-  //     );
-  //     User? users = (await _auth.signInWithCredential(credential)).user;
-  //     PreferenceManager.setUId(users!.uid);
-  //     PreferenceManager.setEmail(users.email!);
-  //     PreferenceManager.setName(users.displayName!);
-  //     PreferenceManager.setPhoneNumber(users.phoneNumber!);
-  //     PreferenceManager.getUId();
-  //     PreferenceManager.getEmail();
-  //     PreferenceManager.getName();
-  //     PreferenceManager.getPhoneNumber();
-  //     print('uid------${users.uid}');
-  //     print('phoneNumber------${users.phoneNumber}');
-  //     print('displayName------${users.displayName}');
-  //     print('email------${users.email}');
-  //     print('photoURL------${users.photoURL}');
-  //     if (users == null) {
-  //       return false;
-  //     }
-  //     return true;
-  //   } catch (e) {
-  //     print('this is error .......$e');
-  //     return null;
-  //   }
-  // }
-
-  bool isPasswordValid(String password) => password.length <= 20;
+  bool isPasswordValid(String password) => password.length <= 50;
 
   bool isEmailValid(String email) {
     Pattern pattern =

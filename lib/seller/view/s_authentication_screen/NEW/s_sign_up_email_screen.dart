@@ -527,7 +527,7 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
   //   }
   // }
 
-  bool isPasswordValid(String password) => password.length <= 20;
+  bool isPasswordValid(String password) => password.length <= 50;
 
   bool isEmailValid(String email) {
     Pattern pattern =

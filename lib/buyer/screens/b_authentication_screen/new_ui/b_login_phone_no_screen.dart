@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -11,10 +9,6 @@ import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_phone_otp_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_no_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_otp_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/otp.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/phone.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';

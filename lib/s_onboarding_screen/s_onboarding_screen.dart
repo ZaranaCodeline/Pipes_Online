@@ -79,10 +79,12 @@ class _SOnBoardingScreenState extends State<SOnBoardingScreen> {
                                               spreadRadius: 0.5,
                                               blurRadius: 1),
                                         ],
-                                        borderRadius: BorderRadius.circular(10.sp)),
+                                        borderRadius:
+                                            BorderRadius.circular(10.sp)),
                                     child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10.sp),
-                                      child: SvgPicture.asset(
+                                      borderRadius:
+                                          BorderRadius.circular(10.sp),
+                                      child: Image.asset(
                                           "${SImagePick.onBoarding1}"),
                                     )),
                                 SizedBox(
@@ -97,8 +99,8 @@ class _SOnBoardingScreenState extends State<SOnBoardingScreen> {
                                   height: 20.sp,
                                 ),
                                 Padding(
-                                  padding:
-                                      EdgeInsets.only(left: 30.sp, right: 30.sp),
+                                  padding: EdgeInsets.only(
+                                      left: 30.sp, right: 30.sp),
                                   child: Text(
                                     "You can buy pipes from this App in different categories such as plastic, copper, iron and steel.",
                                     textAlign: TextAlign.center,
@@ -129,10 +131,11 @@ class _SOnBoardingScreenState extends State<SOnBoardingScreen> {
                                             spreadRadius: 0.5,
                                             blurRadius: 1),
                                       ],
-                                      borderRadius: BorderRadius.circular(10.sp)),
+                                      borderRadius:
+                                          BorderRadius.circular(10.sp)),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10.sp),
-                                    child: SvgPicture.asset(
+                                    child: Image.asset(
                                         "${SImagePick.onBoarding2}"),
                                   )),
                               SizedBox(

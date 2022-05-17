@@ -64,7 +64,6 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
   Future sendOtp() async {
     print(
         '========code===${bLogInController.countryCode}${PreferenceManager.getPhoneNumber()}');
-
     await _auth.verifyPhoneNumber(
       phoneNumber:
           bLogInController.countryCode.toString() + widget.phone.toString(),
@@ -130,7 +129,10 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                 if (value.user != null) {
                   String? uid = FirebaseAuth.instance.currentUser!.uid;
                   PreferenceManager.setUId(uid);
-                  Get.to(BFirstUserInfoScreen());
+                  PreferenceManager.setPhoneNumber(widget.phone.toString());
+                  Get.to(() => BFirstUserInfoScreen());
+                  print('---PHONE--${PreferenceManager.getPhoneNumber()}');
+                  PreferenceManager.getPhoneNumber();
                   setState(() {
                     isLoading = false;
                   });
@@ -313,6 +315,7 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                                                     BFirstUserInfoScreen());
                                                 setState(() {
                                                   isLoading = false;
+                                                  // verificationCode == _auth.currentUser;
                                                 });
                                               }
                                             },

@@ -10,7 +10,6 @@ import 'package:sizer/sizer.dart';
 
 import '../../../routes/app_routes.dart';
 
-
 class SPermissionScreen extends StatefulWidget {
   @override
   _SPermissionScreenState createState() => _SPermissionScreenState();
@@ -31,21 +30,7 @@ class _SPermissionScreenState extends State<SPermissionScreen> {
               ),
               Container(
                   height: 195.sp,
-                  width: 250.sp,
-                  // padding: EdgeInsets.symmetric(
-                  //   horizontal: 15.sp,
-                  // ),
-                  //
-                  // decoration: BoxDecoration(
-                  //     color: SColorPicker.white,
-                  //     boxShadow: [
-                  //       BoxShadow(
-                  //           color: Colors.black12,
-                  //           spreadRadius: 0.5,
-                  //           blurRadius: 1),
-                  //     ],
-                  //     borderRadius: BorderRadius.circular(10.sp)),
-                  child: SvgPicture.asset("${SImagePick.permissionScreen}")),
+                  child: Image.asset("${SImagePick.permissionScreen}")),
               Padding(
                 padding: EdgeInsets.only(
                   left: 30.sp,

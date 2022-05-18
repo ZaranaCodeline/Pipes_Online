@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
@@ -30,7 +29,7 @@ class _SPermissionScreenState extends State<SPermissionScreen> {
               ),
               Container(
                   height: 195.sp,
-                  child: Image.asset("${SImagePick.permissionScreen}")),
+                  child: SvgPicture.asset("${SImagePick.permissionScreen}")),
               Padding(
                 padding: EdgeInsets.only(
                   left: 30.sp,

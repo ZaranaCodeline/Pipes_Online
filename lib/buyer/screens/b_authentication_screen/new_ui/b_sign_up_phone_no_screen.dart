@@ -16,6 +16,7 @@ import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 class BSignUpPhoneNumberScreen extends StatefulWidget {
@@ -69,7 +70,7 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
           this.verificationId = verificationId;
           print('---------verificationId-------$verificationId');
           print('---------this.verificationId-------${this.verificationId}');
-          // PreferenceManager.setPhoneNumber(_phoneController.text);
+          PreferenceManager.setPhoneNumber(_phoneController.text);
           Get.to(
             BSignUpPhoneOtpScreen(
               phone: _phoneController.text,
@@ -261,7 +262,9 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                     setState(() {
                                       isLoading = true;
                                     });
-                                    sendOtp();
+                                    sendOtp().then((value) {
+                                      print('Phone---${_phoneController.text}');
+                                    });
                                   },
                                   child: Container(
                                     alignment: Alignment.center,

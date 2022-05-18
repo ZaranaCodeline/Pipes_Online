@@ -1,42 +1,41 @@
 {
   "project_info": {
-    "project_number": "574845643170",
-    "project_id": "pipesonline-b2a41",
-    "storage_bucket": "pipesonline-b2a41.appspot.com"
+    "project_number": "350693028684",
+    "project_id": "pipedeals-f240a",
+    "storage_bucket": "pipedeals-f240a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:574845643170:android:bfd5cd9d889f7706772afb",
+        "mobilesdk_app_id": "1:350693028684:android:2b1825737ddf6ef55d95e9",
         "android_client_info": {
-          "package_name": "com.example.pipes_online"
+          "package_name": "com.pipedeals.pipedeals"
         }
       },
       "oauth_client": [
         {
-          "client_id": "574845643170-soci7oaachkop4j3n7dsddcuae87s5c8.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.pipes_online",
-            "certificate_hash": "6a01a562ea03ae37f5f994ad5eba3490cdddb9d0"
-          }
-        },
-        {
-          "client_id": "574845643170-bjr8ls0ja2vervb8l3rc5372oddle9d0.apps.googleusercontent.com",
+          "client_id": "350693028684-afrg937t9apsambvgj39iutnb6fkhoph.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBLsteq6R_a2niFTK0Gm7VUTN0DtUMQmUM"
+          "current_key": "AIzaSyAt_ZH-ntW4DHkq2Z0NacweeL2U_p0_Wg8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "574845643170-bjr8ls0ja2vervb8l3rc5372oddle9d0.apps.googleusercontent.com",
+              "client_id": "350693028684-afrg937t9apsambvgj39iutnb6fkhoph.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "350693028684-tsgb7j7dcrsqlefemjh8uq4rel2hdpu2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.pipedeals.pipedeals"
+              }
             }
           ]
         }

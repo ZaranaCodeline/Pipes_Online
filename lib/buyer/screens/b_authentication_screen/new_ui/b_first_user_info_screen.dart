@@ -1,6 +1,7 @@
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,7 +10,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/screens/maps_screen.dart';
@@ -136,15 +136,26 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                /* GestureDetector(
-                                  onTap: () {
-                                    Get.back();
-                                  },
-                                  child: Icon(
+                                /* IconButton(
+                                  icon: Icon(
                                     Icons.arrow_back_rounded,
                                     color: SColorPicker.white,
                                   ),
+                                  onPressed: () {
+                                    print('GO back');
+                                    Get.back();
+                                  },
                                 ),*/
+                                // GestureDetector(
+                                //   onTap: () {
+                                //     print('GO back');
+                                //     Get.back();
+                                //   },
+                                //   child: Icon(
+                                //     Icons.arrow_back_rounded,
+                                //     color: SColorPicker.white,
+                                //   ),
+                                // ),
                                 Container(),
                                 Center(
                                   child: Text(
@@ -366,7 +377,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                         },
                                         controller: widget.phone != null
                                             ? PreferenceManager.getPhoneNumber()
-                                            : emailController,
+                                            : mobilecontroller,
                                         decoration: InputDecoration(
 
                                             // hintText: "Name",
@@ -480,16 +491,15 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                 setState(() {
                                   isLoading = true;
                                 });
-                                print('Validate');
+                                _formKey.currentState!.save();
                                 addData().then((value) {
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-                                  // Get.offAll(() => BottomNavigationBarScreen());
-                                  Navigator.of(context).pushReplacement(
+                                  Get.offAll(BottomNavigationBarScreen());
+                                  print('Validate');
+
+                                  /* Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              BottomNavigationBarScreen()));
+                                              BottomNavigationBarScreen()));*/
                                 });
                                 setState(() {
                                   isLoading = false;
@@ -571,29 +581,27 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
     // FirebaseFirestore.instance
     //     .collection("BReviews")
     //     .doc('${PreferenceManager.getUId()}')
+    print('---ADDRESS TEXT---${address.text}');
     print(emailController.text);
     print(mobilecontroller.text);
     CollectionReference ProfileCollection =
         bFirebaseStore.collection('BProfile');
-    ProfileCollection.doc('${PreferenceManager.getUId()}')
+    ProfileCollection.doc(PreferenceManager.getUId())
         .set({
           'buyerID': PreferenceManager.getUId(),
-          'email': widget.email != null
-              ? PreferenceManager.getEmail()
-              : emailController.text,
+          'email': PreferenceManager.getEmail() ?? emailController.text,
           'isOnline': false,
-          'phoneno': widget.phone != null
-              ? PreferenceManager.getPhoneNumber()
-              : mobilecontroller.text,
+          'phoneno':
+              PreferenceManager.getPhoneNumber() ?? mobilecontroller.text,
           'user_name': nameController.text,
           'imageProfile': imageUrl ??
               'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
           'address': _controller.addressController == null
-              ? address
+              ? address.text
               : _controller.addressController!.text,
           'userType': PreferenceManager.getUserType(),
           'userDetails': 'true',
-          'time': DateTime.now(),
+          'time': DateTime.now().toString(),
         })
         .catchError((e) => print('Error ====buyer=====>>> $e'))
         .then((value) async {

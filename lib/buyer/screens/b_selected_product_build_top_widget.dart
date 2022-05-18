@@ -1,14 +1,13 @@
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/b_cart_check_out_page.dart';
-import 'package:pipes_online/buyer/screens/b_product_cart_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
+
 import '../app_constant/app_colors.dart';
 import 'custom_widget/custom_text.dart';
 
@@ -133,8 +132,7 @@ class _CustomSelectedProductBuildTopWidgetState
                                     print('hello3....');
                                     FirebaseFirestore.instance
                                         .collection('Cart')
-                                        .doc(PreferenceManager.getUId()
-                                            .toString())
+                                        .doc(PreferenceManager.getUId())
                                         .collection('MyCart')
                                         .add({
                                       'productID': widget.productID,
@@ -145,7 +143,7 @@ class _CustomSelectedProductBuildTopWidgetState
                                       'prdName': widget.name,
                                       'dsc': widget.desc,
                                       'price': widget.price,
-                                      'createdOn': DateTime.now(),
+                                      'createdOn': DateTime.now().toString(),
                                     }).then((value) {
                                       setState(() {
                                         isLoading = true;

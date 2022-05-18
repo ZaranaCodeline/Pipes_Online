@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,9 +13,10 @@ import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
+
 import '../app_constant/app_colors.dart';
-import 'custom_widget/custom_text.dart';
 import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
+import 'custom_widget/custom_text.dart';
 
 class PersonalInfoPage extends StatefulWidget {
   PersonalInfoPage({
@@ -40,9 +42,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
 
   Future<void> getData() async {
-    print('demo seller.....');
-    final user =
-        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
+    print('demo buyer....');
+    final user = await ProfileCollection.doc(PreferenceManager.getUId()).get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
 
     setState(() {
@@ -52,26 +53,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       address = TextEditingController(text: getUserData?['address']);
       Img = getUserData?['imageProfile'];
     });
-    print('=======SDrawerScreen=======${getUserData}');
-    print('=======SDrawerScreen===========${user.get('$firstname')}');
-    print('=======SDrawerScreen=======${user.get('$phoneno')}');
-    print('=======SDrawerScreen=======${user.get('$Img')}');
-    print('=======SDrawerScreen======${user.get('$address')}');
   }
-  // Future<void> getData() async {
-  //   print('demo.....');
-  //   final user = await ProfileCollection.doc(PreferenceManager.getUId()).get();
-  //   Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-  //   firstname = TextEditingController(text: getUserData?['user_name']);
-  //   email = TextEditingController(text: getUserData?['email']);
-  //   address = TextEditingController(text: getUserData?['address']);
-  //   phoneno = TextEditingController(text: getUserData?['phoneno']);
-  //   setState(() {
-  //     Img = getUserData?['imageProfile'];
-  //   });
-  //   print('========IMG========${user.get('imageProfile')}');
-  //   // print('=====getUserData=======${getUserData}');
-  // }
 
   Future getGalleryImage() async {
     var imaGe = await picker.getImage(source: ImageSource.gallery);
@@ -430,21 +412,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                               ),
                       ),
                     ),
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(
-                    //     horizontal: 10.sp,
-                    //   ),
-                    //   child: SCommonButton().sCommonPurpleButton(
-                    //     name: 'SAVE',
-                    //     onTap: () {
-                    //       uploadImgFirebaseStorage(file: _image).then((value) {
-                    //         bottomBarIndexController.setSelectedScreen(
-                    //             value: 'PersonalInfoPage');
-                    //         bottomBarIndexController.bottomIndex.value = 3;
-                    //       });
-                    //     },
-                    //   ),
-                    // ),
                     SizedBox(
                       height: Get.height * 0.03,
                     ),
@@ -479,42 +446,4 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       // con.clearImage();
     }).catchError((e) => print('upload error'));
   }
-
-  // Future<String?> uploadImageToFirebase(
-  //     {BuildContext? context, File? file}) async {
-  //   try {
-  //     var response = await firebase_storage.FirebaseStorage.instance
-  //         .ref('uploads/$file')
-  //         .putFile(file!);
-  //     print("Response>>>>>>>>>>>>>>>>>>$response");
-  //
-  //     final url = await response.storage.ref().getDownloadURL();
-  //     print('-------------->${url}');
-  //     return url;
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-  //
-  // Future<void> UpdateData() async {
-  //   String? imageUrl = await uploadImageToFirebase(
-  //     context: context,
-  //     file: _image,
-  //   );
-  //   print(imageUrl);
-  //   uploadImage = imageUrl;
-  //   await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
-  //       .get();
-  //   print('====>Update data ---${FirebaseAuth.instance.currentUser!.uid}');
-  //   await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
-  //       .update({
-  //         'imageProfile': imageUrl == null ? Img : imageUrl,
-  //         'firstname': firstname?.text,
-  //         'email': email?.text,
-  //         'address': address?.text,
-  //         'phoneno': phoneno?.text
-  //       })
-  //       .then((value) => print('success full updated'))
-  //       .catchError((e) => print(e));
-  // }
 }

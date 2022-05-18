@@ -1,12 +1,11 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_first_user_info_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
@@ -41,6 +40,8 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    PreferenceManager.getEmail();
+    PreferenceManager.getPhoneNumber();
     print(
         'b sign up screen getUserType ======>${PreferenceManager.getUserType()}');
   }
@@ -275,8 +276,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                         style: STextStyle.semiBold600Purple11,
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () {
-                                            Get.to(
-                                                () => TermsAndConditionPage());
+                                            Get.to(TermsAndConditionPage());
                                             print('Terms and Conditons');
                                           }),
                                     TextSpan(
@@ -303,20 +303,10 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                               pass: pass.text)
                                           .then((value) async {
                                         PreferenceManager.setEmail(email.text);
-                                        PreferenceManager.setPassword(
-                                            pass.text);
+                                        print(
+                                            '--PRE_Email-${PreferenceManager.getEmail()}');
                                         PreferenceManager.getEmail();
-                                        PreferenceManager.getPassword();
                                         PreferenceManager.getUserType();
-
-                                        // Get.to(() => BFirstUserInfoScreen(
-                                        //       email: email.text,
-                                        //       pass: pass.text,
-                                        //     ))?.then((value) {
-                                        //   print('---clear');
-                                        //
-                                        //   conPass.clear();
-                                        // });
                                         setState(() {
                                           isLoading = false;
                                         });

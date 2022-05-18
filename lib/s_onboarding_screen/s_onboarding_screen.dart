@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/s_onboarding_screen/s_onboarding_controller.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
-import 'package:pipes_online/s_onboarding_screen/s_onboarding_controller.dart';
 import 'package:sizer/sizer.dart';
 
 import '../routes/app_routes.dart';
@@ -84,7 +84,7 @@ class _SOnBoardingScreenState extends State<SOnBoardingScreen> {
                                     child: ClipRRect(
                                       borderRadius:
                                           BorderRadius.circular(10.sp),
-                                      child: Image.asset(
+                                      child: SvgPicture.asset(
                                           "${SImagePick.onBoarding1}"),
                                     )),
                                 SizedBox(
@@ -135,7 +135,7 @@ class _SOnBoardingScreenState extends State<SOnBoardingScreen> {
                                           BorderRadius.circular(10.sp)),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10.sp),
-                                    child: Image.asset(
+                                    child: SvgPicture.asset(
                                         "${SImagePick.onBoarding2}"),
                                   )),
                               SizedBox(

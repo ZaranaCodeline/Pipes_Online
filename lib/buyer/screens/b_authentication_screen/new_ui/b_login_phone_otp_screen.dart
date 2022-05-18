@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:otp_text_field/otp_text_field.dart';
 import 'package:pinput/pinput.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
@@ -108,10 +105,9 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
           duration: Duration(seconds: 5),
         ));
         Future.delayed(Duration(seconds: 2), () {
-          // PreferenceManager.setLoginValue(widget.mobileNumber!);
           isLoading = false;
 
-          Get.to(() => BottomNavigationBarScreen());
+          Get.offAll(BottomNavigationBarScreen());
         });
       }
     } on FirebaseAuthException catch (e) {
@@ -350,7 +346,8 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                                 .then(
                                               (value) {
                                                 if (value.user != null) {
-                                                  Get.to(() =>
+                                                  print('Test-call-1');
+                                                  Get.offAll(
                                                       BottomNavigationBarScreen());
                                                 }
                                               },
@@ -456,10 +453,11 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                                         "Please enter valid otp"),
                                                   ),
                                                 );
-                                                return await Get.off(() =>
-                                                        BottomNavigationBarScreen()
-                                                    // phone: widget.phone,
-                                                    );
+                                                return await Get.off(
+                                                        BottomNavigationBarScreen())
+                                                    ?.then((value) {
+                                                  print('Test-call-2');
+                                                });
                                               }
                                             } else {
                                               setState(() {

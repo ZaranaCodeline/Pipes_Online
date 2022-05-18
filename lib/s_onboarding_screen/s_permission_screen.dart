@@ -42,7 +42,7 @@ class _SPermissionScreenState extends State<SPermissionScreen> {
                 //           blurRadius: 1),
                 //     ],
                 //     borderRadius: BorderRadius.circular(10.sp)),
-                child: Image.asset("${SImagePick.permissionScreen}")),
+                child: SvgPicture.asset("${SImagePick.permissionScreen}")),
             Padding(
               padding: EdgeInsets.only(
                 left: 30.sp,

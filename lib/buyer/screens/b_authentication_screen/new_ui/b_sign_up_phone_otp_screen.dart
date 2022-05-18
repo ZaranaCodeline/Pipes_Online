@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
-import 'package:otp_text_field/otp_text_field.dart';
-import 'package:otp_text_field/style.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_first_user_info_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_phone_otp_screen.dart';
@@ -42,8 +40,6 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
     try {
       final authCredential =
           await _auth.signInWithCredential(phoneAuthCredential);
-
-      // PreferenceManager.setTokenId(_auth.currentUser!.uid.toString());
       PreferenceManager.setUId(_auth.currentUser!.uid.toString());
 
       if (authCredential.user != null) {
@@ -82,7 +78,7 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: SColorPicker.red,
             duration: Duration(seconds: 5),
-            message: verificationFailed.message,
+            message: 'The phone number entered is invalid',
           ),
         );
         print(

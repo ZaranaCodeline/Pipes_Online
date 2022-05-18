@@ -15,10 +15,11 @@ import 'package:pipes_online/buyer/view_model/b_drawer_controller.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
+
 import '../app_constant/app_colors.dart';
 import '../view_model/geolocation_controller.dart';
-import 'b_review_info_screen.dart';
 import 'b_my_order_page.dart';
+import 'b_review_info_screen.dart';
 import 'b_settings_page.dart';
 import 'bottom_bar_screen_page/widget/b_personal_info_bottom_bar_route.dart';
 
@@ -110,7 +111,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                     builder: (BuildContext context, snapshot) {
                       if (snapshot.hasData) {
                         var output = snapshot.data;
-                        print('SNAPSHOT ${output?['phoneno']}');
+                        print('SNAPSHOT PHONE NO ${output?['phoneno']}');
 
                         return builtTopItem(
                           urlImage: output!['imageProfile'] ??
@@ -133,7 +134,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                   FutureBuilder<DocumentSnapshot>(
                     future: FirebaseFirestore.instance
                         .collection('BProfile')
-                        .doc(PreferenceManager.getUId().toString())
+                        .doc(PreferenceManager.getUId())
                         .get(),
                     builder: (BuildContext context, snapshot) {
                       if (snapshot.hasData) {
@@ -176,7 +177,6 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                                 ),
                                 IconButton(
                                   onPressed: () {
-                                    // controller.setEdit();
                                     bottomBarIndexController.setSelectedScreen(
                                         value: 'PersonalInfoPage');
                                     bottomBarIndexController.bottomIndex.value =

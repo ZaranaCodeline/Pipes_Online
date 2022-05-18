@@ -7,16 +7,12 @@ import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_forgot_password_page.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_phone_no_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_no_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
-import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
-import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 class BLoginEmailScreen extends StatefulWidget {
@@ -231,7 +227,6 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                 GestureDetector(
                                   onTap: () async {
                                     print('login click');
-
                                     if (formGlobalKey.currentState!
                                         .validate()) {
                                       setState(() {
@@ -241,13 +236,12 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                           'login email========>${email.text.toString()}');
                                       print(
                                           'login password========>${pass.text.toString()}');
-                                      SharedPreferences sp =
-                                          await SharedPreferences.getInstance();
-                                      sp.setString('email', email.text);
-                                      formGlobalKey.currentState!.save();
+                                      // SharedPreferences sp =
+                                      //     await SharedPreferences.getInstance();
+                                      // sp.setString('email', email.text);
+
                                       BRegisterRepo()
-                                          .LogIn(email.text.trim(),
-                                              pass.text.trim())
+                                          .LogIn(email.text, pass.text)
                                           .then((value) async {
                                         setState(() {
                                           isLoading = true;
@@ -256,19 +250,8 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                         setState(() {
                                           isLoading = false;
                                         });
-                                      }).catchError((e) {
-                                        setState(() {
-                                          isLoading = false;
-                                        });
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                                'The login is invalid.Please Try again'),
-                                            backgroundColor: Colors.redAccent,
-                                          ),
-                                        );
                                       });
+                                      formGlobalKey.currentState!.save();
                                     }
                                     // setState(() {
                                     //   isLoading = true;

@@ -11,6 +11,7 @@ import 'package:pipes_online/buyer/view_model/cart_product_controller.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
+
 import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 
 class ProductCartScreen extends StatefulWidget {
@@ -70,7 +71,7 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
             );
           } else {
             if (snapShot.data!.docs.isEmpty) {
-              print('has data');
+              print('has not  data');
               return Center(
                 child: Container(
                   width: Get.width * 0.6,

@@ -43,29 +43,23 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
   String? Img;
   String? address;
 
-  getData() async {
+  Future<void> getData() async {
     print('demo seller.....');
-    final user = FirebaseFirestore.instance
-        .collection('BProfile')
-        .doc(PreferenceManager.getUId())
-        .get();
+    final user =
+        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
+    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
 
-    // setState(() {
-    //   name = getUserData?['user_name'];
-    //   phoneNo = getUserData?['phoneno'];
-    //   Img = getUserData?['imageProfile'];
-    //   address = getUserData?['address'];
-    // });
-    // await PreferenceManager.setName(name.toString());
-    // await PreferenceManager.setPhoneNumber(phoneNo.toString());
-    // await PreferenceManager.setUserImg(Img.toString());
-    // await PreferenceManager.setAddress(address.toString());
-    // print('=======SDrawerScreen=======${getUserData}');
-
-    // print('=======SDrawerScreen===========${user.get('$name')}');
-    // print('=======SDrawerScreen=======${user.get('$phoneNo')}');
-    // print('=======SDrawerScreen=======${user.get('$Img')}');
-    // print('=======SDrawerScreen======${user.get('$address')}');
+    setState(() {
+      name = getUserData?['user_name'];
+      phoneNo = getUserData?['phoneno'];
+      Img = getUserData?['imageProfile'];
+      address = getUserData?['address'];
+    });
+    /*print('=======SDrawerScreen=======${getUserData}');
+    print('=======SDrawerScreen===========${user.get('$name')}');
+    print('=======SDrawerScreen=======${user.get('$phoneNo')}');
+    print('=======SDrawerScreen=======${user.get('$Img')}');
+    print('=======SDrawerScreen======${user.get('$address')}');*/
   }
 
   // Future<void> getData() async {
@@ -86,6 +80,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
 
   @override
   void initState() {
+    getData();
     super.initState();
   }
 
@@ -95,155 +90,112 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
       backgroundColor: AppColors.drawerColor,
       child: GetBuilder<BDrawerController>(
         builder: (controller) {
-          return Container(
-            height: Get.height,
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  FutureBuilder<DocumentSnapshot>(
-                    future: FirebaseFirestore.instance
-                        .collection('BProfile')
-                        .doc(PreferenceManager.getUId().toString())
-                        .get(),
-                    builder: (BuildContext context, snapshot) {
-                      if (snapshot.hasData) {
-                        var output = snapshot.data;
-                        print('SNAPSHOT PHONE NO ${output?['phoneno']}');
-
-                        return builtTopItem(
-                          urlImage: output!['imageProfile'] ??
-                              'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
-                          name: output['user_name'] ?? '',
-                          phone: output['phoneno'] ?? "+00 0000000000",
-                          onClicked: () {
-                            bottomBarIndexController.setSelectedScreen(
-                                value: 'PersonalInfoPage');
-                            bottomBarIndexController.bottomIndex.value = 3;
+          return Center(
+            child: ListView(
+              children: <Widget>[
+                builtTopItem(
+                  urlImage: Img.toString(),
+                  name: name.toString(),
+                  phone: phoneNo.toString(),
+                  onClicked: () {
+                    ///TODO
+                    // homeController.selectedScreen('SPersonalInfoPage');
+                    // homeController.bottomIndex.value = 3;
+                    // Get.to(() => PersonalInfoPage());
+                  },
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 15.sp,
+                  ),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 5.sp, vertical: 0.sp),
+                  height: Get.height * 0.07,
+                  // width: Get.width,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5.sp),
+                  ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SvgPicture.asset(
+                          BImagePick.DrawerLocationIcon,
+                          width: 18.sp,
+                          height: 18.sp,
+                        ),
+                        SizedBox(width: 5.sp),
+                        Flexible(
+                          child: Container(
+                            // color: Colors.red,
+                            height: Get.height * 0.07,
+                            // width: Get.width * 0.9,
+                            alignment: Alignment.centerLeft,
+                            child: TextFormField(
+                              readOnly: bDrawerController.readOnly,
+                              // controller: _address,
+                              cursorColor: AppColors.primaryColor,
+                              decoration: InputDecoration(
+                                  border: InputBorder.none, hintText: address),
+                            ),
+                          ),
+                        ),
+                        // Text('Yogichowk, Varachha, Surat'),
+                        IconButton(
+                          onPressed: () {
+                            ///TODO
+                            // controller.setEdit();
+                            // homeController.selectedScreen('SPersonalInfoPage');
+                            // homeController.bottomIndex.value = 3;
                           },
-                        );
-                      } else {
-                        return SizedBox();
-                      }
-                    },
-                  ),
-
-                  ///TODO Address
-                  FutureBuilder<DocumentSnapshot>(
-                    future: FirebaseFirestore.instance
-                        .collection('BProfile')
-                        .doc(PreferenceManager.getUId())
-                        .get(),
-                    builder: (BuildContext context, snapshot) {
-                      if (snapshot.hasData) {
-                        var output = snapshot.data;
-                        print('SNAPSHOT ${output?['phoneno']}');
-
-                        return Container(
-                          margin: EdgeInsets.symmetric(
-                            horizontal: 15.sp,
+                          icon: Icon(
+                            controller.readOnly == true
+                                ? Icons.edit_outlined
+                                : Icons.clear,
+                            color: AppColors.primaryColor,
+                            size: 14.sp,
                           ),
-                          padding: EdgeInsets.symmetric(horizontal: 5.sp),
-                          height: Get.height * 0.09,
-                          // width: Get.width,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8.sp),
-                          ),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SvgPicture.asset(
-                                  BImagePick.DrawerLocationIcon,
-                                  width: 14.sp,
-                                  height: 14.sp,
-                                ),
-                                SizedBox(width: 5.sp),
-                                Flexible(
-                                  child: Container(
-                                    // height: Get.height * 0.07,
-                                    alignment: Alignment.centerLeft,
-                                    child: TextFormField(
-                                      readOnly: controller.readOnly,
-                                      controller: _address,
-                                      cursorColor: AppColors.primaryColor,
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: output?['address']),
-                                    ),
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    bottomBarIndexController.setSelectedScreen(
-                                        value: 'PersonalInfoPage');
-                                    bottomBarIndexController.bottomIndex.value =
-                                        3;
-                                  },
-                                  icon: Icon(
-                                    controller.readOnly == true
-                                        ? Icons.edit_outlined
-                                        : Icons.clear,
-                                    color: AppColors.primaryColor,
-                                    size: 12.sp,
-                                  ),
-                                )
-                              ]),
-                        );
-                      } else {
-                        return SizedBox();
-                      }
-                    },
-                  ),
-                  SizedBox(height: Get.height * 0.01),
-                  buildMenuItem(
-                    text: 'Home',
-                    imageName: BImagePick.homeIcon,
-                    onClicked: () => selectedItem(context, 0),
-                  ),
-                  // SizedBox(height: Get.height * 0.005),
-                  buildMenuItem(
+                        )
+                      ]),
+                ),
+                buildMenuItem(
+                  text: 'Home',
+                  icon: Icons.home_outlined,
+                  onClicked: () => selectedItem(context, 0),
+                ),
+                buildMenuItem(
+                    text: 'Orders',
+                    icon: Icons.border_left_outlined,
+                    onClicked: () => selectedItem(context, 1)),
+                buildMenuItem(
+                    text: 'Earnings',
+                    icon: Icons.currency_rupee_outlined,
+                    onClicked: () => selectedItem(context, 2)),
+                buildMenuItem(
+                    text: 'Insight',
+                    icon: Icons.insights_outlined,
+                    onClicked: () => selectedItem(context, 3)),
+                buildMenuItem(
+                    text: 'Subscribe',
+                    icon: Icons.settings_outlined,
+                    onClicked: () => selectedItem(context, 4)),
+                buildMenuItem(
                     text: 'Settings',
-                    imageName: BImagePick.settingIcon,
-                    onClicked: () => selectedItem(context, 1),
-                  ),
-                  // SizedBox(height: Get.height * 0.01),
-                  buildMenuItem(
-                    text: 'My Orders',
-                    imageName: BImagePick.MyOrderIcon,
-                    onClicked: () => selectedItem(context, 2),
-                  ),
-                  // SizedBox(height: Get.height * 0.01),
-                  buildMenuItem(
+                    icon: Icons.reviews_outlined,
+                    onClicked: () => selectedItem(context, 5)),
+                buildMenuItem(
                     text: 'Reviews',
-                    imageName: BImagePick.ReviewsIcon,
-                    onClicked: () => selectedItem(context, 3),
-                  ),
-                  // SizedBox(height: Get.height * 0.01),
-                  buildMenuItem(
-                    text: 'Help Center',
-                    imageName: BImagePick.HelpCenterIcon,
-                    onClicked: () => selectedItem(context, 4),
-                  ),
-                  // SizedBox(height: Get.height * 0.01),
-                  buildMenuItem(
+                    icon: Icons.reviews_outlined,
+                    onClicked: () => selectedItem(context, 6)),
+                buildMenuItem(
                     text: 'Terms & Conditions',
-                    imageName: BImagePick.TermsAndConditionIcon,
-                    onClicked: () => selectedItem(context, 5),
-                  ),
-                  // SizedBox(height: Get.height * 0.01),
-                  buildMenuItem(
+                    icon: Icons.pages_outlined,
+                    onClicked: () => selectedItem(context, 7)),
+                buildMenuItem(
                     text: 'Logout',
-                    imageName: BImagePick.LogOutIcon,
-                    onClicked: () => selectedItem(context, 6),
-                  ),
-                  // SizedBox(
-                  //   height: Get.height * 0.05,
-                  // )
-                ],
-              ),
+                    icon: Icons.logout,
+                    onClicked: () => selectedItem(context, 8)),
+              ],
             ),
           );
         },
@@ -322,19 +274,17 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
           ));
 
   Widget buildMenuItem(
-      {required String text,
-      required String imageName,
-      VoidCallback? onClicked}) {
+      {required String text, required IconData icon, VoidCallback? onClicked}) {
     final color = AppColors.commonWhiteTextColor;
     final hoverColor = Colors.white70;
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: Get.width * 0.02),
       child: ListTile(
-        leading: SvgPicture.asset(
-          imageName,
-          width: 15.sp,
-          height: 15.sp,
+        leading: Icon(
+          icon,
+          size: 13.sp,
+          color: color,
         ),
         minLeadingWidth: 14.sp,
         title: Text(

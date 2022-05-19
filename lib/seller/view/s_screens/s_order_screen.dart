@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
-import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/view/s_screens/s_add_review_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_order_review_info_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
-import '../../bottombar/widget/order_bottom_bar_route.dart';
 import '../../common/s_text_style.dart';
 
 class SOrdersScreen extends StatelessWidget {
@@ -29,12 +27,13 @@ class SOrdersScreen extends StatelessWidget {
           backgroundColor: AppColors.primaryColor,
           leading: IconButton(
               onPressed: () {
-                if (homeController.bottomIndex.value == 1) {
+                /* if (homeController.bottomIndex.value == 1) {
                   homeController.setSelectedScreen(value: 'Order Screen');
                   homeController.bottomIndex.value = 0;
                 } else {
-                  Get.back();
-                }
+
+                }*/
+                Get.back();
               },
               icon: Icon(Icons.arrow_back_rounded)),
           toolbarHeight: Get.height * 0.1,
@@ -104,7 +103,7 @@ class SOrdersScreen extends StatelessWidget {
                                           Container(
                                             padding: EdgeInsets.symmetric(
                                                 vertical: 10.sp,
-                                                horizontal: 15.sp),
+                                                horizontal: 10.sp),
                                             child: ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(10.0),

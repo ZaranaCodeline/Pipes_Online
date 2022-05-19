@@ -3,7 +3,6 @@ import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../app_constant/app_colors.dart';
-import '../../app_constant/app_colors.dart';
 import 'custom_text.dart';
 
 class CommonCategoryCard extends StatelessWidget {
@@ -40,12 +39,14 @@ class CommonCategoryCard extends StatelessWidget {
                     Image.network(
                       '$image',
                       fit: BoxFit.fill,
+                      width: 35.sp,
+                      height: 35.sp,
                     ),
                     SizedBox(width: 10.sp),
                     CustomText(
-                      text: name,
+                      text: name.toUpperCase(),
                       color: SColorPicker.black,
-                      fontSize: 14.sp,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w600,
                       alignment: Alignment.centerRight,
                     ),

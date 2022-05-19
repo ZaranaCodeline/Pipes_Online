@@ -1,15 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
-import 'package:pipes_online/buyer/screens/b_home_screen_widget.dart';
 import 'package:pipes_online/buyer/screens/b_seller_review_widget.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
+
 import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
 import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
@@ -240,19 +238,16 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                     ),
                                   ),
                                   SizedBox(height: Get.height * 0.02.sp),
-                                  Container(
-                                    height: 100,
-                                    child: Custombutton(
-                                      name: 'Submit'.toUpperCase(),
-                                      function: () {
-                                        addData().then((value) {
-                                          Get.to(() => SellerReviewWidget());
-                                        });
-                                      },
-                                      // Get.to(() => HomePage()),
-                                      height: Get.height * 0.06.sp,
-                                      width: Get.width / 1.2.sp,
-                                    ),
+                                  Custombutton(
+                                    name: 'Submit'.toUpperCase(),
+                                    function: () {
+                                      addData().then((value) {
+                                        Get.to(() => SellerReviewWidget());
+                                      });
+                                    },
+                                    // Get.to(() => HomePage()),
+                                    height: Get.height * 0.06.sp,
+                                    width: Get.width / 1.2.sp,
                                   ),
                                 ],
                               ),

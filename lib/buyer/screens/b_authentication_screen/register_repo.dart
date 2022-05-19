@@ -103,44 +103,66 @@ class SRegisterRepo {
       );
       print('UId====${PreferenceManager.getUId()}');
     });
-    // assert(firebaseuser != null);
-    // assert(await firebaseuser?.credential?.token != null);
-    // final User currentUser = await bFirebaseAuth.currentUser!;
-    // assert(firebaseuser?.user!.uid == currentUser.uid);
     return firebaseuser;
   }
 
-  static Future<void> emailRegister({String? email, String? pass}) async {
+  static Future<UserCredential?> emailRegister(
+      {String? email, String? pass}) async {
     try {
       UserCredential? firebaseuser = await bFirebaseAuth
           .createUserWithEmailAndPassword(email: email!, password: pass!)
           .then((value) {
         print('---success---email---done');
-        Get.offAll(SFirstUserInfoScreen());
-        Get.showSnackbar(
-          GetSnackBar(
-            snackPosition: SnackPosition.BOTTOM,
-            duration: Duration(seconds: 5),
-            message: 'Sign up successfully done',
-          ),
-        );
+        Get.offAll(SFirstUserInfoScreen(
+          email: email,
+        ));
       });
-      assert(await firebaseuser?.credential?.token != null);
-      final User currentUser = await bFirebaseAuth.currentUser!;
-      assert(firebaseuser?.user!.uid == currentUser.uid);
+
       await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
       print('UID==${PreferenceManager.getUId()}');
+      return firebaseuser;
     } catch (e) {
       Get.showSnackbar(
         GetSnackBar(
           snackPosition: SnackPosition.BOTTOM,
-          duration: Duration(seconds: 10),
+          duration: Duration(seconds: 5),
           message: 'The email address is already in use by another account',
         ),
       );
       print('registration error?????????$e');
     }
   }
+  // static Future<void> emailRegister({String? email, String? pass}) async {
+  //   try {
+  //     UserCredential? firebaseuser = await bFirebaseAuth
+  //         .createUserWithEmailAndPassword(email: email!, password: pass!)
+  //         .then((value) {
+  //       print('---success---email---done');
+  //       Get.offAll(SFirstUserInfoScreen());
+  //       Get.showSnackbar(
+  //         GetSnackBar(
+  //           snackPosition: SnackPosition.BOTTOM,
+  //           duration: Duration(seconds: 5),
+  //           message: 'Sign up successfully done',
+  //         ),
+  //       );
+  //     });
+  //     assert(await firebaseuser?.credential?.token != null);
+  //     final User currentUser = await bFirebaseAuth.currentUser!;
+  //     assert(firebaseuser?.user!.uid == currentUser.uid);
+  //     await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
+  //     print('UID==${PreferenceManager.getUId()}');
+  //   } catch (e) {
+  //     Get.showSnackbar(
+  //       GetSnackBar(
+  //         snackPosition: SnackPosition.BOTTOM,
+  //         duration: Duration(seconds: 10),
+  //         message: 'The email address is already in use by another account',
+  //       ),
+  //     );
+  //     print('registration error?????????$e');
+  //   }
+  // }
 
   static Future<void> sLogOut() async {
     PreferenceManager.clearData();

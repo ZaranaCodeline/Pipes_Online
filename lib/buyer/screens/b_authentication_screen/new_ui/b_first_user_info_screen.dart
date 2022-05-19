@@ -493,13 +493,10 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                 });
                                 _formKey.currentState!.save();
                                 addData().then((value) {
+                                  PreferenceManager.setName(
+                                      nameController.text);
                                   Get.offAll(BottomNavigationBarScreen());
                                   print('Validate');
-
-                                  /* Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              BottomNavigationBarScreen()));*/
                                 });
                                 setState(() {
                                   isLoading = false;
@@ -578,10 +575,14 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
         context: context,
         file: _image,
         fileName: '${emailController.text}_profile.jpg');
-    // FirebaseFirestore.instance
-    //     .collection("BReviews")
-    //     .doc('${PreferenceManager.getUId()}')
     print('---ADDRESS TEXT---${address.text}');
+    print('---EMAIL TEXT---${emailController.text}');
+    PreferenceManager.setName(nameController.text);
+    PreferenceManager.getName();
+    PreferenceManager.setAddress(address.text);
+    PreferenceManager.setEmail(emailController.text);
+    PreferenceManager.getAddress();
+    PreferenceManager.getEmail();
     print(emailController.text);
     print(mobilecontroller.text);
     CollectionReference ProfileCollection =
@@ -605,6 +606,8 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
         })
         .catchError((e) => print('Error ====buyer=====>>> $e'))
         .then((value) async {
+          PreferenceManager.getName();
+          print('NAME--${PreferenceManager.getName()}');
           PreferenceManager.getPhoneNumber() != null
               ? PreferenceManager.setPhoneNumber(
                   PreferenceManager.getPhoneNumber())

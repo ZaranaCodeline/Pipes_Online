@@ -181,9 +181,6 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                           obscureText:
                                               selectedPass ? false : true,
                                           controller: pass,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(10)
-                                          ],
                                           keyboardType: TextInputType.text,
                                           decoration: InputDecoration(
                                               suffixIcon: IconButton(
@@ -231,9 +228,6 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                           obscureText:
                                               selectedCPass ? false : true,
                                           controller: conPass,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(10)
-                                          ],
                                           decoration: InputDecoration(
                                             suffixIcon: IconButton(
                                               icon: Icon(
@@ -304,13 +298,9 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                           .then((value) async {
                                         PreferenceManager.setEmail(email.text);
                                         print(
-                                            '--PRE_Email-${PreferenceManager.getEmail()}');
+                                            '-PRE_Email-${PreferenceManager.getEmail()}');
                                         PreferenceManager.getEmail();
                                         PreferenceManager.getUserType();
-                                        setState(() {
-                                          isLoading = false;
-                                        });
-                                      }).then((value) {
                                         setState(() {
                                           isLoading = false;
                                         });
@@ -368,7 +358,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                   onTap: () {
                                     print('it is Signup with Mobile Number');
                                     // setState(() {
-                                    Get.to(() => BSignUpPhoneNumberScreen());
+                                    Get.to(BSignUpPhoneNumberScreen());
                                     // });
                                   },
                                   child: Container(
@@ -415,15 +405,11 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                       setState(() {
                                         isLoading = true;
                                       });
-                                      // PreferenceManager.getUId();
-                                      // PreferenceManager.getEmail();
-                                      // PreferenceManager.getName();
-                                      // PreferenceManager.getPhoneNumber();
                                       print('it is map');
                                       PreferenceManager.setUserType('Buyer');
-                                      Get.to(() => BFirstUserInfoScreen(
-                                            email: email.text.trim(),
-                                          ))?.then((value) {
+                                      Get.to(BFirstUserInfoScreen(
+                                        email: email.text.trim(),
+                                      ))?.then((value) {
                                         setState(() {
                                           isLoading = false;
                                         });

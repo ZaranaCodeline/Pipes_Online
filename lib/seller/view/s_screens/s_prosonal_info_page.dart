@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -52,11 +53,6 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
       address = TextEditingController(text: getUserData?['address']);
       Img = getUserData?['imageProfile'];
     });
-    /* print('=======SDrawerScreen=======${getUserData}');
-    print('=======SDrawerScreen===========${user.get('$firstname')}');
-    print('=======SDrawerScreen=======${user.get('$phoneno')}');
-    print('=======SDrawerScreen=======${user.get('$Img')}');
-    print('=======SDrawerScreen======${user.get('$address')}');*/
   }
 
   Future getGalleryImage() async {
@@ -89,10 +85,7 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
       } else {
         print('no image selected');
       }
-      // Either the permission was already granted before or the user just granted it.
     }
-
-// You can request multiple permissions at once.
   }
 
   @override

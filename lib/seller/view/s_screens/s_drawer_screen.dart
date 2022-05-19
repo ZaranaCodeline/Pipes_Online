@@ -5,20 +5,19 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
-import 'package:pipes_online/buyer/screens/b_personal_info_page.dart';
 import 'package:pipes_online/buyer/view_model/geolocation_controller.dart';
 import 'package:pipes_online/routes/bottom_controller.dart';
 import 'package:pipes_online/seller/Authentication/s_function.dart';
 import 'package:pipes_online/seller/view/s_screens/s_earning_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_home_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_order_screen.dart';
-import 'package:pipes_online/seller/view/s_screens/s_prosonal_info_page.dart';
 import 'package:pipes_online/seller/view/s_screens/s_review_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_settings_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_subscribe_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_terms_and_condition_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
+
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/app_constant/b_image.dart';
 import '../../../buyer/screens/b_authentication_screen/register_repo.dart';
@@ -34,8 +33,8 @@ class SDrawerScreen extends StatefulWidget {
 
 class _SDrawerScreenState extends State<SDrawerScreen> {
   SDrawerController sDrawerController = Get.put(SDrawerController());
-  // GeolocationController _controller = Get.find();
-  // TextEditingController? _address;
+  GeolocationController _controller = Get.find();
+  TextEditingController? _address;
 
   CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
   String? name;
@@ -72,11 +71,6 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('image:-${Img}');
-    print('firstname:-${name}');
-    print('phoneno:-${phoneNo}');
-    print('address:-${address}');
-
     return Drawer(
       backgroundColor: AppColors.drawerColor,
       child: GetBuilder<SDrawerController>(

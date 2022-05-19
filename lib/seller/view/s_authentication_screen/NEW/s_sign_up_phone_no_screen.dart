@@ -6,23 +6,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_login_email_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_phone_otp_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
-
-// String? verificationCode;
-// enum MobileVerificationState {
-//   SHOW_MOBILE_FORM_STATE,
-//   SHOW_OTP_FORM_STATE,
-// }
 
 class SSignUpPhoneNumberScreen extends StatefulWidget {
   const SSignUpPhoneNumberScreen({Key? key}) : super(key: key);
@@ -34,16 +29,12 @@ class SSignUpPhoneNumberScreen extends StatefulWidget {
 
 class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
   bool isLoading = false;
-// String? dialogCodeDigits="+00";
   int? resendingTokenID;
   String? verificationId;
-  // MobileVerificationState currentState =
-  //     MobileVerificationState.SHOW_MOBILE_FORM_STATE;
   FirebaseAuth _auth = FirebaseAuth.instance;
   BLogInController bLogInController = Get.find();
   final _phoneController = TextEditingController();
-  final _globalKey = GlobalKey<ScaffoldState>();
-  // String? dialCodeDigits = "+91";
+
   Future sendOtp() async {
     print('=code===${bLogInController.countryCode}${_phoneController.text}');
 
@@ -68,7 +59,8 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
             message: verificationFailed.message,
           ),
         );
-        print('${verificationFailed.message}');
+        print(
+            'The phone number entered is invalid!====${verificationFailed.message}');
       },
       codeSent: (verificationId, resendingToken) async {
         setState(() {
@@ -77,6 +69,8 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
           this.verificationId = verificationId;
           print('---------verificationId-------$verificationId');
           print('---------this.verificationId-------${this.verificationId}');
+          print('-phone.-${PreferenceManager.getPhoneNumber()}');
+          PreferenceManager.setPhoneNumber(_phoneController.text);
           Get.to(
             SSignUpPhoneOtpScreen(
               phone: _phoneController.text,
@@ -85,7 +79,7 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
           )?.then((value) {
             _phoneController.clear();
           });
-          print('====${verificationId}');
+          print('verificationId====${verificationId}');
         });
       },
       codeAutoRetrievalTimeout: (verificationId) async {},
@@ -96,6 +90,7 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    bLogInController.countryCode;
     print(
         '========code===${bLogInController.countryCode} ${_phoneController.text}');
     print('==>dialCodeDigit===${bLogInController.countryCode}');
@@ -267,7 +262,9 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
                                     setState(() {
                                       isLoading = true;
                                     });
-                                    sendOtp();
+                                    sendOtp().then((value) {
+                                      print('Phone---${_phoneController.text}');
+                                    });
                                   },
                                   child: Container(
                                     alignment: Alignment.center,
@@ -312,9 +309,7 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
                                   child: GestureDetector(
                                     onTap: () {
                                       print('it is Signup with Email');
-                                      // setState(() {
                                       Get.to(BSignUpEmailScreen());
-                                      // });
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(12.sp),
@@ -354,9 +349,6 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
                                   child: GestureDetector(
                                     onTap: () {
                                       loginwithgoogle();
-                                      // setState(() {
-                                      //   Get.to(MapsScreen());
-                                      // });
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(12.sp),
@@ -407,7 +399,7 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
                                                 print('=====>Login');
-                                                Get.off(BLoginEmailScreen());
+                                                Get.off(SLoginEmailScreen());
                                               }),
                                       ],
                                     ),

@@ -36,10 +36,6 @@ class SelectedProductWidget extends StatefulWidget {
 
 class _SelectedProductWidgetState extends State<SelectedProductWidget> {
   var rating = 3.0;
-  // final List<String> imageList = [
-  //   'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cart_page.png?alt=media&token=6a4d6e9a-51b3-449a-a2bd-eb54dcec0803',
-  //   'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cart_page.png?alt=media&token=6a4d6e9a-51b3-449a-a2bd-eb54dcec0803',
-  // ];
 
   String? firstname;
   String? email;
@@ -71,12 +67,9 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
     print('========SelectedProductWidget===========${getUserData}');
   }
 
-  // SelectedProductController controller = Get.put(SelectedProductController());
-
   @override
   void initState() {
     print('============profileCollection==========${profileCollection}');
-
     // TODO: implement initState
     super.initState();
     getData();
@@ -103,11 +96,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                           fit: BoxFit.cover,
                           width: double.infinity,
                         ),
-                      )
-                      /* CustomCarouselSliderWidget(
-                        image: widget.image.toString(),
-                      )*/
-                      ,
+                      ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5.sp),
                         child: BackButton(

@@ -154,17 +154,17 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                         ),
                                       ),
                                       SizedBox(
-                                        height: Get.height * 0.04,
+                                        height: Get.height * 0.02,
                                       ),
                                       Text(
                                         'Password',
                                         style: STextStyle.semiBold600Black13,
                                       ),
                                       SizedBox(
-                                        height: Get.height * 0.04,
+                                        height: Get.height * 0.025,
                                       ),
                                       Container(
-                                        height: Get.height * 0.06,
+                                        height: Get.height * 0.063,
                                         width: Get.width * 1,
                                         child: TextFormField(
                                           validator: (password) {
@@ -204,17 +204,17 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                         ),
                                       ),
                                       SizedBox(
-                                        height: Get.height * 0.04,
+                                        height: Get.height * 0.025,
                                       ),
                                       Text(
                                         'Confirm Password',
                                         style: STextStyle.semiBold600Black13,
                                       ),
                                       SizedBox(
-                                        height: Get.height * 0.04,
+                                        height: Get.height * 0.02,
                                       ),
                                       Container(
-                                        height: Get.height * 0.07,
+                                        height: Get.height * 0.063,
                                         width: Get.width * 1,
                                         child: TextFormField(
                                           validator: (password) {
@@ -255,7 +255,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                 ),
                               ),
                               SizedBox(
-                                height: Get.height * 0.04,
+                                height: Get.height * 0.03,
                               ),
                               RichText(
                                 textAlign: TextAlign.start,
@@ -281,7 +281,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                 ),
                               ),
                               SizedBox(
-                                height: Get.height * 0.04,
+                                height: Get.height * 0.03,
                               ),
                               GestureDetector(
                                 onTap: () async {

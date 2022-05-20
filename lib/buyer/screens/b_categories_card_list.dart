@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:pipes_online/buyer/screens/b_category_detail_page.dart';
 import 'package:pipes_online/routes/bottom_controller.dart';
 import 'package:sizer/sizer.dart';
-import 'custom_widget/common_category_card.dart';
+
 import '../view_model/b_bottom_bar_controller.dart';
-import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
+import 'custom_widget/common_category_card.dart';
 
 class CategoriesCardList extends StatelessWidget {
   const CategoriesCardList({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class CategoriesCardList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BBottomBarIndexController bottomBarIndexController = Get.find();
-BottomController _bottomController = Get.find();
+    BottomController _bottomController = Get.find();
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 5.sp),
       height: Get.height * 0.1.sp,
@@ -34,15 +34,18 @@ BottomController _bottomController = Get.find();
                       bottomBarIndexController.setSelectedScreen(
                           value: 'CategoriesCardList');
                       bottomBarIndexController.bottomIndex.value = 0;
-                      print('----selectedScreen-- ${bottomBarIndexController.selectedScreen.value}');
+                      print(
+                          '----selectedScreen-- ${bottomBarIndexController.selectedScreen.value}');
                       bottomBarIndexController.setCategoriesType(
                           value: categories[index].get("name"));
 
-                      bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
+                      bottomBarIndexController.setSelectedScreen(
+                          value: 'HomeScreen');
                       bottomBarIndexController.bottomIndex.value = 0;
 
-                       Get.to(()=>BCategoryDetailsPage(category:categories[index].get("name") ,));
-
+                      Get.to(BCategoryDetailsPage(
+                        category: categories[index].get("name"),
+                      ));
                     },
                     child: CommonCategoryCard(
                       image: categories[index].get("image"),

@@ -301,6 +301,14 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                             '-PRE_Email-${PreferenceManager.getEmail()}');
                                         PreferenceManager.getEmail();
                                         PreferenceManager.getUserType();
+                                        Get.showSnackbar(
+                                          GetSnackBar(
+                                            snackPosition: SnackPosition.BOTTOM,
+                                            duration: Duration(seconds: 5),
+                                            message:
+                                                'Sign up successfully done',
+                                          ),
+                                        );
                                         setState(() {
                                           isLoading = false;
                                         });

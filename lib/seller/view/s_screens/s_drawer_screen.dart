@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
-import 'package:pipes_online/buyer/view_model/geolocation_controller.dart';
 import 'package:pipes_online/routes/bottom_controller.dart';
 import 'package:pipes_online/seller/Authentication/s_function.dart';
 import 'package:pipes_online/seller/view/s_screens/s_earning_screen.dart';
@@ -33,7 +32,6 @@ class SDrawerScreen extends StatefulWidget {
 
 class _SDrawerScreenState extends State<SDrawerScreen> {
   SDrawerController sDrawerController = Get.put(SDrawerController());
-  GeolocationController _controller = Get.find();
   TextEditingController? _address;
 
   CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
@@ -55,11 +53,6 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
       Img = getUserData?['imageProfile'];
       address = getUserData?['address'];
     });
-    /*print('=======SDrawerScreen=======${getUserData}');
-    print('=======SDrawerScreen===========${user.get('$name')}');
-    print('=======SDrawerScreen=======${user.get('$phoneNo')}');
-    print('=======SDrawerScreen=======${user.get('$Img')}');
-    print('=======SDrawerScreen======${user.get('$address')}');*/
   }
 
   @override
@@ -85,7 +78,6 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
                   onClicked: () {
                     homeController.selectedScreen('SPersonalInfoPage');
                     homeController.bottomIndex.value = 3;
-                    // Get.to(() => PersonalInfoPage());
                   },
                 ),
                 Container(
@@ -310,7 +302,6 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
         SAuthMethods.logOut()
             .then((value) => Get.off(() => SBuyerSellerScreen()));
         PreferenceManager.clearData();
-
         break;
     }
   }

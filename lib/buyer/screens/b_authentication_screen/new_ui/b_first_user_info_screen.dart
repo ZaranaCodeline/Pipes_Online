@@ -488,18 +488,20 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                           GestureDetector(
                             onTap: () async {
                               if (_formKey.currentState!.validate()) {
-                                setState(() {
-                                  isLoading = true;
-                                });
                                 _formKey.currentState!.save();
                                 addData().then((value) {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
                                   PreferenceManager.setName(
                                       nameController.text);
-                                  Get.offAll(BottomNavigationBarScreen());
-                                  print('Validate');
-                                });
-                                setState(() {
-                                  isLoading = false;
+                                  Get.offAll(BottomNavigationBarScreen())
+                                      ?.then((value) {
+                                    print('Validate');
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                  });
                                 });
                               } else {
                                 print('InValidate');
@@ -576,50 +578,50 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
         file: _image,
         fileName: '${emailController.text}_profile.jpg');
     print('---ADDRESS TEXT---${address.text}');
+    print('---Name---${nameController.text}');
     print('---EMAIL TEXT---${emailController.text}');
+    print('---PHONE---${mobilecontroller.text}');
+
+    PreferenceManager.setUserType('Buyer');
+    PreferenceManager.getUserType();
     PreferenceManager.setName(nameController.text);
     PreferenceManager.getName();
     PreferenceManager.setAddress(address.text);
-    PreferenceManager.setEmail(emailController.text);
     PreferenceManager.getAddress();
-    PreferenceManager.getEmail();
+    print('USER_TYPE--${PreferenceManager.getUserType()}');
+    print('NAME--${PreferenceManager.getName()}');
+    print('ADDRESS--${PreferenceManager.getAddress()}');
+    print('EMAIL--${PreferenceManager.getEmail()}');
+    print('PHONE--${PreferenceManager.getPhoneNumber()}');
+    PreferenceManager.getPhoneNumber() != null
+        ? PreferenceManager.setPhoneNumber(PreferenceManager.getPhoneNumber())
+        : PreferenceManager.setPhoneNumber(mobilecontroller.text);
+
+    PreferenceManager.getEmail() != null
+        ? PreferenceManager.setEmail(PreferenceManager.getEmail())
+        : PreferenceManager.setEmail(emailController.text);
     print(emailController.text);
     print(mobilecontroller.text);
     CollectionReference ProfileCollection =
         bFirebaseStore.collection('BProfile');
-    ProfileCollection.doc(PreferenceManager.getUId())
-        .set({
-          'buyerID': PreferenceManager.getUId(),
-          'email': PreferenceManager.getEmail() ?? emailController.text,
-          'isOnline': false,
-          'phoneno':
-              PreferenceManager.getPhoneNumber() ?? mobilecontroller.text,
-          'user_name': nameController.text,
-          'imageProfile': imageUrl ??
-              'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
-          'address': _controller.addressController == null
-              ? address.text
-              : _controller.addressController!.text,
-          'userType': PreferenceManager.getUserType(),
-          'userDetails': 'true',
-          'time': DateTime.now().toString(),
-        })
-        .catchError((e) => print('Error ====buyer=====>>> $e'))
-        .then((value) async {
-          PreferenceManager.getName();
-          print('NAME--${PreferenceManager.getName()}');
-          PreferenceManager.getPhoneNumber() != null
-              ? PreferenceManager.setPhoneNumber(
-                  PreferenceManager.getPhoneNumber())
-              : PreferenceManager.setPhoneNumber(mobilecontroller.text);
-
-          PreferenceManager.getEmail() != null
-              ? PreferenceManager.setEmail(PreferenceManager.getEmail())
-              : PreferenceManager.setEmail(emailController.text);
-        });
+    ProfileCollection.doc(PreferenceManager.getUId()).set({
+      'buyerID': PreferenceManager.getUId(),
+      'email': PreferenceManager.getEmail() ?? emailController.text,
+      'isOnline': false,
+      'phoneno': PreferenceManager.getPhoneNumber() ?? mobilecontroller.text,
+      'user_name': PreferenceManager.getName(),
+      'imageProfile': imageUrl ??
+          'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+      'address': _controller.addressController == null
+          ? address.text
+          : _controller.addressController!.text,
+      'userType': PreferenceManager.getUserType(),
+      'userDetails': 'true',
+      'time': DateTime.now().toString(),
+    }).catchError((e) => print('Error ====buyer=====>>> $e'));
   }
 
-  bool isPasswordValid(String password) => password.length <= 50;
+  bool isPasswordValid(String password) => password.length <= 20;
 
   bool isEmailValid(String email) {
     Pattern pattern =

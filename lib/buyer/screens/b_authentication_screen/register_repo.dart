@@ -15,30 +15,17 @@ class BRegisterRepo {
     UserCredential? firebaseuser = await bFirebaseAuth
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) {
+      PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
+      Get.offAll(BottomNavigationBarScreen());
       print('UId====${PreferenceManager.getUId()}');
     });
-    try {
-      final User currentUser = await bFirebaseAuth.currentUser!;
-      Get.offAll(BottomNavigationBarScreen())?.then((value) {
-        PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
-        Get.showSnackbar(
-          GetSnackBar(
-            snackPosition: SnackPosition.BOTTOM,
-            duration: Duration(seconds: 5),
-            message: 'Login successfully done',
-          ),
-        );
-      });
-    } on FirebaseAuthException catch (e) {
-      Get.showSnackbar(
-        GetSnackBar(
-          snackPosition: SnackPosition.BOTTOM,
-          duration: Duration(seconds: 5),
-          message: e.toString(),
-        ),
-      );
-      print(e);
-    }
+    Get.showSnackbar(
+      GetSnackBar(
+        snackPosition: SnackPosition.BOTTOM,
+        duration: Duration(seconds: 5),
+        message: 'Login successfully done',
+      ),
+    );
     return firebaseuser;
   }
 
@@ -48,20 +35,11 @@ class BRegisterRepo {
       UserCredential? firebaseuser = await bFirebaseAuth
           .createUserWithEmailAndPassword(email: email!, password: pass!)
           .then((value) {
+        PreferenceManager.setEmail(email);
         print('---success---email---done');
         Get.offAll(BFirstUserInfoScreen(
           email: email,
-        ))?.then((value) {
-          PreferenceManager.setEmail(email);
-        }).then((value) {
-          Get.showSnackbar(
-            GetSnackBar(
-              snackPosition: SnackPosition.BOTTOM,
-              duration: Duration(seconds: 5),
-              message: 'Sign up successfully done',
-            ),
-          );
-        });
+        ));
       });
 
       await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);

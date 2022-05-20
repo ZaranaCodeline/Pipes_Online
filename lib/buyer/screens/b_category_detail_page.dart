@@ -3,16 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/screens/product_card_list.dart';
 import 'package:pipes_online/buyer/screens/b_selected_product_widget.dart';
 import 'package:pipes_online/buyer/view_model/b_bottom_bar_controller.dart';
-import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../seller/common/s_color_picker.dart';
 import '../../seller/common/s_text_style.dart';
-import 'custom_widget/custom_text.dart';
 import 'bottom_bar_screen_page/widget/b_cart_bottom_bar_route.dart';
+import 'custom_widget/custom_text.dart';
 
 class BCategoryDetailsPage extends StatefulWidget {
   const BCategoryDetailsPage({Key? key, this.category}) : super(key: key);
@@ -24,7 +22,6 @@ class BCategoryDetailsPage extends StatefulWidget {
 
 class _BCategoryDetailsPageState extends State<BCategoryDetailsPage> {
   FirebaseAuth _auth = FirebaseAuth.instance;
-
 
   BBottomBarIndexController controller = Get.put(BBottomBarIndexController());
   @override
@@ -57,13 +54,30 @@ class _BCategoryDetailsPageState extends State<BCategoryDetailsPage> {
           ),
           body: Container(
             // height: Get.height * 5.sp,
-            padding: EdgeInsets.symmetric(horizontal: 8.sp,vertical: 10.sp),
+            padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 10.sp),
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection("Products")
-                  .where('category', isEqualTo:widget.category)
+                  .where('category', isEqualTo: widget.category)
                   .snapshots(),
               builder: (context, snapShot) {
+                if (!snapShot.hasData) {
+                  Center(
+                      child: Container(
+                    width: Get.width * 0.6,
+                    height: Get.height / 11,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.sp),
+                        color: AppColors.primaryColor),
+                    child: Center(
+                        child: CustomText(
+                      text: 'No Products in Cart',
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.commonWhiteTextColor,
+                    )),
+                  ));
+                }
                 if (snapShot.hasData) {
                   if (snapShot.connectionState == ConnectionState.waiting) {
                     return Center(

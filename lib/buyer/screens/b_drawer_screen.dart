@@ -17,7 +17,6 @@ import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 import '../app_constant/app_colors.dart';
-import '../view_model/geolocation_controller.dart';
 import 'b_my_order_page.dart';
 import 'b_review_info_screen.dart';
 import 'b_settings_page.dart';
@@ -27,14 +26,12 @@ class CustomDrawerWidget extends StatefulWidget {
   CustomDrawerWidget({
     Key? key,
   }) : super(key: key);
-
   @override
   State<CustomDrawerWidget> createState() => _CustomDrawerWidgetState();
 }
 
 class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
   BDrawerController bDrawerController = Get.put(BDrawerController());
-  GeolocationController _controller = Get.find();
   TextEditingController? _address;
 
   CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
@@ -44,7 +41,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
   String? address;
 
   Future<void> getData() async {
-    print('demo seller.....');
+    print('demo buyer.....');
     final user =
         await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
@@ -82,6 +79,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
   void initState() {
     getData();
     super.initState();
+    print('======BDrawerScreen=======${PreferenceManager.getUId()}');
   }
 
   @override
@@ -92,109 +90,128 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
         builder: (controller) {
           return Center(
             child: ListView(
-              children: <Widget>[
+              children: [
                 builtTopItem(
-                  urlImage: Img.toString(),
+                  urlImage: Img
+                      .toString() /*??
+                      'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'*/
+                  ,
                   name: name.toString(),
-                  phone: phoneNo.toString(),
+                  phone: phoneNo.toString() /*?? "+00 0000000000"*/,
                   onClicked: () {
-                    ///TODO
-                    // homeController.selectedScreen('SPersonalInfoPage');
-                    // homeController.bottomIndex.value = 3;
-                    // Get.to(() => PersonalInfoPage());
+                    bottomBarIndexController.setSelectedScreen(
+                        value: 'PersonalInfoPage');
+                    bottomBarIndexController.bottomIndex.value = 3;
                   },
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 15.sp,
-                  ),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 5.sp, vertical: 0.sp),
-                  height: Get.height * 0.07,
-                  // width: Get.width,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5.sp),
-                  ),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SvgPicture.asset(
-                          BImagePick.DrawerLocationIcon,
-                          width: 18.sp,
-                          height: 18.sp,
-                        ),
-                        SizedBox(width: 5.sp),
-                        Flexible(
-                          child: Container(
-                            // color: Colors.red,
-                            height: Get.height * 0.07,
-                            // width: Get.width * 0.9,
-                            alignment: Alignment.centerLeft,
-                            child: TextFormField(
-                              readOnly: bDrawerController.readOnly,
-                              // controller: _address,
-                              cursorColor: AppColors.primaryColor,
-                              decoration: InputDecoration(
-                                  border: InputBorder.none, hintText: address),
-                            ),
+                  height: Get.height,
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 15.sp,
                           ),
-                        ),
-                        // Text('Yogichowk, Varachha, Surat'),
-                        IconButton(
-                          onPressed: () {
-                            ///TODO
-                            // controller.setEdit();
-                            // homeController.selectedScreen('SPersonalInfoPage');
-                            // homeController.bottomIndex.value = 3;
-                          },
-                          icon: Icon(
-                            controller.readOnly == true
-                                ? Icons.edit_outlined
-                                : Icons.clear,
-                            color: AppColors.primaryColor,
-                            size: 14.sp,
+                          padding: EdgeInsets.symmetric(horizontal: 5.sp),
+                          height: Get.height * 0.09,
+                          // width: Get.width,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8.sp),
                           ),
-                        )
-                      ]),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SvgPicture.asset(
+                                  BImagePick.DrawerLocationIcon,
+                                  width: 14.sp,
+                                  height: 14.sp,
+                                ),
+                                SizedBox(width: 5.sp),
+                                Flexible(
+                                  child: Container(
+                                    // height: Get.height * 0.07,
+                                    alignment: Alignment.centerLeft,
+                                    child: TextFormField(
+                                      readOnly: controller.readOnly,
+                                      controller: _address,
+                                      cursorColor: AppColors.primaryColor,
+                                      decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: address),
+                                    ),
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    bottomBarIndexController.setSelectedScreen(
+                                        value: 'PersonalInfoPage');
+                                    bottomBarIndexController.bottomIndex.value =
+                                        3;
+                                  },
+                                  icon: Icon(
+                                    controller.readOnly == true
+                                        ? Icons.edit_outlined
+                                        : Icons.clear,
+                                    color: AppColors.primaryColor,
+                                    size: 12.sp,
+                                  ),
+                                )
+                              ]),
+                        ),
+                        SizedBox(height: Get.height * 0.01),
+                        buildMenuItem(
+                          text: 'Home',
+                          imageName: BImagePick.homeIcon,
+                          onClicked: () => selectedItem(context, 0),
+                        ),
+                        // SizedBox(height: Get.height * 0.005),
+                        buildMenuItem(
+                          text: 'Settings',
+                          imageName: BImagePick.settingIcon,
+                          onClicked: () => selectedItem(context, 1),
+                        ),
+                        // SizedBox(height: Get.height * 0.01),
+                        buildMenuItem(
+                          text: 'My Orders',
+                          imageName: BImagePick.MyOrderIcon,
+                          onClicked: () => selectedItem(context, 2),
+                        ),
+                        // SizedBox(height: Get.height * 0.01),
+                        buildMenuItem(
+                          text: 'Reviews',
+                          imageName: BImagePick.ReviewsIcon,
+                          onClicked: () => selectedItem(context, 3),
+                        ),
+                        // SizedBox(height: Get.height * 0.01),
+                        buildMenuItem(
+                          text: 'Help Center',
+                          imageName: BImagePick.HelpCenterIcon,
+                          onClicked: () => selectedItem(context, 4),
+                        ),
+                        // SizedBox(height: Get.height * 0.01),
+                        buildMenuItem(
+                          text: 'Terms & Conditions',
+                          imageName: BImagePick.TermsAndConditionIcon,
+                          onClicked: () => selectedItem(context, 5),
+                        ),
+                        // SizedBox(height: Get.height * 0.01),
+                        buildMenuItem(
+                          text: 'Logout',
+                          imageName: BImagePick.LogOutIcon,
+                          onClicked: () => selectedItem(context, 6),
+                        ),
+                        // SizedBox(
+                        //   height: Get.height * 0.05,
+                        // )
+                      ],
+                    ),
+                  ),
                 ),
-                buildMenuItem(
-                  text: 'Home',
-                  icon: Icons.home_outlined,
-                  onClicked: () => selectedItem(context, 0),
-                ),
-                buildMenuItem(
-                    text: 'Orders',
-                    icon: Icons.border_left_outlined,
-                    onClicked: () => selectedItem(context, 1)),
-                buildMenuItem(
-                    text: 'Earnings',
-                    icon: Icons.currency_rupee_outlined,
-                    onClicked: () => selectedItem(context, 2)),
-                buildMenuItem(
-                    text: 'Insight',
-                    icon: Icons.insights_outlined,
-                    onClicked: () => selectedItem(context, 3)),
-                buildMenuItem(
-                    text: 'Subscribe',
-                    icon: Icons.settings_outlined,
-                    onClicked: () => selectedItem(context, 4)),
-                buildMenuItem(
-                    text: 'Settings',
-                    icon: Icons.reviews_outlined,
-                    onClicked: () => selectedItem(context, 5)),
-                buildMenuItem(
-                    text: 'Reviews',
-                    icon: Icons.reviews_outlined,
-                    onClicked: () => selectedItem(context, 6)),
-                buildMenuItem(
-                    text: 'Terms & Conditions',
-                    icon: Icons.pages_outlined,
-                    onClicked: () => selectedItem(context, 7)),
-                buildMenuItem(
-                    text: 'Logout',
-                    icon: Icons.logout,
-                    onClicked: () => selectedItem(context, 8)),
               ],
             ),
           );
@@ -274,17 +291,19 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
           ));
 
   Widget buildMenuItem(
-      {required String text, required IconData icon, VoidCallback? onClicked}) {
+      {required String text,
+      required String imageName,
+      VoidCallback? onClicked}) {
     final color = AppColors.commonWhiteTextColor;
     final hoverColor = Colors.white70;
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: Get.width * 0.02),
       child: ListTile(
-        leading: Icon(
-          icon,
-          size: 13.sp,
-          color: color,
+        leading: SvgPicture.asset(
+          imageName,
+          width: 15.sp,
+          height: 15.sp,
         ),
         minLeadingWidth: 14.sp,
         title: Text(
@@ -324,12 +343,8 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
         break;
       case 6:
         FirebaseAuth.instance.signOut();
-        // PreferenceManager.clearData();
         BRegisterRepo.bLogOut;
-        logOutFormGoogle()
-            // BAuthMethods.logOut()
-            .then((value) => Get.off(() => SBuyerSellerScreen()));
-
+        logOutFormGoogle().then((value) => Get.off(SBuyerSellerScreen()));
         break;
     }
   }

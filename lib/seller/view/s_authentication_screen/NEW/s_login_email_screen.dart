@@ -4,14 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_forgot_password_page.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_phone_no_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_no_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
-import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
-import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
 import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_forgot_password_page.dart';
@@ -188,8 +182,7 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                         ),
                                         TextButton(
                                           onPressed: () {
-                                            Get.to(
-                                                () => SForgotPasswordScreen());
+                                            Get.to(SForgotPasswordScreen());
                                           },
                                           child: CustomText(
                                             alignment: Alignment.topLeft,
@@ -235,7 +228,6 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                 GestureDetector(
                                   onTap: () async {
                                     print('login click');
-
                                     if (formGlobalKey.currentState!
                                         .validate()) {
                                       setState(() {
@@ -253,8 +245,7 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                           .LogIn(email.text.trim().toString(),
                                               pass.text.trim().toString())
                                           .then((value) async {
-                                        await Get.offAll(
-                                                () => NavigationBarScreen())
+                                        await Get.offAll(NavigationBarScreen())
                                             ?.then((value) {
                                           email.clear();
                                           pass.clear();
@@ -262,9 +253,7 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                         setState(() {
                                           isLoading = false;
                                         });
-                                        /* PreferenceManager.setUId('uid');
-                                  PreferenceManager.setUserType('Buyer');
-                                  PreferenceManager.setUId('email');*/
+                                        print('login succefully');
                                       }).catchError((e) {
                                         setState(() {
                                           isLoading = false;

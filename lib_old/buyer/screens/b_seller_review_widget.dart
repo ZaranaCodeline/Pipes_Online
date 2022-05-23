@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
@@ -7,6 +6,7 @@ import 'package:pipes_online/buyer/screens/b_review_seller_contact_details_scree
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
+
 import '../../seller/view/s_screens/s_color_picker.dart';
 import '../app_constant/app_colors.dart';
 import 'b_listing_review_tab_bar.dart';
@@ -24,20 +24,20 @@ class SellerReviewWidget extends StatefulWidget {
 class _SellerReviewWidgetState extends State<SellerReviewWidget> {
   var rating = 3.0;
 
-  CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
+  CollectionReference profileCollection = bFirebaseStore.collection('SProfile');
   String? Img;
-  String? firstname;
+  String? firstname, sellerID;
 
   Future<void> getData() async {
-    print(
-        '=======BUYER_SIDE_SELLER_ID========${FirebaseAuth.instance.currentUser!.uid}');
+    print('=======BUYER_SIDE_SELLER_ID========${PreferenceManager.getUId()}');
     final user =
-        await ProfileCollection.doc('${FirebaseAuth.instance.currentUser!.uid}')
-            .get();
+        await profileCollection.doc('${PreferenceManager.getUId()}').get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    firstname = getUserData?['user_name'];
+
     print('=========SellerReviewWidget===============${getUserData}');
     setState(() {
+      firstname = getUserData?['user_name'];
+      sellerID = getUserData?['sellerID'];
       Img = getUserData?['imageProfile'];
     });
     print('============================${user.get('imageProfile')}');
@@ -50,7 +50,7 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
     getData();
     print('=======BUYER_SIDE_SELLER_ID========${PreferenceManager.getUId()}');
 
-    print('=========seller_reviewwidget_category---${widget.category}');
+    print('==sellerID---${sellerID}');
   }
 
   @override
@@ -192,80 +192,82 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
           Expanded(
             flex: 2,
             child: Container(
-              margin: EdgeInsets.only(top: 0, bottom: 10),
+              margin: EdgeInsets.only(top: 0, bottom: 5),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
                     Container(
-                      width: double.infinity,
-                      child: SingleChildScrollView(
-                        child: Stack(
-                          alignment: Alignment.bottomCenter,
-                          overflow: Overflow.visible,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Container(
-                                    height: 55,
-                                    decoration: BoxDecoration(
-                                        color: AppColors.primaryColor,
-                                        borderRadius:
-                                            const BorderRadius.vertical(
-                                          bottom: Radius.circular(25),
-                                        )),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Positioned(
-                              top: 0.0,
-                              child: Container(
-                                width: 200,
-                                height: 52,
-                              ),
-                            ),
-                            Positioned(
-                              top: 15.sp,
-                              child: Container(
-                                height: 55.sp,
-                                width: 55.sp,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(50.0),
-                                  child: Img == null
-                                      ? Image.network(
-                                          'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png')
-                                      : Image.network(
-                                          Img.toString(),
-                                          fit: BoxFit.cover,
+                      child: Column(
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            child: SingleChildScrollView(
+                              child: Stack(
+                                alignment: Alignment.bottomCenter,
+                                overflow: Overflow.visible,
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Container(
+                                          height: 55,
+                                          decoration: BoxDecoration(
+                                              color: AppColors.primaryColor,
+                                              borderRadius:
+                                                  const BorderRadius.vertical(
+                                                bottom: Radius.circular(25),
+                                              )),
                                         ),
-                                )
-                                /*Image.asset(
-                                            'assets/images/png/cat_1.png',
-                                            fit: BoxFit.fill,
-                                          )*/
-                                ,
+                                      )
+                                    ],
+                                  ),
+                                  Positioned(
+                                    top: 0.0,
+                                    child: Container(
+                                      width: 200,
+                                      height: 55,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 20.sp,
+                                    child: Container(
+                                      height: 50.sp,
+                                      width: 50.sp,
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(50.0),
+                                        child: Image.network(
+                                          Img == null
+                                              ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
+                                              : Img.toString(),
+                                          fit: BoxFit.cover,
+                                          width: 30.sp,
+                                          height: 30.sp,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                      top: 5.sp,
+                                      left: 0,
+                                      child: BackButton(
+                                        color: AppColors.commonWhiteTextColor,
+                                      )),
+                                ],
                               ),
                             ),
-                            Positioned(
-                                top: 3.sp,
-                                left: 0,
-                                child: BackButton(
-                                  color: AppColors.commonWhiteTextColor,
-                                )),
-                          ],
-                        ),
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.049,
+                          ),
+                          CustomText(
+                              text: firstname.toString(),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 24,
+                              color: AppColors.secondaryBlackColor),
+                        ],
                       ),
                     ),
-
-                    SizedBox(
-                      height: Get.height * 0.049,
-                    ),
-                    CustomText(
-                        text: firstname.toString(),
-                        fontWeight: FontWeight.w600,
-                        fontSize: 24,
-                        color: AppColors.secondaryBlackColor),
                     SizedBox(
                       height: Get.height * 0.01,
                     ),
@@ -347,7 +349,7 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                           EdgeInsets.symmetric(horizontal: 60, vertical: 10),
                       child: InkWell(
                         onTap: () {
-                          print('Get Contatc Detail');
+                          print('Get Contatc Detail...');
                           _showPopupMenu();
                         },
                         child: Row(

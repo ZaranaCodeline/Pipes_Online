@@ -39,7 +39,6 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
   String? verificationId;
 
   int? resendingTokenID;
-  // String? dialCodeDigits = "+91";
 
   Future sendOtp() async {
     try {

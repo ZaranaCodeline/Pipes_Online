@@ -15,30 +15,17 @@ class BRegisterRepo {
     UserCredential? firebaseuser = await bFirebaseAuth
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) {
+      PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
+      Get.offAll(BottomNavigationBarScreen());
       print('UId====${PreferenceManager.getUId()}');
     });
-    try {
-      final User currentUser = await bFirebaseAuth.currentUser!;
-      Get.offAll(BottomNavigationBarScreen())?.then((value) {
-        PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
-        Get.showSnackbar(
-          GetSnackBar(
-            snackPosition: SnackPosition.BOTTOM,
-            duration: Duration(seconds: 5),
-            message: 'Login successfully done',
-          ),
-        );
-      });
-    } on FirebaseAuthException catch (e) {
-      Get.showSnackbar(
-        GetSnackBar(
-          snackPosition: SnackPosition.BOTTOM,
-          duration: Duration(seconds: 5),
-          message: e.toString(),
-        ),
-      );
-      print(e);
-    }
+    Get.showSnackbar(
+      GetSnackBar(
+        snackPosition: SnackPosition.BOTTOM,
+        duration: Duration(seconds: 5),
+        message: 'Login successfully done',
+      ),
+    );
     return firebaseuser;
   }
 
@@ -48,20 +35,11 @@ class BRegisterRepo {
       UserCredential? firebaseuser = await bFirebaseAuth
           .createUserWithEmailAndPassword(email: email!, password: pass!)
           .then((value) {
+        PreferenceManager.setEmail(email);
         print('---success---email---done');
         Get.offAll(BFirstUserInfoScreen(
           email: email,
-        ))?.then((value) {
-          PreferenceManager.setEmail(email);
-        }).then((value) {
-          Get.showSnackbar(
-            GetSnackBar(
-              snackPosition: SnackPosition.BOTTOM,
-              duration: Duration(seconds: 5),
-              message: 'Sign up successfully done',
-            ),
-          );
-        });
+        ));
       });
 
       await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
@@ -103,44 +81,66 @@ class SRegisterRepo {
       );
       print('UId====${PreferenceManager.getUId()}');
     });
-    // assert(firebaseuser != null);
-    // assert(await firebaseuser?.credential?.token != null);
-    // final User currentUser = await bFirebaseAuth.currentUser!;
-    // assert(firebaseuser?.user!.uid == currentUser.uid);
     return firebaseuser;
   }
 
-  static Future<void> emailRegister({String? email, String? pass}) async {
+  static Future<UserCredential?> emailRegister(
+      {String? email, String? pass}) async {
     try {
       UserCredential? firebaseuser = await bFirebaseAuth
           .createUserWithEmailAndPassword(email: email!, password: pass!)
           .then((value) {
         print('---success---email---done');
-        Get.offAll(SFirstUserInfoScreen());
-        Get.showSnackbar(
-          GetSnackBar(
-            snackPosition: SnackPosition.BOTTOM,
-            duration: Duration(seconds: 5),
-            message: 'Sign up successfully done',
-          ),
-        );
+        Get.offAll(SFirstUserInfoScreen(
+          email: email,
+        ));
       });
-      assert(await firebaseuser?.credential?.token != null);
-      final User currentUser = await bFirebaseAuth.currentUser!;
-      assert(firebaseuser?.user!.uid == currentUser.uid);
+
       await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
       print('UID==${PreferenceManager.getUId()}');
+      return firebaseuser;
     } catch (e) {
       Get.showSnackbar(
         GetSnackBar(
           snackPosition: SnackPosition.BOTTOM,
-          duration: Duration(seconds: 10),
+          duration: Duration(seconds: 5),
           message: 'The email address is already in use by another account',
         ),
       );
       print('registration error?????????$e');
     }
   }
+  // static Future<void> emailRegister({String? email, String? pass}) async {
+  //   try {
+  //     UserCredential? firebaseuser = await bFirebaseAuth
+  //         .createUserWithEmailAndPassword(email: email!, password: pass!)
+  //         .then((value) {
+  //       print('---success---email---done');
+  //       Get.offAll(SFirstUserInfoScreen());
+  //       Get.showSnackbar(
+  //         GetSnackBar(
+  //           snackPosition: SnackPosition.BOTTOM,
+  //           duration: Duration(seconds: 5),
+  //           message: 'Sign up successfully done',
+  //         ),
+  //       );
+  //     });
+  //     assert(await firebaseuser?.credential?.token != null);
+  //     final User currentUser = await bFirebaseAuth.currentUser!;
+  //     assert(firebaseuser?.user!.uid == currentUser.uid);
+  //     await PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
+  //     print('UID==${PreferenceManager.getUId()}');
+  //   } catch (e) {
+  //     Get.showSnackbar(
+  //       GetSnackBar(
+  //         snackPosition: SnackPosition.BOTTOM,
+  //         duration: Duration(seconds: 10),
+  //         message: 'The email address is already in use by another account',
+  //       ),
+  //     );
+  //     print('registration error?????????$e');
+  //   }
+  // }
 
   static Future<void> sLogOut() async {
     PreferenceManager.clearData();

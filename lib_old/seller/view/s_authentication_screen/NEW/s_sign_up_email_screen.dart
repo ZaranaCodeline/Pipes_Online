@@ -1,12 +1,11 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
@@ -42,6 +41,8 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    PreferenceManager.getEmail();
+    PreferenceManager.getPhoneNumber();
     print(
         'b sign up screen getUserType ======>${PreferenceManager.getUserType()}');
   }
@@ -101,7 +102,7 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
               GetBuilder<BLogInController>(
                 builder: (controller) {
                   return Container(
-                    height: Get.height * 1,
+                    height: Get.height * 2,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
@@ -173,14 +174,7 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
                                                 r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
                                             if (password!.isEmpty) {
                                               return 'Please enter password';
-                                            }
-                                            /*else if (!isPasswordValid(
-                                                password)) {
-                                              return 'Enter a valid password';
-                                            } else if (password.length < 6) {
-                                              return 'Password must be altest 6 degit';
-                                            }*/
-                                            else if (!regex
+                                            } else if (!regex
                                                 .hasMatch(password)) {
                                               return 'Password must be Formatted';
                                             }
@@ -302,6 +296,14 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
                                     SRegisterRepo.emailRegister(
                                             email: email.text, pass: pass.text)
                                         .then((value) async {
+                                      Get.showSnackbar(
+                                        GetSnackBar(
+                                          snackPosition: SnackPosition.BOTTOM,
+                                          duration: Duration(seconds: 5),
+                                          message:
+                                              'Sign up successfully done..',
+                                        ),
+                                      );
                                       PreferenceManager.setEmail(email.text);
                                       PreferenceManager.setPassword(pass.text);
 
@@ -309,7 +311,7 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
                                       PreferenceManager.getPassword();
                                       PreferenceManager.getUserType();
 
-                                      Get.to(() => SFirstUserInfoScreen(
+                                      /* Get.to(() => SFirstUserInfoScreen(
                                             email: email.text,
                                             pass: pass.text,
                                           ))?.then((value) {
@@ -317,15 +319,15 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
                                         email.clear();
                                         pass.clear();
                                         conPass.clear();
-                                      });
+                                      });*/
                                       setState(() {
                                         isLoading = false;
                                       });
-                                    }).then((value) {
+                                    }); /*.then((value) {
                                       setState(() {
                                         isLoading = false;
                                       });
-                                    });
+                                    });*/
                                   }
                                 },
                                 child: Container(
@@ -413,8 +415,14 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
                                   onTap: () {
                                     print('it is Signup with Google');
                                     loginwithgoogle().then((value) {
-                                      Get.to(() => SFirstUserInfoScreen())
-                                          ?.then((value) {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      print('it is map');
+                                      PreferenceManager.setUserType('Buyer');
+                                      Get.to(SFirstUserInfoScreen(
+                                        email: email.text.trim(),
+                                      ))?.then((value) {
                                         print(
                                             '======EMAIL====${PreferenceManager.getEmail()}');
                                         PreferenceManager.getEmail();

@@ -154,17 +154,17 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                         ),
                                       ),
                                       SizedBox(
-                                        height: Get.height * 0.04,
+                                        height: Get.height * 0.02,
                                       ),
                                       Text(
                                         'Password',
                                         style: STextStyle.semiBold600Black13,
                                       ),
                                       SizedBox(
-                                        height: Get.height * 0.04,
+                                        height: Get.height * 0.025,
                                       ),
                                       Container(
-                                        height: Get.height * 0.06,
+                                        height: Get.height * 0.063,
                                         width: Get.width * 1,
                                         child: TextFormField(
                                           validator: (password) {
@@ -181,9 +181,6 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                           obscureText:
                                               selectedPass ? false : true,
                                           controller: pass,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(10)
-                                          ],
                                           keyboardType: TextInputType.text,
                                           decoration: InputDecoration(
                                               suffixIcon: IconButton(
@@ -207,17 +204,17 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                         ),
                                       ),
                                       SizedBox(
-                                        height: Get.height * 0.04,
+                                        height: Get.height * 0.025,
                                       ),
                                       Text(
                                         'Confirm Password',
                                         style: STextStyle.semiBold600Black13,
                                       ),
                                       SizedBox(
-                                        height: Get.height * 0.04,
+                                        height: Get.height * 0.02,
                                       ),
                                       Container(
-                                        height: Get.height * 0.07,
+                                        height: Get.height * 0.063,
                                         width: Get.width * 1,
                                         child: TextFormField(
                                           validator: (password) {
@@ -231,9 +228,6 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                           obscureText:
                                               selectedCPass ? false : true,
                                           controller: conPass,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(10)
-                                          ],
                                           decoration: InputDecoration(
                                             suffixIcon: IconButton(
                                               icon: Icon(
@@ -261,7 +255,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                 ),
                               ),
                               SizedBox(
-                                height: Get.height * 0.04,
+                                height: Get.height * 0.03,
                               ),
                               RichText(
                                 textAlign: TextAlign.start,
@@ -287,7 +281,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                 ),
                               ),
                               SizedBox(
-                                height: Get.height * 0.04,
+                                height: Get.height * 0.03,
                               ),
                               GestureDetector(
                                 onTap: () async {
@@ -304,13 +298,17 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                           .then((value) async {
                                         PreferenceManager.setEmail(email.text);
                                         print(
-                                            '--PRE_Email-${PreferenceManager.getEmail()}');
+                                            '-PRE_Email-${PreferenceManager.getEmail()}');
                                         PreferenceManager.getEmail();
                                         PreferenceManager.getUserType();
-                                        setState(() {
-                                          isLoading = false;
-                                        });
-                                      }).then((value) {
+                                        Get.showSnackbar(
+                                          GetSnackBar(
+                                            snackPosition: SnackPosition.BOTTOM,
+                                            duration: Duration(seconds: 5),
+                                            message:
+                                                'Sign up successfully done',
+                                          ),
+                                        );
                                         setState(() {
                                           isLoading = false;
                                         });
@@ -368,7 +366,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                   onTap: () {
                                     print('it is Signup with Mobile Number');
                                     // setState(() {
-                                    Get.to(() => BSignUpPhoneNumberScreen());
+                                    Get.to(BSignUpPhoneNumberScreen());
                                     // });
                                   },
                                   child: Container(
@@ -415,15 +413,11 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                       setState(() {
                                         isLoading = true;
                                       });
-                                      // PreferenceManager.getUId();
-                                      // PreferenceManager.getEmail();
-                                      // PreferenceManager.getName();
-                                      // PreferenceManager.getPhoneNumber();
                                       print('it is map');
                                       PreferenceManager.setUserType('Buyer');
-                                      Get.to(() => BFirstUserInfoScreen(
-                                            email: email.text.trim(),
-                                          ))?.then((value) {
+                                      Get.to(BFirstUserInfoScreen(
+                                        email: email.text.trim(),
+                                      ))?.then((value) {
                                         setState(() {
                                           isLoading = false;
                                         });

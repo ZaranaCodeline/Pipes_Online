@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_first_user_info_screen.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_phone_otp_screen.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_phone_otp_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
@@ -90,8 +90,10 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
           this.verificationCode = verificationId;
           print('---------verificationId-------$verificationId');
           print('---------this.verificationId-------${this.verificationCode}');
+
+          ///check
           Get.to(
-            BLoginPhoneOtpScreen(
+            SSignUpPhoneOtpScreen(
               phone: widget.phone,
               verificationId: verificationId,
             ),
@@ -110,7 +112,6 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
     print(
       'OTP Sent to ${BLogInController().countryCode}${widget.phone} ',
     );
-    // verificationOTPCode();
     verifyPhoneNumber();
   }
 
@@ -388,11 +389,10 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                                           print('Test:-2');
                                           PreferenceManager.getPhoneNumber();
                                           print(
-                                              '=========${PreferenceManager.getPhoneNumber()}');
-                                          await Get.to(
-                                              () => BFirstUserInfoScreen(
-                                                    phone: widget.phone,
-                                                  ))?.then((value) {
+                                              'PhoneNumber=========${PreferenceManager.getPhoneNumber()}');
+                                          await Get.to(BFirstUserInfoScreen(
+                                            phone: widget.phone,
+                                          ))?.then((value) {
                                             pinOTPController.clear();
                                           });
                                           setState(() {

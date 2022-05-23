@@ -3,14 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
-import 'package:otp_text_field/otp_text_field.dart';
-import 'package:otp_text_field/style.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_first_user_info_screen.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
-import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_first_user_info_screen.dart';
-import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_login_phone_otp_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
@@ -30,11 +25,8 @@ class SSignUpPhoneOtpScreen extends StatefulWidget {
 }
 
 class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
-  // GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
-
   final _scaffoldState = GlobalKey<ScaffoldState>();
 
-  // final _otpController = OtpFieldController();
   final TextEditingController pinOTPController = TextEditingController();
   final FocusNode _pinOTPCodeFocus = FocusNode();
   String? verificationCode;
@@ -48,7 +40,6 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
       final authCredential =
           await _auth.signInWithCredential(phoneAuthCredential);
 
-      // PreferenceManager.setTokenId(_auth.currentUser!.uid.toString());
       PreferenceManager.setUId(_auth.currentUser!.uid.toString());
 
       if (authCredential.user != null) {
@@ -64,58 +55,13 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
     }
   }
 
-  // Future<void> verificationOTPCode(String otp) async {
-  //   PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
-  //       verificationId: verificationCode!, smsCode: otp);
-  //   if (phoneAuthCredential == null) {
-  //     _scaffoldState.currentState!.showSnackBar(
-  //       SnackBar(
-  //         content: Text("Please enter valid otp"),
-  //       ),
-  //     );
-  //     return;
-  //   } else {
-  //     PreferenceManager.setPhoneNumber(widget.phone.toString());
-  //     print('phone=========>${widget.phone}');
-  //     Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => SFirstUserInfoScreen(
-  //           phone: widget.phone,
-  //         ),
-  //       ),
-  //     );
-  //   }
-  //   _auth.signInWithCredential(phoneAuthCredential).then((value) {
-  //     print("You are Signed in successfully");
-  //     Get.showSnackbar(GetSnackBar(
-  //       backgroundColor: SColorPicker.red,
-  //       duration: Duration(seconds: 2),
-  //       message: 'You are logged in successfully',
-  //     ));
-  //   });
-  //   ;
-  // }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print(
-      'OTP Sent to ${BLogInController().countryCode}${widget.phone} ',
-    );
-    // verificationOTPCode();
-    verifyPhoneNumber();
-  }
-
-  SLogInController sLogInController = Get.find();
+  SLogInController bLogInController = Get.find();
   Future sendOtp() async {
     print(
-        '========code===${sLogInController.countryCode}${PreferenceManager.getPhoneNumber()}');
-
+        '========code===${bLogInController.countryCode}${PreferenceManager.getPhoneNumber()}');
     await _auth.verifyPhoneNumber(
       phoneNumber:
-          sLogInController.countryCode.toString() + widget.phone.toString(),
+          bLogInController.countryCode.toString() + widget.phone.toString(),
       verificationCompleted: (phoneAuthCredential) async {
         setState(() {
           isLoading = false;
@@ -131,7 +77,7 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: SColorPicker.red,
             duration: Duration(seconds: 5),
-            message: verificationFailed.message,
+            message: 'The phone number entered is invalid',
           ),
         );
         print(
@@ -143,8 +89,10 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
           this.verificationCode = verificationId;
           print('---------verificationId-------$verificationId');
           print('---------this.verificationId-------${this.verificationCode}');
+
+          ///check
           Get.to(
-            SLoginPhoneOtpScreen(
+            SSignUpPhoneOtpScreen(
               phone: widget.phone,
               verificationId: verificationId,
             ),
@@ -155,6 +103,65 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
       codeAutoRetrievalTimeout: (verificationId) async {},
     );
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(
+      'OTP Sent to ${SLogInController().countryCode}${widget.phone} ',
+    );
+    verifyPhoneNumber();
+  }
+
+  // SLogInController sLogInController = Get.find();
+  // Future sendOtp() async {
+  //   print(
+  //       '========code===${sLogInController.countryCode}${PreferenceManager.getPhoneNumber()}');
+  //
+  //   await _auth.verifyPhoneNumber(
+  //     phoneNumber:
+  //         sLogInController.countryCode.toString() + widget.phone.toString(),
+  //     verificationCompleted: (phoneAuthCredential) async {
+  //       setState(() {
+  //         isLoading = false;
+  //       });
+  //     },
+  //     verificationFailed: (verificationFailed) async {
+  //       setState(() {
+  //         isLoading = false;
+  //       });
+  //       print('----verificationFailed---${verificationFailed.message}');
+  //       Get.showSnackbar(
+  //         GetSnackBar(
+  //           snackPosition: SnackPosition.BOTTOM,
+  //           backgroundColor: SColorPicker.red,
+  //           duration: Duration(seconds: 5),
+  //           message: verificationFailed.message,
+  //         ),
+  //       );
+  //       print(
+  //           'The phone number entered is invalid!====${verificationFailed.message}');
+  //     },
+  //     codeSent: (verificationId, resendingToken) async {
+  //       setState(() {
+  //         isLoading = false;
+  //         this.verificationCode = verificationId;
+  //         print('---------verificationId-------$verificationId');
+  //         print('---------this.verificationId-------${this.verificationCode}');
+  //         Get.to(
+  //           SLoginPhoneOtpScreen(
+  //             phone: widget.phone,
+  //             verificationId: verificationId,
+  //           ),
+  //         );
+  //
+  //         print('====${verificationId}');
+  //       });
+  //     },
+  //     codeAutoRetrievalTimeout: (verificationId) async {},
+  //   );
+  // }
 
   verifyPhoneNumber() async {
     await FirebaseAuth.instance
@@ -167,7 +174,10 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
                 if (value.user != null) {
                   String? uid = FirebaseAuth.instance.currentUser!.uid;
                   PreferenceManager.setUId(uid);
-                  Get.to(BFirstUserInfoScreen());
+                  PreferenceManager.setPhoneNumber(widget.phone.toString());
+                  Get.to(SFirstUserInfoScreen());
+                  PreferenceManager.getPhoneNumber();
+                  print('---PHONE--${PreferenceManager.getPhoneNumber()}');
                   setState(() {
                     isLoading = false;
                   });
@@ -187,10 +197,6 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
                   message: e.message.toString(),
                 ),
               );
-              // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              //   content: Text(e.message.toString()),
-              //   duration: Duration(seconds: 5),
-              // ));
             },
             codeSent: (String? vID, int? resendToken) {
               setState(() {
@@ -209,7 +215,7 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
             print('P========${widget.phone.toString()}');
 
             if (PreferenceManager.getUId() != null) {
-              BFirstUserInfoScreen();
+              SFirstUserInfoScreen();
             }
             Get.snackbar('Oops', 'Invalid OTP');
           }),
@@ -224,6 +230,7 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
     // TODO: implement dispose
     super.dispose();
     pinOTPController.clear();
+    pinOTPController.dispose();
   }
 
   @override
@@ -424,10 +431,11 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
                                           PreferenceManager.getPhoneNumber();
                                           print(
                                               '=========${PreferenceManager.getPhoneNumber()}');
-                                          await Get.to(
-                                              () => SFirstUserInfoScreen(
-                                                    phone: widget.phone,
-                                                  ));
+                                          await Get.to(SFirstUserInfoScreen(
+                                            phone: widget.phone,
+                                          ))?.then((value) {
+                                            pinOTPController.clear();
+                                          });
                                         } else {
                                           print('Test:-3');
                                           GetSnackBar(

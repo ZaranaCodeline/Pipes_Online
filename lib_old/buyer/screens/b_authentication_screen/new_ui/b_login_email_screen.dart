@@ -13,6 +13,7 @@ import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 class BLoginEmailScreen extends StatefulWidget {
@@ -156,14 +157,7 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                                   r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
                                               if (password!.isEmpty) {
                                                 return 'Please enter password';
-                                              }
-                                              /*else if (!isPasswordValid(
-                                                password)) {
-                                              return 'Enter a valid password';
-                                            } else if (password.length < 6) {
-                                              return 'Password must be altest 6 degit';
-                                            }*/
-                                              else if (!regex
+                                              } else if (!regex
                                                   .hasMatch(password)) {
                                                 return 'Password must be Formatted';
                                               }
@@ -180,8 +174,7 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                         ),
                                         TextButton(
                                           onPressed: () {
-                                            Get.to(
-                                                () => BForgotPasswordScreen());
+                                            Get.to(BForgotPasswordScreen());
                                           },
                                           child: CustomText(
                                             alignment: Alignment.topLeft,
@@ -198,32 +191,6 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                     ),
                                   ),
                                 ),
-
-                                // RichText(
-                                //   textAlign: TextAlign.start,
-                                //   text: TextSpan(
-                                //     children: [
-                                //       TextSpan(
-                                //         text: 'By continuing, you agree to the',
-                                //         style: STextStyle.regular600Black11,
-                                //       ),
-                                //       TextSpan(
-                                //           text: ' terms and conditions',
-                                //           style: STextStyle.semiBold600Purple11,
-                                //           recognizer: TapGestureRecognizer()
-                                //             ..onTap = () {
-                                //               Get.to(() =>
-                                //                   TermsAndConditionPage());
-                                //               print('Terms and Conditons');
-                                //             }),
-                                //       TextSpan(
-                                //         text: ' of this app.',
-                                //         style: STextStyle.regular600Black11,
-                                //       ),
-                                //     ],
-                                //   ),
-                                // ),
-
                                 GestureDetector(
                                   onTap: () async {
                                     print('login click');
@@ -236,54 +203,30 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                           'login email========>${email.text.toString()}');
                                       print(
                                           'login password========>${pass.text.toString()}');
-                                      // SharedPreferences sp =
-                                      //     await SharedPreferences.getInstance();
-                                      // sp.setString('email', email.text);
-
+                                      SharedPreferences sp =
+                                          await SharedPreferences.getInstance();
+                                      sp.setString('email', email.text);
+                                      formGlobalKey.currentState!.save();
                                       BRegisterRepo()
-                                          .LogIn(email.text, pass.text)
-                                          .then((value) async {
-                                        setState(() {
-                                          isLoading = true;
-                                        });
-                                        print('login succefully');
+                                          .LogIn(email.text.trim().toString(),
+                                              pass.text.trim().toString())
+                                          .then((value) {
+                                        email.clear();
+                                        pass.clear();
+                                      }).catchError((e) {
                                         setState(() {
                                           isLoading = false;
                                         });
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                                'The login is invalid.Please Try again'),
+                                            backgroundColor: Colors.redAccent,
+                                          ),
+                                        );
                                       });
-                                      formGlobalKey.currentState!.save();
                                     }
-                                    // setState(() {
-                                    //   isLoading = true;
-                                    // });
-                                    // await sendOtp(_auth).then(
-                                    //   (value) => Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //       builder: (context) => VerifyOTP(),
-                                    //     ),
-                                    //   ),
-                                    // );
-                                    // isLoading = true;
-                                    // if (phoneNumber.text.isNotEmpty) {
-                                    //   if (otpCodeVisible) {
-                                    //     // verify();
-                                    //     verifyCode();
-                                    //   } else {
-                                    //     await phoneSignIn(
-                                    //         phoneNumber: phoneNumber.text);
-                                    //   }
-
-                                    //   await sendOtp(_auth).then(
-                                    //         (value) => Navigator.push(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             VerifyOTP(),
-                                    //       ),
-                                    //     ),
-                                    //   );
-                                    // } else {}
                                   },
                                   child: Container(
                                     alignment: Alignment.center,
@@ -321,35 +264,6 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                           ),
                                   ),
                                 ),
-                                // Padding(
-                                //   padding:
-                                //       EdgeInsets.symmetric(horizontal: 40.sp),
-                                //   child: SCommonButton().sCommonPurpleButton(
-                                //     name: otpCodeVisible ? "Login" : "Verify",
-                                //     onTap: () async {
-                                // isLoading = true;
-                                // if (phoneNumber.text.isNotEmpty) {
-                                //   // if (otpCodeVisible) {
-                                //   //   // verify();
-                                //   //   verifyCode();
-                                //   // } else {
-                                //   //   await phoneSignIn(
-                                //   //       phoneNumber: phoneNumber.text);
-                                //   // }
-                                //
-                                //   await sendOtp(_auth).then(
-                                //     (value) => Navigator.push(
-                                //       context,
-                                //       MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             VerifyOTP(),
-                                //       ),
-                                //     ),
-                                //   );
-                                // } else {}
-                                // },
-                                //   ),
-                                // ),
                                 SizedBox(
                                   height: Get.height * 0.04,
                                 ),
@@ -394,7 +308,6 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                     ),
                                   ),
                                 ),
-
                                 SizedBox(height: Get.height * 0.04),
                                 Center(
                                   child: GestureDetector(

@@ -17,7 +17,6 @@ import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 import '../app_constant/app_colors.dart';
-import '../view_model/geolocation_controller.dart';
 import 'b_my_order_page.dart';
 import 'b_review_info_screen.dart';
 import 'b_settings_page.dart';
@@ -27,14 +26,12 @@ class CustomDrawerWidget extends StatefulWidget {
   CustomDrawerWidget({
     Key? key,
   }) : super(key: key);
-
   @override
   State<CustomDrawerWidget> createState() => _CustomDrawerWidgetState();
 }
 
 class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
   BDrawerController bDrawerController = Get.put(BDrawerController());
-  GeolocationController _controller = Get.find();
   TextEditingController? _address;
 
   CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
@@ -43,29 +40,23 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
   String? Img;
   String? address;
 
-  getData() async {
-    print('demo seller.....');
-    final user = FirebaseFirestore.instance
-        .collection('BProfile')
-        .doc(PreferenceManager.getUId())
-        .get();
+  Future<void> getData() async {
+    print('demo buyer.....');
+    final user =
+        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
+    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
 
-    // setState(() {
-    //   name = getUserData?['user_name'];
-    //   phoneNo = getUserData?['phoneno'];
-    //   Img = getUserData?['imageProfile'];
-    //   address = getUserData?['address'];
-    // });
-    // await PreferenceManager.setName(name.toString());
-    // await PreferenceManager.setPhoneNumber(phoneNo.toString());
-    // await PreferenceManager.setUserImg(Img.toString());
-    // await PreferenceManager.setAddress(address.toString());
-    // print('=======SDrawerScreen=======${getUserData}');
-
-    // print('=======SDrawerScreen===========${user.get('$name')}');
-    // print('=======SDrawerScreen=======${user.get('$phoneNo')}');
-    // print('=======SDrawerScreen=======${user.get('$Img')}');
-    // print('=======SDrawerScreen======${user.get('$address')}');
+    setState(() {
+      name = getUserData?['user_name'];
+      phoneNo = getUserData?['phoneno'];
+      Img = getUserData?['imageProfile'];
+      address = getUserData?['address'];
+    });
+    /*print('=======SDrawerScreen=======${getUserData}');
+    print('=======SDrawerScreen===========${user.get('$name')}');
+    print('=======SDrawerScreen=======${user.get('$phoneNo')}');
+    print('=======SDrawerScreen=======${user.get('$Img')}');
+    print('=======SDrawerScreen======${user.get('$address')}');*/
   }
 
   // Future<void> getData() async {
@@ -86,7 +77,9 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
 
   @override
   void initState() {
+    getData();
     super.initState();
+    print('======BDrawerScreen=======${PreferenceManager.getUId()}');
   }
 
   @override
@@ -95,53 +88,31 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
       backgroundColor: AppColors.drawerColor,
       child: GetBuilder<BDrawerController>(
         builder: (controller) {
-          return Container(
-            height: Get.height,
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  FutureBuilder<DocumentSnapshot>(
-                    future: FirebaseFirestore.instance
-                        .collection('BProfile')
-                        .doc(PreferenceManager.getUId().toString())
-                        .get(),
-                    builder: (BuildContext context, snapshot) {
-                      if (snapshot.hasData) {
-                        var output = snapshot.data;
-                        print('SNAPSHOT PHONE NO ${output?['phoneno']}');
-
-                        return builtTopItem(
-                          urlImage: output!['imageProfile'] ??
-                              'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
-                          name: output['user_name'] ?? '',
-                          phone: output['phoneno'] ?? "+00 0000000000",
-                          onClicked: () {
-                            bottomBarIndexController.setSelectedScreen(
-                                value: 'PersonalInfoPage');
-                            bottomBarIndexController.bottomIndex.value = 3;
-                          },
-                        );
-                      } else {
-                        return SizedBox();
-                      }
-                    },
-                  ),
-
-                  ///TODO Address
-                  FutureBuilder<DocumentSnapshot>(
-                    future: FirebaseFirestore.instance
-                        .collection('BProfile')
-                        .doc(PreferenceManager.getUId())
-                        .get(),
-                    builder: (BuildContext context, snapshot) {
-                      if (snapshot.hasData) {
-                        var output = snapshot.data;
-                        print('SNAPSHOT ${output?['phoneno']}');
-
-                        return Container(
+          return Center(
+            child: ListView(
+              children: [
+                builtTopItem(
+                  urlImage: Img
+                      .toString() /*??
+                      'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'*/
+                  ,
+                  name: name.toString(),
+                  phone: phoneNo.toString() /*?? "+00 0000000000"*/,
+                  onClicked: () {
+                    bottomBarIndexController.setSelectedScreen(
+                        value: 'PersonalInfoPage');
+                    bottomBarIndexController.bottomIndex.value = 3;
+                  },
+                ),
+                Container(
+                  height: Get.height,
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Container(
                           margin: EdgeInsets.symmetric(
                             horizontal: 15.sp,
                           ),
@@ -171,7 +142,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                                       cursorColor: AppColors.primaryColor,
                                       decoration: InputDecoration(
                                           border: InputBorder.none,
-                                          hintText: output?['address']),
+                                          hintText: address),
                                     ),
                                   ),
                                 ),
@@ -191,59 +162,57 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                                   ),
                                 )
                               ]),
-                        );
-                      } else {
-                        return SizedBox();
-                      }
-                    },
+                        ),
+                        SizedBox(height: Get.height * 0.01),
+                        buildMenuItem(
+                          text: 'Home',
+                          imageName: BImagePick.homeIcon,
+                          onClicked: () => selectedItem(context, 0),
+                        ),
+                        // SizedBox(height: Get.height * 0.005),
+                        buildMenuItem(
+                          text: 'Settings',
+                          imageName: BImagePick.settingIcon,
+                          onClicked: () => selectedItem(context, 1),
+                        ),
+                        // SizedBox(height: Get.height * 0.01),
+                        buildMenuItem(
+                          text: 'My Orders',
+                          imageName: BImagePick.MyOrderIcon,
+                          onClicked: () => selectedItem(context, 2),
+                        ),
+                        // SizedBox(height: Get.height * 0.01),
+                        buildMenuItem(
+                          text: 'Reviews',
+                          imageName: BImagePick.ReviewsIcon,
+                          onClicked: () => selectedItem(context, 3),
+                        ),
+                        // SizedBox(height: Get.height * 0.01),
+                        buildMenuItem(
+                          text: 'Help Center',
+                          imageName: BImagePick.HelpCenterIcon,
+                          onClicked: () => selectedItem(context, 4),
+                        ),
+                        // SizedBox(height: Get.height * 0.01),
+                        buildMenuItem(
+                          text: 'Terms & Conditions',
+                          imageName: BImagePick.TermsAndConditionIcon,
+                          onClicked: () => selectedItem(context, 5),
+                        ),
+                        // SizedBox(height: Get.height * 0.01),
+                        buildMenuItem(
+                          text: 'Logout',
+                          imageName: BImagePick.LogOutIcon,
+                          onClicked: () => selectedItem(context, 6),
+                        ),
+                        // SizedBox(
+                        //   height: Get.height * 0.05,
+                        // )
+                      ],
+                    ),
                   ),
-                  SizedBox(height: Get.height * 0.01),
-                  buildMenuItem(
-                    text: 'Home',
-                    imageName: BImagePick.homeIcon,
-                    onClicked: () => selectedItem(context, 0),
-                  ),
-                  // SizedBox(height: Get.height * 0.005),
-                  buildMenuItem(
-                    text: 'Settings',
-                    imageName: BImagePick.settingIcon,
-                    onClicked: () => selectedItem(context, 1),
-                  ),
-                  // SizedBox(height: Get.height * 0.01),
-                  buildMenuItem(
-                    text: 'My Orders',
-                    imageName: BImagePick.MyOrderIcon,
-                    onClicked: () => selectedItem(context, 2),
-                  ),
-                  // SizedBox(height: Get.height * 0.01),
-                  buildMenuItem(
-                    text: 'Reviews',
-                    imageName: BImagePick.ReviewsIcon,
-                    onClicked: () => selectedItem(context, 3),
-                  ),
-                  // SizedBox(height: Get.height * 0.01),
-                  buildMenuItem(
-                    text: 'Help Center',
-                    imageName: BImagePick.HelpCenterIcon,
-                    onClicked: () => selectedItem(context, 4),
-                  ),
-                  // SizedBox(height: Get.height * 0.01),
-                  buildMenuItem(
-                    text: 'Terms & Conditions',
-                    imageName: BImagePick.TermsAndConditionIcon,
-                    onClicked: () => selectedItem(context, 5),
-                  ),
-                  // SizedBox(height: Get.height * 0.01),
-                  buildMenuItem(
-                    text: 'Logout',
-                    imageName: BImagePick.LogOutIcon,
-                    onClicked: () => selectedItem(context, 6),
-                  ),
-                  // SizedBox(
-                  //   height: Get.height * 0.05,
-                  // )
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },
@@ -374,12 +343,8 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
         break;
       case 6:
         FirebaseAuth.instance.signOut();
-        // PreferenceManager.clearData();
         BRegisterRepo.bLogOut;
-        logOutFormGoogle()
-            // BAuthMethods.logOut()
-            .then((value) => Get.off(() => SBuyerSellerScreen()));
-
+        logOutFormGoogle().then((value) => Get.off(SBuyerSellerScreen()));
         break;
     }
   }

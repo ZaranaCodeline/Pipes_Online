@@ -6,8 +6,6 @@ import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_login_email_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_email_screen.dart';
-import 'package:pipes_online/seller/view/s_authentication_screen/s_login_creen.dart';
-import 'package:pipes_online/seller/view/s_authentication_screen/s_ragistraion_screen.dart';
 import 'package:sizer/sizer.dart';
 
 class SWelcomeScreen extends StatefulWidget {
@@ -51,7 +49,7 @@ class _SWelcomeScreenState extends State<SWelcomeScreen> {
                     child: SCommonButton().sCommonPurpleButton(
                       name: 'Sign up',
                       onTap: () {
-                        Get.to(() => SSignUpEmailScreen());
+                        Get.to(SSignUpEmailScreen());
                       },
                     ),
                   ),
@@ -60,7 +58,7 @@ class _SWelcomeScreenState extends State<SWelcomeScreen> {
                     child: SCommonButton().sCommonPurpleButton(
                       name: 'Login',
                       onTap: () {
-                        Get.to(() => SLoginEmailScreen());
+                        Get.to(SLoginEmailScreen());
                         // Get.toNamed(SRoutes.SLoginScreen);
                       },
                     ),

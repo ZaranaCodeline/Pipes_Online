@@ -34,7 +34,6 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
   FirebaseAuth _auth = FirebaseAuth.instance;
   BLogInController bLogInController = Get.find();
   final _phoneController = TextEditingController();
-  final _globalKey = GlobalKey<ScaffoldState>();
 
   Future sendOtp() async {
     print(
@@ -79,7 +78,7 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
           )?.then((value) {
             _phoneController.clear();
           });
-          print('====${verificationId}');
+          print('verificationId====${verificationId}');
         });
       },
       codeAutoRetrievalTimeout: (verificationId) async {},
@@ -309,9 +308,7 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                   child: GestureDetector(
                                     onTap: () {
                                       print('it is Signup with Email');
-                                      // setState(() {
                                       Get.to(BSignUpEmailScreen());
-                                      // });
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(12.sp),
@@ -351,9 +348,6 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                   child: GestureDetector(
                                     onTap: () {
                                       loginwithgoogle();
-                                      // setState(() {
-                                      //   Get.to(MapsScreen());
-                                      // });
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(12.sp),
@@ -404,8 +398,7 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
                                                 print('=====>Login');
-                                                Get.off(
-                                                    () => BLoginEmailScreen());
+                                                Get.off(BLoginEmailScreen());
                                               }),
                                       ],
                                     ),

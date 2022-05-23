@@ -4,15 +4,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/b_cart_bottom_bar_route.dart';
-import 'package:pipes_online/buyer/view_model/cart_product_controller.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
+
 import '../app_constant/app_colors.dart';
+import 'b_categories_card_list.dart';
 import 'b_drawer_screen.dart';
 import 'custom_widget/custom_search_widget.dart';
 import 'custom_widget/custom_text.dart';
-import 'b_categories_card_list.dart';
 import 'product_card_list.dart';
 
 class CatelogeHomeWidget extends StatefulWidget {
@@ -27,6 +27,7 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print('--User Name ${PreferenceManager.getName()}');
   }
 
   @override

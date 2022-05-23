@@ -5,18 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
-import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view_model/s_edit_product_controller.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../app_constant/app_colors.dart';
-import 'b_carousel_slider.dart';
 import 'b_selected_product_build_top_widget.dart';
-import 'custom_widget/custom_text.dart';
 import 'b_seller_review_widget.dart';
+import 'custom_widget/custom_text.dart';
 
 class SelectedProductWidget extends StatefulWidget {
   final String? name, image, desc, price, category, productID;
@@ -37,10 +36,6 @@ class SelectedProductWidget extends StatefulWidget {
 
 class _SelectedProductWidgetState extends State<SelectedProductWidget> {
   var rating = 3.0;
-  // final List<String> imageList = [
-  //   'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cart_page.png?alt=media&token=6a4d6e9a-51b3-449a-a2bd-eb54dcec0803',
-  //   'https://firebasestorage.googleapis.com/v0/b/pipesonline-b2a41.appspot.com/o/cart_page.png?alt=media&token=6a4d6e9a-51b3-449a-a2bd-eb54dcec0803',
-  // ];
 
   String? firstname;
   String? email;
@@ -72,12 +67,9 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
     print('========SelectedProductWidget===========${getUserData}');
   }
 
-  // SelectedProductController controller = Get.put(SelectedProductController());
-
   @override
   void initState() {
     print('============profileCollection==========${profileCollection}');
-
     // TODO: implement initState
     super.initState();
     getData();
@@ -105,11 +97,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                           fit: BoxFit.cover,
                           width: double.infinity,
                         ),
-                      )
-                      /* CustomCarouselSliderWidget(
-                        image: widget.image.toString(),
-                      )*/
-                      ,
+                      ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5.sp),
                         child: BackButton(
@@ -186,95 +174,124 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                                   ),
                                 )
                               : Container(
-                                  child: SvgPicture.asset(
-                                    "${SImagePick.uploadImageIcon}",
+                                  child: Image.network(
+                                    "https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png",
+                                    width: 30.sp,
+                                    height: 30.sp,
                                   ),
                                 ),
-                          /* Image.network(
-                            // editProductContoller.images
-                            // editProductContoller.selectedImage
-                            Img == null
-                                ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
-                                : Img!,
-                            fit: BoxFit.cover,
-                            width: 30.sp,
-                            height: 30.sp,
-                            // color: AppColors.primaryColor,
-                          ),*/
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomRichTextSpanWidget(
-                              color1: AppColors.secondaryBlackColor,
-                              name1: firstname.toString(),
-                              name2: '  (6 listings)',
-                              color2: AppColors.hintTextColor,
-                              fontsize: 12.sp,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 5.sp),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  CustomText(
-                                    text: rating.toString(),
-                                    color: AppColors.secondaryBlackColor,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  SmoothStarRating(
-                                      allowHalfRating: false,
-                                      onRatingChanged: (v) {
-                                        setState(() {
-                                          rating = v;
-                                        });
+                        SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: Get.height * 0.03,
+                                // width: Get.width * 0.2,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    CustomText(
+                                      text: firstname != null
+                                          ? firstname.toString()
+                                          : 'John',
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15.sp,
+                                      color: AppColors.secondaryBlackColor,
+                                      textOverflow: TextOverflow.ellipsis,
+                                      max: 1,
+                                    ),
+                                    SizedBox(
+                                      width: Get.width * 0.1,
+                                    ),
+                                    StreamBuilder<QuerySnapshot>(
+                                      stream: FirebaseFirestore.instance
+                                          .collection('Products')
+                                          .snapshots(),
+                                      builder: (context, snapShot) {
+                                        if (snapShot.hasData) {
+                                          var proLength = snapShot
+                                              .data?.docs.length
+                                              .toString();
+                                          print('--length--${proLength}');
+                                          return CustomText(
+                                              text:
+                                                  '${proLength.toString()} Listings',
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 10.sp,
+                                              color: AppColors.hintTextColor);
+                                        }
+                                        return SizedBox();
                                       },
-                                      starCount: 5,
-                                      // rating: rating,
-                                      size: 18.0.sp,
-                                      rating: rating,
-                                      filledIconData: Icons.star,
-                                      halfFilledIconData: Icons.blur_on,
-                                      color: AppColors.starRatingColor,
-                                      borderColor: AppColors.starRatingColor,
-                                      spacing: 0.0),
-                                  StreamBuilder<QuerySnapshot>(
-                                    stream: FirebaseFirestore.instance
-                                        .collection("Reviews")
-                                        .doc(PreferenceManager.getUId()
-                                            .toString())
-                                        .collection('ReviewID')
-                                        .snapshots(),
-                                    builder: (context, snapShot) {
-                                      if (snapShot.hasData) {
-                                        print(
-                                            'length=====${snapShot.data!.docs.length}');
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 5.sp),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    CustomText(
+                                      text: rating.toString(),
+                                      color: AppColors.secondaryBlackColor,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    SmoothStarRating(
+                                        allowHalfRating: false,
+                                        onRatingChanged: (v) {
+                                          setState(() {
+                                            rating = v;
+                                          });
+                                        },
+                                        starCount: 5,
+                                        // rating: rating,
+                                        size: 18.0.sp,
+                                        rating: rating,
+                                        filledIconData: Icons.star,
+                                        halfFilledIconData: Icons.blur_on,
+                                        color: AppColors.starRatingColor,
+                                        borderColor: AppColors.starRatingColor,
+                                        spacing: 0.0),
+                                    StreamBuilder<QuerySnapshot>(
+                                      stream: FirebaseFirestore.instance
+                                          .collection("Reviews")
+                                          .doc(PreferenceManager.getUId()
+                                              .toString())
+                                          .collection('ReviewID')
+                                          .snapshots(),
+                                      builder: (context, snapShot) {
+                                        if (snapShot.hasData) {
+                                          print(
+                                              'length=====${snapShot.data!.docs.length}');
+                                          return CustomText(
+                                              text:
+                                                  '${snapShot.data!.docs.length} Reviews ',
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 12.sp,
+                                              color: AppColors
+                                                  .secondaryBlackColor);
+                                        }
                                         return CustomText(
-                                            text:
-                                                '${snapShot.data!.docs.length} Reviews ',
+                                            text: '(Reviews)',
                                             fontWeight: FontWeight.w600,
                                             fontSize: 12.sp,
                                             color:
                                                 AppColors.secondaryBlackColor);
-                                      }
-                                      return CustomText(
-                                          text: '(Reviews)',
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12.sp,
-                                          color: AppColors.secondaryBlackColor);
-                                    },
-                                  )
-                                  /* CustomText(
-                                      text: '(14 reviews)',
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12.sp,
-                                      color: AppColors.secondaryBlackColor),*/
-                                ],
+                                      },
+                                    )
+                                    /* CustomText(
+                                        text: '(14 reviews)',
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12.sp,
+                                        color: AppColors.secondaryBlackColor),*/
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         SizedBox(
                           width: Get.width * 0.005.sp,

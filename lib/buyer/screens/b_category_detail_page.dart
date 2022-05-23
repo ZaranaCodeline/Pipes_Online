@@ -22,6 +22,13 @@ class BCategoryDetailsPage extends StatefulWidget {
 class _BCategoryDetailsPageState extends State<BCategoryDetailsPage> {
   BBottomBarIndexController controller = Get.put(BBottomBarIndexController());
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('CATEGORY---${widget.category.toString()}');
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -50,7 +57,6 @@ class _BCategoryDetailsPageState extends State<BCategoryDetailsPage> {
           ),
         ),
         body: Container(
-          // height: Get.height * 5.sp,
           padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 10.sp),
           child: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
@@ -65,7 +71,7 @@ class _BCategoryDetailsPageState extends State<BCategoryDetailsPage> {
                   ),
                 );
               } else if (snapShot.data!.docs.isEmpty) {
-                print('has not  data');
+                print('has not data');
                 return Center(
                   child: Container(
                     width: Get.width * 0.6,
@@ -83,7 +89,9 @@ class _BCategoryDetailsPageState extends State<BCategoryDetailsPage> {
                     ),
                   ),
                 );
-              } else if (!snapShot.hasData) {
+              }
+              if (snapShot.hasData) {
+                print('-----------call----------');
                 return GridView.builder(
                     physics: BouncingScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -96,15 +104,17 @@ class _BCategoryDetailsPageState extends State<BCategoryDetailsPage> {
                       print('LENGTH ${snapShot.data!.docs.length}');
                       return GestureDetector(
                         onTap: () {
-                          print('gfvf');
+                          print('has data');
                           print('DATA OF ID${snapShot.data!.docs[index].id}');
-                          Get.to(SelectedProductWidget(
-                            name: snapShot.data!.docs[index]['prdName'],
-                            price: snapShot.data!.docs[index]['price'],
-                            image: snapShot.data!.docs[index]['imageProfile'],
-                            desc: snapShot.data!.docs[index]['dsc'],
-                            category: widget.category,
-                          ));
+                          Get.to(
+                            SelectedProductWidget(
+                              name: snapShot.data!.docs[index]['prdName'],
+                              price: snapShot.data!.docs[index]['price'],
+                              image: snapShot.data!.docs[index]['imageProfile'],
+                              desc: snapShot.data!.docs[index]['dsc'],
+                              category: widget.category,
+                            ),
+                          );
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -112,21 +122,21 @@ class _BCategoryDetailsPageState extends State<BCategoryDetailsPage> {
                             width: Get.width * 0.4,
                             height: Get.height * 0.26,
                             decoration: BoxDecoration(
-                                color: AppColors.commonWhiteTextColor,
-                                borderRadius:
-                                    BorderRadius.circular(Get.width * 0.05),
-                                boxShadow: [
-                                  BoxShadow(
-                                    blurRadius: 1,
-                                    color: SColorPicker.fontGrey,
-                                  )
-                                ]),
+                              color: AppColors.commonWhiteTextColor,
+                              borderRadius:
+                                  BorderRadius.circular(Get.width * 0.05),
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 1,
+                                  color: SColorPicker.fontGrey,
+                                ),
+                              ],
+                            ),
                             child: Column(
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
-                                    //width: Get.width * 0.35,height: Get.height*0.1,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(
                                           Get.width * 0.02),

@@ -92,182 +92,177 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
     }
 
     return WillPopScope(
-        child: SafeArea(
-          child: Scaffold(
-            key: _scaffoldKey,
-            appBar: PreferredSize(
-                preferredSize: Size.fromHeight(Get.height * 0.17),
-                child: Container(
-                  height: Get.height * 0.17,
-                  decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
-                      borderRadius: BorderRadius.vertical(
-                        bottom: Radius.circular(Get.width * 0.070),
+      child: SafeArea(
+        child: Scaffold(
+          key: _scaffoldKey,
+          appBar: PreferredSize(
+              preferredSize: Size.fromHeight(Get.height * 0.17),
+              child: Container(
+                height: Get.height * 0.17,
+                decoration: BoxDecoration(
+                    color: AppColors.primaryColor,
+                    borderRadius: BorderRadius.vertical(
+                      bottom: Radius.circular(Get.width * 0.070),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 1),
+                          blurRadius: 11,
+                          spreadRadius: 1)
+                    ]),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: Get.height * 0.07,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: Get.width * 0.05),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            //padding: EdgeInsets.only(left: 15.sp),
+                            icon: SvgPicture.asset(
+                              'assets/images/svg/drawer_icon.svg',
+                              width: 15.sp,
+                              height: 15.sp,
+                              color: AppColors.commonWhiteTextColor,
+                            ),
+                            onPressed: () =>
+                                _scaffoldKey.currentState?.openDrawer(),
+                          ),
+                          Container(
+                              margin: EdgeInsets.only(
+                                  right: 10.sp, bottom: 5.sp, top: 5.sp),
+                              child: Image.asset(
+                                'assets/images/png/pipe_logo.png',
+                                fit: BoxFit.cover,
+                              )),
+                          InkWell(
+                            onTap: () {
+                              bottomBarIndexController.setSelectedScreen(
+                                  value: 'ProductCartScreen');
+                              bottomBarIndexController.bottomIndex.value = 1;
+                              // Get.to(() => ProductCartScreen());
+                            },
+                            child: Stack(
+                              children: [
+                                Container(
+                                  height: Get.height * 0.05,
+                                  child: Icon(
+                                    Icons.shopping_cart_outlined,
+                                    color: SColorPicker.white,
+                                    size: 21.sp,
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 2.sp,
+                                  left: 0,
+                                  right: 0,
+                                  child: Container(
+                                    width: 10.sp,
+                                    height: 10.sp,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppColors.commonWhiteTextColor,
+                                    ),
+                                    child: StreamBuilder<QuerySnapshot>(
+                                      stream: FirebaseFirestore.instance
+                                          .collection('Cart')
+                                          .doc(PreferenceManager.getUId())
+                                          .collection('MyCart')
+                                          .snapshots(),
+                                      builder: (context, snapShot) {
+                                        if (snapShot.hasData) {
+                                          print(
+                                              '=====home_screen_cart_length=====${snapShot.data!.docs.length}');
+                                          return CustomText(
+                                            text: snapShot.data!.docs.length
+                                                .toString(),
+                                            fontSize: 10.sp,
+                                            fontWeight: FontWeight.w700,
+                                            color:
+                                                AppColors.secondaryBlackColor,
+                                            textAlign: TextAlign.center,
+                                          );
+                                        }
+                                        return Container();
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black12,
-                            offset: Offset(0, 1),
-                            blurRadius: 11,
-                            spreadRadius: 1)
-                      ]),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: Get.height * 0.07,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: Get.width * 0.05),
+                    ),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: Get.width * 0.05),
+                      height: Get.height * 0.1,
+                      //color: Colors.green,
+                      child: SingleChildScrollView(
                         child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            IconButton(
-                              //padding: EdgeInsets.only(left: 15.sp),
-                              icon: SvgPicture.asset(
-                                'assets/images/svg/drawer_icon.svg',
-                                width: 15.sp,
-                                height: 15.sp,
-                                color: AppColors.commonWhiteTextColor,
-                              ),
-                              onPressed: () =>
-                                  _scaffoldKey.currentState?.openDrawer(),
-                            ),
-                            Container(
-                                margin: EdgeInsets.only(
-                                    right: 10.sp, bottom: 5.sp, top: 5.sp),
-                                child: Image.asset(
-                                  'assets/images/png/pipe_logo.png',
-                                  fit: BoxFit.cover,
-                                )),
-                            InkWell(
+                            CustomHomeSearchWidget(),
+                            GestureDetector(
                               onTap: () {
-                                bottomBarIndexController.setSelectedScreen(
-                                    value: 'ProductCartScreen');
-                                bottomBarIndexController.bottomIndex.value = 1;
-                                // Get.to(() => ProductCartScreen());
+                                print('FILTER');
+                                _showPopupMenu();
                               },
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    height: Get.height * 0.05,
-                                    child: Icon(
-                                      Icons.shopping_cart_outlined,
-                                      color: SColorPicker.white,
-                                      size: 21.sp,
-                                    ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8.sp),
+                                child: Container(
+                                  width: Get.width / 6,
+                                  height: Get.height * 0.06,
+                                  color: AppColors.commonWhiteTextColor,
+                                  child: Icon(
+                                    Icons.filter_alt_outlined,
+                                    color: AppColors.primaryColor,
+                                    size: 22.sp,
                                   ),
-                                  Positioned(
-                                    top: 2.sp,
-                                    left: 0,
-                                    right: 0,
-                                    child: Container(
-                                      width: 10.sp,
-                                      height: 10.sp,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: AppColors.commonWhiteTextColor,
-                                      ),
-                                      child: StreamBuilder<QuerySnapshot>(
-                                        stream: FirebaseFirestore.instance
-                                            .collection('Cart')
-                                            .doc(PreferenceManager.getUId())
-                                            .collection('MyCart')
-                                            .snapshots(),
-                                        builder: (context, snapShot) {
-                                          if (snapShot.hasData) {
-                                            print(
-                                                'length=====${snapShot.data!.docs.length}');
-                                            return CustomText(
-                                              text: snapShot.data!.docs.length
-                                                  .toString(),
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color:
-                                                  AppColors.secondaryBlackColor,
-                                              textAlign: TextAlign.center,
-                                            );
-                                          }
-                                          return Container();
-                                          //   Center(
-                                          //   child: CircularProgressIndicator(
-                                          //     color: AppColors.primaryColor,
-                                          //   ),
-                                          // );
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: Get.width * 0.05),
-                        height: Get.height * 0.1,
-                        //color: Colors.green,
-                        child: SingleChildScrollView(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const CustomHomeSearchWidget(),
-                              GestureDetector(
-                                onTap: () {
-                                  print('FILTER');
-                                  _showPopupMenu();
-                                  // CustomHoverPopupFilterWidget();
-                                },
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.sp),
-                                  child: Container(
-                                    width: Get.width / 6,
-                                    height: Get.height * 0.06,
-                                    color: AppColors.commonWhiteTextColor,
-                                    child: Icon(
-                                      Icons.filter_alt_outlined,
-                                      color: AppColors.primaryColor,
-                                      size: 22.sp,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )),
-            drawer: CustomDrawerWidget(),
-            body: Column(
-              children: [
-                SizedBox(
-                  height: Get.height * 0.02,
+                    ),
+                  ],
                 ),
-                CustomTitleText(
-                  text: 'Categories',
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                  alignment: Alignment.topLeft,
-                ),
-                SizedBox(
-                  height: Get.height * 0.01,
-                ),
-                CategoriesCardList(),
-                SizedBox(
-                  height: Get.height * 0.01,
-                ),
-                Expanded(child: ProductCardList()),
-              ],
-            ),
+              )),
+          drawer: CustomDrawerWidget(),
+          body: Column(
+            children: [
+              SizedBox(
+                height: Get.height * 0.02,
+              ),
+              CustomTitleText(
+                text: 'Categories',
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
+                alignment: Alignment.topLeft,
+              ),
+              SizedBox(
+                height: Get.height * 0.01,
+              ),
+              CategoriesCardList(),
+              SizedBox(
+                height: Get.height * 0.01,
+              ),
+              Expanded(child: ProductCardList()),
+            ],
           ),
         ),
-        onWillPop: () async {
-          return false;
-        });
+      ),
+      onWillPop: () async {
+        return true;
+      },
+    );
   }
 }
 

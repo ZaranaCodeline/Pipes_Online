@@ -33,10 +33,10 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
     final user =
         await profileCollection.doc('${PreferenceManager.getUId()}').get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    firstname = getUserData!['user_name'];
+    firstname = getUserData?['user_name'];
     print('=========firstname===============${getUserData}');
     setState(() {
-      Img = getUserData['imageProfile'];
+      Img = getUserData?['imageProfile'];
     });
     print('============================${user.get('imageProfile')}');
   }
@@ -74,9 +74,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     print('==>category===${widget.category}');
-
     getData();
     addData();
   }

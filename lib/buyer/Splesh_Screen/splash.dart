@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_welcome_screen.dart';
@@ -19,8 +18,6 @@ class Splash extends StatefulWidget {
   @override
   State<Splash> createState() => _SplashState();
 }
-
-FirebaseAuth _auth = FirebaseAuth.instance;
 
 class _SplashState extends State<Splash> {
   BuyerSellerController buyerSellerController =
@@ -53,86 +50,28 @@ class _SplashState extends State<Splash> {
           print('T-5');
           if (PreferenceManager.getName() != null ||
               PreferenceManager.getAddress() != null) {
+            print('SELLER NAME--${PreferenceManager.getName()}');
             print('T-6');
             Get.off(NavigationBarScreen());
           } else if (PreferenceManager.getUId() != null) {
+            print('T-7');
             if (PreferenceManager.getUserType() == 'Seller') {
               if (PreferenceManager.getName() == null ||
                   PreferenceManager.getAddress() == null) {
+                print('T-8');
                 Get.off(SWelcomeScreen());
               }
             }
           }
           Get.off(SFirstUserInfoScreen());
         } else {
-          print('T-7');
+          print('T-9');
           Get.offAll(SOnBoardingScreen());
         }
       } else {
         print('T-8');
         Get.off(BWelcomeScreen());
       }
-      // if (PreferenceManager.getUId() != null) {
-      //   print('TEST:- 1');
-      //   /* if (PreferenceManager.getUserType() == '' ||
-      //       PreferenceManager.getUserType() == null ||
-      //       PreferenceManager.getUId() == 'uid') {
-      //     print('TEST:- 2');
-      //     Get.offAll(BWelcomeScreen());
-      //   } else {*/
-      //   if (PreferenceManager.getUserType() == 'Buyer') {
-      //     if (PreferenceManager.getUId() != null) {
-      //       print('Buyer====>3)${PreferenceManager.getUId()}');
-      //       print('TEST:- 3');
-      //       Get.offAll(BottomNavigationBarScreen());
-      //     }
-      //
-      //     if (PreferenceManager.getName() != null) {
-      //       PreferenceManager.getSubscribeCategory();
-      //       PreferenceManager.getSubscribeTime();
-      //       Get.offAll(BottomNavigationBarScreen());
-      //     }
-      //     Get.offAll(BFirstUserInfoScreen());
-      //     if (PreferenceManager.getUserType() == '' ||
-      //         PreferenceManager.getUId() == null ||
-      //         PreferenceManager.getUId() == 'uid') {
-      //       print('TEST:- 4');
-      //       print('Buyer====>4)${PreferenceManager.getUId()}');
-      //       Get.offAll(BWelcomeScreen());
-      //     }
-      //   } else {
-      //     print('TEST:- 5');
-      //     PreferenceManager.getUserType() == 'Seller';
-      //   }
-      //   if (PreferenceManager.getUId() != null) {
-      //     print('Seller==>6)${PreferenceManager.getUId()}');
-      //     print('TEST:- 6');
-      //     Get.offAll(NavigationBarScreen());
-      //   }
-      //   if (PreferenceManager.getUserType() == 'Seller') {
-      //     if (PreferenceManager.getUId() != null) {
-      //       print('Buyer====>3)${PreferenceManager.getUId()}');
-      //       print('TEST:- 3');
-      //       Get.offAll(NavigationBarScreen());
-      //     }
-      //   }
-      //   if (PreferenceManager.getName() != null) {
-      //     Get.offAll(NavigationBarScreen());
-      //   }
-      //   Get.off(() => NavigationBarScreen());
-      //   if (PreferenceManager.getUserType() == '' ||
-      //       PreferenceManager.getUId() == null ||
-      //       PreferenceManager.getUId() == 'uid') {
-      //     print('TEST:- 7');
-      //     print('Seller==>7)${PreferenceManager.getUId()}');
-      //     Get.offAll(SWelcomeScreen());
-      //   }
-      //   // }
-      //   // }
-      // } else {
-      //   print('TEST:- 7');
-      //   Get.offAll(SOnBoardingScreen());
-      // }
     });
   }
 

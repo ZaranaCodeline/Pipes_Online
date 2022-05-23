@@ -37,8 +37,8 @@ class SFirstUserInfoScreen extends StatefulWidget {
 
 class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
   File? _image;
-
-  final picker = ImagePicker();
+//final
+  ImagePicker picker = ImagePicker();
   bool isLoading = false;
   Future getGalleryImage() async {
     var imaGe = await picker.getImage(source: ImageSource.gallery);
@@ -89,9 +89,8 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
   @override
   void initState() {
     super.initState();
-    print('email---${widget.email}');
-    print('name---${widget.name}');
-    print('photo---${widget.photoUrl}');
+    PreferenceManager.getName();
+    PreferenceManager.getAddress();
   }
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -107,7 +106,7 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
     return Sizer(builder: (context, orientation, deviceType) {
       return WillPopScope(
         onWillPop: () async {
-          return false;
+          return true;
         },
         child: SafeArea(
           child: Scaffold(
@@ -401,11 +400,7 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                               width: Get.width * 0.75,
                               alignment: Alignment.centerLeft,
                               child: TextFormField(
-                                // cursorColor: AppColors.primaryColor,
                                 keyboardType: TextInputType.streetAddress,
-                                // autocorrect: true,
-                                // autovalidateMode:
-                                //     AutovalidateMode.onUserInteraction,
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Required';
@@ -465,11 +460,13 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                         GestureDetector(
                           onTap: () async {
                             if (_formKey.currentState!.validate()) {
-                              setState(() {
-                                isLoading = true;
-                              });
                               _formKey.currentState!.save();
+
                               addData().then((value) {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                PreferenceManager.setName(nameController.text);
                                 Get.offAll(NavigationBarScreen());
                                 print('Validate');
                               });
@@ -515,7 +512,6 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                                   ),
                           ),
                         ),
-                        // if (!address.isEmpty) SizedBox(height: Get.height * 0.05),
                         SizedBox(height: Get.height * 0.1),
                       ],
                     ),
@@ -581,7 +577,7 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
       'email': PreferenceManager.getEmail() ?? emailController.text,
       'isOnline': false,
       'phoneno': PreferenceManager.getPhoneNumber() ?? mobilecontroller.text,
-      'user_name': nameController.text,
+      'user_name': PreferenceManager.getName(),
       'imageProfile': imageUrl ??
           'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
       'address': _controller.addressController == null

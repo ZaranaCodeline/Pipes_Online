@@ -101,14 +101,14 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController mobilecontroller = TextEditingController();
   GeolocationController _controller = Get.find();
-
   BottomController bottomController = Get.find();
+
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
       return Builder(
         builder: (context) => WillPopScope(
           onWillPop: () async {
-            return false;
+            return true;
           },
           child: SafeArea(
             child: Scaffold(
@@ -136,26 +136,6 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                /* IconButton(
-                                  icon: Icon(
-                                    Icons.arrow_back_rounded,
-                                    color: SColorPicker.white,
-                                  ),
-                                  onPressed: () {
-                                    print('GO back');
-                                    Get.back();
-                                  },
-                                ),*/
-                                // GestureDetector(
-                                //   onTap: () {
-                                //     print('GO back');
-                                //     Get.back();
-                                //   },
-                                //   child: Icon(
-                                //     Icons.arrow_back_rounded,
-                                //     color: SColorPicker.white,
-                                //   ),
-                                // ),
                                 Container(),
                                 Center(
                                   child: Text(
@@ -418,11 +398,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                 width: Get.width * 0.75,
                                 alignment: Alignment.centerLeft,
                                 child: TextFormField(
-                                  // cursorColor: AppColors.primaryColor,
                                   keyboardType: TextInputType.streetAddress,
-                                  // autocorrect: true,
-                                  // autovalidateMode:
-                                  //     AutovalidateMode.onUserInteraction,
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return 'Required';
@@ -435,11 +411,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                       _controller.addressController == null
                                           ? address
                                           : _controller.addressController,
-                                  decoration: InputDecoration(
-                                      // hintText: 'Enter Address',
-                                      // border: OutlineInputBorder(
-                                      //     borderRadius: BorderRadius.circular(10)),
-                                      ),
+                                  decoration: InputDecoration(),
                                 ),
                               ),
                             ],
@@ -544,7 +516,6 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                     ),
                             ),
                           ),
-                          // if (!address.isEmpty) SizedBox(height: Get.height * 0.05),
                           SizedBox(height: Get.height * 0.1),
                         ],
                       ),
@@ -600,8 +571,10 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
     PreferenceManager.getEmail() != null
         ? PreferenceManager.setEmail(PreferenceManager.getEmail())
         : PreferenceManager.setEmail(emailController.text);
+
     print(emailController.text);
     print(mobilecontroller.text);
+
     CollectionReference ProfileCollection =
         bFirebaseStore.collection('BProfile');
     ProfileCollection.doc(PreferenceManager.getUId()).set({

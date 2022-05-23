@@ -264,7 +264,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                                       builder: (context, snapShot) {
                                         if (snapShot.hasData) {
                                           print(
-                                              'length=====${snapShot.data!.docs.length}');
+                                              'selected_product_length=====${snapShot.data!.docs.length}');
                                           return CustomText(
                                               text:
                                                   '${snapShot.data!.docs.length} Reviews ',

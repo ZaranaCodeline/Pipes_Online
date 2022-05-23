@@ -1,0 +1,443 @@
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:pipes_online/buyer/app_constant/app_colors.dart';
+import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
+import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
+import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
+import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_forgot_password_page.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_login_phone_no_screen.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_email_screen.dart';
+import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
+import 'package:pipes_online/seller/view/s_screens/s_image.dart';
+import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizer/sizer.dart';
+
+class SLoginEmailScreen extends StatefulWidget {
+  const SLoginEmailScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SLoginEmailScreen> createState() => _SLoginEmailScreenState();
+}
+
+class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
+  TextEditingController email = TextEditingController();
+  TextEditingController pass = TextEditingController();
+  GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
+  bool isLoading = false;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    email.clear();
+    pass.clear();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: SColorPicker.purple,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: Get.height * 0.1,
+                width: Get.width,
+                padding: EdgeInsets.only(
+                  top: Get.height * 0.03,
+                  right: Get.width * 0.05,
+                  left: Get.width * 0.05,
+                ),
+                decoration: BoxDecoration(
+                  color: SColorPicker.purple,
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(20.sp),
+                  ),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Icon(
+                        Icons.arrow_back_rounded,
+                        color: SColorPicker.white,
+                      ),
+                    ),
+                    Text(
+                      'Login'.toUpperCase(),
+                      style: STextStyle.bold700White14,
+                    ),
+                    SizedBox(width: 20.sp),
+                  ],
+                ),
+              ),
+              GetBuilder<BLogInController>(
+                builder: (controller) {
+                  return Container(
+                    height: Get.height * 0.9,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30.sp),
+                      ),
+                    ),
+                    child: Stack(
+                      overflow: Overflow.visible,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: Get.height * 0.1,
+                              left: Get.width * 0.06,
+                              right: Get.width * 0.06),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: Get.width,
+                                  child: Form(
+                                    key: formGlobalKey,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          height: Get.height * 0.01,
+                                        ),
+                                        Text(
+                                          'Email',
+                                          style: STextStyle.semiBold600Black13,
+                                        ),
+                                        Container(
+                                          height: Get.height * 0.07,
+                                          width: Get.width * 1,
+                                          child: TextFormField(
+                                            validator: (value) {
+                                              if (value!.trim().isEmpty) {
+                                                return 'This field is required';
+                                              } else if (!RegExp('[a-zA-Z]')
+                                                  .hasMatch(value)) {
+                                                return 'please enter valid name';
+                                              }
+                                              return null;
+                                            },
+                                            controller: email,
+                                            keyboardType:
+                                                TextInputType.emailAddress,
+                                            decoration: InputDecoration(
+                                                // hintText: "Email",
+                                                ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: Get.height * 0.01,
+                                        ),
+                                        Text(
+                                          'Password',
+                                          style: STextStyle.semiBold600Black13,
+                                        ),
+                                        SizedBox(
+                                          height: Get.height * 0.01,
+                                        ),
+                                        Container(
+                                          height: Get.height * 0.07,
+                                          width: Get.width * 1,
+                                          child: TextFormField(
+                                            validator: (password) {
+                                              RegExp regex = RegExp(
+                                                  r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+                                              if (password!.isEmpty) {
+                                                return 'Please enter password';
+                                              }
+                                              /*else if (!isPasswordValid(
+                                                password)) {
+                                              return 'Enter a valid password';
+                                            } else if (password.length < 6) {
+                                              return 'Password must be altest 6 degit';
+                                            }*/
+                                              else if (!regex
+                                                  .hasMatch(password)) {
+                                                return 'Password must be Formatted';
+                                              }
+                                              return null;
+                                            },
+                                            controller: pass,
+                                            decoration: InputDecoration(
+                                                // hintText: "Password",
+                                                ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: Get.height * 0.02,
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Get.to(SForgotPasswordScreen());
+                                          },
+                                          child: CustomText(
+                                            alignment: Alignment.topLeft,
+                                            text: 'Forgot Password?',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 12.sp,
+                                            color: AppColors.primaryColor,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: Get.height * 0.04,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
+                                // RichText(
+                                //   textAlign: TextAlign.start,
+                                //   text: TextSpan(
+                                //     children: [
+                                //       TextSpan(
+                                //         text: 'By continuing, you agree to the',
+                                //         style: STextStyle.regular600Black11,
+                                //       ),
+                                //       TextSpan(
+                                //           text: ' terms and conditions',
+                                //           style: STextStyle.semiBold600Purple11,
+                                //           recognizer: TapGestureRecognizer()
+                                //             ..onTap = () {
+                                //               Get.to(() =>
+                                //                   TermsAndConditionPage());
+                                //               print('Terms and Conditons');
+                                //             }),
+                                //       TextSpan(
+                                //         text: ' of this app.',
+                                //         style: STextStyle.regular600Black11,
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
+
+                                GestureDetector(
+                                  onTap: () async {
+                                    print('login click');
+                                    if (formGlobalKey.currentState!
+                                        .validate()) {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      print(
+                                          'login email========>${email.text.toString()}');
+                                      print(
+                                          'login password========>${pass.text.toString()}');
+                                      SharedPreferences sp =
+                                          await SharedPreferences.getInstance();
+                                      sp.setString('email', email.text);
+                                      formGlobalKey.currentState!.save();
+                                      SRegisterRepo()
+                                          .LogIn(email.text.trim().toString(),
+                                              pass.text.trim().toString())
+                                          .then((value) async {
+                                        await Get.offAll(NavigationBarScreen())
+                                            ?.then((value) {
+                                          email.clear();
+                                          pass.clear();
+                                        });
+                                        setState(() {
+                                          isLoading = false;
+                                        });
+                                        print('login succefully');
+                                      }).catchError((e) {
+                                        setState(() {
+                                          isLoading = false;
+                                        });
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                                'The login is invalid.Please Try again'),
+                                            backgroundColor: Colors.redAccent,
+                                          ),
+                                        );
+                                      });
+                                    }
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    width: Get.width * 0.5,
+                                    height: Get.height * 0.08,
+                                    decoration: BoxDecoration(
+                                      color: SColorPicker.purple,
+                                      borderRadius:
+                                          BorderRadius.circular(10.sp),
+                                    ),
+                                    child: isLoading
+                                        ? Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              CustomText(
+                                                  text: 'Loading...  ',
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 12.sp,
+                                                  color: AppColors
+                                                      .commonWhiteTextColor),
+                                              CircularProgressIndicator(
+                                                color: AppColors
+                                                    .commonWhiteTextColor,
+                                              ),
+                                            ],
+                                          )
+                                        : Text(
+                                            'Login',
+                                            style: TextStyle(
+                                                color: AppColors
+                                                    .commonWhiteTextColor,
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.04,
+                                ),
+                                Center(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      print('it is Signup with Mobile Number');
+
+                                      Get.to(SLoginPhoneNumberScreen());
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(12.sp),
+                                      height: Get.height * 0.075,
+                                      width: Get.height * 0.4,
+                                      decoration: BoxDecoration(
+                                        color: SColorPicker.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.black12,
+                                              spreadRadius: 0.5,
+                                              blurRadius: 1),
+                                        ],
+                                        borderRadius:
+                                            BorderRadius.circular(10.sp),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Image.asset(
+                                            "${SImagePick.pipesphoneLogo}",
+                                            width: 10.sp,
+                                            height: 10.sp,
+                                          ),
+                                          Text(
+                                            'Login with Mobile Number',
+                                            style: STextStyle.medium400Purple13,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                                SizedBox(height: Get.height * 0.04),
+                                Center(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      print('it is map');
+                                      loginwithgoogle();
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(12.sp),
+                                      height: Get.height * 0.075,
+                                      width: Get.width * 0.6,
+                                      decoration: BoxDecoration(
+                                        color: SColorPicker.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.black12,
+                                              spreadRadius: 0.5,
+                                              blurRadius: 1),
+                                        ],
+                                        borderRadius:
+                                            BorderRadius.circular(10.sp),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          SvgPicture.asset(
+                                            "${SImagePick.googleIcon}",
+                                          ),
+                                          Text(
+                                            'Sign Up with Google',
+                                            style:
+                                                STextStyle.semiBold600Black13,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.04,
+                                ),
+                                Center(
+                                  child: RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: 'Don’t have an Account?',
+                                          style: STextStyle.regular400Black13,
+                                        ),
+                                        TextSpan(
+                                            text: '  Sign Up',
+                                            style: STextStyle.medium400Purple13,
+                                            recognizer: TapGestureRecognizer()
+                                              ..onTap = () {
+                                                print(
+                                                    '=====>BSignUpEmailScreen');
+                                                Get.off(
+                                                    () => SSignUpEmailScreen());
+                                              }),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.05,
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  bool isPasswordValid(String password) => password.length <= 50;
+
+  bool isEmailValid(String email) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern.toString());
+    return regex.hasMatch(email);
+  }
+}

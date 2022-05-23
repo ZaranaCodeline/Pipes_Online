@@ -112,6 +112,7 @@ class _BCategoryDetailsPageState extends State<BCategoryDetailsPage> {
                               price: snapShot.data!.docs[index]['price'],
                               image: snapShot.data!.docs[index]['imageProfile'],
                               desc: snapShot.data!.docs[index]['dsc'],
+                              sellerID: snapShot.data!.docs[index]['sellerID'],
                               category: widget.category,
                             ),
                           );

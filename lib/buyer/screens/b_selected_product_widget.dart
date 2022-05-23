@@ -18,7 +18,7 @@ import 'b_seller_review_widget.dart';
 import 'custom_widget/custom_text.dart';
 
 class SelectedProductWidget extends StatefulWidget {
-  final String? name, image, desc, price, category, productID;
+  final String? name, image, desc, price, category, productID, sellerID;
 
   SelectedProductWidget(
       {Key? key,
@@ -27,6 +27,7 @@ class SelectedProductWidget extends StatefulWidget {
       this.image,
       this.category,
       this.desc,
+      this.sellerID,
       this.productID})
       : super(key: key);
 
@@ -42,38 +43,46 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
   String? address;
   String? phoneno;
   String? Img;
+  String? sellerAddress;
+  String? sellerPhone;
   EditProductContoller editProductContoller = Get.find();
 
-  DocumentReference profileCollection = bFirebaseStore
-      .collection("SProfile")
-      .doc(PreferenceManager.getUId().toString());
-
   Future<void> getData() async {
+    DocumentReference profileCollection =
+        bFirebaseStore.collection("SProfile").doc(widget.sellerID);
     print('============profileCollection==========${profileCollection}');
 
     print('=======SELLER ID___${PreferenceManager.getUId()}.');
     final user = await profileCollection.get();
     var m = user.data();
     print('--SelectedProductWidget--------m-- $m');
-    // Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
     dynamic getUserData = m;
 
-    firstname = getUserData?['user_name'];
-    email = getUserData?['email'];
-    address = getUserData?['address'];
-    phoneno = getUserData?['phoneno'];
-    Img = getUserData?['imageProfile'];
+    setState(() {
+      firstname = getUserData?['user_name'];
+      email = getUserData?['email'];
+      address = getUserData?['address'];
+      phoneno = getUserData?['phoneno'];
+      Img = getUserData?['imageProfile'];
+      sellerAddress = getUserData?['address'];
+      sellerPhone = getUserData?['phoneno'];
+    });
 
     print('========SelectedProductWidget===========${getUserData}');
   }
 
   @override
   void initState() {
-    print('============profileCollection==========${profileCollection}');
+    // print('============profileCollection==========${profileCollection}');
     // TODO: implement initState
     super.initState();
     getData();
     print('demo.b selected products...${PreferenceManager.getUId()}.');
+    print('demo.b seller_id...${widget.sellerID}.');
+    print('firstname-------${firstname}.');
+    print('Img-------${Img}.');
+    print('sellerAddress-------${sellerAddress.toString()}.');
+    print('sellerPhone-------${sellerPhone.toString()}.');
   }
 
   @override
@@ -149,6 +158,10 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                       () => SellerReviewWidget(
                         id: widget.productID,
                         category: widget.category,
+                        sellerID: widget.sellerID,
+                        serllerImg: widget.image,
+                        sellerAddress: sellerAddress,
+                        sellerPhone: sellerPhone,
                       ),
                     );
                   },
@@ -402,14 +415,6 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
       throw 'Could not launch $url';
     }
   }
-
-// Future<void> share() async {
-//   await FlutterShare.share(
-//       title: 'Example share',
-//       text: 'Example share text',
-//       linkUrl: 'https://flutter.dev/',
-//       chooserTitle: 'Example Chooser Title');
-// }
 }
 
 class CustomRichTextSpanWidget extends StatelessWidget {

@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/view_model/b_bottom_bar_controller.dart';
 import 'package:sizer/sizer.dart';
+
 import '../../seller/common/s_color_picker.dart';
 import '../app_constant/app_colors.dart';
-import 'custom_widget/custom_text.dart';
 import 'b_selected_product_widget.dart';
+import 'custom_widget/custom_text.dart';
 
 class ProductCardList extends StatefulWidget {
   ProductCardList({
@@ -64,6 +65,7 @@ class _ProductCardListState extends State<ProductCardList> {
                             desc: snapShot.data!.docs[index]['dsc'],
                             category: snapShot.data!.docs[index]['category'],
                             productID: snapShot.data!.docs[index].id,
+                            sellerID: snapShot.data!.docs[index]['sellerID'],
                           ),
                         );
                       },

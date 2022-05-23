@@ -13,8 +13,15 @@ import 'b_listing_review_tab_bar.dart';
 import 'custom_widget/custom_text.dart';
 
 class SellerReviewWidget extends StatefulWidget {
-  final String? id, category;
-  const SellerReviewWidget({Key? key, this.id, this.category})
+  final String? id, category, sellerID, serllerImg, sellerAddress, sellerPhone;
+  const SellerReviewWidget(
+      {Key? key,
+      this.id,
+      this.category,
+      this.sellerID,
+      this.serllerImg,
+      this.sellerAddress,
+      this.sellerPhone})
       : super(key: key);
 
   @override

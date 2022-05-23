@@ -39,7 +39,8 @@ class _SplashState extends State<Splash> {
           } else if (PreferenceManager.getUId() != null) {
             if (PreferenceManager.getUserType() == 'Buyer') {
               if (PreferenceManager.getName() == null ||
-                  PreferenceManager.getAddress() == null) {
+                  PreferenceManager.getAddress() == null ||
+                  PreferenceManager.getUId() == null) {
                 Get.off(BWelcomeScreen());
               }
             }
@@ -57,7 +58,8 @@ class _SplashState extends State<Splash> {
             print('T-7');
             if (PreferenceManager.getUserType() == 'Seller') {
               if (PreferenceManager.getName() == null ||
-                  PreferenceManager.getAddress() == null) {
+                  PreferenceManager.getAddress() == null ||
+                  PreferenceManager.getUId() == null) {
                 print('T-8');
                 Get.off(SWelcomeScreen());
               }
@@ -70,7 +72,7 @@ class _SplashState extends State<Splash> {
         }
       } else {
         print('T-8');
-        Get.off(BWelcomeScreen());
+        Get.off(SWelcomeScreen());
       }
     });
   }

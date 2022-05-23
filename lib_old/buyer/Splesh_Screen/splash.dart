@@ -91,19 +91,19 @@ class _SplashState extends State<Splash> {
             PreferenceManager.getUserType() == null ||
             PreferenceManager.getUId() == 'uid') {
           print('TEST:- 2');
-          Get.offAll(() => BWelcomeScreen());
+          Get.offAll(BWelcomeScreen());
         } else {
           if (PreferenceManager.getUserType() == 'Buyer') {
             if (PreferenceManager.getUId() != null) {
               print('Buyer====>3)${PreferenceManager.getUId()}');
               print('TEST:- 3');
-              Get.offAll(() => BottomNavigationBarScreen());
+              Get.offAll(BottomNavigationBarScreen());
             }
 
             if (PreferenceManager.getName() != null) {
               PreferenceManager.getSubscribeCategory();
               PreferenceManager.getSubscribeTime();
-              Get.offAll(() => NavigationBarScreen());
+              Get.offAll(BottomNavigationBarScreen());
             }
             Get.offAll(() => BFirstUserInfoScreen());
             if (PreferenceManager.getUserType() == '' ||
@@ -111,7 +111,7 @@ class _SplashState extends State<Splash> {
                 PreferenceManager.getUId() == 'uid') {
               print('TEST:- 4');
               print('Buyer====>4)${PreferenceManager.getUId()}');
-              Get.offAll(() => BWelcomeScreen());
+              Get.offAll(BWelcomeScreen());
             }
           } else {
             print('TEST:- 5');
@@ -119,11 +119,11 @@ class _SplashState extends State<Splash> {
             if (PreferenceManager.getUId() != null) {
               print('Seller==>6)${PreferenceManager.getUId()}');
               print('TEST:- 6');
-              Get.offAll(() => NavigationBarScreen());
+              Get.offAll(NavigationBarScreen());
             }
 
             if (PreferenceManager.getName() != null) {
-              Get.offAll(() => NavigationBarScreen());
+              Get.offAll(NavigationBarScreen());
             }
             Get.off(() => NavigationBarScreen());
             if (PreferenceManager.getUserType() == '' ||
@@ -131,13 +131,13 @@ class _SplashState extends State<Splash> {
                 PreferenceManager.getUId() == 'uid') {
               print('TEST:- 7');
               print('Seller==>7)${PreferenceManager.getUId()}');
-              Get.offAll(() => BWelcomeScreen());
+              Get.offAll(BWelcomeScreen());
             }
           }
         }
       } else {
         print('TEST:- 7');
-        Get.offAll(() => SOnBoardingScreen());
+        Get.offAll(SOnBoardingScreen());
       }
     });
   }

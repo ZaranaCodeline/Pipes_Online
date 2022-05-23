@@ -82,6 +82,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
     super.initState();
     getData();
     print('demo.b selected products...${PreferenceManager.getUId()}.');
+    print('PRODUCT-ID...${widget.productID}.');
   }
 
   @override

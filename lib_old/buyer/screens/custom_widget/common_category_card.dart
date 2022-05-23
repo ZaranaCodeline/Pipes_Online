@@ -6,13 +6,24 @@ import '../../app_constant/app_colors.dart';
 import '../../app_constant/app_colors.dart';
 import 'custom_text.dart';
 
-class CommonCategoryCard extends StatelessWidget {
+class CommonCategoryCard extends StatefulWidget {
   CommonCategoryCard({Key? key, required this.image, required this.name})
       : super(key: key);
 
   String name;
   String image;
 
+  @override
+  State<CommonCategoryCard> createState() => _CommonCategoryCardState();
+}
+
+class _CommonCategoryCardState extends State<CommonCategoryCard> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('PRODUCT_NAME--${widget.name}');
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -38,12 +49,12 @@ class CommonCategoryCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Image.network(
-                      '$image',
-                      fit: BoxFit.fill,
+                      '${widget.image}',
+                      fit: BoxFit.fill,width: 30.sp,height: 30.sp,
                     ),
                     SizedBox(width: 10.sp),
                     CustomText(
-                      text: name,
+                      text: widget.name,
                       color: SColorPicker.black,
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
@@ -72,7 +71,6 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
       }
       // Either the permission was already granted before or the user just granted it.
     }
-
 // You can request multiple permissions at once.
   }
 
@@ -90,6 +88,7 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
   void initState() {
     super.initState();
     PreferenceManager.getName();
+    print('seller user name--${PreferenceManager.getName()}');
     PreferenceManager.getAddress();
   }
 
@@ -467,6 +466,8 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                                   isLoading = true;
                                 });
                                 PreferenceManager.setName(nameController.text);
+                                PreferenceManager.getName();
+
                                 Get.offAll(NavigationBarScreen());
                                 print('Validate');
                               });
@@ -562,7 +563,6 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
     PreferenceManager.getPhoneNumber() != null
         ? PreferenceManager.setPhoneNumber(PreferenceManager.getPhoneNumber())
         : PreferenceManager.setPhoneNumber(mobilecontroller.text);
-
     PreferenceManager.getEmail() != null
         ? PreferenceManager.setEmail(PreferenceManager.getEmail())
         : PreferenceManager.setEmail(emailController.text);

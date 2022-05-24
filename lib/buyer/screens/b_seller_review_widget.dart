@@ -13,7 +13,13 @@ import 'b_listing_review_tab_bar.dart';
 import 'custom_widget/custom_text.dart';
 
 class SellerReviewWidget extends StatefulWidget {
-  final String? id, category, sellerID, serllerImg, sellerAddress, sellerPhone;
+  final String? id,
+      category,
+      sellerID,
+      serllerImg,
+      sellerAddress,
+      sellerPhone,
+      sellerName;
   const SellerReviewWidget(
       {Key? key,
       this.id,
@@ -21,6 +27,7 @@ class SellerReviewWidget extends StatefulWidget {
       this.sellerID,
       this.serllerImg,
       this.sellerAddress,
+      this.sellerName,
       this.sellerPhone})
       : super(key: key);
 
@@ -32,32 +39,31 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
   var rating = 3.0;
 
   CollectionReference profileCollection = bFirebaseStore.collection('SProfile');
-  String? Img;
-  String? firstname, sellerID;
+  // String? Img;
+  // String? firstname, sellerID;
 
-  Future<void> getData() async {
-    print('=======BUYER_SIDE_SELLER_ID========${PreferenceManager.getUId()}');
-    final user =
-        await profileCollection.doc('${PreferenceManager.getUId()}').get();
-    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-
-    print('=========SellerReviewWidget===============${getUserData}');
-    setState(() {
-      firstname = getUserData?['user_name'];
-      sellerID = getUserData?['sellerID'];
-      Img = getUserData?['imageProfile'];
-    });
-    print('============================${user.get('imageProfile')}');
-  }
+  // Future<void> getData() async {
+  //   print('=======BUYER_SIDE_SELLER_ID========${PreferenceManager.getUId()}');
+  //   final user =
+  //       await profileCollection.doc('${PreferenceManager.getUId()}').get();
+  //   Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+  //
+  //   print('=========SellerReviewWidget===============${getUserData}');
+  //   setState(() {
+  //     firstname = getUserData?['user_name'];
+  //     sellerID = getUserData?['sellerID'];
+  //     Img = getUserData?['imageProfile'];
+  //   });
+  //   print('============================${user.get('imageProfile')}');
+  // }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getData();
+    // getData();
     print('=======BUYER_SIDE_SELLER_ID========${PreferenceManager.getUId()}');
-
-    print('==sellerID---${sellerID}');
+    // print('==sellerID---${sellerID}');
   }
 
   @override
@@ -117,7 +123,15 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
           PopupMenuItem<String>(
             child: GestureDetector(
               onTap: () {
-                Get.to(BReviewSellerContactDetailsScreen());
+                Get.off(
+                  BReviewSellerContactDetailsScreen(
+                    sellerName: widget.sellerName,
+                    sellerPhone: widget.sellerPhone,
+                    sellerImage: widget.serllerImg,
+                    category: widget.category,
+                    proID: widget.id,
+                  ),
+                );
               },
               child: Container(
                 height: Get.height * 0.08,
@@ -193,216 +207,222 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
     }
 
     return SafeArea(
-        child: Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Container(
-              margin: EdgeInsets.only(top: 0, bottom: 5),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      child: Column(
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            child: SingleChildScrollView(
-                              child: Stack(
-                                alignment: Alignment.bottomCenter,
-                                overflow: Overflow.visible,
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Container(
-                                          height: 55,
-                                          decoration: BoxDecoration(
-                                              color: AppColors.primaryColor,
-                                              borderRadius:
-                                                  const BorderRadius.vertical(
-                                                bottom: Radius.circular(25),
-                                              )),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Positioned(
-                                    top: 0.0,
-                                    child: Container(
-                                      width: 200,
-                                      height: 55,
+      child: Scaffold(
+        body: Column(
+          children: [
+            Expanded(
+              flex: 2,
+              child: Container(
+                margin: EdgeInsets.only(top: 0, bottom: 5),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        child: Column(
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              child: SingleChildScrollView(
+                                child: Stack(
+                                  alignment: Alignment.bottomCenter,
+                                  overflow: Overflow.visible,
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Container(
+                                            height: 60,
+                                            decoration: BoxDecoration(
+                                                color: AppColors.primaryColor,
+                                                borderRadius:
+                                                    const BorderRadius.vertical(
+                                                  bottom: Radius.circular(25),
+                                                )),
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                  ),
-                                  Positioned(
-                                    top: 20.sp,
-                                    child: Container(
-                                      height: 50.sp,
-                                      width: 50.sp,
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(50.0),
-                                        child: Image.network(
-                                          Img == null
-                                              ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
-                                              : Img.toString(),
-                                          fit: BoxFit.cover,
-                                          width: 30.sp,
-                                          height: 30.sp,
+                                    Positioned(
+                                      top: 0.0,
+                                      child: Container(
+                                        width: 200,
+                                        height: 55,
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 20.sp,
+                                      child: Container(
+                                        height: 50.sp,
+                                        width: 50.sp,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(50.0),
+                                          child: Image.network(
+                                            widget.serllerImg == null
+                                                ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
+                                                : widget.serllerImg.toString(),
+                                            fit: BoxFit.cover,
+                                            width: 30.sp,
+                                            height: 30.sp,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  Positioned(
+                                    Positioned(
                                       top: 5.sp,
                                       left: 0,
                                       child: BackButton(
                                         color: AppColors.commonWhiteTextColor,
-                                      )),
-                                ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: Get.height * 0.049,
-                          ),
-                          CustomText(
-                              text: firstname.toString(),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 24,
-                              color: AppColors.secondaryBlackColor),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: Get.height * 0.01,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CustomText(
-                            text: rating.toString(),
-                            color: AppColors.secondaryBlackColor,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          SizedBox(
-                            width: Get.width * 0.02,
-                          ),
-                          SmoothStarRating(
-                              allowHalfRating: false,
-                              onRatingChanged: (v) {
-                                setState(() {
-                                  rating = v;
-                                });
-                              },
-                              starCount: 5,
-                              rating: rating,
-                              size: 20.0,
-                              filledIconData: Icons.star,
-                              halfFilledIconData: Icons.blur_on,
-                              color: AppColors.starRatingColor,
-                              borderColor: AppColors.starRatingColor,
-                              spacing: 0.0),
-                          SizedBox(
-                            width: Get.width * 0.02,
-                          ),
-                          FutureBuilder<DocumentSnapshot>(
-                            future: FirebaseFirestore.instance
-                                .collection("BReviews")
-                                .doc(PreferenceManager.getUId())
-                                .collection('ReviewID')
-                                .doc()
-                                .get(),
-                            builder: (context, snapShot) {
-                              if (snapShot.hasData) {
-                                print(
-                                    'PreferenceManager.getUId()====${PreferenceManager.getUId()}');
-                                return CustomText(
-                                    text: 'Reviews ',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12.sp,
-                                    color: AppColors.secondaryBlackColor);
-                              }
-                              return CustomText(
-                                  text: '(Reviews)',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12.sp,
-                                  color: AppColors.secondaryBlackColor);
-                            },
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: Get.height * 0.01,
-                    ),
-                    Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: SColorPicker.white,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black12,
-                              spreadRadius: 0.5,
-                              blurRadius: 1),
-                        ],
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 60, vertical: 10),
-                      child: InkWell(
-                        onTap: () {
-                          print('Get Contatc Detail...');
-                          _showPopupMenu();
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                                width: 27,
-                                height: 27,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 2,
-                                      color: AppColors.starRatingColor),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Icon(
-                                  Icons.folder,
-                                  color: AppColors.primaryColor,
-                                )
-                                // SvgPicture.asset('assets/images/folder_icon.svg'),
-                                ),
-                            const SizedBox(
-                              width: 10,
+                            SizedBox(
+                              height: Get.height * 0.049,
                             ),
                             CustomText(
-                                text: 'Get contact details',
+                                text: widget.sellerName.toString(),
                                 fontWeight: FontWeight.w600,
-                                fontSize: 18,
+                                fontSize: 24,
                                 color: AppColors.secondaryBlackColor),
                           ],
                         ),
                       ),
-                    ),
-                    // SizedBox(height: Get.height * 0.02,),
-                  ],
+                      SizedBox(
+                        height: Get.height * 0.01,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CustomText(
+                              text: rating.toString(),
+                              color: AppColors.secondaryBlackColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            SizedBox(
+                              width: Get.width * 0.02,
+                            ),
+                            SmoothStarRating(
+                                allowHalfRating: false,
+                                onRatingChanged: (v) {
+                                  setState(() {
+                                    rating = v;
+                                  });
+                                },
+                                starCount: 5,
+                                rating: rating,
+                                size: 20.0,
+                                filledIconData: Icons.star,
+                                halfFilledIconData: Icons.blur_on,
+                                color: AppColors.starRatingColor,
+                                borderColor: AppColors.starRatingColor,
+                                spacing: 0.0),
+                            SizedBox(
+                              width: Get.width * 0.02,
+                            ),
+                            StreamBuilder<QuerySnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection("BReviews")
+                                  .doc(PreferenceManager.getUId())
+                                  .collection('ReviewID')
+                                  .snapshots(),
+                              builder: (context, snapShot) {
+                                if (snapShot.hasData) {
+                                  print(
+                                      'PreferenceManager.getUId()====${PreferenceManager.getUId()}');
+                                  return CustomText(
+                                      text: 'Reviews ',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12.sp,
+                                      color: AppColors.secondaryBlackColor);
+                                }
+                                return CustomText(
+                                    text: '(Reviews)',
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12.sp,
+                                    color: AppColors.secondaryBlackColor);
+                              },
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: Get.height * 0.01,
+                      ),
+                      Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: SColorPicker.white,
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black12,
+                                spreadRadius: 0.5,
+                                blurRadius: 1),
+                          ],
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 60, vertical: 10),
+                        child: InkWell(
+                          onTap: () {
+                            print('Get Contatc Detail...');
+                            _showPopupMenu();
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                  width: 27,
+                                  height: 27,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 2,
+                                        color: AppColors.starRatingColor),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Icon(
+                                    Icons.folder,
+                                    color: AppColors.primaryColor,
+                                  )
+                                  // SvgPicture.asset('assets/images/folder_icon.svg'),
+                                  ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              CustomText(
+                                  text: 'Get contact details',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                  color: AppColors.secondaryBlackColor),
+                            ],
+                          ),
+                        ),
+                      ),
+                      // SizedBox(height: Get.height * 0.02,),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Expanded(
+            Expanded(
               flex: 3,
               child: ListingReviewTabBarWidget(
                 id: widget.id,
                 category: widget.category,
-              )),
-        ],
+                sellerAddress: widget.sellerAddress,
+                sellerImage: widget.sellerName,
+                sellerName: widget.serllerImg,
+                sellerPhone: widget.sellerPhone,
+              ),
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }

@@ -6,8 +6,21 @@ import 'b_listing_widget.dart';
 import 'b_review_widgets.dart';
 
 class ListingReviewTabBarWidget extends StatefulWidget {
-  final String? id,category;
-  const ListingReviewTabBarWidget({Key? key, this.id, this.category}) : super(key: key);
+  final String? id,
+      category,
+      sellerAddress,
+      sellerName,
+      sellerImage,
+      sellerPhone;
+  const ListingReviewTabBarWidget(
+      {Key? key,
+      this.id,
+      this.category,
+      this.sellerAddress,
+      this.sellerName,
+      this.sellerImage,
+      this.sellerPhone})
+      : super(key: key);
 
   @override
   State<ListingReviewTabBarWidget> createState() =>
@@ -25,6 +38,9 @@ class _ListingReviewTabBarWidgetState extends State<ListingReviewTabBarWidget>
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
     print('=========Category widget========${widget.category}');
+    print('=========sellerName========${widget.sellerName}');
+    print('=========sellerImage========${widget.sellerImage}');
+    print('=========sellerPhone========${widget.sellerPhone}');
   }
 
   @override
@@ -88,13 +104,19 @@ class _ListingReviewTabBarWidgetState extends State<ListingReviewTabBarWidget>
                 Expanded(
                   child: TabBarView(
                     controller: _tabController,
-                    children:  [
+                    children: [
                       // first tab bar view widget
                       Center(
                         child: BListingWidget(),
                       ),
                       Center(
-                        child: BReviewWidget(id: widget.id,category: widget.category,),
+                        child: BReviewWidget(
+                          id: widget.id,
+                          category: widget.category,
+                          sImage: widget.sellerImage,
+                          SName: widget.sellerName,
+                          sContact: widget.sellerPhone,
+                        ),
                       ),
                     ],
                   ),

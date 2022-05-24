@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
@@ -90,9 +89,6 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
   @override
   void initState() {
     super.initState();
-    print('email---${widget.email}');
-    print('name---${widget.name}');
-    print('photo---${widget.photoUrl}');
   }
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -467,6 +463,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                   });
                                   PreferenceManager.setName(
                                       nameController.text);
+                                  PreferenceManager.getName();
                                   Get.offAll(BottomNavigationBarScreen())
                                       ?.then((value) {
                                     print('Validate');

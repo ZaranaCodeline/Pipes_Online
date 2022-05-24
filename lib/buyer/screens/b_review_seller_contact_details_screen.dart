@@ -12,7 +12,15 @@ import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.da
 import 'package:url_launcher/url_launcher.dart';
 
 class BReviewSellerContactDetailsScreen extends StatefulWidget {
-  const BReviewSellerContactDetailsScreen({Key? key}) : super(key: key);
+  final String? sellerPhone, sellerName, sellerImage, proID, category;
+  const BReviewSellerContactDetailsScreen(
+      {Key? key,
+      this.sellerPhone,
+      this.sellerName,
+      this.sellerImage,
+      this.proID,
+      this.category})
+      : super(key: key);
 
   @override
   State<BReviewSellerContactDetailsScreen> createState() =>
@@ -24,28 +32,28 @@ class _BReviewSellerContactDetailsScreenState
   var rating = 3.0;
 
   CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
-  String? Img;
-  String? firstname, phone;
+  // String? Img;
+  // String? firstname, phone;
 
-  Future<void> getData() async {
-    print('BProfile============');
-    final user =
-        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
-    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    firstname = getUserData?['user_name'];
-    phone = getUserData?['phoneno'];
-    print('=========SellerReviewWidget===============${getUserData}');
-    setState(() {
-      Img = getUserData?['imageProfile'];
-    });
-    print('============================${user.get('imageProfile')}');
-    print('phoneno============================${user.get('phoneno')}');
-  }
+  // Future<void> getData() async {
+  //   print('BProfile============');
+  //   final user =
+  //       await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
+  //   Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+  //   firstname = getUserData?['user_name'];
+  //   phone = getUserData?['phoneno'];
+  //   print('=========SellerReviewWidget===============${getUserData}');
+  //   setState(() {
+  //     Img = getUserData?['imageProfile'];
+  //   });
+  //   print('============================${user.get('imageProfile')}');
+  //   print('phoneno============================${user.get('phoneno')}');
+  // }
 
   @override
   void initState() {
     // TODO: implement initState
-    getData();
+    // getData();
     super.initState();
   }
 
@@ -99,9 +107,9 @@ class _BReviewSellerContactDetailsScreenState
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(50.0),
                                     child: Image.network(
-                                      Img == null
+                                      widget.sellerImage == null
                                           ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
-                                          : Img!,
+                                          : widget.sellerImage.toString(),
                                       fit: BoxFit.cover,
                                     ),
                                   )
@@ -127,7 +135,7 @@ class _BReviewSellerContactDetailsScreenState
                         height: Get.height * 0.049,
                       ),
                       CustomText(
-                          text: firstname.toString(),
+                          text: widget.sellerName.toString(),
                           fontWeight: FontWeight.w600,
                           fontSize: 24,
                           color: AppColors.secondaryBlackColor),
@@ -257,7 +265,8 @@ class _BReviewSellerContactDetailsScreenState
                               ),
                               IconButton(
                                 onPressed: () {
-                                  launch('tel:1234567892');
+                                  print('---PHONE---${widget.sellerPhone}');
+                                  launch('tel:${widget.sellerPhone}');
                                 },
                                 icon: Container(
                                   width: 20.sp,
@@ -283,7 +292,7 @@ class _BReviewSellerContactDetailsScreenState
                                 width: 10,
                               ),
                               CustomText(
-                                  text: phone.toString(),
+                                  text: widget.sellerPhone.toString(),
                                   fontWeight: FontWeight.w600,
                                   fontSize: 14.sp,
                                   color: AppColors.secondaryBlackColor),
@@ -298,11 +307,12 @@ class _BReviewSellerContactDetailsScreenState
               ),
             ),
             Expanded(
-                flex: 3,
-                child: ListingReviewTabBarWidget(
-                    // id: widget.id,
-                    // category: widget.category,
-                    )),
+              flex: 3,
+              child: ListingReviewTabBarWidget(
+                id: widget.proID,
+                category: widget.category,
+              ),
+            ),
           ],
         ),
       ),

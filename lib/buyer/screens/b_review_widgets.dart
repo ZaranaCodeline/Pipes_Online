@@ -12,10 +12,17 @@ import '../app_constant/app_colors.dart';
 import 'custom_widget/custom_text.dart';
 
 class BReviewWidget extends StatefulWidget {
-  final String? id, BName, desc, category;
+  final String? id, SName, desc, sImage, sContact, category;
   final double? ratVal;
   const BReviewWidget(
-      {Key? key, this.id, this.BName, this.desc, this.ratVal, this.category})
+      {Key? key,
+      this.id,
+      this.SName,
+      this.desc,
+      this.ratVal,
+      this.category,
+      this.sImage,
+      this.sContact})
       : super(key: key);
 
   @override
@@ -29,27 +36,25 @@ class _BReviewWidgetState extends State<BReviewWidget> {
   String? firstname;
   String? formattedDateTime;
 
-  Future<void> getData() async {
-    print('demo.....');
-    final user =
-        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
-    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    firstname = getUserData?['user_name'];
-    print('=========SellerReviewWidget===============${getUserData}');
-    setState(() {
-      Img = getUserData?['imageProfile'];
-    });
-    print(
-        '=imageProfile==BReviewWidget=============${user.get('imageProfile')}');
-  }
+  // Future<void> getData() async {
+  //   print('demo.....');
+  //   final user =
+  //       await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
+  //   Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+  //   print('=========SellerReviewWidget===============${getUserData}');
+  //   setState(() {
+  //     firstname = getUserData?['user_name'];
+  //     Img = getUserData?['imageProfile'];
+  //   });
+  //   print('imageProfile==BReviewWidget======${user.get('imageProfile')}');
+  // }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getData();
-    print(
-        '===PreferenceManager.getUId()====Review =====>${PreferenceManager.getUId()}');
+    // getData();
+    print('PreferenceManager.getUId()=Review==>${PreferenceManager.getUId()}');
     print('===Review =====>${widget.category}');
   }
 
@@ -173,8 +178,8 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                       children: [
                         StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance
-                              .collection("Reviews")
-                              .doc(PreferenceManager.getUId().toString())
+                              .collection('Reviews')
+                              .doc(PreferenceManager.getUId())
                               .collection('ReviewID')
                               .snapshots(),
                           builder: (context, snapShot) {
@@ -197,9 +202,9 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                         //     color: AppColors.secondaryBlackColor),
                         GestureDetector(
                           onTap: () {
-                            Get.to(() => AddReviewsPage(
-                                  category: widget.category,
-                                ));
+                            Get.to(AddReviewsPage(
+                              category: widget.category,
+                            ));
                           },
                           child: CustomText(
                               text: 'Review Now',
@@ -219,10 +224,11 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                             child: StreamBuilder<QuerySnapshot>(
                               stream: FirebaseFirestore.instance
                                   .collection("Reviews")
-                                  .doc(PreferenceManager.getUId().toString())
+                                  .doc(PreferenceManager.getUId())
                                   .collection('ReviewID')
                                   .snapshots(),
                               builder: (context, snapShot) {
+                                print('PID-${PreferenceManager.getUId()}');
                                 if (snapShot.hasData) {
                                   if (snapShot.connectionState ==
                                       ConnectionState.waiting) {
@@ -237,6 +243,8 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                                     shrinkWrap: true,
                                     physics: BouncingScrollPhysics(),
                                     itemBuilder: (context, index) {
+                                      print(
+                                          'LENGTH--${snapShot.data!.docs.length}');
                                       formattedDateTime =
                                           DateFormat('yyyy-MM-dd').format(
                                               DateTime.parse(snapShot.data
@@ -394,11 +402,6 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                                                         child: SmoothStarRating(
                                                             allowHalfRating:
                                                                 false,
-                                                            // onRatingChanged: (v) {
-                                                            //   setState(() {
-                                                            //     rating = v;
-                                                            //   });
-                                                            // },
                                                             starCount: 5,
                                                             rating: snapShot
                                                                     .data

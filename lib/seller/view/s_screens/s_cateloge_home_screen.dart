@@ -26,6 +26,13 @@ class SCatelogeHomeScreen extends StatefulWidget {
 }
 
 class _SCatelogeHomeScreenState extends State<SCatelogeHomeScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('Seller User Name ${PreferenceManager.getName()}');
+  }
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   BottomController homeController = Get.find();
   bool isLoading = false;
@@ -34,7 +41,7 @@ class _SCatelogeHomeScreenState extends State<SCatelogeHomeScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        return false;
+        return true;
       },
       child: SafeArea(
         child: Scaffold(
@@ -61,7 +68,7 @@ class _SCatelogeHomeScreenState extends State<SCatelogeHomeScreen> {
                     height: 23.sp,
                   ),
                   onPressed: () {
-                    Get.to(() => SOrdersScreen());
+                    Get.to(SOrdersScreen());
                   },
                 ),
               ),

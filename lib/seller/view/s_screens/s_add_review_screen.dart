@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
@@ -7,7 +6,6 @@ import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
-
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/screens/custom_widget/custom_button.dart';
 import '../../../buyer/screens/custom_widget/custom_text.dart';
@@ -32,7 +30,10 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
   Future<void> getData() async {
     CollectionReference profileCollection =
         bFirebaseStore.collection('SProfile');
-    final user = await profileCollection.doc().get();
+    print('demo.....');
+    final user =
+        await profileCollection.doc('${PreferenceManager.getUId()}').get();
+    // final user = await profileCollection.doc().get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
     setState(() {
       print('======ID=====${PreferenceManager.getUId()}');
@@ -123,15 +124,16 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
                                 Positioned(
                                   top: 50.0.sp,
                                   child: Container(
-                                    height: Get.height / 9,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: Color(0xffE8E8E8),
-                                        )),
-                                    child: Image.asset(
-                                      'assets/images/png/cat_1.png',
-                                      fit: BoxFit.contain,
+                                    height: 50.sp,
+                                    width: 50.sp,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(50.0),
+                                      child: Image.network(
+                                        Img == null
+                                            ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
+                                            : Img.toString(),
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -162,7 +164,7 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
                                     top: 45.sp,
                                   ),
                                   child: CustomText(
-                                      text: 'Jan Doe',
+                                      text: firstname.toString(),
                                       fontWeight: FontWeight.w600,
                                       fontSize: 18.sp,
                                       color: AppColors.secondaryBlackColor),

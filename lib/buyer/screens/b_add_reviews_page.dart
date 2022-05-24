@@ -33,9 +33,9 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
     final user =
         await profileCollection.doc('${PreferenceManager.getUId()}').get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    firstname = getUserData?['user_name'];
     print('=========firstname===============${getUserData}');
     setState(() {
+      firstname = getUserData?['user_name'];
       Img = getUserData?['imageProfile'];
     });
     print('============================${user.get('imageProfile')}');
@@ -43,14 +43,13 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
 
   Future<void> addData() async {
     print(
-        'buyer addData Preference Id==============>${PreferenceManager.getUId().toString()}');
-    print(
-        'buyer addData-getTime==============>${PreferenceManager.getTime().toString()}');
+        'buyer addData Preference Id==============>${PreferenceManager.getUId()}');
+    print('buyer addData-getTime==============>${PreferenceManager.getTime()}');
     FirebaseFirestore.instance
         .collection("BReviews")
-        .doc('${PreferenceManager.getUId()}')
-        .collection('ReviewID')
-        .doc(profileCollection.doc().id)
+        .doc(PreferenceManager.getUId())
+        .collection("ReviewID")
+        .doc()
         .set({
           'reviewID': profileCollection.doc().id,
           'userID': PreferenceManager.getUId(),
@@ -75,6 +74,8 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
     // TODO: implement initState
     super.initState();
     print('==>category===${widget.category}');
+    print('PreferenceManager.getUId()---${PreferenceManager.getUId()}');
+    print('---preferenceID--${profileCollection.doc().id}');
     getData();
     addData();
   }
@@ -108,11 +109,12 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                         child: Container(
                                           height: Get.height / 9,
                                           decoration: BoxDecoration(
-                                              color: AppColors.primaryColor,
-                                              borderRadius:
-                                                  const BorderRadius.vertical(
-                                                bottom: Radius.circular(25),
-                                              )),
+                                            color: AppColors.primaryColor,
+                                            borderRadius:
+                                                const BorderRadius.vertical(
+                                              bottom: Radius.circular(25),
+                                            ),
+                                          ),
                                         ),
                                       )
                                     ],
@@ -142,8 +144,14 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                   Positioned(
                                     top: 10.sp,
                                     left: 0,
-                                    child: BackButton(
-                                      color: AppColors.commonWhiteTextColor,
+                                    child: IconButton(
+                                      onPressed: () {
+                                        Get.back();
+                                      },
+                                      icon: Icon(
+                                        Icons.arrow_back,
+                                        color: AppColors.commonWhiteTextColor,
+                                      ),
                                     ),
                                   ),
                                   Positioned(
@@ -240,7 +248,8 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                     name: 'Submit'.toUpperCase(),
                                     function: () {
                                       addData().then((value) {
-                                        Get.to(() => SellerReviewWidget());
+                                        // Get.to(SellerReviewWidget());
+                                        Get.back();
                                       });
                                     },
                                     // Get.to(() => HomePage()),

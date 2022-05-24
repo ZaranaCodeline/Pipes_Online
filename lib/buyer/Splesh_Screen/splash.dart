@@ -27,54 +27,70 @@ class _SplashState extends State<Splash> {
   void initState() {
     super.initState();
 
-    Timer(Duration(seconds: 2), () {
-      if (PreferenceManager.getUId() != null) {
-        print('T-1');
-        if (PreferenceManager.getUserType() == 'Buyer') {
-          print('T-2');
-          if (PreferenceManager.getName() != null ||
-              PreferenceManager.getAddress() != null) {
-            print('T-3');
-            Get.off(BottomNavigationBarScreen());
-          } else if (PreferenceManager.getUId() != null) {
-            if (PreferenceManager.getUserType() == 'Buyer') {
-              if (PreferenceManager.getName() == null ||
-                  PreferenceManager.getAddress() == null ||
-                  PreferenceManager.getUId() == null) {
-                Get.off(BWelcomeScreen());
+    Timer(
+      Duration(seconds: 2),
+      () {
+        if (PreferenceManager.getUId() != null) {
+          print('T-1');
+          if (PreferenceManager.getUserType() == 'Buyer') {
+            print('T-2');
+            print(
+                'T-5 CONDI   ${PreferenceManager.getName() != null || PreferenceManager.getAddress() != null}');
+            if (PreferenceManager.getName() != null ||
+                PreferenceManager.getAddress() != null &&
+                    PreferenceManager.getUId() != null) {
+              print('BUYER NAME--${PreferenceManager.getName()}');
+              print('BUYER ADDRESS--${PreferenceManager.getAddress()}');
+              print('T-3');
+              Get.off(BottomNavigationBarScreen());
+            } else {
+              print('T-5');
+              Get.off(SOnBoardingScreen());
+            } /*if (PreferenceManager.getUId() != null) {
+              if (PreferenceManager.getUserType() == 'Buyer') {
+                if (PreferenceManager.getName() == null ||
+                    PreferenceManager.getAddress() == null ||
+                    PreferenceManager.getUId() == null) {
+                  Get.off(BWelcomeScreen());
+                }
               }
-            }
-            print('T-4');
-            Get.off(BFirstUserInfoScreen());
-          }
-        } else if (PreferenceManager.getUserType() == 'Seller') {
-          print('T-5');
-          if (PreferenceManager.getName() != null ||
-              PreferenceManager.getAddress() != null) {
-            print('SELLER NAME--${PreferenceManager.getName()}');
+              print('T-4');
+              Get.off(BFirstUserInfoScreen());
+            }*/
+          } else if (PreferenceManager.getUserType() == 'Seller') {
             print('T-6');
-            Get.off(NavigationBarScreen());
-          } else if (PreferenceManager.getUId() != null) {
+            print(
+                'T-6 CONDI   ${PreferenceManager.getName() != null || PreferenceManager.getAddress() != null}');
+            if (PreferenceManager.getName() != null ||
+                PreferenceManager.getAddress() != null) {
+              print('SELLER NAME--${PreferenceManager.getName()}');
+              print('SELLER ADDRESS--${PreferenceManager.getAddress()}');
+
+              print('T-7');
+              Get.off(NavigationBarScreen());
+            } else {
+              print('T-8');
+
+              Get.off(SFirstUserInfoScreen());
+              /*else if (PreferenceManager.getUId() != null) {
             print('T-7');
             if (PreferenceManager.getUserType() == 'Seller') {
               if (PreferenceManager.getName() == null ||
                   PreferenceManager.getAddress() == null ||
                   PreferenceManager.getUId() == null) {
                 print('T-8');
-                Get.off(SWelcomeScreen());
+                Get.off(SFirstUserInfoScreen());
               }
             }
+          }*/
+            }
           }
-          Get.off(SFirstUserInfoScreen());
         } else {
           print('T-9');
-          Get.offAll(SOnBoardingScreen());
+          Get.off(SOnBoardingScreen());
         }
-      } else {
-        print('T-8');
-        Get.off(SWelcomeScreen());
-      }
-    });
+      },
+    );
   }
 
   @override

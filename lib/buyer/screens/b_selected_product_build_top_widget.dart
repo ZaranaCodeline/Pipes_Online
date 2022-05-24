@@ -41,7 +41,7 @@ class _CustomSelectedProductBuildTopWidgetState
           CustomText(
             text: widget.name.toString(),
             fontWeight: FontWeight.w600,
-            fontSize: 18.sp,
+            fontSize: 14.sp,
             color: AppColors.primaryColor,
             alignment: Alignment.topLeft,
           ),
@@ -70,7 +70,7 @@ class _CustomSelectedProductBuildTopWidgetState
                         Icon(
                           Icons.shopping_cart_outlined,
                           color: AppColors.commonWhiteTextColor,
-                          size: 15.sp,
+                          size: 12.sp,
                         ),
                         SizedBox(width: Get.width * 0.01),
                         StreamBuilder<QuerySnapshot>(
@@ -134,26 +134,34 @@ class _CustomSelectedProductBuildTopWidgetState
                                         .collection('Cart')
                                         .doc(PreferenceManager.getUId())
                                         .collection('MyCart')
-                                        .add({
-                                      'productID': widget.productID,
-                                      'cartID':
-                                          PreferenceManager.getUId().toString(),
-                                      'imageProfile': widget.image,
-                                      'category': widget.category,
-                                      'prdName': widget.name,
-                                      'dsc': widget.desc,
-                                      'price': widget.price,
-                                      'createdOn': DateTime.now().toString(),
-                                    }).then((value) {
-                                      setState(() {
-                                        isLoading = true;
-                                      });
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                        content: Text('Added into Cart'),
-                                        duration: Duration(seconds: 5),
-                                      ));
-                                    });
+                                        .add(
+                                      {
+                                        'productID': widget.productID,
+                                        'cartID': PreferenceManager.getUId()
+                                            .toString(),
+                                        'imageProfile': widget.image,
+                                        'category': widget.category,
+                                        'prdName': widget.name,
+                                        'dsc': widget.desc,
+                                        'price': widget.price,
+                                        'createdOn': DateTime.now().toString(),
+                                      },
+                                    ).then(
+                                      (value) {
+                                        setState(
+                                          () {
+                                            isLoading = true;
+                                          },
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text('Added into Cart'),
+                                            duration: Duration(seconds: 5),
+                                          ),
+                                        );
+                                      },
+                                    );
                                     data.clear();
                                   }
                                   print('hello2....');

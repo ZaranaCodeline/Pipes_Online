@@ -45,6 +45,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
   String? Img;
   String? sellerAddress;
   String? sellerPhone;
+  String? sellerName;
   EditProductContoller editProductContoller = Get.find();
 
   Future<void> getData() async {
@@ -64,8 +65,9 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
       address = getUserData?['address'];
       phoneno = getUserData?['phoneno'];
       Img = getUserData?['imageProfile'];
-      sellerAddress = getUserData?['address'];
-      sellerPhone = getUserData?['phoneno'];
+      // sellerAddress = getUserData?['address'];
+      // sellerPhone = getUserData?['phoneno'];
+      // sellerName = getUserData?['user_name'];
     });
 
     print('========SelectedProductWidget===========${getUserData}');
@@ -81,8 +83,9 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
     print('demo.b seller_id...${widget.sellerID}.');
     print('firstname-------${firstname}.');
     print('Img-------${Img}.');
-    print('sellerAddress-------${sellerAddress.toString()}.');
-    print('sellerPhone-------${sellerPhone.toString()}.');
+    // print('sellerAddress-------${sellerAddress.toString()}.');
+    // print('sellerPhone-------${sellerPhone.toString()}.');
+    // print('sellerName-------${sellerName.toString()}.');
   }
 
   @override
@@ -154,14 +157,21 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                 child: InkWell(
                   onTap: () {
                     print('selectedProduct===========>${widget.category}');
+                    print('widget.category===========>${widget.category}');
+                    print('widget.sellerID===========>${widget.sellerID}');
+                    print('Img.toString()===========>${Img.toString()}');
+                    print('address===========>${address}');
+                    print('phoneno===========>${phoneno}');
+                    // print('selectedProduct===========>${widget.category}');
                     Get.to(
                       () => SellerReviewWidget(
                         id: widget.productID,
                         category: widget.category,
                         sellerID: widget.sellerID,
-                        serllerImg: widget.image,
-                        sellerAddress: sellerAddress,
-                        sellerPhone: sellerPhone,
+                        serllerImg: Img.toString(),
+                        sellerAddress: address,
+                        sellerPhone: phoneno,
+                        sellerName: firstname,
                       ),
                     );
                   },

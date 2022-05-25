@@ -88,7 +88,7 @@ class SOrdersScreen extends StatelessWidget {
                               padding: EdgeInsets.zero,
                               child: GestureDetector(
                                 onTap: () {
-                                  Get.to(() => SorderReviewInfoScreen(),
+                                  Get.to(SorderReviewInfoScreen(),
                                       arguments: snapShot.data?.docs[index].id);
                                   // arguments: [
                                   //   snapShot.data?.docs[index].id

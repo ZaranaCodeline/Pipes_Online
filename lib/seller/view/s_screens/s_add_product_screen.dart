@@ -547,7 +547,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
             'dsc': dsc.text,
             'price': prdPrice.text,
             // 'price':addProductController.selectedPrice,
-            'createdOn': DateTime.now(),
+            'createdOn': DateTime.now().toString(),
           })
           .catchError((e) => print('Error ===>>> $e'))
           .then((value) {

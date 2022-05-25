@@ -31,15 +31,6 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
   var rating = 3.0;
   var orderDocID = Get.arguments;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    orderDocID = Get.arguments;
-    print('---ORDERID----${orderDocID}');
-    getData();
-  }
-
   CollectionReference profileCollection = bFirebaseStore.collection('Orders');
 
   String? buyerName,
@@ -75,7 +66,18 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
       Img = getUserData?['productImage'];
       createdOn = getUserData?['createdOn'];
     });
-    print('============================${user.get('imageProfile')}');
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    orderDocID = Get.arguments;
+    print('---ORDERID----${orderDocID}');
+    getData();
+    // formattedDateTime =
+    //     DateFormat('yyyy-MM-dd').format(DateTime.parse(createdOn.toString()));
+    // print('CREATED--${formattedDateTime}');
   }
 
   @override
@@ -91,18 +93,30 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
                     clipBehavior: Clip.none,
                     children: [
                       Container(
-                        child: Img != null
-                            ? Image.network(Img.toString())
-                            : Image.asset(
+                          child: Img != null
+                              ? Image.network(
+                                  Img.toString(),
+                                  height: Get.height / 4,
+                                  width: double.infinity,
+                                )
+                              : CircularProgressIndicator() /*Image.asset(
                                 BImagePick.proIcon,
                                 fit: BoxFit.cover,
-                                width: double.infinity,
-                              ),
-                      ),
+                                width: Get.width * 1,
+                                height: Get.height / 5,
+                              ),*/
+                          ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5.sp),
-                        child: BackButton(
-                          color: AppColors.commonWhiteTextColor,
+                        child: IconButton(
+                          onPressed: () {
+                            print('----BACK');
+                            Get.back();
+                          },
+                          icon: Icon(
+                            Icons.arrow_back,
+                            color: AppColors.secondaryBlackColor,
+                          ),
                         ),
                       )
                     ],
@@ -140,7 +154,7 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
                                       children: [
                                         CustomText(
                                             text:
-                                                'Ordered on ${formattedDateTime = DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.parse(createdOn.toString()))}',
+                                                'Ordered on ${formattedDateTime.toString()}',
                                             fontWeight: FontWeight.w600,
                                             fontSize: 14.sp,
                                             color:

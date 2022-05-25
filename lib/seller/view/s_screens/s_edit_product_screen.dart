@@ -43,7 +43,7 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
   String? uploadImage;
   File? _image;
   String? Img;
-
+  bool isLoading = false;
   String? dropdownvalue;
   FirebaseAuth _auth = FirebaseAuth.instance;
   CollectionReference userCollection =
@@ -429,31 +429,41 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(
                           vertical: 15.sp, horizontal: 30.sp),
-                      child: SCommonButton().sCommonPurpleButton(
-                        name: 'Edit Product',
-                        /* onTap: () {
+                      child: isLoading
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.primaryColor,
+                              ),
+                            )
+                          : SCommonButton().sCommonPurpleButton(
+                              name: 'Edit Product',
+                              /* onTap: () {
                           addData();
                           Get.to(() => SCatelogeHomeScreen());
                           print('edit product seller side');
                           // Get.toNamed(SRoutes.SSubmitProfileScreen);
                         },*/
-                        onTap: () async {
-                          if (formGlobalKey.currentState!.validate()) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Processing data'),
-                                backgroundColor: AppColors.primaryColor,
-                              ),
-                            );
-                            formGlobalKey.currentState!.save();
-                            await UpdateData().then((value) {
-                              Get.to(
-                                () => NavigationBarScreen(),
-                              );
-                            });
-                          }
-                        },
-                      ),
+                              onTap: () async {
+                                if (formGlobalKey.currentState!.validate()) {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  // ScaffoldMessenger.of(context).showSnackBar(
+                                  //   SnackBar(
+                                  //     content: Text('Processing data'),
+                                  //     backgroundColor: AppColors.primaryColor,
+                                  //   ),
+                                  // );
+                                  formGlobalKey.currentState!.save();
+                                  await UpdateData().then((value) {
+                                    Get.to(NavigationBarScreen());
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                  });
+                                }
+                              },
+                            ),
                     ),
                   ],
                 ),

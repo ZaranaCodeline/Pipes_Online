@@ -373,40 +373,52 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                   Padding(
                     padding: EdgeInsets.symmetric(
                         vertical: 15.sp, horizontal: 30.sp),
-                    child: SCommonButton().sCommonPurpleButton(
-                      name: 'Add Product',
-                      onTap: () async {
-                        if (formGlobalKey.currentState!.validate()) {
-                          /* ScaffoldMessenger.of(context).showSnackBar(
+                    child: isLoading
+                        ? Center(
+                            child: CircularProgressIndicator(
+                            color: AppColors.primaryColor,
+                          ))
+                        : SCommonButton().sCommonPurpleButton(
+                            name: 'Add Product',
+                            onTap: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              if (formGlobalKey.currentState!.validate()) {
+                                /* ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text('Processing data'),
                               backgroundColor: AppColors.primaryColor,
                             ),
                           );*/
-                          setState(() {
-                            isLoading = true;
-                          });
-                          if (_image == null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Please Select Image'),
-                                backgroundColor: Colors.redAccent,
-                              ),
-                            );
-                          }
-                          formGlobalKey.currentState!.save();
-                          await addData(_image).then((value) {
-                            homeController
-                                .selectedScreen('SCatelogeHomeScreen');
-                            homeController.bottomIndex.value = 0;
-                            PreferenceManager.getSubscribeCategory();
-                            PreferenceManager.getSubscribeTime();
-                            print(
-                                'getSubscribeTime---${PreferenceManager.getSubscribeTime()}-getSubscribeCategory--${PreferenceManager.getSubscribeCategory()}');
-                          });
-                        }
-                      },
-                    ),
+
+                                if (_image == null) {
+                                  // ScaffoldMessenger.of(context).showSnackBar(
+                                  //   SnackBar(
+                                  //     content: Text('Please Select Image'),
+                                  //     backgroundColor: Colors.redAccent,
+                                  //   ),
+                                  // );
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                }
+                                formGlobalKey.currentState!.save();
+                                await addData(_image).then((value) {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  homeController
+                                      .selectedScreen('SCatelogeHomeScreen');
+                                  homeController.bottomIndex.value = 0;
+                                  PreferenceManager.getSubscribeCategory();
+                                  PreferenceManager.getSubscribeTime();
+                                  print(
+                                      'getSubscribeTime---${PreferenceManager.getSubscribeTime()}-getSubscribeCategory--${PreferenceManager.getSubscribeCategory()}');
+                                });
+                              }
+                            },
+                          ),
                   ),
                   // Container(
                   //   alignment: Alignment.center,

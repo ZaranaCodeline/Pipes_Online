@@ -5,10 +5,8 @@ import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/b_chat_message_page.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
-import 'package:pipes_online/seller/view/s_screens/s_chat_message_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/app_constant/b_image.dart';
 import '../../../buyer/screens/custom_widget/custom_text.dart';

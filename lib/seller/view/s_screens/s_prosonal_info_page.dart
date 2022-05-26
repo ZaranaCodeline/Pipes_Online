@@ -120,7 +120,7 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
               icon: Icon(Icons.arrow_back),
             ),
             title: Text(
-              'PROFILE...'.toUpperCase(),
+              'PROFILE'.toUpperCase(),
               style: STextStyle.bold700White14,
             ),
             centerTitle: true,

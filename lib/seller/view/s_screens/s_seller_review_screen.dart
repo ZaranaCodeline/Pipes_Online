@@ -82,7 +82,7 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
           PopupMenuItem<String>(
             child: GestureDetector(
               onTap: () {
-                Get.to(() => ScustomerBuyReviewScreen());
+                Get.to(ScustomerBuyReviewScreen());
               },
               child: Container(
                 height: Get.height * 0.08,
@@ -160,8 +160,8 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
     return SafeArea(
       child: FutureBuilder<DocumentSnapshot>(
         future: FirebaseFirestore.instance
-            .collection('BProfile')
-            .doc(PreferenceManager.getUId().toString())
+            .collection('SProfile')
+            .doc(PreferenceManager.getUId())
             .get(),
         builder: (BuildContext context, snapshot) {
           if (!snapshot.hasData) {
@@ -195,11 +195,12 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                                           child: Container(
                                             height: 70,
                                             decoration: BoxDecoration(
-                                                color: AppColors.primaryColor,
-                                                borderRadius:
-                                                    const BorderRadius.vertical(
-                                                  bottom: Radius.circular(25),
-                                                )),
+                                              color: AppColors.primaryColor,
+                                              borderRadius:
+                                                  const BorderRadius.vertical(
+                                                bottom: Radius.circular(25),
+                                              ),
+                                            ),
                                           ),
                                         )
                                       ],
@@ -219,10 +220,11 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                                           height: 80.0,
                                           width: 80.0,
                                           decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                  color: Color(0xffE8E8E8),
-                                                  width: 1.0)),
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                color: Color(0xffE8E8E8),
+                                                width: 1.0),
+                                          ),
                                           child: output['imageProfile'] != null
                                               ? Image.network(
                                                   output['imageProfile'],
@@ -465,7 +467,7 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                                       color: AppColors.secondaryBlackColor),
                                   GestureDetector(
                                     onTap: () {
-                                      Get.to(() => SAddReviewScreen());
+                                      Get.to(SAddReviewScreen());
                                     },
                                     child: CustomText(
                                         text: 'Review Now',
@@ -500,7 +502,7 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                                           padding: EdgeInsets.symmetric(
                                               horizontal: 20),
                                           child: CustomText(
-                                            text: 'Jan Doe',
+                                            text: 'Jan Doe...',
                                             fontWeight: FontWeight.w600,
                                             fontSize: 12.sp,
                                             color:
@@ -584,7 +586,7 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                                     ),
                                   ),
                                   CustomText(
-                                      text: '3d',
+                                      text: '3d1111',
                                       fontWeight: FontWeight.w600,
                                       fontSize: 12.sp,
                                       color: AppColors.secondaryBlackColor),

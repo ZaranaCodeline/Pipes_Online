@@ -56,7 +56,7 @@ class SOrdersScreen extends StatelessWidget {
               return ListView.builder(
                 itemCount: snapShot.data?.docs.length,
                 itemBuilder: (context, index) {
-                  formattedDateTime = DateFormat('yyyy-MM-dd hh:mm:ss').format(
+                  formattedDateTime = DateFormat('yyyy-MM-dd').format(
                       DateTime.parse(snapShot.data?.docs[index]['createdOn']));
                   print('--formattedDateTime-${formattedDateTime}');
                   return Container(

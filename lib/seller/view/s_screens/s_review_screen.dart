@@ -136,7 +136,7 @@ class _SReviewScreenState extends State<SReviewScreen> {
                       color: AppColors.secondaryBlackColor),
                   GestureDetector(
                     onTap: () {
-                      Get.to(() => SAddReviewScreen());
+                      Get.to(SAddReviewScreen());
                     },
                     child: CustomText(
                         text: 'Review Now',

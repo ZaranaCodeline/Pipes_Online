@@ -218,7 +218,7 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                                                 vertical: 10.sp),
                                             child: InkWell(
                                               onTap: () {
-                                                Get.to(() => SReviewScreen());
+                                                Get.to(SReviewScreen());
                                               },
                                               child: Row(
                                                 mainAxisAlignment:

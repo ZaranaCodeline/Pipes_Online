@@ -17,6 +17,7 @@ import 'package:pipes_online/seller/view/s_authentication_screen/s_phone_otp_scr
 import 'package:pipes_online/seller/view/s_authentication_screen/s_ragistraion_screen.dart';
 
 import 'package:pipes_online/seller/view/s_authentication_screen/s_welcome_screen.dart';
+import 'package:pipes_online/seller/view/s_screens/s_seller_review_screen.dart';
 import '../buyer/Splesh_Screen/splash.dart';
 
 import '../seller/bottombar/s_navigation_bar.dart';
@@ -33,6 +34,8 @@ class AppPages {
 
     GetPage(name: SRoutes.SOnBoardingScreen, page: () => SOnBoardingScreen()),
     GetPage(name: SRoutes.SPermissionScreen, page: () => SPermissionScreen()),
+    GetPage(
+        name: SRoutes.SSellerReviewScreen, page: () => SSellerReviewScreen()),
     GetPage(name: SRoutes.SBuyerSellerScreen, page: () => SBuyerSellerScreen()),
     GetPage(name: SRoutes.SWelcomeScreen, page: () => SWelcomeScreen()),
 

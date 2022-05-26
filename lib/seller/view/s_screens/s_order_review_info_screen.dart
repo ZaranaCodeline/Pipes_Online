@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/app_constant/b_image.dart';
+import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_seller_review_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_earning_screen.dart';
@@ -75,9 +76,6 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
     orderDocID = Get.arguments;
     print('---ORDERID----${orderDocID}');
     getData();
-    // formattedDateTime =
-    //     DateFormat('yyyy-MM-dd').format(DateTime.parse(createdOn.toString()));
-    // print('CREATED--${formattedDateTime}');
   }
 
   @override
@@ -109,9 +107,9 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5.sp),
                         child: IconButton(
-                          onPressed: () {
+                          onPressed: () async {
                             print('----BACK');
-                            Get.back();
+                            Get.to(NavigationBarScreen());
                           },
                           icon: Icon(
                             Icons.arrow_back,
@@ -291,8 +289,9 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
+                              print('SellerReviewPage--');
                               //ScustomerReviewScreen
-                              Get.to(() => SSellerReviewScreen());
+                              Get.to(SSellerReviewScreen());
                             },
                             child: Card(
                               child: Column(

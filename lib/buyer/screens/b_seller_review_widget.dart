@@ -233,11 +233,12 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                                           child: Container(
                                             height: 60,
                                             decoration: BoxDecoration(
-                                                color: AppColors.primaryColor,
-                                                borderRadius:
-                                                    const BorderRadius.vertical(
-                                                  bottom: Radius.circular(25),
-                                                )),
+                                              color: AppColors.primaryColor,
+                                              borderRadius:
+                                                  const BorderRadius.vertical(
+                                                bottom: Radius.circular(25),
+                                              ),
+                                            ),
                                           ),
                                         )
                                       ],

@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "350693028684-rufcnelb8ob8vomsit3q6ourjksnc6li.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pipedeals.pipedeals",
+            "certificate_hash": "7c1a16f613fac29c701e1310def173d464fa5ba3"
+          }
+        },
+        {
           "client_id": "350693028684-afrg937t9apsambvgj39iutnb6fkhoph.apps.googleusercontent.com",
           "client_type": 3
         }

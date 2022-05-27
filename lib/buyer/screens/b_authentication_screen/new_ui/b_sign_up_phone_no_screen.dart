@@ -37,6 +37,8 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
 
   Future sendOtp() async {
     print(
+        'PHONE NUMBER---${bLogInController.countryCode.toString() + _phoneController.text}');
+    print(
         '========code===${bLogInController.countryCode}${_phoneController.text}');
 
     await _auth.verifyPhoneNumber(

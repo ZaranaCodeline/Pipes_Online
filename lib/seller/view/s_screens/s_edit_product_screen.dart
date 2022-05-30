@@ -283,32 +283,34 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                                           blurRadius: 1,
                                           color: AppColors.offWhiteColor),
                                     ]),
-                                child: DropdownButton(
-                                  value: editProductContoller.selectedCatName,
-                                  icon: Icon(
-                                    Icons.arrow_drop_down_outlined,
-                                    color: AppColors.primaryColor,
-                                    size: 18.sp,
-                                  ),
-                                  items: items.map((String items) {
-                                    return DropdownMenuItem(
-                                      value: items,
-                                      child: CustomText(
-                                        text: items,
-                                        color: AppColors.secondaryBlackColor,
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w600,
-                                        textDecoration: TextDecoration.none,
-                                      ),
-                                    );
-                                  }).toList(),
-                                  onChanged: (String? newValue) {
-                                    setState(() {
-                                      editProductContoller.selectedCatName =
-                                          newValue!;
-                                    });
-                                  },
-                                ),
+                                // child: DropdownButton(
+                                //   value: editProductContoller.selectedCatName,
+                                //   icon: Icon(
+                                //     Icons.arrow_drop_down_outlined,
+                                //     color: AppColors.primaryColor,
+                                //     size: 18.sp,
+                                //   ),
+                                //   items: items.map((String items) {
+                                //     return DropdownMenuItem(
+                                //       value: items,
+                                //       child: CustomText(
+                                //         text: editProductContoller
+                                //             .selectedCatName
+                                //             .toString(),
+                                //         color: AppColors.secondaryBlackColor,
+                                //         fontSize: 12.sp,
+                                //         fontWeight: FontWeight.w600,
+                                //         textDecoration: TextDecoration.none,
+                                //       ),
+                                //     );
+                                //   }).toList(),
+                                //   onChanged: (String? newValue) {
+                                //     setState(() {
+                                //       editProductContoller.selectedCatName =
+                                //           newValue!;
+                                //     });
+                                //   },
+                                // ),
                               ),
                             ),
                             // Container(

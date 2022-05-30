@@ -459,20 +459,21 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                         GestureDetector(
                           onTap: () async {
                             if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-
+                              setState(() {
+                                isLoading = true;
+                              });
                               addData().then((value) {
-                                setState(() {
-                                  isLoading = true;
-                                });
                                 PreferenceManager.setName(nameController.text);
                                 PreferenceManager.getName();
+                                _formKey.currentState!.save();
+                                Get.offAll(NavigationBarScreen())
+                                    ?.then((value) {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                });
 
-                                Get.offAll(NavigationBarScreen());
                                 print('Validate');
-                              });
-                              setState(() {
-                                isLoading = false;
                               });
                             } else {
                               print('InValidate');
@@ -481,37 +482,46 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                               });
                             }
                           },
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: Get.width * 0.6,
-                            height: Get.height * 0.07,
-                            decoration: BoxDecoration(
-                              color: SColorPicker.purple,
-                              borderRadius: BorderRadius.circular(10.sp),
-                            ),
-                            child: isLoading
-                                ? Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      CustomText(
-                                          text: 'Loading...  ',
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12.sp,
-                                          color:
-                                              AppColors.commonWhiteTextColor),
-                                      CircularProgressIndicator(
-                                        color: AppColors.commonWhiteTextColor,
-                                      ),
-                                    ],
-                                  )
-                                : Text(
+                          child: isLoading
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                    color: AppColors.primaryColor,
+                                  ),
+                                )
+                              : Container(
+                                  alignment: Alignment.center,
+                                  width: Get.width * 0.6,
+                                  height: Get.height * 0.07,
+                                  decoration: BoxDecoration(
+                                    color: SColorPicker.purple,
+                                    borderRadius: BorderRadius.circular(10.sp),
+                                  ),
+                                  child: /* isLoading
+                                      ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            CustomText(
+                                                text: 'Loading...  ',
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12.sp,
+                                                color: AppColors
+                                                    .commonWhiteTextColor),
+                                            CircularProgressIndicator(
+                                              color: AppColors
+                                                  .commonWhiteTextColor,
+                                            ),
+                                          ],
+                                        )
+                                      : */
+                                      Text(
                                     'Submit',
                                     style: TextStyle(
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w600,
                                         color: AppColors.commonWhiteTextColor),
                                   ),
-                          ),
+                                ),
                         ),
                         SizedBox(height: Get.height * 0.1),
                       ],

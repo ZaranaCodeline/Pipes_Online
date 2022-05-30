@@ -456,11 +456,10 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                           GestureDetector(
                             onTap: () async {
                               if (_formKey.currentState!.validate()) {
-                                _formKey.currentState!.save();
+                                setState(() {
+                                  isLoading = true;
+                                });
                                 addData().then((value) {
-                                  setState(() {
-                                    isLoading = true;
-                                  });
                                   PreferenceManager.setName(
                                       nameController.text);
                                   PreferenceManager.getName();
@@ -472,6 +471,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                     });
                                   });
                                 });
+                                _formKey.currentState!.save();
                               } else {
                                 print('InValidate');
                                 setState(() {
@@ -479,15 +479,22 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                 });
                               }
                             },
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: Get.width * 0.6,
-                              height: Get.height * 0.07,
-                              decoration: BoxDecoration(
-                                color: SColorPicker.purple,
-                                borderRadius: BorderRadius.circular(10.sp),
-                              ),
-                              child: isLoading
+                            child: isLoading
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  )
+                                : Container(
+                                    alignment: Alignment.center,
+                                    width: Get.width * 0.6,
+                                    height: Get.height * 0.07,
+                                    decoration: BoxDecoration(
+                                      color: SColorPicker.purple,
+                                      borderRadius:
+                                          BorderRadius.circular(10.sp),
+                                    ),
+                                    child: /*isLoading
                                   ? Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -503,7 +510,8 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                         ),
                                       ],
                                     )
-                                  : Text(
+                                  : */
+                                        Text(
                                       'Submit',
                                       style: TextStyle(
                                           fontSize: 14.sp,
@@ -511,7 +519,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                           color:
                                               AppColors.commonWhiteTextColor),
                                     ),
-                            ),
+                                  ),
                           ),
                           SizedBox(height: Get.height * 0.1),
                         ],

@@ -55,64 +55,64 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
   //   }
   //   _auth.signInWithCredential(phoneAuthCredential);
   // }
-  verifyPhoneNumber() async {
-    await FirebaseAuth.instance
-        .verifyPhoneNumber(
-            phoneNumber: "+91 ${widget.phone}",
-            verificationCompleted: (PhoneAuthCredential credential) async {
-              await FirebaseAuth.instance
-                  .signInWithCredential(credential)
-                  .then((value) {
-                if (value.user != null) {
-                  String? uid = FirebaseAuth.instance.currentUser!.uid;
-                  PreferenceManager.setUId(uid);
-                  print('=========${PreferenceManager.getUId()}');
-
-                  ///TODO fix routes
-                  Get.to(() => NavigationBarScreen());
-                  setState(() {
-                    isLoading = false;
-                  });
-                }
-              });
-            },
-            verificationFailed: (FirebaseAuthException e) {
-              setState(() {
-                isLoading = false;
-              });
-              print('----verificationFailed---${e.message}');
-              Get.showSnackbar(
-                GetSnackBar(
-                  snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: SColorPicker.red,
-                  duration: Duration(seconds: 5),
-                  message:
-                      'The format of the phone number provided is incorrect.',
-                ),
-              );
-            },
-            codeSent: (String? vID, int? resendToken) {
-              verificationCode = vID;
-            },
-            codeAutoRetrievalTimeout: (String? vID) {
-              verificationCode = vID;
-            },
-            timeout: Duration(seconds: 60))
-        .then(
-          (value) => Get.offAll(() {
-            PreferenceManager.getUId();
-            PreferenceManager.setPhoneNumber(widget.phone.toString());
-            print('P========${widget.phone.toString()}');
-            if (PreferenceManager.getUId() != null) {
-              NavigationBarScreen();
-            }
-            Get.snackbar('Please Try again', 'Invalid OTP');
-          }),
-        )
-        .catchError((onError) {
-      print(onError.toString());
-    });
-  }
+  // verifyPhoneNumber() async {
+  //   await FirebaseAuth.instance
+  //       .verifyPhoneNumber(
+  //           phoneNumber: "+91 ${widget.phone}",
+  //           verificationCompleted: (PhoneAuthCredential credential) async {
+  //             await FirebaseAuth.instance
+  //                 .signInWithCredential(credential)
+  //                 .then((value) {
+  //               if (value.user != null) {
+  //                 String? uid = FirebaseAuth.instance.currentUser!.uid;
+  //                 PreferenceManager.setUId(uid);
+  //                 print('=========${PreferenceManager.getUId()}');
+  //
+  //                 ///TODO fix routes
+  //                 Get.to(() => NavigationBarScreen());
+  //                 setState(() {
+  //                   isLoading = false;
+  //                 });
+  //               }
+  //             });
+  //           },
+  //           verificationFailed: (FirebaseAuthException e) {
+  //             setState(() {
+  //               isLoading = false;
+  //             });
+  //             print('----verificationFailed---${e.message}');
+  //             Get.showSnackbar(
+  //               GetSnackBar(
+  //                 snackPosition: SnackPosition.BOTTOM,
+  //                 backgroundColor: SColorPicker.red,
+  //                 duration: Duration(seconds: 5),
+  //                 message:
+  //                     'The format of the phone number provided is incorrect.',
+  //               ),
+  //             );
+  //           },
+  //           codeSent: (String? vID, int? resendToken) {
+  //             verificationCode = vID;
+  //           },
+  //           codeAutoRetrievalTimeout: (String? vID) {
+  //             verificationCode = vID;
+  //           },
+  //           timeout: Duration(seconds: 60))
+  //       .then(
+  //         (value) => Get.offAll(() {
+  //           PreferenceManager.getUId();
+  //           PreferenceManager.setPhoneNumber(widget.phone.toString());
+  //           print('P========${widget.phone.toString()}');
+  //           if (PreferenceManager.getUId() != null) {
+  //             NavigationBarScreen();
+  //           }
+  //           Get.snackbar('Please Try again', 'Invalid OTP');
+  //         }),
+  //       )
+  //       .catchError((onError) {
+  //     print(onError.toString());
+  //   });
+  // }
 
   SLogInController sLogInController = Get.find();
 

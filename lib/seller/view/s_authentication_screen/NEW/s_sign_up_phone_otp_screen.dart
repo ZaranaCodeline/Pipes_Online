@@ -111,7 +111,7 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
     print(
       'OTP Sent to ${SLogInController().countryCode}${widget.phone} ',
     );
-    verifyPhoneNumber();
+    // verifyPhoneNumber();
   }
 
   // SLogInController sLogInController = Get.find();
@@ -163,67 +163,67 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
   //   );
   // }
 
-  verifyPhoneNumber() async {
-    await FirebaseAuth.instance
-        .verifyPhoneNumber(
-            phoneNumber: "+91 ${widget.phone}",
-            verificationCompleted: (PhoneAuthCredential credential) async {
-              await FirebaseAuth.instance
-                  .signInWithCredential(credential)
-                  .then((value) {
-                if (value.user != null) {
-                  String? uid = FirebaseAuth.instance.currentUser!.uid;
-                  PreferenceManager.setUId(uid);
-                  PreferenceManager.setPhoneNumber(widget.phone.toString());
-                  Get.to(SFirstUserInfoScreen());
-                  PreferenceManager.getPhoneNumber();
-                  print('---PHONE--${PreferenceManager.getPhoneNumber()}');
-                  setState(() {
-                    isLoading = false;
-                  });
-                }
-              });
-            },
-            verificationFailed: (FirebaseAuthException e) {
-              setState(() {
-                isLoading = false;
-              });
-              print('----verificationFailed---${e.message}');
-              Get.showSnackbar(
-                GetSnackBar(
-                  snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: SColorPicker.red,
-                  duration: Duration(seconds: 5),
-                  message: e.message.toString(),
-                ),
-              );
-            },
-            codeSent: (String? vID, int? resendToken) {
-              setState(() {
-                verificationCode = vID;
-              });
-            },
-            codeAutoRetrievalTimeout: (String? vID) {
-              verificationCode = vID;
-            },
-            timeout: Duration(seconds: 60))
-        .then(
-          (value) => Get.offAll(() {
-            PreferenceManager.setUId(_auth.currentUser!.uid.toString());
-            PreferenceManager.getUId();
-            PreferenceManager.setPhoneNumber(widget.phone.toString());
-            print('P========${widget.phone.toString()}');
-
-            if (PreferenceManager.getUId() != null) {
-              SFirstUserInfoScreen();
-            }
-            Get.snackbar('Oops', 'Invalid OTP');
-          }),
-        )
-        .catchError((onError) {
-      print(onError.toString());
-    });
-  }
+  // verifyPhoneNumber() async {
+  //   await FirebaseAuth.instance
+  //       .verifyPhoneNumber(
+  //           phoneNumber: "+91 ${widget.phone}",
+  //           verificationCompleted: (PhoneAuthCredential credential) async {
+  //             await FirebaseAuth.instance
+  //                 .signInWithCredential(credential)
+  //                 .then((value) {
+  //               if (value.user != null) {
+  //                 String? uid = FirebaseAuth.instance.currentUser!.uid;
+  //                 PreferenceManager.setUId(uid);
+  //                 PreferenceManager.setPhoneNumber(widget.phone.toString());
+  //                 Get.to(SFirstUserInfoScreen());
+  //                 PreferenceManager.getPhoneNumber();
+  //                 print('---PHONE--${PreferenceManager.getPhoneNumber()}');
+  //                 setState(() {
+  //                   isLoading = false;
+  //                 });
+  //               }
+  //             });
+  //           },
+  //           verificationFailed: (FirebaseAuthException e) {
+  //             setState(() {
+  //               isLoading = false;
+  //             });
+  //             print('----verificationFailed---${e.message}');
+  //             Get.showSnackbar(
+  //               GetSnackBar(
+  //                 snackPosition: SnackPosition.BOTTOM,
+  //                 backgroundColor: SColorPicker.red,
+  //                 duration: Duration(seconds: 5),
+  //                 message: e.message.toString(),
+  //               ),
+  //             );
+  //           },
+  //           codeSent: (String? vID, int? resendToken) {
+  //             setState(() {
+  //               verificationCode = vID;
+  //             });
+  //           },
+  //           codeAutoRetrievalTimeout: (String? vID) {
+  //             verificationCode = vID;
+  //           },
+  //           timeout: Duration(seconds: 60))
+  //       .then(
+  //         (value) => Get.offAll(() {
+  //           PreferenceManager.setUId(_auth.currentUser!.uid.toString());
+  //           PreferenceManager.getUId();
+  //           PreferenceManager.setPhoneNumber(widget.phone.toString());
+  //           print('P========${widget.phone.toString()}');
+  //
+  //           if (PreferenceManager.getUId() != null) {
+  //             SFirstUserInfoScreen();
+  //           }
+  //           Get.snackbar('Oops', 'Invalid OTP');
+  //         }),
+  //       )
+  //       .catchError((onError) {
+  //     print(onError.toString());
+  //   });
+  // }
 
   @override
   void dispose() {
@@ -471,40 +471,49 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
                                     );
                                   }
                                 },
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  width: Get.width * 0.6,
-                                  height: Get.height * 0.08,
-                                  decoration: BoxDecoration(
-                                    color: SColorPicker.purple,
-                                    borderRadius: BorderRadius.circular(10.sp),
-                                  ),
-                                  child: isLoading
-                                      ? Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            CustomText(
-                                                text: 'Loading...  ',
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 12.sp,
-                                                color: AppColors
-                                                    .commonWhiteTextColor),
-                                            CircularProgressIndicator(
-                                              color: AppColors
-                                                  .commonWhiteTextColor,
-                                            ),
-                                          ],
-                                        )
-                                      : Text(
-                                          'SIGN UP',
-                                          style: TextStyle(
-                                              color: AppColors
-                                                  .commonWhiteTextColor,
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w700),
+                                child: isLoading
+                                    ? Center(
+                                        child: CircularProgressIndicator(
+                                          color: AppColors.primaryColor,
                                         ),
-                                ),
+                                      )
+                                    : Container(
+                                        alignment: Alignment.center,
+                                        width: Get.width * 0.6,
+                                        height: Get.height * 0.08,
+                                        decoration: BoxDecoration(
+                                          color: SColorPicker.purple,
+                                          borderRadius:
+                                              BorderRadius.circular(10.sp),
+                                        ),
+                                        child: isLoading
+                                            ? Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  CustomText(
+                                                      text: 'Loading...  ',
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 12.sp,
+                                                      color: AppColors
+                                                          .commonWhiteTextColor),
+                                                  CircularProgressIndicator(
+                                                    color: AppColors
+                                                        .commonWhiteTextColor,
+                                                  ),
+                                                ],
+                                              )
+                                            : Text(
+                                                'SIGN UP',
+                                                style: TextStyle(
+                                                    color: AppColors
+                                                        .commonWhiteTextColor,
+                                                    fontSize: 14.sp,
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                      ),
                               ),
                             ],
                           ),

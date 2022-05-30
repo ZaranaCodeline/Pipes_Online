@@ -193,13 +193,13 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                   children: [
                                     Container(
                                       height: Get.height * 0.07,
-                                      width: Get.width * 0.25,
+                                      width: Get.width * 0.2,
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10.sp),
-                                          border:
-                                              Border.all(color: Colors.grey)),
-                                      alignment: Alignment.centerLeft,
+                                        borderRadius:
+                                            BorderRadius.circular(10.sp),
+                                        border: Border.all(color: Colors.grey),
+                                      ),
+                                      alignment: Alignment.center,
                                       child: CountryCodePicker(
                                         onChanged: (val) {
                                           controller.setCountryCode(val);
@@ -209,6 +209,7 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                         favorite: ['+91', 'IN'],
                                         showCountryOnly: false,
                                         showOnlyCountryWhenClosed: false,
+                                        hideMainText: true,
                                       ),
                                     ),
                                     Container(

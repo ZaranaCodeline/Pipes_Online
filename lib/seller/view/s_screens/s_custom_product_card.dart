@@ -74,11 +74,11 @@ class _SCustomProductCardState extends State<SCustomProductCard> {
                       EditProductContoller editProductContoller =
                           Get.put(EditProductContoller());
                       print(
-                          '====================>${editProductContoller.selectedName = snapShot.data!.docs[index]['prdName']}');
+                          'prdName==>${editProductContoller.selectedName = snapShot.data!.docs[index]['prdName']}');
                       print(
-                          '====================>${editProductContoller.selectedPrice = editProductContoller.selectedPrice}');
+                          'selectedPrice==>${editProductContoller.selectedPrice = editProductContoller.selectedPrice}');
                       print(
-                          '===editProductContoller.selectedPrice====>${editProductContoller.selectedPrice = (snapShot.data!.docs[index]['price'])}');
+                          'selectedPrice====>${editProductContoller.selectedPrice = (snapShot.data!.docs[index]['price'])}');
                       // editProductContoller.selectedName =
                       //     (snapShot.data!.docs[index]['prdName']);
                       // editProductContoller.selectedName =

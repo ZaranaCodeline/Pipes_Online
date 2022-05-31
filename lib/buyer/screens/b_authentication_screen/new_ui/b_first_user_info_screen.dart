@@ -354,10 +354,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                         controller: widget.phone != null
                                             ? PreferenceManager.getPhoneNumber()
                                             : mobilecontroller,
-                                        decoration: InputDecoration(
-
-                                            // hintText: "Name",
-                                            ),
+                                        decoration: InputDecoration(),
                                       ),
                                     )
                                   : Container(
@@ -374,9 +371,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                         controller: widget.email != null
                                             ? PreferenceManager.getEmail()
                                             : emailController,
-                                        decoration: InputDecoration(
-                                            // hintText: "Name",
-                                            ),
+                                        decoration: InputDecoration(),
                                       ),
                                     ),
                               SizedBox(
@@ -494,24 +489,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                       borderRadius:
                                           BorderRadius.circular(10.sp),
                                     ),
-                                    child: /*isLoading
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        CustomText(
-                                            text: 'Loading...  ',
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12.sp,
-                                            color:
-                                                AppColors.commonWhiteTextColor),
-                                        CircularProgressIndicator(
-                                          color: AppColors.commonWhiteTextColor,
-                                        ),
-                                      ],
-                                    )
-                                  : */
-                                        Text(
+                                    child: Text(
                                       'Submit',
                                       style: TextStyle(
                                           fontSize: 14.sp,

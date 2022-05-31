@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -349,20 +350,18 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                                     width: Get.width * 0.8,
                                     height: Get.height * 0.07,
                                     child: TextFormField(
-                                      keyboardType: widget.email != null ||
-                                              bFirebaseAuth
-                                                      .currentUser?.email !=
-                                                  null
-                                          ? TextInputType.number
-                                          : TextInputType.emailAddress,
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(10),
+                                      ],
+                                      keyboardType: TextInputType.number,
                                       validator: (value) {
                                         if (value!.isEmpty) {
                                           return 'Required';
                                         }
                                       },
-                                      controller: widget.email != null
-                                          ? mobilecontroller
-                                          : emailController,
+                                      controller: widget.phone != null
+                                          ? PreferenceManager.getPhoneNumber()
+                                          : mobilecontroller,
                                       decoration: InputDecoration(),
                                     ),
                                   )
@@ -379,9 +378,7 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                                       controller: widget.email != null
                                           ? PreferenceManager.getEmail()
                                           : emailController,
-                                      decoration: InputDecoration(
-                                          // hintText: "Name",
-                                          ),
+                                      decoration: InputDecoration(),
                                     ),
                                   ),
                             SizedBox(
@@ -412,6 +409,7 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                                     _controller.addressController == null
                                         ? address
                                         : _controller.addressController,
+                                decoration: InputDecoration(),
                               ),
                             ),
                           ],
@@ -496,25 +494,7 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                                     color: SColorPicker.purple,
                                     borderRadius: BorderRadius.circular(10.sp),
                                   ),
-                                  child: /* isLoading
-                                      ? Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            CustomText(
-                                                text: 'Loading...  ',
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 12.sp,
-                                                color: AppColors
-                                                    .commonWhiteTextColor),
-                                            CircularProgressIndicator(
-                                              color: AppColors
-                                                  .commonWhiteTextColor,
-                                            ),
-                                          ],
-                                        )
-                                      : */
-                                      Text(
+                                  child: Text(
                                     'Submit',
                                     style: TextStyle(
                                         fontSize: 14.sp,
@@ -586,7 +566,9 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
       'sellerID': PreferenceManager.getUId(),
       'email': PreferenceManager.getEmail() ?? emailController.text,
       'isOnline': false,
-      'phoneno': PreferenceManager.getPhoneNumber() ?? mobilecontroller.text,
+      'phoneno': PreferenceManager.getPhoneNumber() != null
+          ? PreferenceManager.getPhoneNumber()
+          : mobilecontroller.text,
       'user_name': PreferenceManager.getName(),
       'imageProfile': imageUrl ??
           'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',

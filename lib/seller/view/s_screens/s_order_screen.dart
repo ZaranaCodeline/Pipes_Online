@@ -9,6 +9,7 @@ import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
+import '../../bottombar/widget/category_bottom_bar_route.dart';
 import '../../common/s_text_style.dart';
 
 class SOrdersScreen extends StatelessWidget {
@@ -27,13 +28,9 @@ class SOrdersScreen extends StatelessWidget {
           backgroundColor: AppColors.primaryColor,
           leading: IconButton(
               onPressed: () {
-                /* if (homeController.bottomIndex.value == 1) {
-                  homeController.setSelectedScreen(value: 'Order Screen');
-                  homeController.bottomIndex.value = 0;
-                } else {
-
-                }*/
-                Get.back();
+                print('back to home screen');
+                homeController.bottomIndex.value = 0;
+                homeController.selectedScreen('SCatelogeHomeScreen');
               },
               icon: Icon(Icons.arrow_back_rounded)),
           toolbarHeight: Get.height * 0.1,

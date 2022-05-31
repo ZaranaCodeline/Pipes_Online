@@ -341,7 +341,6 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
                                                   allowHalfRating: false,
                                                   onRatingChanged: (v) {
                                                     rating = v;
-                                                    setState(() {});
                                                   },
                                                   starCount: 5,
                                                   rating: rating,

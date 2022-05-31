@@ -61,7 +61,7 @@ class _SChatScreenState extends State<SChatScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Chat'.toString(),
+            'Chat'.toUpperCase(),
             style: STextStyle.bold700White14,
           ),
           centerTitle: true,

@@ -109,7 +109,7 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
                         child: IconButton(
                           onPressed: () async {
                             print('----BACK');
-                            Get.to(NavigationBarScreen());
+                            Get.back();
                           },
                           icon: Icon(
                             Icons.arrow_back,

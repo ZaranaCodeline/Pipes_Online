@@ -29,8 +29,9 @@ class SOrdersScreen extends StatelessWidget {
           leading: IconButton(
               onPressed: () {
                 print('back to home screen');
-                homeController.bottomIndex.value = 0;
-                homeController.selectedScreen('SCatelogeHomeScreen');
+                Get.back();
+                // homeController.bottomIndex.value = 0;
+                // homeController.selectedScreen('SCatelogeHomeScreen');
               },
               icon: Icon(Icons.arrow_back_rounded)),
           toolbarHeight: Get.height * 0.1,

@@ -367,9 +367,11 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
                                     child: SCommonButton().sCommonPurpleButton(
                                       name: "Login".toUpperCase(),
                                       onTap: () async {
+                                        setState(() {
+                                          isLoading = true;
+                                        });
                                         try {
-                                          print('Test:------');
-
+                                          print('Check--3');
                                           PhoneAuthCredential
                                               phoneAuthCredential =
                                               PhoneAuthProvider.credential(
@@ -380,10 +382,16 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
                                           await signInWithPhoneAuthCredential(
                                                   phoneAuthCredential)
                                               .then((value) async {
+                                            print(
+                                                '--seller--${phoneAuthCredential.signInMethod}');
                                             PreferenceManager.setUId(
                                                 FirebaseAuth
                                                     .instance.currentUser!.uid);
                                             PreferenceManager.getUId();
+                                            print(
+                                                '==UserID===${PreferenceManager.getUId()}');
+                                            print(
+                                                '==UserPhone===${PreferenceManager.getPhoneNumber()}');
                                             PreferenceManager.setPhoneNumber(
                                                 widget.phone.toString());
                                             PreferenceManager.getPhoneNumber();
@@ -418,30 +426,11 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
                                                   );
                                                   return Get.offAll(
                                                       NavigationBarScreen());
-
-                                                  /*Navigator.of(context)
-                                                  .pushReplacement(
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              NavigationBarScreen()));*/
-
-                                                  /*   navigator?.pushReplacement<
-                                                      void, void>(
-                                                MaterialPageRoute<void>(
-                                                  builder:
-                                                      (BuildContext context) =>
-                                                          NavigationBarScreen(),
-                                                ),
-                                              );*/
-                                                  /* Navigator.pushAndRemoveUntil(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (BuildContext
-                                                                  context) =>
-                                                              NavigationBarScreen()),
-                                                      ModalRoute.withName('/'));*/
                                                 }
                                               } else {
+                                                setState(() {
+                                                  isLoading = false;
+                                                });
                                                 print('Test:-3');
                                                 GetSnackBar(
                                                   snackPosition:
@@ -455,7 +444,9 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
                                               }
                                             } on FirebaseAuthException catch (e) {
                                               print('Test:-4');
-
+                                              setState(() {
+                                                isLoading = false;
+                                              });
                                               print(e);
                                               Get.showSnackbar(
                                                 GetSnackBar(
@@ -471,7 +462,10 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
                                             }
                                           });
                                         } catch (e) {
-                                          print('=-=-=-${e}');
+                                          setState(() {
+                                            isLoading = false;
+                                          });
+                                          print('Check--7-${e}');
                                           Get.showSnackbar(
                                             GetSnackBar(
                                               snackPosition:
@@ -499,7 +493,7 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
           ),
         ),
         onWillPop: () async {
-          return false;
+          return true;
         });
   }
 }

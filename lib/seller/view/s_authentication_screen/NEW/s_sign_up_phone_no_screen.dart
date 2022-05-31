@@ -183,7 +183,7 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
                                   children: [
                                     Container(
                                       height: Get.height * 0.07,
-                                      width: Get.width * 0.2,
+                                      width: Get.width * 0.25,
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10.sp),
@@ -197,6 +197,8 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
                                         initialSelection: '+00',
                                         favorite: ['+91', 'IN'],
                                         showCountryOnly: false,
+                                        showDropDownButton: false,
+                                        alignLeft: true,
                                         showOnlyCountryWhenClosed: false,
                                         hideMainText: true,
                                       ),

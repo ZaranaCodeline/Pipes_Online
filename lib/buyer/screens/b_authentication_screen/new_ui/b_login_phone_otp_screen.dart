@@ -402,9 +402,6 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                     });
                                     try {
                                       print('Check--3');
-
-                                      print('Test:------');
-
                                       PhoneAuthCredential phoneAuthCredential =
                                           PhoneAuthProvider.credential(
                                               verificationId:
@@ -415,14 +412,14 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                           .then(
                                         (value) async {
                                           print(
-                                              '--------sss-${phoneAuthCredential.signInMethod}');
+                                              '--buyer--${phoneAuthCredential.signInMethod}');
                                           PreferenceManager.setUId(FirebaseAuth
                                               .instance.currentUser!.uid);
                                           PreferenceManager.getUId();
                                           print(
-                                              '==User id===${PreferenceManager.getUId()}');
+                                              '==UserID===${PreferenceManager.getUId()}');
                                           print(
-                                              '==User phone===${PreferenceManager.getPhoneNumber()}');
+                                              '==UserPhone===${PreferenceManager.getPhoneNumber()}');
                                           PreferenceManager.setPhoneNumber(
                                               widget.phone.toString());
                                           PreferenceManager.getPhoneNumber();
@@ -454,10 +451,7 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                                   ),
                                                 );
                                                 return await Get.off(
-                                                        BottomNavigationBarScreen())
-                                                    ?.then((value) {
-                                                  print('Test-call-2');
-                                                });
+                                                    BottomNavigationBarScreen());
                                               }
                                             } else {
                                               setState(() {

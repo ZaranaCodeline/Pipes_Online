@@ -195,12 +195,10 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                                     ),
                                   ),
                                 )
-                              : Container(
-                                  child: Image.network(
-                                    "https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png",
-                                    width: 30.sp,
-                                    height: 30.sp,
-                                  ),
+                              : Image.network(
+                                  "https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png",
+                                  width: 30.sp,
+                                  height: 30.sp,
                                 ),
                         ),
                         SingleChildScrollView(

@@ -106,12 +106,18 @@ class _BReviewSellerContactDetailsScreenState
                                   width: 60.sp,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(50.0),
-                                    child: Image.network(
-                                      widget.sellerImage == null
-                                          ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
-                                          : widget.sellerImage.toString(),
-                                      fit: BoxFit.cover,
-                                    ),
+                                    child: widget.sellerImage != null
+                                        ? Image.network(
+                                            'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+                                            fit: BoxFit.cover,
+                                            height: 30.sp,
+                                            width: 30.sp)
+                                        : Image.network(
+                                            widget.sellerImage.toString(),
+                                            fit: BoxFit.cover,
+                                            height: 30.sp,
+                                            width: 30.sp,
+                                          ),
                                   )
                                   /*Image.asset(
                                           'assets/images/png/cat_1.png',
@@ -135,7 +141,9 @@ class _BReviewSellerContactDetailsScreenState
                         height: Get.height * 0.049,
                       ),
                       CustomText(
-                          text: widget.sellerName.toString(),
+                          text: widget.sellerName == null
+                              ? 'John'
+                              : widget.sellerName.toString(),
                           fontWeight: FontWeight.w600,
                           fontSize: 24,
                           color: AppColors.secondaryBlackColor),
@@ -292,7 +300,9 @@ class _BReviewSellerContactDetailsScreenState
                                 width: 10,
                               ),
                               CustomText(
-                                  text: widget.sellerPhone.toString(),
+                                  text: widget.sellerPhone != null
+                                      ? widget.sellerPhone.toString()
+                                      : '1234567891',
                                   fontWeight: FontWeight.w600,
                                   fontSize: 14.sp,
                                   color: AppColors.secondaryBlackColor),

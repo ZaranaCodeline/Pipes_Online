@@ -554,7 +554,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
             // 'productID':,
             'sellerID': PreferenceManager.getUId(),
             'imageProfile': downloadUrl,
-            'category': dropdownvalue,
+            'category': dropdownvalue.toLowerCase(),
             'prdName': prdName.text,
             'dsc': dsc.text,
             'price': prdPrice.text,
@@ -567,7 +567,8 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
             addProductController.images = downloadUrl;
             addProductController.descs = dsc.text;
             addProductController.prices = prdPrice.text;
-            addProductController.category = addProductController.category;
+            addProductController.category =
+                addProductController.category.toLowerCase();
             homeController.bottomIndex.value = 0;
             homeController.selectedScreen('SCatelogeHomeScreen');
           });

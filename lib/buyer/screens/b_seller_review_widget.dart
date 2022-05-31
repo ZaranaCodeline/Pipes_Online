@@ -258,22 +258,33 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(50.0),
-                                          child: Image.network(
-                                            widget.serllerImg == null
-                                                ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
-                                                : widget.serllerImg.toString(),
-                                            fit: BoxFit.cover,
-                                            width: 30.sp,
-                                            height: 30.sp,
-                                          ),
+                                          child: widget.serllerImg == null
+                                              ? Image.network(
+                                                  widget.serllerImg.toString(),
+                                                  fit: BoxFit.cover,
+                                                  width: 30.sp,
+                                                  height: 30.sp,
+                                                )
+                                              : Image.network(
+                                                  'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+                                                  fit: BoxFit.cover,
+                                                  width: 30.sp,
+                                                  height: 30.sp,
+                                                ),
                                         ),
                                       ),
                                     ),
                                     Positioned(
                                       top: 5.sp,
                                       left: 0,
-                                      child: BackButton(
-                                        color: AppColors.commonWhiteTextColor,
+                                      child: IconButton(
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                        icon: Icon(
+                                          Icons.arrow_back,
+                                          color: AppColors.commonWhiteTextColor,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -284,7 +295,9 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                               height: Get.height * 0.049,
                             ),
                             CustomText(
-                                text: widget.sellerName.toString(),
+                                text: widget.sellerName == null
+                                    ? 'John'
+                                    : widget.sellerName.toString(),
                                 fontWeight: FontWeight.w600,
                                 fontSize: 24,
                                 color: AppColors.secondaryBlackColor),

@@ -42,7 +42,10 @@ class SOrdersScreen extends StatelessWidget {
           ),
         ),
         body: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('Orders').snapshots(),
+          stream: FirebaseFirestore.instance
+              .collection('Orders')
+              .orderBy('createdOn', descending: true)
+              .snapshots(),
           builder: (context, snapShot) {
             if (!snapShot.hasData) {
               return Center(
@@ -54,7 +57,7 @@ class SOrdersScreen extends StatelessWidget {
               return ListView.builder(
                 itemCount: snapShot.data?.docs.length,
                 itemBuilder: (context, index) {
-                  formattedDateTime = DateFormat('yyyy-MM-dd').format(
+                  formattedDateTime = DateFormat('yyyy-MM-dd hh:mm').format(
                       DateTime.parse(snapShot.data?.docs[index]['createdOn']));
                   print('--formattedDateTime-${formattedDateTime}');
                   return Container(

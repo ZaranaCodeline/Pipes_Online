@@ -521,7 +521,13 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                                 ),
                                               );
                                               return await Get.off(
-                                                  BottomNavigationBarScreen());
+                                                      BottomNavigationBarScreen())
+                                                  ?.then((value) {
+                                                pinOTPController.clear();
+                                                setState(() {
+                                                  isLoading = false;
+                                                });
+                                              });
                                             }
                                           } else {
                                             setState(() {

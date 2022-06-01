@@ -614,7 +614,13 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
                                                     ),
                                                   );
                                                   return await Get.off(
-                                                      NavigationBarScreen());
+                                                          NavigationBarScreen())
+                                                      ?.then((value) {
+                                                    pinOTPController.clear();
+                                                    setState(() {
+                                                      isLoading = false;
+                                                    });
+                                                  });
                                                 }
                                               } else {
                                                 setState(() {

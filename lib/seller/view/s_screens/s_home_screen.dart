@@ -20,7 +20,7 @@ class _SHomeScreenState extends State<SHomeScreen> {
   BottomController homeController = Get.find();
   int _selectedIndex = 0;
 
-  static   List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     SCatelogeHomeScreen(),
     SOrdersScreen(),
     SChatScreen(),
@@ -29,15 +29,18 @@ class _SHomeScreenState extends State<SHomeScreen> {
   ];
   PageController pageController = PageController();
 
-
-
   @override
   Widget build(BuildContext context) {
     // BottomController homeController = Get.find();
-    return SafeArea(
-      child: Scaffold(
-        body: _widgetOptions[_selectedIndex],
-        bottomNavigationBar:NavigationBarScreen(),
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: SafeArea(
+        child: Scaffold(
+          body: _widgetOptions[_selectedIndex],
+          bottomNavigationBar: NavigationBarScreen(),
+        ),
       ),
     );
   }

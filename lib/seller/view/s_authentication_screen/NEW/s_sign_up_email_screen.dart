@@ -176,7 +176,7 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
                                               return 'Please enter password';
                                             } else if (!regex
                                                 .hasMatch(password)) {
-                                              return 'Password must be Formatted';
+                                              return 'Password must be at least 8 characters including a \n number , digits and special symbols (1Aa_@#.)';
                                             }
                                             return null;
                                           },

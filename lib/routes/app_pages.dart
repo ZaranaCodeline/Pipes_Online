@@ -12,9 +12,6 @@ import 'package:pipes_online/buyer/screens/b_settings_page.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
 import 'package:pipes_online/s_onboarding_screen/s_onboarding_screen.dart';
 import 'package:pipes_online/s_onboarding_screen/s_permission_screen.dart';
-import 'package:pipes_online/seller/view/s_authentication_screen/s_login_creen.dart';
-import 'package:pipes_online/seller/view/s_authentication_screen/s_phone_otp_screen.dart';
-import 'package:pipes_online/seller/view/s_authentication_screen/s_ragistraion_screen.dart';
 
 import 'package:pipes_online/seller/view/s_authentication_screen/s_welcome_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_seller_review_screen.dart';
@@ -62,11 +59,6 @@ class AppPages {
     GetPage(name: Routes.BMYORDER, page: () => BMyOrderPage()),
     GetPage(name: Routes.SETTINGPAGE, page: () => BSettingsScreen()),
 
-    GetPage(
-        name: SRoutes.SSignUpRagistraionScreen,
-        page: () => SSignUpRagistraionScreen()),
-    GetPage(name: SRoutes.SLoginScreen, page: () => SLoginScreen()),
-    GetPage(name: SRoutes.SPhoneOTP_Screen, page: () => SPhoneOTP_Screen()),
     GetPage(name: SRoutes.SBottomBar, page: () => NavigationBarScreen()),
   ];
 }

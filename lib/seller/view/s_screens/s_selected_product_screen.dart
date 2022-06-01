@@ -1,17 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/bottombar/widget/category_bottom_bar_route.dart';
 import 'package:pipes_online/seller/view/s_screens/s_review_screen.dart';
 import 'package:pipes_online/seller/view_model/s_edit_product_controller.dart';
-import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import '../../../buyer/app_constant/app_colors.dart';
-import '../../../buyer/screens/b_carousel_slider.dart';
 import '../../../buyer/screens/custom_widget/custom_text.dart';
 import '../../common/s_common_button.dart';
 

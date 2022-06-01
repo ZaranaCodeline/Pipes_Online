@@ -6,9 +6,6 @@ import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/seller/bottombar/widget/category_bottom_bar_route.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
-import 'package:pipes_online/seller/view/s_screens/s_add_product_screen.dart';
-import 'package:pipes_online/seller/view/s_screens/s_selected_product_screen.dart';
-import 'package:pipes_online/seller/view_model/s_add_product_controller.dart';
 import 'package:pipes_online/seller/view_model/s_edit_product_controller.dart';
 import 'package:sizer/sizer.dart';
 

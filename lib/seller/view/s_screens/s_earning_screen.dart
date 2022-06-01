@@ -4,13 +4,9 @@ import 'package:get/get.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_insight.dart';
 import 'package:sizer/sizer.dart';
-import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
-
 import '../../../buyer/app_constant/app_colors.dart';
-import '../../../buyer/screens/custom_widget/custom_button.dart';
 import '../../../buyer/screens/custom_widget/custom_text.dart';
 import '../../common/s_text_style.dart';
-
 
 class SEarningsScreen extends StatelessWidget {
   const SEarningsScreen({Key? key}) : super(key: key);
@@ -71,7 +67,8 @@ class SEarningsScreen extends StatelessWidget {
                                           color: Color(0xffE8E8E8),
                                           width: 1.0)),
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
                                       CustomText(
                                           text: 'Earnings',
@@ -104,7 +101,6 @@ class SEarningsScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-
                       Expanded(
                         flex: 2,
                         child: SingleChildScrollView(
@@ -112,21 +108,22 @@ class SEarningsScreen extends StatelessWidget {
                             children: [
                               SizedBox(height: Get.height / 18),
                               Container(
-                                margin: EdgeInsets.symmetric(horizontal: 10.sp,vertical: 15.sp),
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 10.sp, vertical: 15.sp),
                                 height: Get.height / 2,
                                 width: Get.width * 1,
                                 child: LineChartPage(),
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(
-                                  vertical: 10.sp,horizontal: 10.sp
-                                ),
+                                    vertical: 10.sp, horizontal: 10.sp),
                                 child: CustomText(
-                                    text: 'Recent Transactions',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16.sp,
-                                    color: AppColors.secondaryBlackColor,
-                                alignment: Alignment.topLeft,),
+                                  text: 'Recent Transactions',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16.sp,
+                                  color: AppColors.secondaryBlackColor,
+                                  alignment: Alignment.topLeft,
+                                ),
                               ),
                               Card(
                                 child: Row(

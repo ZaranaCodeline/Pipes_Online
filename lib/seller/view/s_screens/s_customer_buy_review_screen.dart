@@ -5,9 +5,7 @@ import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/seller/view/s_screens/s_add_review_screen.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
-
 import '../../../buyer/app_constant/app_colors.dart';
-import '../../../buyer/screens/b_listing_review_tab_bar.dart';
 import '../../../buyer/screens/b_review_widgets.dart';
 import '../../common/s_color_picker.dart';
 

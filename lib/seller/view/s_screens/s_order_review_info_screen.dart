@@ -1,22 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/app_constant/b_image.dart';
-import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_seller_review_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_earning_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
-
 import '../../../buyer/screens/custom_widget/custom_text.dart';
-import '../../../buyer/screens/b_add_reviews_page.dart';
 import '../../common/s_common_button.dart';
 
 class SorderReviewInfoScreen extends StatefulWidget {

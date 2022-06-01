@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../buyer/app_constant/app_colors.dart';
-import '../../../buyer/screens/custom_widget/custom_search_widget.dart';
-import '../../../buyer/screens/custom_widget/custom_text.dart';
 import '../../common/s_text_style.dart';
 
 class SHelpCenter extends StatelessWidget {
@@ -14,7 +11,7 @@ class SHelpCenter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text(
+        title: Text(
           'HELP CENTER',
           style: STextStyle.bold700White14,
         ),
@@ -32,7 +29,6 @@ class SHelpCenter extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               ExpansionTile(
                   collapsedIconColor: AppColors.primaryColor,
                   collapsedTextColor: AppColors.primaryColor,

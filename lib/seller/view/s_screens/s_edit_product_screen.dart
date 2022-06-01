@@ -14,8 +14,6 @@ import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/view_model/b_bottom_bar_controller.dart';
 import '../../../routes/bottom_controller.dart';
-import '../../../shared_prefarence/shared_prefarance.dart';
-import '../../Authentication/s_function.dart';
 import '../../common/s_common_button.dart';
 import '../../common/s_text_style.dart';
 

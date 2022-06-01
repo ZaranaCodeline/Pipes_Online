@@ -4,10 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/main.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
 import 'custom_widget/custom_text.dart';
@@ -25,15 +25,8 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
   @override
   void initState() {
     print('-----ID-----------${PreferenceManager.getUId()}');
-
     super.initState();
     showNotification;
-    // var initialzationSettingsAndroid =
-    // AndroidInitializationSettings('@mipmap/ic_launcher');
-    // var initializationSettings =
-    // InitializationSettings(android: initialzationSettingsAndroid);
-    // flutterLocalNotificationsPlugin.initialize(initializationSettings);
-
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
@@ -53,7 +46,6 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
             ));
       }
     });
-
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('A new messageopen app event was published');
       RemoteNotification? notification = message.notification;
@@ -109,7 +101,7 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
         ),
         leading: IconButton(
           onPressed: () {
-            Get.back();
+            Get.to(BottomNavigationBarScreen());
           },
           icon: Icon(Icons.arrow_back),
         ),
@@ -124,219 +116,241 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
       body: Column(
         children: [
           FutureBuilder<DocumentSnapshot>(
-              future: FirebaseFirestore.instance
-                  .collection('BProfile')
-                  .doc(PreferenceManager.getUId().toString())
-                  .get(),
-              builder: (BuildContext context, snapshot) {
-                if (snapshot.hasData) {
-                  print('-----ID-----------${PreferenceManager.getUId()}');
-                  var output = snapshot.data;
-                  print('SNAPSHOT SETTING===${output?['imageProfile']}');
-                  return Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 20.sp, horizontal: 15.sp),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Column(
-                            children: [
-                              SizedBox(
-                                height: Get.height * 0.01,
+            future: FirebaseFirestore.instance
+                .collection('BProfile')
+                .doc(PreferenceManager.getUId().toString())
+                .get(),
+            builder: (BuildContext context, snapshot) {
+              if (snapshot.hasData) {
+                print('-----ID-----------${PreferenceManager.getUId()}');
+                var output = snapshot.data;
+                print('SNAPSHOT SETTING===${output?['imageProfile']}');
+                return Container(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 20.sp, horizontal: 15.sp),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Column(
+                          children: [
+                            SizedBox(
+                              height: Get.height * 0.01,
+                            ),
+                            CustomText(
+                              text: 'Account',
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16.sp,
+                              color: AppColors.secondaryBlackColor,
+                              alignment: Alignment.topLeft,
+                            ),
+                            SizedBox(
+                              height: Get.height * 0.01,
+                            ),
+                            Container(
+                              height: Get.height * 0.07,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 10.sp,
                               ),
-                              CustomText(
-                                text: 'Account',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16.sp,
-                                color: AppColors.secondaryBlackColor,
-                                alignment: Alignment.topLeft,
+                              decoration: BoxDecoration(
+                                // color: Colors.red,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                    width: 1, color: AppColors.lightBlackColor),
                               ),
-                              SizedBox(
-                                height: Get.height * 0.01,
-                              ),
-                              Container(
-                                height: Get.height * 0.07,
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 10.sp,
-                                ),
-                                decoration: BoxDecoration(
-                                  // color: Colors.red,
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                      width: 1,
-                                      color: AppColors.lightBlackColor),
-                                ),
-                                // alignment: Alignment.centerLeft,
-                                child: Row(
-                                  // mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(30),
-                                      child: output?['imageProfile'] == null
-                                          ? Image.network(
-                                              'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png')
-                                          : Image.network(
+                              // alignment: Alignment.centerLeft,
+                              child: Row(
+                                // mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  output?['imageProfile'] != null
+                                      ? Container(
+                                          width: 35.sp,
+                                          height: 35.sp,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            child: Image.network(
                                               output?['imageProfile'],
-                                              fit: BoxFit.cover,
-                                              width: 50,
-                                              height: 50,
+                                              fit: BoxFit.fill,
                                             ),
-                                    ),
-                                    SizedBox(width: 15.sp),
-                                    Flexible(
-                                      child: Container(
-                                        // padding: EdgeInsets.only(top: 20),
-                                        // height: Get.height * 0.07,
-                                        // color: Colors.red,
-                                        child: TextField(
-                                          style: TextStyle(
-                                            color:
-                                                AppColors.secondaryBlackColor,
-                                            fontSize: 12.sp,
-                                            fontWeight: FontWeight.w400,
                                           ),
-                                          // controller: _controller,
-                                          decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            hintText:
-                                                output?['imageProfile'] == null
-                                                    ? 'Jan Doe'
-                                                    : output?['user_name'],
+                                        )
+                                      : Container(
+                                          width: 35.sp,
+                                          height: 35.sp,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            child: Image.network(
+                                              'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg',
+                                              fit: BoxFit.fill,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  SizedBox(width: 15.sp),
+                                  Flexible(
+                                    child: output?['user_name'] != null
+                                        ? Container(
+                                            child: TextField(
+                                              style: TextStyle(
+                                                color: AppColors
+                                                    .secondaryBlackColor,
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                              decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                hintText: output?['user_name'],
+                                              ),
+                                            ),
+                                          )
+                                        : Container(
+                                            child: TextField(
+                                              style: TextStyle(
+                                                color: AppColors
+                                                    .secondaryBlackColor,
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                              // controller: _controller,
+                                              decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                hintText: 'John',
+                                              ),
+                                            ),
+                                          ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: Get.height * 0.04,
-                          ),
-                          Column(
-                            children: [
-                              CustomText(
-                                text: 'Notifications',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16.sp,
-                                color: AppColors.secondaryBlackColor,
-                                alignment: Alignment.topLeft,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.04,
+                        ),
+                        Column(
+                          children: [
+                            CustomText(
+                              text: 'Notifications',
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16.sp,
+                              color: AppColors.secondaryBlackColor,
+                              alignment: Alignment.topLeft,
+                            ),
+                            SizedBox(
+                              height: Get.height * 0.01,
+                            ),
+                            Container(
+                              height: Get.height * 0.07,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10.sp, vertical: 10.sp),
+                              decoration: BoxDecoration(
+                                // color: Colors.red,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                    width: 1, color: AppColors.lightBlackColor),
                               ),
-                              SizedBox(
-                                height: Get.height * 0.01,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText(
+                                      text: 'App',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14.sp,
+                                      color: AppColors.hintTextColor),
+                                  Switch(
+                                    onChanged: (value) {
+                                      setState(() {
+                                        // showNotification;
+                                        switchNotification = value;
+                                      });
+                                      print(
+                                          'switchNotification:-$switchNotification');
+                                    },
+                                    focusColor: AppColors.primaryColor,
+                                    activeColor: AppColors.commonWhiteTextColor,
+                                    value: switchNotification,
+
+                                    // activeThumbColor: AppColors.primaryColor,
+                                    activeTrackColor: AppColors.primaryColor,
+
+                                    // ...
+                                  ),
+                                ],
                               ),
-                              Container(
-                                height: Get.height * 0.07,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 10.sp, vertical: 10.sp),
-                                decoration: BoxDecoration(
-                                  // color: Colors.red,
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                      width: 1,
-                                      color: AppColors.lightBlackColor),
-                                ),
-                                child: Row(
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.04,
+                        ),
+                        Column(
+                          children: [
+                            CustomText(
+                              text: 'Get Help',
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16.sp,
+                              color: AppColors.secondaryBlackColor,
+                              alignment: Alignment.topLeft,
+                            ),
+                            SizedBox(
+                              height: Get.height * 0.01,
+                            ),
+                            Container(
+                              height: Get.height * 0.07,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10.sp, vertical: 10.sp),
+                              decoration: BoxDecoration(
+                                // color: Colors.red,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                    width: 1, color: AppColors.lightBlackColor),
+                              ),
+                              child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    CustomText(
-                                        text: 'App',
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14.sp,
-                                        color: AppColors.hintTextColor),
-                                    Switch(
-                                      onChanged: (value) {
-                                        setState(() {
-                                          // showNotification;
-                                          switchNotification = value;
-                                        });
-                                        print(
-                                            'switchNotification:-$switchNotification');
-                                      },
-                                      focusColor: AppColors.primaryColor,
-                                      activeColor:
-                                          AppColors.commonWhiteTextColor,
-                                      value: switchNotification,
-
-                                      // activeThumbColor: AppColors.primaryColor,
-                                      activeTrackColor: AppColors.primaryColor,
-
-                                      // ...
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: Get.height * 0.04,
-                          ),
-                          Column(
-                            children: [
-                              CustomText(
-                                text: 'Get Help',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16.sp,
-                                color: AppColors.secondaryBlackColor,
-                                alignment: Alignment.topLeft,
-                              ),
-                              SizedBox(
-                                height: Get.height * 0.01,
-                              ),
-                              Container(
-                                height: Get.height * 0.07,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 10.sp, vertical: 10.sp),
-                                decoration: BoxDecoration(
-                                  // color: Colors.red,
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                      width: 1,
-                                      color: AppColors.lightBlackColor),
-                                ),
-                                child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.help_outline,
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.help_outline,
+                                          color: AppColors.secondaryBlackColor,
+                                          size: 14.sp,
+                                        ),
+                                        SizedBox(width: 10.sp),
+                                        CustomText(
+                                            text: 'Help Center',
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14.sp,
                                             color:
-                                                AppColors.secondaryBlackColor,
-                                            size: 14.sp,
-                                          ),
-                                          SizedBox(width: 10.sp),
-                                          CustomText(
-                                              text: 'Help Center',
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14.sp,
-                                              color: AppColors
-                                                  .secondaryBlackColor),
-                                        ],
-                                      ),
-                                      Icon(
-                                        Icons.arrow_forward_ios_outlined,
-                                        color: AppColors.secondaryBlackColor,
-                                        size: 14.sp,
-                                      ),
-                                    ]),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: Get.height * 0.05.sp,
-                          ),
-                        ],
-                      ),
+                                                AppColors.secondaryBlackColor),
+                                      ],
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward_ios_outlined,
+                                      color: AppColors.secondaryBlackColor,
+                                      size: 14.sp,
+                                    ),
+                                  ]),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.05.sp,
+                        ),
+                      ],
                     ),
-                  );
-                }
-                return CircularProgressIndicator();
-              }),
+                  ),
+                );
+              }
+              /* return Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Center(child: CircularProgressIndicator()),
+              );*/
+              return SizedBox();
+            },
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -345,10 +359,8 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
         onPressed: showNotification,
         tooltip: 'Increment',
         child: FittedBox(
-            child: Text(
-          'Show \n Notification',
-          textAlign: TextAlign.center,
-        )),
+          child: Icon(Icons.notification_important_outlined),
+        ),
       ),
     );
   }

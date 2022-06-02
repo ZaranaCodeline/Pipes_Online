@@ -199,24 +199,30 @@ class _SChatScreenState extends State<SChatScreen> {
                                               ),
                                             ),
                                           ),
-                                          Container(
-                                            child: CustomText(
-                                                text:
-                                                    (snapshot.data?.docs[index]
+                                          Column(
+                                            children: [
+                                              Container(
+                                                child: CustomText(
+                                                    text: (snapshot.data
+                                                                ?.docs[index]
                                                             ['user_name'])
                                                         .toString(),
-                                                fontWeight: FontWeight.w600,
-                                                alignment: Alignment.topRight,
-                                                textOverflow: TextOverflow.clip,
-                                                max: 1,
-                                                fontSize: 13.sp,
-                                                color: AppColors
-                                                    .secondaryBlackColor),
-                                            /*_time(
-                                                  snapshot.data
-                                                      .docs[index]['sellerID']
-                                                      .toString(),
-                                                  index)*/
+                                                    fontWeight: FontWeight.w600,
+                                                    alignment:
+                                                        Alignment.topRight,
+                                                    textOverflow:
+                                                        TextOverflow.clip,
+                                                    max: 1,
+                                                    fontSize: 13.sp,
+                                                    color: AppColors
+                                                        .secondaryBlackColor),
+                                                /*_time(
+                                                      snapshot.data
+                                                          .docs[index]['sellerID']
+                                                          .toString(),
+                                                      index)*/
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
@@ -298,10 +304,11 @@ class _SChatScreenState extends State<SChatScreen> {
                   if (snapshot.hasData) {
                     int length = 0;
                     length = snapshot.data!.docs.fold(
-                        0,
-                        (previousValue, element) =>
-                            previousValue +
-                            (element.get('senderId') == id ? 1 : 0));
+                      0,
+                      (previousValue, element) =>
+                          previousValue +
+                          (element.get('senderId') == id ? 1 : 0),
+                    );
                     return length == 0
                         ? SizedBox()
                         : Container(
@@ -317,7 +324,8 @@ class _SChatScreenState extends State<SChatScreen> {
                                       color: Colors.white, fontSize: 12),
                                 ),
                               ),
-                            ));
+                            ),
+                          );
                   } else {
                     return SizedBox();
                   }

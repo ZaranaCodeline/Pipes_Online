@@ -7,7 +7,6 @@ import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/b_cart_
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
-
 import '../app_constant/app_colors.dart';
 import 'b_categories_card_list.dart';
 import 'b_drawer_screen.dart';

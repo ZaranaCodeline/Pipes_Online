@@ -8,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/seller/Authentication/s_function.dart';
+import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view_model/s_add_product_controller.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
@@ -43,7 +44,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
   final picker = ImagePicker();
   String? uploadImage;
   File? _image;
-  String dropdownvalue = 'Plastic';
+  String dropdownvalue = 'SELECT';
   bool isLoading = false;
 
   Future pickImage() async {
@@ -68,18 +69,8 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
     }
   }
 
-  var items = [
-    'Plastic',
-    'Steel',
-    'Copper',
-    'Electrical',
-    'Iron',
-    'gas',
-    'Oil',
-    'Coil Tubing',
-    'Coil Rode',
-    'Sucker Rode',
-  ];
+  //
+  List<String> items = [];
 
   @override
   void initState() {
@@ -88,6 +79,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
     addProductController.selectedSubscribe;
     print(
         '----addProductController.selectedSubscribe--${addProductController.selectedSubscribe}');
+    // SCustomDropDownWidget();
   }
 
   @override
@@ -225,7 +217,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           CustomText(
-                              text: 'Category',
+                              text: 'Category :   ',
                               fontWeight: FontWeight.w600,
                               fontSize: 14.sp,
                               color: AppColors.secondaryBlackColor,
@@ -267,11 +259,6 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                             }
                           },
                           decoration: InputDecoration(
-                            // border: InputBorder.none,
-                            // focusedBorder: InputBorder.none,
-                            // enabledBorder: InputBorder.none,
-                            // errorBorder: InputBorder.none,
-                            // disabledBorder: InputBorder.none,
                             hintText: ('ABX'),
                           ),
                         ),
@@ -289,18 +276,6 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                       SizedBox(
                         height: Get.height * 0.01,
                       ),
-                      /*Container(
-                        alignment: Alignment.center,
-                        width: Get.width * 0.26,
-                        height: Get.height * 0.06,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 10.sp, vertical: 0.sp),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: AppColors.commonWhiteTextColor),
-                        // child:Text('${addProductController.selectedPrice}'),
-                        child: Text('${prdPrice}'),
-                      )*/
                       Container(
                         padding: EdgeInsets.symmetric(
                             horizontal: 10.sp, vertical: 0.sp),
@@ -317,11 +292,6 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                             }
                           },
                           decoration: InputDecoration(
-                            // border: InputBorder.none,
-                            // focusedBorder: InputBorder.none,
-                            // enabledBorder: InputBorder.none,
-                            // errorBorder: InputBorder.none,
-                            // disabledBorder: InputBorder.none,
                             hintText: ('PRICE'),
                           ),
                         ),
@@ -384,20 +354,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                                 isLoading = true;
                               });
                               if (formGlobalKey.currentState!.validate()) {
-                                /* ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Processing data'),
-                              backgroundColor: AppColors.primaryColor,
-                            ),
-                          );*/
-
                                 if (_image == null) {
-                                  // ScaffoldMessenger.of(context).showSnackBar(
-                                  //   SnackBar(
-                                  //     content: Text('Please Select Image'),
-                                  //     backgroundColor: Colors.redAccent,
-                                  //   ),
-                                  // );
                                   setState(() {
                                     isLoading = true;
                                   });
@@ -419,58 +376,6 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                             },
                           ),
                   ),
-                  // Container(
-                  //   alignment: Alignment.center,
-                  //   width: Get.width,
-                  //   height: Get.height * 0.07,
-                  //   decoration: BoxDecoration(
-                  //     color: SColorPicker.purple,
-                  //     borderRadius: BorderRadius.circular(10.sp),
-                  //   ),
-                  //   child: GestureDetector(
-                  //     onTap: () async {
-                  //       if (formGlobalKey.currentState!.validate()) {
-                  //         // ScaffoldMessenger.of(context).showSnackBar(
-                  //         //   SnackBar(
-                  //         //     content: Text('Processing data'),
-                  //         //     backgroundColor: AppColors.primaryColor,
-                  //         //   ),
-                  //         // );
-                  //         // if (_image == null) {
-                  //         //   ScaffoldMessenger.of(context).showSnackBar(
-                  //         //     SnackBar(
-                  //         //       content: Text('Please Select Image'),
-                  //         //       backgroundColor: Colors.redAccent,
-                  //         //     ),
-                  //         //   );
-                  //         // }
-                  //         setState(() {
-                  //           isLoading = true;
-                  //         });
-                  //         Future.delayed(Duration(seconds: 5), () {
-                  //           setState(() {
-                  //             isLoading = false;
-                  //           });
-                  //         });
-                  //         formGlobalKey.currentState!.save();
-                  //         await addData(_image).then((value) {
-                  //           homeController
-                  //               .selectedScreen('SCatelogeHomeScreen');
-                  //           homeController.bottomIndex.value = 0;
-                  //         });
-                  //       }
-                  //     },
-                  //     child: isLoading
-                  //         ? CircularProgressIndicator(
-                  //             color: AppColors.commonWhiteTextColor,
-                  //           )
-                  //         : Text(
-                  //             'Add Product',
-                  //             style: TextStyle(
-                  //                 color: AppColors.commonWhiteTextColor),
-                  //           ),
-                  //   ),
-                  // ),
                   SizedBox(
                     height: Get.height * 0.03,
                   ),
@@ -484,54 +389,80 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
   }
 
   Widget SCustomDropDownWidget() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15.sp),
-      child: Row(
-        children: [
-          SizedBox(
-            width: Get.width * .1,
-          ),
-          Card(
-            elevation: 0,
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 5.sp,
-              ),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(blurRadius: 1, color: AppColors.offWhiteColor),
-                  ]),
-              child: DropdownButton(
-                value: dropdownvalue,
-                icon: Icon(
-                  Icons.arrow_drop_down_outlined,
-                  color: AppColors.primaryColor,
-                  size: 18.sp,
+    return FutureBuilder<QuerySnapshot<Object?>>(
+      future: FirebaseFirestore.instance.collection('Categories').get(),
+      builder: (BuildContext context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(
+            child: SizedBox(),
+          );
+        }
+        if (snapshot.hasData) {
+          print('name-${snapshot.data?.docs[0]['name']}');
+          snapshot.data?.docs.forEach((element) {
+            items.add(element['name']);
+          });
+          print('Categories-name-${items}');
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 15.sp),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: Get.width * .1,
                 ),
-                items: items.map((String items) {
-                  return DropdownMenuItem(
-                    value: items,
-                    child: CustomText(
-                      text: items,
-                      color: AppColors.secondaryBlackColor,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w600,
-                      textDecoration: TextDecoration.none,
+                Card(
+                  elevation: 0,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 5.sp,
                     ),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    dropdownvalue = newValue!;
-                  });
-                },
-              ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                              blurRadius: 1, color: AppColors.offWhiteColor),
+                        ]),
+                    child: DropdownButton(
+                      hint: Text(dropdownvalue),
+                      icon: Icon(
+                        Icons.arrow_drop_down_outlined,
+                        color: AppColors.primaryColor,
+                        size: 18.sp,
+                      ),
+                      items: items.map((String? items) {
+                        return DropdownMenuItem(
+                          value: items,
+                          child: CustomText(
+                            text: items!,
+                            color: AppColors.secondaryBlackColor,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w600,
+                            textDecoration: TextDecoration.none,
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownvalue = newValue!;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-          // CustomDropDownWidget(),
-        ],
-      ),
+          );
+        } else {
+          if (snapshot.data!.docs.isEmpty) {
+            return Container(
+              padding: EdgeInsets.symmetric(horizontal: 15.sp),
+              child: Text('No Categories on Admin side'),
+            );
+          }
+        }
+
+        return SizedBox();
+      },
     );
   }
 
@@ -550,7 +481,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
     SAuthMethods().getCurrentUser().then((value) {
       userCollection
           .add({
-            // 'productID':,
+            // 'productID':widget.,
             'sellerID': PreferenceManager.getUId(),
             'imageProfile': downloadUrl,
             'category': dropdownvalue.toLowerCase(),

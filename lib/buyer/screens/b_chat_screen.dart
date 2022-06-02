@@ -101,7 +101,7 @@ class _BChatScreenState extends State<BChatScreen> {
                       fontWeight: FontWeight.w500,
                       color: AppColors.primaryColor,
                       textAlign: TextAlign.start,
-                      alignment: Alignment.topLeft,
+                      alignment: Alignment.topCenter,
                     ),
                   ),
                   SizedBox(

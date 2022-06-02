@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/screens/b_search_screen.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:sizer/sizer.dart';
 
@@ -12,6 +13,9 @@ class CustomHomeSearchWidget extends StatelessWidget {
       height: Get.height / 15,
       width: Get.width / 1.5,
       child: CupertinoTextField(
+        onTap: () {
+          Get.to(SearchScreen());
+        },
         keyboardType: TextInputType.text,
         placeholder: 'Search items here',
         placeholderStyle: TextStyle(

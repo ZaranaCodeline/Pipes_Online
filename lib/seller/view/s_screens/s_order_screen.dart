@@ -231,21 +231,33 @@ class SOrdersScreen extends StatelessWidget {
                                                         height:
                                                             Get.height * 0.005,
                                                       ),
-                                                      CustomText(
-                                                        textOverflow:
-                                                            TextOverflow
-                                                                .ellipsis,
-                                                        max: 1,
-                                                        text:
-                                                            '${snapShot.data?.docs[index]['orderID']}',
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 10.sp,
-                                                        color: AppColors
-                                                            .secondaryBlackColor,
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                      ),
+                                                      snapShot.data?.docs[index]
+                                                                  ['orderID'] !=
+                                                              null
+                                                          ? CustomText(
+                                                              textOverflow:
+                                                                  TextOverflow
+                                                                      .clip,
+                                                              max: 1,
+                                                              text:
+                                                                  '${snapShot.data?.docs[index]['orderID']}',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontSize: 9.sp,
+                                                              color: AppColors
+                                                                  .secondaryBlackColor,
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                            )
+                                                          : CustomText(
+                                                              color: AppColors
+                                                                  .secondaryBlackColor,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 10.sp,
+                                                              text: '01'),
                                                       SizedBox(
                                                         height:
                                                             Get.height * 0.02,

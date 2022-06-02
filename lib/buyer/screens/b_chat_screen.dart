@@ -7,7 +7,6 @@ import 'package:pipes_online/convert_date_formate_chat.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../buyer/app_constant/app_colors.dart';
 import '../app_constant/b_image.dart';
 import 'b_chat_message_page.dart';
@@ -22,8 +21,7 @@ class BChatScreen extends StatefulWidget {
 }
 
 class _BChatScreenState extends State<BChatScreen> {
-  FirebaseAuth _auth = FirebaseAuth.instance;
-
+  // FirebaseAuth _auth = FirebaseAuth.instance;
   CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
   String? Img;
   String? firstname, phone;
@@ -67,7 +65,7 @@ class _BChatScreenState extends State<BChatScreen> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(
-              'CHAT',
+              'CHAT'.toUpperCase(),
               style: STextStyle.bold700White14,
             ),
             centerTitle: true,

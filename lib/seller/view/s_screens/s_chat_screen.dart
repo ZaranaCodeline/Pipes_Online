@@ -57,183 +57,202 @@ class _SChatScreenState extends State<SChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Chat'.toUpperCase(),
-            style: STextStyle.bold700White14,
-          ),
-          centerTitle: true,
-          leading: IconButton(
-            onPressed: () {
-              // Get.back();
-              homeController.bottomIndex.value = 0;
-              homeController.selectedScreen('SCatelogeHomeScreen');
-            },
-            icon: Icon(Icons.arrow_back),
-          ),
-          backgroundColor: AppColors.primaryColor,
-          toolbarHeight: Get.height * 0.1,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(25),
+    return WillPopScope(
+        child: SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(
+                'Chat'.toUpperCase(),
+                style: STextStyle.bold700White14,
+              ),
+              centerTitle: true,
+              leading: IconButton(
+                onPressed: () {
+                  // Get.back();
+                  homeController.bottomIndex.value = 0;
+                  homeController.selectedScreen('SCatelogeHomeScreen');
+                },
+                icon: Icon(Icons.arrow_back),
+              ),
+              backgroundColor: AppColors.primaryColor,
+              toolbarHeight: Get.height * 0.1,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(25),
+                ),
+              ),
             ),
-          ),
-        ),
-        body: Container(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: Get.height * 0.02,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Get.width * 0.05),
-                  child: CustomText(
-                    text: 'Messages',
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.primaryColor,
-                    textAlign: TextAlign.start,
-                    alignment: Alignment.topLeft,
-                  ),
-                ),
-                SizedBox(
-                  height: Get.height * 0.01,
-                ),
-                Divider(color: AppColors.primaryColor, thickness: 0.5.sp),
-                StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection('BProfile')
-                      .snapshots(),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                    if (!snapshot.hasData) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    return Container(
-                      height: Get.height * 0.7,
-                      child: ListView.builder(
-                          itemCount: snapshot.data?.docs.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return InkWell(
-                              onTap: () {
-                                print('=============SELLER=================');
-                                print(
-                                    'SENDER ID ${PreferenceManager.getUId()}');
-                                print(
-                                    'RECIEVER ID ${snapshot.data.docs[index]['buyerID']}');
+            body: Container(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: Get.height * 0.02,
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: Get.width * 0.05),
+                      child: CustomText(
+                        text: 'Messages',
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.primaryColor,
+                        textAlign: TextAlign.start,
+                        alignment: Alignment.topLeft,
+                      ),
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.01,
+                    ),
+                    Divider(color: AppColors.primaryColor, thickness: 0.5.sp),
+                    StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('BProfile')
+                          .snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<dynamic> snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        return Container(
+                          height: Get.height * 0.7,
+                          child: ListView.builder(
+                            itemCount: snapshot.data?.docs.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return InkWell(
+                                onTap: () {
+                                  print('=============SELLER=================');
+                                  print(
+                                      'SENDER ID ${PreferenceManager.getUId()}');
+                                  print(
+                                      'RECIEVER ID ${snapshot.data.docs[index]['buyerID']}');
 
-                                FirebaseAuth _auth = FirebaseAuth.instance;
-                                Get.to(
-                                  () => ChatMessagePage(
-                                    userImg: snapshot.data.docs[index]
-                                        ['imageProfile'],
-                                    receiverId: snapshot.data.docs[index]
-                                        ['buyerID'] /*_auth.currentUser!.uid*/,
-                                    userName: snapshot.data.docs[index]
-                                        ['user_name'],
-                                  ),
-                                );
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: Get.height * 0.02),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: Get.width * 0.05),
-                                          child: Container(
-                                            child: Stack(
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          50.sp),
-                                                  // radius: 50,
-                                                  child: snapshot.data
-                                                                  ?.docs[index][
-                                                              'imageProfile'] ==
-                                                          null
-                                                      ? Image.asset(
-                                                          BImagePick.proIcon)
-                                                      : Image.network(
-                                                          snapshot.data
-                                                                  ?.docs[index]
-                                                              ['imageProfile'],
-                                                          width: 35.sp,
-                                                          height: 35.sp,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                ),
-                                                Positioned(
-                                                  right: 0,
-                                                  child: Container(
-                                                    width: 10.sp,
-                                                    height: 10.sp,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              50),
-                                                      color: isStatus == true
-                                                          ? Colors.green
-                                                          : Colors.transparent,
+                                  FirebaseAuth _auth = FirebaseAuth.instance;
+                                  Get.to(
+                                    ChatMessagePage(
+                                      userImg: snapshot.data.docs[index]
+                                          ['imageProfile'],
+                                      receiverId: snapshot.data.docs[index][
+                                          'buyerID'] /*_auth.currentUser!.uid*/,
+                                      userName: snapshot.data.docs[index]
+                                          ['user_name'],
+                                    ),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: Get.height * 0.02),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: Get.width * 0.05),
+                                            child: Container(
+                                              child: Stack(
+                                                children: [
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50.sp),
+                                                    // radius: 50,
+                                                    child: snapshot.data?.docs[
+                                                                    index][
+                                                                'imageProfile'] ==
+                                                            null
+                                                        ? Image.asset(
+                                                            BImagePick.proIcon,
+                                                            width: 50,
+                                                            height: 50,
+                                                          )
+                                                        : Image.network(
+                                                            snapshot.data?.docs[
+                                                                    index][
+                                                                'imageProfile'],
+                                                            width: 35.sp,
+                                                            height: 35.sp,
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                  ),
+                                                  Positioned(
+                                                    right: 0,
+                                                    child: Container(
+                                                      width: 10.sp,
+                                                      height: 10.sp,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(50),
+                                                        color: isStatus == true
+                                                            ? Colors.green
+                                                            : Colors
+                                                                .transparent,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
+                                          Container(
+                                            child: CustomText(
+                                                text:
+                                                    (snapshot.data?.docs[index]
+                                                            ['user_name'])
+                                                        .toString(),
+                                                fontWeight: FontWeight.w600,
+                                                alignment: Alignment.topRight,
+                                                textOverflow: TextOverflow.clip,
+                                                max: 1,
+                                                fontSize: 13.sp,
+                                                color: AppColors
+                                                    .secondaryBlackColor),
+                                            /*_time(
+                                                  snapshot.data
+                                                      .docs[index]['sellerID']
+                                                      .toString(),
+                                                  index)*/
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        alignment: Alignment.center,
+                                        width: Get.width * 0.4,
+                                        padding: EdgeInsets.only(
+                                            right: Get.width * 0.05),
+                                        child: Column(
+                                          children: [
+                                            _time(
+                                                snapshot.data!
+                                                    .docs[index]['buyerID']
+                                                    .toString(),
+                                                index),
+                                          ],
                                         ),
-                                        Container(
-                                          child: CustomText(
-                                              text: (snapshot.data?.docs[index]
-                                                      ['user_name'])
-                                                  .toString(),
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 13.sp,
-                                              color: AppColors
-                                                  .secondaryBlackColor),
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.center,
-                                          width: Get.width * 0.4,
-                                          padding: EdgeInsets.only(
-                                              right: Get.width * 0.05),
-                                          child: _time(
-                                              snapshot
-                                                  .data!.docs[index]['buyerID']
-                                                  .toString(),
-                                              index),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          }),
-                    );
-                  },
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
-      ),
-    );
+        onWillPop: () async {
+          return true;
+        });
   }
 
   Column _time(String id, int index) {

@@ -98,347 +98,351 @@ class _CartPageState extends State<CartPage> {
       },
       child: SafeArea(
         child: Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                  onPressed: () {
-                    if (bottomBarIndexController.bottomIndex.value == 1) {
-                      bottomBarIndexController.setSelectedScreen(
-                          value: 'HomeScreen');
-                      bottomBarIndexController.bottomIndex.value = 0;
-                    } else {
-                      Get.back();
-                    }
-                  },
-                  icon: Icon(Icons.arrow_back_rounded)),
-              title: Text(
-                'YOUR CART',
-                style: STextStyle.bold700White14,
-              ),
-              centerTitle: true,
-              backgroundColor: AppColors.primaryColor,
-              toolbarHeight: Get.height * 0.1,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(25),
-                ),
+          appBar: AppBar(
+            leading: IconButton(
+                onPressed: () {
+                  if (bottomBarIndexController.bottomIndex.value == 1) {
+                    bottomBarIndexController.setSelectedScreen(
+                        value: 'HomeScreen');
+                    bottomBarIndexController.bottomIndex.value = 0;
+                  } else {
+                    Get.back();
+                  }
+                },
+                icon: Icon(Icons.arrow_back_rounded)),
+            title: Text(
+              'YOUR CART',
+              style: STextStyle.bold700White14,
+            ),
+            centerTitle: true,
+            backgroundColor: AppColors.primaryColor,
+            toolbarHeight: Get.height * 0.1,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(25),
               ),
             ),
-            body: Container(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Card(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(15.0.sp),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 3,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    child: Image.network(
-                                      widget.image.toString(),
-                                      // BImagePick.cartIcon,
-                                      fit: BoxFit.cover,
-                                      height: Get.height / 5.sp,
-                                    ),
+          ),
+          body: Container(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Card(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(15.0.sp),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  child: Image.network(
+                                    widget.image.toString(),
+                                    // BImagePick.cartIcon,
+                                    fit: BoxFit.cover,
+                                    height: Get.height / 5.sp,
                                   ),
                                 ),
-                                Expanded(
-                                  flex: 4,
-                                  child: Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 20.sp),
-                                    child: Column(
-                                      children: [
-                                        CustomText(
-                                          text: widget.name.toString(),
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16.sp,
-                                          color: AppColors.primaryColor,
-                                          alignment: Alignment.topLeft,
-                                        ),
-                                        SizedBox(
-                                          height: Get.height * 0.01.sp,
-                                        ),
-                                        CustomText(
-                                          text: widget.desc.toString(),
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12.sp,
-                                          color: AppColors.secondaryBlackColor,
-                                          alignment: Alignment.centerLeft,
-                                        ),
-                                        SizedBox(
-                                          height: Get.height * 0.01.sp,
-                                        ),
-                                        CustomText(
-                                          text: widget.price.toString(),
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12.sp,
-                                          color: AppColors.secondaryBlackColor,
-                                          alignment: Alignment.centerLeft,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          CustomDropDownWidget(
-                            keyName: 'Size :      ',
-                            dropDownValue: dropdownValueSize,
-                            onChange: (String? newValue) {
-                              dropdownValueSize = newValue!;
-                              print('dropdownValueSize:-$dropdownValueSize');
-                              setState(() {});
-                            },
-                          ),
-                          CustomDropDownWidget(
-                            keyName: 'Length : ',
-                            dropDownValue: dropdownValueLength,
-                            onChange: (String? newValue) {
-                              dropdownValueLength = newValue!;
-                              print(
-                                  'dropdownValueLength:-$dropdownValueLength');
-                              setState(() {});
-                            },
-                          ),
-                          CustomDropDownWidget(
-                            keyName: 'Weight :',
-                            dropDownValue: dropdownValueWeight,
-                            onChange: (String? newValue) {
-                              dropdownValueWeight = newValue!;
-                              print(
-                                  'dropdownValueWeight:-$dropdownValueWeight');
-                              setState(() {});
-                            },
-                          ),
-                          CustomDropDownWidget(
-                            keyName: 'Oil :        ',
-                            dropDownValue: dropdownValueOil,
-                            onChange: (String? newValue) {
-                              dropdownValueOil = newValue!;
-                              print('dropdownValueOil:-$dropdownValueOil');
-                              setState(() {});
-                            },
-                          ),
-                          CustomDropDownWidget(
-                            keyName: 'Footage:      ',
-                            dropDownValue: dropdownValueFootage,
-                            onChange: (String? newValue) {
-                              dropdownValueFootage = newValue!;
-                              print('dropdownValueSize:-$dropdownValueFootage');
-                              setState(() {});
-                            },
-                          ),
-                          CustomDropDownWidget(
-                            keyName: 'O.D.:      ',
-                            dropDownValue: dropdownValueOD,
-                            onChange: (String? newValue) {
-                              dropdownValueOD = newValue!;
-                              print('dropdownValueSize:-$dropdownValueOD');
-                              setState(() {});
-                            },
-                          ),
-                          CustomDropDownWidget(
-                            keyName: 'Wall:      ',
-                            dropDownValue: dropdownValueWall,
-                            onChange: (String? newValue) {
-                              dropdownValueWall = newValue!;
-                              print('dropdownValueSize:-$dropdownValueWall');
-                              setState(() {});
-                            },
-                          ),
-                          CustomDropDownWidget(
-                            keyName: 'WT. per ft:      ',
-                            dropDownValue: dropdownValueWTperft,
-                            onChange: (String? newValue) {
-                              dropdownValueWTperft = newValue!;
-                              print('dropdownValueSize:-$dropdownValueWTperft');
-                              setState(() {});
-                            },
-                          ),
-                          widget.category == 'Gas' || widget.category == 'Oil'
-                              ? CustomDropDownWidget(
-                                  keyName: 'Pipe Tag Color:      ',
-                                  dropDownValue: dropdownValuePipeTagColor,
-                                  onChange: (String? newValue) {
-                                    dropdownValuePipeTagColor = newValue!;
-                                    print(
-                                        'dropdownValueSize:-$dropdownValuePipeTagColor');
-                                    setState(() {});
-                                  },
-                                )
-                              : Container(),
-                        ],
-                      ),
-                    ),
-                    Card(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(15.sp),
-                            child: Column(
-                              children: [
-                                CustomText(
-                                  text: 'Address : ',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 14.sp,
-                                  color: AppColors.secondaryBlackColor,
-                                  alignment: Alignment.topLeft,
-                                ),
-                                SizedBox(
-                                  height: Get.height * 0.01.sp,
-                                ),
-                                const Card(
-                                  elevation: 1,
-                                  borderOnForeground: true,
-                                  child: TextField(
-                                    maxLines: 3,
-                                    keyboardType: TextInputType.multiline,
-                                    decoration: InputDecoration(
-                                      enabledBorder: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
-                                      border: InputBorder.none,
-                                    ),
-                                    // minLines: 1,
-                                  ),
-                                ),
-                                Card(
+                              ),
+                              Expanded(
+                                flex: 4,
+                                child: Container(
+                                  margin:
+                                      EdgeInsets.symmetric(horizontal: 20.sp),
                                   child: Column(
                                     children: [
-                                      Container(
+                                      CustomText(
+                                        text: widget.name.toString(),
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16.sp,
+                                        color: AppColors.primaryColor,
+                                        alignment: Alignment.topLeft,
+                                      ),
+                                      SizedBox(
+                                        height: Get.height * 0.01.sp,
+                                      ),
+                                      CustomText(
+                                        text: widget.desc.toString(),
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12.sp,
+                                        color: AppColors.secondaryBlackColor,
+                                        alignment: Alignment.centerLeft,
+                                      ),
+                                      SizedBox(
+                                        height: Get.height * 0.01.sp,
+                                      ),
+                                      CustomText(
+                                        text: widget.price.toString(),
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12.sp,
+                                        color: AppColors.secondaryBlackColor,
+                                        alignment: Alignment.centerLeft,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        CustomDropDownWidget(
+                          keyName: 'Size :      ',
+                          dropDownValue: dropdownValueSize,
+                          onChange: (String? newValue) {
+                            dropdownValueSize = newValue!;
+                            print('dropdownValueSize:-$dropdownValueSize');
+                            setState(() {});
+                          },
+                        ),
+                        CustomDropDownWidget(
+                          keyName: 'Length : ',
+                          dropDownValue: dropdownValueLength,
+                          onChange: (String? newValue) {
+                            dropdownValueLength = newValue!;
+                            print('dropdownValueLength:-$dropdownValueLength');
+                            setState(() {});
+                          },
+                        ),
+                        CustomDropDownWidget(
+                          keyName: 'Weight :',
+                          dropDownValue: dropdownValueWeight,
+                          onChange: (String? newValue) {
+                            dropdownValueWeight = newValue!;
+                            print('dropdownValueWeight:-$dropdownValueWeight');
+                            setState(() {});
+                          },
+                        ),
+                        CustomDropDownWidget(
+                          keyName: 'Oil :        ',
+                          dropDownValue: dropdownValueOil,
+                          onChange: (String? newValue) {
+                            dropdownValueOil = newValue!;
+                            print('dropdownValueOil:-$dropdownValueOil');
+                            setState(() {});
+                          },
+                        ),
+                        CustomDropDownWidget(
+                          keyName: 'Footage:      ',
+                          dropDownValue: dropdownValueFootage,
+                          onChange: (String? newValue) {
+                            dropdownValueFootage = newValue!;
+                            print('dropdownValueSize:-$dropdownValueFootage');
+                            setState(() {});
+                          },
+                        ),
+                        CustomDropDownWidget(
+                          keyName: 'O.D.:      ',
+                          dropDownValue: dropdownValueOD,
+                          onChange: (String? newValue) {
+                            dropdownValueOD = newValue!;
+                            print('dropdownValueSize:-$dropdownValueOD');
+                            setState(() {});
+                          },
+                        ),
+                        CustomDropDownWidget(
+                          keyName: 'Wall:      ',
+                          dropDownValue: dropdownValueWall,
+                          onChange: (String? newValue) {
+                            dropdownValueWall = newValue!;
+                            print('dropdownValueSize:-$dropdownValueWall');
+                            setState(() {});
+                          },
+                        ),
+                        CustomDropDownWidget(
+                          keyName: 'WT. per ft:      ',
+                          dropDownValue: dropdownValueWTperft,
+                          onChange: (String? newValue) {
+                            dropdownValueWTperft = newValue!;
+                            print('dropdownValueSize:-$dropdownValueWTperft');
+                            setState(() {});
+                          },
+                        ),
+                        widget.category == 'Gas' || widget.category == 'Oil'
+                            ? CustomDropDownWidget(
+                                keyName: 'Pipe Tag Color:      ',
+                                dropDownValue: dropdownValuePipeTagColor,
+                                onChange: (String? newValue) {
+                                  dropdownValuePipeTagColor = newValue!;
+                                  print(
+                                      'dropdownValueSize:-$dropdownValuePipeTagColor');
+                                  setState(() {});
+                                },
+                              )
+                            : Container(),
+                      ],
+                    ),
+                  ),
+                  Card(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(15.sp),
+                          child: Column(
+                            children: [
+                              CustomText(
+                                text: 'Address : ',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14.sp,
+                                color: AppColors.secondaryBlackColor,
+                                alignment: Alignment.topLeft,
+                              ),
+                              SizedBox(
+                                height: Get.height * 0.01.sp,
+                              ),
+                              const Card(
+                                elevation: 1,
+                                borderOnForeground: true,
+                                child: TextField(
+                                  maxLines: 3,
+                                  keyboardType: TextInputType.multiline,
+                                  decoration: InputDecoration(
+                                    enabledBorder: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    border: InputBorder.none,
+                                  ),
+                                  // minLines: 1,
+                                ),
+                              ),
+                              Card(
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 10),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          CustomText(
+                                              text: 'Cart total :',
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 14.sp,
+                                              color: AppColors
+                                                  .secondaryBlackColor),
+                                          CustomText(
+                                              text: widget.price.toString(),
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 14.sp,
+                                              color: AppColors
+                                                  .secondaryBlackColor),
+                                        ],
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.to(Screen(
+                                          category: widget.category,
+                                          desc: widget.desc,
+                                          image: widget.image,
+                                          price: widget.price,
+                                          name: widget.name,
+                                          productID: widget.productID,
+                                        ));
+                                      },
+                                      // onTap: () {
+                                      //   Get.to(Screen(
+                                      //     category: widget.category,
+                                      //     desc: widget.desc,
+                                      //     image: widget.image,
+                                      //     price: widget.price,
+                                      //     name: widget.name,
+                                      //     productID: widget.productID,
+                                      //   ));
+                                      //   setState(() {
+                                      //     isLoading = true;
+                                      //   });
+                                      //   print('hello1....');
+                                      //   FirebaseFirestore.instance
+                                      //       .collection('Orders')
+                                      //       .add(
+                                      //     {
+                                      //       'productID': widget.productID,
+                                      //       'orderID':
+                                      //           PreferenceManager.getUId()
+                                      //               .toString(),
+                                      //       'productImage': widget.image,
+                                      //       'prdName': widget.name,
+                                      //       'size': '2 ft',
+                                      //       'length': '2 kg',
+                                      //       'weight': 'Pending',
+                                      //       'oil': '--',
+                                      //       'orderStatus': 'Pending',
+                                      //       'paymentMode': 'upay',
+                                      //       'price': widget.price,
+                                      //       'category': widget.category,
+                                      //       'dsc': widget.desc,
+                                      //       'createdOn':
+                                      //           DateTime.now().toString(),
+                                      //       'buyerName': firstname,
+                                      //       'buyerImg': Img,
+                                      //       'buyerAddress': address,
+                                      //     },
+                                      //   ).then(
+                                      //     (value) {
+                                      //       print('Order done successfully');
+                                      //       Get.showSnackbar(
+                                      //         GetSnackBar(
+                                      //           snackPosition:
+                                      //               SnackPosition.BOTTOM,
+                                      //           backgroundColor:
+                                      //               Colors.greenAccent,
+                                      //           duration: Duration(seconds: 5),
+                                      //           message:
+                                      //               'Order done succefully',
+                                      //         ),
+                                      //       );
+                                      //       setState(
+                                      //         () {
+                                      //           isLoading = false;
+                                      //         },
+                                      //       );
+                                      //     },
+                                      //   );
+                                      // },
+                                      child: Container(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 10, vertical: 10),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: AppColors.primaryColor,
+                                        ),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
                                           children: [
                                             CustomText(
-                                                text: 'Cart total :',
+                                                text: 'Checkout Now : ',
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 14.sp,
                                                 color: AppColors
-                                                    .secondaryBlackColor),
+                                                    .commonWhiteTextColor),
                                             CustomText(
                                                 text: widget.price.toString(),
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 14.sp,
                                                 color: AppColors
-                                                    .secondaryBlackColor),
+                                                    .commonWhiteTextColor),
                                           ],
                                         ),
                                       ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          // Get.to(() => Screen(
-                                          //       price: widget.price,
-                                          //     ));
-                                          setState(() {
-                                            isLoading = true;
-                                          });
-                                          print('hello1....');
-                                          FirebaseFirestore.instance
-                                              .collection('Orders')
-                                              // .doc(PreferenceManager.getUId()
-                                              //     .toString())
-                                              // .set({
-                                              .add({
-                                            'productID': widget.productID,
-                                            'orderID':
-                                                PreferenceManager.getUId()
-                                                    .toString(),
-                                            'productImage': widget.image,
-                                            'prdName': widget.name,
-                                            'size': '2 ft',
-                                            'length': '2 kg',
-                                            'weight': 'Pending',
-                                            'oil': '--',
-                                            'orderStatus': 'Pending',
-                                            'paymentMode': 'upay',
-                                            'price': widget.price,
-                                            'category': widget.category,
-                                            'dsc': widget.desc,
-                                            'createdOn':
-                                                DateTime.now().toString(),
-                                            'buyerName': firstname,
-                                            'buyerImg': firstname,
-                                            'buyerAddress': firstname,
-                                          })
-                                              // .then((value) {
-                                              // Get.to(
-                                              //   () => Screen(
-                                              //     category: widget.category,
-                                              //     name: widget.name,
-                                              //     desc: widget.desc,
-                                              //     image: widget.image,
-                                              //     price: widget.price,
-                                              //     productID: widget.productID,
-                                              //   ),
-                                              // );
-                                              // })
-                                              .then((value) {
-                                            print('Order done successfully');
-                                            Get.showSnackbar(
-                                              GetSnackBar(
-                                                snackPosition:
-                                                    SnackPosition.BOTTOM,
-                                                backgroundColor:
-                                                    Colors.greenAccent,
-                                                duration: Duration(seconds: 5),
-                                                message:
-                                                    'Order done succefully',
-                                              ),
-                                            );
-                                            setState(() {
-                                              isLoading = false;
-                                            });
-                                          });
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 10),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: AppColors.primaryColor,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              CustomText(
-                                                  text: 'Checkout Now : ',
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 14.sp,
-                                                  color: AppColors
-                                                      .commonWhiteTextColor),
-                                              CustomText(
-                                                  text: widget.price.toString(),
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 14.sp,
-                                                  color: AppColors
-                                                      .commonWhiteTextColor),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            )),
+            ),
+          ),
+        ),
       ),
     );
   }

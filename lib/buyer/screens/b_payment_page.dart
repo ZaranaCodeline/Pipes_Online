@@ -107,12 +107,16 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/b_home_screen_widget.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
+import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
+import 'package:sizer/sizer.dart';
 import 'package:upi_pay/upi_pay.dart';
 
 import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
@@ -143,9 +147,12 @@ class _ScreenState extends State<Screen> {
 
   final _upiAddressController = TextEditingController();
   final _amountController = TextEditingController();
-
+  bool isLoading = false;
   bool _isUpiEditable = false;
   List<ApplicationMeta>? _apps;
+  String? firstname;
+  String? Img;
+  String? address;
 
   @override
   void initState() {
@@ -213,7 +220,7 @@ class _ScreenState extends State<Screen> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              Get.to(() => BottomNavigationBarScreen());
+              Get.to(BottomNavigationBarScreen());
             },
             icon: Icon(Icons.arrow_back),
           ),
@@ -239,6 +246,85 @@ class _ScreenState extends State<Screen> {
               _amount(),
               if (Platform.isIOS) _submitButton(),
               Platform.isAndroid ? _androidApps() : _iosApps(),
+              SizedBox(
+                height: Get.height * 0.1,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: AppColors.primaryColor,
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    Get.to(Screen(
+                      category: widget.category,
+                      desc: widget.desc,
+                      image: widget.image,
+                      price: widget.price,
+                      name: widget.name,
+                      productID: widget.productID,
+                    ));
+                    setState(() {
+                      isLoading = true;
+                    });
+                    print('hello1....');
+                    FirebaseFirestore.instance.collection('Orders').add(
+                      {
+                        'productID': widget.productID,
+                        'orderID': PreferenceManager.getUId().toString(),
+                        'productImage': widget.image,
+                        'prdName': widget.name,
+                        'size': '2 ft',
+                        'length': '2 kg',
+                        'weight': 'Pending',
+                        'oil': '--',
+                        'orderStatus': 'Pending',
+                        'paymentMode': 'upay',
+                        'price': widget.price,
+                        'category': widget.category,
+                        'dsc': widget.desc,
+                        'createdOn': DateTime.now().toString(),
+                        'buyerName': firstname,
+                        'buyerImg': Img,
+                        'buyerAddress': address,
+                      },
+                    ).then(
+                      (value) {
+                        print('Order done successfully');
+                        Get.showSnackbar(
+                          GetSnackBar(
+                            snackPosition: SnackPosition.BOTTOM,
+                            backgroundColor: Colors.greenAccent,
+                            duration: Duration(seconds: 5),
+                            message: 'Order done succefully',
+                          ),
+                        );
+                        setState(
+                          () {
+                            isLoading = false;
+                          },
+                        );
+                      },
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      CustomText(
+                          text: 'Pay Now : ',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14.sp,
+                          color: AppColors.commonWhiteTextColor),
+                      CustomText(
+                          text: widget.price.toString(),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14.sp,
+                          color: AppColors.commonWhiteTextColor),
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         ),

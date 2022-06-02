@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
+import 'package:pipes_online/seller/bottombar/widget/category_bottom_bar_route.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
+import 'package:pipes_online/seller/view/s_screens/s_selected_product_screen.dart';
 import 'package:sizer/sizer.dart';
 
 class SSearchScreen extends StatefulWidget {
@@ -50,6 +52,7 @@ class _SSearchScreenState extends State<SSearchScreen> {
           print('products-name-${items}');
           return Scaffold(
             appBar: AppBar(
+              actions: [],
               leading: IconButton(
                 onPressed: () {
                   Get.back();
@@ -58,8 +61,9 @@ class _SSearchScreenState extends State<SSearchScreen> {
               ),
               title: Container(
                 height: Get.height / 15,
-                width: Get.width / 1.5,
+                width: Get.width / 1,
                 child: CupertinoTextField(
+                  padding: EdgeInsets.symmetric(horizontal: 10.sp),
                   onChanged: (proLength) {
                     setState(() {
                       print('kkkk');
@@ -67,7 +71,7 @@ class _SSearchScreenState extends State<SSearchScreen> {
                   },
                   controller: searchController,
                   keyboardType: TextInputType.text,
-                  placeholder: 'Search products here',
+                  placeholder: 'Search products here...',
                   placeholderStyle: TextStyle(
                     color: SColorPicker.fontGrey,
                     fontSize: 12.sp,
@@ -77,12 +81,19 @@ class _SSearchScreenState extends State<SSearchScreen> {
                     print('custom search');
                     // Get.to(SearchScreen());
                   },
-                  prefix: Padding(
-                    padding: EdgeInsets.fromLTRB(9.0, 6.0, 9.0, 6.0),
-                    child: Icon(
-                      Icons.search,
-                      color: SColorPicker.fontGrey,
-                    ),
+                  suffix: IconButton(
+                    onPressed: () {
+                      searchController.clear();
+                    },
+                    icon: searchController.text.isNotEmpty
+                        ? Icon(
+                            Icons.clear,
+                            color: SColorPicker.fontGrey,
+                          )
+                        : Icon(
+                            Icons.search,
+                            color: SColorPicker.fontGrey,
+                          ),
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50.0),
@@ -92,10 +103,10 @@ class _SSearchScreenState extends State<SSearchScreen> {
               ),
               centerTitle: true,
               backgroundColor: AppColors.primaryColor,
-              toolbarHeight: Get.height * 0.1,
+              toolbarHeight: Get.height * 0.15,
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(25),
+                  bottom: Radius.circular(30),
                 ),
               ),
             ),
@@ -130,20 +141,20 @@ class _SSearchScreenState extends State<SSearchScreen> {
                             return GestureDetector(
                               onTap: () {
                                 print('clicked....');
-                                // Get.to(
-                                //   SelectedProductWidget(
-                                //     name: snapShot.data!.docs[index]['prdName'],
-                                //     image: snapShot.data!.docs[index]
-                                //         ['imageProfile'],
-                                //     desc: snapShot.data!.docs[index]['dsc'],
-                                //     price: snapShot.data!.docs[index]['price'],
-                                //     category: snapShot.data!.docs[index]
-                                //         ['category'],
-                                //     productID: snapShot.data!.docs[index].id,
-                                //     sellerID: snapShot.data!.docs[index]
-                                //         ['sellerID'],
-                                //   ),
-                                // );
+                                Get.to(
+                                  SSelectedProductScreen(
+                                    name: snapShot.data!.docs[index]['prdName'],
+                                    image: snapShot.data!.docs[index]
+                                        ['imageProfile'],
+                                    desc: snapShot.data!.docs[index]['dsc'],
+                                    price: snapShot.data!.docs[index]['price'],
+                                    category: snapShot.data!.docs[index]
+                                        ['category'],
+                                    productID: snapShot.data!.docs[index].id,
+                                    sellerID: snapShot.data!.docs[index]
+                                        ['sellerID'],
+                                  ),
+                                );
                               },
                               child: Padding(
                                 padding: EdgeInsets.all(15.sp),

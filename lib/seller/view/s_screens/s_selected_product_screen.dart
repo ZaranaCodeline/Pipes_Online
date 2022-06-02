@@ -12,8 +12,17 @@ import '../../../buyer/screens/custom_widget/custom_text.dart';
 import '../../common/s_common_button.dart';
 
 class SSelectedProductScreen extends StatefulWidget {
+  final String? name, image, desc, price, category, productID, sellerID;
+
   SSelectedProductScreen({
     Key? key,
+    this.name,
+    this.image,
+    this.desc,
+    this.price,
+    this.category,
+    this.productID,
+    this.sellerID,
   }) : super(key: key);
 
   @override

@@ -53,6 +53,7 @@ class _SearchScreenState extends State<SearchScreen> {
           print('products-name-${items}');
           return Scaffold(
             appBar: AppBar(
+              actions: [],
               leading: IconButton(
                 onPressed: () {
                   Get.back();
@@ -61,8 +62,9 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
               title: Container(
                 height: Get.height / 15,
-                width: Get.width / 1.5,
+                width: Get.width / 1,
                 child: CupertinoTextField(
+                  padding: EdgeInsets.symmetric(horizontal: 10.sp),
                   onChanged: (proLength) {
                     setState(() {
                       print('kkkk');
@@ -70,7 +72,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   },
                   controller: searchController,
                   keyboardType: TextInputType.text,
-                  placeholder: 'Search products here',
+                  placeholder: 'Search products here...',
                   placeholderStyle: TextStyle(
                     color: SColorPicker.fontGrey,
                     fontSize: 12.sp,
@@ -78,14 +80,21 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                   onTap: () {
                     print('custom search');
-                    Get.to(SearchScreen());
+                    // Get.to(SearchScreen());
                   },
-                  prefix: Padding(
-                    padding: EdgeInsets.fromLTRB(9.0, 6.0, 9.0, 6.0),
-                    child: Icon(
-                      Icons.search,
-                      color: SColorPicker.fontGrey,
-                    ),
+                  suffix: IconButton(
+                    onPressed: () {
+                      searchController.clear();
+                    },
+                    icon: searchController.text.isNotEmpty
+                        ? Icon(
+                            Icons.clear,
+                            color: SColorPicker.fontGrey,
+                          )
+                        : Icon(
+                            Icons.search,
+                            color: SColorPicker.fontGrey,
+                          ),
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50.0),
@@ -95,10 +104,10 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
               centerTitle: true,
               backgroundColor: AppColors.primaryColor,
-              toolbarHeight: Get.height * 0.1,
+              toolbarHeight: Get.height * 0.15,
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(25),
+                  bottom: Radius.circular(30),
                 ),
               ),
             ),

@@ -45,186 +45,189 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: Get.height * 0.05,
-        ),
-        CustomText(
-            text: 'List your products',
-            fontWeight: FontWeight.w600,
-            fontSize: 12.sp,
-            color: AppColors.secondaryBlackColor),
-        SizedBox(
-          height: Get.height * 0.05,
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              width: Get.width / 1,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: selectedRadioTile == 0
-                    ? AppColors.primaryColor
-                    : AppColors.commonWhiteTextColor,
-              ),
-              child: RadioListTile(
-                  selectedTileColor: AppColors.commonWhiteTextColor,
-                  value: 0,
-                  activeColor: selectedRadioTile == 0
-                      ? AppColors.commonWhiteTextColor
-                      : AppColors.primaryColor,
-                  groupValue: selectedRadioTile,
-                  title: CustomText(
-                    text: list_time[0],
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: selectedRadioTile == 0
-                        ? AppColors.commonWhiteTextColor
-                        : AppColors.primaryColor,
-                  ),
-                  secondary: CustomText(
-                    text: '${list_name[0]}',
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w600,
-                    color: selectedRadioTile == 0
-                        ? AppColors.commonWhiteTextColor
-                        : AppColors.primaryColor,
-                  ),
-                  onChanged: (value) {
-                    print('Radio tile pressed $value');
-                    setState(() {
-                      selectedRadioTile = value as int?;
-                      value = list_time[0] + ' ' + list_name[0];
-                      selected = value as String;
-                      print('Radio tile pressed $selected');
-                    });
-                  }),
-            ),
-            SizedBox(
-              height: Get.height * 0.04,
-            ),
-            Container(
-              width: Get.width / 1,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: selectedRadioTile == 1
-                    ? AppColors.primaryColor
-                    : AppColors.commonWhiteTextColor,
-              ),
-              child: RadioListTile(
-                  selectedTileColor: AppColors.commonWhiteTextColor,
-                  value: 1,
-                  activeColor: selectedRadioTile == 1
-                      ? AppColors.commonWhiteTextColor
-                      : AppColors.primaryColor,
-                  groupValue: selectedRadioTile,
-                  title: CustomText(
-                    text: list_time[1],
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: selectedRadioTile == 1
-                        ? AppColors.commonWhiteTextColor
-                        : AppColors.primaryColor,
-                  ),
-                  secondary: CustomText(
-                    text: '${list_name[1]}',
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w600,
-                    color: selectedRadioTile == 1
-                        ? AppColors.commonWhiteTextColor
-                        : AppColors.primaryColor,
-                  ),
-                  onChanged: (value) {
-                    print('Radio tile pressed $value');
-                    setState(() {
-                      selectedRadioTile = value as int?;
-                      value = list_time[1] + ' ' + list_name[1];
-                      selected = value as String;
-                      print('Radio tile pressed $selected');
-                    });
-                  }),
-            ),
-            SizedBox(
-              height: Get.height * 0.04,
-            ),
-            Container(
-              width: Get.width / 1,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: selectedRadioTile == 2
-                    ? AppColors.primaryColor
-                    : AppColors.commonWhiteTextColor,
-              ),
-              child: RadioListTile(
-                  selectedTileColor: AppColors.commonWhiteTextColor,
-                  value: 2,
-                  activeColor: selectedRadioTile == 2
-                      ? AppColors.commonWhiteTextColor
-                      : AppColors.primaryColor,
-                  groupValue: selectedRadioTile,
-                  title: CustomText(
-                    text: list_time[2],
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: selectedRadioTile == 2
-                        ? AppColors.commonWhiteTextColor
-                        : AppColors.primaryColor,
-                  ),
-                  secondary: CustomText(
-                    text: '${list_name[2]}',
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w600,
-                    color: selectedRadioTile == 2
-                        ? AppColors.commonWhiteTextColor
-                        : AppColors.primaryColor,
-                  ),
-                  onChanged: (value) {
-                    print('Radio tile pressed $value');
-                    setState(() {
-                      selectedRadioTile = value as int?;
-                      value = list_time[2] + ' ' + list_name[2];
-                      selected = value as String;
-                      print('Radio tile pressed $selected');
-                    });
-                  }),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: Get.height * 0.1,
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 15.sp, horizontal: 40.sp),
-          child: SCommonButton().sCommonPurpleButton(
-            name: 'Subscribe Now',
-            onTap: () {
-              if (selected != null) {
-                PreferenceManager.setSubscribeCategory('simple');
-                // PreferenceManager.setSubscribeTime('${selected}');
-                PreferenceManager.setSubscribeTime(
-                    '${list_time[selectedRadioTile!]}');
-                PreferenceManager.setSubscribeVal(
-                    '${list_name[selectedRadioTile!]}');
-                print('====setTime===${PreferenceManager.getSubscribeTime()}');
-                print('====setGap===${PreferenceManager.getSubscribeVal()}');
-                addProductController.selectedSubscribe = selected!;
-                homeController.bottomIndex.value = 0;
-                homeController.selectedScreen('SAddProductScreen');
-              } else {
-                Get.showSnackbar(GetSnackBar(
-                  backgroundColor: SColorPicker.red,
-                  duration: Duration(seconds: 2),
-                  message: 'Please select one of above category!',
-                ));
-              }
-              print('edit product seller side${selected}');
-            },
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: Get.height * 0.05,
           ),
-        )
-      ],
+          CustomText(
+              text: 'List your products',
+              fontWeight: FontWeight.w600,
+              fontSize: 12.sp,
+              color: AppColors.secondaryBlackColor),
+          SizedBox(
+            height: Get.height * 0.05,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: Get.width / 1,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: selectedRadioTile == 0
+                      ? AppColors.primaryColor
+                      : AppColors.commonWhiteTextColor,
+                ),
+                child: RadioListTile(
+                    selectedTileColor: AppColors.commonWhiteTextColor,
+                    value: 0,
+                    activeColor: selectedRadioTile == 0
+                        ? AppColors.commonWhiteTextColor
+                        : AppColors.primaryColor,
+                    groupValue: selectedRadioTile,
+                    title: CustomText(
+                      text: list_time[0],
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      color: selectedRadioTile == 0
+                          ? AppColors.commonWhiteTextColor
+                          : AppColors.primaryColor,
+                    ),
+                    secondary: CustomText(
+                      text: '${list_name[0]}',
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: selectedRadioTile == 0
+                          ? AppColors.commonWhiteTextColor
+                          : AppColors.primaryColor,
+                    ),
+                    onChanged: (value) {
+                      print('Radio tile pressed $value');
+                      setState(() {
+                        selectedRadioTile = value as int?;
+                        value = list_time[0] + ' ' + list_name[0];
+                        selected = value as String;
+                        print('Radio tile pressed $selected');
+                      });
+                    }),
+              ),
+              SizedBox(
+                height: Get.height * 0.04,
+              ),
+              Container(
+                width: Get.width / 1,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: selectedRadioTile == 1
+                      ? AppColors.primaryColor
+                      : AppColors.commonWhiteTextColor,
+                ),
+                child: RadioListTile(
+                    selectedTileColor: AppColors.commonWhiteTextColor,
+                    value: 1,
+                    activeColor: selectedRadioTile == 1
+                        ? AppColors.commonWhiteTextColor
+                        : AppColors.primaryColor,
+                    groupValue: selectedRadioTile,
+                    title: CustomText(
+                      text: list_time[1],
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      color: selectedRadioTile == 1
+                          ? AppColors.commonWhiteTextColor
+                          : AppColors.primaryColor,
+                    ),
+                    secondary: CustomText(
+                      text: '${list_name[1]}',
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: selectedRadioTile == 1
+                          ? AppColors.commonWhiteTextColor
+                          : AppColors.primaryColor,
+                    ),
+                    onChanged: (value) {
+                      print('Radio tile pressed $value');
+                      setState(() {
+                        selectedRadioTile = value as int?;
+                        value = list_time[1] + ' ' + list_name[1];
+                        selected = value as String;
+                        print('Radio tile pressed $selected');
+                      });
+                    }),
+              ),
+              SizedBox(
+                height: Get.height * 0.04,
+              ),
+              Container(
+                width: Get.width / 1,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: selectedRadioTile == 2
+                      ? AppColors.primaryColor
+                      : AppColors.commonWhiteTextColor,
+                ),
+                child: RadioListTile(
+                    selectedTileColor: AppColors.commonWhiteTextColor,
+                    value: 2,
+                    activeColor: selectedRadioTile == 2
+                        ? AppColors.commonWhiteTextColor
+                        : AppColors.primaryColor,
+                    groupValue: selectedRadioTile,
+                    title: CustomText(
+                      text: list_time[2],
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      color: selectedRadioTile == 2
+                          ? AppColors.commonWhiteTextColor
+                          : AppColors.primaryColor,
+                    ),
+                    secondary: CustomText(
+                      text: '${list_name[2]}',
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: selectedRadioTile == 2
+                          ? AppColors.commonWhiteTextColor
+                          : AppColors.primaryColor,
+                    ),
+                    onChanged: (value) {
+                      print('Radio tile pressed $value');
+                      setState(() {
+                        selectedRadioTile = value as int?;
+                        value = list_time[2] + ' ' + list_name[2];
+                        selected = value as String;
+                        print('Radio tile pressed $selected');
+                      });
+                    }),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: Get.height * 0.1,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 15.sp, horizontal: 40.sp),
+            child: SCommonButton().sCommonPurpleButton(
+              name: 'Subscribe Now',
+              onTap: () {
+                if (selected != null) {
+                  PreferenceManager.setSubscribeCategory('simple');
+                  // PreferenceManager.setSubscribeTime('${selected}');
+                  PreferenceManager.setSubscribeTime(
+                      '${list_time[selectedRadioTile!]}');
+                  PreferenceManager.setSubscribeVal(
+                      '${list_name[selectedRadioTile!]}');
+                  print(
+                      '====setTime===${PreferenceManager.getSubscribeTime()}');
+                  print('====setGap===${PreferenceManager.getSubscribeVal()}');
+                  addProductController.selectedSubscribe = selected!;
+                  homeController.bottomIndex.value = 0;
+                  homeController.selectedScreen('SAddProductScreen');
+                } else {
+                  Get.showSnackbar(GetSnackBar(
+                    backgroundColor: SColorPicker.red,
+                    duration: Duration(seconds: 2),
+                    message: 'Please select one of above category!',
+                  ));
+                }
+                print('edit product seller side${selected}');
+              },
+            ),
+          )
+        ],
+      ),
     );
   }
 }

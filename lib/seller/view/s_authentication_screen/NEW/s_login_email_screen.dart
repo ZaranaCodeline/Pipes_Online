@@ -14,6 +14,7 @@ import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_e
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
+import 'package:pipes_online/seller/view_model/s_login_home_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
@@ -81,7 +82,7 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                   ],
                 ),
               ),
-              GetBuilder<BLogInController>(
+              GetBuilder<SLogInController>(
                 builder: (controller) {
                   return Container(
                     height: Get.height * 0.9,

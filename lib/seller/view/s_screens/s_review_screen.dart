@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_add_review_screen.dart';
 import 'package:sizer/sizer.dart';
@@ -20,6 +22,7 @@ class SReviewScreen extends StatefulWidget {
 
 class _SReviewScreenState extends State<SReviewScreen> {
   var rating = 3.0;
+  String? formattedDateTime;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -37,322 +40,267 @@ class _SReviewScreenState extends State<SReviewScreen> {
             ),
           ),
         ),
-        body: Column(
-          children: [
-            Card(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: Get.height * 0.02,
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: Get.width * 0.1),
-                    child: CustomText(
-                      text: 'Summary',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20,
-                      color: AppColors.secondaryBlackColor,
-                      alignment: Alignment.topLeft,
-                    ),
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.02,
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(bottom: Get.height * 0.1),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SizedBox(
-                          height: Get.height * 0.1,
-                        ),
-                        Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              CustomText(
-                                text: '5.0',
-                                color: AppColors.secondaryBlackColor,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              SizedBox(
-                                height: Get.height * 0.02,
-                              ),
-                              SmoothStarRating(
-                                  allowHalfRating: false,
-                                  onRatingChanged: (v) {
-                                    setState(() {
-                                      rating = v;
-                                    });
-                                  },
-                                  starCount: 5,
-                                  rating: rating,
-                                  size: 20.0.sp,
-                                  filledIconData: Icons.star,
-                                  halfFilledIconData: Icons.blur_on,
-                                  color: AppColors.starRatingColor,
-                                  borderColor: AppColors.starRatingColor,
-                                  spacing: 0.0),
-                              SizedBox(
-                                height: Get.height * 0.02,
-                              ),
-                              CustomText(
-                                  text: '(14 reviews)',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12.sp,
-                                  color: AppColors.hintTextColor),
-                            ],
-                          ),
-                        ),
-                        Column(
+        body: FutureBuilder<QuerySnapshot<Object?>>(
+          future: FirebaseFirestore.instance.collection('Orders').get(),
+          builder: (BuildContext context, snapShot) {
+            if (snapShot.hasData) {
+              return ListView.builder(
+                itemCount: snapShot.data?.docs.length,
+                itemBuilder: (context, index) {
+                  formattedDateTime = DateFormat('yyyy-MM-dd').format(
+                      DateTime.parse(snapShot.data?.docs[index]['createdOn']));
+                  print('--formattedDateTime-${formattedDateTime}');
+                  return Column(
+                    children: [
+                      Card(
+                        child: Column(
                           children: [
-                            CustomRatingView('5', AppColors.primaryColor, '5'),
-                            CustomRatingView(
-                                '4', AppColors.starRatingLightColor, '0'),
-                            CustomRatingView(
-                                '3', AppColors.starRatingLightColor, '0'),
-                            CustomRatingView(
-                                '2', AppColors.starRatingLightColor, '0'),
-                            CustomRatingView(
-                                '1', AppColors.starRatingLightColor, '0'),
+                            SizedBox(
+                              height: Get.height * 0.02,
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Get.width * 0.1),
+                              child: CustomText(
+                                text: 'Summary',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20,
+                                color: AppColors.secondaryBlackColor,
+                                alignment: Alignment.topLeft,
+                              ),
+                            ),
+                            SizedBox(
+                              height: Get.height * 0.02,
+                            ),
+                            Container(
+                              padding:
+                                  EdgeInsets.only(bottom: Get.height * 0.1),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  SizedBox(
+                                    height: Get.height * 0.1,
+                                  ),
+                                  Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        CustomText(
+                                          text: '5.0',
+                                          color: AppColors.secondaryBlackColor,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        SizedBox(
+                                          height: Get.height * 0.02,
+                                        ),
+                                        SmoothStarRating(
+                                            allowHalfRating: false,
+                                            onRatingChanged: (v) {
+                                              setState(() {
+                                                rating = v;
+                                              });
+                                            },
+                                            starCount: 5,
+                                            rating: rating,
+                                            size: 20.0.sp,
+                                            filledIconData: Icons.star,
+                                            halfFilledIconData: Icons.blur_on,
+                                            color: AppColors.starRatingColor,
+                                            borderColor:
+                                                AppColors.starRatingColor,
+                                            spacing: 0.0),
+                                        SizedBox(
+                                          height: Get.height * 0.02,
+                                        ),
+                                        CustomText(
+                                            text: '(14 reviews)',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 12.sp,
+                                            color: AppColors.hintTextColor),
+                                      ],
+                                    ),
+                                  ),
+                                  Column(
+                                    children: [
+                                      CustomRatingView(
+                                          '5', AppColors.primaryColor, '5'),
+                                      CustomRatingView('4',
+                                          AppColors.starRatingLightColor, '0'),
+                                      CustomRatingView('3',
+                                          AppColors.starRatingLightColor, '0'),
+                                      CustomRatingView('2',
+                                          AppColors.starRatingLightColor, '0'),
+                                      CustomRatingView('1',
+                                          AppColors.starRatingLightColor, '0'),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomText(
-                      text: '14 reviews',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14.sp,
-                      color: AppColors.secondaryBlackColor),
-                  GestureDetector(
-                    onTap: () {
-                      Get.to(SAddReviewScreen());
-                    },
-                    child: CustomText(
-                        text: 'Review Now',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.sp,
-                        color: AppColors.primaryColor),
-                  ),
-                ],
-              ),
-            ),
-            Divider(
-              thickness: 1,
-              color: SColorPicker.lightGrey,
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SvgPicture.asset(
-                    'assets/images/svg/pro_icon.svg',
-                    width: 25.sp,
-                    height: 25.sp,
-                    color: AppColors.primaryColor,
-                  ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: CustomText(
-                            text: 'Jan Doe',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 12.sp,
-                            color: AppColors.secondaryBlackColor,
-                            alignment: Alignment.topLeft,
-                            textAlign: TextAlign.start,
-                          ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.sp, vertical: 10.sp),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomText(
+                                text: '14 reviews',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14.sp,
+                                color: AppColors.secondaryBlackColor),
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(SAddReviewScreen());
+                              },
+                              child: CustomText(
+                                  text: 'Review Now',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14.sp,
+                                  color: AppColors.primaryColor),
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          height: Get.height * 0.01,
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              CustomText(
-                                  text: 'Buyer',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12.sp,
-                                  color: AppColors.secondaryBlackColor),
-                              SizedBox(
-                                width: Get.width * 0.03,
-                              ),
-                              Row(
+                      ),
+                      Divider(
+                        thickness: 1,
+                        color: SColorPicker.lightGrey,
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            snapShot.data?.docs[index]['buyerImg'] != null
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Image.network(
+                                      snapShot.data?.docs[index]['buyerImg'],
+                                      width: 30.sp,
+                                      height: 30.sp,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/images/svg/pro_icon.svg',
+                                    width: 25.sp,
+                                    height: 25.sp,
+                                    color: AppColors.primaryColor,
+                                  ),
+                            Expanded(
+                              child: Column(
                                 children: [
                                   Container(
-                                    width: 6,
-                                    height: 6,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
+                                    child: CustomText(
+                                      text: snapShot.data?.docs[index]
+                                              ['buyerName'] ??
+                                          'john',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12.sp,
                                       color: AppColors.secondaryBlackColor,
+                                      alignment: Alignment.topLeft,
+                                      textAlign: TextAlign.start,
                                     ),
                                   ),
                                   SizedBox(
-                                    width: Get.width * 0.03,
+                                    height: Get.height * 0.01,
                                   ),
-                                  CustomText(
-                                      text: 'Coated Coil',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12.sp,
-                                      color: AppColors.secondaryBlackColor),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.01,
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 15),
-                          width: Get.width * 0.7,
-                          child: SmoothStarRating(
-                              allowHalfRating: false,
-                              onRatingChanged: (v) {
-                                rating = v;
-                                setState(() {});
-                              },
-                              starCount: 5,
-                              rating: rating,
-                              size: 20.0,
-                              filledIconData: Icons.star,
-                              halfFilledIconData: Icons.blur_on,
-                              color: AppColors.starRatingColor,
-                              borderColor: AppColors.starRatingColor,
-                              spacing: 0.0),
-                        ),
-                      ],
-                    ),
-                  ),
-                  CustomText(
-                      text: '3d',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12.sp,
-                      color: AppColors.secondaryBlackColor),
-                ],
-              ),
-            ),
-            Divider(
-              thickness: 1,
-              color: SColorPicker.lightGrey,
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SvgPicture.asset(
-                    'assets/images/svg/pro_icon.svg',
-                    width: 25.sp,
-                    height: 25.sp,
-                    color: AppColors.primaryColor,
-                  ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: CustomText(
-                            text: 'Jan Doe',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 12.sp,
-                            color: AppColors.secondaryBlackColor,
-                            alignment: Alignment.topLeft,
-                            textAlign: TextAlign.start,
-                          ),
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.01,
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              CustomText(
-                                  text: 'Buyer',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12.sp,
-                                  color: AppColors.secondaryBlackColor),
-                              SizedBox(
-                                width: Get.width * 0.03,
-                              ),
-                              Row(
-                                children: [
                                   Container(
-                                    width: 6,
-                                    height: 6,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50),
-                                      color: AppColors.secondaryBlackColor,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        CustomText(
+                                            text: 'Buyer',
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 12.sp,
+                                            color:
+                                                AppColors.secondaryBlackColor),
+                                        SizedBox(
+                                          width: Get.width * 0.03,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Container(
+                                              width: 6,
+                                              height: 6,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                                color: AppColors
+                                                    .secondaryBlackColor,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: Get.width * 0.03,
+                                            ),
+                                            CustomText(
+                                                text: snapShot.data?.docs[index]
+                                                    ['category'],
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 12.sp,
+                                                color: AppColors
+                                                    .secondaryBlackColor),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   SizedBox(
-                                    width: Get.width * 0.03,
+                                    height: Get.height * 0.01,
                                   ),
-                                  CustomText(
-                                      text: 'Coated Coil',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12.sp,
-                                      color: AppColors.secondaryBlackColor),
+                                  Container(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 15),
+                                    width: Get.width * 0.7,
+                                    child: SmoothStarRating(
+                                        allowHalfRating: false,
+                                        onRatingChanged: (v) {
+                                          rating = v;
+                                          setState(() {});
+                                        },
+                                        starCount: 5,
+                                        rating: rating,
+                                        size: 20.0,
+                                        filledIconData: Icons.star,
+                                        halfFilledIconData: Icons.blur_on,
+                                        color: AppColors.starRatingColor,
+                                        borderColor: AppColors.starRatingColor,
+                                        spacing: 0.0),
+                                  ),
                                 ],
                               ),
-                            ],
-                          ),
+                            ),
+                            CustomText(
+                                text: formattedDateTime.toString(),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12.sp,
+                                color: AppColors.secondaryBlackColor),
+                          ],
                         ),
-                        SizedBox(
-                          height: Get.height * 0.01,
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 15),
-                          width: Get.width * 0.7,
-                          child: SmoothStarRating(
-                              allowHalfRating: false,
-                              onRatingChanged: (v) {
-                                setState(() {
-                                  rating = v;
-                                });
-                              },
-                              starCount: 5,
-                              rating: rating,
-                              size: 20.0,
-                              filledIconData: Icons.star,
-                              halfFilledIconData: Icons.blur_on,
-                              color: AppColors.starRatingColor,
-                              borderColor: AppColors.starRatingColor,
-                              spacing: 0.0),
-                        ),
-                      ],
-                    ),
-                  ),
-                  CustomText(
-                      text: '3d',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12.sp,
-                      color: AppColors.secondaryBlackColor),
-                ],
-              ),
-            ),
-            Divider(
-              thickness: 1,
-              color: SColorPicker.lightGrey,
-            ),
-          ],
+                      ),
+                      Divider(
+                        thickness: 1,
+                        color: SColorPicker.lightGrey,
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          },
         ),
       ),
     );

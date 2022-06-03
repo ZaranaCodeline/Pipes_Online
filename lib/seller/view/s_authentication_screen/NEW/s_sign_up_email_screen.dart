@@ -102,7 +102,7 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
               GetBuilder<BLogInController>(
                 builder: (controller) {
                   return Container(
-                    height: Get.height * 2,
+                    // height: Get.height * 1,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
@@ -415,19 +415,22 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
                                   onTap: () {
                                     print('it is Signup with Google');
                                     loginwithgoogle().then((value) {
-                                      setState(() {
-                                        isLoading = true;
-                                      });
-                                      print('it is map');
-                                      PreferenceManager.setUserType('Buyer');
-                                      Get.to(SFirstUserInfoScreen(
-                                        email: email.text.trim(),
-                                      ))?.then((value) {
-                                        print(
-                                            '======EMAIL====${PreferenceManager.getEmail()}');
-                                        PreferenceManager.getEmail();
-                                      });
+                                      Get.to(SFirstUserInfoScreen());
                                     });
+                                    // loginwithgoogle().then((value) {
+                                    //   setState(() {
+                                    //     isLoading = true;
+                                    //   });
+                                    //   print('it is map');
+                                    //   PreferenceManager.setUserType('Seller');
+                                    //   Get.to(SFirstUserInfoScreen(
+                                    //     email: email.text.trim(),
+                                    //   ))?.then((value) {
+                                    //     print(
+                                    //         '======EMAIL====${PreferenceManager.getEmail()}');
+                                    //     PreferenceManager.getEmail();
+                                    //   });
+                                    // });
                                   },
                                   child: Container(
                                     padding: EdgeInsets.all(12.sp),
@@ -482,9 +485,6 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
                                     ],
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: Get.height * 0.05,
                               ),
                             ],
                           ),

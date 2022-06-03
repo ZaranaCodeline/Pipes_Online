@@ -51,11 +51,12 @@ class _ProductCardListState extends State<ProductCardList> {
                       onTap: () {
                         print(
                             "snapShot.data!.docs[index]['prdName']--${snapShot.data!.docs[index]['prdName']}");
-                        print(
-                            'DATA OF ID========${snapShot.data!.docs[index]}');
+                        print('DATA OF ID==${snapShot.data!.docs[index]}');
 
                         print(
                             'DATA OF ID=snapShot.data!.docs[index].id=======${snapShot.data!.docs[index].id}');
+                        print(
+                            'sellerID===${snapShot.data!.docs[index]['sellerID']}');
 
                         Get.to(
                           SelectedProductWidget(

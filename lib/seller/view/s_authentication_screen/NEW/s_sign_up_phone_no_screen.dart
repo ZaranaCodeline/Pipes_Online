@@ -11,7 +11,9 @@ import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_first_user_info_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_login_email_screen.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_email_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_phone_otp_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
@@ -312,7 +314,7 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
                                   child: GestureDetector(
                                     onTap: () {
                                       print('it is Signup with Email');
-                                      Get.to(BSignUpEmailScreen());
+                                      Get.to(SSignUpEmailScreen());
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(12.sp),
@@ -351,7 +353,9 @@ class _SSignUpPhoneNumberScreenState extends State<SSignUpPhoneNumberScreen> {
                                 Center(
                                   child: GestureDetector(
                                     onTap: () {
-                                      loginwithgoogle();
+                                      loginwithgoogle().then((value) {
+                                        Get.to(SFirstUserInfoScreen());
+                                      });
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(12.sp),

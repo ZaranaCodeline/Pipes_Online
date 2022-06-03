@@ -258,7 +258,9 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                                           ),
                                         ),
                                       ),
-                                    );
+                                    ).then((value) {
+                                      Get.back();
+                                    });
                                   },
                                   child: Row(
                                     children: [

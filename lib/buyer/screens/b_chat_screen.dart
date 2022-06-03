@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/convert_date_formate_chat.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
+import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
@@ -21,15 +22,20 @@ class BChatScreen extends StatefulWidget {
 }
 
 class _BChatScreenState extends State<BChatScreen> {
+  bool isselected = false;
+  List<String> items = [];
+  List<String> onSearchItem = [];
+  TextEditingController searchController = TextEditingController();
   // FirebaseAuth _auth = FirebaseAuth.instance;
+
   CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
   String? Img;
   String? firstname, phone;
   bool? isStatus;
   Future<void> getData() async {
+    print('SELLERID---${PreferenceManager.getUId()}');
     print('demo.....');
-    final user =
-        await ProfileCollection.doc('ddPUOFupHEcDVPlBimhE2WfePYU2').get();
+    final user = await ProfileCollection.doc(PreferenceManager.getUId()).get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
     firstname = getUserData?['user_name'];
     phone = getUserData?['phoneno'];
@@ -44,7 +50,7 @@ class _BChatScreenState extends State<BChatScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // getData();
+    getData();
     print('Buyer PreferenceManager.getUId()====${PreferenceManager.getUId()}');
   }
 
@@ -57,9 +63,14 @@ class _BChatScreenState extends State<BChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var collection =
+        FirebaseFirestore.instance.collection('SProfile').snapshots();
+    print('--collection seller ${collection}');
     return WillPopScope(
       onWillPop: () async {
-        return true;
+        bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
+        bottomBarIndexController.bottomIndex.value = 0;
+        return Future.value(true);
       },
       child: SafeArea(
         child: Scaffold(
@@ -86,174 +97,406 @@ class _BChatScreenState extends State<BChatScreen> {
               ),
             ),
           ),
-          body: Container(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: Get.height * 0.02,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: Get.width * 0.05),
-                    child: CustomText(
-                      text: 'Messages',
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.primaryColor,
-                      textAlign: TextAlign.start,
-                      alignment: Alignment.topCenter,
-                    ),
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.01,
-                  ),
-                  Divider(color: AppColors.primaryColor, thickness: 1.sp),
-                  StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection('SProfile')
-                        .snapshots(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<dynamic> snapshot) {
-                      if (!snapshot.hasData) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      return Container(
-                        height: Get.height * 0.7,
-                        child: ListView.builder(
-                          itemCount: snapshot.data?.docs.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return InkWell(
-                              onTap: () {
-                                print('================BUYER=================');
-                                print(
-                                    'SENDER ID ${PreferenceManager.getUId()}');
-                                print(
-                                    'RECIEVER ID ${snapshot.data.docs[index]['sellerID']}');
-                                Get.to(
-                                  ChatMessagePage(
-                                    userImg: snapshot.data.docs[index]
-                                        ['imageProfile'],
-                                    receiverId: snapshot.data.docs[index][
-                                        'sellerID'] /*'100247364098702824893'*/,
-                                    userName: snapshot.data.docs[index]
-                                        ['user_name'],
+          body: FutureBuilder<QuerySnapshot>(
+            future: FirebaseFirestore.instance
+                .collection('SProfile')
+                .where('user_name',
+                    isGreaterThanOrEqualTo: searchController.text)
+                .get(),
+            builder: (BuildContext context, snapShot) {
+              if (snapShot.hasData) {
+                print('prdName-${snapShot.data?.docs.length}');
+                snapShot.data?.docs.forEach((proLength) {
+                  items.add(proLength['user_name']);
+                });
+                print('products-name-${items}');
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: Get.height * 0.02,
+                      ),
+                      Container(
+                        height: Get.height / 15,
+                        width: Get.width / 1,
+                        decoration: BoxDecoration(
+                            color: AppColors.primaryColor.withOpacity(0.2)),
+                        child: CupertinoTextField(
+                          padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                          onChanged: (proLength) {
+                            setState(() {
+                              print('kkkk');
+                            });
+                          },
+                          controller: searchController,
+                          keyboardType: TextInputType.text,
+                          placeholder: 'Search products here...',
+                          placeholderStyle: TextStyle(
+                            color: SColorPicker.fontGrey,
+                            fontSize: 12.sp,
+                            fontFamily: 'Ubuntu-Regular',
+                          ),
+                          onTap: () {
+                            print('custom search');
+                            // Get.to(SearchScreen());
+                          },
+                          suffix: IconButton(
+                            onPressed: () {
+                              searchController.clear();
+                            },
+                            icon: searchController.text.isNotEmpty
+                                ? Icon(
+                                    Icons.clear,
+                                    color: SColorPicker.fontGrey,
+                                  )
+                                : Icon(
+                                    Icons.search,
+                                    color: SColorPicker.fontGrey,
                                   ),
-                                );
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: Get.height * 0.02),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Padding(
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(0.0),
+                            color: Color(0xffF0F1F5),
+                          ),
+                        ),
+                      ),
+                      Divider(),
+                      searchController.text.isEmpty
+                          ? StreamBuilder(
+                              stream: FirebaseFirestore.instance
+                                  .collection('SProfile')
+                                  .where('user_name',
+                                      isGreaterThanOrEqualTo:
+                                          searchController.text)
+                                  .snapshots(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<dynamic> snapshot) {
+                                if (!snapshot.hasData) {
+                                  return Center(
+                                    child: SizedBox(),
+                                  );
+                                }
+                                return Container(
+                                  height: Get.height * 0.7,
+                                  child: ListView.builder(
+                                    itemCount: snapshot.data?.docs.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return InkWell(
+                                        onTap: () {
+                                          print('===BUYER===');
+                                          print(
+                                              'SENDER ID ${PreferenceManager.getUId()}');
+                                          print(
+                                              'RECIEVER ID ${snapshot.data.docs[index]['sellerID']}');
+                                          Get.to(
+                                            ChatMessagePage(
+                                              userImg: snapshot.data.docs[index]
+                                                  ['imageProfile'],
+                                              receiverId: snapshot
+                                                      .data.docs[index][
+                                                  'sellerID'] /*'100247364098702824893'*/,
+                                              userName: snapshot.data
+                                                  .docs[index]['user_name'],
+                                            ),
+                                          );
+                                        },
+                                        child: Padding(
                                           padding: EdgeInsets.symmetric(
-                                              horizontal: Get.width * 0.05),
-                                          child: Container(
-                                            child: Stack(
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          50.sp),
-                                                  child: snapshot.data
-                                                                  ?.docs[index][
-                                                              'imageProfile'] ==
-                                                          null
-                                                      ? Image.asset(
-                                                          BImagePick.PersonIcon,
-                                                          width: 50,
-                                                          height: 50,
-                                                        )
-                                                      : Image.network(
-                                                          (snapshot.data?.docs[
-                                                                      index][
-                                                                  'imageProfile'])
-                                                              .toString(),
-                                                          width: 35.sp,
-                                                          height: 35.sp,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                ),
-                                                Positioned(
-                                                  right: 0,
-                                                  child: Container(
-                                                    width: 10.sp,
-                                                    height: 10.sp,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              50),
-                                                      color: isStatus == true
-                                                          ? Colors.green
-                                                          : Colors.transparent,
+                                              vertical: Get.height * 0.02),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal:
+                                                                Get.width *
+                                                                    0.05),
+                                                    child: Container(
+                                                      child: Stack(
+                                                        children: [
+                                                          ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        50.sp),
+                                                            child: snapshot.data
+                                                                            ?.docs[index]
+                                                                        [
+                                                                        'imageProfile'] ==
+                                                                    null
+                                                                ? Image.asset(
+                                                                    BImagePick
+                                                                        .PersonIcon,
+                                                                    width: 50,
+                                                                    height: 50,
+                                                                  )
+                                                                : Image.network(
+                                                                    (snapshot
+                                                                            .data
+                                                                            ?.docs[index]['imageProfile'])
+                                                                        .toString(),
+                                                                    width:
+                                                                        35.sp,
+                                                                    height:
+                                                                        35.sp,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                          ),
+                                                          Positioned(
+                                                            right: 0,
+                                                            child: Container(
+                                                              width: 10.sp,
+                                                              height: 10.sp,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            50),
+                                                                color: isStatus ==
+                                                                        true
+                                                                    ? Colors
+                                                                        .green
+                                                                    : Colors
+                                                                        .transparent,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
+                                                  Container(
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        CustomText(
+                                                            text: (snapshot.data
+                                                                            ?.docs[
+                                                                        index][
+                                                                    'user_name'])
+                                                                .toString(),
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontSize: 13.sp,
+                                                            alignment:
+                                                                Alignment
+                                                                    .topLeft,
+                                                            textOverflow:
+                                                                TextOverflow
+                                                                    .clip,
+                                                            max: 1,
+                                                            color: AppColors
+                                                                .secondaryBlackColor),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Container(
+                                                alignment: Alignment.center,
+                                                width: Get.width * 0.4,
+                                                padding: EdgeInsets.only(
+                                                    right: Get.width * 0.05),
+                                                child: Column(
+                                                  children: [
+                                                    _time(
+                                                        snapshot
+                                                            .data
+                                                            .docs[index]
+                                                                ['sellerID']
+                                                            .toString(),
+                                                        index)
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              CustomText(
-                                                  text: (snapshot
-                                                              .data?.docs[index]
-                                                          ['user_name'])
-                                                      .toString(),
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 13.sp,
-                                                  alignment: Alignment.topLeft,
-                                                  textOverflow:
-                                                      TextOverflow.clip,
-                                                  max: 1,
-                                                  color: AppColors
-                                                      .secondaryBlackColor),
-                                              /*_time(
-                                                  snapshot.data
-                                                      .docs[index]['sellerID']
-                                                      .toString(),
-                                                  index)*/
+                                              ),
                                             ],
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                    Container(
-                                      alignment: Alignment.center,
-                                      width: Get.width * 0.4,
-                                      padding: EdgeInsets.only(
-                                          right: Get.width * 0.05),
-                                      child: Column(
-                                        children: [
-                                          _time(
-                                              snapshot
-                                                  .data.docs[index]['sellerID']
-                                                  .toString(),
-                                              index)
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                            )
+                          : StreamBuilder(
+                              stream: FirebaseFirestore.instance
+                                  .collection('SProfile')
+                                  .snapshots(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<dynamic> snapshot) {
+                                if (!snapshot.hasData) {
+                                  return Center(
+                                    child: SizedBox(),
+                                  );
+                                }
+                                return Container(
+                                  height: Get.height * 0.7,
+                                  child: ListView.builder(
+                                    itemCount: snapshot.data?.docs.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return InkWell(
+                                        onTap: () {
+                                          print('===BUYER===');
+                                          print(
+                                              'SENDER ID ${PreferenceManager.getUId()}');
+                                          print(
+                                              'RECIEVER ID ${snapshot.data.docs[index]['sellerID']}');
+                                          Get.to(
+                                            ChatMessagePage(
+                                              userImg: snapshot.data.docs[index]
+                                                  ['imageProfile'],
+                                              receiverId: snapshot
+                                                      .data.docs[index][
+                                                  'sellerID'] /*'100247364098702824893'*/,
+                                              userName: snapshot.data
+                                                  .docs[index]['user_name'],
+                                            ),
+                                          );
+                                        },
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: Get.height * 0.02),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal:
+                                                                Get.width *
+                                                                    0.05),
+                                                    child: Container(
+                                                      child: Stack(
+                                                        children: [
+                                                          ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        50.sp),
+                                                            child: snapshot.data
+                                                                            ?.docs[index]
+                                                                        [
+                                                                        'imageProfile'] ==
+                                                                    null
+                                                                ? Image.asset(
+                                                                    BImagePick
+                                                                        .PersonIcon,
+                                                                    width: 50,
+                                                                    height: 50,
+                                                                  )
+                                                                : Image.network(
+                                                                    (snapshot
+                                                                            .data
+                                                                            ?.docs[index]['imageProfile'])
+                                                                        .toString(),
+                                                                    width:
+                                                                        35.sp,
+                                                                    height:
+                                                                        35.sp,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                          ),
+                                                          Positioned(
+                                                            right: 0,
+                                                            child: Container(
+                                                              width: 10.sp,
+                                                              height: 10.sp,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            50),
+                                                                color: isStatus ==
+                                                                        true
+                                                                    ? Colors
+                                                                        .green
+                                                                    : Colors
+                                                                        .transparent,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        CustomText(
+                                                            text: (snapshot.data
+                                                                            ?.docs[
+                                                                        index][
+                                                                    'user_name'])
+                                                                .toString(),
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontSize: 13.sp,
+                                                            alignment:
+                                                                Alignment
+                                                                    .topLeft,
+                                                            textOverflow:
+                                                                TextOverflow
+                                                                    .clip,
+                                                            max: 1,
+                                                            color: AppColors
+                                                                .secondaryBlackColor),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Container(
+                                                alignment: Alignment.center,
+                                                width: Get.width * 0.4,
+                                                padding: EdgeInsets.only(
+                                                    right: Get.width * 0.05),
+                                                child: Column(
+                                                  children: [
+                                                    _time(
+                                                        snapshot
+                                                            .data
+                                                            .docs[index]
+                                                                ['sellerID']
+                                                            .toString(),
+                                                        index)
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
           ),
         ),
       ),

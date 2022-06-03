@@ -50,11 +50,6 @@ class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
   var status1;
 
-  /* data() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    status1 = prefs.getBool('isLoggedIn');
-  }*/
-
   @override
   Widget build(BuildContext context) {
     BottomController bottomController = Get.put(BottomController());

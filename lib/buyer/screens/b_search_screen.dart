@@ -111,8 +111,10 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
             ),
-            body: searchController.text.isEmpty
-                ? Center(
+            body: searchController.text.isEmpty &&
+                    searchController.text.characters !=
+                        snapShot.data?.docs.first
+                ? /* Center(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -121,6 +123,125 @@ class _SearchScreenState extends State<SearchScreen> {
                         Text('No Result found'),
                       ],
                     ),
+                  )*/
+                StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('Products')
+                        .snapshots(),
+                    builder: (context, snapShot) {
+                      if (!snapShot.hasData)
+                        return new Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.primaryColor,
+                          ),
+                        );
+                      if (snapShot.hasData) {
+                        return ListView.builder(
+                          itemCount: snapShot.data?.docs.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                print('clicked....');
+                                Get.to(
+                                  SelectedProductWidget(
+                                    name: snapShot.data!.docs[index]['prdName'],
+                                    image: snapShot.data!.docs[index]
+                                        ['imageProfile'],
+                                    desc: snapShot.data!.docs[index]['dsc'],
+                                    price: snapShot.data!.docs[index]['price'],
+                                    category: snapShot.data!.docs[index]
+                                        ['category'],
+                                    productID: snapShot.data!.docs[index].id,
+                                    sellerID: snapShot.data!.docs[index]
+                                        ['sellerID'],
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.all(15.sp),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          width: Get.width * 0.35,
+                                          height: Get.height / 7,
+                                          // flex: 3,
+                                          child: /*onSearchItem != null
+                                              ?*/
+                                              ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            child: Image.network(
+                                              snapShot.data!.docs[index]
+                                                  ['imageProfile'],
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ) /*: SizedBox()*/,
+                                        ),
+                                        Flexible(
+                                          child: Container(
+                                            alignment: Alignment.centerLeft,
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 15.sp),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                CustomText(
+                                                  text: snapShot.data!
+                                                      .docs[index]['prdName'],
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 16.sp,
+                                                  color: AppColors.primaryColor,
+                                                  alignment: Alignment.topLeft,
+                                                  textOverflow:
+                                                      TextOverflow.ellipsis,
+                                                  max: 1,
+                                                ),
+                                                SizedBox(
+                                                  height: Get.height * 0.01.sp,
+                                                ),
+                                                CustomText(
+                                                  text: snapShot.data!
+                                                      .docs[index]['category'],
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 12.sp,
+                                                  color: AppColors
+                                                      .secondaryBlackColor,
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                ),
+                                                SizedBox(
+                                                  height: Get.height * 0.01.sp,
+                                                ),
+                                                CustomText(
+                                                  text: snapShot.data!
+                                                      .docs[index]['price'],
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 12.sp,
+                                                  color: AppColors
+                                                      .secondaryBlackColor,
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }
+                      return SizedBox();
+                    },
                   )
                 : StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
@@ -12,8 +13,8 @@ class SInsightScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
+    return Scaffold(
+      body: Container(
         child: Column(
           children: [
             Expanded(
@@ -78,10 +79,24 @@ class SInsightScreen extends StatelessWidget {
                                               fontSize: 12.sp,
                                               color: SColorPicker.fontGrey),
                                           CustomText(
-                                              text: '120',
+                                              text: ' snapshot',
                                               fontWeight: FontWeight.w600,
                                               fontSize: 16.sp,
                                               color: SColorPicker.black),
+                                          /* StreamBuilder<QuerySnapshot>(
+                                            stream: FirebaseFirestore.instance
+                                                .collection('Orders')
+                                                .snapshots(),
+                                            builder: (context, snapshot) {
+                                              return CustomText(
+                                                  text: snapshot
+                                                      .data!.docs.length
+                                                      .toString(),
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 16.sp,
+                                                  color: SColorPicker.black);
+                                            },
+                                          ),*/
                                         ],
                                       ),
                                       Container(
@@ -155,15 +170,15 @@ class SInsightScreen extends StatelessWidget {
                             children: [
                               SizedBox(height: Get.height / 18),
                               Container(
-                                margin: EdgeInsets.symmetric(horizontal: 10.sp,vertical: 15.sp),
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 10.sp, vertical: 15.sp),
                                 height: Get.height / 2,
                                 width: Get.width * 1,
                                 child: LineChartPage(),
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: 10.sp,horizontal: 10.sp
-                                ),
+                                    vertical: 10.sp, horizontal: 10.sp),
                                 child: CustomText(
                                     alignment: Alignment.topLeft,
                                     text: 'Top Selling Items',
@@ -171,153 +186,122 @@ class SInsightScreen extends StatelessWidget {
                                     fontSize: 14.sp,
                                     color: AppColors.secondaryBlackColor),
                               ),
-                              Card(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 10.sp, horizontal: 10.sp),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        child: Image.asset(
-                                          'assets/images/png/cart_page.png',
-                                          fit: BoxFit.fill,
-                                          width: Get.width * 0.2,
-                                          height: Get.height / 12,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              height: Get.height * 0.005,
-                                            ),
-                                            CustomText(
-                                              text: 'Round',
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 14.sp,
-                                              color:
-                                                  AppColors.secondaryBlackColor,
-                                              alignment: Alignment.topLeft,
-                                            ),
-                                            SizedBox(
-                                              height: Get.height * 0.005,
-                                            ),
-                                            CustomText(
-                                              text: 'Copper',
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 10.sp,
-                                              color: SColorPicker.fontGrey,
-                                              alignment: Alignment.topLeft,
-                                            ),
-                                            SizedBox(
-                                              height: Get.height * 0.005,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      child: RichText(
-                                        text: TextSpan(
-                                          text: 'Revenue ',
-                                          style: STextStyle.semiBold600Grey12,
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                                text: '\$1k',
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: AppColors
-                                                        .secondaryBlackColor)),
-                                            // TextSpan(text: ' world!'),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Card(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 10.sp, horizontal: 10.sp),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        child: Image.asset(
-                                          'assets/images/png/cart_page.png',
-                                          fit: BoxFit.fill,
-                                          width: Get.width * 0.2,
-                                          height: Get.height / 12,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              height: Get.height * 0.005,
-                                            ),
-                                            CustomText(
-                                              text: 'Round',
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 14.sp,
-                                              color:
-                                                  AppColors.secondaryBlackColor,
-                                              alignment: Alignment.topLeft,
-                                            ),
-                                            SizedBox(
-                                              height: Get.height * 0.005,
-                                            ),
-                                            CustomText(
-                                              text: 'Copper',
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 10.sp,
-                                              color: SColorPicker.fontGrey,
-                                              alignment: Alignment.topLeft,
-                                            ),
-                                            SizedBox(
-                                              height: Get.height * 0.005,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      child: RichText(
-                                        text: TextSpan(
-                                          text: 'Revenue ',
-                                          style: STextStyle.semiBold600Grey12,
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                                text: '\$1k',
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: AppColors
-                                                        .secondaryBlackColor)),
-                                            // TextSpan(text: ' world!'),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                              StreamBuilder<QuerySnapshot>(
+                                stream: FirebaseFirestore.instance
+                                    .collection('Orders')
+                                    .snapshots(),
+                                builder: (context, snapShot) {
+                                  if (snapShot.hasData) {
+                                    return ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: snapShot.data?.docs.length,
+                                      itemBuilder: (context, index) {
+                                        return Card(
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 10.sp,
+                                                    horizontal: 10.sp),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                  child: Image.network(
+                                                    snapShot.data?.docs[index]
+                                                        ['productImage'],
+                                                    fit: BoxFit.fill,
+                                                    width: Get.width * 0.2,
+                                                    height: Get.height / 12,
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                child: SingleChildScrollView(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      SizedBox(
+                                                        height:
+                                                            Get.height * 0.005,
+                                                      ),
+                                                      CustomText(
+                                                        text: snapShot.data
+                                                                ?.docs[index]
+                                                            ['prdName'],
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 14.sp,
+                                                        color: AppColors
+                                                            .secondaryBlackColor,
+                                                        alignment:
+                                                            Alignment.topLeft,
+                                                      ),
+                                                      SizedBox(
+                                                        height:
+                                                            Get.height * 0.005,
+                                                      ),
+                                                      CustomText(
+                                                        text: snapShot.data
+                                                                ?.docs[index]
+                                                            ['category'],
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 10.sp,
+                                                        color: SColorPicker
+                                                            .fontGrey,
+                                                        alignment:
+                                                            Alignment.topLeft,
+                                                      ),
+                                                      SizedBox(
+                                                        height:
+                                                            Get.height * 0.005,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                child: RichText(
+                                                  text: TextSpan(
+                                                    text: 'Revenue ',
+                                                    style: STextStyle
+                                                        .semiBold600Grey12,
+                                                    children: <TextSpan>[
+                                                      TextSpan(
+                                                          text: '\$1k',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: AppColors
+                                                                  .secondaryBlackColor)),
+                                                      // TextSpan(text: ' world!'),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  }
+                                  if (!snapShot.hasData) {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                },
                               ),
                             ],
                           ),

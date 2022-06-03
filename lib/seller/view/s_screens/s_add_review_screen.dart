@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
+import 'package:pipes_online/seller/view/s_screens/s_review_screen.dart';
+import 'package:pipes_online/seller/view/s_screens/s_seller_review_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
@@ -44,35 +46,35 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
   }
 
   Future<void> addData() async {
+    CollectionReference profileCollection =
+        bFirebaseStore.collection('SReviews');
     print(
-        'seller addData Preference Id==============>${PreferenceManager.getUId().toString()}');
+        'seller addData Preference Id==============>${PreferenceManager.getUId()}');
     print(
-        'seller addData-getTime==============>${PreferenceManager.getTime().toString()}');
-
-    SRegisterRepo.emailRegister()
-        .then((value) async {
-          print('==>category${widget.category}');
-          CollectionReference ProfileCollection =
-              bFirebaseStore.collection('SReviews');
-          ProfileCollection.doc('${PreferenceManager.getUId()}')
-              .collection('ReviewID')
-              .add({
-            'reviewID': ProfileCollection.doc().id,
-            'userID': PreferenceManager.getUId(),
-            'category': widget.category,
-            'user_name': firstname,
-            'imageProfile': Img,
-            'dsc': desc.text,
-            'rating': rating,
-            'userType': PreferenceManager.getUserType(),
-            'time': DateTime.now().toString(),
-          });
+        'seller addData-getTime==============>${PreferenceManager.getTime()}');
+    FirebaseFirestore.instance
+        .collection("SReviews")
+        .doc(PreferenceManager.getUId())
+        .collection("ReviewID")
+        .doc()
+        .set({
+          'reviewID': profileCollection.doc().id,
+          'userID': PreferenceManager.getUId(),
+          'category': widget.category,
+          'user_name': firstname.toString(),
+          'imageProfile': Img,
+          'dsc': desc.text,
+          'rating': rating,
+          'userType': PreferenceManager.getUserType(),
+          'time': DateTime.now().toString(),
         })
         .catchError((e) => print('Error ====buyer=====>>> $e'))
         .then((value) {
+          print('review uploaded succefully');
+          // bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
+          // bottomBarIndexController.bottomIndex.value = 0;
+          Get.to(SSellerReviewScreen());
           print('seller review uploaded succefully');
-          homeController.bottomIndex.value = 0;
-          homeController.selectedScreen('SCatelogeHomeScreen');
         });
   }
 
@@ -80,8 +82,10 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print('fetch user data');
+
     getData();
-    addData();
+    print('---category--${widget.category}');
   }
 
   @override
@@ -140,8 +144,12 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
                                 Positioned(
                                     top: 20.sp,
                                     left: 0,
-                                    child: BackButton(
-                                      color: AppColors.commonWhiteTextColor,
+                                    child: IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(
+                                        Icons.arrow_back,
+                                        color: AppColors.commonWhiteTextColor,
+                                      ),
                                     )),
                                 Positioned(
                                   top: 20.sp,
@@ -231,7 +239,9 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
                                 SizedBox(height: Get.height * 0.02.sp),
                                 Custombutton(
                                   name: 'Label',
-                                  function: () {},
+                                  function: () {
+                                    addData();
+                                  },
                                   // Get.to(() => HomePage()),
                                   height: Get.height * 0.06.sp,
                                   width: Get.width / 1.2.sp,

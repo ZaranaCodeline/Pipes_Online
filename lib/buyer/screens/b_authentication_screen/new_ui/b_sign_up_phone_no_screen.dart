@@ -13,6 +13,7 @@ import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_first_user_info_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
@@ -350,7 +351,9 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                 Center(
                                   child: GestureDetector(
                                     onTap: () {
-                                      loginwithgoogle();
+                                      loginwithgoogle().then((value) {
+                                        Get.to(SFirstUserInfoScreen());
+                                      });
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(12.sp),

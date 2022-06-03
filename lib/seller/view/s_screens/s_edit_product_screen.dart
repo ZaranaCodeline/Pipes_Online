@@ -42,7 +42,7 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
   File? _image;
   String? Img;
   bool isLoading = false;
-  String? dropdownvalue;
+  String dropdownvalue = 'SELECT';
   FirebaseAuth _auth = FirebaseAuth.instance;
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('Products');
@@ -74,9 +74,6 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
     price = TextEditingController(text: editProductContoller.selectedPrice);
     dsc = TextEditingController(text: editProductContoller.selecteddesc);
     cat = TextEditingController(text: editProductContoller.selectedCatName);
-    // dsc = TextEditingController(text: widget.desc);
-    // price = TextEditingController(text: widget.price);
-    // getData();
     super.initState();
   }
 
@@ -102,18 +99,19 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
     }
   }
 
-  var items = [
-    'Plastic',
-    'Steel',
-    'Copper',
-    'Electrical',
-    'Iron',
-    'gas',
-    'Oil',
-    'Coil Tubing',
-    'Coil Rode',
-    'Sucker Rode',
-  ];
+  // var items = [
+  //   'Plastic',
+  //   'Steel',
+  //   'Copper',
+  //   'Electrical',
+  //   'Iron',
+  //   'gas',
+  //   'Oil',
+  //   'Coil Tubing',
+  //   'Coil Rode',
+  //   'Sucker Rode',
+  // ];
+  List<String> items = [];
 
   @override
   Widget build(BuildContext context) {
@@ -281,34 +279,39 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                                           blurRadius: 1,
                                           color: AppColors.offWhiteColor),
                                     ]),
-                                // child: DropdownButton(
-                                //   value: editProductContoller.selectedCatName,
-                                //   icon: Icon(
-                                //     Icons.arrow_drop_down_outlined,
-                                //     color: AppColors.primaryColor,
-                                //     size: 18.sp,
-                                //   ),
-                                //   items: items.map((String items) {
-                                //     return DropdownMenuItem(
-                                //       value: items,
-                                //       child: CustomText(
-                                //         text: editProductContoller
-                                //             .selectedCatName
-                                //             .toString(),
-                                //         color: AppColors.secondaryBlackColor,
-                                //         fontSize: 12.sp,
-                                //         fontWeight: FontWeight.w600,
-                                //         textDecoration: TextDecoration.none,
-                                //       ),
-                                //     );
-                                //   }).toList(),
-                                //   onChanged: (String? newValue) {
-                                //     setState(() {
-                                //       editProductContoller.selectedCatName =
-                                //           newValue!;
-                                //     });
-                                //   },
-                                // ),
+                                child: DropdownButton(
+                                  hint: Text(
+                                      editProductContoller.selectedCatName),
+                                  /*  value: editProductContoller.selectedCatName,*/
+                                  icon: Icon(
+                                    Icons.arrow_drop_down_outlined,
+                                    color: AppColors.primaryColor,
+                                    size: 18.sp,
+                                  ),
+                                  items: items.map((String items) {
+                                    return DropdownMenuItem(
+                                      value: items,
+                                      child: CustomText(
+                                        text:
+                                            items /* editProductContoller
+                                            .selectedCatName
+                                            .toString()*/
+                                        ,
+                                        color: AppColors.secondaryBlackColor,
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w600,
+                                        textDecoration: TextDecoration.none,
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      /* editProductContoller.selectedCatName =
+                                          newValue!;*/
+                                      dropdownvalue = newValue!;
+                                    });
+                                  },
+                                ),
                               ),
                             ),
                             // Container(
@@ -476,54 +479,81 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
   }
 
   Widget SCustomDropDownWidget() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15.sp),
-      child: Row(
-        children: [
-          SizedBox(
-            width: Get.width * .1,
-          ),
-          Card(
-            elevation: 0,
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 5.sp,
-              ),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(blurRadius: 1, color: AppColors.offWhiteColor),
-                  ]),
-              child: DropdownButton(
-                value: dropdownvalue,
-                icon: Icon(
-                  Icons.arrow_drop_down_outlined,
-                  color: AppColors.primaryColor,
-                  size: 18.sp,
+    return FutureBuilder<QuerySnapshot<Object?>>(
+      future: FirebaseFirestore.instance.collection('Categories').get(),
+      builder: (BuildContext context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(
+            child: SizedBox(),
+          );
+        }
+        if (snapshot.hasData) {
+          print('name-${snapshot.data?.docs[0]['name']}');
+          snapshot.data?.docs.forEach((element) {
+            items.add(element['name']);
+          });
+          print('Categories-name-${items}');
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 15.sp),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: Get.width * .1,
                 ),
-                items: items.map((String items) {
-                  return DropdownMenuItem(
-                    value: items,
-                    child: CustomText(
-                      text: items,
-                      color: AppColors.secondaryBlackColor,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w600,
-                      textDecoration: TextDecoration.none,
+                Card(
+                  elevation: 0,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 5.sp,
                     ),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    dropdownvalue = newValue!;
-                  });
-                },
-              ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                              blurRadius: 1, color: AppColors.offWhiteColor),
+                        ]),
+                    child: DropdownButton(
+                      value: dropdownvalue,
+                      icon: Icon(
+                        Icons.arrow_drop_down_outlined,
+                        color: AppColors.primaryColor,
+                        size: 18.sp,
+                      ),
+                      items: items.map((String items) {
+                        return DropdownMenuItem(
+                          value: items,
+                          child: CustomText(
+                            text: items,
+                            color: AppColors.secondaryBlackColor,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w600,
+                            textDecoration: TextDecoration.none,
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownvalue = newValue!;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                // CustomDropDownWidget(),
+              ],
             ),
-          ),
-          // CustomDropDownWidget(),
-        ],
-      ),
+          );
+        }
+        if (snapshot.data!.docs.isEmpty) {
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 15.sp),
+            child: Text('No Categories on Admin side'),
+          );
+        }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 
@@ -555,7 +585,6 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
           editProductContoller.selectedImage = downloadUrl;
           editProductContoller.selecteddesc = dsc.toString();
           editProductContoller.selectedPrice = price.toString();
-
           editProductContoller.selectedCatName = cat.toString();
           homeController.bottomIndex.value = 0;
           homeController.selectedScreen('SCatelogeHomeScreen');

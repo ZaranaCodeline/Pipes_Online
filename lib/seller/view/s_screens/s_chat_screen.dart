@@ -25,11 +25,15 @@ class _SChatScreenState extends State<SChatScreen> {
   String? Img;
   String? firstname, phone;
   bool? isStatus;
+  bool isselected = false;
+  List<String> items = [];
+  List<String> onSearchItem = [];
+  TextEditingController searchController = TextEditingController();
 
   Future<void> getData() async {
+    print('SELLERID---${PreferenceManager.getUId()}');
     print('buyer chat demo.....');
-    final user =
-        await ProfileCollection.doc('EVnjjmDYXgVp6KispydumRaS81l2').get();
+    final user = await ProfileCollection.doc(PreferenceManager.getUId()).get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
     firstname = getUserData?['user_name'];
     phone = getUserData?['phoneno'];
@@ -44,7 +48,7 @@ class _SChatScreenState extends State<SChatScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // getData();
+    getData();
     print('Seller PreferenceManager.getUId()====${PreferenceManager.getUId()}');
   }
 
@@ -257,6 +261,9 @@ class _SChatScreenState extends State<SChatScreen> {
           ),
         ),
         onWillPop: () async {
+          // bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
+          // bottomBarIndexController.bottomIndex.value = 0;
+          // return Future.value(true);
           return true;
         });
   }

@@ -113,9 +113,6 @@ class SOrdersScreen extends StatelessWidget {
                                       Get.to(SorderReviewInfoScreen(),
                                           arguments:
                                               snapShot.data?.docs[index].id);
-                                      // arguments: [
-                                      //   snapShot.data?.docs[index].id
-                                      // ]);
                                     },
                                     child: Card(
                                       elevation: 0,
@@ -524,7 +521,12 @@ class SOrdersScreen extends StatelessWidget {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Get.to(() => SAddReviewScreen());
+                                  Get.to(
+                                    SAddReviewScreen(
+                                      category: snapShot.data?.docs[index]
+                                          ['category'],
+                                    ),
+                                  );
                                 },
                                 child: CustomText(
                                     text: 'Review Now',

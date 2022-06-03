@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/app_constant/b_image.dart';
@@ -44,6 +45,7 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
   String? formattedDateTime;
 
   Future<void> getData() async {
+    print('--formattedDateTime-${formattedDateTime}');
     print('demo.....');
     final user = await profileCollection.doc(orderDocID).get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
@@ -58,9 +60,11 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
       length = getUserData?['length'];
       weigth = getUserData?['weight'];
       oil = getUserData?['oil'];
-      address = getUserData?['address'];
+      address = getUserData?['buyerAddress'];
       Img = getUserData?['productImage'];
-      createdOn = getUserData?['createdOn'];
+      formattedDateTime = DateFormat('yyyy-MM-dd')
+          .format(DateTime.parse(getUserData?['createdOn']));
+      createdOn = formattedDateTime;
     });
   }
 
@@ -75,6 +79,7 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('address---${address}');
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -147,7 +152,7 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
                                       children: [
                                         CustomText(
                                             text:
-                                                'Ordered on ${formattedDateTime.toString()}',
+                                                'Ordered on ${formattedDateTime}',
                                             fontWeight: FontWeight.w600,
                                             fontSize: 14.sp,
                                             color:
@@ -284,7 +289,7 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              print('SellerReviewPage--');
+                              print('SellerReviewPage-----');
                               //ScustomerReviewScreen
                               Get.to(SSellerReviewScreen());
                             },
@@ -364,8 +369,7 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 10.sp),
                                     child: CustomText(
-                                        text:
-                                            ' A-00, Abc Soc, Abc \n Road, Area,City, State, \n country -pincode',
+                                        text: address.toString(),
                                         alignment: Alignment.topLeft,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 14,
@@ -383,6 +387,7 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
                           ),
                           InkWell(
                             onTap: () {
+                              Get.to(SSellerReviewScreen());
                               print('Get Contatc Detail');
                             },
                             child: FittedBox(
@@ -438,9 +443,8 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
                             child: SCommonButton().sCommonPurpleButton(
                               name: 'Continue',
                               onTap: () {
-                                Get.to(() => SEarningsScreen());
-                                print('edit product seller side');
-                                // Get.toNamed(SRoutes.SSubmitProfileScreen);
+                                Get.to(SSellerReviewScreen());
+                                print('SSellerReviewScreen');
                               },
                             ),
                           ),

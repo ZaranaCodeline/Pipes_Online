@@ -138,22 +138,16 @@ Future<bool?> loginwithgoogle() async {
     await PreferenceManager.setUId(users!.uid);
     await PreferenceManager.setEmail(users.email!);
     await PreferenceManager.setName(users.displayName!);
-    await PreferenceManager.setPhoneNumber(users.phoneNumber!);
+    // await PreferenceManager.setPhoneNumber(users.phoneNumber!);
     print(
         'buyer addData Preference ==>${PreferenceManager.getUId().toString()}');
-
-    Get.offAll(BFirstUserInfoScreen(
-      email: users.email,
-      name: users.displayName,
-      photoUrl: users.photoURL,
-    ));
     if (users == null) {
       return false;
     }
     return true;
-  } catch (e) {
-    print('this is error .......$e');
-    return null;
+  } on FirebaseAuthException catch (e) {
+    print(e.message);
+    throw e;
   }
 }
 

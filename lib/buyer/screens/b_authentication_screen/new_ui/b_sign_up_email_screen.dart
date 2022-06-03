@@ -100,7 +100,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
               GetBuilder<BLogInController>(
                 builder: (controller) {
                   return Container(
-                    // height: Get.height * 2,
+                    height: Get.height * 2,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(

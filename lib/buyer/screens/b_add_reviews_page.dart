@@ -54,7 +54,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
           'reviewID': profileCollection.doc().id,
           'userID': PreferenceManager.getUId(),
           'category': widget.category,
-          'user_name': firstname,
+          'user_name': firstname.toString(),
           'imageProfile': Img,
           'dsc': desc.text,
           'rating': rating,

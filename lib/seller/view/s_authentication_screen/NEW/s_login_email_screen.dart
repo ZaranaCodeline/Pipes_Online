@@ -8,6 +8,7 @@ import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
 import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_first_user_info_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_forgot_password_page.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_login_phone_no_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_email_screen.dart';
@@ -355,7 +356,9 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                   child: GestureDetector(
                                     onTap: () {
                                       print('it is map');
-                                      loginwithgoogle();
+                                      loginwithgoogle().then((value) {
+                                        Get.to(SFirstUserInfoScreen());
+                                      });
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(12.sp),

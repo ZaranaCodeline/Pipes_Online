@@ -429,11 +429,11 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                         color: AppColors.primaryColor,
                         size: 18.sp,
                       ),
-                      items: items.map((String? items) {
+                      items: items.map((String items) {
                         return DropdownMenuItem(
                           value: items,
                           child: CustomText(
-                            text: items!,
+                            text: items,
                             color: AppColors.secondaryBlackColor,
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w600,
@@ -488,7 +488,6 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
             'prdName': prdName.text,
             'dsc': dsc.text,
             'price': prdPrice.text,
-            // 'price':addProductController.selectedPrice,
             'createdOn': DateTime.now().toString(),
           })
           .catchError((e) => print('Error ===>>> $e'))

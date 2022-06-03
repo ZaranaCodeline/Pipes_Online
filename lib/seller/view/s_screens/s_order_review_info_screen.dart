@@ -8,7 +8,6 @@ import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_seller_review_screen.dart';
-import 'package:pipes_online/seller/view/s_screens/s_earning_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
@@ -312,7 +311,7 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
                                           MainAxisAlignment.spaceAround,
                                       children: [
                                         CustomText(
-                                            text: buyerName.toString(),
+                                            text: buyerName ?? 'John',
                                             fontWeight: FontWeight.w600,
                                             fontSize: 14.sp,
                                             color:
@@ -369,7 +368,7 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 10.sp),
                                     child: CustomText(
-                                        text: address.toString(),
+                                        text: address ?? 'Address',
                                         alignment: Alignment.topLeft,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 14,

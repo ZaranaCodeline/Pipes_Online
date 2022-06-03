@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
-import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
-import 'package:pipes_online/seller/view/s_screens/s_review_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_seller_review_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
@@ -71,8 +69,10 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
         .catchError((e) => print('Error ====buyer=====>>> $e'))
         .then((value) {
           print('review uploaded succefully');
-          // bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
-          // bottomBarIndexController.bottomIndex.value = 0;
+
+          // homeController.bottomIndex.value = 0;
+          // homeController.selectedScreen('SSellerReviewScreen');
+
           Get.to(SSellerReviewScreen());
           print('seller review uploaded succefully');
         });
@@ -83,7 +83,6 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
     // TODO: implement initState
     super.initState();
     print('fetch user data');
-
     getData();
     print('---category--${widget.category}');
   }
@@ -145,7 +144,9 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
                                     top: 20.sp,
                                     left: 0,
                                     child: IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Get.back();
+                                      },
                                       icon: Icon(
                                         Icons.arrow_back,
                                         color: AppColors.commonWhiteTextColor,

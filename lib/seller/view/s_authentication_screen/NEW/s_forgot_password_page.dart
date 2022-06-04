@@ -10,9 +10,9 @@ import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_login_ema
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../seller/view/s_screens/s_color_picker.dart';
-import '../../../../seller/view/s_screens/s_common_button.dart';
-import '../../../../seller/view/s_screens/s_text_style.dart';
+import '../../s_screens/s_color_picker.dart';
+import '../../s_screens/s_common_button.dart';
+import '../../s_screens/s_text_style.dart';
 
 class SForgotPasswordScreen extends StatefulWidget {
   const SForgotPasswordScreen({Key? key}) : super(key: key);

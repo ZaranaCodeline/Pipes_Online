@@ -12,8 +12,16 @@ import '../../../buyer/app_constant/app_colors.dart';
 import '../../bottombar/widget/category_bottom_bar_route.dart';
 import '../../common/s_text_style.dart';
 
-class SOrdersScreen extends StatelessWidget {
-  SOrdersScreen({Key? key}) : super(key: key);
+class SOrdersScreen extends StatefulWidget {
+  final bool? isAppBarVisible;
+
+  const SOrdersScreen({Key? key, this.isAppBarVisible}) : super(key: key);
+
+  @override
+  State<SOrdersScreen> createState() => _SOrdersScreenState();
+}
+
+class _SOrdersScreenState extends State<SOrdersScreen> {
   String? formattedDateTime;
 
   @override
@@ -29,9 +37,11 @@ class SOrdersScreen extends StatelessWidget {
           leading: IconButton(
               onPressed: () {
                 print('back to home screen');
-                Get.back();
-                // homeController.bottomIndex.value = 0;
-                // homeController.selectedScreen('SCatelogeHomeScreen');
+                if (widget.isAppBarVisible == true) {
+                  Get.back();
+                }
+                homeController.bottomIndex.value = 0;
+                homeController.selectedScreen('SCatelogeHomeScreen');
               },
               icon: Icon(Icons.arrow_back_rounded)),
           toolbarHeight: Get.height * 0.1,

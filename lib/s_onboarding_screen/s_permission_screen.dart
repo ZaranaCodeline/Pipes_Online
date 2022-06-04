@@ -42,7 +42,11 @@ class _SPermissionScreenState extends State<SPermissionScreen> {
                 //           blurRadius: 1),
                 //     ],
                 //     borderRadius: BorderRadius.circular(10.sp)),
-                child: SvgPicture.asset("${SImagePick.permissionScreen}")),
+                // child: SvgPicture.asset("${SImagePick.permissionScreen}")
+                child: Image.network(
+                  "https://firebasestorage.googleapis.com/v0/b/pipedeals-f240a.appspot.com/o/permmision.png?alt=media&token=a9a3d625-e707-43c4-a5f7-09e68cbb7550",
+                  fit: BoxFit.cover,
+                )),
             Padding(
               padding: EdgeInsets.only(
                 left: 30.sp,

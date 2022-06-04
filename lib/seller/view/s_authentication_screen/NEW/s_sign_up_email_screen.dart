@@ -16,6 +16,7 @@ import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_p
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
+import 'package:pipes_online/seller/view_model/s_login_home_controller.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
@@ -99,7 +100,7 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
                   ],
                 ),
               ),
-              GetBuilder<BLogInController>(
+              GetBuilder<SLogInController>(
                 builder: (controller) {
                   return Container(
                     // height: Get.height * 1,
@@ -413,24 +414,15 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
                               Center(
                                 child: GestureDetector(
                                   onTap: () {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
                                     print('it is Signup with Google');
                                     loginwithgoogle().then((value) {
-                                      Get.to(SFirstUserInfoScreen());
+                                      Get.to(SFirstUserInfoScreen(
+                                        email: email.text.trim(),
+                                      ));
                                     });
-                                    // loginwithgoogle().then((value) {
-                                    //   setState(() {
-                                    //     isLoading = true;
-                                    //   });
-                                    //   print('it is map');
-                                    //   PreferenceManager.setUserType('Seller');
-                                    //   Get.to(SFirstUserInfoScreen(
-                                    //     email: email.text.trim(),
-                                    //   ))?.then((value) {
-                                    //     print(
-                                    //         '======EMAIL====${PreferenceManager.getEmail()}');
-                                    //     PreferenceManager.getEmail();
-                                    //   });
-                                    // });
                                   },
                                   child: Container(
                                     padding: EdgeInsets.all(12.sp),
@@ -513,27 +505,6 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
       print(e);
     }
   }
-
-  // Future<bool?> loginwithgoogle() async {
-  //   FirebaseAuth _auth = FirebaseAuth.instance;
-  //   try {
-  //     GoogleSignIn googleSignIn = GoogleSignIn();
-  //     final googleUser = await googleSignIn.signIn();
-  //     final googleAuth = await googleUser!.authentication;
-  //     final AuthCredential credential = GoogleAuthProvider.credential(
-  //       accessToken: googleAuth.accessToken, // accessToken
-  //       idToken: googleAuth.idToken,
-  //     );
-  //     User? users = (await _auth.signInWithCredential(credential)).user;
-  //     if (users == null) {
-  //       return false;
-  //     }
-  //     return true;
-  //   } catch (e) {
-  //     print('this is error .......$e');
-  //     return null;
-  //   }
-  // }
 
   bool isPasswordValid(String password) => password.length <= 50;
 

@@ -17,13 +17,29 @@ class SSearchScreen extends StatefulWidget {
 }
 
 class _SSearchScreenState extends State<SSearchScreen> {
-  bool isselected = false;
+  bool isSelected = false;
   List<String> items = [];
   List<String> onSearchItem = [];
   TextEditingController searchController = TextEditingController();
-
+  List search = [];
   @override
   Widget build(BuildContext context) {
+    void onSearchtextChanged() {
+      search.clear();
+      if (searchController.text.isEmpty) {
+        setState(() {
+          return;
+        });
+      }
+
+      onSearchItem.forEach((searchKey) {
+        if (searchKey.toLowerCase().contains(searchController.text)) {
+          search.add(searchKey);
+          print('SEARCH METHOD-------${search}');
+        }
+      });
+    }
+
     var collection = FirebaseFirestore.instance
         .collection('Products')
         .where('prdName',
@@ -44,7 +60,6 @@ class _SSearchScreenState extends State<SSearchScreen> {
           );
         }
         if (snapShot.hasData) {
-          // var proLength = snapShot.data?.docs.length;
           print('prdName-${snapShot.data?.docs.length}');
           snapShot.data?.docs.forEach((proLength) {
             items.add(proLength['prdName']);
@@ -67,6 +82,9 @@ class _SSearchScreenState extends State<SSearchScreen> {
                   onChanged: (proLength) {
                     setState(() {
                       print('kkkk');
+                      setState(() {
+                        onSearchtextChanged();
+                      });
                     });
                   },
                   controller: searchController,
@@ -110,143 +128,305 @@ class _SSearchScreenState extends State<SSearchScreen> {
                 ),
               ),
             ),
-            body: searchController.text.isEmpty
-                ? Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.search_off),
-                        Text('No Result found'),
-                      ],
-                    ),
-                  )
-                : StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance
-                        .collection('Products')
-                        .where('prdName',
-                            isGreaterThanOrEqualTo: searchController.text)
-                        .snapshots(),
-                    builder: (context, snapShot) {
-                      if (!snapShot.hasData)
-                        return new Center(
-                          child: CircularProgressIndicator(
-                            color: AppColors.primaryColor,
-                          ),
-                        );
-                      if (snapShot.hasData) {
-                        return ListView.builder(
-                          itemCount: snapShot.data?.docs.length,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                print('clicked....');
-                                Get.to(
-                                  SSelectedProductScreen(
-                                    name: snapShot.data!.docs[index]['prdName'],
-                                    image: snapShot.data!.docs[index]
-                                        ['imageProfile'],
-                                    desc: snapShot.data!.docs[index]['dsc'],
-                                    price: snapShot.data!.docs[index]['price'],
-                                    category: snapShot.data!.docs[index]
-                                        ['category'],
-                                    productID: snapShot.data!.docs[index].id,
-                                    sellerID: snapShot.data!.docs[index]
-                                        ['sellerID'],
-                                  ),
-                                );
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.all(15.sp),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+            body: /*search.length != 0 || searchController.text.isNotEmpty*/
+                searchController.text.isEmpty
+                    ? /*Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.search_off),
+                            Text('No Result found'),
+                          ],
+                        ),
+                      )*/
+                    StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('Products')
+                            .where("prdName",
+                                isGreaterThanOrEqualTo: searchController.text)
+                            .snapshots(),
+                        builder: (context, snapShot) {
+                          if (!snapShot.hasData)
+                            return new Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.primaryColor,
+                              ),
+                            );
+                          if (snapShot.hasData) {
+                            return ListView.builder(
+                              itemCount: snapShot.data?.docs.length,
+                              itemBuilder: (context, index) {
+                                onSearchItem
+                                    .add(snapShot.data!.docs[index]['prdName']);
+                                print(search);
+                                print('bbbbb---');
+                                return GestureDetector(
+                                  onTap: () {
+                                    print('clicked....');
+                                    Get.to(
+                                      SSelectedProductScreen(
+                                        name: snapShot.data!.docs[index]
+                                            ['prdName'],
+                                        image: snapShot.data!.docs[index]
+                                            ['imageProfile'],
+                                        desc: snapShot.data!.docs[index]['dsc'],
+                                        price: snapShot.data!.docs[index]
+                                            ['price'],
+                                        category: snapShot.data!.docs[index]
+                                            ['category'],
+                                        productID:
+                                            snapShot.data!.docs[index].id,
+                                        sellerID: snapShot.data!.docs[index]
+                                            ['sellerID'],
+                                      ),
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.all(15.sp),
+                                    child: Column(
                                       children: [
-                                        Container(
-                                          width: Get.width * 0.35,
-                                          height: Get.height / 7,
-                                          // flex: 3,
-                                          child: /*onSearchItem != null
-                                              ?*/
-                                              ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            child: Image.network(
-                                              snapShot.data!.docs[index]
-                                                  ['imageProfile'],
-                                              fit: BoxFit.cover,
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              width: Get.width * 0.35,
+                                              height: Get.height / 7,
+                                              // flex: 3,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                child: Image.network(
+                                                  snapShot.data!.docs[index]
+                                                      ['imageProfile'],
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ) /*: SizedBox()*/,
                                             ),
-                                          ),
-                                        ),
-                                        Flexible(
-                                          child: Container(
-                                            alignment: Alignment.centerLeft,
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 15.sp),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                CustomText(
-                                                  text: snapShot.data!
-                                                      .docs[index]['prdName'],
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 16.sp,
-                                                  color: AppColors.primaryColor,
-                                                  alignment: Alignment.topLeft,
-                                                  textOverflow:
-                                                      TextOverflow.ellipsis,
-                                                  max: 1,
+                                            Flexible(
+                                              child: Container(
+                                                alignment: Alignment.centerLeft,
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 15.sp),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    CustomText(
+                                                      text: snapShot
+                                                              .data!.docs[index]
+                                                          ['prdName'],
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 16.sp,
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                      alignment:
+                                                          Alignment.topLeft,
+                                                      textOverflow:
+                                                          TextOverflow.ellipsis,
+                                                      max: 1,
+                                                    ),
+                                                    SizedBox(
+                                                      height:
+                                                          Get.height * 0.01.sp,
+                                                    ),
+                                                    CustomText(
+                                                      text: snapShot
+                                                              .data!.docs[index]
+                                                          ['category'],
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 12.sp,
+                                                      color: AppColors
+                                                          .secondaryBlackColor,
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                    ),
+                                                    SizedBox(
+                                                      height:
+                                                          Get.height * 0.01.sp,
+                                                    ),
+                                                    CustomText(
+                                                      text: snapShot.data!
+                                                          .docs[index]['price'],
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 12.sp,
+                                                      color: AppColors
+                                                          .secondaryBlackColor,
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                    ),
+                                                  ],
                                                 ),
-                                                SizedBox(
-                                                  height: Get.height * 0.01.sp,
-                                                ),
-                                                CustomText(
-                                                  text: snapShot.data!
-                                                      .docs[index]['category'],
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 12.sp,
-                                                  color: AppColors
-                                                      .secondaryBlackColor,
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                ),
-                                                SizedBox(
-                                                  height: Get.height * 0.01.sp,
-                                                ),
-                                                CustomText(
-                                                  text: snapShot.data!
-                                                      .docs[index]['price'],
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 12.sp,
-                                                  color: AppColors
-                                                      .secondaryBlackColor,
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                ),
-                                              ],
+                                              ),
                                             ),
-                                          ),
+                                          ],
                                         ),
                                       ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                          return SizedBox();
+                        },
+                      )
+                    : StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('Products')
+                            .where('prdName',
+                                isGreaterThanOrEqualTo: searchController.text)
+                            .where('prdName',
+                                isLessThan: searchController.text + 'z')
+                            .snapshots(),
+                        builder: (context, snapShot) {
+                          if (!snapShot.hasData)
+                            return new Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.primaryColor,
                               ),
                             );
-                          },
-                        );
-                      }
-                      return Container(
-                        child: Center(child: Text('No Found Search Item..')),
-                      );
-                    },
-                  ),
+                          if (snapShot.hasData) {
+                            return ListView.builder(
+                              itemCount: snapShot.data?.docs.length,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    print('clicked....');
+                                    Get.to(
+                                      SSelectedProductScreen(
+                                        name: snapShot.data!.docs[index]
+                                            ['prdName'],
+                                        image: snapShot.data!.docs[index]
+                                            ['imageProfile'],
+                                        desc: snapShot.data!.docs[index]['dsc'],
+                                        price: snapShot.data!.docs[index]
+                                            ['price'],
+                                        category: snapShot.data!.docs[index]
+                                            ['category'],
+                                        productID:
+                                            snapShot.data!.docs[index].id,
+                                        sellerID: snapShot.data!.docs[index]
+                                            ['sellerID'],
+                                      ),
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.all(15.sp),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              width: Get.width * 0.35,
+                                              height: Get.height / 7,
+                                              // flex: 3,
+                                              child: /*onSearchItem != null
+                                              ?*/
+                                                  ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                child: Image.network(
+                                                  snapShot.data!.docs[index]
+                                                      ['imageProfile'],
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                            Flexible(
+                                              child: Container(
+                                                alignment: Alignment.centerLeft,
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 15.sp),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    CustomText(
+                                                      text: snapShot
+                                                              .data!.docs[index]
+                                                          ['prdName'],
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 16.sp,
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                      alignment:
+                                                          Alignment.topLeft,
+                                                      textOverflow:
+                                                          TextOverflow.ellipsis,
+                                                      max: 1,
+                                                    ),
+                                                    SizedBox(
+                                                      height:
+                                                          Get.height * 0.01.sp,
+                                                    ),
+                                                    CustomText(
+                                                      text: snapShot
+                                                              .data!.docs[index]
+                                                          ['category'],
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 12.sp,
+                                                      color: AppColors
+                                                          .secondaryBlackColor,
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                    ),
+                                                    SizedBox(
+                                                      height:
+                                                          Get.height * 0.01.sp,
+                                                    ),
+                                                    CustomText(
+                                                      text: snapShot.data!
+                                                          .docs[index]['price'],
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 12.sp,
+                                                      color: AppColors
+                                                          .secondaryBlackColor,
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                          return Container(
+                            child:
+                                Center(child: Text('No Found Search Item..')),
+                          );
+                        },
+                      ),
           );
         }
-        return Container();
+        return Container(
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.search_off),
+                Text('No Result found'),
+              ],
+            ),
+          ),
+        );
       },
     );
   }

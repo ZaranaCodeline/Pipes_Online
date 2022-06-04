@@ -248,7 +248,20 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                     setState(() {
                                       isLoading = true;
                                     });
-                                    sendOtp();
+                                    if (PreferenceManager.getUId() != null) {
+                                      sendOtp();
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                              'This Mobile number is not register'),
+                                        ),
+                                      );
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    }
                                   },
                                   child: Container(
                                     alignment: Alignment.center,
@@ -338,9 +351,6 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                       loginwithgoogle().then((value) {
                                         Get.to(BFirstUserInfoScreen());
                                       });
-                                      // setState(() {
-                                      //   Get.to(MapsScreen());
-                                      // });
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(12.sp),
@@ -365,7 +375,7 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                             "${SImagePick.googleIcon}",
                                           ),
                                           Text(
-                                            'Sign Up with Google',
+                                            'Sign In with Google',
                                             style:
                                                 STextStyle.semiBold600Black13,
                                           ),

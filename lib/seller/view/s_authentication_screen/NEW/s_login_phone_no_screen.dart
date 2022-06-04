@@ -238,7 +238,20 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
                                     setState(() {
                                       isLoading = true;
                                     });
-                                    sendOtp();
+                                    if (PreferenceManager.getUId() != null) {
+                                      sendOtp();
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                              'This Mobile number is not register'),
+                                        ),
+                                      );
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    }
                                   },
                                   child: Container(
                                     alignment: Alignment.center,
@@ -356,7 +369,7 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
                                             "${SImagePick.googleIcon}",
                                           ),
                                           Text(
-                                            'Sign Up with Google',
+                                            'Sign In with Google',
                                             style:
                                                 STextStyle.semiBold600Black13,
                                           ),

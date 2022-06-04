@@ -164,7 +164,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                         height: Get.height * 0.025,
                                       ),
                                       Container(
-                                        height: Get.height * 0.063,
+                                        height: Get.height * 0.06,
                                         width: Get.width * 1,
                                         child: TextFormField(
                                           validator: (password) {
@@ -406,23 +406,19 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                               Center(
                                 child: GestureDetector(
                                   onTap: () {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
                                     print('it is Signup with Google');
                                     print(
                                         '---------->${PreferenceManager.getUId()}');
                                     loginwithgoogle().then((value) {
+                                      Get.to(BFirstUserInfoScreen(
+                                        email: email.text,
+                                      ));
                                       setState(() {
                                         isLoading = true;
                                       });
-                                      print('it is map');
-                                      PreferenceManager.setUserType('Buyer');
-                                      Get.to(BFirstUserInfoScreen(
-                                        email: email.text.trim(),
-                                      ))?.then((value) {
-                                        setState(() {
-                                          isLoading = false;
-                                        });
-                                      });
-                                      PreferenceManager.getUId();
                                     });
                                   },
                                   child: Container(
@@ -478,9 +474,6 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                     ],
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: Get.height * 0.05,
                               ),
                             ],
                           ),

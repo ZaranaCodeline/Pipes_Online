@@ -24,7 +24,7 @@ class _SOnBoardingScreenState extends State<SOnBoardingScreen> {
   int nextPage = 0;
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) => _animateSlider());
+    WidgetsBinding.instance?.addPostFrameCallback((_) => _animateSlider());
   }
 
   void _animateSlider() {

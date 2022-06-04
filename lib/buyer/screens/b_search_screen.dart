@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,18 +16,35 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  bool isselected = false;
+  bool isSelected = false;
   List<String> items = [];
   List<String> onSearchItem = [];
   TextEditingController searchController = TextEditingController();
-
+  List search = [];
   @override
   Widget build(BuildContext context) {
+    void onSearchtextChanged() {
+      search.clear();
+      if (searchController.text.isEmpty) {
+        setState(() {
+          return;
+        });
+      }
+
+      onSearchItem.forEach((searchKey) {
+        if (searchKey.toLowerCase().contains(searchController.text)) {
+          search.add(searchKey);
+          print('SEARCH METHOD-------${search}');
+        }
+      });
+    }
+
     var collection = FirebaseFirestore.instance
         .collection('Products')
         .where('prdName',
             isGreaterThanOrEqualTo: searchController.text.toLowerCase())
         .get();
+
     return FutureBuilder<QuerySnapshot>(
       future: collection,
       builder: (BuildContext context, snapShot) {
@@ -45,7 +60,6 @@ class _SearchScreenState extends State<SearchScreen> {
           );
         }
         if (snapShot.hasData) {
-          // var proLength = snapShot.data?.docs.length;
           print('prdName-${snapShot.data?.docs.length}');
           snapShot.data?.docs.forEach((proLength) {
             items.add(proLength['prdName']);
@@ -68,6 +82,10 @@ class _SearchScreenState extends State<SearchScreen> {
                   onChanged: (proLength) {
                     setState(() {
                       print('kkkk');
+                      // searchController.clear();
+                      setState(() {
+                        onSearchtextChanged();
+                      });
                     });
                   },
                   controller: searchController,
@@ -111,22 +129,13 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
             ),
-            body: searchController.text.isEmpty &&
-                    searchController.text.characters !=
-                        snapShot.data?.docs.first
-                ? /* Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.search_off),
-                        Text('No Result found'),
-                      ],
-                    ),
-                  )*/
-                StreamBuilder<QuerySnapshot>(
+            body: /*search.length != 0 || searchController.text.isNotEmpty*/ searchController
+                    .text.isEmpty
+                ? StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance
                         .collection('Products')
+                        .where("prdName",
+                            isGreaterThanOrEqualTo: searchController.text)
                         .snapshots(),
                     builder: (context, snapShot) {
                       if (!snapShot.hasData)
@@ -139,6 +148,10 @@ class _SearchScreenState extends State<SearchScreen> {
                         return ListView.builder(
                           itemCount: snapShot.data?.docs.length,
                           itemBuilder: (context, index) {
+                            onSearchItem
+                                .add(snapShot.data!.docs[index]['prdName']);
+                            print(search);
+                            print('bbbbb---');
                             return GestureDetector(
                               onTap: () {
                                 print('clicked....');
@@ -169,9 +182,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                           width: Get.width * 0.35,
                                           height: Get.height / 7,
                                           // flex: 3,
-                                          child: /*onSearchItem != null
-                                              ?*/
-                                              ClipRRect(
+                                          child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
                                             child: Image.network(
@@ -246,10 +257,13 @@ class _SearchScreenState extends State<SearchScreen> {
                 : StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance
                         .collection('Products')
-                        .where('prdName',
+                        .where("prdName",
                             isGreaterThanOrEqualTo: searchController.text)
+                        .where('prdName',
+                            isLessThan: searchController.text + 'z')
                         .snapshots(),
                     builder: (context, snapShot) {
+                      print('chatt---------');
                       if (!snapShot.hasData)
                         return new Center(
                           child: CircularProgressIndicator(
@@ -290,9 +304,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                           width: Get.width * 0.35,
                                           height: Get.height / 7,
                                           // flex: 3,
-                                          child: /*onSearchItem != null
-                                              ?*/
-                                              ClipRRect(
+                                          child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
                                             child: Image.network(

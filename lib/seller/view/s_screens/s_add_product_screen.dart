@@ -399,9 +399,11 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
         }
         if (snapshot.hasData) {
           print('name-${snapshot.data?.docs[0]['name']}');
-          snapshot.data?.docs.forEach((element) {
-            items.add(element['name']);
-          });
+          if (items.isEmpty) {
+            snapshot.data?.docs.forEach((element) {
+              items.add(element['name']);
+            });
+          }
           print('Categories-name-${items}');
           return Container(
             padding: EdgeInsets.symmetric(horizontal: 15.sp),

@@ -271,7 +271,9 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
         Get.to(() => SHomeScreen());
         break;
       case 1:
-        Get.to(() => SOrdersScreen());
+        Get.to(() => SOrdersScreen(
+              isAppBarVisible: true,
+            ));
         break;
       case 2:
         Get.to(() => SEarningsScreen());

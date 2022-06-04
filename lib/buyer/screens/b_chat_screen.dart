@@ -8,7 +8,7 @@ import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
-import '../../../buyer/app_constant/app_colors.dart';
+import '../app_constant/app_colors.dart';
 import '../app_constant/b_image.dart';
 import 'b_chat_message_page.dart';
 import 'bottom_bar_screen_page/widget/b_cart_bottom_bar_route.dart';
@@ -26,7 +26,6 @@ class _BChatScreenState extends State<BChatScreen> {
   List<String> items = [];
   List<String> onSearchItem = [];
   TextEditingController searchController = TextEditingController();
-  // FirebaseAuth _auth = FirebaseAuth.instance;
 
   CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
   String? Img;
@@ -168,6 +167,8 @@ class _BChatScreenState extends State<BChatScreen> {
                                   .where('user_name',
                                       isGreaterThanOrEqualTo:
                                           searchController.text)
+                                  /*.where('prdName',
+                                      isLessThan: searchController.text + 'z')*/
                                   .snapshots(),
                               builder: (BuildContext context,
                                   AsyncSnapshot<dynamic> snapshot) {

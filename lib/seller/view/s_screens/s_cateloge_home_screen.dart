@@ -64,7 +64,9 @@ class _SCatelogeHomeScreenState extends State<SCatelogeHomeScreen> {
                   height: 23.sp,
                 ),
                 onPressed: () {
-                  Get.to(SOrdersScreen());
+                  Get.to(SOrdersScreen(
+                    isAppBarVisible: true,
+                  ));
                 },
               ),
             ),

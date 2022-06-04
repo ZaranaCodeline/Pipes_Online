@@ -341,7 +341,7 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                             "${SImagePick.googleIcon}",
                                           ),
                                           Text(
-                                            'Sign Up with Google',
+                                            'Sign In with Google',
                                             style:
                                                 STextStyle.semiBold600Black13,
                                           ),

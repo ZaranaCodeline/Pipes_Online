@@ -239,7 +239,7 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
                                 ),
                                 SizedBox(height: Get.height * 0.02.sp),
                                 Custombutton(
-                                  name: 'Label',
+                                  name: 'Label'.toUpperCase(),
                                   function: () {
                                     addData();
                                   },

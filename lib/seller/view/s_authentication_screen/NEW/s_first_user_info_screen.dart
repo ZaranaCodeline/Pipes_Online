@@ -468,6 +468,11 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                                 _formKey.currentState!.save();
                                 Get.offAll(NavigationBarScreen())
                                     ?.then((value) {
+                                  PreferenceManager.getAddress();
+                                  PreferenceManager.getName();
+                                  PreferenceManager.getPhoneNumber();
+                                  PreferenceManager.getUserImg();
+                                  PreferenceManager.getSellerID();
                                   setState(() {
                                     isLoading = false;
                                   });

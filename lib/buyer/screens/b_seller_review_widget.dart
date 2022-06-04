@@ -258,7 +258,7 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(50.0),
-                                          child: widget.serllerImg == null
+                                          child: widget.serllerImg != null
                                               ? Image.network(
                                                   widget.serllerImg.toString(),
                                                   fit: BoxFit.cover,

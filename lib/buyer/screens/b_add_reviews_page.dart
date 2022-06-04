@@ -42,6 +42,8 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
   }
 
   Future<void> addData() async {
+    CollectionReference profileCollection =
+        bFirebaseStore.collection('BReviews');
     print(
         'buyer addData Preference Id==============>${PreferenceManager.getUId()}');
     print('buyer addData-getTime==============>${PreferenceManager.getTime()}');
@@ -64,8 +66,10 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
         .catchError((e) => print('Error ====buyer=====>>> $e'))
         .then((value) {
           print('review uploaded succefully');
-          bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
-          bottomBarIndexController.bottomIndex.value = 0;
+          // bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
+          // bottomBarIndexController.bottomIndex.value = 0;
+          Get.to(SellerReviewWidget());
+          print('seller review uploaded succefully');
         });
   }
 
@@ -77,7 +81,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
     print('PreferenceManager.getUId()---${PreferenceManager.getUId()}');
     print('---preferenceID--${profileCollection.doc().id}');
     getData();
-    addData();
+    // addData();
   }
 
   @override
@@ -245,7 +249,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                   ),
                                   SizedBox(height: Get.height * 0.02.sp),
                                   Custombutton(
-                                    name: 'Submit'.toUpperCase(),
+                                    name: 'Label'.toUpperCase(),
                                     function: () {
                                       addData().then((value) {
                                         // Get.to(SellerReviewWidget());

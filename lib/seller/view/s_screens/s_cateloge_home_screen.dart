@@ -28,6 +28,7 @@ class SCatelogeHomeScreen extends StatefulWidget {
 class _SCatelogeHomeScreenState extends State<SCatelogeHomeScreen> {
   @override
   void initState() {
+    print('sellerName: ${PreferenceManager.getName()}');
     // TODO: implement initState
     super.initState();
     print('Seller User Name ${PreferenceManager.getName()}');

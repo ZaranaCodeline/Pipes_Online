@@ -23,27 +23,11 @@ class SSellerReviewScreen extends StatefulWidget {
 }
 
 class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
-  String? buyerName;
-  String? buyerImage;
-  String? buyerAddress;
-  String? buyerPhone;
+  // String? buyerName;
+  // String? buyerImage;
+  // String? buyerAddress;
+  // String? buyerPhone;
   bool isShowContact = false;
-  // Future<void> getDataFromBuyer() async {
-  //   print('fetch user data');
-  //   CollectionReference profileCollection = bFirebaseStore.collection('Orders');
-  //   print('demo.....');
-  //   final user = await profileCollection.doc().get();
-  //   print('Orders---${profileCollection.doc().get()}');
-  //   Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-  //   setState(() {
-  //     print('======ID=====${PreferenceManager.getUId()}');
-  //     print('=========getUserData===============${getUserData}');
-  //     buyerName = getUserData?['user_name'];
-  //     buyerImage = getUserData?['imageProfile'];
-  //     buyerImage = getUserData?['imageProfile'];
-  //     buyerImage = getUserData?['imageProfile'];
-  //   });
-  // }
 
   var rating = 3.0;
   String? formattedDateTime;
@@ -313,7 +297,7 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                                     CustomText(
                                         text: output?.docs[index]
                                                 ['buyerName'] ??
-                                            'John ',
+                                            'John.... ',
                                         fontWeight: FontWeight.w600,
                                         fontSize: 24,
                                         color: AppColors.secondaryBlackColor),

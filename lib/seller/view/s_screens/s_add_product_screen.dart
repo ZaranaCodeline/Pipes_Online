@@ -47,6 +47,27 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
   String dropdownvalue = 'SELECT';
   bool isLoading = false;
 
+  CollectionReference profileCollection = bFirebaseStore.collection('SProfile');
+  String? sellerImg;
+  String? sellerName, sellerAddress, sellerPhone, sellerType, sellerID;
+
+  Future<void> getData() async {
+    print('demo.....');
+    final user =
+        await profileCollection.doc('${PreferenceManager.getUId()}').get();
+    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+    print('=========firstname===============${getUserData}');
+    setState(() {
+      sellerName = getUserData?['user_name'];
+      sellerImg = getUserData?['imageProfile'];
+      sellerAddress = getUserData?['address'];
+      sellerPhone = getUserData?['phoneno'];
+      sellerID = getUserData?['sellerID'];
+    });
+    print('seller=====${user.get('imageProfile')}');
+    print('seller=getUserData====${getUserData}');
+  }
+
   Future pickImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     setState(() {
@@ -77,6 +98,12 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
     // TODO: implement initState
     super.initState();
     addProductController.selectedSubscribe;
+    print('sellerID : ${PreferenceManager.getUId()}');
+    print('getName : ${PreferenceManager.getName()}');
+    print('getUserImg : ${PreferenceManager.getUserImg()}');
+    print('getPhoneNumber : ${PreferenceManager.getPhoneNumber()}');
+    print('getAddress : ${PreferenceManager.getAddress()}');
+    getData();
     print(
         '----addProductController.selectedSubscribe--${addProductController.selectedSubscribe}');
     // SCustomDropDownWidget();
@@ -470,6 +497,12 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
 
   FirebaseAuth _auth = FirebaseAuth.instance;
   Future<void> addData(File? file) async {
+    print('sellerID : ${PreferenceManager.getUId()}');
+    print('getName : ${PreferenceManager.getName()}');
+    print('getUserImg : ${PreferenceManager.getUserImg()}');
+    print('getPhoneNumber : ${PreferenceManager.getPhoneNumber()}');
+    print('getAddress : ${PreferenceManager.getAddress()}');
+
     print(
         'demo.PreferenceManager.getTime().toString()....${PreferenceManager.getUId()}');
     print('userCollection.id....${userCollection.id}');
@@ -484,7 +517,11 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
       userCollection
           .add({
             // 'productID':widget.,
-            'sellerID': PreferenceManager.getUId(),
+            'sellerID': sellerID,
+            'sellerName': sellerName,
+            'sellerImg': sellerImg,
+            'sellerPhone': sellerPhone,
+            'sellerAddress': sellerAddress,
             'imageProfile': downloadUrl,
             'category': dropdownvalue.toLowerCase(),
             'prdName': prdName.text,

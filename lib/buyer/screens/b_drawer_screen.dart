@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
+import 'package:pipes_online/buyer/screens/b_personal_info_page.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/buyer/screens/help_center_page.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
@@ -148,10 +149,13 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                                 ),
                                 IconButton(
                                   onPressed: () {
-                                    bottomBarIndexController.setSelectedScreen(
-                                        value: 'PersonalInfoPage');
-                                    bottomBarIndexController.bottomIndex.value =
-                                        3;
+                                    // bottomBarIndexController.setSelectedScreen(
+                                    //     value: 'PersonalInfoPage');
+                                    // bottomBarIndexController.bottomIndex.value =
+                                    //     3;
+                                    Get.to(PersonalInfoPage(
+                                      isBottomBarVisible: true,
+                                    ));
                                   },
                                   icon: Icon(
                                     controller.readOnly == true
@@ -228,10 +232,12 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
   }) =>
       InkWell(
           onTap: () {
-            bottomBarIndexController.setSelectedScreen(
-                value: 'PersonalInfoPage');
-            bottomBarIndexController.bottomIndex.value = 3;
-            // Get.to(() => PersonalInfoPage());
+            // bottomBarIndexController.setSelectedScreen(
+            //     value: 'PersonalInfoPage');
+            // bottomBarIndexController.bottomIndex.value = 3;
+            Get.to(PersonalInfoPage(
+              isBottomBarVisible: true,
+            ));
           },
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 18.sp, vertical: 18.sp),

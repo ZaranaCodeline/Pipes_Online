@@ -272,7 +272,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
         break;
       case 1:
         Get.to(() => SOrdersScreen(
-              isAppBarVisible: true,
+              isBottomBarVisible: true,
             ));
         break;
       case 2:

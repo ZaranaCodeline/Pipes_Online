@@ -13,9 +13,9 @@ import '../../bottombar/widget/category_bottom_bar_route.dart';
 import '../../common/s_text_style.dart';
 
 class SOrdersScreen extends StatefulWidget {
-  final bool? isAppBarVisible;
+  final bool? isBottomBarVisible;
 
-  const SOrdersScreen({Key? key, this.isAppBarVisible}) : super(key: key);
+  const SOrdersScreen({Key? key, this.isBottomBarVisible}) : super(key: key);
 
   @override
   State<SOrdersScreen> createState() => _SOrdersScreenState();
@@ -37,7 +37,7 @@ class _SOrdersScreenState extends State<SOrdersScreen> {
           leading: IconButton(
               onPressed: () {
                 print('back to home screen');
-                if (widget.isAppBarVisible == true) {
+                if (widget.isBottomBarVisible == true) {
                   Get.back();
                 }
                 homeController.bottomIndex.value = 0;

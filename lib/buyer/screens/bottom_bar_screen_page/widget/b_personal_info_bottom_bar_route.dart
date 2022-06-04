@@ -7,8 +7,8 @@ BBottomBarIndexController bottomBarIndexController = Get.find();
 
 Widget personalInfoSubScreen() {
   switch (bottomBarIndexController.selectedScreen.value) {
-    case 'PersonalInfoPage':
-      return PersonalInfoPage();
+    // case 'PersonalInfoPage':
+    //   return PersonalInfoPage();
 
     default:
       return PersonalInfoPage();

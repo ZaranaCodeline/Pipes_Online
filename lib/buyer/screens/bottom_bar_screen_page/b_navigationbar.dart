@@ -29,7 +29,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
     CatelogeHomeWidget(),
     ProductCartScreen(),
     BChatScreen(),
-    PersonalInfoPage(),
+    PersonalInfoPage(isBottomBarVisible: false),
   ];
   List<Map<String, dynamic>> bottomBarData = [
     {
@@ -46,22 +46,21 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
     },
   ];
 
-
   @override
   Widget build(BuildContext context) {
     print('yeessss');
     return Obx(() {
       return SafeArea(
         child: Scaffold(
-          backgroundColor: AppColors.commonWhiteTextColor.withOpacity(1),
+            backgroundColor: AppColors.commonWhiteTextColor.withOpacity(1),
             body: bottomBarIndexController.selectedScreen.value != ''
                 ? bottomBarIndexController.bottomIndex.value == 0
-                ? homeSubScreen()
-                : bottomBarIndexController.bottomIndex.value == 1
-                ? cartSubScreen()
-                : bottomBarIndexController.bottomIndex.value == 2
-                ? chatSubScreen()
-                : personalInfoSubScreen()
+                    ? homeSubScreen()
+                    : bottomBarIndexController.bottomIndex.value == 1
+                        ? cartSubScreen()
+                        : bottomBarIndexController.bottomIndex.value == 2
+                            ? chatSubScreen()
+                            : personalInfoSubScreen()
                 : tabPages[bottomBarIndexController.bottomIndex.value],
             bottomNavigationBar: BottomAppBar(
                 elevation: 0,
@@ -83,7 +82,8 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
                                 //     'value----${bottomBarIndexController.bottomIndex.value}');
                               },
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 5),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 5),
                                 child: Icon(
                                   e['Icon'],
                                   color: bottomBarIndexController
@@ -99,7 +99,6 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
                 ))),
       );
     });
-
   }
 
   void onTabTapped(int index) {

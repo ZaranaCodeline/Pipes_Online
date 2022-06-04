@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
@@ -19,8 +20,10 @@ import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 import 'custom_widget/custom_text.dart';
 
 class PersonalInfoPage extends StatefulWidget {
+  final bool? isBottomBarVisible;
   PersonalInfoPage({
     Key? key,
+    this.isBottomBarVisible,
   }) : super(key: key);
 
   @override
@@ -111,13 +114,14 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
           appBar: AppBar(
             leading: IconButton(
               onPressed: () {
-                if (bottomBarIndexController.bottomIndex.value == 3) {
-                  bottomBarIndexController.setSelectedScreen(
-                      value: 'HomeScreen');
-                  bottomBarIndexController.bottomIndex.value = 0;
-                } else {
-                  Get.back();
+                print('back to home screen');
+
+                if (widget.isBottomBarVisible == true) {
+                  // Get.back();
+                  Get.to(BottomNavigationBarScreen());
                 }
+                bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
+                bottomBarIndexController.bottomIndex.value = 0;
               },
               icon: Icon(Icons.arrow_back),
             ),

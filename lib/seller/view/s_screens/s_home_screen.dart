@@ -22,10 +22,9 @@ class _SHomeScreenState extends State<SHomeScreen> {
 
   static List<Widget> _widgetOptions = <Widget>[
     SCatelogeHomeScreen(),
-    SOrdersScreen(isAppBarVisible: false),
+    SOrdersScreen(isBottomBarVisible: false),
     SChatScreen(),
     SPersonalInfoPage()
-    // SProfileScreen(),
   ];
   PageController pageController = PageController();
 

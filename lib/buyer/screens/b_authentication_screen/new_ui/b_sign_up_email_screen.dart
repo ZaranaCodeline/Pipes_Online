@@ -33,6 +33,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
   TextEditingController conPass = TextEditingController();
   GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
   bool isLoading = false;
+  bool isGoogleLoading = false;
   bool selectedPass = false;
   bool selectedCPass = false;
 
@@ -100,7 +101,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
               GetBuilder<BLogInController>(
                 builder: (controller) {
                   return Container(
-                    height: Get.height * 2,
+                    height: Get.height * 1,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
@@ -174,7 +175,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                               return 'Please enter password';
                                             } else if (!regex
                                                 .hasMatch(password)) {
-                                              return 'Password must be at least 8 characters including a \n number , digits and special symbols (1Aa_@#.)';
+                                              return 'Use a combination of uppercase letters, lower case letters,numbers, and special characters';
                                             }
                                             return null;
                                           },
@@ -393,8 +394,11 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                           width: 10.sp,
                                           height: 10.sp,
                                         ),
+                                        SizedBox(
+                                          width: Get.width * 0.01,
+                                        ),
                                         Text(
-                                          'Signup with Mobile Number',
+                                          'SignUp with Mobile Number',
                                           style: STextStyle.medium400Purple13,
                                         ),
                                       ],
@@ -407,49 +411,54 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      isLoading = true;
+                                      isGoogleLoading = true;
                                     });
                                     print('it is Signup with Google');
-                                    print(
-                                        '---------->${PreferenceManager.getUId()}');
+                                    print('ID->${PreferenceManager.getUId()}');
                                     loginwithgoogle().then((value) {
                                       Get.to(BFirstUserInfoScreen(
                                         email: email.text,
                                       ));
                                       setState(() {
-                                        isLoading = true;
+                                        isGoogleLoading = false;
                                       });
                                     });
                                   },
-                                  child: Container(
-                                    padding: EdgeInsets.all(12.sp),
-                                    height: Get.height * 0.075,
-                                    width: Get.width * 0.6,
-                                    decoration: BoxDecoration(
-                                      color: SColorPicker.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black12,
-                                            spreadRadius: 0.5,
-                                            blurRadius: 1),
-                                      ],
-                                      borderRadius:
-                                          BorderRadius.circular(10.sp),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        SvgPicture.asset(
-                                          "${SImagePick.googleIcon}",
+                                  child: isGoogleLoading
+                                      ? Center(
+                                          child: CircularProgressIndicator(
+                                          color: AppColors.primaryColor,
+                                        ))
+                                      : Container(
+                                          padding: EdgeInsets.all(12.sp),
+                                          height: Get.height * 0.075,
+                                          width: Get.width * 0.6,
+                                          decoration: BoxDecoration(
+                                            color: SColorPicker.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.black12,
+                                                  spreadRadius: 0.5,
+                                                  blurRadius: 1),
+                                            ],
+                                            borderRadius:
+                                                BorderRadius.circular(10.sp),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              SvgPicture.asset(
+                                                "${SImagePick.googleIcon}",
+                                              ),
+                                              Text(
+                                                'SignUp with Google',
+                                                style: STextStyle
+                                                    .semiBold600Black13,
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                        Text(
-                                          'Signup with Google',
-                                          style: STextStyle.semiBold600Black13,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
                                 ),
                               ),
                               SizedBox(

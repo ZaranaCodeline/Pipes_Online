@@ -156,16 +156,25 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
                                             fontSize: 14.sp,
                                             color:
                                                 AppColors.secondaryBlackColor),
+                                        SizedBox(
+                                          height: Get.height * 0.01,
+                                        ),
                                         CustomText(
                                             text: 'Order ID ${orderDocID} ',
                                             fontWeight: FontWeight.w400,
                                             fontSize: 12.sp,
                                             color: SColorPicker.fontGrey),
+                                        SizedBox(
+                                          height: Get.height * 0.01,
+                                        ),
                                         CustomText(
                                             text: proName.toString(),
                                             fontWeight: FontWeight.w600,
                                             fontSize: 16.sp,
                                             color: AppColors.primaryColor),
+                                        SizedBox(
+                                          height: Get.height * 0.01,
+                                        ),
                                         CustomText(
                                             text: 'Product ID:- $productId',
                                             fontWeight: FontWeight.w400,

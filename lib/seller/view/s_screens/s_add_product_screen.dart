@@ -63,6 +63,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
       sellerAddress = getUserData?['address'];
       sellerPhone = getUserData?['phoneno'];
       sellerID = getUserData?['sellerID'];
+      sellerType = getUserData?['userType'];
     });
     print('seller=====${user.get('imageProfile')}');
     print('seller=getUserData====${getUserData}');
@@ -522,6 +523,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
             'sellerImg': sellerImg,
             'sellerPhone': sellerPhone,
             'sellerAddress': sellerAddress,
+            'sellerType': sellerType,
             'imageProfile': downloadUrl,
             'category': dropdownvalue.toLowerCase(),
             'prdName': prdName.text,

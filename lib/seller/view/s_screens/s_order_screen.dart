@@ -277,11 +277,13 @@ class _SOrdersScreenState extends State<SOrdersScreen> {
                                                               .semiBold600Grey12,
                                                           children: <TextSpan>[
                                                             TextSpan(
-                                                                text: snapShot
-                                                                            .data
-                                                                            ?.docs[
-                                                                        index][
-                                                                    'buyerName'],
+                                                                text:
+                                                                    'name' /*snapShot
+                                                                        .data!
+                                                                        .docs[index]
+                                                                    [
+                                                                    'buyerName']*/
+                                                                ,
                                                                 style: TextStyle(
                                                                     fontWeight:
                                                                         FontWeight

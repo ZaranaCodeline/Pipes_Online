@@ -14,7 +14,7 @@ class SCustomHomeSearchWidget extends StatelessWidget {
       width: Get.width / 1.5,
       child: CupertinoTextField(
         onTap: () {
-          Get.to(SSearchScreen());
+          Get.to(() => SSearchScreen());
         },
         keyboardType: TextInputType.text,
         placeholder: 'Search items here',

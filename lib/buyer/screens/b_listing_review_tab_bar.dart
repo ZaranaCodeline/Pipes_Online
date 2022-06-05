@@ -38,8 +38,8 @@ class _ListingReviewTabBarWidgetState extends State<ListingReviewTabBarWidget>
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
     print('=========Category widget========${widget.category}');
-    print('=========sellerName========${widget.sellerName}');
-    print('=========sellerImage========${widget.sellerImage}');
+    print('=========sellerImage========${widget.sellerName}');
+    print('=========sellerName========${widget.sellerImage}');
     print('=========sellerPhone========${widget.sellerPhone}');
   }
 

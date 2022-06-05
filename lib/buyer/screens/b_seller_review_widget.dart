@@ -37,7 +37,7 @@ class SellerReviewWidget extends StatefulWidget {
 
 class _SellerReviewWidgetState extends State<SellerReviewWidget> {
   var rating = 3.0;
-
+  bool isShowContact = false;
   CollectionReference profileCollection = bFirebaseStore.collection('SProfile');
   // String? Img;
   // String? firstname, sellerID;
@@ -123,15 +123,19 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
           PopupMenuItem<String>(
             child: GestureDetector(
               onTap: () {
-                Get.off(
-                  BReviewSellerContactDetailsScreen(
-                    sellerName: widget.sellerName,
-                    sellerPhone: widget.sellerPhone,
-                    sellerImage: widget.serllerImg,
-                    category: widget.category,
-                    proID: widget.id,
-                  ),
-                );
+                setState(() {
+                  isShowContact = true;
+                });
+                Get.back();
+                // Get.off(
+                //   BReviewSellerContactDetailsScreen(
+                //     sellerName: widget.sellerName,
+                //     sellerPhone: widget.sellerPhone,
+                //     sellerImage: widget.serllerImg,
+                //     category: widget.category,
+                //     proID: widget.id,
+                //   ),
+                // );
               },
               child: Container(
                 height: Get.height * 0.08,
@@ -387,34 +391,65 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                             print('Get Contatc Detail...');
                             _showPopupMenu();
                           },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                  width: 27,
-                                  height: 27,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 2,
-                                        color: AppColors.starRatingColor),
-                                    borderRadius: BorderRadius.circular(5),
+                          child: isShowContact == true
+                              ? Container(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      IconButton(
+                                          onPressed: () {
+                                            ///TODO CHAT MESSAGE
+                                          },
+                                          icon: Icon(
+                                            Icons.chat_bubble_outline,
+                                            size: 12.sp,
+                                          )),
+                                      IconButton(
+                                          onPressed: () {
+                                            ///TODO CALL
+                                          },
+                                          icon: Icon(
+                                            Icons.call,
+                                            size: 12.sp,
+                                          )),
+                                      CustomText(
+                                          text: widget.sellerPhone ??
+                                              '+91 1122334455',
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 12.sp,
+                                          color: AppColors.secondaryBlackColor)
+                                    ],
                                   ),
-                                  child: Icon(
-                                    Icons.folder,
-                                    color: AppColors.primaryColor,
-                                  )
-                                  // SvgPicture.asset('assets/images/folder_icon.svg'),
-                                  ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              CustomText(
-                                  text: 'Get contact details',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
-                                  color: AppColors.secondaryBlackColor),
-                            ],
-                          ),
+                                )
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Container(
+                                        width: 27,
+                                        height: 27,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              width: 2,
+                                              color: AppColors.starRatingColor),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                        child: Icon(
+                                          Icons.folder,
+                                          color: AppColors.primaryColor,
+                                        )
+                                        // SvgPicture.asset('assets/images/folder_icon.svg'),
+                                        ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    CustomText(
+                                        text: 'Get contact details',
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 18,
+                                        color: AppColors.secondaryBlackColor),
+                                  ],
+                                ),
                         ),
                       ),
                       // SizedBox(height: Get.height * 0.02,),

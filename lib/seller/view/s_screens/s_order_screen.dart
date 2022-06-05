@@ -87,7 +87,8 @@ class _SOrdersScreenState extends State<SOrdersScreen> {
                   return ListView.builder(
                     itemCount: snapShot.data?.docs.length,
                     itemBuilder: (context, index) {
-                      formattedDateTime = DateFormat('yyyy-MM-dd hh:mm').format(
+                      ///TODO
+                      formattedDateTime = DateFormat.yMMMd().add_jm().format(
                           DateTime.parse(
                               snapShot.data?.docs[index]['createdOn']));
                       print('--formattedDateTime-${formattedDateTime}');

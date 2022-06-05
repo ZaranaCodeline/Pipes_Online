@@ -76,7 +76,7 @@ class BMyOrderPage extends StatelessWidget {
                 return ListView.builder(
                   itemCount: snapShot.data?.docs.length,
                   itemBuilder: (context, index) {
-                    formattedDateTime = DateFormat('yyyy-MM-dd hh:mm').format(
+                    formattedDateTime = DateFormat.yMMMd().add_jm().format(
                         DateTime.parse(
                             snapShot.data?.docs[index]['createdOn']));
                     print('--formattedDateTime-${formattedDateTime}');
@@ -112,17 +112,12 @@ class BMyOrderPage extends StatelessWidget {
                                         ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(10.0),
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 10.sp,
-                                                vertical: 10.sp),
-                                            child: Image.network(
-                                              snapShot.data?.docs[index]
-                                                  ['productImage'],
-                                              fit: BoxFit.fill,
-                                              width: 92,
-                                              height: 65,
-                                            ),
+                                          child: Image.network(
+                                            snapShot.data?.docs[index]
+                                                ['productImage'],
+                                            fit: BoxFit.fill,
+                                            width: 92,
+                                            height: 65,
                                           ),
                                         ),
                                         Container(

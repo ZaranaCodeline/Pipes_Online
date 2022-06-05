@@ -72,8 +72,8 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
 
           // homeController.bottomIndex.value = 0;
           // homeController.selectedScreen('SSellerReviewScreen');
-
-          Get.to(SSellerReviewScreen());
+          Get.back();
+          // Get.to(SSellerReviewScreen());
           print('seller review uploaded succefully');
         });
   }

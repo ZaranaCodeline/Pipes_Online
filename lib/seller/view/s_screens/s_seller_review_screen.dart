@@ -195,8 +195,8 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                   itemCount: snapshot.data?.docs.length,
                   itemBuilder: (context, index) {
                     print(
-                        '==========BUYER ID========333 ${output?.docs[index]['buyerImg']}');
-                    // print('Order-ID--${snapshot.data?.docs[index]['OrdersID']}');
+                        '==========BUYER ID========333 ${output?.docs[index]['orderID']}');
+                    print('productID--${output?.docs[index]['productID']}');
                     return Container(
                       color: AppColors.commonWhiteTextColor,
                       child: Center(
@@ -297,7 +297,7 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                                     CustomText(
                                         text: output?.docs[index]
                                                 ['buyerName'] ??
-                                            'John.... ',
+                                            'John',
                                         fontWeight: FontWeight.w600,
                                         fontSize: 24,
                                         color: AppColors.secondaryBlackColor),

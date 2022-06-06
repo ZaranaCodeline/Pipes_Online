@@ -114,7 +114,7 @@ class _ListingReviewTabBarWidgetState extends State<ListingReviewTabBarWidget>
                           id: widget.id,
                           category: widget.category,
                           sImage: widget.sellerImage,
-                          SName: widget.sellerName,
+                          sName: widget.sellerName,
                           sContact: widget.sellerPhone,
                         ),
                       ),

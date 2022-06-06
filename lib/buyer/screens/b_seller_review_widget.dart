@@ -63,7 +63,7 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
     super.initState();
     // getData();
     print('=======BUYER_SIDE_SELLER_ID========${PreferenceManager.getUId()}');
-    // print('==sellerID---${sellerID}');
+    print('==widget.serllerImg---${widget.serllerImg}');
   }
 
   @override
@@ -127,15 +127,6 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                   isShowContact = true;
                 });
                 Get.back();
-                // Get.off(
-                //   BReviewSellerContactDetailsScreen(
-                //     sellerName: widget.sellerName,
-                //     sellerPhone: widget.sellerPhone,
-                //     sellerImage: widget.serllerImg,
-                //     category: widget.category,
-                //     proID: widget.id,
-                //   ),
-                // );
               },
               child: Container(
                 height: Get.height * 0.08,
@@ -299,9 +290,9 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                               height: Get.height * 0.049,
                             ),
                             CustomText(
-                                text: widget.sellerName == null
-                                    ? 'John'
-                                    : widget.sellerName.toString(),
+                                text: widget.sellerName != null
+                                    ? widget.sellerName.toString()
+                                    : 'John',
                                 fontWeight: FontWeight.w600,
                                 fontSize: 24,
                                 color: AppColors.secondaryBlackColor),

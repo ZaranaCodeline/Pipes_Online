@@ -300,9 +300,10 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
         FirebaseAuth.instance.signOut();
         PreferenceManager.clearData();
         SRegisterRepo.sLogOut;
-        logOutFormGoogle();
-        SAuthMethods.logOut()
-            .then((value) => Get.off(() => SBuyerSellerScreen()));
+        // logOutFormGoogle();
+
+        ///TODO
+        logOutFormGoogle().then((value) => Get.off(() => SBuyerSellerScreen()));
         PreferenceManager.clearData();
         break;
     }

@@ -14,7 +14,6 @@ import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 class BLoginEmailScreen extends StatefulWidget {
@@ -204,9 +203,7 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                           'login email========>${email.text.toString()}');
                                       print(
                                           'login password========>${pass.text.toString()}');
-                                      SharedPreferences sp =
-                                          await SharedPreferences.getInstance();
-                                      sp.setString('email', email.text);
+
                                       formGlobalKey.currentState!.save();
                                       BRegisterRepo()
                                           .LogIn(email.text.trim().toString(),

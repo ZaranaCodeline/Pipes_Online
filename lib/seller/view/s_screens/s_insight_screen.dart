@@ -233,9 +233,11 @@ class SInsightScreen extends StatelessWidget {
                                                               0.005,
                                                         ),
                                                         CustomText(
-                                                          text: snapShot.data
-                                                                  ?.docs[index]
-                                                              ['prdName'],
+                                                          text: snapShot.data!
+                                                                          .docs[
+                                                                      index]
+                                                                  ['prdName'] ??
+                                                              'Product',
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           fontSize: 14.sp,
@@ -249,9 +251,11 @@ class SInsightScreen extends StatelessWidget {
                                                               0.005,
                                                         ),
                                                         CustomText(
-                                                          text: snapShot.data
-                                                                  ?.docs[index]
-                                                              ['category'],
+                                                          text: snapShot.data!
+                                                                          .docs[
+                                                                      index][
+                                                                  'category'] ??
+                                                              'category',
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           fontSize: 10.sp,

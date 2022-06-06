@@ -7,8 +7,6 @@ import 'package:get/get.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
-import 'package:pipes_online/seller/Authentication/s_function.dart';
-import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view_model/s_add_product_controller.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
@@ -514,34 +512,38 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
         .putFile(file!);
     String downloadUrl = await snapshot.ref.getDownloadURL();
     print('url=$downloadUrl');
-    SAuthMethods().getCurrentUser().then((value) {
-      userCollection
-          .add({
-            // 'productID':widget.,
-            'sellerID': sellerID,
-            'sellerName': sellerName,
-            'sellerImg': sellerImg,
-            'sellerPhone': sellerPhone,
-            'sellerAddress': sellerAddress,
-            'sellerType': sellerType,
-            'imageProfile': downloadUrl,
-            'category': dropdownvalue.toLowerCase(),
-            'prdName': prdName.text,
-            'dsc': dsc.text,
-            'price': prdPrice.text,
-            'createdOn': DateTime.now().toString(),
-          })
-          .catchError((e) => print('Error ===>>> $e'))
-          .then((value) {
-            addProductController.name = prdName.text;
-            addProductController.images = downloadUrl;
-            addProductController.descs = dsc.text;
-            addProductController.prices = prdPrice.text;
-            addProductController.category =
-                addProductController.category.toLowerCase();
-            homeController.bottomIndex.value = 0;
-            homeController.selectedScreen('SCatelogeHomeScreen');
-          });
-    });
+    // SAuthMethods().getCurrentUser().then((value) {
+    //   userCollection
+    //       .add({
+    FirebaseFirestore.instance
+        .collection("Products")
+        .doc()
+        .set({
+          // 'productID':widget.,
+          'sellerID': sellerID,
+          'sellerName': sellerName,
+          'sellerImg': sellerImg,
+          'sellerPhone': sellerPhone,
+          'sellerAddress': sellerAddress,
+          'sellerType': sellerType,
+          'imageProfile': downloadUrl,
+          'category': dropdownvalue.toLowerCase(),
+          'prdName': prdName.text,
+          'dsc': dsc.text,
+          'price': prdPrice.text,
+          'createdOn': DateTime.now().toString(),
+        })
+        .catchError((e) => print('Error ===>>> $e'))
+        .then((value) {
+          addProductController.name = prdName.text;
+          addProductController.images = downloadUrl;
+          addProductController.descs = dsc.text;
+          addProductController.prices = prdPrice.text;
+          addProductController.category =
+              addProductController.category.toLowerCase();
+          homeController.bottomIndex.value = 0;
+          homeController.selectedScreen('SCatelogeHomeScreen');
+        });
+    // });
   }
 }

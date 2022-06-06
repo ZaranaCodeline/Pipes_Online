@@ -40,6 +40,7 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
       oil,
       address,
       createdOn,
+      category,
       Img;
   String? formattedDateTime;
 
@@ -51,6 +52,7 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
     print('=========firstname===============${getUserData}');
     setState(() {
       orderID = getUserData?['orderID'];
+      category = getUserData?['category'];
       buyerName = getUserData?['buyerName'];
       proName = getUserData?['prdName'];
       productId = getUserData?['productID'];
@@ -72,7 +74,9 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
     // TODO: implement initState
     super.initState();
     orderDocID = Get.arguments;
-    print('---ORDERID----${orderDocID}');
+
+    ///TODO ORDER DOC ID
+    print('---ORDER DOC ID----${orderDocID}');
     getData();
   }
 
@@ -299,7 +303,9 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
                             onTap: () {
                               print('SellerReviewPage-----');
                               //ScustomerReviewScreen
-                              Get.to(SSellerReviewScreen());
+                              Get.to(SSellerReviewScreen(
+                                category: category,
+                              ));
                             },
                             child: Card(
                               child: Column(
@@ -395,7 +401,9 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
                           ),
                           InkWell(
                             onTap: () {
-                              Get.to(SSellerReviewScreen());
+                              Get.to(SSellerReviewScreen(
+                                category: category,
+                              ));
                               print('Get Contatc Detail');
                             },
                             child: FittedBox(
@@ -451,7 +459,9 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
                             child: SCommonButton().sCommonPurpleButton(
                               name: 'Continue',
                               onTap: () {
-                                Get.to(SSellerReviewScreen());
+                                Get.to(SSellerReviewScreen(
+                                  category: category,
+                                ));
                                 print('SSellerReviewScreen');
                               },
                             ),

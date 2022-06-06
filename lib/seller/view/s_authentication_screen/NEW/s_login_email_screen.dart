@@ -16,7 +16,6 @@ import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
 import 'package:pipes_online/seller/view_model/s_login_home_controller.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 class SLoginEmailScreen extends StatefulWidget {
@@ -239,10 +238,9 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                           'login email========>${email.text.toString()}');
                                       print(
                                           'login password========>${pass.text.toString()}');
-                                      SharedPreferences sp =
-                                          await SharedPreferences.getInstance();
-                                      sp.setString('email', email.text);
-                                      formGlobalKey.currentState!.save();
+                                      // SharedPreferences sp =
+                                      //     await SharedPreferences.getInstance();
+                                      // sp.setString('email', email.text);
                                       SRegisterRepo()
                                           .LogIn(email.text.trim().toString(),
                                               pass.text.trim().toString())
@@ -252,6 +250,8 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                           email.clear();
                                           pass.clear();
                                         });
+                                        formGlobalKey.currentState!.save();
+
                                         setState(() {
                                           isLoading = false;
                                         });

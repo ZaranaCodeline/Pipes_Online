@@ -152,7 +152,7 @@ class BMyOrderPage extends StatelessWidget {
                                               ),
                                               CustomText(
                                                 text:
-                                                    'Order ID:\n ${snapShot.data?.docs[index]['orderID']}',
+                                                    'Order ID:\n ${snapShot.data?.docs[index].id}',
                                                 fontWeight: FontWeight.w400,
                                                 fontSize: 10.sp,
                                                 color: AppColors.hintTextColor,

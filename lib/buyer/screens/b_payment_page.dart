@@ -111,6 +111,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/b_home_screen_widget.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
@@ -129,15 +130,15 @@ class Screen extends StatefulWidget {
   final String? category;
   final String? productID;
 
-  const Screen(
-      {Key? key,
-      this.price,
-      this.name,
-      this.desc,
-      this.image,
-      this.category,
-      this.productID})
-      : super(key: key);
+  const Screen({
+    Key? key,
+    this.price,
+    this.name,
+    this.desc,
+    this.image,
+    this.category,
+    this.productID,
+  }) : super(key: key);
   @override
   _ScreenState createState() => _ScreenState();
 }
@@ -150,13 +151,34 @@ class _ScreenState extends State<Screen> {
   bool isLoading = false;
   bool _isUpiEditable = false;
   List<ApplicationMeta>? _apps;
-  String? firstname;
-  String? Img;
-  String? address;
+
+  String? buyerName;
+  String? buyerPhone;
+  String? buyerAddress;
+  String? buyerID;
+  String? buyerImage;
+
+  Future<void> getData() async {
+    CollectionReference profileCollection =
+        bFirebaseStore.collection('BProfile');
+    print('demo.....');
+    final user = await profileCollection.doc(PreferenceManager.getUId()).get();
+    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+    setState(() {
+      print('======ID=====${PreferenceManager.getUId()}');
+      print('buyer details:- ${getUserData}');
+      buyerImage = getUserData?['imageProfile'];
+      buyerID = PreferenceManager.getUId();
+      buyerAddress = getUserData?['address'];
+      buyerPhone = getUserData?['phoneno'];
+      buyerName = getUserData?['user_name'];
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    getData();
 
     _amountController.text =
         (Random.secure().nextDouble() * 10).toStringAsFixed(2);
@@ -285,9 +307,11 @@ class _ScreenState extends State<Screen> {
                         'category': widget.category,
                         'dsc': widget.desc,
                         'createdOn': DateTime.now().toString(),
-                        'buyerName': firstname,
-                        'buyerImg': Img,
-                        'buyerAddress': address,
+                        'buyerName': buyerName,
+                        'buyerImg': buyerImage,
+                        'buyerAddress': buyerAddress,
+                        'buyerID': buyerID,
+                        'buyerPhone': buyerPhone,
                       },
                     ).then(
                       (value) {

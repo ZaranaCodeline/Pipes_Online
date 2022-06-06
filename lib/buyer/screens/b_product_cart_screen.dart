@@ -15,8 +15,9 @@ import 'package:sizer/sizer.dart';
 import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 
 class ProductCartScreen extends StatefulWidget {
+  final bool? isBottomBarAvailable;
   String? id;
-  ProductCartScreen({Key? key, this.id});
+  ProductCartScreen({Key? key, this.id, this.isBottomBarAvailable});
 
   @override
   State<ProductCartScreen> createState() => _ProductCartScreenState();
@@ -40,6 +41,9 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
+              if (widget.isBottomBarAvailable == false) {
+                Get.back();
+              }
               bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
               bottomBarIndexController.bottomIndex.value = 0;
             },

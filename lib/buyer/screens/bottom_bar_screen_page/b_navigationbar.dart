@@ -27,7 +27,9 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
 
   List<Widget> tabPages = [
     CatelogeHomeWidget(),
-    ProductCartScreen(),
+    ProductCartScreen(
+      isBottomBarAvailable: false,
+    ),
     BChatScreen(),
     PersonalInfoPage(isBottomBarVisible: false),
   ];

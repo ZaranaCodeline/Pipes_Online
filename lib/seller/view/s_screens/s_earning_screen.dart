@@ -154,10 +154,10 @@ class SEarningsScreen extends StatelessWidget {
                                         Container(
                                           padding: EdgeInsets.symmetric(
                                               vertical: 10.sp,
-                                              horizontal: 10.sp),
+                                              horizontal: 8.sp),
                                           child: ClipRRect(
                                             borderRadius:
-                                                BorderRadius.circular(10.0),
+                                                BorderRadius.circular(8.0),
                                             child: Image.network(
                                               snapShot.data?.docs[index]
                                                   ['productImage'],
@@ -206,8 +206,11 @@ class SEarningsScreen extends StatelessWidget {
                                                         .semiBold600Grey12,
                                                     children: <TextSpan>[
                                                       TextSpan(
-                                                          text:
-                                                              '\n${snapShot.data?.docs[index]['orderID']}',
+                                                          text: snapShot
+                                                                  .data
+                                                                  ?.docs[index]
+                                                                  .id ??
+                                                              '01',
                                                           style: TextStyle(
                                                               fontSize: 9.sp,
                                                               fontWeight:
@@ -229,20 +232,19 @@ class SEarningsScreen extends StatelessWidget {
                                         Container(
                                           child: Row(
                                             children: [
-                                              SizedBox(
-                                                width: Get.width * 0.1,
-                                              ),
-                                              /*SvgPicture.asset(
-                                                  'assets/images/svg/paypal_icon.svg'),*/
+                                              SvgPicture.asset(
+                                                  'assets/images/svg/paypal_icon.svg'),
                                               SizedBox(
                                                 width: Get.width * 0.01,
                                               ),
-                                              /* CustomText(
-                                                  text: snapShot.data
-                                                      ?.docs[index]['price'],
+                                              CustomText(
+                                                  text:
+                                                      snapShot.data?.docs[index]
+                                                              ['price'] ??
+                                                          '1000',
                                                   fontWeight: FontWeight.w600,
-                                                  fontSize: 14.sp,
-                                                  color: Colors.green),*/
+                                                  fontSize: 10.sp,
+                                                  color: Colors.green),
                                             ],
                                           ),
                                         ),

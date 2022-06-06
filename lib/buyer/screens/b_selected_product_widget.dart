@@ -60,22 +60,19 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
     dynamic getUserData = m;
 
     setState(() {
-      firstname = getUserData?['user_name'];
       email = getUserData?['email'];
       address = getUserData?['address'];
       phoneno = getUserData?['phoneno'];
       Img = getUserData?['imageProfile'];
-      // sellerAddress = getUserData?['address'];
-      // sellerPhone = getUserData?['phoneno'];
-      // sellerName = getUserData?['user_name'];
+      sellerAddress = getUserData?['address'];
+      sellerPhone = getUserData?['phoneno'];
+      sellerName = getUserData?['user_name'];
     });
-
     print('========SelectedProductWidget===========${getUserData}');
   }
 
   @override
   void initState() {
-    // print('============profileCollection==========${profileCollection}');
     // TODO: implement initState
     super.initState();
     getData();
@@ -83,9 +80,10 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
     print('demo.b seller_id...${widget.sellerID}.');
     print('firstname-------${firstname}.');
     print('Img-------${Img}.');
-    // print('sellerAddress-------${sellerAddress.toString()}.');
-    // print('sellerPhone-------${sellerPhone.toString()}.');
-    // print('sellerName-------${sellerName.toString()}.');
+    print('sellerIMAGE-------${Img.toString()}.');
+    print('sellerAddress-------${sellerAddress.toString()}.');
+    print('sellerPhone-------${sellerPhone.toString()}.');
+    print('sellerName-------${sellerName.toString()}.');
   }
 
   @override
@@ -168,7 +166,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                         id: widget.productID,
                         category: widget.category,
                         sellerID: widget.sellerID,
-                        serllerImg: Img.toString(),
+                        serllerImg: Img,
                         sellerAddress: address,
                         sellerPhone: phoneno,
                         sellerName: firstname,

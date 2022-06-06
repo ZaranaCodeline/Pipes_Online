@@ -139,16 +139,21 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    CustomText(
-                                                        text: snapshot.data!
-                                                                .docs[index][
-                                                            'dsc'] /* dsc.toString()*/,
-                                                        /*widget.price.toString()*/
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 14.sp,
-                                                        color: AppColors
-                                                            .secondaryBlackColor),
+                                                    Expanded(
+                                                      child: CustomText(
+                                                          text: snapshot.data!
+                                                                  .docs[index]
+                                                              ['dsc'],
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 14.sp,
+                                                          max: 1,
+                                                          textOverflow:
+                                                              TextOverflow
+                                                                  .ellipsis,
+                                                          color: AppColors
+                                                              .secondaryBlackColor),
+                                                    ),
                                                     Container(
                                                       height:
                                                           Get.height / 12.sp,

@@ -16,17 +16,14 @@ import '../../common/s_color_picker.dart';
 import 's_add_review_screen.dart';
 
 class SSellerReviewScreen extends StatefulWidget {
-  const SSellerReviewScreen({Key? key}) : super(key: key);
+  final String? category;
+  const SSellerReviewScreen({Key? key, this.category}) : super(key: key);
 
   @override
   State<SSellerReviewScreen> createState() => _SSellerReviewScreenState();
 }
 
 class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
-  // String? buyerName;
-  // String? buyerImage;
-  // String? buyerAddress;
-  // String? buyerPhone;
   bool isShowContact = false;
   String? buyerID, buyerName, buyerAddress, buyerPhone, buyerImage;
   TextEditingController desc = TextEditingController();
@@ -35,16 +32,20 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
   var rating = 3.0;
   String? formattedDateTime;
   Future<void> getData() async {
-    CollectionReference profileCollection = bFirebaseStore.collection('Orders');
-    print('demo.....');
-    final user =
-        await profileCollection.doc('DRFp1Jpb7EeyFUOl2nm2X3CeQe52').get();
+    DocumentReference profileCollection =
+        bFirebaseStore.collection('Orders').doc();
+
+    print('profileCollection.....${profileCollection}');
+    final user = await profileCollection.get();
+    var m = user.data();
+    print('--SelectedProductWidget--------m-- $m');
+    dynamic getUserData = m;
+
     // final user = await profileCollection.doc().get();
-    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+    // Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
     setState(() {
       print('======ID=====${PreferenceManager.getUId()}');
-      print('getUserData111111=====${getUserData}');
-      // buyerImage = getUserData?['imageProfile'];
+      print('buyer_deatils_seller_review_screen=====${getUserData}');
       buyerID = getUserData?['orderID'];
       buyerAddress = getUserData?['buyerAddress'];
       buyerPhone = getUserData?['buyerPhone'];
@@ -56,6 +57,7 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
   void initState() {
     // TODO: implement initState
     getData();
+    print('======ID=====${PreferenceManager.getUId()}');
     print('======ID=====${PreferenceManager.getUId()}');
     super.initState();
   }
@@ -200,645 +202,582 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
 
     return SafeArea(
       child: Scaffold(
-        body: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('Orders').snapshots(),
-          builder: (BuildContext context, snapshot) {
-            ///TOOD
-            if (!snapshot.hasData) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              var output = snapshot.data;
-              print('==========BUYER ID======== ${output}');
-
-              if (snapshot.hasData) {
-                return ListView.builder(
-                  itemCount: snapshot.data?.docs.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    print(
-                        '==========BUYER ID========333 ${output?.docs[index]['orderID']}');
-                    // print('productID--${output?.docs[index]['productID']}');
-                    return Container(
-                      color: AppColors.commonWhiteTextColor,
-                      child: Center(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Card(
-                                margin: EdgeInsets.only(top: 0, bottom: 10),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: double.infinity,
-                                      child: SingleChildScrollView(
-                                        child: Stack(
-                                          alignment: Alignment.bottomCenter,
-                                          overflow: Overflow.visible,
-                                          children: <Widget>[
-                                            Row(
-                                              children: <Widget>[
-                                                Expanded(
-                                                  child: Container(
-                                                    height: 100,
-                                                    decoration: BoxDecoration(
-                                                      color: AppColors
-                                                          .primaryColor,
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                              .vertical(
-                                                        bottom:
-                                                            Radius.circular(25),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                            Positioned(
-                                              top: 0.0,
-                                              child: Container(
-                                                width: 200,
-                                                height: 52,
-                                              ),
-                                            ),
-                                            Positioned(
-                                              top: 40.0,
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                child: Container(
-                                                  height: 80.0,
-                                                  width: 80.0,
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    border: Border.all(
-                                                        color:
-                                                            Color(0xffE8E8E8),
-                                                        width: 1.0),
-                                                  ),
-                                                  child: /*snapshot.data
-                                                                  ?.docs[index]
-                                                              ['buyerImg'] !=
-                                                          null
-                                                      ?*/
-                                                      ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            50),
-                                                    child: Image.network(
-                                                      /*snapshot.data!.docs[index]
-                                                              ['buyerImg'] ??*/
-                                                      'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  )
-                                                  /*: Image.network(
-                                                          'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
-                                                          width: 30,
-                                                          height: 30,
-                                                          fit: BoxFit.cover,
-                                                        )*/
-                                                  ,
-                                                ),
-                                              ),
-                                            ),
-                                            Positioned(
-                                                top: 15,
-                                                left: 0,
-                                                child: BackButton(
-                                                  color: AppColors
-                                                      .commonWhiteTextColor,
-                                                )),
-                                          ],
-                                        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              ///BUYER DETAILS
+              Container(
+                child: Column(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      child: SingleChildScrollView(
+                        child: Stack(
+                          alignment: Alignment.bottomCenter,
+                          overflow: Overflow.visible,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Container(
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primaryColor,
+                                      borderRadius: const BorderRadius.vertical(
+                                        bottom: Radius.circular(25),
                                       ),
                                     ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Positioned(
+                              top: 0.0,
+                              child: Container(
+                                width: 200,
+                                height: 52,
+                              ),
+                            ),
+                            Positioned(
+                              top: 40.0,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: Container(
+                                  height: 80.0,
+                                  width: 80.0,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        color: Color(0xffE8E8E8), width: 1.0),
+                                  ),
+                                  child: /*snapshot.data
+                                                                      ?.docs[index]
+                                                                  ['buyerImg'] !=
+                                                              null
+                                                          ?*/
+                                      ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Image.network(
+                                      /*   snapShot.data!.docs[index]
+                            ['buyerImg'] ??*/
+                                      'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                  /*: Image.network('https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+                                                              width: 30,
+                                                              height: 30,
+                                                              fit: BoxFit.cover, )*/
+                                  ,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                                top: 15,
+                                left: 0,
+                                child: BackButton(
+                                  color: AppColors.commonWhiteTextColor,
+                                )),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.049,
+                    ),
 
-                                    SizedBox(
-                                      height: Get.height * 0.049,
-                                    ),
-                                    CustomText(
-                                        text: /* output?.docs[index]
-                                                ['buyerName'] ??*/
-                                            'John',
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 24,
-                                        color: AppColors.secondaryBlackColor),
-                                    SizedBox(
-                                      height: Get.height * 0.01,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          CustomText(
-                                            text: '5.0',
-                                            color:
-                                                AppColors.secondaryBlackColor,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                          SmoothStarRating(
-                                              allowHalfRating: false,
-                                              onRatingChanged: (v) {
-                                                setState(() {
-                                                  rating = v;
-                                                });
-                                              },
-                                              starCount: 5,
-                                              rating: rating,
-                                              size: 20.0,
-                                              filledIconData: Icons.star,
-                                              halfFilledIconData: Icons.blur_on,
-                                              color: AppColors.starRatingColor,
-                                              borderColor:
-                                                  AppColors.starRatingColor,
-                                              spacing: 0.0),
-                                          SizedBox(
-                                            width: Get.width * 0.01,
-                                          ),
-                                          CustomText(
-                                              text: '(14 reviews)',
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 18,
-                                              color: AppColors
-                                                  .secondaryBlackColor),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: Get.height * 0.01,
-                                    ),
+                    /// BUYER Name
+                    CustomText(
+                        text: /* output?.docs[index]
+                                                    ['buyerName'] ??*/
+                            'John',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 24,
+                        color: AppColors.secondaryBlackColor),
+                    SizedBox(
+                      height: Get.height * 0.01,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomText(
+                            text: '5.0',
+                            color: AppColors.secondaryBlackColor,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          SmoothStarRating(
+                              allowHalfRating: false,
+                              onRatingChanged: (v) {
+                                setState(() {
+                                  rating = v;
+                                });
+                              },
+                              starCount: 5,
+                              rating: rating,
+                              size: 20.0,
+                              filledIconData: Icons.star,
+                              halfFilledIconData: Icons.blur_on,
+                              color: AppColors.starRatingColor,
+                              borderColor: AppColors.starRatingColor,
+                              spacing: 0.0),
+                          SizedBox(
+                            width: Get.width * 0.01,
+                          ),
+                          CustomText(
+                              text: '(14 reviews)',
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                              color: AppColors.secondaryBlackColor),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.01,
+                    ),
 
-                                    Container(
-                                      height: Get.height / 13,
+                    ///BUYER INFO
+                    Container(
+                      height: Get.height / 13,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: SColorPicker.lightGrey,
+                          width: 0.8,
+                        ),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 4),
+                      child: isShowContact == true
+                          ? Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(
+                                        Icons.chat_bubble_outline,
+                                        size: 12.sp,
+                                      )),
+                                  IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(
+                                        Icons.call,
+                                        size: 12.sp,
+                                      )),
+                                  CustomText(
+                                      text: '+911122334455',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12.sp,
+                                      color: AppColors.secondaryBlackColor)
+                                ],
+                              ),
+                            )
+                          : InkWell(
+                              onTap: () {
+                                print('Get Contatc Detail');
+                                _showPopupMenu();
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                      width: 25.sp,
+                                      height: 25.sp,
                                       decoration: BoxDecoration(
                                         border: Border.all(
-                                          color: SColorPicker.lightGrey,
-                                          width: 0.8,
-                                        ),
+                                            width: 1,
+                                            color: AppColors.starRatingColor),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: 50, vertical: 4),
-                                      child: isShowContact == true
-                                          ? Container(
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  IconButton(
-                                                      onPressed: () {},
-                                                      icon: Icon(
-                                                        Icons
-                                                            .chat_bubble_outline,
-                                                        size: 12.sp,
-                                                      )),
-                                                  IconButton(
-                                                      onPressed: () {},
-                                                      icon: Icon(
-                                                        Icons.call,
-                                                        size: 12.sp,
-                                                      )),
-                                                  CustomText(
-                                                      text: '+911122334455',
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 12.sp,
-                                                      color: AppColors
-                                                          .secondaryBlackColor)
-                                                ],
-                                              ),
-                                            )
-                                          : InkWell(
-                                              onTap: () {
-                                                print('Get Contatc Detail');
-                                                _showPopupMenu();
-                                              },
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Container(
-                                                      width: 25.sp,
-                                                      height: 25.sp,
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            width: 1,
-                                                            color: AppColors
-                                                                .starRatingColor),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5),
-                                                      ),
-                                                      child: SvgPicture.asset(
-                                                          BImagePick
-                                                              .ReviewsIcon,
-                                                          color: SColorPicker
-                                                              .purple)
-                                                      // SvgPicture.asset('assets/images/folder_icon.svg'),
-                                                      ),
-                                                  const SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  CustomText(
-                                                      text:
-                                                          'Get contact details',
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 14.sp,
-                                                      color: AppColors
-                                                          .secondaryBlackColor),
-                                                ],
-                                              ),
-                                            ),
-                                    ),
-                                    // SizedBox(height: Get.height * 0.02,),
-                                    Card(
-                                      child: Column(
-                                        children: [
-                                          SizedBox(
-                                            height: Get.height * 0.02,
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: Get.width * 0.1),
-                                            child: CustomText(
-                                              text: 'Summary',
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 14.sp,
-                                              color:
-                                                  AppColors.secondaryBlackColor,
-                                              alignment: Alignment.topLeft,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: Get.height * 0.02,
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.only(
-                                                bottom: Get.height * 0.1),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                SizedBox(
-                                                  height: Get.height * 0.1,
-                                                ),
-                                                Container(
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                    children: [
-                                                      CustomText(
-                                                        text: '5.0',
-                                                        color: AppColors
-                                                            .secondaryBlackColor,
-                                                        fontSize: 16.sp,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
-                                                      SizedBox(
-                                                        height:
-                                                            Get.height * 0.02,
-                                                      ),
-                                                      SmoothStarRating(
-                                                          allowHalfRating:
-                                                              false,
-                                                          onRatingChanged: (v) {
-                                                            setState(() {
-                                                              rating = v;
-                                                            });
-                                                          },
-                                                          starCount: 5,
-                                                          rating: rating,
-                                                          size: 20.0.sp,
-                                                          filledIconData:
-                                                              Icons.star,
-                                                          halfFilledIconData:
-                                                              Icons.blur_on,
-                                                          color: AppColors
-                                                              .starRatingColor,
-                                                          borderColor: AppColors
-                                                              .starRatingColor,
-                                                          spacing: 0.0),
-                                                      SizedBox(
-                                                        height:
-                                                            Get.height * 0.01,
-                                                      ),
-                                                      CustomText(
-                                                          text: '(14 reviews)',
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 12.sp,
-                                                          color: AppColors
-                                                              .hintTextColor),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    CustomRatingView(
-                                                        '5',
-                                                        AppColors.primaryColor,
-                                                        '5'),
-                                                    CustomRatingView(
-                                                        '4',
-                                                        AppColors
-                                                            .starRatingLightColor,
-                                                        '0'),
-                                                    CustomRatingView(
-                                                        '3',
-                                                        AppColors
-                                                            .starRatingLightColor,
-                                                        '0'),
-                                                    CustomRatingView(
-                                                        '2',
-                                                        AppColors
-                                                            .starRatingLightColor,
-                                                        '0'),
-                                                    CustomRatingView(
-                                                        '1',
-                                                        AppColors
-                                                            .starRatingLightColor,
-                                                        '0'),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
+                                      child: SvgPicture.asset(
+                                          BImagePick.ReviewsIcon,
+                                          color: SColorPicker.purple)
+                                      // SvgPicture.asset('assets/images/folder_icon.svg'),
                                       ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  CustomText(
+                                      text: 'Get contact details',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14.sp,
+                                      color: AppColors.secondaryBlackColor),
+                                ],
+                              ),
+                            ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                color: AppColors.commonWhiteTextColor,
+                child: Center(
+                  child: Column(
+                    children: [
+                      Card(
+                        margin: EdgeInsets.only(top: 0, bottom: 10),
+                        child: Column(
+                          children: [
+                            // SizedBox(height: Get.height * 0.02,),
+                            Card(
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: Get.height * 0.02,
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: Get.width * 0.1),
+                                    child: CustomText(
+                                      text: 'Summary',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14.sp,
+                                      color: AppColors.secondaryBlackColor,
+                                      alignment: Alignment.topLeft,
                                     ),
+                                  ),
+                                  SizedBox(
+                                    height: Get.height * 0.02,
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(
+                                        bottom: Get.height * 0.1),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          height: Get.height * 0.1,
+                                        ),
+                                        Container(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              CustomText(
+                                                text: '5.0',
+                                                color: AppColors
+                                                    .secondaryBlackColor,
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              SizedBox(
+                                                height: Get.height * 0.02,
+                                              ),
+                                              SmoothStarRating(
+                                                  allowHalfRating: false,
+                                                  onRatingChanged: (v) {
+                                                    setState(() {
+                                                      rating = v;
+                                                    });
+                                                  },
+                                                  starCount: 5,
+                                                  rating: rating,
+                                                  size: 20.0.sp,
+                                                  filledIconData: Icons.star,
+                                                  halfFilledIconData:
+                                                      Icons.blur_on,
+                                                  color:
+                                                      AppColors.starRatingColor,
+                                                  borderColor:
+                                                      AppColors.starRatingColor,
+                                                  spacing: 0.0),
+                                              SizedBox(
+                                                height: Get.height * 0.01,
+                                              ),
+                                              CustomText(
+                                                  text: '(14 reviews)',
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 12.sp,
+                                                  color:
+                                                      AppColors.hintTextColor),
+                                            ],
+                                          ),
+                                        ),
+                                        Column(
+                                          children: [
+                                            CustomRatingView('5',
+                                                AppColors.primaryColor, '5'),
+                                            CustomRatingView(
+                                                '4',
+                                                AppColors.starRatingLightColor,
+                                                '0'),
+                                            CustomRatingView(
+                                                '3',
+                                                AppColors.starRatingLightColor,
+                                                '0'),
+                                            CustomRatingView(
+                                                '2',
+                                                AppColors.starRatingLightColor,
+                                                '0'),
+                                            CustomRatingView(
+                                                '1',
+                                                AppColors.starRatingLightColor,
+                                                '0'),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
 
-                                    FutureBuilder<QuerySnapshot<Object?>>(
-                                      future: FirebaseFirestore.instance
-                                          .collection('SReviews')
-                                          .doc(PreferenceManager.getUId())
-                                          .collection('ReviewID')
-                                          .get(),
-                                      builder:
-                                          (BuildContext context, snapShot) {
-                                        if (snapShot.hasData) {
-                                          print(
-                                              'length111-----${snapShot.data?.docs.length}');
-                                          return Container(
-                                            child: Column(
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 10.sp,
-                                                      vertical: 10.sp),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      CustomText(
-                                                          text: '14 reviews',
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 12.sp,
+                            StreamBuilder<QuerySnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection('SReviews')
+                                  .doc(PreferenceManager.getUId())
+                                  .collection('ReviewID')
+                                  .snapshots(),
+                              builder: (BuildContext context, snapShot) {
+                                if (snapShot.hasData) {
+                                  print(
+                                      'length111-----${snapShot.data?.docs.length}');
+                                  return Container(
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: Get.height * 0.01,
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10.sp,
+                                              vertical: 10.sp),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              CustomText(
+                                                  text:
+                                                      '${snapShot.data?.docs.length} reviews',
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 12.sp,
+                                                  color: AppColors
+                                                      .secondaryBlackColor),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Get.to(SAddReviewScreen(
+                                                    category: widget.category,
+                                                  ));
+                                                },
+                                                child: CustomText(
+                                                    text: 'Review Now',
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 12.sp,
+                                                    color:
+                                                        AppColors.primaryColor),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Divider(
+                                          thickness: 1,
+                                          color: SColorPicker.lightGrey,
+                                        ),
+                                        ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: snapShot.data?.docs.length,
+                                          physics: BouncingScrollPhysics(),
+                                          itemBuilder: (context, index) {
+                                            formattedDateTime =
+                                                DateFormat.yMMMd().format(
+                                                    DateTime.parse(snapShot.data
+                                                        ?.docs[index]['time']));
+                                            print(
+                                                '--formattedDateTime-${formattedDateTime}');
+                                            return Container(
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 15),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  snapShot.data?.docs[index][
+                                                              'imageProfile'] !=
+                                                          null
+                                                      ? ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(50),
+                                                          child: Image.network(
+                                                            snapShot.data?.docs[
+                                                                    index][
+                                                                'imageProfile'],
+                                                            width: 25.sp,
+                                                            height: 25.sp,
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        )
+                                                      : SvgPicture.asset(
+                                                          'assets/images/svg/pro_icon.svg',
+                                                          width: 25.sp,
+                                                          height: 25.sp,
                                                           color: AppColors
-                                                              .secondaryBlackColor),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          Get.to(
-                                                              SAddReviewScreen());
-                                                        },
-                                                        child: CustomText(
-                                                            text: 'Review Now',
+                                                              .primaryColor,
+                                                        ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      children: [
+                                                        Container(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      20),
+                                                          child: CustomText(
+                                                            text: snapShot.data!
+                                                                            .docs[
+                                                                        index][
+                                                                    'user_name'] ??
+                                                                'John',
                                                             fontWeight:
                                                                 FontWeight.w600,
                                                             fontSize: 12.sp,
                                                             color: AppColors
-                                                                .primaryColor),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Divider(
-                                                  thickness: 1,
-                                                  color: SColorPicker.lightGrey,
-                                                ),
-                                                ListView.builder(
-                                                  shrinkWrap: true,
-                                                  itemCount: snapShot
-                                                      .data?.docs.length,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    formattedDateTime = DateFormat(
-                                                            'yyyy-MM-dd')
-                                                        .format(DateTime.parse(
-                                                            snapShot.data?.docs[
-                                                                    index]
-                                                                ['time']));
-                                                    print(
-                                                        '--formattedDateTime-${formattedDateTime}');
-                                                    return Container(
-                                                      margin:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 15),
-                                                      child: Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          snapShot.data?.docs[
-                                                                          index]
-                                                                      [
-                                                                      'imageProfile'] !=
-                                                                  null
-                                                              ? ClipRRect(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              50),
-                                                                  child: Image
-                                                                      .network(
-                                                                    snapShot.data
-                                                                            ?.docs[index]
-                                                                        [
-                                                                        'imageProfile'],
-                                                                    width:
-                                                                        25.sp,
-                                                                    height:
-                                                                        25.sp,
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                  ),
-                                                                )
-                                                              : SvgPicture
-                                                                  .asset(
-                                                                  'assets/images/svg/pro_icon.svg',
-                                                                  width: 25.sp,
-                                                                  height: 25.sp,
-                                                                  color: AppColors
-                                                                      .primaryColor,
-                                                                ),
-                                                          Expanded(
-                                                            child: Column(
-                                                              children: [
-                                                                Container(
-                                                                  padding: EdgeInsets
-                                                                      .symmetric(
-                                                                          horizontal:
-                                                                              20),
-                                                                  child:
-                                                                      CustomText(
-                                                                    text: snapShot
-                                                                            .data
-                                                                            ?.docs[index]['user_name'] ??
-                                                                        'John',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    fontSize:
-                                                                        12.sp,
-                                                                    color: AppColors
-                                                                        .secondaryBlackColor,
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .topLeft,
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .start,
-                                                                  ),
-                                                                ),
-                                                                SizedBox(
-                                                                  height:
-                                                                      Get.height *
-                                                                          0.01,
-                                                                ),
-                                                                Container(
-                                                                  padding: EdgeInsets
-                                                                      .symmetric(
-                                                                          horizontal:
-                                                                              20),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      CustomText(
-                                                                          text: snapShot.data!.docs[index]['userType'] ??
-                                                                              'Seller',
-                                                                          fontWeight: FontWeight
-                                                                              .w400,
-                                                                          fontSize: 12
-                                                                              .sp,
-                                                                          color:
-                                                                              AppColors.secondaryBlackColor),
-                                                                      SizedBox(
-                                                                        width: Get.width *
-                                                                            0.03,
-                                                                      ),
-                                                                      Row(
-                                                                        children: [
-                                                                          Container(
-                                                                            width:
-                                                                                6,
-                                                                            height:
-                                                                                6,
-                                                                            decoration:
-                                                                                BoxDecoration(
-                                                                              borderRadius: BorderRadius.circular(50),
-                                                                              color: AppColors.secondaryBlackColor,
-                                                                            ),
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                Get.width * 0.03,
-                                                                          ),
-                                                                          CustomText(
-                                                                              text: snapShot.data?.docs[index]['category'] ?? 'category',
-                                                                              fontWeight: FontWeight.w400,
-                                                                              fontSize: 12.sp,
-                                                                              color: AppColors.secondaryBlackColor),
-                                                                        ],
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                SizedBox(
-                                                                  height:
-                                                                      Get.height *
-                                                                          0.01,
-                                                                ),
-                                                                Container(
-                                                                  margin: EdgeInsets
-                                                                      .symmetric(
-                                                                          horizontal:
-                                                                              15),
-                                                                  width:
-                                                                      Get.width *
-                                                                          0.7,
-                                                                  child: SmoothStarRating(
-                                                                      allowHalfRating: false,
-                                                                      onRatingChanged: (v) {
-                                                                        setState(
-                                                                            () {
-                                                                          rating =
-                                                                              v;
-                                                                        });
-                                                                      },
-                                                                      starCount: 5,
-                                                                      rating: rating,
-                                                                      size: 20.0,
-                                                                      filledIconData: Icons.star,
-                                                                      halfFilledIconData: Icons.blur_on,
-                                                                      color: AppColors.starRatingColor,
-                                                                      borderColor: AppColors.starRatingColor,
-                                                                      spacing: 0.0),
-                                                                ),
-                                                              ],
-                                                            ),
+                                                                .secondaryBlackColor,
+                                                            alignment: Alignment
+                                                                .topLeft,
+                                                            textAlign:
+                                                                TextAlign.start,
                                                           ),
-                                                          CustomText(
-                                                              text: formattedDateTime
-                                                                  .toString(),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontSize: 12.sp,
+                                                        ),
+                                                        SizedBox(
+                                                          height:
+                                                              Get.height * 0.01,
+                                                        ),
+                                                        Container(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      20),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              CustomText(
+                                                                  text: snapShot
+                                                                              .data!
+                                                                              .docs[index]
+                                                                          [
+                                                                          'userType'] ??
+                                                                      'Seller',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  fontSize:
+                                                                      12.sp,
+                                                                  color: AppColors
+                                                                      .secondaryBlackColor),
+                                                              SizedBox(
+                                                                width:
+                                                                    Get.width *
+                                                                        0.03,
+                                                              ),
+                                                              Row(
+                                                                children: [
+                                                                  Container(
+                                                                    width: 6,
+                                                                    height: 6,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              50),
+                                                                      color: AppColors
+                                                                          .secondaryBlackColor,
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width:
+                                                                        Get.width *
+                                                                            0.03,
+                                                                  ),
+                                                                  CustomText(
+                                                                      text: snapShot.data?.docs[index]
+                                                                              [
+                                                                              'category'] ??
+                                                                          'category',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400,
+                                                                      fontSize:
+                                                                          12.sp,
+                                                                      color: AppColors
+                                                                          .secondaryBlackColor),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height:
+                                                              Get.height * 0.01,
+                                                        ),
+                                                        Container(
+                                                          margin: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      15),
+                                                          width:
+                                                              Get.width * 0.7,
+                                                          child: SmoothStarRating(
+                                                              allowHalfRating:
+                                                                  false,
+                                                              starCount: 5,
+                                                              rating: snapShot
+                                                                          .data!
+                                                                          .docs[index]
+                                                                      [
+                                                                      'rating'] ??
+                                                                  '3',
+                                                              size: 20.0,
+                                                              filledIconData:
+                                                                  Icons.star,
+                                                              halfFilledIconData:
+                                                                  Icons.blur_on,
                                                               color: AppColors
-                                                                  .secondaryBlackColor),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        }
-                                        return Center(
-                                            child: CircularProgressIndicator());
-                                      },
+                                                                  .starRatingColor,
+                                                              borderColor: AppColors
+                                                                  .starRatingColor,
+                                                              spacing: 0.0),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  CustomText(
+                                                      text: formattedDateTime
+                                                          .toString(),
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 12.sp,
+                                                      color: AppColors
+                                                          .secondaryBlackColor),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                                  );
+                                }
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              },
+                            ),
+                          ],
                         ),
                       ),
-                    );
-                  },
-                );
-              }
-            }
-            return Center(child: CircularProgressIndicator());
-          },
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -9,12 +9,16 @@ BBottomBarIndexController bottomBarIndexController = Get.find();
 Widget cartSubScreen() {
   switch (bottomBarIndexController.selectedScreen.value) {
     case 'ProductCartScreen':
-      return ProductCartScreen();
+      return ProductCartScreen(
+        isBottomBarAvailable: false,
+      );
 
     case 'CartPage':
       return CartPage();
 
     default:
-      return ProductCartScreen();
+      return ProductCartScreen(
+        isBottomBarAvailable: false,
+      );
   }
 }

@@ -12,12 +12,12 @@ import '../app_constant/app_colors.dart';
 import 'custom_widget/custom_text.dart';
 
 class BReviewWidget extends StatefulWidget {
-  final String? id, SName, desc, sImage, sContact, category;
+  final String? id, sName, desc, sImage, sContact, category;
   final double? ratVal;
   const BReviewWidget(
       {Key? key,
       this.id,
-      this.SName,
+      this.sName,
       this.desc,
       this.ratVal,
       this.category,
@@ -347,9 +347,10 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                                                     child: SmoothStarRating(
                                                         allowHalfRating: false,
                                                         starCount: 5,
-                                                        rating: snapShot.data
-                                                                ?.docs[index]
-                                                            ['rating'],
+                                                        rating: snapShot.data!
+                                                                    .docs[index]
+                                                                ['rating'] ??
+                                                            '3',
                                                         size: 15.sp,
                                                         filledIconData:
                                                             Icons.star,

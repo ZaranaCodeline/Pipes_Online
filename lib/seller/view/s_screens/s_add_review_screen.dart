@@ -2,14 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
-import 'package:pipes_online/seller/view/s_screens/s_seller_review_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/screens/custom_widget/custom_button.dart';
 import '../../../buyer/screens/custom_widget/custom_text.dart';
-import '../../bottombar/widget/category_bottom_bar_route.dart';
 import '../../common/s_color_picker.dart';
 import '../../common/s_text_style.dart';
 
@@ -221,6 +219,7 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
                                     padding: EdgeInsets.all(10.0.sp),
                                     child: Container(
                                       child: TextField(
+                                        controller: desc,
                                         decoration: InputDecoration(
                                           fillColor: SColorPicker.fontGrey,
                                           hintText: 'Enter your review',

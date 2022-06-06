@@ -1,20 +1,11 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
-import 'package:pipes_online/seller/Authentication/s_function.dart';
-import 'package:pipes_online/seller/view/s_screens/s_add_product_screen.dart';
-import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
-import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
-import '../app_constant/b_image.dart';
 import 'custom_widget/custom_text.dart';
 import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 import 'b_payment_page.dart';
@@ -78,6 +69,7 @@ class _CartPageState extends State<CartPage> {
     setState(() {
       Img = getUserData['imageProfile'];
     });
+    print('user data checkout page====${getUserData}');
     print('============================${user.get('imageProfile')}');
   }
 

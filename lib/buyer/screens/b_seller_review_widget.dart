@@ -20,16 +20,16 @@ class SellerReviewWidget extends StatefulWidget {
       sellerAddress,
       sellerPhone,
       sellerName;
-  const SellerReviewWidget(
-      {Key? key,
-      this.id,
-      this.category,
-      this.sellerID,
-      this.serllerImg,
-      this.sellerAddress,
-      this.sellerName,
-      this.sellerPhone})
-      : super(key: key);
+  const SellerReviewWidget({
+    Key? key,
+    this.id,
+    this.category,
+    this.sellerID,
+    this.serllerImg,
+    this.sellerAddress,
+    this.sellerName,
+    this.sellerPhone,
+  }) : super(key: key);
 
   @override
   State<SellerReviewWidget> createState() => _SellerReviewWidgetState();

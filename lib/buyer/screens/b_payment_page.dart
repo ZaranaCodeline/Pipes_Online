@@ -242,7 +242,7 @@ class _ScreenState extends State<Screen> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              Get.to(BottomNavigationBarScreen());
+              Get.back();
             },
             icon: Icon(Icons.arrow_back),
           ),

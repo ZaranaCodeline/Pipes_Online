@@ -20,16 +20,16 @@ import 'custom_widget/custom_text.dart';
 class SelectedProductWidget extends StatefulWidget {
   final String? name, image, desc, price, category, productID, sellerID;
 
-  SelectedProductWidget(
-      {Key? key,
-      this.name,
-      this.price,
-      this.image,
-      this.category,
-      this.desc,
-      this.sellerID,
-      this.productID})
-      : super(key: key);
+  SelectedProductWidget({
+    Key? key,
+    this.name,
+    this.price,
+    this.image,
+    this.category,
+    this.desc,
+    this.sellerID,
+    this.productID,
+  }) : super(key: key);
 
   @override
   State<SelectedProductWidget> createState() => _SelectedProductWidgetState();
@@ -49,11 +49,8 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
   EditProductContoller editProductContoller = Get.find();
 
   Future<void> getData() async {
-    DocumentReference profileCollection = bFirebaseStore
-        .collection("SReviews")
-        .doc(widget.sellerID)
-        .collection('ReviewID')
-        .doc();
+    DocumentReference profileCollection =
+        bFirebaseStore.collection("SProfile").doc(widget.sellerID);
     print('============profileCollection==========${profileCollection}');
 
     print('=======SELLER ID___${PreferenceManager.getUId()}.');

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/seller/view/s_screens/s_seller_review_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
@@ -71,8 +72,8 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
 
           // homeController.bottomIndex.value = 0;
           // homeController.selectedScreen('SSellerReviewScreen');
-          Get.back();
-          // Get.to(SSellerReviewScreen());
+          // Get.back();
+          Get.to(SSellerReviewScreen());
           print('seller review uploaded succefully');
         });
   }

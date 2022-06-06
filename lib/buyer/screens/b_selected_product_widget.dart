@@ -49,8 +49,11 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
   EditProductContoller editProductContoller = Get.find();
 
   Future<void> getData() async {
-    DocumentReference profileCollection =
-        bFirebaseStore.collection("SProfile").doc(widget.sellerID);
+    DocumentReference profileCollection = bFirebaseStore
+        .collection("SReviews")
+        .doc(widget.sellerID)
+        .collection('ReviewID')
+        .doc();
     print('============profileCollection==========${profileCollection}');
 
     print('=======SELLER ID___${PreferenceManager.getUId()}.');
@@ -169,7 +172,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                         serllerImg: Img,
                         sellerAddress: address,
                         sellerPhone: phoneno,
-                        sellerName: firstname,
+                        sellerName: sellerName,
                       ),
                     );
                   },
@@ -189,6 +192,8 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                                     borderRadius: BorderRadius.circular(50),
                                     child: Image.network(
                                       Img.toString(),
+                                      width: 30.sp,
+                                      height: 30.sp,
                                       fit: BoxFit.fill,
                                     ),
                                   ),
@@ -197,6 +202,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                                   "https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png",
                                   width: 30.sp,
                                   height: 30.sp,
+                                  fit: BoxFit.fill,
                                 ),
                         ),
                         SingleChildScrollView(
@@ -210,8 +216,8 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     CustomText(
-                                      text: firstname != null
-                                          ? firstname.toString()
+                                      text: sellerName != null
+                                          ? sellerName.toString()
                                           : 'John',
                                       fontWeight: FontWeight.w500,
                                       fontSize: 15.sp,

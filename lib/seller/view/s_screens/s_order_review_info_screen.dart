@@ -14,22 +14,23 @@ import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.da
 import '../../../buyer/screens/custom_widget/custom_text.dart';
 import '../../common/s_common_button.dart';
 
-class SorderReviewInfoScreen extends StatefulWidget {
-  SorderReviewInfoScreen({
+class SOrderReviewInfoScreen extends StatefulWidget {
+  SOrderReviewInfoScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<SorderReviewInfoScreen> createState() => _SorderReviewInfoScreenState();
+  State<SOrderReviewInfoScreen> createState() => _SOrderReviewInfoScreenState();
 }
 
-class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
+class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
   var rating = 3.0;
   var orderDocID = Get.arguments;
 
   CollectionReference profileCollection = bFirebaseStore.collection('Orders');
 
   String? buyerName,
+      buyerID,
       orderID,
       proName,
       productId,
@@ -51,7 +52,9 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
     print('=========firstname===============${getUserData}');
     setState(() {
+      ///OrderID==SellerID
       orderID = getUserData?['orderID'];
+      buyerID = getUserData?['buyerID'];
       category = getUserData?['category'];
       buyerName = getUserData?['buyerName'];
       proName = getUserData?['prdName'];
@@ -77,6 +80,7 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
 
     ///TODO ORDER DOC ID
     print('---ORDER DOC ID----${orderDocID}');
+    print('---ORDER-buyerID----${buyerID}');
     getData();
   }
 
@@ -304,6 +308,7 @@ class _SorderReviewInfoScreenState extends State<SorderReviewInfoScreen> {
                               print('SellerReviewPage-----');
                               //ScustomerReviewScreen
                               Get.to(SSellerReviewScreen(
+                                buyerID: buyerID,
                                 category: category,
                               ));
                             },

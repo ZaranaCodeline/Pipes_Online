@@ -24,7 +24,7 @@ class SReviewScreen extends StatefulWidget {
 
 class _SReviewScreenState extends State<SReviewScreen> {
   CollectionReference profileCollection = bFirebaseStore
-      .collection('SReviews')
+      .collection('BReviews')
       .doc(PreferenceManager.getUId())
       .collection('ReviewID');
   String? Img;

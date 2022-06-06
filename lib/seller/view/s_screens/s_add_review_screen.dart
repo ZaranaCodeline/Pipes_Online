@@ -12,14 +12,15 @@ import '../../common/s_color_picker.dart';
 import '../../common/s_text_style.dart';
 
 class SAddReviewScreen extends StatefulWidget {
-  const SAddReviewScreen({Key? key, this.category}) : super(key: key);
-  final String? category;
+  const SAddReviewScreen({Key? key, this.category, this.buyerID})
+      : super(key: key);
+  final String? category, buyerID;
   @override
   State<SAddReviewScreen> createState() => _SAddReviewScreenState();
 }
 
 class _SAddReviewScreenState extends State<SAddReviewScreen> {
-  var rating = 3.0;
+  double rating = 3.0;
 
   String? Img;
   String? firstname;
@@ -31,7 +32,6 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
     print('demo.....');
     final user =
         await profileCollection.doc('${PreferenceManager.getUId()}').get();
-    // final user = await profileCollection.doc().get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
     setState(() {
       print('======ID=====${PreferenceManager.getUId()}');
@@ -55,7 +55,8 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
         .doc()
         .set({
           'reviewID': profileCollection.doc().id,
-          'userID': PreferenceManager.getUId(),
+          'buyerID': widget.buyerID,
+          'sellerID': PreferenceManager.getUId(),
           'category': widget.category,
           'user_name': firstname.toString(),
           'imageProfile': Img,

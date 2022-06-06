@@ -88,7 +88,7 @@ class _SOrdersScreenState extends State<SOrdersScreen> {
                             padding: EdgeInsets.zero,
                             child: GestureDetector(
                               onTap: () {
-                                Get.to(SorderReviewInfoScreen(),
+                                Get.to(() => SOrderReviewInfoScreen(),
                                     arguments: snapShot.data?.docs[index].id);
                               },
                               child: Card(

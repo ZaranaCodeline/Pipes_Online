@@ -279,14 +279,14 @@ class _ScreenState extends State<Screen> {
                 ),
                 child: GestureDetector(
                   onTap: () {
-                    Get.to(Screen(
-                      category: widget.category,
-                      desc: widget.desc,
-                      image: widget.image,
-                      price: widget.price,
-                      name: widget.name,
-                      productID: widget.productID,
-                    ));
+                    // Get.to(Screen(
+                    //   category: widget.category,
+                    //   desc: widget.desc,
+                    //   image: widget.image,
+                    //   price: widget.price,
+                    //   name: widget.name,
+                    //   productID: widget.productID,
+                    // ));
                     setState(() {
                       isLoading = true;
                     });
@@ -316,6 +316,7 @@ class _ScreenState extends State<Screen> {
                     ).then(
                       (value) {
                         print('Order done successfully');
+                        Get.back();
                         Get.showSnackbar(
                           GetSnackBar(
                             snackPosition: SnackPosition.BOTTOM,

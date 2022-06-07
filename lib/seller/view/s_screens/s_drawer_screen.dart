@@ -9,6 +9,7 @@ import 'package:pipes_online/routes/bottom_controller.dart';
 import 'package:pipes_online/seller/Authentication/s_function.dart';
 import 'package:pipes_online/seller/view/s_screens/s_earning_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_home_screen.dart';
+import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_order_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_review_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_settings_screen.dart';
@@ -71,14 +72,111 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
           return Center(
             child: ListView(
               children: <Widget>[
-                builtTopItem(
-                  urlImage: Img.toString(),
-                  name: name.toString(),
-                  phone: phoneNo.toString(),
-                  onClicked: () {
+                // builtTopItem(
+                //   urlImage: Img.toString(),
+                //   name: name.toString(),
+                //   phone: phoneNo.toString(),
+                //   onClicked: () {
+                //     homeController.selectedScreen('SPersonalInfoPage');
+                //     homeController.bottomIndex.value = 3;
+                //   },
+                // ),
+                InkWell(
+                  onTap: () {
                     homeController.selectedScreen('SPersonalInfoPage');
                     homeController.bottomIndex.value = 3;
                   },
+                  child: FutureBuilder<DocumentSnapshot>(
+                    future: FirebaseFirestore.instance
+                        .collection('SProfile')
+                        .doc(PreferenceManager.getUId().toString())
+                        .get(),
+                    builder: (BuildContext context, snapShot) {
+                      if (!snapShot.hasData) {
+                        return Container();
+                      }
+                      if (snapShot.hasData) {
+                        print('--ID--${PreferenceManager.getUId()}');
+                        var output = snapShot.data;
+                        print('imageProfile===${output?['imageProfile']}');
+                        return Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 18.sp, vertical: 15.sp),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.sp),
+                              color: AppColors.commonWhiteTextColor),
+                          height: Get.height / 8.sp,
+                          width: Get.width / 1.4.sp,
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                height: Get.height * 0.1,
+                                width: Get.height / 50.sp,
+                              ),
+                              // CircleAvatar(
+                              //     radius: 30,
+                              //     backgroundImage: NetworkImage(urlImage)),
+                              output!['imageProfile'] != null
+                                  ? Container(
+                                      width: 35.sp,
+                                      height: 35.sp,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(50),
+                                        child: Image.network(
+                                          output['imageProfile'] ?? '',
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
+                                      width: 35.sp,
+                                      height: 35.sp,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(50),
+                                        child: SvgPicture.asset(
+                                            SImagePick.uploadImageIcon),
+                                      ),
+                                    ),
+                              SizedBox(width: Get.width / 25.sp),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: Get.height * 0.01.sp,
+                                  ),
+                                  Text(
+                                    output['user_name'] ?? 'John',
+                                    style: GoogleFonts.ubuntu(
+                                      textStyle: TextStyle(
+                                          fontSize: 14.sp,
+                                          color: AppColors.secondaryBlackColor,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: Get.height * 0.01.sp,
+                                  ),
+                                  Text(
+                                    output['phoneno'] ?? '1111111111',
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: AppColors.secondaryBlackColor),
+                                  ),
+                                ],
+                              ),
+                              Spacer(),
+                              SvgPicture.asset(
+                                'assets/images/svg/dots.svg',
+                                width: 15.sp,
+                                height: 15.sp,
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      return Container();
+                    },
+                  ),
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(

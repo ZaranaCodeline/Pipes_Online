@@ -132,6 +132,13 @@ class _BChatScreenState extends State<BChatScreen> {
                           isGreaterThanOrEqualTo: searchController.text)
                       .get(),
                   builder: (BuildContext context, snapShot) {
+                    if (!snapShot.hasData) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.primaryColor,
+                        ),
+                      );
+                    }
                     if (snapShot.hasData) {
                       return SingleChildScrollView(
                         child: Column(
@@ -544,7 +551,9 @@ class _BChatScreenState extends State<BChatScreen> {
                       );
                     }
                     return Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                        color: AppColors.primaryColor,
+                      ),
                     );
                   },
                 ),
@@ -552,7 +561,9 @@ class _BChatScreenState extends State<BChatScreen> {
             );
           }
           return Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: AppColors.primaryColor,
+            ),
           );
         },
       ),

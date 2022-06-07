@@ -60,6 +60,14 @@ class PreferenceManager {
     return getStorage.read('user_name');
   }
 
+  static setUserImage(String value) {
+    getStorage.write('imageProfile', value);
+  }
+
+  static getUserImage() {
+    return getStorage.read('imageProfile');
+  }
+
   static setPhoneNumber(String value) {
     getStorage.write('phoneno', value);
   }

@@ -42,10 +42,14 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              if (widget.isBottomBarAvailable == true) {
-                Get.to(() => BottomNavigationBarScreen());
+              (print('clicked'));
+              if (widget.isBottomBarAvailable == false) {
+                bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
+                bottomBarIndexController.bottomIndex.value = 0;
               }
               Get.back();
+
+              // Get.to(BottomNavigationBarScreen());
             },
             icon: Icon(Icons.arrow_back_rounded)),
         title: Text(

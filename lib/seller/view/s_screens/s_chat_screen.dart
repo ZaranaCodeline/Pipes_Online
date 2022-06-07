@@ -89,11 +89,8 @@ class _SChatScreenState extends State<SChatScreen> {
           future: FirebaseFirestore.instance.collection('BProfile').get(),
           builder: (BuildContext context, snapShot) {
             if (!snapShot.hasData) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.primaryColor,
-                ),
-              );
+              return SizedBox();
+              ;
             }
             if (snapShot.hasData) {
               return SafeArea(

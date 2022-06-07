@@ -29,11 +29,10 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
   String? firstname;
 
   Future<void> getData() async {
-    print('demo.....');
-    final user =
-        await profileCollection.doc('${PreferenceManager.getUId()}').get();
+    print('buyer_data');
+    final user = await profileCollection.doc(PreferenceManager.getUId()).get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    print('=========firstname===============${getUserData}');
+    print('====DETAILS======${getUserData}');
     setState(() {
       firstname = getUserData?['user_name'];
       Img = getUserData?['imageProfile'];
@@ -54,12 +53,15 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
         .doc()
         .set({
           'reviewID': profileCollection.doc().id,
-          'userID': PreferenceManager.getUId(),
+          'buyerID': PreferenceManager.getUId(),
+          // 'sellerID': PreferenceManager.getUId(),
           'category': widget.category,
-          'user_name': firstname.toString(),
+          'user_name': PreferenceManager.getName() ?? firstname.toString(),
+          'buyerAddress': firstname.toString(),
           'imageProfile': Img,
           'dsc': desc.text,
           'rating': rating,
+          'ratingInDigits': rating,
           'userType': PreferenceManager.getUserType(),
           'time': DateTime.now().toString(),
         })
@@ -79,6 +81,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
     super.initState();
     print('==>category===${widget.category}');
     print('PreferenceManager.getUId()---${PreferenceManager.getUId()}');
+    print('ADDRESS REVIEWS---${PreferenceManager.getAddress()}');
     print('---preferenceID--${profileCollection.doc().id}');
     getData();
     // addData();

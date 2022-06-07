@@ -59,10 +59,12 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
           'buyerID': widget.buyerID,
           'sellerID': PreferenceManager.getUId(),
           'category': widget.category,
+          'buyerAddress': firstname.toString(),
           'user_name': firstname.toString(),
           'imageProfile': Img,
           'dsc': desc.text,
           'rating': rating,
+          'ratingInDigits': rating,
           'userType': PreferenceManager.getUserType(),
           'time': DateTime.now().toString(),
         })

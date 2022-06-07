@@ -54,7 +54,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       phoneno = TextEditingController(text: getUserData?['phoneno']);
       email = TextEditingController(text: getUserData?['email']);
       address = TextEditingController(text: getUserData?['address']);
-      Img = getUserData?['imageProfile'];
+      Img = getUserData?['imageProfile'] ??
+          'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png';
     });
   }
 

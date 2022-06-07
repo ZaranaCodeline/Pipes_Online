@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pipes_online/buyer/screens/b_product_cart_screen.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/b_cart_bottom_bar_route.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
@@ -28,6 +27,9 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
     // TODO: implement initState
     super.initState();
     print('--User Name ${PreferenceManager.getName()}');
+    print('-- getUserImage  ${PreferenceManager.getUserImage()}');
+    print('-- getAddress  ${PreferenceManager.getAddress()}');
+    print('-- PhoneNumber  ${PreferenceManager.getPhoneNumber()}');
   }
 
   @override

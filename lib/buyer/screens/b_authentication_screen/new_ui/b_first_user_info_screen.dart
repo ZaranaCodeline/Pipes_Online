@@ -461,6 +461,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                   Get.offAll(BottomNavigationBarScreen())
                                       ?.then((value) {
                                     print('Validate');
+                                    PreferenceManager.getUserImage();
                                     setState(() {
                                       isLoading = false;
                                     });
@@ -541,6 +542,8 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
     PreferenceManager.setName(nameController.text);
     PreferenceManager.getName();
     PreferenceManager.setAddress(address.text);
+    PreferenceManager.setUserImage(imageUrl!);
+    PreferenceManager.getUserImage();
     PreferenceManager.getAddress();
     print('USER_TYPE--${PreferenceManager.getUserType()}');
     print('NAME--${PreferenceManager.getName()}');
@@ -566,8 +569,10 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
       'isOnline': false,
       'phoneno': PreferenceManager.getPhoneNumber() ?? mobilecontroller.text,
       'user_name': PreferenceManager.getName(),
-      'imageProfile': imageUrl ??
-          'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+      'imageProfile': PreferenceManager.getUserImage()
+      /* imageUrl*/ /*??
+          'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'*/
+      ,
       'address': _controller.addressController == null
           ? address.text
           : _controller.addressController!.text,

@@ -53,8 +53,9 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
         bFirebaseStore.collection("SProfile").doc(widget.sellerID);
     print('============profileCollection==========${profileCollection}');
 
-    print('=======SELLER ID___${PreferenceManager.getUId()}.');
+    print('=======SELLER ID___${widget.sellerID}.');
     final user = await profileCollection.get();
+    print('zzz-11-${user}');
     var m = user.data();
     print('--SelectedProductWidget--------m-- $m');
     dynamic getUserData = m;

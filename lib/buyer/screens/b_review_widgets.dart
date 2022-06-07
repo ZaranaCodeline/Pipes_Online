@@ -219,33 +219,32 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
                                             ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        50.sp),
-                                                child: snapShot.data
-                                                                ?.docs[index]
-                                                            ['imageProfile'] !=
-                                                        null
-                                                    ? ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(50),
-                                                        child: Image.network(
-                                                          (snapShot.data?.docs[
-                                                                      index][
-                                                                  'imageProfile'])
-                                                              .toString(),
-                                                          width: 40.sp,
-                                                          height: 40.sp,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      )
-                                                    : Image.network(
-                                                        'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+                                              borderRadius:
+                                                  BorderRadius.circular(50.sp),
+                                              child: snapShot.data?.docs[index]
+                                                          ['imageProfile'] !=
+                                                      null
+                                                  ? ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50),
+                                                      child: Image.network(
+                                                        (snapShot.data?.docs[
+                                                                    index][
+                                                                'imageProfile'])
+                                                            .toString(),
+                                                        width: 40.sp,
+                                                        height: 40.sp,
                                                         fit: BoxFit.cover,
-                                                        width: 30.sp,
-                                                        height: 30.sp,
-                                                      )),
+                                                      ),
+                                                    )
+                                                  : Image.network(
+                                                      'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+                                                      fit: BoxFit.cover,
+                                                      width: 30.sp,
+                                                      height: 30.sp,
+                                                    ),
+                                            ),
                                             Expanded(
                                               child: Column(
                                                 children: [

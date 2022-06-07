@@ -536,6 +536,11 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                                   .collection('ReviewID')
                                   .snapshots(),
                               builder: (BuildContext context, snapShot) {
+                                if (!snapShot.hasData) {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
                                 if (snapShot.hasData) {
                                   print(
                                       'length111-----${snapShot.data?.docs.length}');

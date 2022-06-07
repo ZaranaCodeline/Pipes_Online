@@ -23,21 +23,23 @@ class SReviewScreen extends StatefulWidget {
 }
 
 class _SReviewScreenState extends State<SReviewScreen> {
-  CollectionReference profileCollection = bFirebaseStore
-      .collection('BReviews')
-      .doc(PreferenceManager.getUId())
-      .collection('ReviewID');
-  String? Img;
+  DocumentReference profileCollection =
+      bFirebaseStore.collection('Orders').doc();
+  String? buyerID;
   double? ratingVal;
 
   Future<void> getData() async {
     print('demo.....');
-    final user =
-        await profileCollection.doc('${PreferenceManager.getUId()}').get();
-    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    print('=========firstname===============${getUserData}');
+    print('profileCollection.....${profileCollection}');
+    final user = await profileCollection.get();
+
+    var m = user.data();
+    print('--SelectedProductWidget----m----$m');
+    dynamic getUserData = m;
     setState(() {
-      ratingVal = getUserData?['rating'];
+      print('======ID=====${PreferenceManager.getUId()}');
+      print('buyer_deatils_seller_review_screen=====${getUserData}');
+      buyerID = getUserData?['buyerID'];
       // Img = getUserData?['imageProfile'];
     });
     print('rating:---${getUserData?['rating']}');
@@ -46,12 +48,20 @@ class _SReviewScreenState extends State<SReviewScreen> {
   var rating = 3.0;
   String? formattedDateTime;
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+    print('BID-----${buyerID}');
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'REVIEWS',
+            'REVIEWS..',
             style: STextStyle.bold700White14,
           ),
           backgroundColor: AppColors.primaryColor,
@@ -153,7 +163,14 @@ class _SReviewScreenState extends State<SReviewScreen> {
                 ),
               ),
               FutureBuilder<QuerySnapshot>(
-                future: FirebaseFirestore.instance.collection('Orders').get(),
+                future: /*FirebaseFirestore.instance
+                    .collection('Orders')
+                    .get() */
+                    FirebaseFirestore.instance
+                        .collection('BReviews')
+                        .doc('ECLSpOEIW2aY3nofS9IAem22Eo52')
+                        .collection('ReviewID')
+                        .get(),
                 builder: (BuildContext context, snapShot) {
                   if (!snapShot.hasData) {
                     Center(
@@ -199,7 +216,7 @@ class _SReviewScreenState extends State<SReviewScreen> {
                             formattedDateTime = DateFormat.yMMMd()
                                 .add_jm()
                                 .format(DateTime.parse(
-                                    snapShot.data?.docs[index]['createdOn']));
+                                    snapShot.data?.docs[index]['time']));
                             print('--formattedDateTime-${formattedDateTime}');
 
                             return Container(
@@ -214,14 +231,14 @@ class _SReviewScreenState extends State<SReviewScreen> {
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
                                           snapShot.data?.docs[index]
-                                                      ['buyerImg'] !=
+                                                      ['imageProfile'] !=
                                                   null
                                               ? ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(50),
                                                   child: Image.network(
                                                     snapShot.data?.docs[index]
-                                                        ['buyerImg'],
+                                                        ['imageProfile'],
                                                     width: 30.sp,
                                                     height: 30.sp,
                                                     fit: BoxFit.cover,
@@ -242,7 +259,7 @@ class _SReviewScreenState extends State<SReviewScreen> {
                                                   child: CustomText(
                                                     text: snapShot.data
                                                                 ?.docs[index]
-                                                            ['buyerName'] ??
+                                                            ['user_name'] ??
                                                         'john',
                                                     fontWeight: FontWeight.w600,
                                                     fontSize: 12.sp,
@@ -324,7 +341,10 @@ class _SReviewScreenState extends State<SReviewScreen> {
                                                       //   setState(() {});
                                                       // },
                                                       starCount: 5,
-                                                      rating: 3,
+                                                      rating: snapShot.data!
+                                                                  .docs[index]
+                                                              ['rating'] ??
+                                                          'rating',
                                                       size: 20.0,
                                                       filledIconData:
                                                           Icons.star,

@@ -53,6 +53,11 @@ class _SOrdersScreenState extends State<SOrdersScreen> {
         body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance.collection('Orders').snapshots(),
           builder: (BuildContext context, snapShot) {
+            if (!snapShot.hasData) {
+              Center(
+                child: CircularProgressIndicator(),
+              );
+            }
             if (snapShot.hasData) {
               return ListView.builder(
                 itemCount: snapShot.data?.docs.length,

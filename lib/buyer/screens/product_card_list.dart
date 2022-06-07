@@ -50,7 +50,7 @@ class _ProductCardListState extends State<ProductCardList> {
                     return GestureDetector(
                       onTap: () {
                         print(
-                            "snapShot.data!.docs[index]['prdName']--${snapShot.data!.docs[index]['prdName']}");
+                            "['prdName']--${snapShot.data!.docs[index]['prdName']}");
                         print('DATA OF ID==${snapShot.data!.docs[index]}');
 
                         print(

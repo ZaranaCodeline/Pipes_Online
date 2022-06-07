@@ -51,10 +51,10 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
         'seller addData-getTime==============>${PreferenceManager.getTime()}');
     FirebaseFirestore.instance
         .collection("SReviews")
-        .doc(PreferenceManager.getUId())
-        .collection("ReviewID")
-        .doc()
-        .set({
+        // .doc(PreferenceManager.getUId())
+        // .collection("ReviewID")
+        // .doc()
+        .add({
           'reviewID': profileCollection.doc().id,
           'buyerID': widget.buyerID,
           'sellerID': PreferenceManager.getUId(),

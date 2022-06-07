@@ -48,10 +48,10 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
     print('buyer addData-getTime==============>${PreferenceManager.getTime()}');
     FirebaseFirestore.instance
         .collection("BReviews")
-        .doc(PreferenceManager.getUId())
-        .collection("ReviewID")
-        .doc()
-        .set({
+        // .doc(PreferenceManager.getUId())
+        // .collection("ReviewID")
+        // .doc()
+        .add({
           'reviewID': profileCollection.doc().id,
           'buyerID': PreferenceManager.getUId(),
           // 'sellerID': PreferenceManager.getUId(),

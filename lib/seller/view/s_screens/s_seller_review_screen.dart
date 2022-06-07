@@ -33,7 +33,7 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
   TextEditingController desc = TextEditingController();
   // FirebaseFirestore.instance.collection('Orders').snapshots()
 
-  var rating = 3.0;
+  var rating = 5.0;
   String? formattedDateTime;
   Future<void> getData() async {
     DocumentReference profileCollection =
@@ -532,8 +532,8 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                             StreamBuilder<QuerySnapshot>(
                               stream: FirebaseFirestore.instance
                                   .collection('SReviews')
-                                  .doc(PreferenceManager.getUId())
-                                  .collection('ReviewID')
+                                  // .doc(PreferenceManager.getUId())
+                                  // .collection('ReviewID')
                                   .snapshots(),
                               builder: (BuildContext context, snapShot) {
                                 if (!snapShot.hasData) {

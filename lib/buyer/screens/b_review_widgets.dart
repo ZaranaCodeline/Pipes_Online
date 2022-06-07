@@ -112,8 +112,8 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                               StreamBuilder<QuerySnapshot>(
                                 stream: FirebaseFirestore.instance
                                     .collection("Reviews")
-                                    .doc(PreferenceManager.getUId().toString())
-                                    .collection('ReviewID')
+                                    // .doc(PreferenceManager.getUId().toString())
+                                    // .collection('ReviewID')
                                     .snapshots(),
                                 builder: (context, snapShot) {
                                   if (snapShot.hasData) {
@@ -154,8 +154,8 @@ class _BReviewWidgetState extends State<BReviewWidget> {
             StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection('BReviews')
-                  .doc(PreferenceManager.getUId())
-                  .collection('ReviewID')
+                  // .doc(PreferenceManager.getUId())
+                  // .collection('ReviewID')
                   .snapshots(),
               builder: (context, snapShot) {
                 if (snapShot.hasData) {

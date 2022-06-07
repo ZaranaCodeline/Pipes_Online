@@ -219,14 +219,25 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
                                           SizedBox(
                                             height: Get.height * 0.008,
                                           ),
-                                          CustomText(
-                                            text: size.toString(),
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12.sp,
-                                            color:
-                                                AppColors.secondaryBlackColor,
-                                            alignment: Alignment.centerLeft,
-                                          ),
+                                          size != null
+                                              ? CustomText(
+                                                  text: size.toString(),
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 12.sp,
+                                                  color: AppColors
+                                                      .secondaryBlackColor,
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                )
+                                              : CustomText(
+                                                  text: 'size',
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 12.sp,
+                                                  color: AppColors
+                                                      .secondaryBlackColor,
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                ),
                                         ],
                                       ),
                                       Container(
@@ -242,14 +253,25 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
                                             SizedBox(
                                               height: Get.height * 0.008,
                                             ),
-                                            CustomText(
-                                              text: length.toString(),
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 12.sp,
-                                              color:
-                                                  AppColors.secondaryBlackColor,
-                                              alignment: Alignment.centerLeft,
-                                            ),
+                                            length != null
+                                                ? CustomText(
+                                                    text: length.toString(),
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 12.sp,
+                                                    color: AppColors
+                                                        .secondaryBlackColor,
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                  )
+                                                : CustomText(
+                                                    text: 'length',
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 12.sp,
+                                                    color: AppColors
+                                                        .secondaryBlackColor,
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                  ),
                                           ],
                                         ),
                                       ),
@@ -265,14 +287,25 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
                                           SizedBox(
                                             height: Get.height * 0.008,
                                           ),
-                                          CustomText(
-                                            text: weigth.toString(),
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12.sp,
-                                            color:
-                                                AppColors.secondaryBlackColor,
-                                            alignment: Alignment.centerLeft,
-                                          ),
+                                          weigth != null
+                                              ? CustomText(
+                                                  text: weigth.toString(),
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 12.sp,
+                                                  color: AppColors
+                                                      .secondaryBlackColor,
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                )
+                                              : CustomText(
+                                                  text: 'weigth',
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 12.sp,
+                                                  color: AppColors
+                                                      .secondaryBlackColor,
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                ),
                                         ],
                                       ),
                                       Column(
@@ -284,14 +317,25 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
                                             color: SColorPicker.fontGrey,
                                             alignment: Alignment.centerLeft,
                                           ),
-                                          CustomText(
-                                            text: oil.toString(),
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12.sp,
-                                            color:
-                                                AppColors.secondaryBlackColor,
-                                            alignment: Alignment.centerLeft,
-                                          ),
+                                          oil != null
+                                              ? CustomText(
+                                                  text: oil.toString(),
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 12.sp,
+                                                  color: AppColors
+                                                      .secondaryBlackColor,
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                )
+                                              : CustomText(
+                                                  text: 'oil',
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 12.sp,
+                                                  color: AppColors
+                                                      .secondaryBlackColor,
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                ),
                                         ],
                                       ),
                                     ],

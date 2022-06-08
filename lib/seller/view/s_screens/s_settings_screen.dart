@@ -345,15 +345,15 @@ class _SSettingsScreenState extends State<SSettingsScreen> {
           return SizedBox();
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        foregroundColor: AppColors.commonWhiteTextColor,
-        backgroundColor: AppColors.primaryColor,
-        onPressed: showNotification,
-        tooltip: 'Increment',
-        child: FittedBox(
-          child: Icon(Icons.notification_important_outlined),
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   foregroundColor: AppColors.commonWhiteTextColor,
+      //   backgroundColor: AppColors.primaryColor,
+      //   onPressed: showNotification,
+      //   tooltip: 'Increment',
+      //   child: FittedBox(
+      //     child: Icon(Icons.notification_important_outlined),
+      //   ),
+      // ),
     );
   }
 }

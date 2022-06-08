@@ -61,7 +61,7 @@ class _SReviewScreenState extends State<SReviewScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'REVIEWS..',
+            'REVIEWS',
             style: STextStyle.bold700White14,
           ),
           backgroundColor: AppColors.primaryColor,
@@ -168,8 +168,8 @@ class _SReviewScreenState extends State<SReviewScreen> {
                     .get() */
                     FirebaseFirestore.instance
                         .collection('BReviews')
-                        .doc('ECLSpOEIW2aY3nofS9IAem22Eo52')
-                        .collection('ReviewID')
+                        // .doc('ECLSpOEIW2aY3nofS9IAem22Eo52')
+                        // .collection('ReviewID')
                         .get(),
                 builder: (BuildContext context, snapShot) {
                   if (!snapShot.hasData) {
@@ -330,31 +330,49 @@ class _SReviewScreenState extends State<SReviewScreen> {
                                                 SizedBox(
                                                   height: Get.height * 0.01,
                                                 ),
-                                                Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                      horizontal: 15),
-                                                  width: Get.width * 0.7,
-                                                  child: SmoothStarRating(
-                                                      allowHalfRating: false,
-                                                      // onRatingChanged: (v) {
-                                                      //   rating = v;
-                                                      //   setState(() {});
-                                                      // },
-                                                      starCount: 5,
-                                                      rating: snapShot.data!
-                                                                  .docs[index]
-                                                              ['rating'] ??
-                                                          'rating',
-                                                      size: 20.0,
-                                                      filledIconData:
-                                                          Icons.star,
-                                                      halfFilledIconData:
-                                                          Icons.blur_on,
-                                                      color: AppColors
-                                                          .starRatingColor,
-                                                      borderColor: AppColors
-                                                          .starRatingColor,
-                                                      spacing: 0.0),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Container(
+                                                      margin:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 15),
+                                                      // width: Get.width * 0.7,
+                                                      child: SmoothStarRating(
+                                                          allowHalfRating:
+                                                              false,
+                                                          // onRatingChanged: (v) {
+                                                          //   rating = v;
+                                                          //   setState(() {});
+                                                          // },
+                                                          starCount: 5,
+                                                          rating: snapShot.data!
+                                                                          .docs[
+                                                                      index]
+                                                                  ['rating'] ??
+                                                              'rating',
+                                                          size: 20.0,
+                                                          filledIconData:
+                                                              Icons.star,
+                                                          halfFilledIconData:
+                                                              Icons.blur_on,
+                                                          color: AppColors
+                                                              .starRatingColor,
+                                                          borderColor: AppColors
+                                                              .starRatingColor,
+                                                          spacing: 0.0),
+                                                    ),
+                                                    CustomText(
+                                                        text: formattedDateTime
+                                                            .toString(),
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 11.sp,
+                                                        color: AppColors
+                                                            .secondaryBlackColor),
+                                                  ],
                                                 ),
                                                 SizedBox(
                                                   height: Get.height * 0.01,
@@ -381,13 +399,6 @@ class _SReviewScreenState extends State<SReviewScreen> {
                                               ],
                                             ),
                                           ),
-                                          CustomText(
-                                              text:
-                                                  formattedDateTime.toString(),
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 11.sp,
-                                              color: AppColors
-                                                  .secondaryBlackColor),
                                         ],
                                       ),
                                     ),

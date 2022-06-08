@@ -7,8 +7,10 @@ import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/seller/view/s_screens/s_customer_buy_review_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/app_constant/b_image.dart';
 import '../../../buyer/screens/b_review_widgets.dart';
@@ -16,11 +18,20 @@ import '../../common/s_color_picker.dart';
 import 's_add_review_screen.dart';
 
 class SSellerReviewScreen extends StatefulWidget {
-  final String? category, buyerID;
+  final String? category,
+      buyerID,
+      buyerImg,
+      buyerPhone,
+      buyerAddress,
+      buyerName;
   const SSellerReviewScreen({
     Key? key,
     this.category,
     this.buyerID,
+    this.buyerImg,
+    this.buyerPhone,
+    this.buyerAddress,
+    this.buyerName,
   }) : super(key: key);
 
   @override
@@ -36,11 +47,12 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
   var rating = 5.0;
   String? formattedDateTime;
   Future<void> getData() async {
-    DocumentReference profileCollection =
-        bFirebaseStore.collection('Orders').doc();
+    // DocumentReference profileCollection =
+    //     bFirebaseStore.collection('Orders').doc();
+    CollectionReference profileCollection = bFirebaseStore.collection('Orders');
 
     print('profileCollection.....${profileCollection}');
-    final user = await profileCollection.get();
+    final user = await profileCollection.doc().get();
     var m = user.data();
     print('--SelectedProductWidget--------m-- $m');
     dynamic getUserData = m;
@@ -262,9 +274,9 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                                       ClipRRect(
                                     borderRadius: BorderRadius.circular(50),
                                     child: Image.network(
-                                      /*   snapShot.data!.docs[index]
-                            ['buyerImg'] ??*/
-                                      'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+                                      /* snapShot.data!.docs[index]['buyerImg'] */ widget
+                                              .buyerImg ??
+                                          'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
                                       fit: BoxFit.cover,
                                     ),
                                   )
@@ -292,7 +304,8 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
 
                     /// BUYER Name
                     CustomText(
-                        text: /* output?.docs[index]
+                        text: widget
+                                .buyerName ?? /* output?.docs[index]
                                                     ['buyerName'] ??*/
                             'John',
                         fontWeight: FontWeight.w600,
@@ -359,19 +372,28 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        Icons.chat_bubble_outline,
-                                        size: 12.sp,
-                                      )),
+                                    onPressed: () {
+                                      print('hii');
+                                      Share.share(
+                                          'https://pipesonline012.page.link/productPage');
+                                    },
+                                    icon: Icon(
+                                      Icons.chat_bubble_outline,
+                                      size: 12.sp,
+                                    ),
+                                  ),
                                   IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        Icons.call,
-                                        size: 12.sp,
-                                      )),
+                                    onPressed: () {
+                                      print('---PHONE---${buyerPhone}');
+                                      launch('tel:${buyerPhone}');
+                                    },
+                                    icon: Icon(
+                                      Icons.call,
+                                      size: 12.sp,
+                                    ),
+                                  ),
                                   CustomText(
-                                      text: '+91 1122334455',
+                                      text: '+91 ${buyerPhone ?? '1234567891'}',
                                       fontWeight: FontWeight.w600,
                                       fontSize: 12.sp,
                                       color: AppColors.secondaryBlackColor)
@@ -716,7 +738,7 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                                                                           0.03,
                                                                     ),
                                                                     CustomText(
-                                                                        text: snapShot.data?.docs[index]['category'] ??
+                                                                        text: snapShot.data!.docs[index]['category'] ??
                                                                             'category',
                                                                         fontWeight:
                                                                             FontWeight

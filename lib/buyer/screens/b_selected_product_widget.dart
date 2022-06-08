@@ -78,13 +78,6 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
     super.initState();
     getData();
     print('demo.b selected products...${PreferenceManager.getUId()}.');
-    print('demo.b seller_id...${widget.sellerID}.');
-    print('firstname-------${firstname}.');
-    print('Img-------${Img}.');
-    print('sellerIMAGE-------${Img.toString()}.');
-    print('sellerAddress-------${sellerAddress.toString()}.');
-    print('sellerPhone-------${sellerPhone.toString()}.');
-    print('sellerName-------${sellerName.toString()}.');
   }
 
   @override

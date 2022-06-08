@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:pipes_online/buyer/screens/b_add_reviews_page.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
@@ -254,11 +255,21 @@ class BMyOrderPage extends StatelessWidget {
                             SizedBox(
                               height: Get.height * 0.05,
                             ),
-                            CustomText(
-                                text: 'Review Now',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14.sp,
-                                color: AppColors.primaryColor)
+                            TextButton(
+                              onPressed: () {
+                                print(
+                                    'category--${snapShot.data?.docs[index]['category']}');
+                                Get.to(AddReviewsPage(
+                                  category: snapShot.data?.docs[index]
+                                      ['category'],
+                                ));
+                              },
+                              child: CustomText(
+                                  text: 'Review Now',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14.sp,
+                                  color: AppColors.primaryColor),
+                            )
                           ],
                         ),
                       ),

@@ -353,15 +353,15 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        foregroundColor: AppColors.commonWhiteTextColor,
-        backgroundColor: AppColors.primaryColor,
-        onPressed: showNotification,
-        tooltip: 'Increment',
-        child: FittedBox(
-          child: Icon(Icons.notification_important_outlined),
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   foregroundColor: AppColors.commonWhiteTextColor,
+      //   backgroundColor: AppColors.primaryColor,
+      //   onPressed: showNotification,
+      //   tooltip: 'Increment',
+      //   child: FittedBox(
+      //     child: Icon(Icons.notification_important_outlined),
+      //   ),
+      // ),
     );
   }
 }

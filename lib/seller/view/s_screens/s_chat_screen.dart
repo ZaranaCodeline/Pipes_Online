@@ -61,7 +61,6 @@ class _SChatScreenState extends State<SChatScreen> {
     setState(() {
       Img = getUserData?['imageProfile'];
     });
-    print('============================${user.get('imageProfile')}');
   }
 
   @override

@@ -4,8 +4,10 @@ import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/b_review_seller_contact_details_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../seller/view/s_screens/s_color_picker.dart';
 import '../app_constant/app_colors.dart';
@@ -390,6 +392,8 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                                       IconButton(
                                           onPressed: () {
                                             ///TODO CHAT MESSAGE
+                                            Share.share(
+                                                'https://pipesonline012.page.link/productPage');
                                           },
                                           icon: Icon(
                                             Icons.chat_bubble_outline,
@@ -398,6 +402,10 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                                       IconButton(
                                           onPressed: () {
                                             ///TODO CALL
+                                            print(
+                                                '---PHONE---${widget.sellerPhone}');
+                                            launch(
+                                                'tel:${widget.sellerPhone ?? '1234567891'}');
                                           },
                                           icon: Icon(
                                             Icons.call,

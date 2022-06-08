@@ -42,6 +42,7 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
       address,
       createdOn,
       category,
+      buyerPhone,
       Img;
   String? formattedDateTime;
 
@@ -64,6 +65,7 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
       length = getUserData?['length'];
       weigth = getUserData?['weight'];
       oil = getUserData?['oil'];
+      buyerPhone = getUserData?['buyerPhone'];
       address = getUserData?['buyerAddress'];
       Img = getUserData?['productImage'];
       formattedDateTime = DateFormat('yyyy-MM-dd')
@@ -354,6 +356,10 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
                               Get.to(SSellerReviewScreen(
                                 buyerID: buyerID,
                                 category: category,
+                                buyerAddress: address,
+                                buyerName: buyerName,
+                                buyerImg: Img,
+                                buyerPhone: buyerPhone,
                               ));
                             },
                             child: Card(
@@ -451,7 +457,12 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
                           InkWell(
                             onTap: () {
                               Get.to(SSellerReviewScreen(
+                                buyerID: buyerID,
                                 category: category,
+                                buyerAddress: address,
+                                buyerName: buyerName,
+                                buyerImg: Img,
+                                buyerPhone: buyerPhone,
                               ));
                               print('Get Contatc Detail');
                             },
@@ -509,7 +520,12 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
                               name: 'Continue',
                               onTap: () {
                                 Get.to(SSellerReviewScreen(
+                                  buyerID: buyerID,
                                   category: category,
+                                  buyerAddress: address,
+                                  buyerName: buyerName,
+                                  buyerImg: Img,
+                                  buyerPhone: buyerPhone,
                                 ));
                                 print('SSellerReviewScreen');
                               },

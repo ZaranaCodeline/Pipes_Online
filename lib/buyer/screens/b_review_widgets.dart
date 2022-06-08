@@ -194,8 +194,10 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                         itemCount: snapShot.data?.docs.length,
                         itemBuilder: (context, index) {
                           print('LENGTH--${snapShot.data!.docs.length}');
-                          formattedDateTime = DateFormat.yMMMd().format(
-                              DateTime.parse(snapShot.data?.docs[index]['time'])
+                          formattedDateTime = DateFormat.yMMMd()
+                              .add_jm()
+                              .format(DateTime.parse(
+                                      snapShot.data?.docs[index]['time'])
                                   .toLocal());
 
                           print('--formattedDateTime-${formattedDateTime}');
@@ -318,12 +320,12 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                                                                   0.03,
                                                             ),
                                                             CustomText(
-                                                                text: (snapShot
-                                                                            .data
-                                                                            ?.docs[index]
+                                                                text: snapShot
+                                                                            .data!
+                                                                            .docs[index]
                                                                         [
-                                                                        'category'])
-                                                                    .toString(),
+                                                                        'category'] ??
+                                                                    'category',
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w400,
@@ -338,38 +340,57 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                                                   SizedBox(
                                                     height: Get.height * 0.01,
                                                   ),
-                                                  Container(
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 15),
-                                                    width: Get.width * 0.7,
-                                                    child: SmoothStarRating(
-                                                        allowHalfRating: false,
-                                                        starCount: 5,
-                                                        rating: snapShot.data!
-                                                                    .docs[index]
-                                                                ['rating'] ??
-                                                            '3',
-                                                        size: 15.sp,
-                                                        filledIconData:
-                                                            Icons.star,
-                                                        halfFilledIconData:
-                                                            Icons.blur_on,
-                                                        color: AppColors
-                                                            .starRatingColor,
-                                                        borderColor: AppColors
-                                                            .starRatingColor,
-                                                        spacing: 0.0),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Container(
+                                                        margin: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal: 15),
+                                                        // width: Get.width * 0.7,
+                                                        child: SmoothStarRating(
+                                                            allowHalfRating:
+                                                                false,
+                                                            starCount: 5,
+                                                            rating: snapShot
+                                                                        .data!
+                                                                        .docs[index]
+                                                                    [
+                                                                    'rating'] ??
+                                                                '3',
+                                                            size: 15.sp,
+                                                            filledIconData:
+                                                                Icons.star,
+                                                            halfFilledIconData:
+                                                                Icons.blur_on,
+                                                            color: AppColors
+                                                                .starRatingColor,
+                                                            borderColor: AppColors
+                                                                .starRatingColor,
+                                                            spacing: 0.0),
+                                                      ),
+                                                      CustomText(
+                                                          text:
+                                                              formattedDateTime
+                                                                  .toString(),
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 12.sp,
+                                                          color: AppColors
+                                                              .secondaryBlackColor),
+                                                    ],
                                                   ),
                                                   Container(
                                                     padding:
                                                         EdgeInsets.symmetric(
                                                             horizontal: 20),
                                                     child: CustomText(
-                                                      text: (snapShot.data!
+                                                      text: snapShot.data!
                                                                   .docs[index]
-                                                              ['dsc'])
-                                                          .toString(),
+                                                              ['dsc'] ??
+                                                          'desc',
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       fontSize: 12.sp,
@@ -384,13 +405,6 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                                                 ],
                                               ),
                                             ),
-                                            CustomText(
-                                                text: formattedDateTime
-                                                    .toString(),
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 12.sp,
-                                                color: AppColors
-                                                    .secondaryBlackColor),
                                           ],
                                         ),
                                         SizedBox(

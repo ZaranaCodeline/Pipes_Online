@@ -233,7 +233,7 @@ class _SSettingsScreenState extends State<SSettingsScreen> {
                         Container(
                           height: Get.height * 0.07,
                           padding: EdgeInsets.symmetric(
-                              horizontal: 10.sp, vertical: 10.sp),
+                              horizontal: 10.sp, vertical: 7.sp),
                           decoration: BoxDecoration(
                             // color: Colors.red,
                             borderRadius: BorderRadius.circular(10),
@@ -293,7 +293,7 @@ class _SSettingsScreenState extends State<SSettingsScreen> {
                           child: Container(
                             height: Get.height * 0.07,
                             padding: EdgeInsets.symmetric(
-                                horizontal: 10.sp, vertical: 10.sp),
+                                horizontal: 10.sp, vertical: 8.sp),
                             decoration: BoxDecoration(
                               // color: Colors.red,
                               borderRadius: BorderRadius.circular(10),

@@ -219,8 +219,8 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                               width: double.infinity,
                               child: SingleChildScrollView(
                                 child: Stack(
+                                  clipBehavior: Clip.none,
                                   alignment: Alignment.bottomCenter,
-                                  overflow: Overflow.visible,
                                   children: <Widget>[
                                     Row(
                                       children: <Widget>[

@@ -75,7 +75,9 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
         builder: (context, snapShot) {
           if (!snapShot.hasData) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: AppColors.primaryColor,
+              ),
             );
           } else {
             if (snapShot.data!.docs.isEmpty) {

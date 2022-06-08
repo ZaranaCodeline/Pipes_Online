@@ -168,7 +168,7 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                       ),
                     ),
                     child: Stack(
-                      overflow: Overflow.visible,
+                      clipBehavior: Clip.none,
                       children: [
                         Padding(
                           padding: EdgeInsets.only(
@@ -311,7 +311,7 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                       // });
                                     },
                                     child: Container(
-                                      padding: EdgeInsets.all(12.sp),
+                                      padding: EdgeInsets.all(10.sp),
                                       height: Get.height * 0.075,
                                       width: Get.height * 0.37,
                                       decoration: BoxDecoration(
@@ -353,7 +353,7 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                       });
                                     },
                                     child: Container(
-                                      padding: EdgeInsets.all(12.sp),
+                                      padding: EdgeInsets.all(10.sp),
                                       height: Get.height * 0.075,
                                       width: Get.width * 0.6,
                                       decoration: BoxDecoration(

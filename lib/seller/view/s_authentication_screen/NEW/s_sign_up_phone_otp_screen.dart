@@ -175,7 +175,7 @@ class _SSignUpPhoneOtpScreenState extends State<SSignUpPhoneOtpScreen> {
                       ),
                     ),
                     child: Stack(
-                      overflow: Overflow.visible,
+                      clipBehavior: Clip.none,
                       children: [
                         Positioned(
                           left: Get.width * 0.1,

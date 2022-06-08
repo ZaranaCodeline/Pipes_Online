@@ -159,7 +159,7 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                       ),
                     ),
                     child: Stack(
-                      overflow: Overflow.visible,
+                      clipBehavior: Clip.none,
                       children: [
                         Padding(
                           padding: EdgeInsets.only(

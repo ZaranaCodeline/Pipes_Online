@@ -4,11 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:pipes_online/buyer/Splesh_Screen/splash.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/b_welcome_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_first_user_info_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
+import 'package:pipes_online/buyer/screens/b_chat_screen.dart';
 import 'package:pipes_online/routes/app_pages.dart';
 import 'package:pipes_online/routes/bottom_controller.dart';
+import 'package:pipes_online/s_onboarding_screen/s_onboarding_screen.dart';
+import 'package:pipes_online/seller/view/s_screens/s_cateloge_home_screen.dart';
 import 'package:sizer/sizer.dart';
 import 'buyer/helpers/binding.dart';
 
@@ -62,7 +66,7 @@ class MyApp extends StatelessWidget {
           /*initialRoute: status1 == true ? BRoutes. BSubmitProfileScreen : AppPages.initial,*/
           getPages: AppPages.routes,
           initialBinding: Binding(),
-          // home: BWelcomeScreen(),
+          home: SOnBoardingScreen(),
           defaultTransition: Transition.fadeIn,
           title: 'Flutter Demo',
           theme: ThemeData(

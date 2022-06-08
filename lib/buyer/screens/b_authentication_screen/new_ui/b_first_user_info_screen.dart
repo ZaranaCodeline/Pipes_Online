@@ -419,9 +419,9 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                               Get.to(MapsScreen());
                             },
                             child: Container(
-                              padding: EdgeInsets.all(12.sp),
+                              padding: EdgeInsets.all(10.sp),
                               height: Get.height * 0.075,
-                              width: Get.height * 0.23,
+                              width: Get.height * 0.30,
                               decoration: BoxDecoration(
                                 color: SColorPicker.white,
                                 boxShadow: [

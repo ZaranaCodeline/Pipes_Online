@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_first_user_info_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
@@ -109,7 +111,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                       ),
                     ),
                     child: Stack(
-                      overflow: Overflow.visible,
+                      clipBehavior: Clip.none,
                       children: [
                         Padding(
                           padding: EdgeInsets.only(
@@ -371,9 +373,9 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                     // });
                                   },
                                   child: Container(
-                                    padding: EdgeInsets.all(12.sp),
+                                    padding: EdgeInsets.all(10.sp),
                                     height: Get.height * 0.075,
-                                    width: Get.height * 0.4,
+                                    width: Get.height * 0.5,
                                     decoration: BoxDecoration(
                                       color: SColorPicker.white,
                                       boxShadow: [
@@ -430,7 +432,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                           color: AppColors.primaryColor,
                                         ))
                                       : Container(
-                                          padding: EdgeInsets.all(12.sp),
+                                          padding: EdgeInsets.all(10.sp),
                                           height: Get.height * 0.075,
                                           width: Get.width * 0.6,
                                           decoration: BoxDecoration(

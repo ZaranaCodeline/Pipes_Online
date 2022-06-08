@@ -93,7 +93,7 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                       ),
                     ),
                     child: Stack(
-                      overflow: Overflow.visible,
+                      clipBehavior: Clip.none,
                       children: [
                         Padding(
                           padding: EdgeInsets.only(
@@ -318,9 +318,9 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                       Get.to(SLoginPhoneNumberScreen());
                                     },
                                     child: Container(
-                                      padding: EdgeInsets.all(12.sp),
+                                      padding: EdgeInsets.all(10.sp),
                                       height: Get.height * 0.075,
-                                      width: Get.height * 0.4,
+                                      width: Get.height * 0.5,
                                       decoration: BoxDecoration(
                                         color: SColorPicker.white,
                                         boxShadow: [
@@ -361,7 +361,7 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                       });
                                     },
                                     child: Container(
-                                      padding: EdgeInsets.all(12.sp),
+                                      padding: EdgeInsets.all(10.sp),
                                       height: Get.height * 0.075,
                                       width: Get.width * 0.6,
                                       decoration: BoxDecoration(

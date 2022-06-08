@@ -170,7 +170,7 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
                       ),
                     ),
                     child: Stack(
-                      overflow: Overflow.visible,
+                      clipBehavior: Clip.none,
                       children: [
                         Padding(
                           padding: EdgeInsets.only(

@@ -83,7 +83,7 @@ class _BForgotPasswordScreenState extends State<BForgotPasswordScreen> {
                       ),
                     ),
                     child: Stack(
-                      overflow: Overflow.visible,
+                      clipBehavior: Clip.none,
                       children: [
                         Positioned(
                           left: Get.width * 0.1,

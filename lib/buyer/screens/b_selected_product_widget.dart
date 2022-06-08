@@ -337,7 +337,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
               child: Container(
                 height: Get.height / 15,
                 width: double.infinity,
-                padding: EdgeInsets.all(10.sp),
+                padding: EdgeInsets.all(8.sp),
                 child: CustomText(
                   text: widget.desc.toString(),
                   fontWeight: FontWeight.w400,

@@ -84,7 +84,7 @@ class _SForgotPasswordScreenState extends State<SForgotPasswordScreen> {
                       ),
                     ),
                     child: Stack(
-                      overflow: Overflow.visible,
+                      clipBehavior: Clip.none,
                       children: [
                         Positioned(
                           left: Get.width * 0.1,

@@ -8,6 +8,7 @@ import 'package:pipes_online/buyer/screens/b_chat_message_page.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/app_constant/b_image.dart';
@@ -193,13 +194,66 @@ class _SChatScreenState extends State<SChatScreen> {
                                     ? StreamBuilder(
                                         stream: FirebaseFirestore.instance
                                             .collection('BProfile')
+                                            .orderBy('time', descending: true)
                                             .snapshots(),
                                         builder: (BuildContext context,
                                             AsyncSnapshot<dynamic> snapshot) {
                                           if (!snapshot.hasData) {
-                                            return Center(
-                                              child: CircularProgressIndicator(
-                                                color: AppColors.primaryColor,
+                                            return Shimmer.fromColors(
+                                              baseColor: Colors.grey.shade200,
+                                              highlightColor:
+                                                  Colors.grey.shade300,
+                                              child: Container(
+                                                height: 100.h,
+                                                width: 150.w,
+                                                //    color: Colors.red,
+                                                child: ListView.builder(
+                                                  itemCount: snapshot
+                                                      .data?.docs.length,
+                                                  scrollDirection:
+                                                      Axis.vertical,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    return Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: Get
+                                                                      .width *
+                                                                  0.05,
+                                                              vertical:
+                                                                  Get.height *
+                                                                      0.02),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          CircleAvatar(
+                                                              radius: 3.h),
+                                                          SizedBox(width: 5.w),
+                                                          Column(
+                                                            children: [
+                                                              Container(
+                                                                height: 5.h,
+                                                                width:
+                                                                    Get.width *
+                                                                        0.7,
+                                                                decoration: BoxDecoration(
+                                                                    color: Colors
+                                                                        .grey
+                                                                        .shade100,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            5.sp)),
+                                                              ),
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
                                               ),
                                             );
                                           }

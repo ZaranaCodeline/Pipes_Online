@@ -117,7 +117,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
                               color: AppColors.commonWhiteTextColor),
-                          height: Get.height * 0.09,
+                          height: Get.height * 0.1,
                           width: Get.width / 1.5,
                           child: Row(
                             children: [

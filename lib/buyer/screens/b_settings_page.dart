@@ -243,7 +243,7 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
                             Container(
                               height: Get.height * 0.07,
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 10.sp, vertical: 10.sp),
+                                  horizontal: 10.sp, vertical: 6.sp),
                               decoration: BoxDecoration(
                                 // color: Colors.red,
                                 borderRadius: BorderRadius.circular(10),
@@ -300,7 +300,7 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
                             Container(
                               height: Get.height * 0.07,
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 10.sp, vertical: 10.sp),
+                                  horizontal: 10.sp, vertical: 7.sp),
                               decoration: BoxDecoration(
                                 // color: Colors.red,
                                 borderRadius: BorderRadius.circular(10),

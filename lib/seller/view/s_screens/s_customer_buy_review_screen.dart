@@ -38,8 +38,8 @@ class _ScustomerBuyReviewScreenState extends State<ScustomerBuyReviewScreen> {
                           width: double.infinity,
                           child: SingleChildScrollView(
                             child: Stack(
+                              clipBehavior: Clip.none,
                               alignment: Alignment.bottomCenter,
-                              overflow: Overflow.visible,
                               children: <Widget>[
                                 Row(
                                   children: <Widget>[

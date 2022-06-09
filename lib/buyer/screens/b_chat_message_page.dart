@@ -888,8 +888,8 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                             print('token--${widget.receiverFCMToken}');
                           });
                         }
-                        addMsg();
-                        print('lll');
+                        // addMsg();
+                        print('call');
                       },
                       icon: Icon(Icons.send,
                           size: 21.sp, color: AppColors.primaryColor),

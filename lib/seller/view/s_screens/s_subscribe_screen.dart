@@ -10,6 +10,10 @@ import '../../../buyer/app_constant/app_colors.dart';
 import '../../common/s_text_style.dart';
 
 class SSubscribeScreen extends StatefulWidget {
+  final bool? isBottomBarVisible;
+
+  const SSubscribeScreen({Key? key, this.isBottomBarVisible}) : super(key: key);
+
   @override
   _SSubscribeScreenState createState() => _SSubscribeScreenState();
 }
@@ -39,13 +43,20 @@ class _SSubscribeScreenState extends State<SSubscribeScreen>
           'SUBSCRIBE',
           style: STextStyle.bold700White14,
         ),
+        centerTitle: true,
         backgroundColor: AppColors.primaryColor,
         toolbarHeight: Get.height * 0.1,
         leading: IconButton(
           onPressed: () {
-            // homeController.bottomIndex.value = 0;
-            // homeController.selectedScreen('NavigationBarScreen');
-            Get.back();
+            print('back to home screen');
+            if (widget.isBottomBarVisible == true) {
+              print('call');
+              Get.back();
+            }
+            print('call123');
+
+            homeController.bottomIndex.value = 0;
+            homeController.selectedScreen('SCatelogeHomeScreen');
           },
           icon: Icon(Icons.arrow_back),
         ),

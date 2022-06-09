@@ -129,6 +129,7 @@ class Screen extends StatefulWidget {
   final String? image;
   final String? category;
   final String? productID;
+  final String? bAddress;
 
   const Screen({
     Key? key,
@@ -138,6 +139,7 @@ class Screen extends StatefulWidget {
     this.image,
     this.category,
     this.productID,
+    this.bAddress,
   }) : super(key: key);
   @override
   _ScreenState createState() => _ScreenState();
@@ -179,7 +181,7 @@ class _ScreenState extends State<Screen> {
   void initState() {
     super.initState();
     getData();
-
+    print('add---${widget.bAddress}');
     _amountController.text =
         (Random.secure().nextDouble() * 10).toStringAsFixed(2);
 

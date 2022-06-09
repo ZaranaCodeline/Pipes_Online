@@ -364,7 +364,9 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
         break;
 
       case 4:
-        Get.to(() => SSubscribeScreen());
+        Get.to(() => SSubscribeScreen(
+              isBottomBarVisible: true,
+            ));
         break;
 
       case 5:

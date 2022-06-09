@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
@@ -55,7 +56,8 @@ class _CartPageState extends State<CartPage> {
   CollectionReference profileCollection = bFirebaseStore.collection('BProfile');
   String? firstname;
   String? Img;
-  String? address;
+
+  TextEditingController? address;
 
   Future<void> getData() async {
     print('demo.....');
@@ -63,20 +65,23 @@ class _CartPageState extends State<CartPage> {
         .doc('${FirebaseAuth.instance.currentUser!.uid}')
         .get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    firstname = getUserData!['user_name'];
-    address = getUserData['address'];
-    print('=========firstname===============${firstname}');
     setState(() {
-      Img = getUserData['imageProfile'];
+      address = TextEditingController(text: getUserData?['address']);
     });
-    print('user data checkout page====${getUserData}');
-    print('============================${user.get('imageProfile')}');
+
+    print('=========firstname===============${firstname}');
+    print('======address======${address}');
+    // setState(() {
+    //   Img = getUserData['imageProfile'];
+    // });
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    print('address--${address}');
+    print('==address==${PreferenceManager.getAddress()}');
     print('=========firstname===============${firstname}');
     getData();
   }
@@ -283,18 +288,32 @@ class _CartPageState extends State<CartPage> {
                               SizedBox(
                                 height: Get.height * 0.01.sp,
                               ),
-                              const Card(
-                                elevation: 1,
-                                borderOnForeground: true,
-                                child: TextField(
-                                  maxLines: 3,
-                                  keyboardType: TextInputType.multiline,
-                                  decoration: InputDecoration(
-                                    enabledBorder: InputBorder.none,
-                                    focusedBorder: InputBorder.none,
-                                    border: InputBorder.none,
+                              Container(
+                                alignment: Alignment.topLeft,
+                                width: Get.width * 5,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10.sp, vertical: 10.sp),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: AppColors.commonWhiteTextColor),
+                                child: Container(
+                                  child: TextField(
+                                    controller: address,
+                                    decoration: InputDecoration(
+                                      suffixIcon: Icon(
+                                        Icons.edit,
+                                        size: 15.sp,
+                                      ),
+                                      hintText: 'Enter Your Address',
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0)),
+                                      ),
+                                    ),
+                                    maxLines: 2,
+                                    keyboardType: TextInputType.multiline,
+                                    // minLines: 1,
                                   ),
-                                  // minLines: 1,
                                 ),
                               ),
                               Card(
@@ -323,76 +342,27 @@ class _CartPageState extends State<CartPage> {
                                       ),
                                     ),
                                     GestureDetector(
-                                      onTap: () {
-                                        Get.to(Screen(
-                                          category: widget.category,
-                                          desc: widget.desc,
-                                          image: widget.image,
-                                          price: widget.price,
-                                          name: widget.name,
-                                          productID: widget.productID,
-                                        ));
+                                      onTap: () async {
+                                        /*?.then((value) async*/ {
+                                          await profileCollection
+                                              .doc(PreferenceManager.getUId())
+                                              .update({
+                                            'address': address?.text,
+                                          }).then((value) {
+                                            Get.to(Screen(
+                                              bAddress: address.toString(),
+                                              category: widget.category,
+                                              desc: widget.desc,
+                                              image: widget.image,
+                                              price: widget.price,
+                                              name: widget.name,
+                                              productID: widget.productID,
+                                            ));
+                                          });
+                                          print('success add');
+                                        }
+                                        ;
                                       },
-                                      // onTap: () {
-                                      //   Get.to(Screen(
-                                      //     category: widget.category,
-                                      //     desc: widget.desc,
-                                      //     image: widget.image,
-                                      //     price: widget.price,
-                                      //     name: widget.name,
-                                      //     productID: widget.productID,
-                                      //   ));
-                                      //   setState(() {
-                                      //     isLoading = true;
-                                      //   });
-                                      //   print('hello1....');
-                                      //   FirebaseFirestore.instance
-                                      //       .collection('Orders')
-                                      //       .add(
-                                      //     {
-                                      //       'productID': widget.productID,
-                                      //       'orderID':
-                                      //           PreferenceManager.getUId()
-                                      //               .toString(),
-                                      //       'productImage': widget.image,
-                                      //       'prdName': widget.name,
-                                      //       'size': '2 ft',
-                                      //       'length': '2 kg',
-                                      //       'weight': 'Pending',
-                                      //       'oil': '--',
-                                      //       'orderStatus': 'Pending',
-                                      //       'paymentMode': 'upay',
-                                      //       'price': widget.price,
-                                      //       'category': widget.category,
-                                      //       'dsc': widget.desc,
-                                      //       'createdOn':
-                                      //           DateTime.now().toString(),
-                                      //       'buyerName': firstname,
-                                      //       'buyerImg': Img,
-                                      //       'buyerAddress': address,
-                                      //     },
-                                      //   ).then(
-                                      //     (value) {
-                                      //       print('Order done successfully');
-                                      //       Get.showSnackbar(
-                                      //         GetSnackBar(
-                                      //           snackPosition:
-                                      //               SnackPosition.BOTTOM,
-                                      //           backgroundColor:
-                                      //               Colors.greenAccent,
-                                      //           duration: Duration(seconds: 5),
-                                      //           message:
-                                      //               'Order done succefully',
-                                      //         ),
-                                      //       );
-                                      //       setState(
-                                      //         () {
-                                      //           isLoading = false;
-                                      //         },
-                                      //       );
-                                      //     },
-                                      //   );
-                                      // },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 10, vertical: 10),

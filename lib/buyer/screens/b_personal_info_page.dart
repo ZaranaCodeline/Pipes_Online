@@ -113,19 +113,19 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                print('back to home screen');
-
-                if (widget.isBottomBarVisible == true) {
-                  // Get.back();
-                  Get.to(BottomNavigationBarScreen());
-                }
-                bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
-                bottomBarIndexController.bottomIndex.value = 0;
-              },
-              icon: Icon(Icons.arrow_back),
-            ),
+            // leading: IconButton(
+            //   onPressed: () {
+            //     print('back to home screen');
+            //
+            //     if (widget.isBottomBarVisible == true) {
+            //       // Get.back();
+            //       Get.to(BottomNavigationBarScreen());
+            //     }
+            //     bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
+            //     bottomBarIndexController.bottomIndex.value = 0;
+            //   },
+            //   icon: Icon(Icons.arrow_back),
+            // ),
             title: Text(
               'PROFILE'.toUpperCase(),
               style: STextStyle.bold700White14,

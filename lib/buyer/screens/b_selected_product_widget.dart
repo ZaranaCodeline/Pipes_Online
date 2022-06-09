@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/buyer/app_constant/b_image.dart';
+import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/view_model/s_edit_product_controller.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:share_plus/share_plus.dart';
@@ -93,14 +95,26 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                   Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      Container(
-                        height: 200.sp,
-                        child: Image.network(
-                          widget.image.toString(),
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        ),
-                      ),
+                      Image != null
+                          ? Container(
+                              height: 200.sp,
+                              child: Image.network(widget.image.toString(),
+                                  fit: BoxFit.cover, width: double.infinity,
+                                  errorBuilder: (BuildContext context,
+                                      Object exception,
+                                      StackTrace? stackTrace) {
+                                return Image.asset(
+                                  BImagePick.cartIcon,
+                                  fit: BoxFit.cover,
+                                );
+                              }),
+                            )
+                          : Container(
+                              child: Image.asset(
+                                BImagePick.cartIcon,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5.sp),
                         child: BackButton(
@@ -186,6 +200,16 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                                       width: 30.sp,
                                       height: 30.sp,
                                       fit: BoxFit.fill,
+                                      errorBuilder: (BuildContext context,
+                                          Object exception,
+                                          StackTrace? stackTrace) {
+                                        return Image.asset(
+                                          BImagePick.proIcon,
+                                          height: Get.height * 0.1,
+                                          width: Get.width * 0.4,
+                                          fit: BoxFit.cover,
+                                        );
+                                      },
                                     ),
                                   ),
                                 )

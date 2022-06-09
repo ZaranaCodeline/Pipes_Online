@@ -89,6 +89,8 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
   void initState() {
     super.initState();
     PreferenceManager.getName();
+    PreferenceManager.getFcmToken();
+
     print('seller user name--${PreferenceManager.getName()}');
     PreferenceManager.getAddress();
   }
@@ -582,6 +584,8 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
       'address': _controller.addressController == null
           ? address.text
           : _controller.addressController!.text,
+      'deviceToken': PreferenceManager.getFcmToken(),
+      'isMute': false,
       'userType': PreferenceManager.getUserType(),
       'userDetails': 'true',
       'time': DateTime.now().toString(),

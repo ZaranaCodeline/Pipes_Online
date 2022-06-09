@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/main.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
@@ -170,22 +172,26 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
                                             borderRadius:
                                                 BorderRadius.circular(50),
                                             child: Image.network(
-                                              output?['imageProfile'],
-                                              fit: BoxFit.fill,
-                                            ),
+                                                output?['imageProfile'],
+                                                fit: BoxFit.fill, errorBuilder:
+                                                    (BuildContext context,
+                                                        Object exception,
+                                                        StackTrace?
+                                                            stackTrace) {
+                                              return Image.asset(
+                                                BImagePick.proIcon,
+                                                width: 35.sp,
+                                                height: 35.sp,
+                                                fit: BoxFit.cover,
+                                              );
+                                            }),
                                           ),
                                         )
-                                      : Container(
-                                          width: 35.sp,
-                                          height: 35.sp,
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                            child: Image.network(
-                                              'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg',
-                                              fit: BoxFit.fill,
-                                            ),
-                                          ),
+                                      : Image.asset(
+                                          BImagePick.proIcon,
+                                          height: Get.height * 0.1,
+                                          width: Get.width * 0.4,
+                                          fit: BoxFit.cover,
                                         ),
                                   SizedBox(width: 15.sp),
                                   Flexible(
@@ -262,11 +268,22 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
                                   Switch(
                                     onChanged: (value) {
                                       setState(() {
-                                        // showNotification;
                                         switchNotification = value;
+                                        CollectionReference ProfileCollection =
+                                            bFirebaseStore
+                                                .collection('BProfile');
+
+                                        ProfileCollection.doc(
+                                                PreferenceManager.getUId())
+                                            .update({
+                                          'isMute': switchNotification
+                                        }).then((value) {
+                                          print('success add');
+                                        }).catchError(
+                                                (e) => print('upload error'));
                                       });
-                                      print(
-                                          'switchNotification:-$switchNotification');
+
+                                      print('switchNotification:-$value');
                                     },
                                     focusColor: AppColors.primaryColor,
                                     activeColor: AppColors.commonWhiteTextColor,

@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
@@ -16,6 +18,7 @@ import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
 import 'package:pipes_online/seller/view_model/s_login_home_controller.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 class SLoginEmailScreen extends StatefulWidget {
@@ -37,6 +40,14 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
     super.dispose();
     email.clear();
     pass.clear();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    PreferenceManager.getFcmToken();
+    print('login token-s---${PreferenceManager.getFcmToken()}');
   }
 
   @override
@@ -200,32 +211,6 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                     ),
                                   ),
                                 ),
-
-                                // RichText(
-                                //   textAlign: TextAlign.start,
-                                //   text: TextSpan(
-                                //     children: [
-                                //       TextSpan(
-                                //         text: 'By continuing, you agree to the',
-                                //         style: STextStyle.regular600Black11,
-                                //       ),
-                                //       TextSpan(
-                                //           text: ' terms and conditions',
-                                //           style: STextStyle.semiBold600Purple11,
-                                //           recognizer: TapGestureRecognizer()
-                                //             ..onTap = () {
-                                //               Get.to(() =>
-                                //                   TermsAndConditionPage());
-                                //               print('Terms and Conditons');
-                                //             }),
-                                //       TextSpan(
-                                //         text: ' of this app.',
-                                //         style: STextStyle.regular600Black11,
-                                //       ),
-                                //     ],
-                                //   ),
-                                // ),
-
                                 GestureDetector(
                                   onTap: () async {
                                     print('login click');
@@ -238,13 +223,13 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                           'login email========>${email.text.toString()}');
                                       print(
                                           'login password========>${pass.text.toString()}');
-                                      // SharedPreferences sp =
-                                      //     await SharedPreferences.getInstance();
-                                      // sp.setString('email', email.text);
+
                                       SRegisterRepo()
                                           .LogIn(email.text.trim().toString(),
                                               pass.text.trim().toString())
                                           .then((value) async {
+                                        PreferenceManager.getFcmToken();
+
                                         await Get.offAll(NavigationBarScreen())
                                             ?.then((value) {
                                           email.clear();
@@ -350,7 +335,6 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                     ),
                                   ),
                                 ),
-
                                 SizedBox(height: Get.height * 0.04),
                                 Center(
                                   child: GestureDetector(
@@ -363,7 +347,7 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                     child: Container(
                                       padding: EdgeInsets.all(10.sp),
                                       height: Get.height * 0.075,
-                                      width: Get.width * 0.6,
+                                      width: Get.width * 0.8,
                                       decoration: BoxDecoration(
                                         color: SColorPicker.white,
                                         boxShadow: [

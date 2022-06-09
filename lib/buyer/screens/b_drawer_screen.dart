@@ -75,128 +75,83 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
           return Center(
             child: ListView(
               children: [
-                // builtTopItem(
-                //   urlImage: Img
-                //       .toString() /*??
-                //       'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'*/
-                //   ,
-                //   name: name.toString(),
-                //   phone: phoneNo.toString() /*?? "+00 0000000000"*/,
-                //   onClicked: () {
-                //     bottomBarIndexController.setSelectedScreen(
-                //         value: 'PersonalInfoPage');
-                //     bottomBarIndexController.bottomIndex.value = 3;
-                //   },
-                // ),
                 InkWell(
                   onTap: () {
-                    // bottomBarIndexController.setSelectedScreen(
-                    //     value: 'PersonalInfoPage');
-                    // bottomBarIndexController.bottomIndex.value = 3;
                     Get.to(PersonalInfoPage(
                       isBottomBarVisible: true,
                     ));
                   },
-                  child: FutureBuilder<DocumentSnapshot>(
-                    future: FirebaseFirestore.instance
-                        .collection('BProfile')
-                        .doc(PreferenceManager.getUId().toString())
-                        .get(),
-                    builder: (BuildContext context, snapShot) {
-                      if (!snapShot.hasData) {
-                        return Container();
-                      }
-                      if (snapShot.hasData) {
-                        print('--ID--${PreferenceManager.getUId()}');
-                        var output = snapShot.data;
-                        print('imageProfile===${output?['imageProfile']}');
-                        return Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 18.sp, vertical: 18.sp),
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: AppColors.commonWhiteTextColor),
+                  child: Container(
+                    margin: EdgeInsets.symmetric(
+                        horizontal: 18.sp, vertical: 18.sp),
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: AppColors.commonWhiteTextColor),
+                    height: Get.height * 0.1,
+                    width: Get.width / 1.5,
+                    child: Row(
+                      children: [
+                        SizedBox(
                           height: Get.height * 0.1,
-                          width: Get.width / 1.5,
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                height: Get.height * 0.1,
-                              ),
-                              output!['imageProfile'] != null
-                                  ? Container(
-                                      width: 35.sp,
-                                      height: 35.sp,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(50),
-                                        child: Image.network(
-                                          output['imageProfile'] ?? '',
-                                          fit: BoxFit.fill,
-                                        ),
-                                      ),
-                                    )
-                                  : Container(
-                                      width: 35.sp,
-                                      height: 35.sp,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(50),
-                                        child: SvgPicture.asset(
-                                            BImagePick.PersonIcon),
-                                      ),
-                                    ),
-                              // Padding(
-                              //   padding: EdgeInsets.all(5.0.sp),
-                              //   child: CircleAvatar(
-                              //     radius: 30,
-                              //     backgroundImage: NetworkImage(
-                              //       /*Img.toString()*/ snapShot.data!
-                              //         .docs[index]['imageProfile'] ??
-                              //         '',
-                              //     ),
-                              //   ),
-                              // ),
-                              SizedBox(width: Get.width * 0.02),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    /*   snapShot.data!.docs[index]
-                                    ['user_name'] ??*/
-                                    output['user_name'] ?? 'John',
-                                    style: GoogleFonts.ubuntu(
-                                      textStyle: TextStyle(
-                                        fontSize: 14.sp,
-                                        color: AppColors.secondaryBlackColor,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
+                        ),
+                        Img != null
+                            ? Container(
+                                width: 35.sp,
+                                height: 35.sp,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: Image.network(
+                                    Img ?? '',
+                                    fit: BoxFit.fill,
                                   ),
-                                  SizedBox(
-                                    height: Get.height * 0.005,
-                                  ),
-                                  Text(
-                                    /*  snapShot.data?.docs[index]['phoneno'] ??*/
-                                    output['phoneno'] ?? '1111111111',
-                                    style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: AppColors.secondaryBlackColor),
-                                  ),
-                                ],
+                                ),
+                              )
+                            : Container(
+                                width: 35.sp,
+                                height: 35.sp,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: SvgPicture.asset(''),
+                                ),
                               ),
-                              Spacer(),
-                              SvgPicture.asset(
-                                'assets/images/svg/dots.svg',
-                                width: 15.sp,
-                                height: 15.sp,
+                        SizedBox(width: Get.width * 0.02),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              /*   snapShot.data!.docs[index]
+                                      ['user_name'] ??*/
+                              name ?? '',
+                              style: GoogleFonts.ubuntu(
+                                textStyle: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: AppColors.secondaryBlackColor,
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
-                            ],
-                          ),
-                        );
-                      }
-                      return Container();
-                    },
+                            ),
+                            SizedBox(
+                              height: Get.height * 0.005,
+                            ),
+                            Text(
+                              /*  snapShot.data?.docs[index]['phoneno'] ??*/
+                              phoneNo ?? '',
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: AppColors.secondaryBlackColor),
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        SvgPicture.asset(
+                          'assets/images/svg/dots.svg',
+                          width: 15.sp,
+                          height: 15.sp,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Container(

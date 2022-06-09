@@ -6,6 +6,7 @@ import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_login_email_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_sign_up_email_screen.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 class SWelcomeScreen extends StatefulWidget {
@@ -14,6 +15,13 @@ class SWelcomeScreen extends StatefulWidget {
 }
 
 class _SWelcomeScreenState extends State<SWelcomeScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('s_welcome--${PreferenceManager.getFcmToken()}');
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

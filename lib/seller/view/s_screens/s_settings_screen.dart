@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/main.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
@@ -256,9 +257,20 @@ class _SSettingsScreenState extends State<SSettingsScreen> {
                                   onChanged: (value) {
                                     setState(() {
                                       switchNotification = value;
+                                      CollectionReference ProfileCollection =
+                                          bFirebaseStore.collection('SProfile');
+
+                                      ProfileCollection.doc(
+                                              PreferenceManager.getUId())
+                                          .update({
+                                        'isMute': switchNotification
+                                      }).then((value) {
+                                        print('success add');
+                                      }).catchError(
+                                              (e) => print('upload error'));
                                     });
-                                    print(
-                                        'switchNotification:-$switchNotification');
+
+                                    print('switchNotification:-$value');
                                   },
                                   focusColor: AppColors.primaryColor,
                                   activeColor: AppColors.commonWhiteTextColor,

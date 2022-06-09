@@ -277,6 +277,10 @@ class _SChatScreenState extends State<SChatScreen> {
                                                         FirebaseAuth.instance;
                                                     Get.to(
                                                       ChatMessagePage(
+                                                        isMute: snapshot.data
+                                                                    .docs[index]
+                                                                ['isMute'] ??
+                                                            false,
                                                         userImg: snapshot.data
                                                                 .docs[index]
                                                             ['imageProfile'],
@@ -287,6 +291,10 @@ class _SChatScreenState extends State<SChatScreen> {
                                                         userName: snapshot.data
                                                                 .docs[index]
                                                             ['user_name'],
+                                                        receiverFCMToken:
+                                                            snapshot.data
+                                                                    .docs[index]
+                                                                ['deviceToken'],
                                                       ),
                                                     );
                                                   },
@@ -325,13 +333,18 @@ class _SChatScreenState extends State<SChatScreen> {
                                                                               width: 50,
                                                                               height: 50,
                                                                             )
-                                                                          : Image
-                                                                              .network(
+                                                                          : Image.network(
                                                                               snapshot.data?.docs[index]['imageProfile'],
                                                                               width: 35.sp,
                                                                               height: 35.sp,
-                                                                              fit: BoxFit.cover,
-                                                                            ),
+                                                                              fit: BoxFit.cover, errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                                                                              return Image.asset(
+                                                                                BImagePick.cartIcon,
+                                                                                width: 35.sp,
+                                                                                height: 35.sp,
+                                                                                fit: BoxFit.cover,
+                                                                              );
+                                                                            }),
                                                                     ),
                                                                     Positioned(
                                                                       right: 0,
@@ -460,6 +473,10 @@ class _SChatScreenState extends State<SChatScreen> {
                                                         FirebaseAuth.instance;
                                                     Get.to(
                                                       ChatMessagePage(
+                                                        receiverFCMToken:
+                                                            snapshot.data
+                                                                    .docs[index]
+                                                                ['deviceToken'],
                                                         userImg: snapshot.data
                                                                 .docs[index]
                                                             ['imageProfile'],
@@ -508,13 +525,18 @@ class _SChatScreenState extends State<SChatScreen> {
                                                                               width: 50,
                                                                               height: 50,
                                                                             )
-                                                                          : Image
-                                                                              .network(
+                                                                          : Image.network(
                                                                               snapshot.data?.docs[index]['imageProfile'],
                                                                               width: 35.sp,
                                                                               height: 35.sp,
-                                                                              fit: BoxFit.cover,
-                                                                            ),
+                                                                              fit: BoxFit.cover, errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                                                                              return Image.asset(
+                                                                                BImagePick.cartIcon,
+                                                                                width: 35.sp,
+                                                                                height: 35.sp,
+                                                                                fit: BoxFit.cover,
+                                                                              );
+                                                                            }),
                                                                     ),
                                                                     Positioned(
                                                                       right: 0,

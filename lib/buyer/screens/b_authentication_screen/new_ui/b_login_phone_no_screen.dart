@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_first_user_info_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_phone_otp_screen.dart';
@@ -349,13 +351,15 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                     onTap: () {
                                       print('buyer---login with google');
                                       loginwithgoogle().then((value) {
+                                        PreferenceManager.getFcmToken();
+
                                         Get.to(BFirstUserInfoScreen());
                                       });
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(10.sp),
                                       height: Get.height * 0.075,
-                                      width: Get.width * 0.6,
+                                      width: Get.width * 0.8,
                                       decoration: BoxDecoration(
                                         color: SColorPicker.white,
                                         boxShadow: [

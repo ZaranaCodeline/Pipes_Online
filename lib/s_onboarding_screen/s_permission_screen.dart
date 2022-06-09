@@ -88,7 +88,7 @@ class _SPermissionScreenState extends State<SPermissionScreen> {
                 children: [
                   Container(
                     height: 15.sp,
-                    width: 15.sp,
+                    width: 10.sp,
                     // color: Colors.red,
                     child: SvgPicture.asset("${SImagePick.callIcon}"),
                   ),

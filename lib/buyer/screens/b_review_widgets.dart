@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/buyer/screens/b_add_reviews_page.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
@@ -40,6 +41,7 @@ class _BReviewWidgetState extends State<BReviewWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    PreferenceManager.getFcmToken();
     print('PreferenceManager.getUId()=Review==>${PreferenceManager.getUId()}');
     print('===Review =====>${widget.category}');
   }
@@ -231,20 +233,31 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                                                           BorderRadius.circular(
                                                               50),
                                                       child: Image.network(
-                                                        (snapShot.data?.docs[
-                                                                    index][
-                                                                'imageProfile'])
-                                                            .toString(),
-                                                        width: 40.sp,
-                                                        height: 40.sp,
-                                                        fit: BoxFit.cover,
-                                                      ),
+                                                          (snapShot.data?.docs[
+                                                                      index][
+                                                                  'imageProfile'])
+                                                              .toString(),
+                                                          width: 40.sp,
+                                                          height: 40.sp,
+                                                          fit: BoxFit.cover,
+                                                          errorBuilder: (BuildContext
+                                                                  context,
+                                                              Object exception,
+                                                              StackTrace?
+                                                                  stackTrace) {
+                                                        return Image.asset(
+                                                          BImagePick.proIcon,
+                                                          width: 40.sp,
+                                                          height: 40.sp,
+                                                          fit: BoxFit.cover,
+                                                        );
+                                                      }),
                                                     )
-                                                  : Image.network(
-                                                      'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+                                                  : Image.asset(
+                                                      BImagePick.proIcon,
+                                                      width: 40.sp,
+                                                      height: 40.sp,
                                                       fit: BoxFit.cover,
-                                                      width: 30.sp,
-                                                      height: 30.sp,
                                                     ),
                                             ),
                                             Expanded(
@@ -257,8 +270,8 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                                                     child: CustomText(
                                                       text: (snapShot.data!
                                                                   .docs[index]
-                                                              ['user_name'])
-                                                          .toString(),
+                                                              ['user_name']) ??
+                                                          'John',
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       fontSize: 14.sp,
@@ -284,8 +297,10 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                                                       children: [
                                                         CustomText(
                                                           text: snapShot.data
-                                                                  ?.docs[index]
-                                                              ['userType'],
+                                                                          ?.docs[
+                                                                      index][
+                                                                  'userType'] ??
+                                                              'Buyer',
                                                           fontWeight:
                                                               FontWeight.w400,
                                                           fontSize: 12.sp,
@@ -348,7 +363,7 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                                                       Container(
                                                         margin: EdgeInsets
                                                             .symmetric(
-                                                                horizontal: 15),
+                                                                horizontal: 12),
                                                         // width: Get.width * 0.7,
                                                         child: SmoothStarRating(
                                                             allowHalfRating:
@@ -377,7 +392,7 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                                                                   .toString(),
                                                           fontWeight:
                                                               FontWeight.w400,
-                                                          fontSize: 12.sp,
+                                                          fontSize: 11.sp,
                                                           color: AppColors
                                                               .secondaryBlackColor),
                                                     ],

@@ -1,12 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:pipes_online/app_notification.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_first_user_info_screen.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_first_user_info_screen.dart';
-
 import '../../../shared_prefarence/shared_prefarance.dart';
 
 class BRegisterRepo {
@@ -16,16 +17,29 @@ class BRegisterRepo {
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) {
       PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
+      PreferenceManager.getUId();
+
+      CollectionReference ProfileCollection =
+          bFirebaseStore.collection('BProfile');
+      print('--login-buyer-token--${PreferenceManager.getFcmToken()}');
+      ProfileCollection.doc(PreferenceManager.getUId()).update(
+          {'deviceToken': PreferenceManager.getFcmToken()}).then((value) {
+        print('fcm success add');
+        print('fcm getFcmToken --${PreferenceManager.getFcmToken()}');
+      }).catchError((e) => print('fcm error'));
+
+      print('UId=${PreferenceManager.getUId()}');
       Get.offAll(BottomNavigationBarScreen());
-      print('UId====${PreferenceManager.getUId()}');
     });
+
     Get.showSnackbar(
-      GetSnackBar(
+      const GetSnackBar(
         snackPosition: SnackPosition.BOTTOM,
         duration: Duration(seconds: 5),
         message: 'Login successfully done',
       ),
     );
+
     return firebaseuser;
   }
 
@@ -36,7 +50,11 @@ class BRegisterRepo {
           .createUserWithEmailAndPassword(email: email!, password: pass!)
           .then((value) {
         PreferenceManager.setEmail(email);
+        PreferenceManager.getFcmToken();
+        print('buyer email token-----1${PreferenceManager.getFcmToken()}');
+
         print('---success---email---done');
+
         Get.offAll(BFirstUserInfoScreen(
           email: email,
         ));
@@ -47,7 +65,7 @@ class BRegisterRepo {
       return firebaseuser;
     } catch (e) {
       Get.showSnackbar(
-        GetSnackBar(
+        const GetSnackBar(
           snackPosition: SnackPosition.BOTTOM,
           duration: Duration(seconds: 5),
           message: 'The email address is already in use by another account',
@@ -71,9 +89,23 @@ class SRegisterRepo {
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) {
       PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
+      PreferenceManager.getUId();
+
+      CollectionReference ProfileCollection =
+          bFirebaseStore.collection('SProfile');
+
+      print('--login---seller---${PreferenceManager.getFcmToken()}');
+
+      ProfileCollection.doc(PreferenceManager.getUId()).update(
+          {'deviceToken': PreferenceManager.getFcmToken()}).then((value) {
+        print('fcm success add');
+        print('fcm getFcmToken --${PreferenceManager.getFcmToken()}');
+      }).catchError((e) => print('fcm error'));
+
       Get.offAll(NavigationBarScreen());
+
       Get.showSnackbar(
-        GetSnackBar(
+        const GetSnackBar(
           snackPosition: SnackPosition.BOTTOM,
           duration: Duration(seconds: 5),
           message: 'Login successfully done',
@@ -90,7 +122,8 @@ class SRegisterRepo {
       UserCredential? firebaseuser = await bFirebaseAuth
           .createUserWithEmailAndPassword(email: email!, password: pass!)
           .then((value) {
-        print('---success---email---done');
+        PreferenceManager.getFcmToken();
+        print('--email---seller---${PreferenceManager.getFcmToken()}');
         Get.offAll(SFirstUserInfoScreen(
           email: email,
         ));
@@ -101,7 +134,7 @@ class SRegisterRepo {
       return firebaseuser;
     } catch (e) {
       Get.showSnackbar(
-        GetSnackBar(
+        const GetSnackBar(
           snackPosition: SnackPosition.BOTTOM,
           duration: Duration(seconds: 5),
           message: 'The email address is already in use by another account',
@@ -122,13 +155,28 @@ Future<bool?> loginwithgoogle() async {
   FirebaseAuth _auth = FirebaseAuth.instance;
   try {
     GoogleSignIn googleSignIn = GoogleSignIn();
-    final googleUser = await googleSignIn.signIn();
-    final googleAuth = await googleUser!.authentication;
-    final AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken, // accessToken
-      idToken: googleAuth.idToken,
-    );
-    User? users = (await _auth.signInWithCredential(credential)).user;
+    // final googleUser = await googleSignIn.signIn();
+    // final googleAuth = await googleUser!.authentication;
+    // final AuthCredential credential = GoogleAuthProvider.credential(
+    //   accessToken: googleAuth.accessToken, // accessToken
+    //   idToken: googleAuth.idToken,
+    // );
+    // User? users = (await _auth.signInWithCredential(credential)).user;
+    print("================================1");
+    GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+    print("================================2");
+    GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount!.authentication;
+    print(
+        "================================3  ${googleSignInAuthentication.accessToken}");
+    final OAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken);
+    print("================================4 ${credential.idToken}");
+    UserCredential user =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+    User? users = user.user;
+    print("================================5  ${user}");
 
     print('uid------${users?.uid}');
     print('phoneNumber------${users?.phoneNumber}');
@@ -139,6 +187,10 @@ Future<bool?> loginwithgoogle() async {
     await PreferenceManager.setEmail(users.email!);
     await PreferenceManager.setName(users.displayName!);
     // await PreferenceManager.setPhoneNumber(users.phoneNumber!);
+    AppNotificationHandler.getFcmToken();
+    PreferenceManager.getFcmToken();
+    print('token-----1${PreferenceManager.getFcmToken()}');
+
     print(
         'buyer addData Preference ==>${PreferenceManager.getUId().toString()}');
     if (users == null) {

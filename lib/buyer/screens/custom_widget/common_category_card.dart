@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:sizer/sizer.dart';
 
@@ -36,11 +38,26 @@ class CommonCategoryCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.network(
-                      '$image',
-                      fit: BoxFit.fill,
-                      width: 35.sp,
-                      height: 35.sp,
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: '$image' != null
+                          ? Image.network('$image',
+                              fit: BoxFit.fill, width: 35.sp, height: 35.sp,
+                              errorBuilder: (BuildContext context,
+                                  Object exception, StackTrace? stackTrace) {
+                              return Image.asset(
+                                BImagePick.cartIcon,
+                                width: 35.sp,
+                                height: 35.sp,
+                                fit: BoxFit.cover,
+                              );
+                            })
+                          : Image.asset(
+                              BImagePick.proIcon,
+                              width: 35.sp,
+                              height: 35.sp,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                     SizedBox(width: 10.sp),
                     CustomText(

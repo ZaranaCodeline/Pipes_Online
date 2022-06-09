@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/buyer/screens/b_seller_review_widget.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
@@ -134,18 +135,29 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                       child: ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(50.0),
-                                        child: Image.network(
-                                          Img == null
-                                              ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
-                                              : Img.toString(),
-                                          fit: BoxFit.cover,
-                                        ),
-                                      )
-                                      /*Image.asset(
-                                        'assets/images/png/cat_1.png',
-                                        fit: BoxFit.fill,
-                                      )*/
-                                      ,
+                                        child: Img != null
+                                            ? Image.network(
+                                                Img.toString(),
+                                                fit: BoxFit.cover,
+                                                errorBuilder: (BuildContext
+                                                        context,
+                                                    Object exception,
+                                                    StackTrace? stackTrace) {
+                                                  return Image.asset(
+                                                    BImagePick.proIcon,
+                                                    height: Get.height * 0.1,
+                                                    width: Get.width * 0.4,
+                                                    fit: BoxFit.cover,
+                                                  );
+                                                },
+                                              )
+                                            : Image.asset(
+                                                BImagePick.proIcon,
+                                                height: Get.height * 0.1,
+                                                width: Get.width * 0.4,
+                                                fit: BoxFit.cover,
+                                              ),
+                                      ),
                                     ),
                                   ),
                                   Positioned(

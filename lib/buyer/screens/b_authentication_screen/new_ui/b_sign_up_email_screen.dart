@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/gestures.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_first_user_info_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_no_screen.dart';
@@ -43,6 +45,8 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    PreferenceManager.getFcmToken();
+
     PreferenceManager.getEmail();
     PreferenceManager.getPhoneNumber();
     print(
@@ -300,6 +304,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                               pass: pass.text)
                                           .then((value) async {
                                         PreferenceManager.setEmail(email.text);
+
                                         print(
                                             '-PRE_Email-${PreferenceManager.getEmail()}');
                                         PreferenceManager.getEmail();
@@ -434,7 +439,7 @@ class _BSignUpEmailScreenState extends State<BSignUpEmailScreen> {
                                       : Container(
                                           padding: EdgeInsets.all(10.sp),
                                           height: Get.height * 0.075,
-                                          width: Get.width * 0.6,
+                                          width: Get.width * 0.8,
                                           decoration: BoxDecoration(
                                             color: SColorPicker.white,
                                             boxShadow: [

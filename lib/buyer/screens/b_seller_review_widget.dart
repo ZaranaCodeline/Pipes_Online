@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/buyer/screens/b_review_seller_contact_details_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:share_plus/share_plus.dart';
@@ -261,12 +262,23 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                                                   fit: BoxFit.cover,
                                                   width: 30.sp,
                                                   height: 30.sp,
+                                                  errorBuilder: (BuildContext
+                                                          context,
+                                                      Object exception,
+                                                      StackTrace? stackTrace) {
+                                                    return Image.asset(
+                                                      BImagePick.proIcon,
+                                                      height: Get.height * 0.1,
+                                                      width: Get.width * 0.4,
+                                                      fit: BoxFit.cover,
+                                                    );
+                                                  },
                                                 )
-                                              : Image.network(
-                                                  'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+                                              : Image.asset(
+                                                  BImagePick.proIcon,
+                                                  height: Get.height * 0.1,
+                                                  width: Get.width * 0.4,
                                                   fit: BoxFit.cover,
-                                                  width: 30.sp,
-                                                  height: 30.sp,
                                                 ),
                                         ),
                                       ),

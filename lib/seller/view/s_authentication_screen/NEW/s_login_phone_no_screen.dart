@@ -341,15 +341,11 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
                                       loginwithgoogle().then((value) {
                                         Get.to(SFirstUserInfoScreen());
                                       });
-
-                                      // setState(() {
-                                      //   Get.to(MapsScreen());
-                                      // });
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(12.sp),
                                       height: Get.height * 0.075,
-                                      width: Get.width * 0.6,
+                                      width: Get.width * 0.8,
                                       decoration: BoxDecoration(
                                         color: SColorPicker.white,
                                         boxShadow: [

@@ -17,6 +17,14 @@ class BWelcomeScreen extends StatefulWidget {
 
 class _BWelcomeScreenState extends State<BWelcomeScreen> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    PreferenceManager.getFcmToken();
+    print('token--welcome--${PreferenceManager.getFcmToken()}');
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Material(

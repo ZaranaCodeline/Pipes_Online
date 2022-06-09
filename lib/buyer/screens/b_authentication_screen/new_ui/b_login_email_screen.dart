@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_first_user_info_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_forgot_password_page.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_phone_no_screen.dart';
@@ -14,6 +16,7 @@ import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 class BLoginEmailScreen extends StatefulWidget {
@@ -35,6 +38,13 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
     super.dispose();
     email.clear();
     pass.clear();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    PreferenceManager.getFcmToken();
   }
 
   @override
@@ -318,7 +328,7 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                     child: Container(
                                       padding: EdgeInsets.all(10.sp),
                                       height: Get.height * 0.075,
-                                      width: Get.width * 0.6,
+                                      width: Get.width * 0.8,
                                       decoration: BoxDecoration(
                                         color: SColorPicker.white,
                                         boxShadow: [

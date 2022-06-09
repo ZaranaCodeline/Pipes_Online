@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:octo_image/octo_image.dart';
+import 'package:pipes_online/app_notification.dart';
 import 'package:pipes_online/buyer/screens/zoom_img.dart';
 import 'package:pipes_online/seller/view_model/chat_controller.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
@@ -29,6 +30,8 @@ FirebaseAuth _auth = FirebaseAuth.instance;
 class ChatMessagePage extends StatefulWidget {
   final String? receiverId;
   final String? userName;
+  final String? receiverFCMToken;
+  final bool? isMute;
   final String? userImg;
   final String? phone;
 
@@ -36,7 +39,9 @@ class ChatMessagePage extends StatefulWidget {
       {required this.receiverId,
       required this.userName,
       required this.userImg,
-      this.phone});
+      this.phone,
+      this.receiverFCMToken,
+      this.isMute});
 
   @override
   State<ChatMessagePage> createState() => _ChatMessagePageState();
@@ -126,12 +131,21 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(50),
                           child: widget.userImg != null
-                              ? Image.network(
-                                  widget.userImg.toString(),
-                                  fit: BoxFit.cover,
-                                )
+                              ? Image.network(widget.userImg.toString(),
+                                  fit: BoxFit.cover, errorBuilder:
+                                      (BuildContext context, Object exception,
+                                          StackTrace? stackTrace) {
+                                  return Image.asset(
+                                    BImagePick.cartIcon,
+                                    height: 40.sp,
+                                    width: 40.sp,
+                                    fit: BoxFit.cover,
+                                  );
+                                })
                               : Image.asset(
-                                  '${BImagePick.proIcon}',
+                                  BImagePick.cartIcon,
+                                  height: 40.sp,
+                                  width: 40.sp,
                                   fit: BoxFit.cover,
                                 ),
                         ),
@@ -427,18 +441,6 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                                   SizedBox(
                                                                     width: 10,
                                                                   ),
-                                                                  // Padding(
-                                                                  //   padding: const EdgeInsets
-                                                                  //           .only(
-                                                                  //       top: 10),
-                                                                  //   child:
-                                                                  //       MsgDate(
-                                                                  //     date: (snapShot
-                                                                  //             .data!
-                                                                  //             .docs[index]['date'] as Timestamp)
-                                                                  //         .toDate(),
-                                                                  //   ),
-                                                                  // )
                                                                 ],
                                                               ),
                                                             ),
@@ -695,28 +697,8 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                               ),
                                                             ),
                                                           ),
-                                                          // Padding(
-                                                          //   padding: const EdgeInsets.only(right: 10),
-                                                          //   child: MsgDate(
-                                                          //     date: (snapShot.data!.docs[index]
-                                                          //     ['date'] as Timestamp)
-                                                          //         .toDate(),
-                                                          //   ),
-                                                          // ),
                                                         ],
                                                       ),
-
-                                                      /* PreferenceManager.getCustomerPImg() == null ||
-                PreferenceManager.getCustomerPImg() == ''
-                ? imageNotFound()
-                : ClipOval(
-              child: commonProfileOctoImage(
-                image:
-                PreferenceManager.getCustomerPImg(),
-                height: Get.height * 0.05,
-                width: Get.height * 0.05,
-              ),
-            ),*/
                                                     ],
                                                   )
                                             : Column(
@@ -728,71 +710,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
 
                                                       ///'assets/image/person.jpg'
                                                       ? imageNotFound()
-                                                      : /*ClipOval(
-                                                          child:
-                                                              commonProfileOctoImage(
-                                                            image:
-                                                                widget.userImg,
-                                                            height: Get.height *
-                                                                0.05,
-                                                            width: Get.height *
-                                                                0.05,
-                                                          ),
-                                                        ),*/
-                                                      // Padding(
-                                                      //   padding:
-                                                      //       const EdgeInsets.only(
-                                                      //           left: 10, top: 10),
-                                                      //   child: Column(
-                                                      //     children: (snapShot.data!
-                                                      //                 .docs[index]
-                                                      //             ['image'] as List)
-                                                      //         .map(
-                                                      //           (e) => Padding(
-                                                      //             padding:
-                                                      //                 const EdgeInsets
-                                                      //                         .only(
-                                                      //                     bottom:
-                                                      //                         5),
-                                                      //             child: ClipRRect(
-                                                      //               borderRadius:
-                                                      //                   BorderRadius
-                                                      //                       .circular(
-                                                      //                           5),
-                                                      //               child: InkWell(
-                                                      //                 onTap: () {
-                                                      //                   Get.to(
-                                                      //                       ZoomImage(
-                                                      //                     img: e,
-                                                      //                   ));
-                                                      //                 },
-                                                      //                 child:
-                                                      //                     OctoImage(
-                                                      //                   image:
-                                                      //                       CachedNetworkImageProvider(
-                                                      //                           '$e'),
-                                                      //                   placeholderBuilder:
-                                                      //                       OctoPlaceholder
-                                                      //                           .blurHash(
-                                                      //                     'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
-                                                      //                   ),
-                                                      //                   errorBuilder:
-                                                      //                       OctoError.icon(
-                                                      //                           color:
-                                                      //                               Colors.red),
-                                                      //                   height: 200,
-                                                      //                   width: 200,
-                                                      //                   fit: BoxFit
-                                                      //                       .cover,
-                                                      //                 ),
-                                                      //               ),
-                                                      //             ),
-                                                      //           ),
-                                                      //         )
-                                                      //         .toList(),
-                                                      //   ),
-                                                      // ),
-                                                      Padding(
+                                                      : Padding(
                                                           padding:
                                                               const EdgeInsets
                                                                   .all(8.0),
@@ -902,19 +820,6 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                             ),
                                                           ),
                                                         ),
-                                                  /* Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 10),
-                                                    child: MsgDate(
-                                                      date:
-                                                          (snapShot.data!.docs[
-                                                                          index]
-                                                                      ['date']
-                                                                  as Timestamp)
-                                                              .toDate(),
-                                                    ),
-                                                  )*/
                                                 ],
                                               )
                                         : SizedBox();
@@ -974,7 +879,17 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                             ))),
                     IconButton(
                       onPressed: () {
+                        if (widget.isMute == false) {
+                          addMsg().then((value) {
+                            AppNotificationHandler.sendMessage(
+                                receiverFcmToken: widget.receiverFCMToken,
+                                msg: _msg.text);
+
+                            print('token--${widget.receiverFCMToken}');
+                          });
+                        }
                         addMsg();
+                        print('lll');
                       },
                       icon: Icon(Icons.send,
                           size: 21.sp, color: AppColors.primaryColor),

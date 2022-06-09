@@ -196,7 +196,7 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                                                                 ScaffoldMessenger.of(
                                                                         context)
                                                                     .showSnackBar(
-                                                                        SnackBar(
+                                                                        const SnackBar(
                                                                   content: Text(
                                                                       'Removed Successfully'),
                                                                   duration:

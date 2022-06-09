@@ -317,8 +317,9 @@ class _ScreenState extends State<Screen> {
                       (value) {
                         print('Order done successfully');
                         Get.back();
+
                         Get.showSnackbar(
-                          GetSnackBar(
+                          const GetSnackBar(
                             snackPosition: SnackPosition.BOTTOM,
                             backgroundColor: Colors.greenAccent,
                             duration: Duration(seconds: 5),

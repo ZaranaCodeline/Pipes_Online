@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/buyer/view_model/b_bottom_bar_controller.dart';
 import 'package:sizer/sizer.dart';
 
@@ -26,6 +28,11 @@ class _ProductCardListState extends State<ProductCardList> {
 
   BBottomBarIndexController bottomBarIndexController =
       Get.put(BBottomBarIndexController());
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +47,7 @@ class _ProductCardListState extends State<ProductCardList> {
             if (snapShot.hasData) {
               return GridView.builder(
                   physics: BouncingScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 5,
                       mainAxisSpacing: 5,
@@ -49,6 +56,8 @@ class _ProductCardListState extends State<ProductCardList> {
                   itemBuilder: (BuildContext context, index) {
                     return GestureDetector(
                       onTap: () {
+                        print(
+                            'imageProfile==${snapShot.data!.docs[index]['imageProfile']}');
                         print(
                             "['prdName']--${snapShot.data!.docs[index]['prdName']}");
                         print('DATA OF ID==${snapShot.data!.docs[index]}');
@@ -90,26 +99,26 @@ class _ProductCardListState extends State<ProductCardList> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  //width: Get.width * 0.35,height: Get.height*0.1,
                                   child: ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.circular(Get.width * 0.02),
-                                    child: snapShot.data!.docs[index]
-                                                    ['imageProfile'] ==
-                                                null ||
-                                            snapShot.data!.docs[index]
-                                                    ['imageProfile'] ==
-                                                ''
-                                        ? Center(
-                                            child: CircularProgressIndicator())
-                                        : Image.network(
-                                            snapShot.data!.docs[index]
-                                                ['imageProfile'],
+                                      borderRadius: BorderRadius.circular(
+                                          Get.width * 0.02),
+                                      child: Image.network(
+                                        snapShot.data!.docs[index]
+                                            ['imageProfile'],
+                                        height: Get.height * 0.1,
+                                        width: Get.width * 0.4,
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (BuildContext context,
+                                            Object exception,
+                                            StackTrace? stackTrace) {
+                                          return Image.asset(
+                                            BImagePick.cartIcon,
                                             height: Get.height * 0.1,
                                             width: Get.width * 0.4,
                                             fit: BoxFit.cover,
-                                          ),
-                                  ),
+                                          );
+                                        },
+                                      )),
                                 ),
                               ),
                               SizedBox(

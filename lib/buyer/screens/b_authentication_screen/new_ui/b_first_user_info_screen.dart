@@ -89,6 +89,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
   @override
   void initState() {
     super.initState();
+    PreferenceManager.getFcmToken();
   }
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -156,11 +157,10 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
 
                                 showModalBottomSheet<void>(
                                   elevation: 0.5,
-                                  shape: RoundedRectangleBorder(
+                                  shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
-                                          topLeft: const Radius.circular(20.0),
-                                          topRight:
-                                              const Radius.circular(20.0))),
+                                          topLeft: Radius.circular(20.0),
+                                          topRight: Radius.circular(20.0))),
                                   backgroundColor: Colors.white,
                                   context: context,
                                   builder: (context) => FractionallySizedBox(
@@ -577,6 +577,8 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
           ? address.text
           : _controller.addressController!.text,
       'userType': PreferenceManager.getUserType(),
+      'deviceToken': PreferenceManager.getFcmToken(),
+      'isMute': false,
       'userDetails': 'true',
       'time': DateTime.now().toString(),
     }).catchError((e) => print('Error ====buyer=====>>> $e'));

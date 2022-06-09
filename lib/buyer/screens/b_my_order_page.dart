@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/buyer/screens/b_add_reviews_page.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
@@ -114,12 +115,21 @@ class BMyOrderPage extends StatelessWidget {
                                           borderRadius:
                                               BorderRadius.circular(10.0),
                                           child: Image.network(
-                                            snapShot.data?.docs[index]
-                                                ['productImage'],
-                                            fit: BoxFit.fill,
-                                            width: 92,
-                                            height: 65,
-                                          ),
+                                              snapShot.data?.docs[index]
+                                                  ['productImage'],
+                                              fit: BoxFit.fill,
+                                              width: 92,
+                                              height: 65, errorBuilder:
+                                                  (BuildContext context,
+                                                      Object exception,
+                                                      StackTrace? stackTrace) {
+                                            return Image.asset(
+                                              BImagePick.cartIcon,
+                                              width: 92,
+                                              height: 65,
+                                              fit: BoxFit.cover,
+                                            );
+                                          }),
                                         ),
                                         Container(
                                           margin: EdgeInsets.symmetric(

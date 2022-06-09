@@ -12,6 +12,14 @@ class PreferenceManager {
     return getStorage.read('email');
   }
 
+  static setFcmToken(String value) {
+    getStorage.write('deviceToken', value);
+  }
+
+  static getFcmToken() {
+    return getStorage.read('deviceToken');
+  }
+
   static setSellerID(String value) {
     getStorage.write('sellerID', value);
   }

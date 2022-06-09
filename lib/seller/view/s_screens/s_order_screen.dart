@@ -146,7 +146,7 @@ class _SOrdersScreenState extends State<SOrdersScreen> {
                                                       textOverflow:
                                                           TextOverflow.fade,
                                                       max: 1,
-                                                      text: 'Product Name:- ',
+                                                      text: 'Product :- ',
                                                       fontWeight:
                                                           FontWeight.w600,
                                                       fontSize: 12.sp,
@@ -158,7 +158,7 @@ class _SOrdersScreenState extends State<SOrdersScreen> {
                                                     CustomText(
                                                       textOverflow:
                                                           TextOverflow.fade,
-                                                      max: 1,
+                                                      // max: 1,
                                                       text: snapShot.data
                                                                   ?.docs[index]
                                                               ['prdName'] ??

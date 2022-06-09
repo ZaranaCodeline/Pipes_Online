@@ -101,15 +101,15 @@ class _BChatScreenState extends State<BChatScreen> {
             style: STextStyle.bold700White14,
           ),
           centerTitle: true,
-          leading: IconButton(
-            onPressed: () {
-              bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
-              bottomBarIndexController.bottomIndex.value = 0;
-            },
-            icon: Icon(
-              Icons.arrow_back,
-            ),
-          ),
+          // leading: IconButton(
+          //   onPressed: () {
+          //     bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
+          //     bottomBarIndexController.bottomIndex.value = 0;
+          //   },
+          //   icon: Icon(
+          //     Icons.arrow_back,
+          //   ),
+          // ),
           backgroundColor: AppColors.primaryColor,
           toolbarHeight: Get.height * 0.1,
           shape: const RoundedRectangleBorder(
@@ -252,6 +252,11 @@ class _BChatScreenState extends State<BChatScreen> {
                                             'RECIEVER ID ${snapshot.data.docs[index]['sellerID']}');
                                         Get.to(
                                           ChatMessagePage(
+                                            isMute: snapshot.data.docs[index]
+                                                    ['isMute'] ??
+                                                false,
+                                            receiverFCMToken: snapshot.data
+                                                .docs[index]['deviceToken'],
                                             userImg: snapshot.data.docs[index]
                                                 ['imageProfile'],
                                             receiverId: snapshot
@@ -283,8 +288,7 @@ class _BChatScreenState extends State<BChatScreen> {
                                                               BorderRadius
                                                                   .circular(
                                                                       50.sp),
-                                                          child: snapshot.data?.docs[
-                                                                          index]
+                                                          child: snapshot.data?.docs[index]
                                                                       [
                                                                       'imageProfile'] ==
                                                                   null
@@ -295,16 +299,27 @@ class _BChatScreenState extends State<BChatScreen> {
                                                                   height: 50,
                                                                 )
                                                               : Image.network(
-                                                                  (snapshot.data
-                                                                              ?.docs[index]
-                                                                          [
-                                                                          'imageProfile'])
+                                                                  (snapshot.data?.docs[index]['imageProfile'])
                                                                       .toString(),
                                                                   width: 35.sp,
                                                                   height: 35.sp,
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                ),
+                                                                  fit: BoxFit.cover,
+                                                                  errorBuilder: (BuildContext
+                                                                          context,
+                                                                      Object exception,
+                                                                      StackTrace? stackTrace) {
+                                                                  return Image
+                                                                      .asset(
+                                                                    BImagePick
+                                                                        .cartIcon,
+                                                                    width:
+                                                                        35.sp,
+                                                                    height:
+                                                                        35.sp,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  );
+                                                                }),
                                                         ),
                                                         Positioned(
                                                           right: 0,
@@ -444,8 +459,7 @@ class _BChatScreenState extends State<BChatScreen> {
                                                               BorderRadius
                                                                   .circular(
                                                                       50.sp),
-                                                          child: snapshot.data?.docs[
-                                                                          index]
+                                                          child: snapshot.data?.docs[index]
                                                                       [
                                                                       'imageProfile'] ==
                                                                   null
@@ -456,16 +470,27 @@ class _BChatScreenState extends State<BChatScreen> {
                                                                   height: 50,
                                                                 )
                                                               : Image.network(
-                                                                  (snapshot.data
-                                                                              ?.docs[index]
-                                                                          [
-                                                                          'imageProfile'])
+                                                                  (snapshot.data?.docs[index]['imageProfile'])
                                                                       .toString(),
                                                                   width: 35.sp,
                                                                   height: 35.sp,
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                ),
+                                                                  fit: BoxFit.cover,
+                                                                  errorBuilder: (BuildContext
+                                                                          context,
+                                                                      Object exception,
+                                                                      StackTrace? stackTrace) {
+                                                                  return Image
+                                                                      .asset(
+                                                                    BImagePick
+                                                                        .cartIcon,
+                                                                    width:
+                                                                        35.sp,
+                                                                    height:
+                                                                        35.sp,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  );
+                                                                }),
                                                         ),
                                                         Positioned(
                                                           right: 0,

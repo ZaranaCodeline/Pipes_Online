@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/seller/view/s_screens/s_seller_review_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
@@ -134,11 +135,20 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(50.0),
                                       child: Image.network(
-                                        Img == null
-                                            ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
-                                            : Img.toString(),
-                                        fit: BoxFit.cover,
-                                      ),
+                                          Img == null
+                                              ? 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'
+                                              : Img.toString(),
+                                          fit: BoxFit.cover, errorBuilder:
+                                              (BuildContext context,
+                                                  Object exception,
+                                                  StackTrace? stackTrace) {
+                                        return Image.asset(
+                                          BImagePick.cartIcon,
+                                          height: 50.sp,
+                                          width: 50.sp,
+                                          fit: BoxFit.cover,
+                                        );
+                                      }),
                                     ),
                                   ),
                                 ),

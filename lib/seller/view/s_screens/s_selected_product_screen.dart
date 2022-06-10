@@ -8,6 +8,7 @@ import 'package:pipes_online/seller/view_model/s_edit_product_controller.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import '../../../buyer/app_constant/app_colors.dart';
+import '../../../buyer/screens/b_image.dart';
 import '../../../buyer/screens/custom_widget/custom_text.dart';
 import '../../common/s_common_button.dart';
 
@@ -83,11 +84,19 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                                     Container(
                                       height: 200.sp,
                                       child: Image.network(
-                                        snapshot.data!.docs[index]
-                                            ['imageProfile'] /*Img.toString()*/,
-                                        fit: BoxFit.cover,
-                                        width: double.infinity,
-                                      ),
+                                          snapshot.data!.docs[index][
+                                              'imageProfile'] /*Img.toString()*/,
+                                          fit: BoxFit.cover,
+                                          width: double.infinity, errorBuilder:
+                                              (BuildContext context,
+                                                  Object exception,
+                                                  StackTrace? stackTrace) {
+                                        return Image.asset(
+                                          BImagePick.cartIcon,
+                                          height: 200.sp,
+                                          fit: BoxFit.cover,
+                                        );
+                                      }),
                                     ),
                                     // CarouselWirhDotsWidgets(imgList: imageList,),
                                     Padding(
@@ -164,7 +173,7 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                                                               BorderRadius
                                                                   .circular(5),
                                                           boxShadow: [
-                                                            new BoxShadow(
+                                                            BoxShadow(
                                                                 blurRadius: 1,
                                                                 color: AppColors
                                                                     .hintTextColor),
@@ -192,7 +201,7 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                                                                         'SCatelogeHomeScreen');
                                                               }).then((value) {
                                                                 print(
-                                                                    'You are Signed in successfully');
+                                                                    'Removed from your side');
                                                                 ScaffoldMessenger.of(
                                                                         context)
                                                                     .showSnackBar(
@@ -222,102 +231,102 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                                             ),
                                           ),
                                         ),
-                                        Card(
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 10.sp),
-                                            child: InkWell(
-                                              onTap: () {
-                                                Get.to(SReviewScreen());
-                                              },
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  Expanded(
-                                                    child: Column(
-                                                      children: [
-                                                        Padding(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  vertical:
-                                                                      5.sp),
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceAround,
-                                                            children: [
-                                                              CustomText(
-                                                                text: '5.0',
-                                                                color: AppColors
-                                                                    .secondaryBlackColor,
-                                                                fontSize: 16.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                              SmoothStarRating(
-                                                                  allowHalfRating:
-                                                                      false,
-                                                                  onRatingChanged:
-                                                                      (v) {
-                                                                    setState(
-                                                                        () {
-                                                                      rating =
-                                                                          v;
-                                                                    });
-                                                                  },
-                                                                  starCount: 5,
-                                                                  rating:
-                                                                      rating,
-                                                                  size: 18.0.sp,
-                                                                  filledIconData:
-                                                                      Icons
-                                                                          .star,
-                                                                  halfFilledIconData:
-                                                                      Icons
-                                                                          .blur_on,
-                                                                  color: AppColors
-                                                                      .starRatingColor,
-                                                                  borderColor:
-                                                                      AppColors
-                                                                          .starRatingColor,
-                                                                  spacing: 0.0),
-                                                              CustomText(
-                                                                  text:
-                                                                      '(14 reviews)',
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize:
-                                                                      12.sp,
-                                                                  color: AppColors
-                                                                      .secondaryBlackColor),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: Get.width * 0.005.sp,
-                                                  ),
-                                                  Icon(
-                                                    Icons
-                                                        .arrow_forward_ios_outlined,
-                                                    color: AppColors
-                                                        .secondaryBlackColor,
-                                                    size: 18,
-                                                  ),
-                                                  SizedBox(
-                                                    width: Get.width * 0.005.sp,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
+                                        // Card(
+                                        //   child: Container(
+                                        //     padding: EdgeInsets.symmetric(
+                                        //         vertical: 10.sp),
+                                        //     child: InkWell(
+                                        //       onTap: () {
+                                        //         Get.to(SReviewScreen());
+                                        //       },
+                                        //       child: Row(
+                                        //         mainAxisAlignment:
+                                        //             MainAxisAlignment
+                                        //                 .spaceEvenly,
+                                        //         children: [
+                                        //           Expanded(
+                                        //             child: Column(
+                                        //               children: [
+                                        //                 Padding(
+                                        //                   padding: EdgeInsets
+                                        //                       .symmetric(
+                                        //                           vertical:
+                                        //                               5.sp),
+                                        //                   child: Row(
+                                        //                     mainAxisAlignment:
+                                        //                         MainAxisAlignment
+                                        //                             .spaceAround,
+                                        //                     children: [
+                                        //                       CustomText(
+                                        //                         text: '5.0',
+                                        //                         color: AppColors
+                                        //                             .secondaryBlackColor,
+                                        //                         fontSize: 16.sp,
+                                        //                         fontWeight:
+                                        //                             FontWeight
+                                        //                                 .w600,
+                                        //                       ),
+                                        //                       SmoothStarRating(
+                                        //                           allowHalfRating:
+                                        //                               false,
+                                        //                           onRatingChanged:
+                                        //                               (v) {
+                                        //                             setState(
+                                        //                                 () {
+                                        //                               rating =
+                                        //                                   v;
+                                        //                             });
+                                        //                           },
+                                        //                           starCount: 5,
+                                        //                           rating:
+                                        //                               rating,
+                                        //                           size: 18.0.sp,
+                                        //                           filledIconData:
+                                        //                               Icons
+                                        //                                   .star,
+                                        //                           halfFilledIconData:
+                                        //                               Icons
+                                        //                                   .blur_on,
+                                        //                           color: AppColors
+                                        //                               .starRatingColor,
+                                        //                           borderColor:
+                                        //                               AppColors
+                                        //                                   .starRatingColor,
+                                        //                           spacing: 0.0),
+                                        //                       CustomText(
+                                        //                           text:
+                                        //                               '(14 reviews)',
+                                        //                           fontWeight:
+                                        //                               FontWeight
+                                        //                                   .w600,
+                                        //                           fontSize:
+                                        //                               12.sp,
+                                        //                           color: AppColors
+                                        //                               .secondaryBlackColor),
+                                        //                     ],
+                                        //                   ),
+                                        //                 ),
+                                        //               ],
+                                        //             ),
+                                        //           ),
+                                        //           SizedBox(
+                                        //             width: Get.width * 0.005.sp,
+                                        //           ),
+                                        //           Icon(
+                                        //             Icons
+                                        //                 .arrow_forward_ios_outlined,
+                                        //             color: AppColors
+                                        //                 .secondaryBlackColor,
+                                        //             size: 18,
+                                        //           ),
+                                        //           SizedBox(
+                                        //             width: Get.width * 0.005.sp,
+                                        //           ),
+                                        //         ],
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // ),
                                         SizedBox(
                                           height: Get.height * 0.01,
                                         ),

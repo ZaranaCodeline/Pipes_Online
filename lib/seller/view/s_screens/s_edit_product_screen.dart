@@ -12,6 +12,7 @@ import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/view_model/s_edit_product_controller.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
+import '../../../buyer/screens/b_image.dart';
 import '../../../buyer/view_model/b_bottom_bar_controller.dart';
 import '../../../routes/bottom_controller.dart';
 import '../../common/s_common_button.dart';
@@ -42,10 +43,12 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
   File? _image;
   String? Img;
   bool isLoading = false;
-  String dropdownvalue = 'SELECT';
+  String dropdownvalue = '';
   FirebaseAuth _auth = FirebaseAuth.instance;
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('Products');
+  String _selectedValue = '';
+
   // Future<void> getData() async {
   //   print('demo seller.....');
   //   final user =
@@ -69,6 +72,7 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
   @override
   void initState() {
     print('editProductContoller.id--------- ==>${editProductContoller.id}');
+    dropdownvalue = editProductContoller.selectedCatName;
     print('selectedCatName=> ${editProductContoller.selectedCatName}');
     prdName = TextEditingController(text: editProductContoller.selectedName);
     price = TextEditingController(text: editProductContoller.selectedPrice);
@@ -176,14 +180,28 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                                         border: Border.all(
                                             color: Colors.white, width: 10),
                                         borderRadius: BorderRadius.circular(25),
-                                        boxShadow: [
+                                        boxShadow: const [
                                           BoxShadow(
                                               color: Colors.grey,
                                               blurRadius: 10)
                                         ]),
                                     child: _image == null
                                         ? Image.network(
-                                            editProductContoller.selectedImage)
+                                            editProductContoller.selectedImage,
+                                            errorBuilder: (BuildContext context,
+                                                Object exception,
+                                                StackTrace? stackTrace) {
+                                            return ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: Image.asset(
+                                                BImagePick.cartIcon,
+                                                height: 150,
+                                                width: 150,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            );
+                                          })
                                         : Image.file(_image!),
                                   ),
                                   FlatButton(
@@ -199,12 +217,12 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                                               color: Colors.white, width: 10),
                                           borderRadius:
                                               BorderRadius.circular(25),
-                                          boxShadow: [
+                                          boxShadow: const [
                                             BoxShadow(
                                                 color: Colors.grey,
                                                 blurRadius: 10)
                                           ]),
-                                      child: Icon(
+                                      child: const Icon(
                                         Icons.camera_alt,
                                         color: Colors.grey,
                                       ),
@@ -239,15 +257,11 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                                 color: AppColors.commonWhiteTextColor,
                                 borderRadius: BorderRadius.circular(5),
                                 boxShadow: [
-                                  new BoxShadow(
+                                  BoxShadow(
                                       blurRadius: 1,
                                       color: AppColors.hintTextColor),
                                 ],
                               ),
-                              // child: TextButton(
-                              //     onPressed: () {},
-                              //     child: SvgPicture.asset(
-                              //         'assets/images/svg/delete_icon.svg')) ,
                             ),
                           ],
                         ),
@@ -266,65 +280,78 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                             SizedBox(
                               width: Get.width * 0.1,
                             ),
-                            Card(
-                              elevation: 0,
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 5.sp,
-                                ),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          blurRadius: 1,
-                                          color: AppColors.offWhiteColor),
-                                    ]),
-                                child: DropdownButton(
-                                  hint: Text(
-                                      editProductContoller.selectedCatName),
-                                  /*  value: editProductContoller.selectedCatName,*/
-                                  icon: Icon(
-                                    Icons.arrow_drop_down_outlined,
-                                    color: AppColors.primaryColor,
-                                    size: 18.sp,
-                                  ),
-                                  items: items.map((String items) {
-                                    return DropdownMenuItem(
-                                      value: items,
-                                      child: CustomText(
-                                        text:
-                                            items /* editProductContoller
-                                            .selectedCatName
-                                            .toString()*/
-                                        ,
-                                        color: AppColors.secondaryBlackColor,
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w600,
-                                        textDecoration: TextDecoration.none,
-                                      ),
-                                    );
-                                  }).toList(),
-                                  onChanged: (String? newValue) {
-                                    setState(() {
-                                      /* editProductContoller.selectedCatName =
-                                          newValue!;*/
-                                      dropdownvalue = newValue!;
-                                    });
-                                  },
-                                ),
-                              ),
+                            FutureBuilder<QuerySnapshot>(
+                              future: FirebaseFirestore.instance
+                                  .collection('Categories')
+                                  .get(),
+                              builder: (BuildContext context, snapshot) {
+                                if (items.isEmpty) {
+                                  snapshot.data?.docs.forEach((element) {
+                                    items.add(element['name']);
+                                  });
+                                }
+                                print('Categories-name-${items}');
+                                if (snapshot.hasData) {
+                                  return Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 15.sp),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: Get.width * .1,
+                                        ),
+                                        Card(
+                                          elevation: 0,
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 5.sp,
+                                            ),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      blurRadius: 1,
+                                                      color: AppColors
+                                                          .offWhiteColor),
+                                                ]),
+                                            child: DropdownButton(
+                                              hint: Text(dropdownvalue),
+                                              icon: Icon(
+                                                Icons.arrow_drop_down_outlined,
+                                                color: AppColors.primaryColor,
+                                                size: 18.sp,
+                                              ),
+                                              items: items.map((String items) {
+                                                return DropdownMenuItem(
+                                                  value: items,
+                                                  child: CustomText(
+                                                    text: items,
+                                                    color: AppColors
+                                                        .secondaryBlackColor,
+                                                    fontSize: 12.sp,
+                                                    fontWeight: FontWeight.w600,
+                                                    textDecoration:
+                                                        TextDecoration.none,
+                                                  ),
+                                                );
+                                              }).toList(),
+                                              onChanged: (String? newValue) {
+                                                setState(() {
+                                                  dropdownvalue = newValue!;
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  return Container();
+                                }
+                              },
                             ),
-                            // Container(
-                            //   alignment: Alignment.topLeft,
-                            //   child: cat != null
-                            //       ? Text(
-                            //           '${editProductContoller.selectedCatName}',
-                            //           style: TextStyle(
-                            //               fontSize: 14.sp,
-                            //               fontWeight: FontWeight.w600),
-                            //         )
-                            //       : SCustomDropDownWidget(),
-                            // ),
                           ],
                         ),
                         SizedBox(
@@ -349,7 +376,7 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                               color: AppColors.commonWhiteTextColor),
                           child: TextFormField(
                             controller: prdName,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               border: InputBorder.none,
                               focusedBorder: InputBorder.none,
                               enabledBorder: InputBorder.none,
@@ -381,7 +408,7 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                               color: AppColors.commonWhiteTextColor),
                           child: TextFormField(
                             controller: price,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               border: InputBorder.none,
                               focusedBorder: InputBorder.none,
                               enabledBorder: InputBorder.none,
@@ -412,16 +439,14 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
                               color: AppColors.commonWhiteTextColor),
-                          child: Container(
-                            child: TextFormField(
-                              controller: dsc,
-                              decoration: InputDecoration(
-                                  // hintText: dsc,
-                                  ),
-                              maxLines: 3,
-                              keyboardType: TextInputType.multiline,
-                              // minLines: 1,
-                            ),
+                          child: TextFormField(
+                            controller: dsc,
+                            decoration: const InputDecoration(
+                                // hintText: dsc,
+                                ),
+                            maxLines: 3,
+                            keyboardType: TextInputType.multiline,
+                            // minLines: 1,
                           ),
                         ),
                         SizedBox(
@@ -478,84 +503,89 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
     );
   }
 
-  Widget SCustomDropDownWidget() {
-    return FutureBuilder<QuerySnapshot<Object?>>(
-      future: FirebaseFirestore.instance.collection('Categories').get(),
-      builder: (BuildContext context, snapshot) {
-        if (!snapshot.hasData) {
-          return Center(
-            child: SizedBox(),
-          );
-        }
-        if (snapshot.hasData) {
-          print('name-${snapshot.data?.docs[0]['name']}');
-          snapshot.data?.docs.forEach((element) {
-            items.add(element['name']);
-          });
-          print('Categories-name-${items}');
-          return Container(
-            padding: EdgeInsets.symmetric(horizontal: 15.sp),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: Get.width * .1,
-                ),
-                Card(
-                  elevation: 0,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 5.sp,
-                    ),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: [
-                          BoxShadow(
-                              blurRadius: 1, color: AppColors.offWhiteColor),
-                        ]),
-                    child: DropdownButton(
-                      value: dropdownvalue,
-                      icon: Icon(
-                        Icons.arrow_drop_down_outlined,
-                        color: AppColors.primaryColor,
-                        size: 18.sp,
-                      ),
-                      items: items.map((String items) {
-                        return DropdownMenuItem(
-                          value: items,
-                          child: CustomText(
-                            text: items,
-                            color: AppColors.secondaryBlackColor,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                            textDecoration: TextDecoration.none,
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownvalue = newValue!;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-                // CustomDropDownWidget(),
-              ],
-            ),
-          );
-        }
-        if (snapshot.data!.docs.isEmpty) {
-          return Container(
-            padding: EdgeInsets.symmetric(horizontal: 15.sp),
-            child: Text('No Categories on Admin side'),
-          );
-        }
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
-  }
+  // Widget SCustomDropDownWidget() {
+  //   return FutureBuilder<QuerySnapshot<Object?>>(
+  //     future: FirebaseFirestore.instance.collection('Categories').get(),
+  //     builder: (BuildContext context, snapshot) {
+  //       if (!snapshot.hasData) {
+  //         return Center(
+  //           child: SizedBox(),
+  //         );
+  //       }
+  //       if (snapshot.hasData) {
+  //         print('name-${snapshot.data?.docs[0]['name']}');
+  //         if (items.isEmpty) {
+  //           snapshot.data?.docs.forEach((element) {
+  //             items.add(element['name']);
+  //           });
+  //           print('Categories-name-${items}');
+  //         }
+  //
+  //         return SizedBox();
+  //         /*Container(
+  //           padding: EdgeInsets.symmetric(horizontal: 15.sp),
+  //           child: Row(
+  //             children: [
+  //               SizedBox(
+  //                 width: Get.width * .1,
+  //               ),
+  //               Card(
+  //                 elevation: 0,
+  //                 child: Container(
+  //                   padding: EdgeInsets.symmetric(
+  //                     horizontal: 5.sp,
+  //                   ),
+  //                   decoration: BoxDecoration(
+  //                       borderRadius: BorderRadius.circular(15),
+  //                       boxShadow: [
+  //                         BoxShadow(
+  //                             blurRadius: 1, color: AppColors.offWhiteColor),
+  //                       ]),
+  //                   child: DropdownButton(
+  //                     value: dropdownvalue,
+  //                     icon: Icon(
+  //                       Icons.arrow_drop_down_outlined,
+  //                       color: AppColors.primaryColor,
+  //                       size: 18.sp,
+  //                     ),
+  //                     items: items.map((String items) {
+  //                       return DropdownMenuItem(
+  //                         value: items,
+  //                         child: CustomText(
+  //                           text: items,
+  //                           color: AppColors.secondaryBlackColor,
+  //                           fontSize: 12.sp,
+  //                           fontWeight: FontWeight.w600,
+  //                           textDecoration: TextDecoration.none,
+  //                         ),
+  //                       );
+  //                     }).toList(),
+  //                     onChanged: (String? newValue) {
+  //                       setState(() {
+  //                         dropdownvalue = newValue!;
+  //                       });
+  //                     },
+  //                   ),
+  //                 ),
+  //               ),
+  //               // CustomDropDownWidget(),
+  //             ],
+  //           ),
+  //         )*/
+  //         ;
+  //       }
+  //       if (snapshot.data!.docs.isEmpty) {
+  //         return Container(
+  //           padding: EdgeInsets.symmetric(horizontal: 15.sp),
+  //           child: Text('No Categories on Admin side'),
+  //         );
+  //       }
+  //       return Center(
+  //         child: CircularProgressIndicator(),
+  //       );
+  //     },
+  //   );
+  // }
 
   Future<void> UpdateData() async {
     print('==========editProductContoller.id====${editProductContoller.id}');

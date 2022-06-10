@@ -112,6 +112,16 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
                                   child: Image.network(
                                     Img ?? '',
                                     fit: BoxFit.fill,
+                                    errorBuilder: (BuildContext context,
+                                        Object exception,
+                                        StackTrace? stackTrace) {
+                                      return Image.asset(
+                                        BImagePick.cartIcon,
+                                        height: Get.height * 0.1,
+                                        width: Get.width * 0.4,
+                                        fit: BoxFit.cover,
+                                      );
+                                    },
                                   ),
                                 ),
                               )

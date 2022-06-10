@@ -5,6 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pipes_online/app_notification.dart';
+import 'package:pipes_online/payment_service/payment_key.dart';
 import 'package:pipes_online/routes/app_pages.dart';
 import 'package:pipes_online/routes/bottom_controller.dart';
 import 'package:sizer/sizer.dart';
@@ -28,6 +29,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await setStripeKey();
   await GetStorage.init();
   FirebaseMessaging.onBackgroundMessage(
       AppNotificationHandler.firebaseMessagingBackgroundHandler);

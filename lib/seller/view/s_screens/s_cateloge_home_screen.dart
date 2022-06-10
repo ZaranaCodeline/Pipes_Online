@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -9,10 +10,12 @@ import 'package:pipes_online/seller/view/s_screens/s_order_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
+import '../../../buyer/app_constant/auth.dart';
 import '../../../buyer/app_constant/b_image.dart';
 import '../../../buyer/screens/custom_widget/custom_search_widget.dart';
 import '../../../routes/bottom_controller.dart';
 import '../../common/s_text_style.dart';
+import '../../view_model/profile_view_model.dart';
 import '../../view_model/s_add_product_controller.dart';
 import 's_subscribe_screen.dart';
 
@@ -26,18 +29,41 @@ class SCatelogeHomeScreen extends StatefulWidget {
 }
 
 class _SCatelogeHomeScreenState extends State<SCatelogeHomeScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  BottomController homeController = Get.find();
+  bool isLoading = false;
+  AddProductController addProductController = Get.put(AddProductController());
+  ProfileViewModel _model = Get.find();
+  CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
+
   @override
   void initState() {
     print('sellerName: ${PreferenceManager.getName()}');
     // TODO: implement initState
     super.initState();
     print('Seller User Name ${PreferenceManager.getName()}');
+    getData();
   }
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  BottomController homeController = Get.find();
-  bool isLoading = false;
-  AddProductController addProductController = Get.put(AddProductController());
+  Future<void> getData() async {
+    print('demo seller.....');
+    final user =
+        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
+    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+
+    setState(() {
+      _model.firstnameController =
+          TextEditingController(text: getUserData?['user_name'] ?? "");
+      _model.phoneController =
+          TextEditingController(text: getUserData?['phoneno'] ?? "");
+      _model.emailController =
+          TextEditingController(text: getUserData?['email'] ?? "");
+      _model.addressController =
+          TextEditingController(text: getUserData?['address'] ?? "");
+      _model.image1 = getUserData?['imageProfile'] ?? "";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

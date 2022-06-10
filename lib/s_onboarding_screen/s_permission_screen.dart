@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/common/s_common_button.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
@@ -46,6 +47,15 @@ class _SPermissionScreenState extends State<SPermissionScreen> {
                 child: Image.network(
                   "https://firebasestorage.googleapis.com/v0/b/pipedeals-f240a.appspot.com/o/permmision.png?alt=media&token=a9a3d625-e707-43c4-a5f7-09e68cbb7550",
                   fit: BoxFit.cover,
+                  errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) {
+                    return Image.asset(
+                      BImagePick.permission,
+                      height: Get.height * 0.1,
+                      width: Get.width * 0.4,
+                      fit: BoxFit.cover,
+                    );
+                  },
                 )),
             Padding(
               padding: EdgeInsets.only(

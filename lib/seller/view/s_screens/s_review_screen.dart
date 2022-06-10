@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_add_review_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
@@ -237,12 +238,23 @@ class _SReviewScreenState extends State<SReviewScreen> {
                                                   borderRadius:
                                                       BorderRadius.circular(50),
                                                   child: Image.network(
-                                                    snapShot.data?.docs[index]
-                                                        ['imageProfile'],
-                                                    width: 30.sp,
-                                                    height: 30.sp,
-                                                    fit: BoxFit.cover,
-                                                  ),
+                                                      snapShot.data?.docs[index]
+                                                          ['imageProfile'],
+                                                      width: 30.sp,
+                                                      height: 30.sp,
+                                                      fit: BoxFit.cover,
+                                                      errorBuilder:
+                                                          (BuildContext context,
+                                                              Object exception,
+                                                              StackTrace?
+                                                                  stackTrace) {
+                                                    return Image.asset(
+                                                      BImagePick.cartIcon,
+                                                      width: 30.sp,
+                                                      height: 30.sp,
+                                                      fit: BoxFit.cover,
+                                                    );
+                                                  }),
                                                 )
                                               : SvgPicture.asset(
                                                   'assets/images/svg/pro_icon.svg',

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
+import '../../../buyer/screens/b_image.dart';
 import '../../../buyer/screens/custom_widget/custom_text.dart';
 import '../../common/s_color_picker.dart';
 import '../../common/s_text_style.dart';
@@ -213,12 +214,24 @@ class SInsightScreen extends StatelessWidget {
                                                         BorderRadius.circular(
                                                             10.0),
                                                     child: Image.network(
-                                                      snapShot.data?.docs[index]
-                                                          ['productImage'],
-                                                      fit: BoxFit.fill,
-                                                      width: Get.width * 0.2,
-                                                      height: Get.height / 12,
-                                                    ),
+                                                        snapShot.data
+                                                                ?.docs[index]
+                                                            ['productImage'],
+                                                        fit: BoxFit.fill,
+                                                        width: Get.width * 0.2,
+                                                        height: Get.height / 12,
+                                                        errorBuilder: (BuildContext
+                                                                context,
+                                                            Object exception,
+                                                            StackTrace?
+                                                                stackTrace) {
+                                                      return Image.asset(
+                                                        BImagePick.cartIcon,
+                                                        width: Get.width * 0.2,
+                                                        height: Get.height / 12,
+                                                        fit: BoxFit.cover,
+                                                      );
+                                                    }),
                                                   ),
                                                 ),
                                                 Container(

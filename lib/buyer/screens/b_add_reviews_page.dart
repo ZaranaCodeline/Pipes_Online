@@ -27,7 +27,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
   TextEditingController desc = TextEditingController();
   CollectionReference profileCollection = bFirebaseStore.collection('BProfile');
   String? Img;
-  String? firstname;
+  String? firstname, bPhone;
 
   Future<void> getData() async {
     print('buyer_data');
@@ -36,6 +36,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
     print('====DETAILS======${getUserData}');
     setState(() {
       firstname = getUserData?['user_name'];
+      bPhone = getUserData?['phoneno'];
       Img = getUserData?['imageProfile'];
     });
     print('============================${user.get('imageProfile')}');
@@ -59,6 +60,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
           'category': widget.category,
           'user_name': PreferenceManager.getName() ?? firstname.toString(),
           'buyerAddress': firstname.toString(),
+          'buyerPhone': bPhone.toString(),
           'imageProfile': Img,
           'dsc': desc.text,
           'rating': rating,

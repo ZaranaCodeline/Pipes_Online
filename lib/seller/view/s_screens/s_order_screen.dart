@@ -8,6 +8,7 @@ import 'package:pipes_online/seller/view/s_screens/s_order_review_info_screen.da
 import 'package:sizer/sizer.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
+import '../../../buyer/screens/b_image.dart';
 import '../../bottombar/widget/category_bottom_bar_route.dart';
 import '../../common/s_text_style.dart';
 
@@ -118,7 +119,18 @@ class _SOrdersScreenState extends State<SOrdersScreen> {
                                                     fit: BoxFit.fill,
                                                     width: Get.width * 0.25,
                                                     height: Get.height / 8,
-                                                  )
+                                                    errorBuilder:
+                                                        (BuildContext context,
+                                                            Object exception,
+                                                            StackTrace?
+                                                                stackTrace) {
+                                                    return Image.asset(
+                                                      BImagePick.cartIcon,
+                                                      width: Get.width * 0.25,
+                                                      height: Get.height / 8,
+                                                      fit: BoxFit.cover,
+                                                    );
+                                                  })
                                                 : Image.asset(
                                                     'assets/images/png/cart_page.png',
                                                     fit: BoxFit.fill,

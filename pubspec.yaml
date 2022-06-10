@@ -47,8 +47,11 @@ dependencies:
   firebase_messaging: ^11.2.12
   flutter_local_notifications: ^9.4.0
   intl: ^0.17.0
-  upi_pay: ^1.0.1
   shimmer: ^2.0.0
+  webview_flutter: ^3.0.4
+  http_auth: ^1.0.1
+  flutter_stripe: ^3.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

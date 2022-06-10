@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/b_product_cart_screen.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/b_cart_bottom_bar_route.dart';
+import 'package:pipes_online/buyer/view_model/b_profile_view_model.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
@@ -23,10 +25,33 @@ class CatelogeHomeWidget extends StatefulWidget {
 class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
+  CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
+  BProfileViewModel _model = Get.find();
+
+  Future<void> getData() async {
+    print('demo seller.....');
+    final user =
+        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
+    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+
+    setState(() {
+      _model.firstnameController =
+          TextEditingController(text: getUserData?['user_name'] ?? "");
+      _model.phoneController =
+          TextEditingController(text: getUserData?['phoneno'] ?? "");
+      _model.emailController =
+          TextEditingController(text: getUserData?['email'] ?? "");
+      _model.addressController =
+          TextEditingController(text: getUserData?['address'] ?? "");
+      _model.image1 = getUserData?['imageProfile'] ?? "";
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getData();
     print('--User Name ${PreferenceManager.getName()}');
     print('-- getUserImage  ${PreferenceManager.getUserImage()}');
     print('-- getAddress  ${PreferenceManager.getAddress()}');

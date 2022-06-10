@@ -23,6 +23,7 @@ class SSellerReviewScreen extends StatefulWidget {
       buyerImg,
       buyerPhone,
       buyerAddress,
+      buyerReview,
       buyerName;
   const SSellerReviewScreen({
     Key? key,
@@ -32,6 +33,7 @@ class SSellerReviewScreen extends StatefulWidget {
     this.buyerPhone,
     this.buyerAddress,
     this.buyerName,
+    this.buyerReview,
   }) : super(key: key);
 
   @override
@@ -40,6 +42,8 @@ class SSellerReviewScreen extends StatefulWidget {
 
 class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
   bool isShowContact = false;
+  var reviewID = Get.arguments;
+
   String? buyer_ID, buyerName, buyerAddress, buyerPhone, buyerImage;
   TextEditingController desc = TextEditingController();
   // FirebaseFirestore.instance.collection('Orders').snapshots()
@@ -73,6 +77,8 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
   void initState() {
     // TODO: implement initState
     getData();
+    reviewID = Get.arguments;
+
     print('===widget_buyerID=====${widget.buyerID}--buyer_ID--${buyer_ID}');
     print('======ID=====${PreferenceManager.getUId()}');
     super.initState();
@@ -274,11 +280,20 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                                       ClipRRect(
                                     borderRadius: BorderRadius.circular(50),
                                     child: Image.network(
-                                      /* snapShot.data!.docs[index]['buyerImg'] */ widget
-                                              .buyerImg ??
-                                          'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
-                                      fit: BoxFit.cover,
-                                    ),
+                                        /* snapShot.data!.docs[index]['buyerImg'] */ widget
+                                                .buyerImg ??
+                                            'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+                                        fit: BoxFit.cover, errorBuilder:
+                                            (BuildContext context,
+                                                Object exception,
+                                                StackTrace? stackTrace) {
+                                      return Image.asset(
+                                        BImagePick.cartIcon,
+                                        height: 80.0,
+                                        width: 80.0,
+                                        fit: BoxFit.cover,
+                                      );
+                                    }),
                                   )
                                   /*: Image.network('https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
                                                               width: 30,
@@ -319,35 +334,64 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CustomText(
-                            text: '5.0',
-                            color: AppColors.secondaryBlackColor,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          SmoothStarRating(
-                              allowHalfRating: false,
-                              onRatingChanged: (v) {
-                                setState(() {
-                                  rating = v;
-                                });
-                              },
-                              starCount: 5,
-                              rating: rating,
-                              size: 20.0,
-                              filledIconData: Icons.star,
-                              halfFilledIconData: Icons.blur_on,
-                              color: AppColors.starRatingColor,
-                              borderColor: AppColors.starRatingColor,
-                              spacing: 0.0),
+                          reviewID != null
+                              ? CustomText(
+                                  text: reviewID.toString(),
+                                  color: AppColors.secondaryBlackColor,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                )
+                              : CustomText(
+                                  text: '0',
+                                  color: AppColors.secondaryBlackColor,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                          reviewID != null
+                              ? SmoothStarRating(
+                                  allowHalfRating: false,
+                                  // onRatingChanged: (v) {
+                                  //   setState(() {
+                                  //     rating = v;
+                                  //   });
+                                  // },
+                                  starCount: 5,
+                                  rating: reviewID.toDouble(),
+                                  size: 20.0,
+                                  filledIconData: Icons.star,
+                                  halfFilledIconData: Icons.blur_on,
+                                  color: AppColors.starRatingColor,
+                                  borderColor: AppColors.starRatingColor,
+                                  spacing: 0.0)
+                              : SmoothStarRating(
+                                  allowHalfRating: false,
+                                  // onRatingChanged: (v) {
+                                  //   setState(() {
+                                  //     rating = v;
+                                  //   });
+                                  // },
+                                  starCount: 5,
+                                  rating: 0,
+                                  size: 20.0,
+                                  filledIconData: Icons.star,
+                                  halfFilledIconData: Icons.blur_on,
+                                  color: AppColors.starRatingColor,
+                                  borderColor: AppColors.starRatingColor,
+                                  spacing: 0.0),
                           SizedBox(
                             width: Get.width * 0.01,
                           ),
-                          CustomText(
-                              text: '(14 reviews)',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
-                              color: AppColors.secondaryBlackColor),
+                          reviewID != null
+                              ? CustomText(
+                                  text: '(${reviewID.toString()} reviews)',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                  color: AppColors.secondaryBlackColor)
+                              : CustomText(
+                                  text: '(0 reviews)',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                  color: AppColors.secondaryBlackColor),
                         ],
                       ),
                     ),
@@ -641,16 +685,30 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                                                                 BorderRadius
                                                                     .circular(
                                                                         50),
-                                                            child:
-                                                                Image.network(
-                                                              snapShot.data
-                                                                          ?.docs[
-                                                                      index][
-                                                                  'imageProfile'],
-                                                              width: 25.sp,
-                                                              height: 25.sp,
-                                                              fit: BoxFit.cover,
-                                                            ),
+                                                            child: Image.network(
+                                                                snapShot.data
+                                                                        ?.docs[index]
+                                                                    [
+                                                                    'imageProfile'],
+                                                                width: 25.sp,
+                                                                height: 25.sp,
+                                                                fit: BoxFit.cover,
+                                                                errorBuilder: (BuildContext
+                                                                        context,
+                                                                    Object
+                                                                        exception,
+                                                                    StackTrace?
+                                                                        stackTrace) {
+                                                              return Image
+                                                                  .asset(
+                                                                BImagePick
+                                                                    .cartIcon,
+                                                                width: 25.sp,
+                                                                height: 25.sp,
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              );
+                                                            }),
                                                           )
                                                         : SvgPicture.asset(
                                                             'assets/images/svg/pro_icon.svg',

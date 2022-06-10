@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_insight.dart';
 import 'package:sizer/sizer.dart';
@@ -159,12 +160,22 @@ class SEarningsScreen extends StatelessWidget {
                                             borderRadius:
                                                 BorderRadius.circular(8.0),
                                             child: Image.network(
-                                              snapShot.data?.docs[index]
-                                                  ['productImage'],
-                                              fit: BoxFit.fill,
-                                              width: Get.width * 0.2,
-                                              height: Get.height / 12,
-                                            ),
+                                                snapShot.data?.docs[index]
+                                                    ['productImage'],
+                                                fit: BoxFit.fill,
+                                                width: Get.width * 0.2,
+                                                height: Get.height / 12,
+                                                errorBuilder: (BuildContext
+                                                        context,
+                                                    Object exception,
+                                                    StackTrace? stackTrace) {
+                                              return Image.asset(
+                                                BImagePick.cartIcon,
+                                                width: Get.width * 0.2,
+                                                height: Get.height / 12,
+                                                fit: BoxFit.cover,
+                                              );
+                                            }),
                                           ),
                                         ),
                                         Container(

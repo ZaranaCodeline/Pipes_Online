@@ -33,7 +33,8 @@
     <application
         android:label="pipes_online"
         android:name="${applicationName}"
-        android:icon="@mipmap/app_icon">
+        android:icon="@mipmap/app_icon"
+        android:usesCleartextTraffic="true">
        <meta-data android:name="com.google.android.geo.API_KEY"
            android:value="AIzaSyBn9ZKmXc-MN12Fap0nUQotO6RKtYJEh8o"/>
         <activity

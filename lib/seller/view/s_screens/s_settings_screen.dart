@@ -9,6 +9,7 @@ import 'package:pipes_online/main.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import '../../../buyer/app_constant/app_colors.dart';
+import '../../../buyer/screens/b_image.dart';
 import '../../../buyer/screens/custom_widget/custom_text.dart';
 import '../../../buyer/screens/help_center_page.dart';
 import '../../common/s_text_style.dart';
@@ -161,9 +162,18 @@ class _SSettingsScreenState extends State<SSettingsScreen> {
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(50),
                                         child: Image.network(
-                                          output?['imageProfile'],
-                                          fit: BoxFit.fill,
-                                        ),
+                                            output?['imageProfile'],
+                                            fit: BoxFit.fill, errorBuilder:
+                                                (BuildContext context,
+                                                    Object exception,
+                                                    StackTrace? stackTrace) {
+                                          return Image.asset(
+                                            BImagePick.cartIcon,
+                                            width: 35.sp,
+                                            height: 35.sp,
+                                            fit: BoxFit.cover,
+                                          );
+                                        }),
                                       ),
                                     )
                                   : Container(
@@ -171,9 +181,11 @@ class _SSettingsScreenState extends State<SSettingsScreen> {
                                       height: 35.sp,
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(50),
-                                        child: Image.network(
-                                          'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg',
-                                          fit: BoxFit.fill,
+                                        child: Image.asset(
+                                          BImagePick.proIcon,
+                                          width: 35.sp,
+                                          height: 35.sp,
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
                                     ),

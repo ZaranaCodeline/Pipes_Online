@@ -7,6 +7,7 @@ import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/seller/bottombar/widget/category_bottom_bar_route.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_selected_product_screen.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
 class SSearchScreen extends StatefulWidget {
@@ -149,9 +150,70 @@ class _SSearchScreenState extends State<SSearchScreen> {
                               .snapshots(),
                           builder: (context, snapShot) {
                             if (!snapShot.hasData)
-                              return new Center(
-                                child: CircularProgressIndicator(
-                                  color: AppColors.primaryColor,
+                              return Shimmer.fromColors(
+                                baseColor: Colors.grey.shade200,
+                                highlightColor: Colors.grey.shade300,
+                                child: Container(
+                                  height: 100.h,
+                                  width: 150.w,
+                                  //    color: Colors.red,
+                                  child: ListView.builder(
+                                    itemCount: snapShot.data?.docs.length,
+                                    scrollDirection: Axis.vertical,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: Get.width * 0.05,
+                                            vertical: Get.height * 0.02),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              width: Get.width * 0.35,
+                                              height: Get.height / 7,
+                                              // flex: 3,
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey.shade100,
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                            ),
+                                            SizedBox(width: 5.w),
+                                            Column(
+                                              children: [
+                                                SizedBox(height: 4.h),
+                                                Container(
+                                                  height: 3.h,
+                                                  width: Get.width * 0.4,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey.shade100,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 2.h),
+                                                Container(
+                                                  height: 3.h,
+                                                  width: Get.width * 0.4,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey.shade100,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 2.h),
+                                                Container(
+                                                  height: 3.h,
+                                                  width: Get.width * 0.4,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey.shade100,
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                               );
                             if (snapShot.hasData) {
@@ -294,9 +356,70 @@ class _SSearchScreenState extends State<SSearchScreen> {
                               .snapshots(),
                           builder: (context, snapShot) {
                             if (!snapShot.hasData)
-                              return new Center(
-                                child: CircularProgressIndicator(
-                                  color: AppColors.primaryColor,
+                              return Shimmer.fromColors(
+                                baseColor: Colors.grey.shade200,
+                                highlightColor: Colors.grey.shade300,
+                                child: Container(
+                                  height: 100.h,
+                                  width: 150.w,
+                                  //    color: Colors.red,
+                                  child: ListView.builder(
+                                    itemCount: snapShot.data?.docs.length,
+                                    scrollDirection: Axis.vertical,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: Get.width * 0.05,
+                                            vertical: Get.height * 0.02),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              width: Get.width * 0.35,
+                                              height: Get.height / 7,
+                                              // flex: 3,
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey.shade100,
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                            ),
+                                            SizedBox(width: 5.w),
+                                            Column(
+                                              children: [
+                                                SizedBox(height: 4.h),
+                                                Container(
+                                                  height: 3.h,
+                                                  width: Get.width * 0.4,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey.shade100,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 2.h),
+                                                Container(
+                                                  height: 3.h,
+                                                  width: Get.width * 0.4,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey.shade100,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 2.h),
+                                                Container(
+                                                  height: 3.h,
+                                                  width: Get.width * 0.4,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey.shade100,
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                               );
                             if (snapShot.hasData) {

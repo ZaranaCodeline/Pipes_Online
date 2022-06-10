@@ -17,6 +17,8 @@ import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../view_model/profile_view_model.dart';
+
 class SPersonalInfoPage extends StatefulWidget {
   SPersonalInfoPage({
     Key? key,
@@ -33,27 +35,9 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
   bool isLoading = false;
 
   final picker = ImagePicker();
-  TextEditingController? firstname;
-  TextEditingController? email;
-  TextEditingController? address;
-  TextEditingController? phoneno;
+  ProfileViewModel _model = Get.find();
 
   CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
-
-  Future<void> getData() async {
-    print('demo seller.....');
-    final user =
-        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
-    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-
-    setState(() {
-      firstname = TextEditingController(text: getUserData?['user_name']);
-      phoneno = TextEditingController(text: getUserData?['phoneno']);
-      email = TextEditingController(text: getUserData?['email']);
-      address = TextEditingController(text: getUserData?['address']);
-      Img = getUserData?['imageProfile'];
-    });
-  }
 
   Future getGalleryImage() async {
     var imaGe = await picker.getImage(source: ImageSource.gallery);
@@ -88,19 +72,35 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
     }
   }
 
+  Future<void> getData() async {
+    print('demo seller.....');
+    final user =
+        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
+    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+
+    setState(() {
+      _model.firstnameController =
+          TextEditingController(text: getUserData?['user_name'] ?? "");
+      _model.phoneController =
+          TextEditingController(text: getUserData?['phoneno'] ?? "");
+      _model.emailController =
+          TextEditingController(text: getUserData?['email'] ?? "");
+      _model.addressController =
+          TextEditingController(text: getUserData?['address'] ?? "");
+      Img = getUserData?['imageProfile'];
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     getData();
-    firstname;
-    email;
-    phoneno;
-    print('firstname --${PreferenceManager.getName()}');
-    print('email --${email}');
-    print('phoneno --${phoneno}');
-    print('====PreferenceManager.getUId()=====>${PreferenceManager.getUId()}');
-    print(
-        '====FirebaseAuth.instance.currentUser?.uid=====>${FirebaseAuth.instance.currentUser?.uid}');
+    // print('firstname --${PreferenceManager.getName()}');
+    // print('email --${email}');
+    // print('phoneno --${phoneno}');
+    // print('====PreferenceManager.getUId()=====>${PreferenceManager.getUId()}');
+    // print(
+    //     '====FirebaseAuth.instance.currentUser?.uid=====>${FirebaseAuth.instance.currentUser?.uid}');
   }
 
   @override
@@ -108,13 +108,14 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              homeController.bottomIndex.value = 0;
-              homeController.selectedScreen('SCatelogeHomeScreen');
-            },
-            icon: Icon(Icons.arrow_back),
-          ),
+          automaticallyImplyLeading: false,
+          // leading: IconButton(
+          //   onPressed: () {
+          //     homeController.bottomIndex.value = 0;
+          //     homeController.selectedScreen('SCatelogeHomeScreen');
+          //   },
+          //   icon: Icon(Icons.arrow_back),
+          // ),
           title: Text(
             'PROFILE'.toUpperCase(),
             style: STextStyle.bold700White14,
@@ -129,11 +130,12 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
           ),
         ),
         body: SafeArea(
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 20.sp),
-            padding: EdgeInsets.symmetric(horizontal: Get.height * 0.04),
-            child: SingleChildScrollView(
-              child: Column(
+            child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 20.sp),
+          padding: EdgeInsets.symmetric(horizontal: Get.height * 0.04),
+          child: SingleChildScrollView(
+            child: GetBuilder<ProfileViewModel>(
+              builder: (controller) => Column(
                 children: [
                   SizedBox(height: Get.height * 0.02),
                   GestureDetector(
@@ -277,7 +279,7 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                     height: Get.height * 0.01,
                   ),
                   TextField(
-                    controller: firstname,
+                    controller: controller.firstnameController,
                     decoration: InputDecoration(
                       suffixIcon: Icon(Icons.edit),
                       border: OutlineInputBorder(
@@ -300,7 +302,7 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                     height: Get.height * 0.01,
                   ),
                   TextField(
-                    controller: phoneno,
+                    controller: controller.phoneController,
                     inputFormatters: [LengthLimitingTextInputFormatter(10)],
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
@@ -325,7 +327,7 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                     height: Get.height * 0.01,
                   ),
                   TextField(
-                    controller: email,
+                    controller: controller.emailController,
                     decoration: InputDecoration(
                       suffixIcon: Icon(Icons.edit),
                       border: OutlineInputBorder(
@@ -348,7 +350,7 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                     height: Get.height * 0.01,
                   ),
                   TextField(
-                    controller: address,
+                    controller: controller.addressController,
                     decoration: InputDecoration(
                       suffixIcon: Icon(Icons.edit),
                       hintText: 'Enter Your Address',
@@ -425,7 +427,7 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
               ),
             ),
           ),
-        ),
+        )),
       ),
     );
   }
@@ -441,10 +443,10 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
     // print('path=$fileImageArray');
     await ProfileCollection.doc(PreferenceManager.getUId()).update({
       'imageProfile': downloadUrl == null ? Img : downloadUrl,
-      'user_name': firstname?.text,
-      'email': email?.text,
-      'address': address?.text,
-      'phoneno': phoneno?.text
+      'user_name': _model.firstnameController?.text,
+      'email': _model.emailController?.text,
+      'address': _model.addressController?.text,
+      'phoneno': _model.firstnameController?.text
     }).then((value) {
       print('success add');
       homeController.bottomIndex.value = 0;

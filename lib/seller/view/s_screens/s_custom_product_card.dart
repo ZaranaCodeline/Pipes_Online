@@ -9,6 +9,8 @@ import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/view_model/s_edit_product_controller.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../buyer/screens/b_image.dart';
+
 class SCustomProductCard extends StatefulWidget {
   SCustomProductCard({Key? key}) : super(key: key);
 
@@ -141,8 +143,17 @@ class _SCustomProductCardState extends State<SCustomProductCard> {
                                               ['imageProfile'],
                                           height: Get.height * 0.1,
                                           width: Get.width * 0.4,
-                                          fit: BoxFit.cover,
-                                        ),
+                                          fit: BoxFit.cover, errorBuilder:
+                                              (BuildContext context,
+                                                  Object exception,
+                                                  StackTrace? stackTrace) {
+                                          return Image.asset(
+                                            BImagePick.cartIcon,
+                                            height: Get.height * 0.1,
+                                            width: Get.width * 0.4,
+                                            fit: BoxFit.cover,
+                                          );
+                                        }),
                                 ),
                               ),
                             ),

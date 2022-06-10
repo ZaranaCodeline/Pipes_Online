@@ -1,15 +1,21 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart' as stripe;
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/buyer/screens/b_image.dart';
+import 'package:pipes_online/payment_service/payment_key.dart';
+import 'package:pipes_online/payment_service/paypal_payment.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
 import 'custom_widget/custom_text.dart';
 import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
-import 'b_payment_page.dart';
+import 'package:http/http.dart' as http;
 
 class CartPage extends StatefulWidget {
   final String? name, image, desc, price, category, productID;
@@ -54,9 +60,9 @@ class _CartPageState extends State<CartPage> {
   ];
   bool isLoading = false;
   CollectionReference profileCollection = bFirebaseStore.collection('BProfile');
-  String? firstname;
+  String? firstname, buyerImage, buyerID, buyerAddress, buyerPhone, buyerName;
   String? Img;
-
+  Map<String, dynamic>? paymentIntentData;
   TextEditingController? address;
 
   Future<void> getData() async {
@@ -67,6 +73,11 @@ class _CartPageState extends State<CartPage> {
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
     setState(() {
       address = TextEditingController(text: getUserData?['address']);
+      buyerImage = getUserData?['imageProfile'];
+      buyerID = PreferenceManager.getUId();
+      buyerAddress = getUserData?['address'];
+      buyerPhone = getUserData?['phoneno'];
+      buyerName = getUserData?['user_name'];
     });
 
     print('=========firstname===============${firstname}');
@@ -74,6 +85,205 @@ class _CartPageState extends State<CartPage> {
     // setState(() {
     //   Img = getUserData['imageProfile'];
     // });
+  }
+
+  Future payWithPaypal() async {
+    Get.to(PaypalPayment(
+      amount: widget.price,
+      onFinish: () {
+        setState(() {
+          isLoading = true;
+        });
+        print('hello1....');
+        FirebaseFirestore.instance.collection('Orders').add(
+          {
+            'productID': widget.productID,
+            'orderID': PreferenceManager.getUId().toString(),
+            'productImage': widget.image,
+            'prdName': widget.name,
+            'size': '2 ft',
+            'length': '2 kg',
+            'weight': 'Pending',
+            'oil': '--',
+            'orderStatus': 'Pending',
+            'paymentMode': 'upay',
+            'price': widget.price,
+            'category': widget.category,
+            'dsc': widget.desc,
+            'createdOn': DateTime.now().toString(),
+            'buyerName': buyerName,
+            'buyerImg': buyerImage,
+            'buyerAddress': buyerAddress,
+            'buyerID': buyerID,
+            'buyerPhone': buyerPhone,
+          },
+        ).then(
+          (value) {
+            print('Order done successfully');
+            Get.back();
+
+            Get.showSnackbar(
+              const GetSnackBar(
+                snackPosition: SnackPosition.BOTTOM,
+                backgroundColor: Colors.greenAccent,
+                duration: Duration(seconds: 5),
+                message: 'Order done succefully',
+              ),
+            );
+            setState(
+              () {
+                isLoading = false;
+              },
+            );
+          },
+        );
+        print('Finish');
+      },
+      packageName: widget.name,
+    ));
+  }
+
+  Future payWithStrip() async {
+    makePayment(widget.price.toString());
+  }
+
+  Future<void> makePayment(String price) async {
+    print('HELOO....');
+    try {
+      paymentIntentData =
+          await createPaymentIntent(price, 'usd'); //json.decode(response.body);
+      // print('Response body==>${response.body.toString()}');
+      await stripe.Stripe.instance
+          .initPaymentSheet(
+              paymentSheetParameters: stripe.SetupPaymentSheetParameters(
+                  paymentIntentClientSecret:
+                      paymentIntentData!['client_secret'],
+                  applePay: true,
+                  googlePay: true,
+                  testEnv: true,
+                  style: ThemeMode.dark,
+                  merchantCountryCode: 'IN',
+                  merchantDisplayName: 'ANNIE'))
+          .then((value) {});
+
+      ///now finally display payment sheeet
+
+      displayPaymentSheet();
+    } catch (e, s) {
+      print('exception:$e$s');
+    }
+  }
+
+  displayPaymentSheet() async {
+    try {
+      await stripe.Stripe.instance
+          .presentPaymentSheet(
+              parameters: stripe.PresentPaymentSheetParameters(
+        clientSecret: paymentIntentData!['client_secret'],
+        confirmPayment: true,
+      ))
+          .then((newValue) {
+        print('payment intent' + paymentIntentData!['id'].toString());
+        print(
+            'payment intent' + paymentIntentData!['client_secret'].toString());
+        print('payment intent' + paymentIntentData!['amount'].toString());
+        print('payment intent' + paymentIntentData.toString());
+
+        ///Entry order
+        setState(() {
+          isLoading = true;
+        });
+        print('hello1....');
+        FirebaseFirestore.instance.collection('Orders').add(
+          {
+            'productID': widget.productID,
+            'orderID': PreferenceManager.getUId().toString(),
+            'productImage': widget.image,
+            'prdName': widget.name,
+            'size': '2 ft',
+            'length': '2 kg',
+            'weight': 'Pending',
+            'oil': '--',
+            'orderStatus': 'Pending',
+            'paymentMode': 'stripe',
+            'price': widget.price,
+            'category': widget.category,
+            'dsc': widget.desc,
+            'createdOn': DateTime.now().toString(),
+            'buyerName': buyerName,
+            'buyerImg': buyerImage,
+            'buyerAddress': buyerAddress,
+            'buyerID': buyerID,
+            'buyerPhone': buyerPhone,
+          },
+        ).then(
+          (value) {
+            print('Order done successfully');
+            Get.back();
+
+            Get.showSnackbar(
+              const GetSnackBar(
+                snackPosition: SnackPosition.BOTTOM,
+                backgroundColor: Colors.greenAccent,
+                duration: Duration(seconds: 5),
+                message: 'Order done succefully',
+              ),
+            );
+            setState(
+              () {
+                isLoading = false;
+              },
+            );
+          },
+        );
+        print('Finish');
+
+        //orderPlaceApi(paymentIntentData!['id'].toString());
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Transaction Successfully")));
+
+        paymentIntentData = null;
+      }).onError((error, stackTrace) {
+        print('Exception/DISPLAYPAYMENTSHEET==> $error $stackTrace');
+      });
+    } on stripe.StripeException catch (e) {
+      print('Exception/DISPLAYPAYMENTSHEET==> $e');
+      showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+                content: Text("Cancelled "),
+              ));
+    } catch (e) {
+      print('$e');
+    }
+  }
+
+  //  Future<Map<String, dynamic>>
+  createPaymentIntent(String amount, String currency) async {
+    try {
+      Map<String, dynamic> body = {
+        'amount': calculateAmount(amount),
+        'currency': currency,
+        'payment_method_types[]': 'card',
+      };
+      print(body);
+      var response = await http.post(
+          Uri.parse('https://api.stripe.com/v1/payment_intents'),
+          body: body,
+          headers: {
+            'Authorization': 'Bearer $secretKey',
+            'Content-Type': 'application/x-www-form-urlencoded'
+          });
+      print('Create Intent reponse ===> ${response.body.toString()}');
+      return jsonDecode(response.body);
+    } catch (err) {
+      print('err charging user: ${err.toString()}');
+    }
+  }
+
+  calculateAmount(String amount) {
+    final a = (int.parse(amount)) * 100;
+    return a.toString();
   }
 
   @override
@@ -135,12 +345,20 @@ class _CartPageState extends State<CartPage> {
                                 flex: 3,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10.0),
-                                  child: Image.network(
-                                    widget.image.toString(),
-                                    // BImagePick.cartIcon,
-                                    fit: BoxFit.cover,
-                                    height: Get.height / 5.sp,
-                                  ),
+                                  child: Image.network(widget.image.toString(),
+                                      // BImagePick.cartIcon,
+                                      fit: BoxFit.cover,
+                                      height: Get.height / 5.sp, errorBuilder:
+                                          (BuildContext context,
+                                              Object exception,
+                                              StackTrace? stackTrace) {
+                                    return Image.asset(
+                                      BImagePick.cartIcon,
+                                      height: Get.height / 5.sp,
+                                      // width: Get.width * 0.4,
+                                      fit: BoxFit.cover,
+                                    );
+                                  }),
                                 ),
                               ),
                               Expanded(
@@ -349,16 +567,129 @@ class _CartPageState extends State<CartPage> {
                                               .update({
                                             'address': address?.text,
                                           }).then((value) {
-                                            Get.to(Screen(
-                                              bAddress: address.toString(),
-                                              category: widget.category,
-                                              desc: widget.desc,
-                                              image: widget.image,
-                                              price: widget.price,
-                                              name: widget.name,
-                                              productID: widget.productID,
-                                            ));
+                                            // Get.to(Screen(
+                                            //   bAddress: address.toString(),
+                                            //   category: widget.category,
+                                            //   desc: widget.desc,
+                                            //   image: widget.image,
+                                            //   price: widget.price,
+                                            //   name: widget.name,
+                                            //   productID: widget.productID,
+                                            // ));
                                           });
+
+                                          showModalBottomSheet<void>(
+                                            elevation: 0.5,
+                                            shape: const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(20.0),
+                                                    topRight:
+                                                        Radius.circular(20.0))),
+                                            backgroundColor: Colors.white,
+                                            context: context,
+                                            builder: (context) =>
+                                                FractionallySizedBox(
+                                              heightFactor: 0.5.sp,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(15),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: [
+                                                    Container(
+                                                      width: 35.sp,
+                                                      height: 5.sp,
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(15),
+                                                          color: AppColors
+                                                              .primaryColor),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 0.2,
+                                                    ),
+                                                    CustomText(
+                                                        alignment:
+                                                            Alignment.topLeft,
+                                                        text: 'Payment Options',
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize: 14.sp,
+                                                        color: AppColors
+                                                            .secondaryBlackColor),
+                                                    Container(
+                                                      child: MaterialButton(
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .paypal_outlined,
+                                                              color: AppColors
+                                                                  .primaryColor,
+                                                            ),
+                                                            SizedBox(
+                                                              width: Get.width *
+                                                                  0.05,
+                                                            ),
+                                                            Text(
+                                                              'Pay with Paypal',
+                                                              style: TextStyle(
+                                                                  color: AppColors
+                                                                      .primaryColor,
+                                                                  fontSize:
+                                                                      14.sp),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        onPressed: () {
+                                                          payWithPaypal();
+                                                        },
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      child: MaterialButton(
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .payment_outlined,
+                                                              color: AppColors
+                                                                  .primaryColor,
+                                                            ),
+                                                            SizedBox(
+                                                              width: Get.width *
+                                                                  0.05,
+                                                            ),
+                                                            Text(
+                                                              'Pay With Stripe',
+                                                              style: TextStyle(
+                                                                  color: AppColors
+                                                                      .primaryColor,
+                                                                  fontSize:
+                                                                      14.sp),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        onPressed: () {
+                                                          payWithStrip();
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
                                           print('success add');
                                         }
                                         ;

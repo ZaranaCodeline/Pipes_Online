@@ -101,12 +101,19 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
                     children: [
                       Container(
                           child: Img != null
-                              ? Image.network(
-                                  Img.toString(),
+                              ? Image.network(Img.toString(),
                                   height: Get.height / 4,
-                                  width: double.infinity,
-                                )
-                              : CircularProgressIndicator() /*Image.asset(
+                                  width: double.infinity, errorBuilder:
+                                      (BuildContext context, Object exception,
+                                          StackTrace? stackTrace) {
+                                  return Image.asset(
+                                    BImagePick.cartIcon,
+                                    height: Get.height / 4,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  );
+                                })
+                              : SizedBox() /*Image.asset(
                                 BImagePick.proIcon,
                                 fit: BoxFit.cover,
                                 width: Get.width * 1,
@@ -349,106 +356,144 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
                           SizedBox(
                             height: Get.height * 0.01,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              print('SellerReviewPage-----');
-                              //ScustomerReviewScreen
-                              Get.to(SSellerReviewScreen(
-                                buyerID: buyerID,
-                                category: category,
-                                buyerAddress: address,
-                                buyerName: buyerName,
-                                buyerImg: Img,
-                                buyerPhone: buyerPhone,
-                              ));
-                            },
-                            child: Card(
-                              child: Column(
-                                children: [
-                                  Container(
-                                    width: double.infinity,
-                                    padding: EdgeInsets.all(10.sp),
-                                    child: CustomText(
-                                      text: 'Customer Details',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14.sp,
-                                      color: AppColors.secondaryBlackColor,
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        CustomText(
-                                            text: buyerName ?? 'John',
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 14.sp,
-                                            color:
-                                                AppColors.secondaryBlackColor),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 5.sp),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              SizedBox(
-                                                width: Get.width * 0.005.sp,
-                                              ),
-                                              CustomText(
-                                                text: '5.0',
-                                                color: AppColors
-                                                    .secondaryBlackColor,
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                              SizedBox(
-                                                width: Get.width * 0.005.sp,
-                                              ),
-                                              SmoothStarRating(
-                                                  allowHalfRating: false,
-                                                  onRatingChanged: (v) {
-                                                    rating = v;
-                                                  },
-                                                  starCount: 5,
-                                                  rating: rating,
-                                                  size: 18.0.sp,
-                                                  filledIconData: Icons.star,
-                                                  halfFilledIconData:
-                                                      Icons.blur_on,
-                                                  color:
-                                                      AppColors.starRatingColor,
-                                                  borderColor:
-                                                      AppColors.starRatingColor,
-                                                  spacing: 0.0),
-                                              CustomText(
-                                                  text: '(14 reviews)',
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 12.sp,
-                                                  color: AppColors
-                                                      .secondaryBlackColor),
-                                            ],
+                          Card(
+                            child: Column(
+                              children: [
+                                FutureBuilder<QuerySnapshot>(
+                                  future: FirebaseFirestore.instance
+                                      .collection('BReviews')
+                                      .where('buyerID', isEqualTo: buyerID)
+                                      .get(),
+                                  builder: (BuildContext context, snapshot) {
+                                    print('bID----${buyerID}');
+                                    if (!snapshot.hasData) {
+                                      return Container();
+                                    }
+                                    if (snapshot.hasData) {
+                                      var output = snapshot.data;
+                                      print(
+                                          'SNAPSHOT rating ===${snapshot.data?.docs.length}');
+                                      // print('sss--${snapshot.data!.id}');
+                                      // print(
+                                      //     'snapshot---${snapshot.data?.docs.length}');
+                                      return Column(
+                                        children: [
+                                          Container(
+                                            width: double.infinity,
+                                            padding: EdgeInsets.all(10.sp),
+                                            child: CustomText(
+                                              text: 'Customer Details',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14.sp,
+                                              color:
+                                                  AppColors.secondaryBlackColor,
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 10.sp),
-                                    child: CustomText(
-                                        text: address ?? 'Address',
-                                        alignment: Alignment.topLeft,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14,
-                                        color: AppColors.secondaryBlackColor),
-                                  ),
-                                  SizedBox(
-                                    height: Get.height * 0.03,
-                                  ),
-                                ],
-                              ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              Get.to(
+                                                  SSellerReviewScreen(
+                                                    buyerID: buyerID,
+                                                    category: category,
+                                                    buyerAddress: address,
+                                                    buyerName: buyerName,
+                                                    buyerImg: Img,
+                                                    buyerPhone: buyerPhone,
+                                                  ),
+                                                  arguments: snapshot
+                                                      .data?.docs.length);
+                                            },
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                CustomText(
+                                                    text: buyerName ?? 'John',
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 14.sp,
+                                                    color: AppColors
+                                                        .secondaryBlackColor),
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 5.sp),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: Get.width *
+                                                            0.005.sp,
+                                                      ),
+                                                      CustomText(
+                                                        text: snapshot.data
+                                                                ?.docs.length
+                                                                .toString() ??
+                                                            '5',
+                                                        color: AppColors
+                                                            .secondaryBlackColor,
+                                                        fontSize: 16.sp,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                      SizedBox(
+                                                        width: Get.width *
+                                                            0.005.sp,
+                                                      ),
+                                                      SmoothStarRating(
+                                                          allowHalfRating:
+                                                              false,
+                                                          // onRatingChanged: (v) {
+                                                          //   rating = v;
+                                                          // },
+                                                          starCount: 5,
+                                                          rating: snapshot
+                                                              .data!.docs.length
+                                                              .toDouble(),
+                                                          size: 18.0.sp,
+                                                          filledIconData:
+                                                              Icons.star,
+                                                          halfFilledIconData:
+                                                              Icons.blur_on,
+                                                          color: AppColors
+                                                              .starRatingColor,
+                                                          borderColor: AppColors
+                                                              .starRatingColor,
+                                                          spacing: 0.0),
+                                                      CustomText(
+                                                          text:
+                                                              '(${snapshot.data?.docs.length} reviews)',
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 12.sp,
+                                                          color: AppColors
+                                                              .secondaryBlackColor),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    }
+                                    return Container();
+                                  },
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 10.sp),
+                                  child: CustomText(
+                                      text: address ?? 'Address',
+                                      alignment: Alignment.topLeft,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                      color: AppColors.secondaryBlackColor),
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.03,
+                                ),
+                              ],
                             ),
                           ),
                           SizedBox(

@@ -104,6 +104,16 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                                   child: Image.network(
                                     Img ?? '',
                                     fit: BoxFit.fill,
+                                    errorBuilder: (BuildContext context,
+                                        Object exception,
+                                        StackTrace? stackTrace) {
+                                      return Image.asset(
+                                        BImagePick.cartIcon,
+                                        height: Get.height * 0.1,
+                                        width: Get.width * 0.4,
+                                        fit: BoxFit.cover,
+                                      );
+                                    },
                                   ),
                                 ),
                               )
@@ -398,6 +408,8 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
         break;
       case 6:
         FirebaseAuth.instance.signOut();
+        logOutFormGoogle().then((value) => Get.off(() => SBuyerSellerScreen()));
+        PreferenceManager.clearData();
         BRegisterRepo.bLogOut;
         logOutFormGoogle().then((value) => Get.off(SBuyerSellerScreen()));
         break;

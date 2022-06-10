@@ -17,10 +17,9 @@ class BImagePick {
   static String cartIcon = 'assets/images/png/cart_page.png';
   static String deleteIcon = 'assets/images/svg/delete_icon.svg';
 
-
   static String pipedealLogo = 'assets/images/png/pipe_logo.png';
   static String chatIcon = 'assets/images/png/cat_1.png';
   static String proIcon = 'assets/images/png/pro_1.png';
+  static String permission = 'assets/images/png/permission.png';
   static String dtlFolderIcon = 'assets/images/icon/dtl_folder.svg';
 }
-

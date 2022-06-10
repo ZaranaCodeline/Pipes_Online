@@ -39,9 +39,11 @@ class SellerReviewWidget extends StatefulWidget {
 }
 
 class _SellerReviewWidgetState extends State<SellerReviewWidget> {
-  var rating = 3.0;
+  var rating = 0.0;
   bool isShowContact = false;
   CollectionReference profileCollection = bFirebaseStore.collection('SProfile');
+  var reviewID = Get.arguments;
+
   // String? Img;
   // String? firstname, sellerID;
 
@@ -64,6 +66,8 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    reviewID = Get.arguments;
+
     // getData();
     print('=======BUYER_SIDE_SELLER_ID========${PreferenceManager.getUId()}');
     print('==widget.serllerImg---${widget.serllerImg}');
@@ -321,56 +325,67 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CustomText(
-                              text: rating.toString(),
-                              color: AppColors.secondaryBlackColor,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                            ),
+                            reviewID != null
+                                ? CustomText(
+                                    text: reviewID.toString(),
+                                    color: AppColors.secondaryBlackColor,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                  )
+                                : CustomText(
+                                    text: '0',
+                                    color: AppColors.secondaryBlackColor,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                             SizedBox(
                               width: Get.width * 0.02,
                             ),
-                            SmoothStarRating(
-                                allowHalfRating: false,
-                                onRatingChanged: (v) {
-                                  setState(() {
-                                    rating = v;
-                                  });
-                                },
-                                starCount: 5,
-                                rating: rating,
-                                size: 20.0,
-                                filledIconData: Icons.star,
-                                halfFilledIconData: Icons.blur_on,
-                                color: AppColors.starRatingColor,
-                                borderColor: AppColors.starRatingColor,
-                                spacing: 0.0),
+                            reviewID != null
+                                ? SmoothStarRating(
+                                    allowHalfRating: false,
+                                    // onRatingChanged: (v) {
+                                    //   setState(() {
+                                    //     rating = v;
+                                    //   });
+                                    // },
+                                    starCount: 5,
+                                    rating: reviewID.toDouble(),
+                                    size: 20.0,
+                                    filledIconData: Icons.star,
+                                    halfFilledIconData: Icons.blur_on,
+                                    color: AppColors.starRatingColor,
+                                    borderColor: AppColors.starRatingColor,
+                                    spacing: 0.0)
+                                : SmoothStarRating(
+                                    allowHalfRating: false,
+                                    // onRatingChanged: (v) {
+                                    //   setState(() {
+                                    //     rating = v;
+                                    //   });
+                                    // },
+                                    starCount: 5,
+                                    rating: rating,
+                                    size: 20.0,
+                                    filledIconData: Icons.star,
+                                    halfFilledIconData: Icons.blur_on,
+                                    color: AppColors.starRatingColor,
+                                    borderColor: AppColors.starRatingColor,
+                                    spacing: 0.0),
                             SizedBox(
                               width: Get.width * 0.02,
                             ),
-                            StreamBuilder<QuerySnapshot>(
-                              stream: FirebaseFirestore.instance
-                                  .collection("BReviews")
-                                  .doc(PreferenceManager.getUId())
-                                  .collection('ReviewID')
-                                  .snapshots(),
-                              builder: (context, snapShot) {
-                                if (snapShot.hasData) {
-                                  print(
-                                      'PreferenceManager.getUId()====${PreferenceManager.getUId()}');
-                                  return CustomText(
-                                      text: 'Reviews ',
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12.sp,
-                                      color: AppColors.secondaryBlackColor);
-                                }
-                                return CustomText(
-                                    text: '(Reviews)',
+                            reviewID != null
+                                ? CustomText(
+                                    text: '(${reviewID.toString()} reviews)',
                                     fontWeight: FontWeight.w600,
-                                    fontSize: 12.sp,
-                                    color: AppColors.secondaryBlackColor);
-                              },
-                            )
+                                    fontSize: 18,
+                                    color: AppColors.secondaryBlackColor)
+                                : CustomText(
+                                    text: '( reviews)',
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                    color: AppColors.secondaryBlackColor),
                           ],
                         ),
                       ),

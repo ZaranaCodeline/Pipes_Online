@@ -34,6 +34,7 @@ class ChatMessagePage extends StatefulWidget {
   final bool? isMute;
   final String? userImg;
   final String? phone;
+  final bool? isOnline;
 
   ChatMessagePage(
       {required this.receiverId,
@@ -41,7 +42,8 @@ class ChatMessagePage extends StatefulWidget {
       required this.userImg,
       this.phone,
       this.receiverFCMToken,
-      this.isMute});
+      this.isMute,
+      this.isOnline});
 
   @override
   State<ChatMessagePage> createState() => _ChatMessagePageState();
@@ -157,7 +159,9 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                           height: 10.sp,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(50),
-                            color: Colors.green,
+                            color: widget.isOnline == true
+                                ? Colors.green
+                                : Colors.amberAccent,
                           ),
                         ),
                       ),
@@ -176,10 +180,12 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                       ),
                       CustomText(
                         alignment: Alignment.center,
-                        text: 'Online',
+                        text: widget.isOnline == true ? 'Online' : 'Offline',
                         fontWeight: FontWeight.w400,
                         fontSize: 18,
-                        color: Colors.green,
+                        color: widget.isOnline == true
+                            ? Colors.green
+                            : Colors.amberAccent,
                       ),
                     ],
                   ),

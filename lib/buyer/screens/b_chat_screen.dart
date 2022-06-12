@@ -250,22 +250,38 @@ class _BChatScreenState extends State<BChatScreen> {
                                             'SENDER ID ${PreferenceManager.getUId()}');
                                         print(
                                             'RECIEVER ID ${snapshot.data.docs[index]['sellerID']}');
-                                        Get.to(
-                                          ChatMessagePage(
-                                            isMute: snapshot.data.docs[index]
-                                                    ['isMute'] ??
-                                                false,
-                                            receiverFCMToken: snapshot.data
-                                                .docs[index]['deviceToken'],
-                                            userImg: snapshot.data.docs[index]
-                                                ['imageProfile'],
-                                            receiverId: snapshot
-                                                    .data.docs[index][
-                                                'sellerID'] /*'100247364098702824893'*/,
-                                            userName: snapshot.data.docs[index]
-                                                ['user_name'],
-                                          ),
-                                        );
+
+                                        CollectionReference ProfileCollection =
+                                            bFirebaseStore
+                                                .collection('SProfile');
+
+                                        ProfileCollection.doc(
+                                                snapshot.data?.docs[index].id)
+                                            .update({'isOnline': true}).then(
+                                                (value) {
+                                          print('online status updated');
+                                          Get.to(
+                                            ChatMessagePage(
+                                              isOnline:
+                                                  snapshot.data.docs[index]
+                                                          ['isOnline'] ??
+                                                      true,
+                                              isMute: snapshot.data.docs[index]
+                                                      ['isMute'] ??
+                                                  false,
+                                              receiverFCMToken: snapshot.data
+                                                  .docs[index]['deviceToken'],
+                                              userImg: snapshot.data.docs[index]
+                                                  ['imageProfile'],
+                                              receiverId: snapshot
+                                                      .data.docs[index][
+                                                  'sellerID'] /*'100247364098702824893'*/,
+                                              userName: snapshot.data
+                                                  .docs[index]['user_name'],
+                                            ),
+                                          );
+                                        }).catchError(
+                                                (e) => print('upload error$e'));
                                       },
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
@@ -426,17 +442,27 @@ class _BChatScreenState extends State<BChatScreen> {
                                             'SENDER ID ${PreferenceManager.getUId()}');
                                         print(
                                             'RECIEVER ID ${snapshot.data.docs[index]['sellerID']}');
-                                        Get.to(
-                                          ChatMessagePage(
-                                            userImg: snapshot.data.docs[index]
-                                                ['imageProfile'],
-                                            receiverId: snapshot
-                                                    .data.docs[index][
-                                                'sellerID'] /*'100247364098702824893'*/,
-                                            userName: snapshot.data.docs[index]
-                                                ['user_name'],
-                                          ),
-                                        );
+                                        CollectionReference ProfileCollection =
+                                            bFirebaseStore.collection('Chat');
+
+                                        ProfileCollection.doc(
+                                                PreferenceManager.getUId())
+                                            .update({'isOnline': true}).then(
+                                                (value) {
+                                          print('online status updated');
+                                          Get.to(
+                                            ChatMessagePage(
+                                              userImg: snapshot.data.docs[index]
+                                                  ['imageProfile'],
+                                              receiverId: snapshot
+                                                      .data.docs[index][
+                                                  'sellerID'] /*'100247364098702824893'*/,
+                                              userName: snapshot.data
+                                                  .docs[index]['user_name'],
+                                            ),
+                                          );
+                                        }).catchError(
+                                                (e) => print('upload error'));
                                       },
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(

@@ -275,28 +275,56 @@ class _SChatScreenState extends State<SChatScreen> {
 
                                                     FirebaseAuth _auth =
                                                         FirebaseAuth.instance;
-                                                    Get.to(
-                                                      ChatMessagePage(
-                                                        isMute: snapshot.data
-                                                                    .docs[index]
-                                                                ['isMute'] ??
-                                                            false,
-                                                        userImg: snapshot.data
-                                                                .docs[index]
-                                                            ['imageProfile'],
-                                                        receiverId: snapshot
+
+                                                    CollectionReference
+                                                        ProfileCollection =
+                                                        bFirebaseStore
+                                                            .collection(
+                                                                'BProfile');
+
+                                                    ProfileCollection.doc(
+                                                            snapshot
                                                                 .data
-                                                                .docs[index][
-                                                            'buyerID'] /*_auth.currentUser!.uid*/,
-                                                        userName: snapshot.data
-                                                                .docs[index]
-                                                            ['user_name'],
-                                                        receiverFCMToken:
-                                                            snapshot.data
-                                                                    .docs[index]
-                                                                ['deviceToken'],
-                                                      ),
-                                                    );
+                                                                ?.docs[index]
+                                                                .id)
+                                                        .update({
+                                                      'isOnline': true
+                                                    }).then((value) {
+                                                      print(
+                                                          'online status updated');
+                                                      Get.to(
+                                                        ChatMessagePage(
+                                                          isOnline: snapshot
+                                                                          .data
+                                                                          .docs[
+                                                                      index][
+                                                                  'isOnline'] ??
+                                                              true,
+                                                          isMute: snapshot.data
+                                                                          .docs[
+                                                                      index]
+                                                                  ['isMute'] ??
+                                                              false,
+                                                          userImg: snapshot.data
+                                                                  .docs[index]
+                                                              ['imageProfile'],
+                                                          receiverId: snapshot
+                                                                  .data
+                                                                  .docs[index][
+                                                              'buyerID'] /*_auth.currentUser!.uid*/,
+                                                          userName: snapshot
+                                                                  .data
+                                                                  .docs[index]
+                                                              ['user_name'],
+                                                          receiverFCMToken:
+                                                              snapshot.data
+                                                                          .docs[
+                                                                      index][
+                                                                  'deviceToken'],
+                                                        ),
+                                                      );
+                                                    }).catchError((e) => print(
+                                                            'upload error$e'));
                                                   },
                                                   child: Padding(
                                                     padding:

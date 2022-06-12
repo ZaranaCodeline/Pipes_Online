@@ -1,109 +1,199 @@
-// // import 'package:flutter/material.dart';
-// // import 'package:flutter_svg/flutter_svg.dart';
-// // import 'package:get/get.dart';
-// // import 'package:pipes_online/buyer/buyer_common/b_image.dart';
-// // import 'package:pipes_online/buyer/payment_service/paypal_payment.dart';
-// // import 'package:sizer/sizer.dart';
-// //
-// // import '../../seller/common/s_text_style.dart';
-// // import '../app_constant/app_colors.dart';
-// // import '../custom_widget/widgets/custom_text.dart';
-// // import 'b_confirm_order_page.dart';
-// //
-// // class PaymentWidget extends StatelessWidget {
-// //   const PaymentWidget({Key? key}) : super(key: key);
-// //
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return Scaffold(
-// //       appBar: AppBar(
-// //         title: Text(
-// //           'PAYMENT',
-// //           style: STextStyle.bold700White14,
-// //         ),
-// //         backgroundColor: AppColors.primaryColor,
-// //         toolbarHeight: Get.height * 0.1,
-// //         shape: const RoundedRectangleBorder(
-// //           borderRadius: BorderRadius.vertical(
-// //             bottom: Radius.circular(25),
-// //           ),
-// //         ),
-// //       ),
-// //       body: Column(
-// //         // mainAxisAlignment: MainAxisAlignment.center,
-// //         crossAxisAlignment: CrossAxisAlignment.center,
-// //         children: [
-// //           SizedBox(height: Get.height * 0.05),
-// //           CustomText(
-// //             text: 'Payment mode:',
-// //             fontWeight: FontWeight.w600,
-// //             fontSize: 14.sp,
-// //             color: AppColors.secondaryBlackColor,
-// //             alignment: Alignment.center,
-// //           ),
-// //           SizedBox(height: Get.height * 0.03),
-// //
-// //           CustomSocialWidget(
-// //               icon: BImagePick.PayPalIcon,
-// //               onClicked: () {
-// //                 Navigator.push(
-// //                     context,
-// //                     MaterialPageRoute(
-// //                       builder: (context) => PaypalPayment(
-// //                         onFinish: (number) {
-// //                           print('number id:' + number);
-// //                         },
-// //                       ),
-// //                     ));
-// //               },
-// //                   // Get.to(() => BConfirmOrderPage()),
-// //               name: 'Paypal'),
-// //           CustomSocialWidget(
-// //               icon: BImagePick.GooglePayIcon,
-// //               onClicked: () => Get.to(() => BConfirmOrderPage()),
-// //               name: 'Google Pay'),
-// //           CustomSocialWidget(
-// //               icon: BImagePick.AmazonPayIcon,
-// //               onClicked: () => Get.to(() => BConfirmOrderPage()),
-// //               name: 'Amazon Pay'),
-// //         ],
-// //       ),
-// //     );
-// //   }
-// //
-// //   Widget CustomSocialWidget(
-// //       {String? icon,VoidCallback? onClicked, String? name}) {
-// //     return GestureDetector(
-// //       onTap: onClicked,
-// //       child: Container(
-// //         height: Get.height * 0.06,
-// //         decoration: BoxDecoration(
-// //             color: Color(0xFFEBEBEB),
-// //             borderRadius: BorderRadius.circular(Get.width)),
-// //         margin: EdgeInsets.symmetric(
-// //             horizontal: Get.width * 0.2, vertical: Get.height * 0.02),
-// //         child: Row(
-// //           mainAxisAlignment: MainAxisAlignment.center,
-// //           children: [
-// //             SvgPicture.asset(
-// //               icon!,
-// //               width: 20.sp,
-// //               height: 20.sp,
-// //             ),
-// //             SizedBox(
-// //               width: 15.sp,
-// //             ),
-// //             CustomText(
-// //                 text: name!,
-// //                 fontWeight: FontWeight.w600,
-// //                 fontSize: 14.sp,
-// //                 color: AppColors.secondaryBlackColor),
-// //           ],
-// //         ),
-// //       ),
-// //     );
-// //   }
-// // }
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:pipes_online/buyer/app_constant/b_image.dart';
+import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
+import 'package:pipes_online/payment_service/paypal_payment.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
+import 'package:sizer/sizer.dart';
+
+import '../../seller/common/s_text_style.dart';
+import '../app_constant/app_colors.dart';
+import 'b_confirm_order_page.dart';
+
+class PaymentWidget extends StatefulWidget {
+  final String? bName,
+      bAddress,
+      bPhone,
+      bID,
+      proID,
+      proName,
+      proPrice,
+      bImage,
+      category,
+      proImage,
+      desc;
+  const PaymentWidget(
+      {Key? key,
+      this.bName,
+      this.bAddress,
+      this.bPhone,
+      this.bImage,
+      this.bID,
+      this.proID,
+      this.proName,
+      this.proImage,
+      this.proPrice,
+      this.category,
+      this.desc})
+      : super(key: key);
+
+  @override
+  State<PaymentWidget> createState() => _PaymentWidgetState();
+}
+
+class _PaymentWidgetState extends State<PaymentWidget> {
+  bool? isLoading;
+  Future payWithPaypal() async {
+    Get.to(PaypalPayment(
+      amount: widget.proPrice,
+      onFinish: () {
+        setState(() {
+          isLoading = true;
+        });
+        print('hello1....');
+        FirebaseFirestore.instance.collection('Orders').add(
+          {
+            'productID': widget.proID,
+            'orderID': PreferenceManager.getUId().toString(),
+            'productImage': widget.proImage,
+            'prdName': widget.proName,
+            'size': '2 ft',
+            'length': '2 kg',
+            'weight': 'Pending',
+            'oil': '--',
+            'orderStatus': 'Pending',
+            'paymentMode': 'upay',
+            'price': widget.proPrice,
+            'category': widget.category,
+            'dsc': widget.desc,
+            'createdOn': DateTime.now().toString(),
+            'buyerName': widget.bName,
+            'buyerImg': widget.bImage,
+            'buyerAddress': widget.bAddress,
+            'buyerID': widget.bID,
+            'buyerPhone': widget.bPhone,
+          },
+        ).then(
+          (value) {
+            print('Order done successfully');
+            Get.back();
+
+            Get.showSnackbar(
+              const GetSnackBar(
+                snackPosition: SnackPosition.BOTTOM,
+                backgroundColor: Colors.greenAccent,
+                duration: Duration(seconds: 5),
+                message: 'Order done succefully',
+              ),
+            );
+            setState(
+              () {
+                isLoading = false;
+              },
+            );
+          },
+        );
+        print('Finish');
+      },
+      packageName: widget.proName,
+    ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'PAYMENT',
+          style: STextStyle.bold700White14,
+        ),
+        backgroundColor: AppColors.primaryColor,
+        toolbarHeight: Get.height * 0.1,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(25),
+          ),
+        ),
+      ),
+      body: Column(
+        // mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: Get.height * 0.05),
+          CustomText(
+            text: 'Payment mode:',
+            fontWeight: FontWeight.w600,
+            fontSize: 14.sp,
+            color: AppColors.secondaryBlackColor,
+            alignment: Alignment.center,
+          ),
+          SizedBox(height: Get.height * 0.03),
+          CustomSocialWidget(
+              icon: BImagePick.PayPalIcon,
+              onClicked: () {
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //       builder: (context) => PaypalPayment(
+                //         onFinish: (number) {
+                //           print('number id:' + number);
+                //         },
+                //       ),
+                //     )
+                // );
+                payWithPaypal();
+              },
+
+              // Get.to(() => BConfirmOrderPage()),
+              name: 'Paypal'),
+          CustomSocialWidget(
+              icon: BImagePick.GooglePayIcon,
+              onClicked: () => Get.to(() => BConfirmOrderPage()),
+              name: 'Google Pay'),
+          CustomSocialWidget(
+              icon: BImagePick.AmazonPayIcon,
+              onClicked: () => Get.to(() => BConfirmOrderPage()),
+              name: 'Amazon Pay'),
+        ],
+      ),
+    );
+  }
+
+  Widget CustomSocialWidget(
+      {String? icon, VoidCallback? onClicked, String? name}) {
+    return GestureDetector(
+      onTap: onClicked,
+      child: Container(
+        height: Get.height * 0.06,
+        decoration: BoxDecoration(
+            color: Color(0xFFEBEBEB),
+            borderRadius: BorderRadius.circular(Get.width)),
+        margin: EdgeInsets.symmetric(
+            horizontal: Get.width * 0.2, vertical: Get.height * 0.02),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              icon!,
+              width: 20.sp,
+              height: 20.sp,
+            ),
+            SizedBox(
+              width: 15.sp,
+            ),
+            CustomText(
+                text: name!,
+                fontWeight: FontWeight.w600,
+                fontSize: 14.sp,
+                color: AppColors.secondaryBlackColor),
+          ],
+        ),
+      ),
+    );
+  }
+}
 // import 'dart:io';
 // import 'dart:math';
 //

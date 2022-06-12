@@ -7,6 +7,7 @@ import 'package:flutter_stripe/flutter_stripe.dart' as stripe;
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/b_image.dart';
+import 'package:pipes_online/buyer/screens/b_payment_page.dart';
 import 'package:pipes_online/payment_service/payment_key.dart';
 import 'package:pipes_online/payment_service/paypal_payment.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
@@ -561,136 +562,141 @@ class _CartPageState extends State<CartPage> {
                                     ),
                                     GestureDetector(
                                       onTap: () async {
-                                        /*?.then((value) async*/ {
+                                        /*?.then((value) async*/
+                                        {
                                           await profileCollection
                                               .doc(PreferenceManager.getUId())
                                               .update({
                                             'address': address?.text,
                                           }).then((value) {
-                                            // Get.to(Screen(
-                                            //   bAddress: address.toString(),
-                                            //   category: widget.category,
-                                            //   desc: widget.desc,
-                                            //   image: widget.image,
-                                            //   price: widget.price,
-                                            //   name: widget.name,
-                                            //   productID: widget.productID,
-                                            // ));
+                                            Get.to(PaymentWidget(
+                                              bAddress: address.toString(),
+                                              bID: buyerID,
+                                              category: widget.category,
+                                              proID: widget.productID,
+                                              desc: widget.desc,
+                                              bName: buyerName,
+                                              bPhone: buyerPhone,
+                                              proName: widget.name,
+                                              proPrice: widget.price,
+                                              bImage: buyerImage,
+                                              proImage: widget.image,
+                                            ));
                                           });
 
-                                          showModalBottomSheet<void>(
-                                            elevation: 0.5,
-                                            shape: const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(20.0),
-                                                    topRight:
-                                                        Radius.circular(20.0))),
-                                            backgroundColor: Colors.white,
-                                            context: context,
-                                            builder: (context) =>
-                                                FractionallySizedBox(
-                                              heightFactor: 0.5.sp,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(15),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    Container(
-                                                      width: 35.sp,
-                                                      height: 5.sp,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(15),
-                                                          color: AppColors
-                                                              .primaryColor),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 0.2,
-                                                    ),
-                                                    CustomText(
-                                                        alignment:
-                                                            Alignment.topLeft,
-                                                        text: 'Payment Options',
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: 14.sp,
-                                                        color: AppColors
-                                                            .secondaryBlackColor),
-                                                    Container(
-                                                      child: MaterialButton(
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Icon(
-                                                              Icons
-                                                                  .paypal_outlined,
-                                                              color: AppColors
-                                                                  .primaryColor,
-                                                            ),
-                                                            SizedBox(
-                                                              width: Get.width *
-                                                                  0.05,
-                                                            ),
-                                                            Text(
-                                                              'Pay with Paypal',
-                                                              style: TextStyle(
-                                                                  color: AppColors
-                                                                      .primaryColor,
-                                                                  fontSize:
-                                                                      14.sp),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        onPressed: () {
-                                                          payWithPaypal();
-                                                        },
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      child: MaterialButton(
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Icon(
-                                                              Icons
-                                                                  .payment_outlined,
-                                                              color: AppColors
-                                                                  .primaryColor,
-                                                            ),
-                                                            SizedBox(
-                                                              width: Get.width *
-                                                                  0.05,
-                                                            ),
-                                                            Text(
-                                                              'Pay With Stripe',
-                                                              style: TextStyle(
-                                                                  color: AppColors
-                                                                      .primaryColor,
-                                                                  fontSize:
-                                                                      14.sp),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        onPressed: () {
-                                                          payWithStrip();
-                                                        },
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                          print('success add');
+                                          // showModalBottomSheet<void>(
+                                          //   elevation: 0.5,
+                                          //   shape: const RoundedRectangleBorder(
+                                          //       borderRadius: BorderRadius.only(
+                                          //           topLeft:
+                                          //               Radius.circular(20.0),
+                                          //           topRight:
+                                          //               Radius.circular(20.0))),
+                                          //   backgroundColor: Colors.white,
+                                          //   context: context,
+                                          //   builder: (context) =>
+                                          //       FractionallySizedBox(
+                                          //     heightFactor: 0.5.sp,
+                                          //     child: Padding(
+                                          //       padding:
+                                          //           const EdgeInsets.all(15),
+                                          //       child: Column(
+                                          //         mainAxisAlignment:
+                                          //             MainAxisAlignment
+                                          //                 .spaceEvenly,
+                                          //         children: [
+                                          //           Container(
+                                          //             width: 35.sp,
+                                          //             height: 5.sp,
+                                          //             decoration: BoxDecoration(
+                                          //                 borderRadius:
+                                          //                     BorderRadius
+                                          //                         .circular(15),
+                                          //                 color: AppColors
+                                          //                     .primaryColor),
+                                          //           ),
+                                          //           const SizedBox(
+                                          //             height: 0.2,
+                                          //           ),
+                                          //           CustomText(
+                                          //               alignment:
+                                          //                   Alignment.topLeft,
+                                          //               text: 'Payment Options',
+                                          //               fontWeight:
+                                          //                   FontWeight.w400,
+                                          //               fontSize: 14.sp,
+                                          //               color: AppColors
+                                          //                   .secondaryBlackColor),
+                                          //           Container(
+                                          //             child: MaterialButton(
+                                          //               child: Row(
+                                          //                 mainAxisAlignment:
+                                          //                     MainAxisAlignment
+                                          //                         .start,
+                                          //                 children: [
+                                          //                   Icon(
+                                          //                     Icons
+                                          //                         .paypal_outlined,
+                                          //                     color: AppColors
+                                          //                         .primaryColor,
+                                          //                   ),
+                                          //                   SizedBox(
+                                          //                     width: Get.width *
+                                          //                         0.05,
+                                          //                   ),
+                                          //                   Text(
+                                          //                     'Pay with Paypal',
+                                          //                     style: TextStyle(
+                                          //                         color: AppColors
+                                          //                             .primaryColor,
+                                          //                         fontSize:
+                                          //                             14.sp),
+                                          //                   ),
+                                          //                 ],
+                                          //               ),
+                                          //               onPressed: () {
+                                          //                 payWithPaypal();
+                                          //               },
+                                          //             ),
+                                          //           ),
+                                          //           Container(
+                                          //             child: MaterialButton(
+                                          //               child: Row(
+                                          //                 mainAxisAlignment:
+                                          //                     MainAxisAlignment
+                                          //                         .start,
+                                          //                 children: [
+                                          //                   Icon(
+                                          //                     Icons
+                                          //                         .payment_outlined,
+                                          //                     color: AppColors
+                                          //                         .primaryColor,
+                                          //                   ),
+                                          //                   SizedBox(
+                                          //                     width: Get.width *
+                                          //                         0.05,
+                                          //                   ),
+                                          //                   Text(
+                                          //                     'Pay With Stripe',
+                                          //                     style: TextStyle(
+                                          //                         color: AppColors
+                                          //                             .primaryColor,
+                                          //                         fontSize:
+                                          //                             14.sp),
+                                          //                   ),
+                                          //                 ],
+                                          //               ),
+                                          //               onPressed: () {
+                                          //                 payWithStrip();
+                                          //               },
+                                          //             ),
+                                          //           ),
+                                          //         ],
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          // );
+                                          // print('success add');
                                         }
                                         ;
                                       },

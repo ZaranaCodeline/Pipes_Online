@@ -1,12 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/routes/bottom_controller.dart';
 import 'package:pipes_online/seller/bottombar/widget/category_bottom_bar_route.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
 import 'package:pipes_online/seller/view/s_screens/s_prosonal_info_page.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 import '../view/s_screens/s_cateloge_home_screen.dart';
 import '../view/s_screens/s_chat_screen.dart';
@@ -17,7 +20,8 @@ class NavigationBarScreen extends StatefulWidget {
   _NavigationBarScreenState createState() => _NavigationBarScreenState();
 }
 
-class _NavigationBarScreenState extends State<NavigationBarScreen> {
+class _NavigationBarScreenState extends State<NavigationBarScreen>
+    with WidgetsBindingObserver {
   int _pageIndex = 0;
   BottomController homeController = Get.put(BottomController());
   List<Widget> tabPages = [
@@ -49,6 +53,44 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
   void initState() {
     homeController.bottomIndex.value = 0;
     super.initState();
+    WidgetsBinding.instance?.addObserver(this);
+
+    CollectionReference ProfileCollection =
+        bFirebaseStore.collection('SProfile');
+    ProfileCollection.doc(PreferenceManager.getUId())
+        .update({'isOnline': true});
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // TODO: implement didChangeAppLifecycleState
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      CollectionReference ProfileCollection =
+          bFirebaseStore.collection('SProfile');
+
+      ProfileCollection.doc(PreferenceManager.getUId())
+          .update({'isOnline': true}).then((value) => print('Success'));
+      print('>>>>>> RESUMED<<<<<<<<');
+    } else if (state == AppLifecycleState.detached) {
+      print('>>>>>> DETACHED<<<<<<<<');
+    } else if (state == AppLifecycleState.inactive) {
+      print('>>>>>> INACTIVE<<<<<<<<');
+    } else if (state == AppLifecycleState.paused) {
+      CollectionReference ProfileCollection =
+          bFirebaseStore.collection('SProfile');
+
+      ProfileCollection.doc(PreferenceManager.getUId())
+          .update({'isOnline': false}).then((value) => print('Success'));
+      print('>>>>>> PAUSED<<<<<<<<');
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    WidgetsBinding.instance?.removeObserver(this);
   }
 
   @override

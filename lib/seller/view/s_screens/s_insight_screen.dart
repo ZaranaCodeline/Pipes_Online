@@ -39,11 +39,12 @@ class SInsightScreen extends StatelessWidget {
                                       child: Container(
                                         height: 110,
                                         decoration: BoxDecoration(
-                                            color: AppColors.primaryColor,
-                                            borderRadius:
-                                                const BorderRadius.vertical(
-                                              bottom: Radius.circular(25),
-                                            )),
+                                          color: AppColors.primaryColor,
+                                          borderRadius:
+                                              const BorderRadius.vertical(
+                                            bottom: Radius.circular(25),
+                                          ),
+                                        ),
                                       ),
                                     )
                                   ],
@@ -78,12 +79,12 @@ class SInsightScreen extends StatelessWidget {
                                             CustomText(
                                                 text: 'Orders',
                                                 fontWeight: FontWeight.w600,
-                                                fontSize: 12.sp,
+                                                fontSize: 14.sp,
                                                 color: SColorPicker.fontGrey),
                                             CustomText(
                                                 text: ' snapshot',
                                                 fontWeight: FontWeight.w600,
-                                                fontSize: 16.sp,
+                                                fontSize: 12.sp,
                                                 color: SColorPicker.black),
                                             /* StreamBuilder<QuerySnapshot>(
                                               stream: FirebaseFirestore.instance
@@ -113,12 +114,12 @@ class SInsightScreen extends StatelessWidget {
                                             CustomText(
                                                 text: 'Revenue',
                                                 fontWeight: FontWeight.w600,
-                                                fontSize: 12.sp,
+                                                fontSize: 14.sp,
                                                 color: SColorPicker.fontGrey),
                                             CustomText(
                                                 text: '\$5.9k',
                                                 fontWeight: FontWeight.w600,
-                                                fontSize: 16.sp,
+                                                fontSize: 12.sp,
                                                 color: SColorPicker.black),
                                           ],
                                         ),
@@ -134,10 +135,10 @@ class SInsightScreen extends StatelessWidget {
                                             CustomText(
                                                 text: 'Pending',
                                                 fontWeight: FontWeight.w600,
-                                                fontSize: 12.sp,
+                                                fontSize: 14.sp,
                                                 color: SColorPicker.fontGrey),
                                             CustomText(
-                                                text: '10',
+                                                text: '0',
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 16.sp,
                                                 color: SColorPicker.black),

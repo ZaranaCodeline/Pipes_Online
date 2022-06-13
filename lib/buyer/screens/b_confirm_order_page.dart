@@ -34,18 +34,17 @@ class BConfirmOrderPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Center(
-              child:SvgPicture.asset(SImagePick.confirmImg),
-          //     Image.asset(
-          //   'assets/images/png/confirm_img.png',
-          //   fit: BoxFit.cover,
-          // ),
-
+            child: SvgPicture.asset(SImagePick.confirmImg),
+            //     Image.asset(
+            //   'assets/images/png/confirm_img.png',
+            //   fit: BoxFit.cover,
+            // ),
           ),
           Center(
             child: CustomText(
               text: 'Your Order has been \n placed successfully !!',
               fontWeight: FontWeight.w600,
-              fontSize: 18.sp,
+              fontSize: 16.sp,
               color: AppColors.secondaryBlackColor,
               textAlign: TextAlign.center,
             ),
@@ -58,8 +57,8 @@ class BConfirmOrderPage extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           GestureDetector(
-            onTap: (){
-              Get.to(()=>BMyOrderPage());
+            onTap: () {
+              Get.to(() => BMyOrderPage());
             },
             child: CustomText(
               text: 'My Orders',
@@ -73,7 +72,7 @@ class BConfirmOrderPage extends StatelessWidget {
             name: 'Continue Shopping',
             function: () => Get.to(() => CatelogeHomeWidget()),
             height: Get.height * 0.08,
-            width: Get.width /1.sp,
+            width: Get.width / 1.sp,
           ),
         ],
       ),

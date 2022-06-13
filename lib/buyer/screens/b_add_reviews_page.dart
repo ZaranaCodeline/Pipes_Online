@@ -39,7 +39,6 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
       bPhone = getUserData?['phoneno'];
       Img = getUserData?['imageProfile'];
     });
-    print('============================${user.get('imageProfile')}');
   }
 
   Future<void> addData() async {
@@ -195,11 +194,19 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                     padding: EdgeInsets.only(
                                       top: 40.sp,
                                     ),
-                                    child: CustomText(
-                                        text: firstname.toString(),
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18.sp,
-                                        color: AppColors.secondaryBlackColor),
+                                    child: firstname != null
+                                        ? CustomText(
+                                            text: firstname.toString(),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 18.sp,
+                                            color:
+                                                AppColors.secondaryBlackColor)
+                                        : CustomText(
+                                            text: 'John',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 18.sp,
+                                            color:
+                                                AppColors.secondaryBlackColor),
                                   ),
                                   Padding(
                                     padding: EdgeInsets.symmetric(

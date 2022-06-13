@@ -37,15 +37,14 @@ class _SplashState extends State<Splash> {
             print(
                 'T-5 CONDI   ${PreferenceManager.getName() != null || PreferenceManager.getAddress() != null}');
             if (PreferenceManager.getName() != null ||
-                PreferenceManager.getAddress() != null &&
-                    PreferenceManager.getUId() != null) {
+                PreferenceManager.getAddress() != null) {
               print('BUYER NAME--${PreferenceManager.getName()}');
               print('BUYER ADDRESS--${PreferenceManager.getAddress()}');
               print('T-3');
               Get.off(BottomNavigationBarScreen());
             } else {
               print('T-5');
-              Get.off(SOnBoardingScreen());
+              Get.off(BFirstUserInfoScreen());
             } /*if (PreferenceManager.getUId() != null) {
               if (PreferenceManager.getUserType() == 'Buyer') {
                 if (PreferenceManager.getName() == null ||

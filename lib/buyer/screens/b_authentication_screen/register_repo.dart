@@ -22,8 +22,10 @@ class BRegisterRepo {
       CollectionReference ProfileCollection =
           bFirebaseStore.collection('BProfile');
       print('--login-buyer-token--${PreferenceManager.getFcmToken()}');
-      ProfileCollection.doc(PreferenceManager.getUId()).update(
-          {'deviceToken': PreferenceManager.getFcmToken()}).then((value) {
+      ProfileCollection.doc(PreferenceManager.getUId()).update({
+        'deviceToken': PreferenceManager.getFcmToken(),
+        'isOnline': true,
+      }).then((value) {
         print('fcm success add');
         print('fcm getFcmToken --${PreferenceManager.getFcmToken()}');
       }).catchError((e) => print('fcm error'));
@@ -96,8 +98,10 @@ class SRegisterRepo {
 
       print('--login---seller---${PreferenceManager.getFcmToken()}');
 
-      ProfileCollection.doc(PreferenceManager.getUId()).update(
-          {'deviceToken': PreferenceManager.getFcmToken()}).then((value) {
+      ProfileCollection.doc(PreferenceManager.getUId()).update({
+        'isOnline': true,
+        'deviceToken': PreferenceManager.getFcmToken()
+      }).then((value) {
         print('fcm success add');
         print('fcm getFcmToken --${PreferenceManager.getFcmToken()}');
       }).catchError((e) => print('fcm error'));

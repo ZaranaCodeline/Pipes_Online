@@ -420,7 +420,7 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                                           onPressed: () {
                                             ///TODO CHAT MESSAGE
                                             Share.share(
-                                                'https://pipesonline012.page.link/productPage');
+                                                'https://pipedeals.page.link/products');
                                           },
                                           icon: Icon(
                                             Icons.chat_bubble_outline,

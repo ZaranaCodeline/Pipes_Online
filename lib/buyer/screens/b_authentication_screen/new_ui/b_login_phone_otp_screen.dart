@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
@@ -198,6 +200,7 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
           this.verificationCode = verificationId;
           print('---------verificationId-------$verificationId');
           print('---------this.verificationId-------${this.verificationCode}');
+
           Get.to(
             BLoginPhoneOtpScreen(
               phone: widget.phone,
@@ -347,6 +350,16 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                               (value) {
                                                 if (value.user != null) {
                                                   print('Test-call-1');
+                                                  CollectionReference
+                                                      ProfileCollection =
+                                                      bFirebaseStore.collection(
+                                                          'BProfile');
+
+                                                  ProfileCollection.doc(
+                                                          PreferenceManager
+                                                              .getUId())
+                                                      .update(
+                                                          {'isOnline': true});
                                                   Get.offAll(
                                                       BottomNavigationBarScreen());
                                                 }
@@ -360,7 +373,7 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                             FocusScope.of(context).unfocus();
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
-                                              SnackBar(
+                                              const SnackBar(
                                                 content: Text('Invalid OTP'),
                                                 duration: Duration(seconds: 5),
                                               ),

@@ -19,7 +19,7 @@ import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 import 'package:http/http.dart' as http;
 
 class CartPage extends StatefulWidget {
-  final String? name, image, desc, price, category, productID;
+  final String? name, image, desc, price, category, productID, cartID;
 
   const CartPage(
       {Key? key,
@@ -28,7 +28,8 @@ class CartPage extends StatefulWidget {
       this.name,
       this.image,
       this.category,
-      this.productID})
+      this.productID,
+      this.cartID})
       : super(key: key);
 
   @override
@@ -81,210 +82,8 @@ class _CartPageState extends State<CartPage> {
       buyerName = getUserData?['user_name'];
     });
 
-    print('=========firstname===============${firstname}');
-    print('======address======${address}');
-    // setState(() {
-    //   Img = getUserData['imageProfile'];
-    // });
-  }
-
-  Future payWithPaypal() async {
-    Get.to(PaypalPayment(
-      amount: widget.price,
-      onFinish: () {
-        setState(() {
-          isLoading = true;
-        });
-        print('hello1....');
-        FirebaseFirestore.instance.collection('Orders').add(
-          {
-            'productID': widget.productID,
-            'orderID': PreferenceManager.getUId().toString(),
-            'productImage': widget.image,
-            'prdName': widget.name,
-            'size': '2 ft',
-            'length': '2 kg',
-            'weight': 'Pending',
-            'oil': '--',
-            'orderStatus': 'Pending',
-            'paymentMode': 'upay',
-            'price': widget.price,
-            'category': widget.category,
-            'dsc': widget.desc,
-            'createdOn': DateTime.now().toString(),
-            'buyerName': buyerName,
-            'buyerImg': buyerImage,
-            'buyerAddress': buyerAddress,
-            'buyerID': buyerID,
-            'buyerPhone': buyerPhone,
-          },
-        ).then(
-          (value) {
-            print('Order done successfully');
-            Get.back();
-
-            Get.showSnackbar(
-              const GetSnackBar(
-                snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: Colors.greenAccent,
-                duration: Duration(seconds: 5),
-                message: 'Order done succefully',
-              ),
-            );
-            setState(
-              () {
-                isLoading = false;
-              },
-            );
-          },
-        );
-        print('Finish');
-      },
-      packageName: widget.name,
-    ));
-  }
-
-  Future payWithStrip() async {
-    makePayment(widget.price.toString());
-  }
-
-  Future<void> makePayment(String price) async {
-    print('HELOO....');
-    try {
-      paymentIntentData =
-          await createPaymentIntent(price, 'usd'); //json.decode(response.body);
-      // print('Response body==>${response.body.toString()}');
-      await stripe.Stripe.instance
-          .initPaymentSheet(
-              paymentSheetParameters: stripe.SetupPaymentSheetParameters(
-                  paymentIntentClientSecret:
-                      paymentIntentData!['client_secret'],
-                  applePay: true,
-                  googlePay: true,
-                  testEnv: true,
-                  style: ThemeMode.dark,
-                  merchantCountryCode: 'IN',
-                  merchantDisplayName: 'ANNIE'))
-          .then((value) {});
-
-      ///now finally display payment sheeet
-
-      displayPaymentSheet();
-    } catch (e, s) {
-      print('exception:$e$s');
-    }
-  }
-
-  displayPaymentSheet() async {
-    try {
-      await stripe.Stripe.instance
-          .presentPaymentSheet(
-              parameters: stripe.PresentPaymentSheetParameters(
-        clientSecret: paymentIntentData!['client_secret'],
-        confirmPayment: true,
-      ))
-          .then((newValue) {
-        print('payment intent' + paymentIntentData!['id'].toString());
-        print(
-            'payment intent' + paymentIntentData!['client_secret'].toString());
-        print('payment intent' + paymentIntentData!['amount'].toString());
-        print('payment intent' + paymentIntentData.toString());
-
-        ///Entry order
-        setState(() {
-          isLoading = true;
-        });
-        print('hello1....');
-        FirebaseFirestore.instance.collection('Orders').add(
-          {
-            'productID': widget.productID,
-            'orderID': PreferenceManager.getUId().toString(),
-            'productImage': widget.image,
-            'prdName': widget.name,
-            'size': '2 ft',
-            'length': '2 kg',
-            'weight': 'Pending',
-            'oil': '--',
-            'orderStatus': 'Pending',
-            'paymentMode': 'stripe',
-            'price': widget.price,
-            'category': widget.category,
-            'dsc': widget.desc,
-            'createdOn': DateTime.now().toString(),
-            'buyerName': buyerName,
-            'buyerImg': buyerImage,
-            'buyerAddress': buyerAddress,
-            'buyerID': buyerID,
-            'buyerPhone': buyerPhone,
-          },
-        ).then(
-          (value) {
-            print('Order done successfully');
-            Get.back();
-
-            Get.showSnackbar(
-              const GetSnackBar(
-                snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: Colors.greenAccent,
-                duration: Duration(seconds: 5),
-                message: 'Order done succefully',
-              ),
-            );
-            setState(
-              () {
-                isLoading = false;
-              },
-            );
-          },
-        );
-        print('Finish');
-
-        //orderPlaceApi(paymentIntentData!['id'].toString());
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Transaction Successfully")));
-
-        paymentIntentData = null;
-      }).onError((error, stackTrace) {
-        print('Exception/DISPLAYPAYMENTSHEET==> $error $stackTrace');
-      });
-    } on stripe.StripeException catch (e) {
-      print('Exception/DISPLAYPAYMENTSHEET==> $e');
-      showDialog(
-          context: context,
-          builder: (_) => AlertDialog(
-                content: Text("Cancelled "),
-              ));
-    } catch (e) {
-      print('$e');
-    }
-  }
-
-  //  Future<Map<String, dynamic>>
-  createPaymentIntent(String amount, String currency) async {
-    try {
-      Map<String, dynamic> body = {
-        'amount': calculateAmount(amount),
-        'currency': currency,
-        'payment_method_types[]': 'card',
-      };
-      print(body);
-      var response = await http.post(
-          Uri.parse('https://api.stripe.com/v1/payment_intents'),
-          body: body,
-          headers: {
-            'Authorization': 'Bearer $secretKey',
-            'Content-Type': 'application/x-www-form-urlencoded'
-          });
-      print('Create Intent reponse ===> ${response.body.toString()}');
-      return jsonDecode(response.body);
-    } catch (err) {
-      print('err charging user: ${err.toString()}');
-    }
-  }
-
-  calculateAmount(String amount) {
-    final a = (int.parse(amount)) * 100;
-    return a.toString();
+    print('=========firstname===============${buyerName}');
+    print('======address======${buyerAddress}');
   }
 
   @override
@@ -524,7 +323,7 @@ class _CartPageState extends State<CartPage> {
                                         size: 15.sp,
                                       ),
                                       hintText: 'Enter Your Address',
-                                      border: OutlineInputBorder(
+                                      border: const OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10.0)),
                                       ),
@@ -539,7 +338,7 @@ class _CartPageState extends State<CartPage> {
                                 child: Column(
                                   children: [
                                     Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 10, vertical: 10),
                                       child: Row(
                                         mainAxisAlignment:
@@ -562,146 +361,146 @@ class _CartPageState extends State<CartPage> {
                                     ),
                                     GestureDetector(
                                       onTap: () async {
-                                        /*?.then((value) async*/
-                                        {
-                                          await profileCollection
-                                              .doc(PreferenceManager.getUId())
-                                              .update({
-                                            'address': address?.text,
-                                          }).then((value) {
-                                            Get.to(PaymentWidget(
-                                              bAddress: address.toString(),
-                                              bID: buyerID,
-                                              category: widget.category,
-                                              proID: widget.productID,
-                                              desc: widget.desc,
-                                              bName: buyerName,
-                                              bPhone: buyerPhone,
-                                              proName: widget.name,
-                                              proPrice: widget.price,
-                                              bImage: buyerImage,
-                                              proImage: widget.image,
-                                            ));
-                                          });
+                                        await profileCollection
+                                            .doc(PreferenceManager.getUId())
+                                            .update({
+                                          'address': address?.text,
+                                        }).then((value) {
+                                          Get.to(PaymentWidget(
+                                            cartID: widget.cartID,
+                                            proOilPipe: 'oil',
+                                            pLength: '2 Km',
+                                            pSize: '10 mm',
+                                            pWeight: '10',
+                                            bAddress: address.toString(),
+                                            bID: buyerID,
+                                            category: widget.category,
+                                            proID: widget.productID,
+                                            desc: widget.desc,
+                                            bName: buyerName,
+                                            bPhone: buyerPhone,
+                                            proName: widget.name,
+                                            proPrice: widget.price,
+                                            bImage: buyerImage,
+                                            proImage: widget.image,
+                                          ));
+                                        });
 
-                                          // showModalBottomSheet<void>(
-                                          //   elevation: 0.5,
-                                          //   shape: const RoundedRectangleBorder(
-                                          //       borderRadius: BorderRadius.only(
-                                          //           topLeft:
-                                          //               Radius.circular(20.0),
-                                          //           topRight:
-                                          //               Radius.circular(20.0))),
-                                          //   backgroundColor: Colors.white,
-                                          //   context: context,
-                                          //   builder: (context) =>
-                                          //       FractionallySizedBox(
-                                          //     heightFactor: 0.5.sp,
-                                          //     child: Padding(
-                                          //       padding:
-                                          //           const EdgeInsets.all(15),
-                                          //       child: Column(
-                                          //         mainAxisAlignment:
-                                          //             MainAxisAlignment
-                                          //                 .spaceEvenly,
-                                          //         children: [
-                                          //           Container(
-                                          //             width: 35.sp,
-                                          //             height: 5.sp,
-                                          //             decoration: BoxDecoration(
-                                          //                 borderRadius:
-                                          //                     BorderRadius
-                                          //                         .circular(15),
-                                          //                 color: AppColors
-                                          //                     .primaryColor),
-                                          //           ),
-                                          //           const SizedBox(
-                                          //             height: 0.2,
-                                          //           ),
-                                          //           CustomText(
-                                          //               alignment:
-                                          //                   Alignment.topLeft,
-                                          //               text: 'Payment Options',
-                                          //               fontWeight:
-                                          //                   FontWeight.w400,
-                                          //               fontSize: 14.sp,
-                                          //               color: AppColors
-                                          //                   .secondaryBlackColor),
-                                          //           Container(
-                                          //             child: MaterialButton(
-                                          //               child: Row(
-                                          //                 mainAxisAlignment:
-                                          //                     MainAxisAlignment
-                                          //                         .start,
-                                          //                 children: [
-                                          //                   Icon(
-                                          //                     Icons
-                                          //                         .paypal_outlined,
-                                          //                     color: AppColors
-                                          //                         .primaryColor,
-                                          //                   ),
-                                          //                   SizedBox(
-                                          //                     width: Get.width *
-                                          //                         0.05,
-                                          //                   ),
-                                          //                   Text(
-                                          //                     'Pay with Paypal',
-                                          //                     style: TextStyle(
-                                          //                         color: AppColors
-                                          //                             .primaryColor,
-                                          //                         fontSize:
-                                          //                             14.sp),
-                                          //                   ),
-                                          //                 ],
-                                          //               ),
-                                          //               onPressed: () {
-                                          //                 payWithPaypal();
-                                          //               },
-                                          //             ),
-                                          //           ),
-                                          //           Container(
-                                          //             child: MaterialButton(
-                                          //               child: Row(
-                                          //                 mainAxisAlignment:
-                                          //                     MainAxisAlignment
-                                          //                         .start,
-                                          //                 children: [
-                                          //                   Icon(
-                                          //                     Icons
-                                          //                         .payment_outlined,
-                                          //                     color: AppColors
-                                          //                         .primaryColor,
-                                          //                   ),
-                                          //                   SizedBox(
-                                          //                     width: Get.width *
-                                          //                         0.05,
-                                          //                   ),
-                                          //                   Text(
-                                          //                     'Pay With Stripe',
-                                          //                     style: TextStyle(
-                                          //                         color: AppColors
-                                          //                             .primaryColor,
-                                          //                         fontSize:
-                                          //                             14.sp),
-                                          //                   ),
-                                          //                 ],
-                                          //               ),
-                                          //               onPressed: () {
-                                          //                 payWithStrip();
-                                          //               },
-                                          //             ),
-                                          //           ),
-                                          //         ],
-                                          //       ),
-                                          //     ),
-                                          //   ),
-                                          // );
-                                          // print('success add');
-                                        }
-                                        ;
+                                        // showModalBottomSheet<void>(
+                                        //   elevation: 0.5,
+                                        //   shape: const RoundedRectangleBorder(
+                                        //       borderRadius: BorderRadius.only(
+                                        //           topLeft:
+                                        //               Radius.circular(20.0),
+                                        //           topRight:
+                                        //               Radius.circular(20.0))),
+                                        //   backgroundColor: Colors.white,
+                                        //   context: context,
+                                        //   builder: (context) =>
+                                        //       FractionallySizedBox(
+                                        //     heightFactor: 0.5.sp,
+                                        //     child: Padding(
+                                        //       padding: const EdgeInsets.all(15),
+                                        //       child: Column(
+                                        //         mainAxisAlignment:
+                                        //             MainAxisAlignment
+                                        //                 .spaceEvenly,
+                                        //         children: [
+                                        //           Container(
+                                        //             width: 35.sp,
+                                        //             height: 5.sp,
+                                        //             decoration: BoxDecoration(
+                                        //                 borderRadius:
+                                        //                     BorderRadius
+                                        //                         .circular(15),
+                                        //                 color: AppColors
+                                        //                     .primaryColor),
+                                        //           ),
+                                        //           const SizedBox(
+                                        //             height: 0.2,
+                                        //           ),
+                                        //           CustomText(
+                                        //               alignment:
+                                        //                   Alignment.topLeft,
+                                        //               text: 'Payment Options',
+                                        //               fontWeight:
+                                        //                   FontWeight.w400,
+                                        //               fontSize: 14.sp,
+                                        //               color: AppColors
+                                        //                   .secondaryBlackColor),
+                                        //           Container(
+                                        //             child: MaterialButton(
+                                        //               child: Row(
+                                        //                 mainAxisAlignment:
+                                        //                     MainAxisAlignment
+                                        //                         .start,
+                                        //                 children: [
+                                        //                   Icon(
+                                        //                     Icons
+                                        //                         .paypal_outlined,
+                                        //                     color: AppColors
+                                        //                         .primaryColor,
+                                        //                   ),
+                                        //                   SizedBox(
+                                        //                     width: Get.width *
+                                        //                         0.05,
+                                        //                   ),
+                                        //                   Text(
+                                        //                     'Pay with Paypal',
+                                        //                     style: TextStyle(
+                                        //                         color: AppColors
+                                        //                             .primaryColor,
+                                        //                         fontSize:
+                                        //                             14.sp),
+                                        //                   ),
+                                        //                 ],
+                                        //               ),
+                                        //               onPressed: () {
+                                        //                 payWithPaypal();
+                                        //               },
+                                        //             ),
+                                        //           ),
+                                        //           Container(
+                                        //             child: MaterialButton(
+                                        //               child: Row(
+                                        //                 mainAxisAlignment:
+                                        //                     MainAxisAlignment
+                                        //                         .start,
+                                        //                 children: [
+                                        //                   Icon(
+                                        //                     Icons
+                                        //                         .payment_outlined,
+                                        //                     color: AppColors
+                                        //                         .primaryColor,
+                                        //                   ),
+                                        //                   SizedBox(
+                                        //                     width: Get.width *
+                                        //                         0.05,
+                                        //                   ),
+                                        //                   Text(
+                                        //                     'Pay With Stripe',
+                                        //                     style: TextStyle(
+                                        //                         color: AppColors
+                                        //                             .primaryColor,
+                                        //                         fontSize:
+                                        //                             14.sp),
+                                        //                   ),
+                                        //                 ],
+                                        //               ),
+                                        //               onPressed: () {
+                                        //                 payWithStrip();
+                                        //               },
+                                        //             ),
+                                        //           ),
+                                        //         ],
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // );
+                                        // print('success add');
                                       },
                                       child: Container(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                             horizontal: 10, vertical: 10),
                                         decoration: BoxDecoration(
                                           borderRadius:

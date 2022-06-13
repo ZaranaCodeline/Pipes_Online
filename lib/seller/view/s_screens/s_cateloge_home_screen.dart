@@ -43,6 +43,11 @@ class _SCatelogeHomeScreenState extends State<SCatelogeHomeScreen> {
     super.initState();
     print('Seller User Name ${PreferenceManager.getName()}');
     getData();
+    CollectionReference ProfileCollection =
+        bFirebaseStore.collection('SProfile');
+
+    ProfileCollection.doc(PreferenceManager.getUId())
+        .update({'isOnline': true});
   }
 
   Future<void> getData() async {

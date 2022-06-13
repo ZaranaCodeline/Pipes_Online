@@ -32,9 +32,9 @@ class ChatMessagePage extends StatefulWidget {
   final String? userName;
   final String? receiverFCMToken;
   final bool? isMute;
+  final bool? isOnline;
   final String? userImg;
   final String? phone;
-  final bool? isOnline;
 
   ChatMessagePage(
       {required this.receiverId,
@@ -180,12 +180,10 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                       ),
                       CustomText(
                         alignment: Alignment.center,
-                        text: widget.isOnline == true ? 'Online' : 'Offline',
+                        text: widget.isOnline == true ? 'Online' : '',
                         fontWeight: FontWeight.w400,
                         fontSize: 18,
-                        color: widget.isOnline == true
-                            ? Colors.green
-                            : Colors.amberAccent,
+                        color: Colors.green,
                       ),
                     ],
                   ),

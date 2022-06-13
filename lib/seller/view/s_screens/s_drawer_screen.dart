@@ -362,7 +362,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
         Get.to(() => SHomeScreen());
         break;
       case 1:
-        Get.to(() => SOrdersScreen(
+        Get.to(() => const SOrdersScreen(
               isBottomBarVisible: true,
             ));
         break;

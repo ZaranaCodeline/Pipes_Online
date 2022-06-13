@@ -389,7 +389,7 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
                                                   AppColors.secondaryBlackColor,
                                             ),
                                           ),
-                                          GestureDetector(
+                                          InkWell(
                                             onTap: () {
                                               Get.to(
                                                   SSellerReviewScreen(

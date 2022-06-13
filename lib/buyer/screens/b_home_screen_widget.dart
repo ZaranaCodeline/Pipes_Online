@@ -132,7 +132,7 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                   borderRadius: BorderRadius.vertical(
                     bottom: Radius.circular(Get.width * 0.070),
                   ),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                         color: Colors.black12,
                         offset: Offset(0, 1),

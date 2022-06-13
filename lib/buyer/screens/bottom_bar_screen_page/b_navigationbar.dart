@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/b_chat_screen.dart';
 import 'package:pipes_online/buyer/screens/b_personal_info_page.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/b_cart_bottom_bar_route.dart';
@@ -10,6 +12,7 @@ import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/b_perso
 import 'package:pipes_online/buyer/screens/b_home_screen_widget.dart';
 import 'package:pipes_online/buyer/screens/b_product_cart_screen.dart';
 import 'package:pipes_online/buyer/view_model/b_bottom_bar_controller.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 
 class BottomNavigationBarScreen extends StatefulWidget {
   const BottomNavigationBarScreen({Key? key}) : super(key: key);
@@ -19,7 +22,8 @@ class BottomNavigationBarScreen extends StatefulWidget {
       _BottomNavigationBarScreenState();
 }
 
-class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
+class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen>
+    with WidgetsBindingObserver {
   BBottomBarIndexController bottomBarIndexController =
       Get.put(BBottomBarIndexController());
 
@@ -47,6 +51,50 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
       "Icon": Icons.person_outline,
     },
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance?.addObserver(this);
+
+    CollectionReference ProfileCollection =
+        bFirebaseStore.collection('BProfile');
+    ProfileCollection.doc(PreferenceManager.getUId())
+        .update({'isOnline': true});
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // TODO: implement didChangeAppLifecycleState
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      CollectionReference ProfileCollection =
+          bFirebaseStore.collection('BProfile');
+
+      ProfileCollection.doc(PreferenceManager.getUId())
+          .update({'isOnline': true}).then((value) => print('Success'));
+      print('>>>>>> RESUMED<<<<<<<<');
+    } else if (state == AppLifecycleState.detached) {
+      print('>>>>>> DETACHED<<<<<<<<');
+    } else if (state == AppLifecycleState.inactive) {
+      print('>>>>>> INACTIVE<<<<<<<<');
+    } else if (state == AppLifecycleState.paused) {
+      CollectionReference ProfileCollection =
+          bFirebaseStore.collection('BProfile');
+
+      ProfileCollection.doc(PreferenceManager.getUId())
+          .update({'isOnline': false}).then((value) => print('Success'));
+      print('>>>>>> PAUSED<<<<<<<<');
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    WidgetsBinding.instance?.removeObserver(this);
+  }
 
   @override
   Widget build(BuildContext context) {

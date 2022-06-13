@@ -163,32 +163,35 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                 if (snapShot.hasData) {
                   return Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          CustomText(
-                              text: '${snapShot.data!.docs.length} Reviews ',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 12.sp,
-                              color:
-                                  AppColors.secondaryBlackColor), // CustomText(
-                          //     text: '14',
-                          //     fontWeight: FontWeight.w600,
-                          //     fontSize: 12.sp,
-                          //     color: AppColors.secondaryBlackColor),
-                          GestureDetector(
-                            onTap: () {
-                              Get.to(AddReviewsPage(
-                                category: widget.category,
-                              ));
-                            },
-                            child: CustomText(
-                                text: 'Review Now',
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            CustomText(
+                                text: '${snapShot.data!.docs.length} Reviews ',
                                 fontWeight: FontWeight.w600,
                                 fontSize: 12.sp,
-                                color: AppColors.primaryColor),
-                          ),
-                        ],
+                                color: AppColors
+                                    .secondaryBlackColor), // CustomText(
+                            //     text: '14',
+                            //     fontWeight: FontWeight.w600,
+                            //     fontSize: 12.sp,
+                            //     color: AppColors.secondaryBlackColor),
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(AddReviewsPage(
+                                  category: widget.category,
+                                ));
+                              },
+                              child: CustomText(
+                                  text: 'Review Now',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12.sp,
+                                  color: AppColors.primaryColor),
+                            ),
+                          ],
+                        ),
                       ),
                       ListView.builder(
                         shrinkWrap: true,

@@ -21,5 +21,6 @@ class BImagePick {
   static String chatIcon = 'assets/images/png/cat_1.png';
   static String proIcon = 'assets/images/png/pro_1.png';
   static String permission = 'assets/images/png/permission.png';
+  static String stripeIcon = 'assets/images/png/stripe.png';
   static String dtlFolderIcon = 'assets/images/icon/dtl_folder.svg';
 }

@@ -78,7 +78,6 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
     // TODO: implement initState
     getData();
     reviewID = Get.arguments;
-
     print('===widget_buyerID=====${widget.buyerID}--buyer_ID--${buyer_ID}');
     print('======ID=====${PreferenceManager.getUId()}');
     super.initState();
@@ -419,7 +418,7 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                                     onPressed: () {
                                       print('hii');
                                       Share.share(
-                                          'https://pipesonline012.page.link/productPage');
+                                          'https://pipedeals.page.link/products');
                                     },
                                     icon: Icon(
                                       Icons.chat_bubble_outline,
@@ -658,9 +657,12 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                                           physics: BouncingScrollPhysics(),
                                           itemBuilder: (context, index) {
                                             formattedDateTime =
-                                                DateFormat.yMMMd().format(
-                                                    DateTime.parse(snapShot.data
-                                                        ?.docs[index]['time']));
+                                                DateFormat.yMMMd()
+                                                    .add_jm()
+                                                    .format(DateTime.parse(
+                                                        snapShot.data
+                                                                ?.docs[index]
+                                                            ['time']));
                                             print(
                                                 '--formattedDateTime-${formattedDateTime}');
                                             return Card(
@@ -814,42 +816,63 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                                                             height: Get.height *
                                                                 0.01,
                                                           ),
-                                                          Container(
-                                                            margin: EdgeInsets
-                                                                .symmetric(
-                                                                    horizontal:
-                                                                        15),
-                                                            width:
-                                                                Get.width * 0.7,
-                                                            child: SmoothStarRating(
-                                                                allowHalfRating:
-                                                                    false,
-                                                                starCount: 5,
-                                                                rating: snapShot
-                                                                            .data!.docs[index]
-                                                                        [
-                                                                        'rating'] ??
-                                                                    '3',
-                                                                size: 20.0,
-                                                                filledIconData:
-                                                                    Icons.star,
-                                                                halfFilledIconData:
-                                                                    Icons
-                                                                        .blur_on,
-                                                                color: AppColors
-                                                                    .starRatingColor,
-                                                                borderColor:
-                                                                    AppColors
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Container(
+                                                                margin: EdgeInsets
+                                                                    .symmetric(
+                                                                        horizontal:
+                                                                            15),
+                                                                // width:
+                                                                //     Get.width *
+                                                                //         0.7,
+                                                                child: SmoothStarRating(
+                                                                    allowHalfRating:
+                                                                        false,
+                                                                    starCount:
+                                                                        5,
+                                                                    rating: snapShot.data!.docs[index]
+                                                                            [
+                                                                            'rating'] ??
+                                                                        '3',
+                                                                    size: 20.0,
+                                                                    filledIconData:
+                                                                        Icons
+                                                                            .star,
+                                                                    halfFilledIconData:
+                                                                        Icons
+                                                                            .blur_on,
+                                                                    color: AppColors
                                                                         .starRatingColor,
-                                                                spacing: 0.0),
+                                                                    borderColor:
+                                                                        AppColors
+                                                                            .starRatingColor,
+                                                                    spacing:
+                                                                        0.0),
+                                                              ),
+                                                              CustomText(
+                                                                  text: formattedDateTime
+                                                                      .toString(),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontSize:
+                                                                      10.sp,
+                                                                  color: AppColors
+                                                                      .secondaryBlackColor),
+                                                            ],
                                                           ),
                                                           SizedBox(
                                                             height: Get.height *
                                                                 0.01,
                                                           ),
                                                           Container(
-                                                            padding: EdgeInsets
-                                                                .symmetric(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
                                                                     horizontal:
                                                                         20),
                                                             child: CustomText(
@@ -872,22 +895,13 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                                                                       .start,
                                                             ),
                                                           ),
-                                                          Divider(),
-                                                          // SizedBox(
-                                                          //   height: Get.height *
-                                                          //       0.01,
-                                                          // ),
+                                                          SizedBox(
+                                                            height: Get.height *
+                                                                0.01,
+                                                          ),
                                                         ],
                                                       ),
                                                     ),
-                                                    CustomText(
-                                                        text: formattedDateTime
-                                                            .toString(),
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 12.sp,
-                                                        color: AppColors
-                                                            .secondaryBlackColor),
                                                   ],
                                                 ),
                                               ),

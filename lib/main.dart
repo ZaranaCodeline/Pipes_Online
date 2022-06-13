@@ -10,6 +10,7 @@ import 'package:pipes_online/routes/app_pages.dart';
 import 'package:pipes_online/routes/bottom_controller.dart';
 import 'package:sizer/sizer.dart';
 import 'buyer/helpers/binding.dart';
+import 'package:flutter_stripe/flutter_stripe.dart' as stripe;
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id

@@ -89,7 +89,7 @@ class BMyOrderPage extends StatelessWidget {
                         child: Column(
                           children: [
                             SizedBox(
-                              height: Get.height * 0.05,
+                              height: Get.height * 0.02,
                             ),
 
                             Card(
@@ -139,8 +139,8 @@ class BMyOrderPage extends StatelessWidget {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               CustomText(
-                                                text: snapShot.data?.docs[index]
-                                                    ['prdName'],
+                                                text:
+                                                    'Product : ${snapShot.data?.docs[index]['prdName']}',
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 14.sp,
                                                 color: AppColors.primaryColor,
@@ -161,13 +161,19 @@ class BMyOrderPage extends StatelessWidget {
                                               SizedBox(
                                                 height: Get.height * 0.01,
                                               ),
-                                              CustomText(
-                                                text:
-                                                    'Order ID:\n ${snapShot.data?.docs[index].id}',
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 10.sp,
-                                                color: AppColors.hintTextColor,
-                                                alignment: Alignment.topRight,
+                                              Container(
+                                                width: Get.width * 0.5,
+                                                child: CustomText(
+                                                  textOverflow:
+                                                      TextOverflow.fade,
+                                                  text:
+                                                      'Order ID: ${snapShot.data?.docs[index].id}',
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 10.sp,
+                                                  color:
+                                                      AppColors.hintTextColor,
+                                                  alignment: Alignment.topRight,
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -263,7 +269,7 @@ class BMyOrderPage extends StatelessWidget {
                             //second
 
                             SizedBox(
-                              height: Get.height * 0.05,
+                              height: Get.height * 0.01,
                             ),
                             TextButton(
                               onPressed: () {

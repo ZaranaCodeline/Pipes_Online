@@ -132,7 +132,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
               ),
-              body: searchController.text.isEmpty
+              body: /*search.length != 0 || searchController.text.isNotEmpty*/ searchController
+                      .text.isEmpty
                   ? StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
                           .collection('Products')
@@ -140,7 +141,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               isGreaterThanOrEqualTo: searchController.text)
                           .snapshots(),
                       builder: (context, snapShot) {
-                        if (!snapShot.hasData)
+                        if (!snapShot.hasData) {
                           return Shimmer.fromColors(
                             baseColor: Colors.grey.shade200,
                             highlightColor: Colors.grey.shade300,
@@ -206,6 +207,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               ),
                             ),
                           );
+                        }
                         if (snapShot.hasData) {
                           return ListView.builder(
                             itemCount: snapShot.data?.docs.length,
@@ -333,7 +335,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           .snapshots(),
                       builder: (context, snapShot) {
                         print('chatt---------');
-                        if (!snapShot.hasData)
+                        if (!snapShot.hasData) {
                           return Shimmer.fromColors(
                             baseColor: Colors.grey.shade200,
                             highlightColor: Colors.grey.shade300,
@@ -399,6 +401,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               ),
                             ),
                           );
+                        }
                         if (snapShot.hasData) {
                           return ListView.builder(
                             itemCount: snapShot.data?.docs.length,
@@ -514,7 +517,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
             );
           }
-          return SizedBox();
+          return Container();
         },
       ),
     );

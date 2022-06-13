@@ -153,6 +153,7 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                     onTap: () {
                       Get.to(
                         () => CartPage(
+                          cartID: snapShot.data?.docs[index].id,
                           name: snapShot.data!.docs[index]['category'],
                           category: snapShot.data!.docs[index]['category'],
                           desc: snapShot.data!.docs[index]['dsc'],

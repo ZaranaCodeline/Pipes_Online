@@ -232,8 +232,8 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                       size: 20.sp,
                                       filledIconData: Icons.star,
                                       halfFilledIconData: Icons.blur_on,
-                                      color: AppColors.hintTextColor,
-                                      borderColor: AppColors.hintTextColor,
+                                      color: AppColors.starRatingColor,
+                                      borderColor: AppColors.starRatingColor,
                                       spacing: 0.0),
                                   SizedBox(
                                     height: Get.height * 0.02.sp,

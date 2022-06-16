@@ -50,14 +50,15 @@ class _SSearchScreenState extends State<SSearchScreen> {
       body: FutureBuilder<QuerySnapshot>(
         future: collection,
         builder: (BuildContext context, snapShot) {
-          if (!snapShot.hasData)
-            return new Center(
+          if (!snapShot.hasData) {
+            return Center(
               child: CircularProgressIndicator(
                 color: AppColors.primaryColor,
               ),
             );
+          }
           if (snapShot.data!.docs.isEmpty) {
-            Center(
+            const Center(
               child: Text('NO PRODUCTS FOUND'),
             );
           }

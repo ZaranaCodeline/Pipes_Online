@@ -107,7 +107,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
   @override
   Widget build(BuildContext context) {
     print('AuthId====${_auth.currentUser?.uid}');
-    print('PreferenceManager.getUId()====${PreferenceManager.getUId()}');
+    print('PreferenceManager.getUId====${PreferenceManager.getUId()}');
 
     return SafeArea(
       child: Scaffold(
@@ -309,7 +309,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                                   child: Text(
                                                                     "${snapShot.data!.docs[index]['msg']}",
                                                                     style:
-                                                                        TextStyle(
+                                                                        const TextStyle(
                                                                       fontSize:
                                                                           16,
                                                                       fontWeight:
@@ -399,7 +399,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                                 .withOpacity(
                                                                     0.5),
                                                             shape:
-                                                                RoundedRectangleBorder(
+                                                                const RoundedRectangleBorder(
                                                               borderRadius: BorderRadius.only(
                                                                   topRight: Radius
                                                                       .circular(
@@ -430,7 +430,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                                           .data!
                                                                           .docs[index]['msg'],
                                                                       style:
-                                                                          TextStyle(
+                                                                          const TextStyle(
                                                                         fontSize:
                                                                             16,
                                                                         fontWeight:
@@ -442,7 +442,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                                       ),
                                                                     ),
                                                                   ),
-                                                                  SizedBox(
+                                                                  const SizedBox(
                                                                     width: 10,
                                                                   ),
                                                                 ],
@@ -484,7 +484,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                                     .all(8.0),
                                                             child: Container(
                                                               constraints:
-                                                                  BoxConstraints(
+                                                                  const BoxConstraints(
                                                                 maxHeight: double
                                                                     .infinity,
                                                               ),
@@ -554,7 +554,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                                     child: Text(
                                                                       "${snapShot.data!.docs[index]['msg']}",
                                                                       style:
-                                                                          TextStyle(
+                                                                          const TextStyle(
                                                                         fontSize:
                                                                             16,
                                                                         fontWeight:
@@ -792,7 +792,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                                   child: Text(
                                                                     "${snapShot.data!.docs[index]['msg']}",
                                                                     style:
-                                                                        TextStyle(
+                                                                        const TextStyle(
                                                                       fontSize:
                                                                           16,
                                                                       fontWeight:
@@ -806,12 +806,11 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                                   ),
                                                                 ),
                                                                 Padding(
-                                                                  padding: EdgeInsets
-                                                                      .only(
-                                                                          right:
-                                                                              10,
-                                                                          bottom:
-                                                                              15),
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      right: 10,
+                                                                      bottom:
+                                                                          15),
                                                                   child:
                                                                       MsgDate(
                                                                     date: (snapShot
@@ -883,16 +882,16 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                             ))),
                     IconButton(
                       onPressed: () {
-                        if (widget.isMute == false) {
-                          addMsg().then((value) {
-                            AppNotificationHandler.sendMessage(
-                                receiverFcmToken: widget.receiverFCMToken,
-                                msg: _msg.text);
+                        if (widget.isMute == true) {
+                          // addMsg().then((value) {
+                          AppNotificationHandler.sendMessage(
+                              receiverFcmToken: widget.receiverFCMToken,
+                              msg: _msg.text);
 
-                            print('token--${widget.receiverFCMToken}');
-                          });
+                          print('token--${widget.receiverFCMToken}');
+                          // });
                         }
-                        // addMsg();
+                        addMsg();
                         print('call');
                       },
                       icon: Icon(Icons.send,
@@ -1023,38 +1022,38 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
     //file=File(file!.path);
     //return uploadDocumentFirebaseStorage(file: File(path!));
   }
-  // Future uploadMultiImage() async {
-  //   try {
-  //     final resultList = await MultiImagePicker.pickImages(
-  //       maxImages: 5,
-  //       enableCamera: true,
-  //       cupertinoOptions: const CupertinoOptions(takePhotoIcon: "chat"),
-  //       materialOptions: const MaterialOptions(
-  //         actionBarColor: "#abcdef",
-  //         actionBarTitle: "Example App",
-  //         allViewTitle: "All Photos",
-  //         useDetailsView: false,
-  //         selectCircleStrokeColor: "#000000",
-  //       ),
-  //     );
-  //     print('result ${resultList}');
-  //     if (resultList.isNotEmpty) {
-  //       resultList.forEach((imageAsset) async {
-  //         final filePath =
-  //             await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier!);
-  //
-  //         File tempFile = File(filePath!);
-  //         if (tempFile.existsSync()) {
-  //           con.addFileImageArray(tempFile);
-  //         }
-  //         await uploadImgFirebaseStorage(file: tempFile);
-  //         print('success');
-  //       });
-  //     }
-  //   } on Exception catch (e) {
-  //     print('error $e');
-  //   }
-  // }
+// Future uploadMultiImage() async {
+//   try {
+//     final resultList = await MultiImagePicker.pickImages(
+//       maxImages: 5,
+//       enableCamera: true,
+//       cupertinoOptions: const CupertinoOptions(takePhotoIcon: "chat"),
+//       materialOptions: const MaterialOptions(
+//         actionBarColor: "#abcdef",
+//         actionBarTitle: "Example App",
+//         allViewTitle: "All Photos",
+//         useDetailsView: false,
+//         selectCircleStrokeColor: "#000000",
+//       ),
+//     );
+//     print('result ${resultList}');
+//     if (resultList.isNotEmpty) {
+//       resultList.forEach((imageAsset) async {
+//         final filePath =
+//             await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier!);
+//
+//         File tempFile = File(filePath!);
+//         if (tempFile.existsSync()) {
+//           con.addFileImageArray(tempFile);
+//         }
+//         await uploadImgFirebaseStorage(file: tempFile);
+//         print('success');
+//       });
+//     }
+//   } on Exception catch (e) {
+//     print('error $e');
+//   }
+// }
 
 }
 

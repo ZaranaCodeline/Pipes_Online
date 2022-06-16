@@ -136,6 +136,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               'PROFILE'.toUpperCase(),
               style: STextStyle.bold700White14,
             ),
+            automaticallyImplyLeading: false,
             centerTitle: true,
             backgroundColor: AppColors.primaryColor,
             toolbarHeight: Get.height * 0.1,

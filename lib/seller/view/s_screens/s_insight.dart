@@ -1,40 +1,58 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/seller/common/s_color_picker.dart';
+import 'package:pipes_online/seller/view_model/time_filter_dropdown.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
 
 class LineChartPage extends StatefulWidget {
+  // String dropDown;
+
+  LineChartPage({
+    Key? key,
+  }) : super(key: key);
   @override
   State<LineChartPage> createState() => _LineChartPageState();
 }
 
 class _LineChartPageState extends State<LineChartPage> {
-  String dropdownValue = 'Last Week';
+  String? dropdownValue = 'Last Week';
+  String? formattedDateTime;
+  TimeFilterController timeFilterController = Get.find();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // dropdownValue = widget.dropDown;
+  }
 
   @override
-  Widget build(BuildContext context) => Container(
-        height: Get.height,
-        child: Card(
-          elevation: 5,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          color: AppColors.commonWhiteTextColor,
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 10, top: 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Order Statics',
-                      style: TextStyle(
-                          color: SColorPicker.fontGrey, fontSize: 10.sp),
-                    ),
-                    DropdownButton(
+  Widget build(BuildContext context) {
+    return Container(
+      height: Get.height,
+      child: Card(
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        color: AppColors.commonWhiteTextColor,
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 10, top: 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Order Statics',
+                    style: TextStyle(
+                        color: SColorPicker.fontGrey, fontSize: 10.sp),
+                  ),
+                  DropdownButton(
                       value: dropdownValue,
                       items: <String>[
                         'Last Week',
@@ -50,22 +68,42 @@ class _LineChartPageState extends State<LineChartPage> {
                           ),
                         );
                       }).toList(),
-                      onChanged: (String? newValue) {
+                      onChanged: (String? val) {
                         setState(() {
-                          print('chart hear...');
-                          dropdownValue = newValue!;
+                          print('VAL >>> $val');
+                          dropdownValue = val;
+                          timeFilterController.dropDownValue = dropdownValue!;
                         });
-                      },
-                    ),
-                  ],
-                ),
+                      }),
+                ],
               ),
-              LineChartWidget(),
-            ],
-          ),
+            ),
+            LineChartWidget(),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
+
+var date = DateTime.now();
+List months = [
+  'jan',
+  'feb',
+  'mar',
+  'apr',
+  'may',
+  'jun',
+  'jul',
+  'aug',
+  'sep',
+  'oct',
+  'nov',
+  'dec'
+];
+var now = new DateTime.now();
+var current_mon = now.month;
+var monName = months[current_mon - 1];
 
 class LineChartWidget extends StatelessWidget {
   final List<Color> gradientColors = [
@@ -88,19 +126,6 @@ class LineChartWidget extends StatelessWidget {
               titlesData: LineTitles.getTitleData(),
               gridData: FlGridData(
                 show: false,
-                // getDrawingHorizontalLine: (value) {
-                //   return FlLine(
-                //     //color: const Color(0xff37434d),
-                //     strokeWidth: 0,
-                //   );
-                // },
-                // //drawVerticalLine: true,
-                // getDrawingVerticalLine: (value) {
-                //   return FlLine(
-                //     //color: const Color(0xff37434d),
-                //     strokeWidth: 0,
-                //   );
-                // },
               ),
               borderData: FlBorderData(
                 show: false,
@@ -109,13 +134,13 @@ class LineChartWidget extends StatelessWidget {
               lineBarsData: [
                 LineChartBarData(
                   spots: [
-                    FlSpot(0, 4),
-                    FlSpot(2.6, 2),
-                    FlSpot(4.9, 5),
-                    FlSpot(6.8, 2.5),
-                    FlSpot(8, 4),
-                    FlSpot(9.5, 3),
-                    FlSpot(11, 4),
+                    FlSpot(0, 1),
+                    FlSpot(2.5, 1),
+                    FlSpot(3.4, 3),
+                    FlSpot(5.5, 3.2),
+                    FlSpot(6.5, 5.5),
+                    FlSpot(9, 6),
+                    FlSpot(10, 8),
                   ],
                   isCurved: true,
                   colors: gradientColors,
@@ -127,12 +152,6 @@ class LineChartWidget extends StatelessWidget {
                   dotData: FlDotData(
                     show: true,
                   ),
-                  // belowBarData: BarAreaData(
-                  //   show: false,
-                  //   colors: gradientColors
-                  //       .map((color) => color.withOpacity(0.3))
-                  //       .toList(),
-                  // ),
                 ),
               ],
             ),
@@ -147,27 +166,22 @@ class LineTitles {
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 35,
-          /* getTextStyles: (value) =>  TextStyle(
-        color: Color(0xff68737d),
-        fontWeight: FontWeight.bold,
-        fontSize: 15,
-      ),*/
           getTitles: (value) {
             switch (value.toInt()) {
               case 0:
-                return '1 Mar';
+                return '1 $monName';
               case 2:
-                return '2 Mar';
+                return '2 $monName';
               case 4:
-                return '3 Mar';
+                return '3 $monName';
               case 6:
-                return '4 Mar';
+                return '4 $monName';
               case 8:
-                return '5 Mar';
+                return '5 $monName';
               case 10:
-                return '6 Mar';
+                return '6 $monName';
               case 12:
-                return '7 Mar';
+                return '7 $monName';
             }
             return '';
           },
@@ -175,24 +189,6 @@ class LineTitles {
         ),
         leftTitles: SideTitles(
           showTitles: false,
-          // getTextStyles: (value) => const TextStyle(
-          //   color: Color(0xff67727d),
-          //   fontWeight: FontWeight.bold,
-          //   fontSize: 15,
-          // ),
-          // getTitles: (value) {
-          //   switch (value.toInt()) {
-          //     case 1:
-          //       return '10k';
-          //     case 3:
-          //       return '30k';
-          //     case 5:
-          //       return '50k';
-          //   }
-          //   return '';
-          // },
-          // reservedSize: 30,
-          // margin: 10,
         ),
       );
 }

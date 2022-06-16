@@ -101,14 +101,7 @@ class _SChatScreenState extends State<SChatScreen> {
                       style: STextStyle.bold700White14,
                     ),
                     centerTitle: true,
-                    leading: IconButton(
-                      onPressed: () {
-                        // Get.back();
-                        homeController.bottomIndex.value = 0;
-                        homeController.selectedScreen('SCatelogeHomeScreen');
-                      },
-                      icon: Icon(Icons.arrow_back),
-                    ),
+                    automaticallyImplyLeading: false,
                     backgroundColor: AppColors.primaryColor,
                     toolbarHeight: Get.height * 0.1,
                     shape: const RoundedRectangleBorder(
@@ -133,9 +126,13 @@ class _SChatScreenState extends State<SChatScreen> {
                                   height: Get.height * 0.02,
                                 ),
                                 Container(
+                                  margin:
+                                      EdgeInsets.symmetric(horizontal: 15.sp),
                                   height: Get.height / 15,
                                   width: Get.width / 1,
                                   decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.circular(15.sp),
                                       color: AppColors.primaryColor
                                           .withOpacity(0.2)),
                                   child: CupertinoTextField(
@@ -178,7 +175,7 @@ class _SChatScreenState extends State<SChatScreen> {
                                             ),
                                     ),
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(0.0),
+                                      borderRadius: BorderRadius.circular(15.0),
                                       color: Color(0xffF0F1F5),
                                     ),
                                   ),
@@ -281,7 +278,7 @@ class _SChatScreenState extends State<SChatScreen> {
                                                         isOnline: snapshot.data
                                                                     .docs[index]
                                                                 ['isOnline'] ??
-                                                            true,
+                                                            false,
                                                         isMute: snapshot.data
                                                                     .docs[index]
                                                                 ['isMute'] ??
@@ -507,7 +504,7 @@ class _SChatScreenState extends State<SChatScreen> {
                                                         isOnline: snapshot.data
                                                                     .docs[index]
                                                                 ['isOnline'] ??
-                                                            true,
+                                                            false,
                                                         isMute: snapshot.data
                                                                     .docs[index]
                                                                 ['isMute'] ??
@@ -690,8 +687,48 @@ class _SChatScreenState extends State<SChatScreen> {
                             ),
                           ),
                         );
+                      } else {
+                        return Shimmer.fromColors(
+                          baseColor: Colors.grey.shade200,
+                          highlightColor: Colors.grey.shade300,
+                          child: Container(
+                            height: 100.h,
+                            width: 150.w,
+                            //    color: Colors.red,
+                            child: ListView.builder(
+                              itemCount: snapShot.data?.docs.length,
+                              scrollDirection: Axis.vertical,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: Get.width * 0.05,
+                                      vertical: Get.height * 0.02),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      CircleAvatar(radius: 3.h),
+                                      SizedBox(width: 5.w),
+                                      Column(
+                                        children: [
+                                          Container(
+                                            height: 5.h,
+                                            width: Get.width * 0.7,
+                                            decoration: BoxDecoration(
+                                                color: Colors.grey.shade100,
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        5.sp)),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        );
                       }
-                      return Container();
                     },
                   ),
                 ),

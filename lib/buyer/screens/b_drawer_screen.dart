@@ -10,6 +10,7 @@ import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/b_personal_info_page.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
+import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/b_cart_bottom_bar_route.dart';
 import 'package:pipes_online/buyer/screens/help_center_page.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_drawer_controller.dart';
@@ -53,11 +54,6 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
       Img = getUserData?['imageProfile'];
       address = getUserData?['address'];
     });
-    /*print('=======SDrawerScreen=======${getUserData}');
-    print('=======SDrawerScreen===========${user.get('$name')}');
-    print('=======SDrawerScreen=======${user.get('$phoneNo')}');
-    print('=======SDrawerScreen=======${user.get('$Img')}');
-    print('=======SDrawerScreen======${user.get('$address')}');*/
   }
 
   @override
@@ -77,9 +73,13 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
               children: [
                 InkWell(
                   onTap: () {
-                    Get.to(PersonalInfoPage(
-                      isBottomBarVisible: true,
-                    ));
+                    bottomBarIndexController.setSelectedScreen(
+                        value: 'PersonalInfoPage');
+                    bottomBarIndexController.bottomIndex.value = 3;
+
+                    // Get.to(PersonalInfoPage(
+                    //   isBottomBarVisible: true,
+                    // ));
                   },
                   child: Container(
                     margin: EdgeInsets.symmetric(
@@ -208,13 +208,18 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                                 ),
                                 IconButton(
                                   onPressed: () {
+                                    bottomBarIndexController.setSelectedScreen(
+                                        value: 'PersonalInfoPage');
+                                    bottomBarIndexController.bottomIndex.value =
+                                        3;
+
                                     // bottomBarIndexController.setSelectedScreen(
                                     //     value: 'PersonalInfoPage');
                                     // bottomBarIndexController.bottomIndex.value =
                                     //     3;
-                                    Get.to(PersonalInfoPage(
-                                      isBottomBarVisible: true,
-                                    ));
+                                    // Get.to(PersonalInfoPage(
+                                    //   isBottomBarVisible: true,
+                                    // ));
                                   },
                                   icon: Icon(
                                     controller.readOnly == true
@@ -291,12 +296,11 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
   }) =>
       InkWell(
         onTap: () {
-          // bottomBarIndexController.setSelectedScreen(
-          //     value: 'PersonalInfoPage');
-          // bottomBarIndexController.bottomIndex.value = 3;
-          Get.to(PersonalInfoPage(
-            isBottomBarVisible: true,
-          ));
+          bottomBarIndexController.setSelectedScreen(value: 'PersonalInfoPage');
+          bottomBarIndexController.bottomIndex.value = 3;
+          // Get.to(PersonalInfoPage(
+          //   isBottomBarVisible: true,
+          // ));
         },
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 18.sp, vertical: 18.sp),

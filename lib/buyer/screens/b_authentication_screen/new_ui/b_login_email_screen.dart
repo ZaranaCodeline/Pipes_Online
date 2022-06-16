@@ -209,6 +209,24 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                       setState(() {
                                         isLoading = true;
                                       });
+                                      showModalBottomSheet(
+                                          backgroundColor: Colors.transparent,
+                                          isScrollControlled: true,
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return Container(
+                                              height: Get.height,
+                                              width: Get.width,
+                                              color: Colors.black12,
+                                              child: Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: AppColors.primaryColor
+                                                      .withOpacity(0.5),
+                                                ),
+                                              ),
+                                            );
+                                          });
                                       print(
                                           'login email========>${email.text.toString()}');
                                       print(
@@ -227,7 +245,7 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                         });
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
-                                          SnackBar(
+                                          const SnackBar(
                                             content: Text(
                                                 'The login is invalid.Please Try again'),
                                             backgroundColor: Colors.redAccent,
@@ -245,31 +263,13 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                       borderRadius:
                                           BorderRadius.circular(10.sp),
                                     ),
-                                    child: isLoading
-                                        ? Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              CustomText(
-                                                  text: 'Loading...  ',
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 12.sp,
-                                                  color: AppColors
-                                                      .commonWhiteTextColor),
-                                              CircularProgressIndicator(
-                                                color: AppColors
-                                                    .commonWhiteTextColor,
-                                              ),
-                                            ],
-                                          )
-                                        : Text(
-                                            'Login',
-                                            style: TextStyle(
-                                                color: AppColors
-                                                    .commonWhiteTextColor,
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w700),
-                                          ),
+                                    child: Text(
+                                      'Login',
+                                      style: TextStyle(
+                                          color: AppColors.commonWhiteTextColor,
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w700),
+                                    ),
                                   ),
                                 ),
                                 SizedBox(
@@ -324,6 +324,24 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                       loginwithgoogle().then((value) {
                                         Get.to(BFirstUserInfoScreen());
                                       });
+                                      showModalBottomSheet(
+                                          backgroundColor: Colors.transparent,
+                                          isScrollControlled: true,
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return Container(
+                                              height: Get.height,
+                                              width: Get.width,
+                                              color: Colors.black12,
+                                              child: Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: AppColors.primaryColor
+                                                      .withOpacity(0.5),
+                                                ),
+                                              ),
+                                            );
+                                          });
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(10.sp),
@@ -331,7 +349,7 @@ class _BLoginEmailScreenState extends State<BLoginEmailScreen> {
                                       width: Get.width * 0.8,
                                       decoration: BoxDecoration(
                                         color: SColorPicker.white,
-                                        boxShadow: [
+                                        boxShadow: const [
                                           BoxShadow(
                                               color: Colors.black12,
                                               spreadRadius: 0.5,

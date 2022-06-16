@@ -44,7 +44,7 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
       category,
       buyerPhone,
       Img;
-  String? formattedDateTime;
+  Timestamp? formattedDateTime;
 
   Future<void> getData() async {
     print('--formattedDateTime-${formattedDateTime}');
@@ -68,9 +68,10 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
       buyerPhone = getUserData?['buyerPhone'];
       address = getUserData?['buyerAddress'];
       Img = getUserData?['productImage'];
-      formattedDateTime = DateFormat('yyyy-MM-dd')
-          .format(DateTime.parse(getUserData?['createdOn']));
-      createdOn = formattedDateTime;
+      formattedDateTime = getUserData?[
+          'createdOn']; /*DateFormat('yyyy-MM-dd')
+          .format(DateTime.parse(getUserData?['createdOn']));*/
+      createdOn = formattedDateTime.toString();
     });
   }
 
@@ -168,9 +169,9 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
                                       children: [
                                         CustomText(
                                             text:
-                                                'Ordered on ${formattedDateTime}',
+                                                'Ordered on ${formattedDateTime?.toDate().toString()}',
                                             fontWeight: FontWeight.w600,
-                                            fontSize: 14.sp,
+                                            fontSize: 13.sp,
                                             color:
                                                 AppColors.secondaryBlackColor),
                                         SizedBox(

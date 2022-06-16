@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_login_email_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_email_screen.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_sign_up_phone_otp_screen.dart';
@@ -267,6 +266,23 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                     setState(() {
                                       isLoading = true;
                                     });
+                                    showModalBottomSheet(
+                                        backgroundColor: Colors.transparent,
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Container(
+                                            height: Get.height,
+                                            width: Get.width,
+                                            color: Colors.black12,
+                                            child: Center(
+                                              child: CircularProgressIndicator(
+                                                color: AppColors.primaryColor
+                                                    .withOpacity(0.5),
+                                              ),
+                                            ),
+                                          );
+                                        });
                                     sendOtp().then((value) {
                                       print('Phone---${_phoneController.text}');
                                     });
@@ -280,31 +296,13 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                       borderRadius:
                                           BorderRadius.circular(10.sp),
                                     ),
-                                    child: isLoading
-                                        ? Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              CustomText(
-                                                  text: 'Loading...  ',
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 12.sp,
-                                                  color: AppColors
-                                                      .commonWhiteTextColor),
-                                              CircularProgressIndicator(
-                                                color: AppColors
-                                                    .commonWhiteTextColor,
-                                              ),
-                                            ],
-                                          )
-                                        : Text(
-                                            'Sign Up',
-                                            style: TextStyle(
-                                                color: AppColors
-                                                    .commonWhiteTextColor,
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w700),
-                                          ),
+                                    child: Text(
+                                      'Sign Up',
+                                      style: TextStyle(
+                                          color: AppColors.commonWhiteTextColor,
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w700),
+                                    ),
                                   ),
                                 ),
                                 SizedBox(

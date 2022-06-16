@@ -381,8 +381,12 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                               });
                               if (formGlobalKey.currentState!.validate()) {
                                 if (_image == null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content:
+                                              Text('Please Select a Image')));
                                   setState(() {
-                                    isLoading = true;
+                                    isLoading = false;
                                   });
                                 }
                                 formGlobalKey.currentState!.save();

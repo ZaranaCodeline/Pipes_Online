@@ -85,7 +85,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
             'price': widget.proPrice,
             'category': widget.category,
             'dsc': widget.desc,
-            'createdOn': DateTime.now().toString(),
+            'createdOn': DateTime.now(),
             'buyerName': widget.bName,
             'buyerImg': widget.bImage,
             'buyerAddress': widget.bAddress,
@@ -300,7 +300,30 @@ class _PaymentWidgetState extends State<PaymentWidget> {
           CustomSocialWidget(
               icon: BImagePick.PayPalIcon,
               onClicked: () {
-                payWithPaypal().then((value) {
+                FirebaseFirestore.instance.collection('Orders').add(
+                  {
+                    'productID': widget.proID,
+                    'orderID': PreferenceManager.getUId().toString(),
+                    'productImage': widget.proImage,
+                    'prdName': widget.proName,
+                    'size': '2 ft',
+                    'length': '2 kg',
+                    'weight': 'Pending',
+                    'oil': '--',
+                    'orderStatus': 'Complate',
+                    'paymentMode': 'stripe',
+                    'price': widget.proPrice,
+                    'category': widget.category,
+                    'dsc': widget.desc,
+                    'createdOn': DateTime.now(),
+                    'buyerName': widget.bName,
+                    'buyerImg': widget.bImage,
+                    'buyerAddress': widget.bAddress,
+                    'buyerID': widget.bID,
+                    'buyerPhone': widget.bPhone,
+                  },
+                );
+                /*payWithPaypal().then((value) {
                   try {
                     FirebaseFirestore.instance
                         .collection('Cart')
@@ -318,7 +341,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                   } catch (e) {
                     print(e.toString());
                   }
-                });
+                });*/
               },
 
               // Get.to(() => BConfirmOrderPage()),

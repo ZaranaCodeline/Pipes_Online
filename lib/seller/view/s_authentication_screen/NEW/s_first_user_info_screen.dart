@@ -260,9 +260,7 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                                           ),
                                         ),
                                       ),
-                                    ).then((value) {
-                                      Get.back();
-                                    });
+                                    );
                                   },
                                   child: Row(
                                     children: [
@@ -464,24 +462,46 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                               setState(() {
                                 isLoading = true;
                               });
-                              addData().then((value) {
-                                PreferenceManager.setName(nameController.text);
-                                PreferenceManager.getName();
-                                _formKey.currentState!.save();
-                                Get.offAll(NavigationBarScreen())
-                                    ?.then((value) {
-                                  PreferenceManager.getAddress();
+                              if (_image == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content:
+                                            Text('Please Select a Image')));
+                              }
+                              if (_image != null) {
+                                showModalBottomSheet(
+                                    backgroundColor: Colors.transparent,
+                                    isScrollControlled: true,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Container(
+                                        height: Get.height,
+                                        width: Get.width,
+                                        color: Colors.black12,
+                                        child: Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                      );
+                                    });
+                                addData().then((value) {
+                                  PreferenceManager.setName(
+                                      nameController.text);
                                   PreferenceManager.getName();
+                                  PreferenceManager.getAddress();
                                   PreferenceManager.getPhoneNumber();
                                   PreferenceManager.getUserImg();
                                   PreferenceManager.getSellerID();
-                                  setState(() {
-                                    isLoading = false;
-                                  });
-                                });
 
-                                print('Validate');
-                              });
+                                  Get.offAll(NavigationBarScreen())
+                                      ?.then((value) {
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                  });
+                                  print('Validate');
+                                });
+                              }
+                              _formKey.currentState!.save();
                             } else {
                               print('InValidate');
                               setState(() {
@@ -489,28 +509,22 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                               });
                             }
                           },
-                          child: isLoading
-                              ? Center(
-                                  child: CircularProgressIndicator(
-                                    color: AppColors.primaryColor,
-                                  ),
-                                )
-                              : Container(
-                                  alignment: Alignment.center,
-                                  width: Get.width * 0.6,
-                                  height: Get.height * 0.07,
-                                  decoration: BoxDecoration(
-                                    color: SColorPicker.purple,
-                                    borderRadius: BorderRadius.circular(10.sp),
-                                  ),
-                                  child: Text(
-                                    'Submit',
-                                    style: TextStyle(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w600,
-                                        color: AppColors.commonWhiteTextColor),
-                                  ),
-                                ),
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: Get.width * 0.6,
+                            height: Get.height * 0.07,
+                            decoration: BoxDecoration(
+                              color: SColorPicker.purple,
+                              borderRadius: BorderRadius.circular(10.sp),
+                            ),
+                            child: Text(
+                              'Submit',
+                              style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.commonWhiteTextColor),
+                            ),
+                          ),
                         ),
                         SizedBox(height: Get.height * 0.1),
                       ],

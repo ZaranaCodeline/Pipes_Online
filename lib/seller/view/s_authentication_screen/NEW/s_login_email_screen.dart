@@ -1,14 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
-import 'package:pipes_online/buyer/view_model/b_login_home_controller.dart';
 import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_first_user_info_screen.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_forgot_password_page.dart';
@@ -219,6 +216,24 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                       setState(() {
                                         isLoading = true;
                                       });
+                                      showModalBottomSheet(
+                                          backgroundColor: Colors.transparent,
+                                          isScrollControlled: true,
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return Container(
+                                              height: Get.height,
+                                              width: Get.width,
+                                              color: Colors.black12,
+                                              child: Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: AppColors.primaryColor
+                                                      .withOpacity(0.5),
+                                                ),
+                                              ),
+                                            );
+                                          });
                                       print(
                                           'login email========>${email.text.toString()}');
                                       print(
@@ -229,12 +244,13 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                               pass.text.trim().toString())
                                           .then((value) async {
                                         PreferenceManager.getFcmToken();
-
-                                        await Get.offAll(NavigationBarScreen())
-                                            ?.then((value) {
-                                          email.clear();
-                                          pass.clear();
-                                        });
+                                        email.clear();
+                                        pass.clear();
+                                        // await Get.offAll(NavigationBarScreen())
+                                        //     ?.then((value) {
+                                        //   email.clear();
+                                        //   pass.clear();
+                                        // });
                                         formGlobalKey.currentState!.save();
 
                                         setState(() {
@@ -265,31 +281,13 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                       borderRadius:
                                           BorderRadius.circular(10.sp),
                                     ),
-                                    child: isLoading
-                                        ? Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              CustomText(
-                                                  text: 'Loading...  ',
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 12.sp,
-                                                  color: AppColors
-                                                      .commonWhiteTextColor),
-                                              CircularProgressIndicator(
-                                                color: AppColors
-                                                    .commonWhiteTextColor,
-                                              ),
-                                            ],
-                                          )
-                                        : Text(
-                                            'Login',
-                                            style: TextStyle(
-                                                color: AppColors
-                                                    .commonWhiteTextColor,
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w700),
-                                          ),
+                                    child: Text(
+                                      'Login',
+                                      style: TextStyle(
+                                          color: AppColors.commonWhiteTextColor,
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w700),
+                                    ),
                                   ),
                                 ),
                                 SizedBox(
@@ -340,6 +338,24 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                   child: GestureDetector(
                                     onTap: () {
                                       print('it is map');
+                                      showModalBottomSheet(
+                                          backgroundColor: Colors.transparent,
+                                          isScrollControlled: true,
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return Container(
+                                              height: Get.height,
+                                              width: Get.width,
+                                              color: Colors.black12,
+                                              child: Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: AppColors.primaryColor
+                                                      .withOpacity(0.5),
+                                                ),
+                                              ),
+                                            );
+                                          });
                                       loginwithgoogle().then((value) {
                                         Get.to(SFirstUserInfoScreen());
                                       });

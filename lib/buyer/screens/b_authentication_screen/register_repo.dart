@@ -15,9 +15,24 @@ class BRegisterRepo {
     print('------EMAIL_RAGISTER----${bFirebaseAuth.currentUser?.email}');
     UserCredential? firebaseuser = await bFirebaseAuth
         .signInWithEmailAndPassword(email: email, password: password)
-        .then((value) {
+        .then((value) async {
       PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
+      var collection = FirebaseFirestore.instance
+          .collection('BProfile')
+          .doc(PreferenceManager.getUId().toString());
+
+      ///NOTIFICATION START
+
+      var querySnapshot = await collection.get();
+      PreferenceManager.setMute(
+          querySnapshot['isMute'].toString() == 'true' ? true : false);
       PreferenceManager.getUId();
+      print('notti---${querySnapshot['isMute']}');
+      print('mute----${PreferenceManager.getMute()}');
+
+      ///NOTIFICATION END
+      ///----
+      ///DEVICE TOKEN AND ISONLINE START
 
       CollectionReference ProfileCollection =
           bFirebaseStore.collection('BProfile');
@@ -29,10 +44,11 @@ class BRegisterRepo {
         print('fcm success add');
         print('fcm getFcmToken --${PreferenceManager.getFcmToken()}');
       }).catchError((e) => print('fcm error'));
-
       print('UId=${PreferenceManager.getUId()}');
       Get.offAll(BottomNavigationBarScreen());
     });
+
+    ///END DEVICE TOKEN AND ISONLINE
 
     Get.showSnackbar(
       const GetSnackBar(
@@ -54,9 +70,7 @@ class BRegisterRepo {
         PreferenceManager.setEmail(email);
         PreferenceManager.getFcmToken();
         print('buyer email token-----1${PreferenceManager.getFcmToken()}');
-
         print('---success---email---done');
-
         Get.offAll(BFirstUserInfoScreen(
           email: email,
         ));
@@ -89,8 +103,23 @@ class SRegisterRepo {
   Future<UserCredential?> LogIn(String email, String password) async {
     UserCredential? firebaseuser = await bFirebaseAuth
         .signInWithEmailAndPassword(email: email, password: password)
-        .then((value) {
+        .then((value) async {
       PreferenceManager.setUId(bFirebaseAuth.currentUser!.uid);
+      var collection = FirebaseFirestore.instance
+          .collection('SProfile')
+          .doc(PreferenceManager.getUId().toString());
+
+      ///NOTIFICATION START
+
+      var querySnapshot = await collection.get();
+      PreferenceManager.setMute(
+          querySnapshot['isMute'].toString() == 'true' ? true : false);
+      PreferenceManager.getUId();
+      print('notti1---${querySnapshot['isMute']}');
+      print('mute1----${PreferenceManager.getMute()}');
+
+      ///NOTIFICATION END
+
       PreferenceManager.getUId();
 
       CollectionReference ProfileCollection =
@@ -156,16 +185,9 @@ class SRegisterRepo {
 }
 
 Future<bool?> loginwithgoogle() async {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  // FirebaseAuth _auth = FirebaseAuth.instance;
   try {
     GoogleSignIn googleSignIn = GoogleSignIn();
-    // final googleUser = await googleSignIn.signIn();
-    // final googleAuth = await googleUser!.authentication;
-    // final AuthCredential credential = GoogleAuthProvider.credential(
-    //   accessToken: googleAuth.accessToken, // accessToken
-    //   idToken: googleAuth.idToken,
-    // );
-    // User? users = (await _auth.signInWithCredential(credential)).user;
     print("================================1");
     GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
     print("================================2");

@@ -100,9 +100,6 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
                           height: Get.height * 0.1,
                           width: Get.height / 50.sp,
                         ),
-                        // CircleAvatar(
-                        //     radius: 30,
-                        //     backgroundImage: NetworkImage(urlImage)),
                         Img != null
                             ? Container(
                                 width: 35.sp,
@@ -362,9 +359,11 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
         Get.to(() => SHomeScreen());
         break;
       case 1:
-        Get.to(() => const SOrdersScreen(
-              isBottomBarVisible: true,
-            ));
+        // Get.to(() => const SOrdersScreen(
+        //       isBottomBarVisible: true,
+        //     ));
+        homeController.selectedScreen('SOrdersScreen');
+        homeController.bottomIndex.value = 1;
         break;
       case 2:
         Get.to(() => SEarningsScreen());

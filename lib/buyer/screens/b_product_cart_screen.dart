@@ -41,6 +41,7 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           'cart'.toUpperCase(),
           style: STextStyle.bold700White14,
@@ -93,30 +94,34 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                           SizedBox(width: 5.w),
                           Column(
                             children: [
-                              SizedBox(height: 4.h),
+                              SizedBox(height: 2.h),
                               Container(
-                                height: 3.h,
+                                height: 1.h,
                                 width: Get.width * 0.4,
                                 decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
                                   color: Colors.grey.shade100,
                                 ),
                               ),
                               SizedBox(height: 2.h),
                               Container(
-                                height: 3.h,
+                                height: 1.h,
                                 width: Get.width * 0.4,
                                 decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
                                   color: Colors.grey.shade100,
                                 ),
                               ),
                               SizedBox(height: 2.h),
                               Container(
-                                height: 3.h,
+                                height: 1.h,
                                 width: Get.width * 0.4,
                                 decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
                                   color: Colors.grey.shade100,
                                 ),
                               ),
+                              SizedBox(height: 2.h),
                             ],
                           )
                         ],

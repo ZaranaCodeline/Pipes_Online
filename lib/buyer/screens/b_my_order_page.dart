@@ -13,7 +13,8 @@ import 'bottom_bar_screen_page/widget/b_cart_bottom_bar_route.dart';
 
 class BMyOrderPage extends StatelessWidget {
   BMyOrderPage({Key? key}) : super(key: key);
-  String? formattedDateTime;
+  // String? formattedDateTime;
+  Timestamp? formattedDateTime;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,9 +79,11 @@ class BMyOrderPage extends StatelessWidget {
                 return ListView.builder(
                   itemCount: snapShot.data?.docs.length,
                   itemBuilder: (context, index) {
-                    formattedDateTime = DateFormat.yMMMd().add_jm().format(
+                    /* formattedDateTime = DateFormat.yMMMd().add_jm().format(
                         DateTime.parse(
                             snapShot.data?.docs[index]['createdOn']));
+                   */
+                    formattedDateTime = snapShot.data?.docs[index]['createdOn'];
                     print('--formattedDateTime-${formattedDateTime}');
 
                     return Container(
@@ -97,7 +100,8 @@ class BMyOrderPage extends StatelessWidget {
                                 padding: EdgeInsets.symmetric(
                                     vertical: 10.sp, horizontal: 10.sp),
                                 child: CustomText(
-                                    text: 'Ordered on $formattedDateTime',
+                                    text:
+                                        'Ordered on ${formattedDateTime?.toDate().toString()}',
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14,
                                     color: AppColors.secondaryBlackColor),

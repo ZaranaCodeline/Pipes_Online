@@ -6,10 +6,9 @@ import 'package:pipes_online/buyer/screens/b_authentication_screen/b_welcome_scr
 import 'package:pipes_online/buyer/screens/b_authentication_screen/new_ui/b_first_user_info_screen.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_contoller.dart';
+import 'package:pipes_online/s_onboarding_screen/s_onboarding_screen.dart';
 import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_first_user_info_screen.dart';
-import 'package:pipes_online/seller/view/s_authentication_screen/s_welcome_screen.dart';
-import 'package:pipes_online/seller/view/s_screens/s_onboarding_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 
 class Splash extends StatefulWidget {
@@ -71,17 +70,6 @@ class _SplashState extends State<Splash> {
               print('T-8');
 
               Get.off(SFirstUserInfoScreen());
-              /*else if (PreferenceManager.getUId() != null) {
-            print('T-7');
-            if (PreferenceManager.getUserType() == 'Seller') {
-              if (PreferenceManager.getName() == null ||
-                  PreferenceManager.getAddress() == null ||
-                  PreferenceManager.getUId() == null) {
-                print('T-8');
-                Get.off(SFirstUserInfoScreen());
-              }
-            }
-          }*/
             }
           }
         } else {

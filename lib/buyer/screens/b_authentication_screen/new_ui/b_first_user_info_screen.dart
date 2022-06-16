@@ -101,417 +101,443 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
   BottomController bottomController = Get.find();
 
   Widget build(BuildContext context) {
-    return Sizer(builder: (context, orientation, deviceType) {
-      return Builder(
-        builder: (context) => WillPopScope(
-          onWillPop: () async {
-            return true;
-          },
-          child: SafeArea(
-            child: Scaffold(
-              body: SingleChildScrollView(
-                child: GetBuilder<GeolocationController>(
-                  builder: (controller) {
-                    return Form(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          Container(
-                            height: Get.height * 0.1,
-                            width: Get.width,
-                            padding: EdgeInsets.only(
-                              top: Get.height * 0.03,
-                              right: Get.width * 0.05,
-                              left: Get.width * 0.05,
-                            ),
-                            decoration: BoxDecoration(
-                                color: SColorPicker.purple,
-                                borderRadius: BorderRadius.vertical(
-                                    bottom: Radius.circular(20.sp))),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(),
-                                Center(
-                                  child: Text(
-                                    'PROFILE',
-                                    style: STextStyle.bold700White14,
+    return Sizer(
+      builder: (context, orientation, deviceType) {
+        return Builder(
+          builder: (context) => WillPopScope(
+            onWillPop: () async {
+              return true;
+            },
+            child: SafeArea(
+              child: Scaffold(
+                body: SingleChildScrollView(
+                  child: GetBuilder<GeolocationController>(
+                    builder: (controller) {
+                      return Form(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            Container(
+                              height: Get.height * 0.1,
+                              width: Get.width,
+                              padding: EdgeInsets.only(
+                                top: Get.height * 0.03,
+                                right: Get.width * 0.05,
+                                left: Get.width * 0.05,
+                              ),
+                              decoration: BoxDecoration(
+                                  color: SColorPicker.purple,
+                                  borderRadius: BorderRadius.vertical(
+                                      bottom: Radius.circular(20.sp))),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(),
+                                  Center(
+                                    child: Text(
+                                      'PROFILE',
+                                      style: STextStyle.bold700White14,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(width: 20.sp),
-                              ],
+                                  SizedBox(width: 20.sp),
+                                ],
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 15.sp),
-                          Container(
-                            height: Get.height * 0.075,
-                            width: Get.width * 0.62,
-                            decoration: BoxDecoration(
-                                color: SColorPicker.purple,
-                                borderRadius: BorderRadius.circular(20.sp)),
-                            child: GestureDetector(
-                              onTap: () {
-                                print('it is openable image');
+                            SizedBox(height: 15.sp),
+                            Container(
+                              height: Get.height * 0.075,
+                              width: Get.width * 0.62,
+                              decoration: BoxDecoration(
+                                  color: SColorPicker.purple,
+                                  borderRadius: BorderRadius.circular(20.sp)),
+                              child: GestureDetector(
+                                onTap: () {
+                                  print('it is openable image');
 
-                                showModalBottomSheet<void>(
-                                  elevation: 0.5,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(20.0),
-                                          topRight: Radius.circular(20.0))),
-                                  backgroundColor: Colors.white,
-                                  context: context,
-                                  builder: (context) => FractionallySizedBox(
-                                    heightFactor: 0.5.sp,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(15),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Container(
+                                  showModalBottomSheet<void>(
+                                    elevation: 0.5,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft:
+                                                const Radius.circular(20.0),
+                                            topRight:
+                                                const Radius.circular(20.0))),
+                                    backgroundColor: Colors.white,
+                                    context: context,
+                                    builder: (context) => FractionallySizedBox(
+                                      heightFactor: 0.5.sp,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(15),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Container(
+                                              width: 35.sp,
+                                              height: 5.sp,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  color:
+                                                      AppColors.primaryColor),
+                                            ),
+                                            SizedBox(
+                                              height: 0.2,
+                                            ),
+                                            CustomText(
+                                                alignment: Alignment.topLeft,
+                                                text: '    Add profile photo',
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 14.sp,
+                                                color: AppColors
+                                                    .secondaryBlackColor),
+                                            Container(
+                                              child: MaterialButton(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Image.asset(
+                                                      'assets/images/png/camera.png',
+                                                      width: 15.sp,
+                                                      height: 15.sp,
+                                                    ),
+                                                    SizedBox(
+                                                      width: Get.width * 0.05,
+                                                    ),
+                                                    Text(
+                                                      ' Take a photo',
+                                                      style: TextStyle(
+                                                          color: AppColors
+                                                              .primaryColor,
+                                                          fontSize: 14.sp),
+                                                    ),
+                                                  ],
+                                                ),
+                                                onPressed: () {
+                                                  getCamaroImage();
+                                                  Get.back();
+                                                },
+                                              ),
+                                            ),
+                                            Container(
+                                              child: MaterialButton(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Image.asset(
+                                                      'assets/images/png/gallery.png',
+                                                      width: 15.sp,
+                                                      height: 15.sp,
+                                                    ),
+                                                    SizedBox(
+                                                      width: Get.width * 0.05,
+                                                    ),
+                                                    Text(
+                                                      ' Upload from photos',
+                                                      style: TextStyle(
+                                                          color: AppColors
+                                                              .primaryColor,
+                                                          fontSize: 14.sp),
+                                                    ),
+                                                  ],
+                                                ),
+                                                onPressed: () {
+                                                  getGalleryImage();
+                                                  Get.back();
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    _image != null
+                                        ? Container(
+                                            height: 35.sp,
                                             width: 35.sp,
-                                            height: 5.sp,
                                             decoration: BoxDecoration(
                                                 borderRadius:
-                                                    BorderRadius.circular(15),
-                                                color: AppColors.primaryColor),
-                                          ),
-                                          SizedBox(
-                                            height: 0.2,
-                                          ),
-                                          CustomText(
-                                              alignment: Alignment.topLeft,
-                                              text: '    Add profile photo',
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14.sp,
-                                              color: AppColors
-                                                  .secondaryBlackColor),
-                                          Container(
-                                            child: MaterialButton(
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Image.asset(
-                                                    'assets/images/png/camera.png',
-                                                    width: 15.sp,
-                                                    height: 15.sp,
-                                                  ),
-                                                  SizedBox(
-                                                    width: Get.width * 0.05,
-                                                  ),
-                                                  Text(
-                                                    ' Take a photo',
-                                                    style: TextStyle(
-                                                        color: AppColors
-                                                            .primaryColor,
-                                                        fontSize: 14.sp),
-                                                  ),
-                                                ],
-                                              ),
-                                              onPressed: () {
-                                                getCamaroImage();
-                                                Get.back();
-                                              },
-                                            ),
-                                          ),
-                                          Container(
-                                            child: MaterialButton(
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Image.asset(
-                                                    'assets/images/png/gallery.png',
-                                                    width: 15.sp,
-                                                    height: 15.sp,
-                                                  ),
-                                                  SizedBox(
-                                                    width: Get.width * 0.05,
-                                                  ),
-                                                  Text(
-                                                    ' Upload from photos',
-                                                    style: TextStyle(
-                                                        color: AppColors
-                                                            .primaryColor,
-                                                        fontSize: 14.sp),
-                                                  ),
-                                                ],
-                                              ),
-                                              onPressed: () {
-                                                getGalleryImage();
-                                                Get.back();
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  _image != null
-                                      ? Container(
-                                          height: 35.sp,
-                                          width: 35.sp,
-                                          decoration: BoxDecoration(
+                                                    BorderRadius.circular(50)),
+                                            child: ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(50)),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                            child: Image.file(
-                                              _image!,
-                                              fit: BoxFit.fill,
+                                                  BorderRadius.circular(50),
+                                              child: Image.file(
+                                                _image!,
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                          )
+                                        : Container(
+                                            child: SvgPicture.asset(
+                                              "${SImagePick.uploadImageIcon}",
                                             ),
                                           ),
-                                        )
-                                      : Container(
-                                          child: SvgPicture.asset(
-                                            "${SImagePick.uploadImageIcon}",
-                                          ),
-                                        ),
-                                  SizedBox(
-                                    width: 10.sp,
-                                  ),
-                                  Text(
-                                    'Upload your Image',
-                                    style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: SColorPicker.white,
-                                        fontWeight: FontWeight.w700,
-                                        fontFamily: 'Nunito-Bold'),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 25.sp),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Name',
-                                style: STextStyle.semiBold600Black13,
-                              ),
-                              SizedBox(
-                                height: Get.height * 0.01,
-                              ),
-                              Container(
-                                width: Get.width * 0.8,
-                                height: Get.height * 0.07,
-                                child: TextFormField(
-                                  validator: (value) {
-                                    if (value!.trim().isEmpty) {
-                                      return 'This field is required';
-                                    } else if (!RegExp('[a-zA-Z]')
-                                        .hasMatch(value)) {
-                                      return 'please enter valid name';
-                                    }
-                                    return null;
-                                  },
-                                  controller: nameController,
-                                  keyboardType: TextInputType.name,
-                                  decoration: InputDecoration(
-                                      // hintText: widget.email,
-                                      ),
+                                    SizedBox(
+                                      width: 10.sp,
+                                    ),
+                                    Text(
+                                      'Upload your Image',
+                                      style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: SColorPicker.white,
+                                          fontWeight: FontWeight.w700,
+                                          fontFamily: 'Nunito-Bold'),
+                                    )
+                                  ],
                                 ),
                               ),
-                              SizedBox(
-                                height: Get.height * 0.02,
-                              ),
-                              Text(
+                            ),
+                            SizedBox(height: 25.sp),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Name',
+                                  style: STextStyle.semiBold600Black13,
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.01,
+                                ),
+                                Container(
+                                  width: Get.width * 0.8,
+                                  height: Get.height * 0.07,
+                                  child: TextFormField(
+                                    validator: (value) {
+                                      if (value!.trim().isEmpty) {
+                                        return 'This field is required';
+                                      } else if (!RegExp('[a-zA-Z]')
+                                          .hasMatch(value)) {
+                                        return 'please enter valid name';
+                                      }
+                                      return null;
+                                    },
+                                    controller: nameController,
+                                    keyboardType: TextInputType.name,
+                                    decoration: const InputDecoration(
+                                        // hintText: widget.email,
+                                        ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.02,
+                                ),
+                                Text(
+                                  widget.email != null ||
+                                          bFirebaseAuth.currentUser?.email !=
+                                              null
+                                      ? 'Mobile'
+                                      : 'Email',
+                                  style: STextStyle.semiBold600Black13,
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.01,
+                                ),
                                 widget.email != null ||
                                         bFirebaseAuth.currentUser?.email != null
-                                    ? 'Mobile'
-                                    : 'Email',
-                                style: STextStyle.semiBold600Black13,
-                              ),
-                              SizedBox(
-                                height: Get.height * 0.01,
-                              ),
-                              widget.email != null ||
-                                      bFirebaseAuth.currentUser?.email != null
-                                  ? Container(
-                                      width: Get.width * 0.8,
-                                      height: Get.height * 0.07,
-                                      child: TextFormField(
-                                        inputFormatters: [
-                                          LengthLimitingTextInputFormatter(10),
-                                        ],
-                                        keyboardType: TextInputType.number,
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return 'Required';
-                                          }
-                                        },
-                                        controller: widget.phone != null
-                                            ? PreferenceManager.getPhoneNumber()
-                                            : mobilecontroller,
-                                        decoration: InputDecoration(),
+                                    ? Container(
+                                        width: Get.width * 0.8,
+                                        height: Get.height * 0.07,
+                                        child: TextFormField(
+                                          inputFormatters: [
+                                            LengthLimitingTextInputFormatter(
+                                                10),
+                                          ],
+                                          keyboardType: TextInputType.number,
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return 'Required';
+                                            }
+                                          },
+                                          controller: widget.phone != null
+                                              ? PreferenceManager
+                                                  .getPhoneNumber()
+                                              : mobilecontroller,
+                                          decoration: InputDecoration(),
+                                        ),
+                                      )
+                                    : Container(
+                                        width: Get.width * 0.8,
+                                        height: Get.height * 0.07,
+                                        child: TextFormField(
+                                          keyboardType:
+                                              TextInputType.emailAddress,
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return 'Required';
+                                            }
+                                          },
+                                          controller: widget.email != null
+                                              ? PreferenceManager.getEmail()
+                                              : emailController,
+                                          decoration: InputDecoration(),
+                                        ),
                                       ),
-                                    )
-                                  : Container(
-                                      width: Get.width * 0.8,
-                                      height: Get.height * 0.07,
-                                      child: TextFormField(
-                                        keyboardType:
-                                            TextInputType.emailAddress,
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return 'Required';
-                                          }
-                                        },
-                                        controller: widget.email != null
-                                            ? PreferenceManager.getEmail()
-                                            : emailController,
-                                        decoration: InputDecoration(),
-                                      ),
+                                SizedBox(
+                                  height: Get.height * 0.02,
+                                ),
+                                Text(
+                                  'Address',
+                                  style: STextStyle.semiBold600Black13,
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.02,
+                                ),
+                                Container(
+                                  height: Get.height * 0.09,
+                                  width: Get.width * 0.75,
+                                  alignment: Alignment.centerLeft,
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.streetAddress,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Required';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
+                                    maxLines: 2,
+                                    controller: _controller.addressController ??
+                                        address,
+                                    decoration: InputDecoration(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 15.sp),
+                            Text(
+                              'Add location using google map..',
+                              style: STextStyle.semiBold600Black13,
+                            ),
+                            SizedBox(height: 15.sp),
+                            GestureDetector(
+                              onTap: () {
+                                print('is Maps  ');
+                                Get.to(MapsScreen());
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(10.sp),
+                                height: Get.height * 0.075,
+                                width: Get.height * 0.30,
+                                decoration: BoxDecoration(
+                                  color: SColorPicker.white,
+                                  boxShadow: const [
+                                    BoxShadow(
+                                        color: Colors.black12,
+                                        spreadRadius: 0.5,
+                                        blurRadius: 1),
+                                  ],
+                                  borderRadius: BorderRadius.circular(10.sp),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SvgPicture.asset(
+                                      "${SImagePick.locationColorIcon}",
                                     ),
-                              SizedBox(
-                                height: Get.height * 0.02,
-                              ),
-                              Text(
-                                'Address',
-                                style: STextStyle.semiBold600Black13,
-                              ),
-                              SizedBox(
-                                height: Get.height * 0.02,
-                              ),
-                              Container(
-                                height: Get.height * 0.09,
-                                width: Get.width * 0.75,
-                                alignment: Alignment.centerLeft,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.streetAddress,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Required';
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  maxLines: 2,
-                                  controller:
-                                      _controller.addressController == null
-                                          ? address
-                                          : _controller.addressController,
-                                  decoration: InputDecoration(),
+                                    Text(
+                                      'Get Location',
+                                      style: STextStyle.semiBold600Black13,
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                          SizedBox(height: 15.sp),
-                          Text(
-                            'Add location using google map....',
-                            style: STextStyle.semiBold600Black13,
-                          ),
-                          SizedBox(height: 15.sp),
-                          GestureDetector(
-                            onTap: () {
-                              print('is Maps  ');
-                              Get.to(MapsScreen());
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(10.sp),
-                              height: Get.height * 0.075,
-                              width: Get.height * 0.30,
-                              decoration: BoxDecoration(
-                                color: SColorPicker.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black12,
-                                      spreadRadius: 0.5,
-                                      blurRadius: 1),
-                                ],
-                                borderRadius: BorderRadius.circular(10.sp),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  SvgPicture.asset(
-                                    "${SImagePick.locationColorIcon}",
-                                  ),
-                                  Text(
-                                    'Get Locaton',
-                                    style: STextStyle.semiBold600Black13,
-                                  ),
-                                ],
+                            ),
+                            SizedBox(height: 25.sp),
+                            GestureDetector(
+                              onTap: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+
+                                  if (_image == null) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            content:
+                                                Text('Please Select a Image')));
+                                  }
+
+                                  if (_image != null) {
+                                    showModalBottomSheet(
+                                        backgroundColor: Colors.transparent,
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Container(
+                                            height: Get.height,
+                                            width: Get.width,
+                                            color: Colors.black12,
+                                            child: Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            ),
+                                          );
+                                        });
+
+                                    addData().then((value) {
+                                      PreferenceManager.setName(
+                                          nameController.text);
+                                      PreferenceManager.getName();
+                                      Get.offAll(BottomNavigationBarScreen())
+                                          ?.then((value) {
+                                        print('Validate');
+                                        PreferenceManager.getUserImage();
+                                        setState(() {
+                                          isLoading = false;
+                                        });
+                                      });
+                                    });
+                                  }
+
+                                  _formKey.currentState!.save();
+                                } else {
+                                  print('InValidate');
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                }
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: Get.width * 0.6,
+                                height: Get.height * 0.07,
+                                decoration: BoxDecoration(
+                                  color: SColorPicker.purple,
+                                  borderRadius: BorderRadius.circular(10.sp),
+                                ),
+                                child: Text(
+                                  'Submit',
+                                  style: TextStyle(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.commonWhiteTextColor),
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 25.sp),
-                          GestureDetector(
-                            onTap: () async {
-                              if (_formKey.currentState!.validate()) {
-                                setState(() {
-                                  isLoading = true;
-                                });
-                                addData().then((value) {
-                                  PreferenceManager.setName(
-                                      nameController.text);
-                                  PreferenceManager.getName();
-                                  Get.offAll(BottomNavigationBarScreen())
-                                      ?.then((value) {
-                                    print('Validate');
-                                    PreferenceManager.getUserImage();
-                                    setState(() {
-                                      isLoading = false;
-                                    });
-                                  });
-                                });
-                                _formKey.currentState!.save();
-                              } else {
-                                print('InValidate');
-                                setState(() {
-                                  isLoading = false;
-                                });
-                              }
-                            },
-                            child: isLoading
-                                ? Center(
-                                    child: CircularProgressIndicator(
-                                      color: AppColors.primaryColor,
-                                    ),
-                                  )
-                                : Container(
-                                    alignment: Alignment.center,
-                                    width: Get.width * 0.6,
-                                    height: Get.height * 0.07,
-                                    decoration: BoxDecoration(
-                                      color: SColorPicker.purple,
-                                      borderRadius:
-                                          BorderRadius.circular(10.sp),
-                                    ),
-                                    child: Text(
-                                      'Submit',
-                                      style: TextStyle(
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w600,
-                                          color:
-                                              AppColors.commonWhiteTextColor),
-                                    ),
-                                  ),
-                          ),
-                          SizedBox(height: Get.height * 0.1),
-                        ],
-                      ),
-                    );
-                  },
+                            SizedBox(height: Get.height * 0.1),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 
   Future<String?> uploadImageToFirebase(

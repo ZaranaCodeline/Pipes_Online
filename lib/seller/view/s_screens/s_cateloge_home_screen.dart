@@ -43,11 +43,11 @@ class _SCatelogeHomeScreenState extends State<SCatelogeHomeScreen> {
     super.initState();
     print('Seller User Name ${PreferenceManager.getName()}');
     getData();
-    CollectionReference ProfileCollection =
-        bFirebaseStore.collection('SProfile');
-
-    ProfileCollection.doc(PreferenceManager.getUId())
-        .update({'isOnline': true});
+    // CollectionReference ProfileCollection =
+    //     bFirebaseStore.collection('SProfile');
+    //
+    // ProfileCollection.doc(PreferenceManager.getUId())
+    //     .update({'isOnline': true});
   }
 
   Future<void> getData() async {
@@ -96,9 +96,11 @@ class _SCatelogeHomeScreenState extends State<SCatelogeHomeScreen> {
                   height: 23.sp,
                 ),
                 onPressed: () {
-                  Get.to(SOrdersScreen(
-                    isBottomBarVisible: true,
-                  ));
+                  homeController.selectedScreen('SOrdersScreen');
+                  homeController.bottomIndex.value = 1;
+                  // Get.to(const SOrdersScreen(
+                  //   isBottomBarVisible: true,
+                  // ));
                 },
               ),
             ),

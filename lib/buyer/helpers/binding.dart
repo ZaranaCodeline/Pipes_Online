@@ -16,6 +16,7 @@ import 'package:pipes_online/seller/view_model/s_add_product_controller.dart';
 import 'package:pipes_online/seller/view_model/s_drawer_controller.dart';
 import 'package:pipes_online/seller/view_model/s_edit_product_controller.dart';
 import 'package:pipes_online/seller/view_model/s_login_home_controller.dart';
+import 'package:pipes_online/seller/view_model/time_filter_dropdown.dart';
 
 class Binding extends Bindings {
   @override
@@ -37,5 +38,6 @@ class Binding extends Bindings {
     Get.lazyPut(() => SDrawerController(), fenix: true);
     Get.lazyPut(() => ProfileViewModel(), fenix: true);
     Get.lazyPut(() => BProfileViewModel(), fenix: true);
+    Get.lazyPut(() => TimeFilterController(), fenix: true);
   }
 }

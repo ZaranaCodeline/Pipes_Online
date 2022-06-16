@@ -10,48 +10,9 @@ Widget SchatScreenRoute() {
   print('---BOTTOM SCHOOL--${homeController.selectedScreen}');
   switch (homeController.selectedScreen.value) {
     case 'SchatScreen':
-      return SChatScreen();
-
-    case 'SchatScreen':
-      return SChatScreen();
-
-    // case 'SchoolScreen':
-    //   return SchoolScreen();
-    //   break;
-    // case 'SubCategoryList':
-    //   return SubCategoryList(
-    //     onPress: () {
-    //       homeController.selectedScreen('SchoolDetailScreen');
-    //     },
-    //     willPopScope: () {
-    //       homeController.selectedScreen('SchoolDetailScreen');
-    //
-    //       return Future.value(false);
-    //     },
-    //   );
-      break;
-    // case 'BookItemClassScreen':
-    //   return BookItemClassScreen();
-    //   break;
-    // case 'AddCartScreen':
-    //   return AddCartScreen();
-    //   break;
-    // case 'WishListScreen':
-    //   return WishListScreen();
-    //   break;
-    // case 'ProductDetailScreen':
-    //   return ProductDetailScreen(
-    //     onPress: () {
-    //       homeController.selectedScreen('SubCategoryList');
-    //     },
-    //     willPopScope: () {
-    //       homeController.selectedScreen('SubCategoryList');
-    //       return Future.value(false);
-    //     },
-    //   );
-      break;
+      return const SChatScreen();
 
     default:
-      return SChatScreen();
+      return const SChatScreen();
   }
 }

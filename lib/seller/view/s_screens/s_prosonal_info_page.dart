@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/seller/bottombar/widget/category_bottom_bar_route.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
@@ -143,10 +144,12 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                       print('it is openable image');
                       showModalBottomSheet<void>(
                         elevation: 0.5,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: const Radius.circular(20.0),
-                                topRight: const Radius.circular(20.0))),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20.0),
+                            topRight: Radius.circular(20.0),
+                          ),
+                        ),
                         backgroundColor: Colors.white,
                         context: context,
                         builder: (context) => FractionallySizedBox(
@@ -248,11 +251,23 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                                     Img == null
                                         ? 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'
                                         : Img!,
-                                    fit: BoxFit.fill,
-                                  )
-                                : Image.file(
-                                    _image!,
-                                    fit: BoxFit.fill,
+                                    height: 50.sp,
+                                    width: 50.sp,
+                                    fit: BoxFit.fill, errorBuilder:
+                                        (BuildContext context, Object exception,
+                                            StackTrace? stackTrace) {
+                                    return Image.asset(
+                                      BImagePick.cartIcon,
+                                      height: 50.sp,
+                                      width: 50.sp,
+                                      fit: BoxFit.cover,
+                                    );
+                                  })
+                                : Image.asset(
+                                    BImagePick.cartIcon,
+                                    height: 50.sp,
+                                    width: 50.sp,
+                                    fit: BoxFit.cover,
                                   ),
                           ),
                         ),

@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/seller/view/s_screens/s_order_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_prosonal_info_page.dart';
-
 import '../../../routes/bottom_controller.dart';
 import '../../bottombar/s_navigation_bar.dart';
-
 import 's_cateloge_home_screen.dart';
 import 's_chat_screen.dart';
 

@@ -8,6 +8,8 @@ BottomController homeController = Get.find();
 
 Widget homeSubScreen() {
   switch (homeController.selectedScreen.value) {
+    case 'SOrdersScreen':
+
     default:
       return SOrdersScreen();
   }

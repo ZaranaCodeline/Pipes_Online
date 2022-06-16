@@ -266,9 +266,9 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
                                       fontSize: 14.sp,
                                       color: AppColors.hintTextColor),
                                   Switch(
-                                    onChanged: (value) {
+                                    onChanged: (value1) {
                                       setState(() {
-                                        switchNotification = value;
+                                        switchNotification = value1;
                                         CollectionReference ProfileCollection =
                                             bFirebaseStore
                                                 .collection('BProfile');
@@ -278,16 +278,21 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
                                             .update({
                                           'isMute': switchNotification
                                         }).then((value) {
+                                          PreferenceManager.setMute(
+                                              switchNotification);
+                                          print(
+                                              'change---${PreferenceManager.getMute()}');
+
                                           print('success add');
                                         }).catchError(
                                                 (e) => print('upload error'));
                                       });
 
-                                      print('switchNotification:-$value');
+                                      print('switchNotification:-$value1');
                                     },
                                     focusColor: AppColors.primaryColor,
                                     activeColor: AppColors.commonWhiteTextColor,
-                                    value: switchNotification,
+                                    value: PreferenceManager.getMute() ?? false,
 
                                     // activeThumbColor: AppColors.primaryColor,
                                     activeTrackColor: AppColors.primaryColor,

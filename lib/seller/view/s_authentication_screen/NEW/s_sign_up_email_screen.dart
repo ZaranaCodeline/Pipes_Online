@@ -294,6 +294,23 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
                                     setState(() {
                                       isLoading = true;
                                     });
+                                    showModalBottomSheet(
+                                        backgroundColor: Colors.transparent,
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Container(
+                                            height: Get.height,
+                                            width: Get.width,
+                                            color: Colors.black12,
+                                            child: Center(
+                                              child: CircularProgressIndicator(
+                                                color: AppColors.primaryColor
+                                                    .withOpacity(0.5),
+                                              ),
+                                            ),
+                                          );
+                                        });
                                     formGlobalKey.currentState!.save();
                                     SRegisterRepo.emailRegister(
                                             email: email.text, pass: pass.text)
@@ -340,31 +357,13 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
                                     color: SColorPicker.purple,
                                     borderRadius: BorderRadius.circular(10.sp),
                                   ),
-                                  child: isLoading
-                                      ? Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            CustomText(
-                                                text: 'Loading...  ',
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 12.sp,
-                                                color: AppColors
-                                                    .commonWhiteTextColor),
-                                            CircularProgressIndicator(
-                                              color: AppColors
-                                                  .commonWhiteTextColor,
-                                            ),
-                                          ],
-                                        )
-                                      : Text(
-                                          'Sign Up',
-                                          style: TextStyle(
-                                              color: AppColors
-                                                  .commonWhiteTextColor,
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w700),
-                                        ),
+                                  child: Text(
+                                    'Sign Up',
+                                    style: TextStyle(
+                                        color: AppColors.commonWhiteTextColor,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w700),
+                                  ),
                                 ),
                               ),
                               SizedBox(
@@ -421,6 +420,23 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
                                     setState(() {
                                       isGoogleLoading = true;
                                     });
+                                    showModalBottomSheet(
+                                        backgroundColor: Colors.transparent,
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Container(
+                                            height: Get.height,
+                                            width: Get.width,
+                                            color: Colors.black12,
+                                            child: Center(
+                                              child: CircularProgressIndicator(
+                                                color: AppColors.primaryColor
+                                                    .withOpacity(0.5),
+                                              ),
+                                            ),
+                                          );
+                                        });
                                     print('it is Signup with Google');
                                     loginwithgoogle().then((value) {
                                       Get.to(SFirstUserInfoScreen(
@@ -431,42 +447,35 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
                                       });
                                     });
                                   },
-                                  child: isGoogleLoading
-                                      ? Center(
-                                          child: CircularProgressIndicator(
-                                            color: AppColors.primaryColor,
-                                          ),
-                                        )
-                                      : Container(
-                                          padding: EdgeInsets.all(10.sp),
-                                          height: Get.height * 0.075,
-                                          width: Get.width * 0.8,
-                                          decoration: BoxDecoration(
-                                            color: SColorPicker.white,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  color: Colors.black12,
-                                                  spreadRadius: 0.5,
-                                                  blurRadius: 1),
-                                            ],
-                                            borderRadius:
-                                                BorderRadius.circular(10.sp),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              SvgPicture.asset(
-                                                "${SImagePick.googleIcon}",
-                                              ),
-                                              Text(
-                                                'SignUp with Google',
-                                                style: STextStyle
-                                                    .semiBold600Black13,
-                                              ),
-                                            ],
-                                          ),
+                                  child: Container(
+                                    padding: EdgeInsets.all(10.sp),
+                                    height: Get.height * 0.075,
+                                    width: Get.width * 0.8,
+                                    decoration: BoxDecoration(
+                                      color: SColorPicker.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black12,
+                                            spreadRadius: 0.5,
+                                            blurRadius: 1),
+                                      ],
+                                      borderRadius:
+                                          BorderRadius.circular(10.sp),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        SvgPicture.asset(
+                                          "${SImagePick.googleIcon}",
                                         ),
+                                        Text(
+                                          'SignUp with Google',
+                                          style: STextStyle.semiBold600Black13,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
                               SizedBox(

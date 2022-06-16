@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_first_user_info_screen.dart';
@@ -238,20 +239,41 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
                                     setState(() {
                                       isLoading = true;
                                     });
-                                    if (PreferenceManager.getUId() != null) {
-                                      sendOtp();
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                              'This Mobile number is not register'),
-                                        ),
-                                      );
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-                                    }
+                                    showModalBottomSheet(
+                                        backgroundColor: Colors.transparent,
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Container(
+                                            height: Get.height,
+                                            width: Get.width,
+                                            color: Colors.black12,
+                                            child: Center(
+                                              child: CircularProgressIndicator(
+                                                color: AppColors.primaryColor
+                                                    .withOpacity(0.5),
+                                              ),
+                                            ),
+                                          );
+                                        });
+
+                                    sendOtp();
+
+                                    // if (bFirebaseAuth.currentUser?.uid !=
+                                    //     null) {
+                                    //   sendOtp();
+                                    // } else {
+                                    //   ScaffoldMessenger.of(context)
+                                    //       .showSnackBar(
+                                    //     SnackBar(
+                                    //       content: Text(
+                                    //           'This Mobile number is not register'),
+                                    //     ),
+                                    //   );
+                                    //   setState(() {
+                                    //     isLoading = false;
+                                    //   });
+                                    // }
                                   },
                                   child: Container(
                                     alignment: Alignment.center,
@@ -262,31 +284,13 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
                                       borderRadius:
                                           BorderRadius.circular(10.sp),
                                     ),
-                                    child: isLoading
-                                        ? Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              CustomText(
-                                                  text: 'Loading...  ',
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 12.sp,
-                                                  color: AppColors
-                                                      .commonWhiteTextColor),
-                                              CircularProgressIndicator(
-                                                color: AppColors
-                                                    .commonWhiteTextColor,
-                                              ),
-                                            ],
-                                          )
-                                        : Text(
-                                            'Send OTP',
-                                            style: TextStyle(
-                                                color: AppColors
-                                                    .commonWhiteTextColor,
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w700),
-                                          ),
+                                    child: Text(
+                                      'Send OTP',
+                                      style: TextStyle(
+                                          color: AppColors.commonWhiteTextColor,
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w700),
+                                    ),
                                   ),
                                 ),
                                 SizedBox(

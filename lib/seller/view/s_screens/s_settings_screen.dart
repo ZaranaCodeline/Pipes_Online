@@ -93,6 +93,9 @@ class _SSettingsScreenState extends State<SSettingsScreen> {
                 icon: '@mipmap/app_icon')));
   }
 
+  // void save(bool value) async {
+  //   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -216,7 +219,7 @@ class _SSettingsScreenState extends State<SSettingsScreen> {
                                             fontWeight: FontWeight.w400,
                                           ),
                                           // controller: _controller,
-                                          decoration: InputDecoration(
+                                          decoration: const InputDecoration(
                                             border: InputBorder.none,
                                             hintText: 'John',
                                           ),
@@ -266,9 +269,9 @@ class _SSettingsScreenState extends State<SSettingsScreen> {
                                   showNotification;
                                 },
                                 child: Switch(
-                                  onChanged: (value) {
+                                  onChanged: (value1) {
                                     setState(() {
-                                      switchNotification = value;
+                                      switchNotification = value1;
                                       CollectionReference ProfileCollection =
                                           bFirebaseStore.collection('SProfile');
 
@@ -277,17 +280,26 @@ class _SSettingsScreenState extends State<SSettingsScreen> {
                                           .update({
                                         'isMute': switchNotification
                                       }).then((value) {
+                                        PreferenceManager.setMute(
+                                            switchNotification);
+                                        print(
+                                            'change---${PreferenceManager.getMute()}');
+
                                         print('success add');
                                       }).catchError(
                                               (e) => print('upload error'));
                                     });
 
-                                    print('switchNotification:-$value');
+                                    print('switchNotification:-$value1');
                                   },
                                   focusColor: AppColors.primaryColor,
                                   activeColor: AppColors.commonWhiteTextColor,
-                                  value: switchNotification,
+                                  value: PreferenceManager.getMute() ?? false,
+
+                                  // activeThumbColor: AppColors.primaryColor,
                                   activeTrackColor: AppColors.primaryColor,
+
+                                  // ...
                                 ),
                               ),
                             ],

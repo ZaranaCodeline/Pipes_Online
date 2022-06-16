@@ -250,20 +250,39 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                     setState(() {
                                       isLoading = true;
                                     });
-                                    if (PreferenceManager.getUId() != null) {
-                                      sendOtp();
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                              'This Mobile number is not register'),
-                                        ),
-                                      );
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-                                    }
+                                    showModalBottomSheet(
+                                        backgroundColor: Colors.transparent,
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Container(
+                                            height: Get.height,
+                                            width: Get.width,
+                                            color: Colors.black12,
+                                            child: Center(
+                                              child: CircularProgressIndicator(
+                                                color: AppColors.primaryColor
+                                                    .withOpacity(0.5),
+                                              ),
+                                            ),
+                                          );
+                                        });
+
+                                    sendOtp();
+
+                                    // if (PreferenceManager.getMute() != null) {
+                                    // } else {
+                                    //   ScaffoldMessenger.of(context)
+                                    //       .showSnackBar(
+                                    //     const SnackBar(
+                                    //       content: Text(
+                                    //           'This Mobile number is not register'),
+                                    //     ),
+                                    //   );
+                                    //   setState(() {
+                                    //     isLoading = false;
+                                    //   });
+                                    // }
                                   },
                                   child: Container(
                                     alignment: Alignment.center,
@@ -274,31 +293,13 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                       borderRadius:
                                           BorderRadius.circular(10.sp),
                                     ),
-                                    child: isLoading
-                                        ? Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              CustomText(
-                                                  text: 'Loading...  ',
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 12.sp,
-                                                  color: AppColors
-                                                      .commonWhiteTextColor),
-                                              CircularProgressIndicator(
-                                                color: AppColors
-                                                    .commonWhiteTextColor,
-                                              ),
-                                            ],
-                                          )
-                                        : Text(
-                                            'Send OTP',
-                                            style: TextStyle(
-                                                color: AppColors
-                                                    .commonWhiteTextColor,
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w700),
-                                          ),
+                                    child: Text(
+                                      'Send OTP',
+                                      style: TextStyle(
+                                          color: AppColors.commonWhiteTextColor,
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w700),
+                                    ),
                                   ),
                                 ),
                                 SizedBox(
@@ -362,7 +363,7 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                       width: Get.width * 0.8,
                                       decoration: BoxDecoration(
                                         color: SColorPicker.white,
-                                        boxShadow: [
+                                        boxShadow: const [
                                           BoxShadow(
                                               color: Colors.black12,
                                               spreadRadius: 0.5,
@@ -400,13 +401,14 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                           style: STextStyle.regular400Black13,
                                         ),
                                         TextSpan(
-                                            text: ' Sign Up',
-                                            style: STextStyle.medium400Purple13,
-                                            recognizer: TapGestureRecognizer()
-                                              ..onTap = () {
-                                                print('=====>Login');
-                                                Get.off(BSignUpEmailScreen());
-                                              }),
+                                          text: ' Sign Up',
+                                          style: STextStyle.medium400Purple13,
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () {
+                                              print('=====>Login');
+                                              Get.off(BSignUpEmailScreen());
+                                            },
+                                        ),
                                       ],
                                     ),
                                   ),

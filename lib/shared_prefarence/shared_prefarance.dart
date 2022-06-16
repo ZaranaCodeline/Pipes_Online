@@ -20,6 +20,14 @@ class PreferenceManager {
     return getStorage.read('deviceToken');
   }
 
+  static setMute(bool value) {
+    getStorage.write('isMute', value);
+  }
+
+  static getMute() {
+    return getStorage.read('isMute');
+  }
+
   static setSellerID(String value) {
     getStorage.write('sellerID', value);
   }
@@ -135,5 +143,6 @@ class PreferenceManager {
     getStorage.remove('uid');
     getStorage.remove('subscribeCategory');
     getStorage.remove('subscribeTime');
+    getStorage.remove('isMute');
   }
 }

@@ -169,10 +169,10 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                             )),
                         InkWell(
                           onTap: () {
-                            // bottomBarIndexController.bottomIndex.value = 1;
-                            // bottomBarIndexController.setSelectedScreen(
-                            //     value: 'ProductCartScreen');
-                            Get.to(() => ProductCartScreen());
+                            bottomBarIndexController.bottomIndex.value = 1;
+                            bottomBarIndexController.setSelectedScreen(
+                                value: 'ProductCartScreen');
+                            // Get.to(() => ProductCartScreen());
                           },
                           child: Stack(
                             children: [

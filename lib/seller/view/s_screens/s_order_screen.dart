@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/seller/view/s_screens/s_add_review_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_order_review_info_screen.dart';
@@ -9,7 +8,6 @@ import 'package:sizer/sizer.dart';
 
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/screens/b_image.dart';
-import '../../bottombar/widget/category_bottom_bar_route.dart';
 import '../../common/s_text_style.dart';
 
 class SOrdersScreen extends StatefulWidget {
@@ -22,7 +20,7 @@ class SOrdersScreen extends StatefulWidget {
 }
 
 class _SOrdersScreenState extends State<SOrdersScreen> {
-  String? formattedDateTime;
+  Timestamp? formattedDateTime;
 
   @override
   Widget build(BuildContext context) {
@@ -34,17 +32,9 @@ class _SOrdersScreenState extends State<SOrdersScreen> {
             style: STextStyle.bold700White14,
           ),
           backgroundColor: AppColors.primaryColor,
-          leading: IconButton(
-              onPressed: () {
-                print('back to home screen');
-                if (widget.isBottomBarVisible == true) {
-                  Get.back();
-                }
-                homeController.bottomIndex.value = 0;
-                homeController.selectedScreen('SCatelogeHomeScreen');
-              },
-              icon: Icon(Icons.arrow_back_rounded)),
           toolbarHeight: Get.height * 0.1,
+          automaticallyImplyLeading: false,
+          centerTitle: true,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(25),
@@ -63,8 +53,10 @@ class _SOrdersScreenState extends State<SOrdersScreen> {
               return ListView.builder(
                 itemCount: snapShot.data?.docs.length,
                 itemBuilder: (context, index) {
-                  formattedDateTime = DateFormat.yMMMd().add_jm().format(
+                  formattedDateTime = snapShot.data?.docs[index]['createdOn'];
+                  /*formattedDateTime = DateFormat.yMMMd().add_jm().format(
                       DateTime.parse(snapShot.data?.docs[index]['createdOn']));
+                  */
                   print('--formattedDateTime-${formattedDateTime}');
                   return Container(
                     padding: EdgeInsets.symmetric(horizontal: 10.sp),
@@ -78,7 +70,8 @@ class _SOrdersScreenState extends State<SOrdersScreen> {
                             padding: EdgeInsets.symmetric(
                                 vertical: 10.sp, horizontal: 10.sp),
                             child: CustomText(
-                                text: 'Ordered on $formattedDateTime',
+                                text:
+                                    'Ordered on ${formattedDateTime?.toDate().toString()}',
                                 fontWeight: FontWeight.w600,
                                 fontSize: 14,
                                 color: AppColors.secondaryBlackColor),

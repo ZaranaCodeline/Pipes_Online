@@ -882,7 +882,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                             ))),
                     IconButton(
                       onPressed: () {
-                        if (widget.isMute == true) {
+                        if (widget.isMute == false) {
                           // addMsg().then((value) {
                           AppNotificationHandler.sendMessage(
                               receiverFcmToken: widget.receiverFCMToken,

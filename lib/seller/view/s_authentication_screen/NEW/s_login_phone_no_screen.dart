@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
-import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_first_user_info_screen.dart';
@@ -256,11 +255,9 @@ class _SLoginPhoneNumberScreenState extends State<SLoginPhoneNumberScreen> {
                                             ),
                                           );
                                         });
-
                                     sendOtp();
 
-                                    // if (bFirebaseAuth.currentUser?.uid !=
-                                    //     null) {
+                                    // if (PreferenceManager.getUId() != null) {
                                     //   sendOtp();
                                     // } else {
                                     //   ScaffoldMessenger.of(context)

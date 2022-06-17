@@ -453,7 +453,7 @@ class _SSignUpEmailScreenState extends State<SSignUpEmailScreen> {
                                     width: Get.width * 0.8,
                                     decoration: BoxDecoration(
                                       color: SColorPicker.white,
-                                      boxShadow: [
+                                      boxShadow: const [
                                         BoxShadow(
                                             color: Colors.black12,
                                             spreadRadius: 0.5,

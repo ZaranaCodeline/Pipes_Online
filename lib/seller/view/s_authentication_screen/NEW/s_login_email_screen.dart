@@ -263,7 +263,7 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                         });
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
-                                          SnackBar(
+                                          const SnackBar(
                                             content: Text(
                                                 'The login is invalid.Please Try again'),
                                             backgroundColor: Colors.redAccent,
@@ -306,7 +306,7 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                       width: Get.height * 0.5,
                                       decoration: BoxDecoration(
                                         color: SColorPicker.white,
-                                        boxShadow: [
+                                        boxShadow: const [
                                           BoxShadow(
                                               color: Colors.black12,
                                               spreadRadius: 0.5,

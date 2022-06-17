@@ -122,7 +122,8 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                                 height: 35.sp,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(50),
-                                  child: SvgPicture.asset(''),
+                                  child: SvgPicture.asset(
+                                      SImagePick.uploadImageIcon),
                                 ),
                               ),
                         SizedBox(width: Get.width * 0.02),
@@ -314,15 +315,22 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
               SizedBox(
                 height: Get.height * 0.1,
               ),
-              Padding(
-                padding: EdgeInsets.all(5.0.sp),
-                child: CircleAvatar(
-                  radius: 30,
-                  backgroundImage: NetworkImage(
-                    urlImage,
-                  ),
-                ),
-              ),
+              urlImage != null
+                  ? Padding(
+                      padding: EdgeInsets.all(5.0.sp),
+                      child: CircleAvatar(
+                        radius: 30,
+                        backgroundImage: NetworkImage(
+                          urlImage,
+                        ),
+                      ),
+                    )
+                  : Image.asset(
+                      BImagePick.proIcon,
+                      // height: Get.height * 0.1,
+                      // width: Get.width * 0.4,
+                      fit: BoxFit.cover,
+                    ),
               SizedBox(width: Get.width * 0.02),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

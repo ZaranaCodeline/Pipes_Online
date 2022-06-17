@@ -568,7 +568,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
     PreferenceManager.setName(nameController.text);
     PreferenceManager.getName();
     PreferenceManager.setAddress(address.text);
-    PreferenceManager.setUserImage(imageUrl!);
+    // PreferenceManager.setUserImage(imageUrl!);
     PreferenceManager.getUserImage();
     PreferenceManager.getAddress();
     print('USER_TYPE--${PreferenceManager.getUserType()}');

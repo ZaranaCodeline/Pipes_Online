@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:octo_image/octo_image.dart';
 import 'package:pipes_online/app_notification.dart';
+import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/zoom_img.dart';
 import 'package:pipes_online/seller/view_model/chat_controller.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
@@ -56,6 +57,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
   File? path;
   String statusText = "";
   bool isComplete = false;
+  bool isOnline = false;
   String? recordFilePath;
   String? documentName;
   final File? file1 = File('');
@@ -178,12 +180,16 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                         fontSize: 14.sp,
                         color: AppColors.commonWhiteTextColor,
                       ),
-                      CustomText(
-                        alignment: Alignment.center,
-                        text: widget.isOnline == true ? 'Online' : '',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 18,
-                        color: Colors.green,
+                      Container(
+                        child: CustomText(
+                          alignment: Alignment.center,
+                          text: widget.isOnline.toString() == true
+                              ? 'Online'
+                              : 'Offline',
+                          fontWeight: FontWeight.w400,
+                          fontSize: 18,
+                          color: Colors.green,
+                        ),
                       ),
                     ],
                   ),
@@ -882,7 +888,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                             ))),
                     IconButton(
                       onPressed: () {
-                        if (widget.isMute == false) {
+                        if (widget.isMute == true) {
                           // addMsg().then((value) {
                           AppNotificationHandler.sendMessage(
                               receiverFcmToken: widget.receiverFCMToken,

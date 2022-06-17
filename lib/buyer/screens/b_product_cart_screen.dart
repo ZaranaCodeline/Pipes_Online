@@ -6,15 +6,12 @@ import 'package:get/get.dart';
 import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/buyer/screens/b_cart_check_out_page.dart';
-import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/buyer/view_model/cart_product_controller.dart';
 import 'package:pipes_online/seller/view/s_screens/s_text_style.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
-
-import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 
 class ProductCartScreen extends StatefulWidget {
   final bool? isBottomBarAvailable;
@@ -175,18 +172,37 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Container(
-                                width: Get.width * 0.35,
-                                height: Get.height / 7,
-                                // flex: 3,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  child: Image.network(
-                                    snapShot.data!.docs[index]['imageProfile'],
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
+                              snapShot.data!.docs[index]['imageProfile'] != null
+                                  ? Container(
+                                      width: Get.width * 0.35,
+                                      height: Get.height / 7,
+                                      // flex: 3,
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        child: Image.network(
+                                          snapShot.data!.docs[index]
+                                              ['imageProfile'],
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (BuildContext context,
+                                              Object exception,
+                                              StackTrace? stackTrace) {
+                                            return Image.asset(
+                                              BImagePick.cartIcon,
+                                              width: Get.width * 0.35,
+                                              height: Get.height / 7,
+                                              fit: BoxFit.cover,
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    )
+                                  : Image.asset(
+                                      BImagePick.proIcon,
+                                      height: Get.height * 0.1,
+                                      width: Get.width * 0.4,
+                                      fit: BoxFit.cover,
+                                    ),
                               Flexible(
                                 child: Container(
                                   alignment: Alignment.centerLeft,

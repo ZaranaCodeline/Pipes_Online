@@ -258,7 +258,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
                                           decoration: InputDecoration(
                                             fillColor: SColorPicker.fontGrey,
                                             hintText: 'Enter your review',
-                                            border: OutlineInputBorder(
+                                            border: const OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(10.0),
                                               ),

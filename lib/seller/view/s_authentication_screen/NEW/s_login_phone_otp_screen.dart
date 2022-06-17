@@ -185,7 +185,7 @@ class _SLoginPhoneOtpScreenState extends State<SLoginPhoneOtpScreen> {
 
           ProfileCollection.doc(PreferenceManager.getUId())
               .update({'isOnline': true});
-          Get.to(() => NavigationBarScreen());
+          Get.off(() => NavigationBarScreen());
         });
       }
     } on FirebaseAuthException catch (e) {

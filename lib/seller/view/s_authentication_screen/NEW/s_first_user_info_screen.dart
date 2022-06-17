@@ -161,12 +161,10 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
 
                                     showModalBottomSheet<void>(
                                       elevation: 0.5,
-                                      shape: RoundedRectangleBorder(
+                                      shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.only(
-                                              topLeft:
-                                                  const Radius.circular(20.0),
-                                              topRight:
-                                                  const Radius.circular(20.0))),
+                                              topLeft: Radius.circular(20.0),
+                                              topRight: Radius.circular(20.0))),
                                       backgroundColor: Colors.white,
                                       context: context,
                                       builder: (context) =>
@@ -188,7 +186,7 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                                                     color:
                                                         AppColors.primaryColor),
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 0.2,
                                               ),
                                               CustomText(
@@ -408,9 +406,7 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                                 },
                                 maxLines: 2,
                                 controller:
-                                    _controller.addressController == null
-                                        ? address
-                                        : _controller.addressController,
+                                    _controller.addressController ?? address,
                                 decoration: InputDecoration(),
                               ),
                             ),
@@ -433,7 +429,7 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                             width: Get.height * 0.3,
                             decoration: BoxDecoration(
                               color: SColorPicker.white,
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                     color: Colors.black12,
                                     spreadRadius: 0.5,
@@ -464,9 +460,10 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                               });
                               if (_image == null) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content:
-                                            Text('Please Select a Image')));
+                                  const SnackBar(
+                                    content: Text('Please Select a Image'),
+                                  ),
+                                );
                               }
                               if (_image != null) {
                                 showModalBottomSheet(
@@ -478,7 +475,7 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                                         height: Get.height,
                                         width: Get.width,
                                         color: Colors.black12,
-                                        child: Center(
+                                        child: const Center(
                                           child: CircularProgressIndicator(),
                                         ),
                                       );

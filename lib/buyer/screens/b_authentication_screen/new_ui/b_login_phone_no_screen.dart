@@ -267,10 +267,10 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                             ),
                                           );
                                         });
-
                                     sendOtp();
-
-                                    // if (PreferenceManager.getMute() != null) {
+                                    //
+                                    // if (PreferenceManager.getUId() != null) {
+                                    //   sendOtp();
                                     // } else {
                                     //   ScaffoldMessenger.of(context)
                                     //       .showSnackBar(

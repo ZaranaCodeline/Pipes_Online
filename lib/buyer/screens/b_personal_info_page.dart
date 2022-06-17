@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,13 +8,12 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
-import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
+import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/buyer/view_model/b_profile_view_model.dart';
 import 'package:pipes_online/seller/common/s_text_style.dart';
 import 'package:pipes_online/seller/view/s_screens/s_color_picker.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
-
 import '../app_constant/app_colors.dart';
 import 'bottom_bar_screen_page/widget/b_home_bottom_bar_route.dart';
 import 'custom_widget/custom_text.dart';
@@ -45,20 +43,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
 
   CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
 
-  // Future<void> getData() async {
-  //   print('demo buyer....');
-  //   final user = await ProfileCollection.doc(PreferenceManager.getUId()).get();
-  //   Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-  //
-  //   setState(() {
-  //     firstname = TextEditingController(text: getUserData?['user_name']);
-  //     phoneno = TextEditingController(text: getUserData?['phoneno']);
-  //     email = TextEditingController(text: getUserData?['email']);
-  //     address = TextEditingController(text: getUserData?['address']);
-  //     Img = getUserData?['imageProfile'] ??
-  //         'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png';
-  //   });
-  // }
   Future<void> getData() async {
     print('demo seller.....');
     final user =
@@ -271,12 +255,28 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                           Img == null
                                               ? 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'
                                               : Img!,
-                                          fit: BoxFit.fill,
-                                        )
-                                      : Image.file(
-                                          _image!,
-                                          fit: BoxFit.fill,
-                                        ),
+                                          fit: BoxFit.fill, errorBuilder:
+                                              (BuildContext context,
+                                                  Object exception,
+                                                  StackTrace? stackTrace) {
+                                          return Image.asset(
+                                            BImagePick.cartIcon,
+                                            height: Get.height * 0.1,
+                                            width: Get.width * 0.4,
+                                            fit: BoxFit.cover,
+                                          );
+                                        })
+                                      : Image.file(_image!, fit: BoxFit.fill,
+                                          errorBuilder: (BuildContext context,
+                                              Object exception,
+                                              StackTrace? stackTrace) {
+                                          return Image.asset(
+                                            BImagePick.cartIcon,
+                                            height: Get.height * 0.1,
+                                            width: Get.width * 0.4,
+                                            fit: BoxFit.cover,
+                                          );
+                                        }),
                                 ),
                               ),
                               SizedBox(

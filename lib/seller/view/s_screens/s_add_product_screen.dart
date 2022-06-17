@@ -376,9 +376,6 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                         : SCommonButton().sCommonPurpleButton(
                             name: 'Add Product',
                             onTap: () async {
-                              setState(() {
-                                isLoading = true;
-                              });
                               if (formGlobalKey.currentState!.validate()) {
                                 if (_image == null) {
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -389,19 +386,34 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                                     isLoading = false;
                                   });
                                 }
-                                formGlobalKey.currentState!.save();
-                                await addData(_image).then((value) {
-                                  setState(() {
-                                    isLoading = false;
+
+                                if (_image != null) {
+                                  showModalBottomSheet(
+                                      backgroundColor: Colors.transparent,
+                                      isScrollControlled: true,
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Container(
+                                          height: Get.height,
+                                          width: Get.width,
+                                          color: Colors.black12,
+                                          child: const Center(
+                                            child: CircularProgressIndicator(),
+                                          ),
+                                        );
+                                      });
+                                  await addData(_image).then((value) {
+                                    homeController
+                                        .selectedScreen('SCatelogeHomeScreen');
+                                    homeController.bottomIndex.value = 0;
+                                    PreferenceManager.getSubscribeCategory();
+                                    PreferenceManager.getSubscribeTime();
+                                    print(
+                                        'getSubscribeTime---${PreferenceManager.getSubscribeTime()}-getSubscribeCategory--${PreferenceManager.getSubscribeCategory()}');
+
+                                    formGlobalKey.currentState!.save();
                                   });
-                                  homeController
-                                      .selectedScreen('SCatelogeHomeScreen');
-                                  homeController.bottomIndex.value = 0;
-                                  PreferenceManager.getSubscribeCategory();
-                                  PreferenceManager.getSubscribeTime();
-                                  print(
-                                      'getSubscribeTime---${PreferenceManager.getSubscribeTime()}-getSubscribeCategory--${PreferenceManager.getSubscribeCategory()}');
-                                });
+                                }
                               }
                             },
                           ),

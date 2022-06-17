@@ -184,11 +184,17 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
                                   padding: EdgeInsets.only(
                                     top: 45.sp,
                                   ),
-                                  child: CustomText(
-                                      text: firstname.toString(),
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 18.sp,
-                                      color: AppColors.secondaryBlackColor),
+                                  child: firstname != null
+                                      ? CustomText(
+                                          text: firstname.toString(),
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18.sp,
+                                          color: AppColors.secondaryBlackColor)
+                                      : CustomText(
+                                          text: 'John',
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18.sp,
+                                          color: AppColors.secondaryBlackColor),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.symmetric(

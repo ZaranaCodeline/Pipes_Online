@@ -5,7 +5,6 @@ import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/buyer/screens/b_selected_product_widget.dart';
 import 'package:pipes_online/buyer/view_model/b_bottom_bar_controller.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../seller/common/s_color_picker.dart';
 import '../../seller/common/s_text_style.dart';
 import 'bottom_bar_screen_page/widget/b_cart_bottom_bar_route.dart';
@@ -64,7 +63,7 @@ class _BCategoryDetailsPageState extends State<BCategoryDetailsPage> {
                 .where('category', isEqualTo: widget.category)
                 .snapshots(),
             builder: (context, snapShot) {
-              if (!snapShot.hasData) {
+              if (snapShot.hasData) {
                 return Center(
                   child: CircularProgressIndicator(
                     color: AppColors.primaryColor,
@@ -90,15 +89,16 @@ class _BCategoryDetailsPageState extends State<BCategoryDetailsPage> {
                   ),
                 );
               }
-              if (snapShot.hasData) {
+              if (!snapShot.hasData) {
                 print('-----------call----------');
                 return GridView.builder(
-                    physics: BouncingScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5,
-                        childAspectRatio: 1.7 / 2),
+                    physics: const BouncingScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 5,
+                            childAspectRatio: 1.7 / 2),
                     itemCount: snapShot.data!.docs.length,
                     itemBuilder: (BuildContext context, index) {
                       print('LENGTH ${snapShot.data!.docs.length}');

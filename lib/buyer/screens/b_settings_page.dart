@@ -178,20 +178,28 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
                                                         Object exception,
                                                         StackTrace?
                                                             stackTrace) {
-                                              return Image.asset(
-                                                BImagePick.proIcon,
-                                                width: 35.sp,
-                                                height: 35.sp,
-                                                fit: BoxFit.cover,
+                                              return ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                                child: Image.asset(
+                                                  BImagePick.proIcon,
+                                                  width: 35.sp,
+                                                  height: 35.sp,
+                                                  fit: BoxFit.cover,
+                                                ),
                                               );
                                             }),
                                           ),
                                         )
-                                      : Image.asset(
-                                          BImagePick.proIcon,
-                                          height: Get.height * 0.1,
-                                          width: Get.width * 0.4,
-                                          fit: BoxFit.cover,
+                                      : ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          child: Image.asset(
+                                            BImagePick.proIcon,
+                                            width: 35.sp,
+                                            height: 35.sp,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                   SizedBox(width: 15.sp),
                                   Flexible(

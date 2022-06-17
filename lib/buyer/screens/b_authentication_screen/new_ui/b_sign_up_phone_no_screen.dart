@@ -52,9 +52,8 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
         });
       },
       verificationFailed: (verificationFailed) async {
-        setState(() {
-          isLoading = false;
-        });
+        print('check2');
+
         print('----verificationFailed---${verificationFailed.message}');
         Get.showSnackbar(
           GetSnackBar(
@@ -64,6 +63,9 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
             message: verificationFailed.message,
           ),
         );
+        setState(() {
+          isLoading = false;
+        });
         print(
             'The phone number entered is invalid!====${verificationFailed.message}');
       },
@@ -284,7 +286,12 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                           );
                                         });
                                     sendOtp().then((value) {
+                                      print('check1');
+                                      _phoneController.clear();
                                       print('Phone---${_phoneController.text}');
+                                      setState(() {
+                                        isLoading = false;
+                                      });
                                     });
                                   },
                                   child: Container(
@@ -320,7 +327,7 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                       width: Get.height * 0.37,
                                       decoration: BoxDecoration(
                                         color: SColorPicker.white,
-                                        boxShadow: [
+                                        boxShadow: const [
                                           BoxShadow(
                                               color: Colors.black12,
                                               spreadRadius: 0.5,

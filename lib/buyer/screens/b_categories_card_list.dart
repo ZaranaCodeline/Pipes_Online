@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pipes_online/buyer/screens/b_category_detail_page.dart';
 import 'package:pipes_online/routes/bottom_controller.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
 import '../view_model/b_bottom_bar_controller.dart';
@@ -22,6 +23,44 @@ class CategoriesCardList extends StatelessWidget {
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection("Categories").snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData) {
+            return Shimmer.fromColors(
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext context, snapshot) {
+                  return Center(
+                    child: Container(
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 10.sp,
+                          ),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Container(
+                              width: Get.width * 0.35,
+                              height: Get.height / 13,
+                              // flex: 3,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade100,
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5.sp,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                itemCount: snapshot.data?.docs.length,
+              ),
+              baseColor: Colors.grey.shade200,
+              highlightColor: Colors.grey.shade300,
+            );
+          }
           if (snapshot.hasData) {
             List<DocumentSnapshot> categories = snapshot.data!.docs;
             return SingleChildScrollView(

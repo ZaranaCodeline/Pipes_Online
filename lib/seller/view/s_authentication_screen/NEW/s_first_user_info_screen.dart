@@ -115,6 +115,14 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
             body: SingleChildScrollView(
               child: GetBuilder<GeolocationController>(
                 builder: (controller) {
+                  controller.latitude.value.toString();
+                  controller.longitude.value.toString();
+                  PreferenceManager.getLat();
+                  PreferenceManager.getLong();
+                  print('getLat>>>>>> ${controller.latitude.value.toString()}');
+                  print(
+                      'getLong>>>>> ${controller.longitude.value.toString()}');
+
                   return Form(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     key: _formKey,
@@ -564,6 +572,10 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
     PreferenceManager.setName(nameController.text);
     PreferenceManager.getName();
     PreferenceManager.setAddress(address.text);
+    PreferenceManager.setLong(PreferenceManager.getLong());
+    PreferenceManager.setLat(PreferenceManager.getLat());
+    PreferenceManager.getLong();
+    PreferenceManager.getLat();
     PreferenceManager.getAddress();
     print('USER_TYPE--${PreferenceManager.getUserType()}');
     print('NAME--${PreferenceManager.getName()}');
@@ -586,9 +598,7 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
       'sellerID': PreferenceManager.getUId(),
       'email': PreferenceManager.getEmail() ?? emailController.text,
       'isOnline': false,
-      'phoneno': PreferenceManager.getPhoneNumber() != null
-          ? PreferenceManager.getPhoneNumber()
-          : mobilecontroller.text,
+      'phoneno': PreferenceManager.getPhoneNumber() ?? mobilecontroller.text,
       'user_name': PreferenceManager.getName(),
       'imageProfile': imageUrl ??
           'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
@@ -597,8 +607,14 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
           : _controller.addressController!.text,
       'deviceToken': PreferenceManager.getFcmToken(),
       'isMute': false,
+      'buyerTotal': 0,
+      'rating': 0,
       'userType': PreferenceManager.getUserType(),
       'userDetails': 'true',
+      'lat': PreferenceManager.getLat(),
+      'long': PreferenceManager.getLong(),
+      'totalOrder': 0,
+      'totalProduct': 0,
       'time': DateTime.now().toString(),
     }).catchError((e) => print('Error ====buyer=====>>> $e'));
   }

@@ -10,6 +10,7 @@ class ListingReviewTabBarWidget extends StatefulWidget {
       category,
       sellerAddress,
       sellerName,
+      sellerID,
       sellerImage,
       sellerPhone;
   const ListingReviewTabBarWidget(
@@ -18,6 +19,7 @@ class ListingReviewTabBarWidget extends StatefulWidget {
       this.category,
       this.sellerAddress,
       this.sellerName,
+      this.sellerID,
       this.sellerImage,
       this.sellerPhone})
       : super(key: key);
@@ -106,7 +108,7 @@ class _ListingReviewTabBarWidgetState extends State<ListingReviewTabBarWidget>
                     controller: _tabController,
                     children: [
                       // first tab bar view widget
-                      Center(
+                      const Center(
                         child: BListingWidget(),
                       ),
                       Center(
@@ -116,6 +118,7 @@ class _ListingReviewTabBarWidgetState extends State<ListingReviewTabBarWidget>
                           sImage: widget.sellerImage,
                           sName: widget.sellerName,
                           sContact: widget.sellerPhone,
+                          sellerID: widget.sellerID,
                         ),
                       ),
                     ],

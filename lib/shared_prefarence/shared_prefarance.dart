@@ -124,6 +124,22 @@ class PreferenceManager {
     return getStorage.read('subscribeCategory');
   }
 
+  static setLat(String value) {
+    getStorage.write('lat', value);
+  }
+
+  static getLat() {
+    return getStorage.read('lat');
+  }
+
+  static setLong(String value) {
+    getStorage.write('long', value);
+  }
+
+  static getLong() {
+    return getStorage.read('long');
+  }
+
   static setUserImg(String value) {
     getStorage.write('userImg', value);
   }

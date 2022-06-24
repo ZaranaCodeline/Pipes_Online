@@ -43,7 +43,10 @@ class _SCustomProductCardState extends State<SCustomProductCard> {
     return Container(
       height: Get.height * 0.7,
       child: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('Products').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('Products')
+            .where('createdOn', isLessThan: DateTime.now())
+            .snapshots(),
         builder: (context, snapShot) {
           if (!snapShot.hasData) {
             return GridView.builder(

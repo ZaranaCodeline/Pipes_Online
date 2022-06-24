@@ -227,7 +227,7 @@ class _BSettingsScreenState extends State<BSettingsScreen> {
                                                 fontWeight: FontWeight.w400,
                                               ),
                                               // controller: _controller,
-                                              decoration: InputDecoration(
+                                              decoration: const InputDecoration(
                                                 border: InputBorder.none,
                                                 hintText: 'John',
                                               ),

@@ -171,7 +171,7 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
                                             text:
                                                 'Ordered on ${formattedDateTime?.toDate().toString()}',
                                             fontWeight: FontWeight.w600,
-                                            fontSize: 13.sp,
+                                            fontSize: 11.sp,
                                             color:
                                                 AppColors.secondaryBlackColor),
                                         SizedBox(
@@ -201,6 +201,8 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
                                       ],
                                     ),
                                     CustomText(
+                                        max: 1,
+                                        textOverflow: TextOverflow.fade,
                                         text: payment.toString(),
                                         fontWeight: FontWeight.w600,
                                         fontSize: 14.sp,

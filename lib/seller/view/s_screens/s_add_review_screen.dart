@@ -23,6 +23,7 @@ class SAddReviewScreen extends StatefulWidget {
 
 class _SAddReviewScreenState extends State<SAddReviewScreen> {
   double rating = 3.0;
+  var totalRating;
 
   String? Img;
   String? firstname;
@@ -79,15 +80,35 @@ class _SAddReviewScreenState extends State<SAddReviewScreen> {
           Get.to(SSellerReviewScreen());
           print('seller review uploaded succefully');
         });
+    FirebaseFirestore.instance
+        .collection('BProfile')
+        .doc(widget.buyerID)
+        .update({
+      'rating': totalRating + (rating),
+    });
+  }
+
+  getBuyerData() async {
+    var data = await FirebaseFirestore.instance
+        .collection('BProfile')
+        .doc(widget.buyerID)
+        .get();
+
+    Map<String, dynamic>? getBuyer = data.data();
+    setState(() {
+      totalRating = getBuyer?['rating'];
+    });
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getBuyerData();
     print('fetch user data');
     getData();
     print('---category--${widget.category}');
+    print('buyer ID>>>>-${widget.buyerID}');
   }
 
   @override

@@ -58,7 +58,7 @@ class _SearchScreenState extends State<SearchScreen> {
             );
           }
           if (!snapShot.hasData) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -176,24 +176,24 @@ class _SearchScreenState extends State<SearchScreen> {
                                           children: [
                                             SizedBox(height: 4.h),
                                             Container(
-                                              height: 3.h,
-                                              width: Get.width * 0.4,
+                                              height: 1.5.h,
+                                              width: Get.width * 0.3,
                                               decoration: BoxDecoration(
                                                 color: Colors.grey.shade100,
                                               ),
                                             ),
                                             SizedBox(height: 2.h),
                                             Container(
-                                              height: 3.h,
-                                              width: Get.width * 0.4,
+                                              height: 1.5.h,
+                                              width: Get.width * 0.3,
                                               decoration: BoxDecoration(
                                                 color: Colors.grey.shade100,
                                               ),
                                             ),
                                             SizedBox(height: 2.h),
                                             Container(
-                                              height: 3.h,
-                                              width: Get.width * 0.4,
+                                              height: 1.5.h,
+                                              width: Get.width * 0.3,
                                               decoration: BoxDecoration(
                                                 color: Colors.grey.shade100,
                                               ),

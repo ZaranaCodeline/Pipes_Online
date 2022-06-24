@@ -113,6 +113,15 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                 body: SingleChildScrollView(
                   child: GetBuilder<GeolocationController>(
                     builder: (controller) {
+                      controller.latitude.value.toString();
+                      controller.longitude.value.toString();
+                      PreferenceManager.getLat();
+                      PreferenceManager.getLong();
+                      print(
+                          'getLat>>>>>> ${controller.latitude.value.toString()}');
+                      print(
+                          'getLong>>>>> ${controller.longitude.value.toString()}');
+
                       return Form(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         key: _formKey,
@@ -159,12 +168,10 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
 
                                   showModalBottomSheet<void>(
                                     elevation: 0.5,
-                                    shape: RoundedRectangleBorder(
+                                    shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.only(
-                                            topLeft:
-                                                const Radius.circular(20.0),
-                                            topRight:
-                                                const Radius.circular(20.0))),
+                                            topLeft: Radius.circular(20.0),
+                                            topRight: Radius.circular(20.0))),
                                     backgroundColor: Colors.white,
                                     context: context,
                                     builder: (context) => FractionallySizedBox(
@@ -463,7 +470,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
 
                                   if (_image == null) {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
+                                        const SnackBar(
                                             content:
                                                 Text('Please Select a Image')));
                                   }
@@ -478,7 +485,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                             height: Get.height,
                                             width: Get.width,
                                             color: Colors.black12,
-                                            child: Center(
+                                            child: const Center(
                                               child:
                                                   CircularProgressIndicator(),
                                             ),
@@ -568,7 +575,8 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
     PreferenceManager.setName(nameController.text);
     PreferenceManager.getName();
     PreferenceManager.setAddress(address.text);
-    // PreferenceManager.setUserImage(imageUrl!);
+    PreferenceManager.setUserImage(imageUrl ??
+        'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png');
     PreferenceManager.getUserImage();
     PreferenceManager.getAddress();
     print('USER_TYPE--${PreferenceManager.getUserType()}');
@@ -605,7 +613,12 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
       'userType': PreferenceManager.getUserType(),
       'deviceToken': PreferenceManager.getFcmToken(),
       'isMute': false,
+      'lat': PreferenceManager.getLat(),
+      'long': PreferenceManager.getLong(),
       'userDetails': 'true',
+      'totalOrder': 0,
+      'buyerTotal': 0,
+      'rating': 0,
       'time': DateTime.now().toString(),
     }).catchError((e) => print('Error ====buyer=====>>> $e'));
   }

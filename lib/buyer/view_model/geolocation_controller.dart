@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 
 class GeolocationController extends GetxController {
   var latitude = 'Getting Latitude..'.obs;
@@ -10,13 +13,28 @@ class GeolocationController extends GetxController {
   var address = 'Getting Address..'.obs;
   late StreamSubscription<Position> streamSubscription;
   TextEditingController? addressController;
+  Map<PolylineId, Polyline> polylines = {};
+  double distance = 0.0;
 
+  ///
+  String googleAPiKey = "AIzaSyBn9ZKmXc-MN12Fap0nUQotO6RKtYJEh8o";
+
+  ///
   void setLocation(double lat, double long) {
     addressController = longitude != null
         ? TextEditingController(text: address.value)
         : TextEditingController();
 
     print('LATITUDE:${addressController!.text}');
+
+    PreferenceManager.setLat(latitude.toString());
+    PreferenceManager.setLong(longitude.toString());
+    PreferenceManager.getLat();
+    PreferenceManager.getLong();
+
+    print('getLat :- ${PreferenceManager.getLat()}');
+    print('getLong :- ${PreferenceManager.getLong()}');
+
     update();
   }
 
@@ -58,8 +76,10 @@ class GeolocationController extends GetxController {
     }
     streamSubscription =
         Geolocator.getPositionStream().listen((Position position) {
-      latitude.value = 'Latitude : ${position.latitude}';
-      longitude.value = 'Longitude : ${position.longitude}';
+      //Latitude:=
+      latitude.value = position.latitude.toString();
+      // Longitude:=
+      longitude.value = position.longitude.toString();
       getAddressFromLatLang(position);
     });
   }

@@ -58,7 +58,7 @@ class CategoriesCardList extends StatelessWidget {
                 itemCount: snapshot.data?.docs.length,
               ),
               baseColor: Colors.grey.shade200,
-              highlightColor: Colors.grey.shade300,
+              highlightColor: Colors.grey.shade100,
             );
           }
           if (snapshot.hasData) {

@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:pipes_online/buyer/screens/b_my_order_page.dart';
 import 'package:pipes_online/seller/common/s_image.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../seller/common/s_text_style.dart';
 import '../app_constant/app_colors.dart';
 import 'custom_widget/custom_button.dart';
@@ -35,10 +34,6 @@ class BConfirmOrderPage extends StatelessWidget {
         children: [
           Center(
             child: SvgPicture.asset(SImagePick.confirmImg),
-            //     Image.asset(
-            //   'assets/images/png/confirm_img.png',
-            //   fit: BoxFit.cover,
-            // ),
           ),
           Center(
             child: CustomText(

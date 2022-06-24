@@ -63,7 +63,7 @@ class _BCategoryDetailsPageState extends State<BCategoryDetailsPage> {
                 .where('category', isEqualTo: widget.category)
                 .snapshots(),
             builder: (context, snapShot) {
-              if (snapShot.hasData) {
+              if (!snapShot.hasData) {
                 return Center(
                   child: CircularProgressIndicator(
                     color: AppColors.primaryColor,
@@ -89,7 +89,7 @@ class _BCategoryDetailsPageState extends State<BCategoryDetailsPage> {
                   ),
                 );
               }
-              if (!snapShot.hasData) {
+              if (snapShot.hasData) {
                 print('-----------call----------');
                 return GridView.builder(
                     physics: const BouncingScrollPhysics(),

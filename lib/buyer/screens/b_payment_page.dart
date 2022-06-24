@@ -33,6 +33,13 @@ class PaymentWidget extends StatefulWidget {
       category,
       proImage,
       proOilPipe,
+      sellerID,
+      sellerAddress,
+      sellerPhone,
+      sellerLat,
+      sellerLong,
+      sellerImage,
+      sellerName,
       desc;
   const PaymentWidget(
       {Key? key,
@@ -51,7 +58,14 @@ class PaymentWidget extends StatefulWidget {
       this.pLength,
       this.pWeight,
       this.proOilPipe,
-      this.cartID})
+      this.cartID,
+      this.sellerID,
+      this.sellerAddress,
+      this.sellerPhone,
+      this.sellerLat,
+      this.sellerLong,
+      this.sellerImage,
+      this.sellerName})
       : super(key: key);
 
   @override
@@ -61,6 +75,28 @@ class PaymentWidget extends StatefulWidget {
 class _PaymentWidgetState extends State<PaymentWidget> {
   bool? isLoading;
   Map<String, dynamic>? paymentIntentData;
+  var totalOrder;
+  var totalBuyerOrder;
+  getBuyerData() async {
+    var data = await FirebaseFirestore.instance
+        .collection('BProfile')
+        .doc(widget.bID)
+        .get();
+    Map<String, dynamic>? getBuyer = data.data();
+    setState(() {
+      totalBuyerOrder = getBuyer?['totalOrder'];
+    });
+    print('TOTALBUYER: $totalBuyerOrder');
+  }
+
+  getData() async {
+    var data = await FirebaseFirestore.instance
+        .collection('SProfile')
+        .doc(widget.sellerID)
+        .get();
+    Map<String, dynamic>? userData = data.data();
+    totalOrder = userData!['totalOrder'];
+  }
 
   Future payWithPaypal() async {
     Get.to(PaypalPayment(
@@ -91,6 +127,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
             'buyerAddress': widget.bAddress,
             'buyerID': widget.bID,
             'buyerPhone': widget.bPhone,
+            'sellerID': widget.sellerID,
           },
         ).then(
           (value) {
@@ -118,6 +155,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
     ));
   }
 
+//------Strip-strat----
   Future payWithStrip() async {
     makePayment(widget.proPrice.toString());
   }
@@ -197,6 +235,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
             'buyerAddress': widget.bAddress,
             'buyerID': widget.bID,
             'buyerPhone': widget.bPhone,
+            'sellerID': widget.sellerID,
           },
         ).then(
           (value) {
@@ -267,6 +306,17 @@ class _PaymentWidgetState extends State<PaymentWidget> {
     final a = (int.parse(amount)) * 100;
     return a.toString();
   }
+//------Strip-End----
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+    getBuyerData();
+    print('>>>>S_ID>>>>>${widget.sellerID}');
+    print('>>>>S_Name>>>>>${widget.sellerName}');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -300,18 +350,20 @@ class _PaymentWidgetState extends State<PaymentWidget> {
           CustomSocialWidget(
               icon: BImagePick.PayPalIcon,
               onClicked: () {
+                print('>>>SELLER ID >>>${widget.sellerID}');
+                // --------Custom----Orders------
                 FirebaseFirestore.instance.collection('Orders').add(
                   {
                     'productID': widget.proID,
                     'orderID': PreferenceManager.getUId().toString(),
                     'productImage': widget.proImage,
                     'prdName': widget.proName,
-                    'size': '2 ft',
-                    'length': '2 kg',
-                    'weight': 'Pending',
-                    'oil': '--',
+                    'size': widget.pSize,
+                    'length': widget.pLength,
+                    'weight': widget.pWeight,
+                    'oil': widget.proOilPipe,
                     'orderStatus': 'Complate',
-                    'paymentMode': 'stripe',
+                    'paymentMode': 'paypal',
                     'price': widget.proPrice,
                     'category': widget.category,
                     'dsc': widget.desc,
@@ -320,9 +372,21 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                     'buyerImg': widget.bImage,
                     'buyerAddress': widget.bAddress,
                     'buyerID': widget.bID,
+                    'buyerLat': PreferenceManager.getLat(),
+                    'buyerLong': PreferenceManager.getLong(),
                     'buyerPhone': widget.bPhone,
+                    'sellerID': widget.sellerID,
+                    'sellerAddress': widget.sellerAddress,
+                    'sellerPhone': widget.sellerPhone,
+                    'sellerLat': widget.sellerLat,
+                    'sellerLong': widget.sellerLong,
+                    'sellerImage': widget.sellerImage,
+                    'sellerName': widget.sellerName,
                   },
-                );
+                ).then((value) {
+                  Get.back();
+                });
+                //Paymnet----manually---orders---------
                 /*payWithPaypal().then((value) {
                   try {
                     FirebaseFirestore.instance
@@ -333,6 +397,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                         .delete()
                         .then((value) {
                       print('Removed from your side');
+
                       // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       //   content: Text('Removed from Cart'),
                       //   duration: Duration(seconds: 5),
@@ -342,6 +407,18 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                     print(e.toString());
                   }
                 });*/
+
+                //For add in collection
+                FirebaseFirestore.instance
+                    .collection('SProfile')
+                    .doc(widget.sellerID)
+                    .update({'totalOrder': totalOrder + 1});
+                FirebaseFirestore.instance
+                    .collection('BProfile')
+                    .doc(widget.bID)
+                    .update({
+                  'totalOrder': totalBuyerOrder + 1,
+                });
               },
 
               // Get.to(() => BConfirmOrderPage()),
@@ -367,6 +444,16 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                 } catch (e) {
                   print(e.toString());
                 }
+              });
+              FirebaseFirestore.instance
+                  .collection('SProfile')
+                  .doc(widget.sellerID)
+                  .update({'totalOrder': totalOrder + 1});
+              FirebaseFirestore.instance
+                  .collection('BProfile')
+                  .doc(widget.bID)
+                  .update({
+                'totalOrder': totalBuyerOrder + 1,
               });
             },
             child: Container(

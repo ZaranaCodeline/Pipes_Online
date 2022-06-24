@@ -51,6 +51,9 @@ dependencies:
   webview_flutter: ^3.0.4
   http_auth: ^1.0.1
   flutter_stripe: ^3.1.0
+  #GEO
+  #  flutter_polyline_points: ^1.0.0
+  latlong2: ^0.8.1
 
 dev_dependencies:
   flutter_test:

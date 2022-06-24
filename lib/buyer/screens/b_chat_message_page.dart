@@ -10,7 +10,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:octo_image/octo_image.dart';
 import 'package:pipes_online/app_notification.dart';
-import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/screens/zoom_img.dart';
 import 'package:pipes_online/seller/view_model/chat_controller.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
@@ -1028,39 +1027,6 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
     //file=File(file!.path);
     //return uploadDocumentFirebaseStorage(file: File(path!));
   }
-// Future uploadMultiImage() async {
-//   try {
-//     final resultList = await MultiImagePicker.pickImages(
-//       maxImages: 5,
-//       enableCamera: true,
-//       cupertinoOptions: const CupertinoOptions(takePhotoIcon: "chat"),
-//       materialOptions: const MaterialOptions(
-//         actionBarColor: "#abcdef",
-//         actionBarTitle: "Example App",
-//         allViewTitle: "All Photos",
-//         useDetailsView: false,
-//         selectCircleStrokeColor: "#000000",
-//       ),
-//     );
-//     print('result ${resultList}');
-//     if (resultList.isNotEmpty) {
-//       resultList.forEach((imageAsset) async {
-//         final filePath =
-//             await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier!);
-//
-//         File tempFile = File(filePath!);
-//         if (tempFile.existsSync()) {
-//           con.addFileImageArray(tempFile);
-//         }
-//         await uploadImgFirebaseStorage(file: tempFile);
-//         print('success');
-//       });
-//     }
-//   } on Exception catch (e) {
-//     print('error $e');
-//   }
-// }
-
 }
 
 class FlutterAbsolutePath {

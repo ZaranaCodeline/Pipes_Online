@@ -44,11 +44,29 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
   File? _image;
   String dropdownvalue = 'SELECT';
   bool isLoading = false;
+  var totalProduct;
 
   CollectionReference profileCollection = bFirebaseStore.collection('SProfile');
   String? sellerImg;
   String? sellerName, sellerAddress, sellerPhone, sellerType, sellerID;
-
+  // Future<void> getData() async {
+  //   print('demo.....');
+  //   final user =
+  //   await profileCollection.doc('${PreferenceManager.getUId()}').get();
+  //   Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
+  //   print('=========firstname===============${getUserData}');
+  //   setState(() {
+  //     sellerName = getUserData?['user_name'];
+  //     sellerImg = getUserData?['imageProfile'];
+  //     sellerAddress = getUserData?['address'];
+  //     sellerPhone = getUserData?['phoneno'];
+  //     sellerID = getUserData?['sellerID'];
+  //     sellerType = getUserData?['userType'];
+  //
+  //   });
+  //   print('seller=====${user.get('imageProfile')}');
+  //   print('seller=getUserData====${getUserData}');
+  // }
   Future<void> getData() async {
     print('demo.....');
     final user =
@@ -62,6 +80,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
       sellerPhone = getUserData?['phoneno'];
       sellerID = getUserData?['sellerID'];
       sellerType = getUserData?['userType'];
+      totalProduct = getUserData?['totalProduct'];
     });
     print('seller=====${user.get('imageProfile')}');
     print('seller=getUserData====${getUserData}');
@@ -98,6 +117,8 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
     super.initState();
     addProductController.selectedSubscribe;
     print('sellerID : ${PreferenceManager.getUId()}');
+    print('seller getLat : ${PreferenceManager.getLat()}');
+    print('seller getLong : ${PreferenceManager.getLong()}');
     print('getName : ${PreferenceManager.getName()}');
     print('getUserImg : ${PreferenceManager.getUserImg()}');
     print('getPhoneNumber : ${PreferenceManager.getPhoneNumber()}');
@@ -167,7 +188,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                                       border: Border.all(
                                           color: Colors.white, width: 10),
                                       borderRadius: BorderRadius.circular(25),
-                                      boxShadow: [
+                                      boxShadow: const [
                                         BoxShadow(
                                             color: Colors.grey, blurRadius: 10)
                                       ]),
@@ -188,12 +209,12 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                                         border: Border.all(
                                             color: Colors.white, width: 10),
                                         borderRadius: BorderRadius.circular(25),
-                                        boxShadow: [
+                                        boxShadow: const [
                                           BoxShadow(
                                               color: Colors.grey,
                                               blurRadius: 10)
                                         ]),
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.camera_alt,
                                       color: Colors.grey,
                                     ),
@@ -228,7 +249,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                               color: AppColors.commonWhiteTextColor,
                               borderRadius: BorderRadius.circular(5),
                               boxShadow: [
-                                new BoxShadow(
+                                BoxShadow(
                                     blurRadius: 1,
                                     color: AppColors.hintTextColor),
                               ],
@@ -284,7 +305,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                               return 'Please Enter Name';
                             }
                           },
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: ('ABX'),
                           ),
                         ),
@@ -386,22 +407,26 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                                     isLoading = false;
                                   });
                                 }
-
+                                // showModalBottomSheet(
+                                //     backgroundColor: Colors.transparent,
+                                //     isScrollControlled: true,
+                                //     context: context,
+                                //     builder: (BuildContext context) {
+                                //       return Container(
+                                //         height: Get.height,
+                                //         width: Get.width,
+                                //         color: Colors.black12,
+                                //         child: const Center(
+                                //           child: CircularProgressIndicator(),
+                                //         ),
+                                //       );
+                                //     });
                                 if (_image != null) {
-                                  showModalBottomSheet(
-                                      backgroundColor: Colors.transparent,
-                                      isScrollControlled: true,
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return Container(
-                                          height: Get.height,
-                                          width: Get.width,
-                                          color: Colors.black12,
-                                          child: const Center(
-                                            child: CircularProgressIndicator(),
-                                          ),
-                                        );
-                                      });
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  formGlobalKey.currentState!.save();
+
                                   await addData(_image).then((value) {
                                     homeController
                                         .selectedScreen('SCatelogeHomeScreen');
@@ -410,8 +435,9 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                                     PreferenceManager.getSubscribeTime();
                                     print(
                                         'getSubscribeTime---${PreferenceManager.getSubscribeTime()}-getSubscribeCategory--${PreferenceManager.getSubscribeCategory()}');
-
-                                    formGlobalKey.currentState!.save();
+                                    setState(() {
+                                      isLoading = false;
+                                    });
                                   });
                                 }
                               }
@@ -528,9 +554,11 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
         .putFile(file!);
     String downloadUrl = await snapshot.ref.getDownloadURL();
     print('url=$downloadUrl');
+
     // SAuthMethods().getCurrentUser().then((value) {
     //   userCollection
     //       .add({
+    //TODO=Products
     FirebaseFirestore.instance
         .collection("Products")
         .doc()
@@ -542,12 +570,16 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
           'sellerPhone': sellerPhone,
           'sellerAddress': sellerAddress,
           'sellerType': sellerType,
+          'lat': PreferenceManager.getLat(),
+          'long': PreferenceManager.getLong(),
           'imageProfile': downloadUrl,
           'category': dropdownvalue.toLowerCase(),
           'prdName': prdName.text,
           'dsc': dsc.text,
           'price': prdPrice.text,
-          'createdOn': DateTime.now().toString(),
+          'createdOn': DateTime.now().add(Duration(hours: 24)),
+          'isAproved': 0,
+          'distanceBetweenInKM': '0 KM',
         })
         .catchError((e) => print('Error ===>>> $e'))
         .then((value) {
@@ -560,6 +592,11 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
           homeController.bottomIndex.value = 0;
           homeController.selectedScreen('SCatelogeHomeScreen');
         });
+    FirebaseFirestore.instance
+        .collection("SProfile")
+        .doc(sellerID)
+        .update({'totalProduct': totalProduct! + 1});
+
     // });
   }
 }

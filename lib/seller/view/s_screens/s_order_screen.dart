@@ -45,7 +45,7 @@ class _SOrdersScreenState extends State<SOrdersScreen> {
           stream: FirebaseFirestore.instance.collection('Orders').snapshots(),
           builder: (BuildContext context, snapShot) {
             if (!snapShot.hasData) {
-              Center(
+              const Center(
                 child: CircularProgressIndicator(),
               );
             }
@@ -79,7 +79,7 @@ class _SOrdersScreenState extends State<SOrdersScreen> {
                         ),
                         Card(
                           child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 /*border: Border.all(
                                   width: 1,
                                   color: AppColors.offLightPurpalColor)*/
@@ -246,7 +246,7 @@ class _SOrdersScreenState extends State<SOrdersScreen> {
                                         ),
                                       ],
                                     ),
-                                    Divider(
+                                    const Divider(
                                       thickness: 2,
                                     ),
                                     Row(
@@ -329,7 +329,7 @@ class _SOrdersScreenState extends State<SOrdersScreen> {
                                         )
                                       ],
                                     ),
-                                    Divider(
+                                    const Divider(
                                       thickness: 2,
                                     ),
                                     Container(
@@ -450,9 +450,11 @@ class _SOrdersScreenState extends State<SOrdersScreen> {
                           onPressed: () {
                             Get.to(
                               SAddReviewScreen(
-                                  /*category: snapShot.data?.docs[index]
+                                buyerID: snapShot.data?.docs[index]['buyerID'],
+
+                                /*category: snapShot.data?.docs[index]
                         ['category']*/
-                                  ),
+                              ),
                             );
                           },
                           child: CustomText(

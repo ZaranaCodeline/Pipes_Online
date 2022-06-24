@@ -20,7 +20,15 @@ import 'b_seller_review_widget.dart';
 import 'custom_widget/custom_text.dart';
 
 class SelectedProductWidget extends StatefulWidget {
-  final String? name, image, desc, price, category, productID, sellerID;
+  final String? name,
+      image,
+      desc,
+      price,
+      category,
+      productID,
+      sellerID,
+      sellerLat,
+      sellerLong;
 
   SelectedProductWidget({
     Key? key,
@@ -31,6 +39,8 @@ class SelectedProductWidget extends StatefulWidget {
     this.desc,
     this.sellerID,
     this.productID,
+    this.sellerLat,
+    this.sellerLong,
   }) : super(key: key);
 
   @override
@@ -79,6 +89,9 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
     // TODO: implement initState
     super.initState();
     getData();
+    print('>>>SELLER_ID>>>${widget.sellerID}');
+    print(
+        'sellerLat>>>>>>>>${widget.sellerLat}>sellerLong>>>${widget.sellerLong}');
     print('demo.b selected products...${PreferenceManager.getUId()}.');
   }
 
@@ -153,6 +166,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                   image: widget.image.toString(),
                   category: widget.category,
                   productID: widget.productID,
+                  sellerID: widget.sellerID,
                 ),
               ),
             ),
@@ -184,6 +198,7 @@ class _SelectedProductWidgetState extends State<SelectedProductWidget> {
                           print('Img.toString()===========>${Img.toString()}');
                           print('address===========>${address}');
                           print('phoneno===========>${phoneno}');
+
                           // print('selectedProduct===========>${widget.category}');
                           Get.to(
                               () => SellerReviewWidget(

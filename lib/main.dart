@@ -6,6 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pipes_online/app_notification.dart';
+import 'package:pipes_online/buyer/app_constant/app_colors.dart';
 import 'package:pipes_online/payment_service/payment_key.dart';
 import 'package:pipes_online/routes/app_pages.dart';
 import 'package:pipes_online/routes/bottom_controller.dart';
@@ -63,10 +64,10 @@ void main() async {
     sound: false,
   );
   AppNotificationHandler.showMsgHandler();
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarIconBrightness: Brightness.dark,
     systemNavigationBarColor: Colors.white, // navigation bar color
-    statusBarColor: Colors.white, // status bar color
+    statusBarColor: AppColors.primaryColor, // status bar color
   ));
   runApp(MyApp());
 }
@@ -102,7 +103,7 @@ class _MyAppState extends State<MyApp> {
           initialBinding: Binding(),
           // home: BWelcomeScreen(),
           defaultTransition: Transition.fadeIn,
-          title: 'Flutter Demo',
+          title: 'Pipes Deals',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),

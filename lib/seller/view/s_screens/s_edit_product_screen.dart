@@ -425,7 +425,13 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(
                           vertical: 15.sp, horizontal: 30.sp),
-                      child: SCommonButton().sCommonPurpleButton(
+                      child: /* isLoading
+                          ? Center(
+                              child: CircularProgressIndicator(
+                              color: AppColors.primaryColor,
+                            ))
+                          :*/
+                          SCommonButton().sCommonPurpleButton(
                         name: 'Edit Product',
                         /* onTap: () {
                           addData();
@@ -444,15 +450,23 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                                     height: Get.height,
                                     width: Get.width,
                                     color: Colors.black12,
-                                    child: const Center(
+                                    child: Center(
                                       child: CircularProgressIndicator(),
                                     ),
                                   );
-                                });
+                                }).then((value) async {
+                              formGlobalKey.currentState!.save();
+                            });
                             await UpdateData().then((value) {
                               Get.to(NavigationBarScreen());
                             });
-                            formGlobalKey.currentState!.save();
+                            setState(() {
+                              isLoading = false;
+                            });
+                            // setState(() {
+                            //   isLoading = true;
+                            // });
+
                           }
                         },
                       ),

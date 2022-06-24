@@ -93,8 +93,8 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                             children: [
                               SizedBox(height: 2.h),
                               Container(
-                                height: 1.h,
-                                width: Get.width * 0.4,
+                                height: 1.5.h,
+                                width: Get.width * 0.3,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   color: Colors.grey.shade100,
@@ -102,8 +102,8 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                               ),
                               SizedBox(height: 2.h),
                               Container(
-                                height: 1.h,
-                                width: Get.width * 0.4,
+                                height: 1.5.h,
+                                width: Get.width * 0.3,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   color: Colors.grey.shade100,
@@ -111,8 +111,8 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                               ),
                               SizedBox(height: 2.h),
                               Container(
-                                height: 1.h,
-                                width: Get.width * 0.4,
+                                height: 1.5.h,
+                                width: Get.width * 0.3,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   color: Colors.grey.shade100,
@@ -155,7 +155,7 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                     onTap: () {
                       Get.to(
                         () => CartPage(
-                          cartID: snapShot.data?.docs[index].id,
+                          // cartID: snapShot.data?.docs[index].id,
                           name: snapShot.data!.docs[index]['category'],
                           category: snapShot.data!.docs[index]['category'],
                           desc: snapShot.data!.docs[index]['dsc'],
@@ -255,7 +255,7 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                                     color: AppColors.commonWhiteTextColor,
                                     borderRadius: BorderRadius.circular(5),
                                     boxShadow: [
-                                      new BoxShadow(
+                                      BoxShadow(
                                           blurRadius: 1,
                                           color: AppColors.hintTextColor),
                                     ]),
@@ -272,7 +272,7 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                                           try {
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
-                                              SnackBar(
+                                              const SnackBar(
                                                 content: Text(
                                                     'Product has been Removed From Cart'),
                                               ),

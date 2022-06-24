@@ -493,6 +493,7 @@ class _SellerReviewWidgetState extends State<SellerReviewWidget> {
                 sellerImage: widget.sellerName,
                 sellerName: widget.serllerImg,
                 sellerPhone: widget.sellerPhone,
+                sellerID: widget.sellerID,
               ),
             ),
           ],

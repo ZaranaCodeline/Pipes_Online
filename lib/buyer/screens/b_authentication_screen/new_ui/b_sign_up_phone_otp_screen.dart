@@ -44,7 +44,7 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
 
       if (authCredential.user != null) {
         print('You are Signed Up successfully');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Sign Up successful'),
           duration: Duration(seconds: 5),
         ));
@@ -110,7 +110,10 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
     // TODO: implement initState
     super.initState();
     print(
-      'OTP Sent to ${BLogInController().countryCode}${widget.phone} ',
+      'OTP Sent to<<<<1 ${BLogInController().countryCode}${widget.phone} ',
+    );
+    print(
+      'OTP Sent to>>>>2 ${bLogInController.mobileNumber} ',
     );
   }
 
@@ -213,7 +216,7 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                                       height: Get.height * 0.01,
                                     ),
                                     Text(
-                                      'OTP Sent to ${controller.countryCode}-${widget.phone} ',
+                                      'OTP Sent to ${PreferenceManager.getPhoneNumber()} ',
                                       style: STextStyle.regular400Black11,
                                     ),
                                   ],

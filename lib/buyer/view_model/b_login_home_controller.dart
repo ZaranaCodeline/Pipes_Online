@@ -8,7 +8,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 class BLogInController extends GetxController {
   CountryCode? countryCode = CountryCode(code: '+00');
   TextEditingController mobileNumber = TextEditingController();
-
   bool isLoading = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -20,6 +19,7 @@ class BLogInController extends GetxController {
   void setCountryCode(value) {
     countryCode = value;
     print('countryCode:- $countryCode');
+    print('mobileNumber----:- $mobileNumber');
     update();
   }
 }

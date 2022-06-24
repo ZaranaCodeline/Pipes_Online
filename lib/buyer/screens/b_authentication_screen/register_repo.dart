@@ -27,6 +27,11 @@ class BRegisterRepo {
       PreferenceManager.setMute(
           querySnapshot['isMute'].toString() == 'true' ? true : false);
       PreferenceManager.getUId();
+      PreferenceManager.getLat();
+      PreferenceManager.getLong();
+      print('>>>LAT>>'
+          '${PreferenceManager.getLat()}'
+          '>>>LONG>>${PreferenceManager.getLong()}');
       print('notti---${querySnapshot['isMute']}');
       print('mute----${PreferenceManager.getMute()}');
 

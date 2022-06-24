@@ -13,7 +13,7 @@ import '../app_constant/app_colors.dart';
 import 'custom_widget/custom_text.dart';
 
 class BReviewWidget extends StatefulWidget {
-  final String? id, sName, desc, sImage, sContact, category;
+  final String? id, sName, desc, sImage, sContact, category, sellerID;
   final double? ratVal;
   const BReviewWidget(
       {Key? key,
@@ -23,7 +23,8 @@ class BReviewWidget extends StatefulWidget {
       this.ratVal,
       this.category,
       this.sImage,
-      this.sContact})
+      this.sContact,
+      this.sellerID})
       : super(key: key);
 
   @override
@@ -180,9 +181,14 @@ class _BReviewWidgetState extends State<BReviewWidget> {
                             //     color: AppColors.secondaryBlackColor),
                             GestureDetector(
                               onTap: () {
-                                Get.to(AddReviewsPage(
-                                  category: widget.category,
-                                ));
+                                print(
+                                    '<<<<SELLER_ID>>>>>>123 ${widget.sellerID}');
+                                Get.to(
+                                    AddReviewsPage(
+                                      category: widget.category,
+                                      sellerID: widget.sellerID,
+                                    ),
+                                    arguments: widget.sellerID);
                               },
                               child: CustomText(
                                   text: 'Review Now',

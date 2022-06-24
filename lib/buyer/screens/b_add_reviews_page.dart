@@ -16,8 +16,9 @@ import 'custom_widget/custom_button.dart';
 import 'custom_widget/custom_text.dart';
 
 class AddReviewsPage extends StatefulWidget {
-  const AddReviewsPage({Key? key, this.category}) : super(key: key);
-  final String? category;
+  const AddReviewsPage({Key? key, this.category, this.sellerID})
+      : super(key: key);
+  final String? category, sellerID;
   @override
   State<AddReviewsPage> createState() => _AddReviewsPageState();
 }
@@ -41,6 +42,21 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
     });
   }
 
+  num? totalBuyer;
+  num? buyerRating;
+  Future<void> getSellerData() async {
+    print('buyer_data');
+    var data = await FirebaseFirestore.instance
+        .collection('SProfile')
+        .doc(widget.sellerID)
+        .get();
+    Map<String, dynamic>? getUserData = data.data();
+    setState(() {
+      totalBuyer = getUserData?['buyerTotal'];
+      buyerRating = getUserData?['rating'];
+    });
+  }
+
   Future<void> addData() async {
     CollectionReference profileCollection =
         bFirebaseStore.collection('BReviews');
@@ -55,7 +71,7 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
         .add({
           'reviewID': profileCollection.doc().id,
           'buyerID': PreferenceManager.getUId(),
-          // 'sellerID': PreferenceManager.getUId(),
+          'sellerID': widget.sellerID,
           'category': widget.category,
           'user_name': PreferenceManager.getName() ?? firstname.toString(),
           'buyerAddress': firstname.toString(),
@@ -75,14 +91,22 @@ class _AddReviewsPageState extends State<AddReviewsPage> {
           Get.to(SellerReviewWidget());
           print('seller review uploaded succefully');
         });
+    FirebaseFirestore.instance
+        .collection("SProfile")
+        .doc(widget.sellerID)
+        .update(
+            {'buyerTotal': totalBuyer! + 1, 'rating': buyerRating! + rating});
   }
 
   @override
   void initState() {
+    Get.arguments;
     // TODO: implement initState
     super.initState();
+    getSellerData();
     print('==>category===${widget.category}');
     print('PreferenceManager.getUId()---${PreferenceManager.getUId()}');
+    print('widget.sellerID--zzz--${widget.sellerID}');
     print('ADDRESS REVIEWS---${PreferenceManager.getAddress()}');
     print('---preferenceID--${profileCollection.doc().id}');
     getData();

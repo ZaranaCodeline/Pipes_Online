@@ -9,6 +9,7 @@ import 'package:pipes_online/buyer/view_model/cart_product_controller.dart';
 import 'package:pipes_online/buyer/view_model/chat_local_file_controller.dart';
 import 'package:pipes_online/buyer/view_model/geolocation_controller.dart';
 import 'package:pipes_online/buyer/view_model/personal_info_page_controller.dart';
+import 'package:pipes_online/buyer/view_model/distance_dropdown_filter.dart';
 import 'package:pipes_online/routes/bottom_controller.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_contoller.dart';
 import 'package:pipes_online/seller/view_model/profile_view_model.dart';
@@ -38,6 +39,7 @@ class Binding extends Bindings {
     Get.lazyPut(() => SDrawerController(), fenix: true);
     Get.lazyPut(() => ProfileViewModel(), fenix: true);
     Get.lazyPut(() => BProfileViewModel(), fenix: true);
+    Get.lazyPut(() => TimeDistanceFilterController(), fenix: true);
     Get.lazyPut(() => TimeFilterController(), fenix: true);
   }
 }

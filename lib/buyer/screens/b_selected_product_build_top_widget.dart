@@ -19,9 +19,10 @@ class CustomSelectedProductBuildTopWidget extends StatefulWidget {
       this.name,
       this.category,
       this.image,
+      this.sellerID,
       this.productID})
       : super(key: key);
-  final String? name, image, desc, price, category, productID;
+  final String? name, image, desc, price, category, productID, sellerID;
 
   @override
   State<CustomSelectedProductBuildTopWidget> createState() =>
@@ -32,6 +33,14 @@ class _CustomSelectedProductBuildTopWidgetState
     extends State<CustomSelectedProductBuildTopWidget> {
   List data = [];
   bool isLoading = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('>>>>>sellerID>>>>>><<${widget.sellerID}');
+  }
+
   @override
   Widget build(BuildContext context) {
     print('ID  >>> ${widget.productID}');
@@ -82,6 +91,7 @@ class _CustomSelectedProductBuildTopWidgetState
                           builder: (BuildContext context, snapshot) {
                             return GestureDetector(
                               onTap: () {
+                                print('<<<sellerID>>>>>${widget.sellerID}');
                                 if (snapshot.data!.docs.isEmpty) {
                                   setState(() {
                                     isLoading = true;
@@ -102,18 +112,9 @@ class _CustomSelectedProductBuildTopWidgetState
                                     'dsc': widget.desc,
                                     'price': widget.price,
                                     'createdOn': DateTime.now(),
-                                  }).then((value) {
-                                    Get.to(
-                                      () => CartPage(
-                                        category: widget.category,
-                                        name: widget.name,
-                                        desc: widget.desc,
-                                        image: widget.image,
-                                        price: widget.price,
-                                        productID: widget.productID,
-                                      ),
-                                    );
-                                  });
+                                    'sellerID': widget.sellerID
+                                  }).then((value) {});
+                                  print('<<<sellerID>>-->>>${widget.sellerID}');
                                 } else {
                                   print('test:-2');
                                   snapshot.data!.docs.forEach((element) {
@@ -123,7 +124,7 @@ class _CustomSelectedProductBuildTopWidgetState
                                   if (data.contains(widget.productID)) {
                                     print('hello4....');
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
+                                      const SnackBar(
                                         content: Text(
                                             'Product is Already added into Cart..'),
                                       ),
@@ -144,6 +145,7 @@ class _CustomSelectedProductBuildTopWidgetState
                                         'prdName': widget.name,
                                         'dsc': widget.desc,
                                         'price': widget.price,
+                                        'sellerID': widget.sellerID,
                                         'createdOn': DateTime.now().toString(),
                                       },
                                     ).then(
@@ -155,7 +157,7 @@ class _CustomSelectedProductBuildTopWidgetState
                                         );
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
-                                          SnackBar(
+                                          const SnackBar(
                                             content: Text('Added into Cart'),
                                             duration: Duration(seconds: 5),
                                           ),
@@ -169,6 +171,17 @@ class _CustomSelectedProductBuildTopWidgetState
                                       'widget.productID-----${widget.productID}');
                                   print('data----${data}');
                                 }
+                                Get.to(
+                                  () => CartPage(
+                                    category: widget.category,
+                                    name: widget.name,
+                                    desc: widget.desc,
+                                    image: widget.image,
+                                    price: widget.price,
+                                    productID: widget.productID,
+                                    // sellerID: widget.sellerID,
+                                  ),
+                                );
                               },
                               child: CustomText(
                                 text: 'ADD TO CART'.toUpperCase(),

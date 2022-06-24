@@ -282,6 +282,8 @@ class BMyOrderPage extends StatelessWidget {
                                 Get.to(AddReviewsPage(
                                   category: snapShot.data?.docs[index]
                                       ['category'],
+                                  sellerID: snapShot.data?.docs[index]
+                                      ['sellerID'],
                                 ));
                               },
                               child: CustomText(

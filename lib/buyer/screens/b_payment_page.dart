@@ -128,6 +128,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
             'buyerID': widget.bID,
             'buyerPhone': widget.bPhone,
             'sellerID': widget.sellerID,
+            'distanceBetweenInKM': '0.0 KM',
           },
         ).then(
           (value) {
@@ -224,7 +225,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
             'length': '2 kg',
             'weight': 'Pending',
             'oil': '--',
-            'orderStatus': 'Complate',
+            'orderStatus': 'Complete',
             'paymentMode': 'stripe',
             'price': widget.proPrice,
             'category': widget.category,
@@ -236,6 +237,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
             'buyerID': widget.bID,
             'buyerPhone': widget.bPhone,
             'sellerID': widget.sellerID,
+            'distanceBetweenInKM': '0.0 KM',
           },
         ).then(
           (value) {
@@ -247,7 +249,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                 snackPosition: SnackPosition.BOTTOM,
                 backgroundColor: Colors.greenAccent,
                 duration: Duration(seconds: 5),
-                message: 'Order done succefully',
+                message: 'Order successfully done',
               ),
             );
             setState(
@@ -352,42 +354,43 @@ class _PaymentWidgetState extends State<PaymentWidget> {
               onClicked: () {
                 print('>>>SELLER ID >>>${widget.sellerID}');
                 // --------Custom----Orders------
-                FirebaseFirestore.instance.collection('Orders').add(
-                  {
-                    'productID': widget.proID,
-                    'orderID': PreferenceManager.getUId().toString(),
-                    'productImage': widget.proImage,
-                    'prdName': widget.proName,
-                    'size': widget.pSize,
-                    'length': widget.pLength,
-                    'weight': widget.pWeight,
-                    'oil': widget.proOilPipe,
-                    'orderStatus': 'Complate',
-                    'paymentMode': 'paypal',
-                    'price': widget.proPrice,
-                    'category': widget.category,
-                    'dsc': widget.desc,
-                    'createdOn': DateTime.now(),
-                    'buyerName': widget.bName,
-                    'buyerImg': widget.bImage,
-                    'buyerAddress': widget.bAddress,
-                    'buyerID': widget.bID,
-                    'buyerLat': PreferenceManager.getLat(),
-                    'buyerLong': PreferenceManager.getLong(),
-                    'buyerPhone': widget.bPhone,
-                    'sellerID': widget.sellerID,
-                    'sellerAddress': widget.sellerAddress,
-                    'sellerPhone': widget.sellerPhone,
-                    'sellerLat': widget.sellerLat,
-                    'sellerLong': widget.sellerLong,
-                    'sellerImage': widget.sellerImage,
-                    'sellerName': widget.sellerName,
-                  },
-                ).then((value) {
-                  Get.back();
-                });
+                // FirebaseFirestore.instance.collection('Orders').add(
+                //   {
+                //     'productID': widget.proID,
+                //     'orderID': PreferenceManager.getUId().toString(),
+                //     'productImage': widget.proImage,
+                //     'prdName': widget.proName,
+                //     'size': widget.pSize,
+                //     'length': widget.pLength,
+                //     'weight': widget.pWeight,
+                //     'oil': widget.proOilPipe,
+                //     'orderStatus': 'Complate',
+                //     'paymentMode': 'paypal',
+                //     'price': widget.proPrice,
+                //     'category': widget.category,
+                //     'dsc': widget.desc,
+                //     'createdOn': DateTime.now(),
+                //     'buyerName': widget.bName,
+                //     'buyerImg': widget.bImage,
+                //     'buyerAddress': widget.bAddress,
+                //     'buyerID': widget.bID,
+                //     'buyerLat': PreferenceManager.getLat(),
+                //     'buyerLong': PreferenceManager.getLong(),
+                //     'buyerPhone': widget.bPhone,
+                //     'sellerID': widget.sellerID,
+                //     'sellerAddress': widget.sellerAddress,
+                //     'sellerPhone': widget.sellerPhone,
+                //     'sellerLat': widget.sellerLat,
+                //     'sellerLong': widget.sellerLong,
+                //     'sellerImage': widget.sellerImage,
+                //     'sellerName': widget.sellerName,
+                //     'distanceBetweenInKM': '0.0 KM',
+                //   },
+                // ).then((value) {
+                //   Get.to(BConfirmOrderPage());
+                // });
                 //Paymnet----manually---orders---------
-                /*payWithPaypal().then((value) {
+                payWithPaypal().then((value) {
                   try {
                     FirebaseFirestore.instance
                         .collection('Cart')
@@ -406,7 +409,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                   } catch (e) {
                     print(e.toString());
                   }
-                });*/
+                });
 
                 //For add in collection
                 FirebaseFirestore.instance

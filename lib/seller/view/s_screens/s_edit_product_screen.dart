@@ -425,51 +425,27 @@ class _SeditProductScreenState extends State<SeditProductScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(
                           vertical: 15.sp, horizontal: 30.sp),
-                      child: /* isLoading
+                      child: isLoading
                           ? Center(
                               child: CircularProgressIndicator(
                               color: AppColors.primaryColor,
                             ))
-                          :*/
-                          SCommonButton().sCommonPurpleButton(
-                        name: 'Edit Product',
-                        /* onTap: () {
-                          addData();
-                          Get.to(() => SCatelogeHomeScreen());
-                          print('edit product seller side');
-                          // Get.toNamed(SRoutes.SSubmitProfileScreen);
-                        },*/
-                        onTap: () async {
-                          if (formGlobalKey.currentState!.validate()) {
-                            showModalBottomSheet(
-                                backgroundColor: Colors.transparent,
-                                isScrollControlled: true,
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Container(
-                                    height: Get.height,
-                                    width: Get.width,
-                                    color: Colors.black12,
-                                    child: Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  );
-                                }).then((value) async {
-                              formGlobalKey.currentState!.save();
-                            });
-                            await UpdateData().then((value) {
-                              Get.to(NavigationBarScreen());
-                            });
-                            setState(() {
-                              isLoading = false;
-                            });
-                            // setState(() {
-                            //   isLoading = true;
-                            // });
-
-                          }
-                        },
-                      ),
+                          : SCommonButton().sCommonPurpleButton(
+                              name: 'Edit Product',
+                              onTap: () async {
+                                if (formGlobalKey.currentState!.validate()) {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  await UpdateData().then((value) {
+                                    Get.to(NavigationBarScreen());
+                                  });
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                }
+                              },
+                            ),
                     ),
                   ],
                 ),

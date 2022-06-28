@@ -406,7 +406,8 @@ class _SSelectedProductScreenState extends State<SSelectedProductScreen> {
                                               print(
                                                   '---desc  ${editProductContoller.selecteddesc}');
 
-                                              print('edit product seller side');
+                                              print(
+                                                  'edit product seller side111');
                                               // Get.toNamed(SRoutes.SSubmitProfileScreen);
                                             },
                                           ),

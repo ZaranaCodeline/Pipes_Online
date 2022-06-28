@@ -50,7 +50,12 @@ class BRegisterRepo {
         print('fcm getFcmToken --${PreferenceManager.getFcmToken()}');
       }).catchError((e) => print('fcm error'));
       print('UId=${PreferenceManager.getUId()}');
-      Get.offAll(BottomNavigationBarScreen());
+      if (PreferenceManager.getLong() != null &&
+          PreferenceManager.getLat() != null) {
+        Get.offAll(BottomNavigationBarScreen());
+      } else {
+        Get.to(BFirstUserInfoScreen());
+      }
     });
 
     ///END DEVICE TOKEN AND ISONLINE
@@ -120,6 +125,11 @@ class SRegisterRepo {
       PreferenceManager.setMute(
           querySnapshot['isMute'].toString() == 'true' ? true : false);
       PreferenceManager.getUId();
+      PreferenceManager.getLat();
+      PreferenceManager.getLong();
+      print('>>>LAT>>'
+          '${PreferenceManager.getLat()}'
+          '>>>LONG>>${PreferenceManager.getLong()}');
       print('notti1---${querySnapshot['isMute']}');
       print('mute1----${PreferenceManager.getMute()}');
 
@@ -139,8 +149,12 @@ class SRegisterRepo {
         print('fcm success add');
         print('fcm getFcmToken --${PreferenceManager.getFcmToken()}');
       }).catchError((e) => print('fcm error'));
-
-      Get.offAll(NavigationBarScreen());
+      if (PreferenceManager.getLong() != null &&
+          PreferenceManager.getLat() != null) {
+        Get.offAll(NavigationBarScreen());
+      } else {
+        Get.to(SFirstUserInfoScreen());
+      }
 
       Get.showSnackbar(
         const GetSnackBar(

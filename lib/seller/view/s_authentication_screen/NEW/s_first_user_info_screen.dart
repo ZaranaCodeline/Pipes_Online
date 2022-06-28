@@ -392,32 +392,41 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                             SizedBox(
                               height: Get.height * 0.02,
                             ),
-                            Text(
-                              'Address',
-                              style: STextStyle.semiBold600Black13,
-                            ),
-                            SizedBox(
-                              height: Get.height * 0.02,
-                            ),
-                            Container(
-                              height: Get.height * 0.09,
-                              width: Get.width * 0.75,
-                              alignment: Alignment.centerLeft,
-                              child: TextFormField(
-                                keyboardType: TextInputType.streetAddress,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Required';
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                maxLines: 2,
-                                controller:
-                                    _controller.addressController ?? address,
-                                decoration: InputDecoration(),
-                              ),
-                            ),
+                            _controller.addressController != null
+                                ? Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Address',
+                                        style: STextStyle.semiBold600Black13,
+                                      ),
+                                      SizedBox(
+                                        height: Get.height * 0.02,
+                                      ),
+                                      Container(
+                                        height: Get.height * 0.09,
+                                        width: Get.width * 0.75,
+                                        alignment: Alignment.centerLeft,
+                                        child: TextFormField(
+                                          keyboardType:
+                                              TextInputType.streetAddress,
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return 'Required';
+                                            } else {
+                                              return null;
+                                            }
+                                          },
+                                          maxLines: 2,
+                                          controller:
+                                              _controller.addressController,
+                                          decoration: InputDecoration(),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : SizedBox()
                           ],
                         ),
                         SizedBox(height: 15.sp),
@@ -429,7 +438,13 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                         GestureDetector(
                           onTap: () {
                             print('is Maps  ');
-                            Get.to(MapsScreen());
+                            Get.to(MapsScreen())?.then((value) {
+                              PreferenceManager.setAddress(_controller
+                                  .addressController!.text
+                                  .toString());
+                              print(
+                                  'STORE ADDRESS SELLER >>>> ${_controller.addressController!.text.toString()}');
+                            });
                           },
                           child: Container(
                             padding: EdgeInsets.all(10.sp),
@@ -462,6 +477,18 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                         SizedBox(height: 25.sp),
                         GestureDetector(
                           onTap: () async {
+                            if (PreferenceManager.getLong() == null &&
+                                PreferenceManager.getLat() == null) {
+                              Get.showSnackbar(
+                                GetSnackBar(
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: SColorPicker.black,
+                                  duration: Duration(seconds: 5),
+                                  message:
+                                      'Please Add Location From Google Map',
+                                ),
+                              );
+                            }
                             if (_formKey.currentState!.validate()) {
                               setState(() {
                                 isLoading = true;
@@ -473,7 +500,9 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                                   ),
                                 );
                               }
-                              if (_image != null) {
+                              if (_image != null &&
+                                  PreferenceManager.getLat() != null &&
+                                  PreferenceManager.getLong() != null) {
                                 showModalBottomSheet(
                                     backgroundColor: Colors.transparent,
                                     isScrollControlled: true,
@@ -496,13 +525,15 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
                                   PreferenceManager.getPhoneNumber();
                                   PreferenceManager.getUserImg();
                                   PreferenceManager.getSellerID();
-
+                                  PreferenceManager.getLong();
+                                  PreferenceManager.getLat();
                                   Get.offAll(NavigationBarScreen())
                                       ?.then((value) {
                                     setState(() {
                                       isLoading = false;
                                     });
                                   });
+
                                   print('Validate');
                                 });
                               }
@@ -571,9 +602,10 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
     PreferenceManager.getUserType();
     PreferenceManager.setName(nameController.text);
     PreferenceManager.getName();
-    PreferenceManager.setAddress(address.text);
-    PreferenceManager.setLong(PreferenceManager.getLong());
-    PreferenceManager.setLat(PreferenceManager.getLat());
+    // PreferenceManager.setAddress(address.text);
+    // PreferenceManager.setLong(PreferenceManager.getLong());
+    // PreferenceManager.setLat(PreferenceManager.getLat());
+
     PreferenceManager.getLong();
     PreferenceManager.getLat();
     PreferenceManager.getAddress();
@@ -611,8 +643,8 @@ class _SFirstUserInfoScreenState extends State<SFirstUserInfoScreen> {
       'rating': 0,
       'userType': PreferenceManager.getUserType(),
       'userDetails': 'true',
-      'lat': PreferenceManager.getLat(),
-      'long': PreferenceManager.getLong(),
+      'lat': PreferenceManager.getLat() ?? '21.2111111',
+      'long': PreferenceManager.getLong() ?? '72.311111',
       'totalOrder': 0,
       'totalProduct': 0,
       'time': DateTime.now().toString(),

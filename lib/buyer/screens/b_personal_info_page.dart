@@ -41,12 +41,12 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   TextEditingController? address;
   TextEditingController? phoneno;
 
-  CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
+  CollectionReference profileCollection = bFirebaseStore.collection('BProfile');
 
   Future<void> getData() async {
     print('demo seller.....');
     final user =
-        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
+        await profileCollection.doc('${PreferenceManager.getUId()}').get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
 
     setState(() {
@@ -102,9 +102,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   void initState() {
     // TODO: implement initState
     getData();
-    print('====PreferenceManager.getUId()=====>${PreferenceManager.getUId()}');
-    print(
-        '====FirebaseAuth.instance.currentUser?.uid=====>${FirebaseAuth.instance.currentUser?.uid}');
+    print('==PreferenceManager.getUId==${PreferenceManager.getUId()}');
+    print('====phoneController===>${_model.phoneController?.text.toString()}');
+    print('==uid==${FirebaseAuth.instance.currentUser?.uid}');
   }
 
   @override
@@ -146,10 +146,10 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
 
                             showModalBottomSheet<void>(
                               elevation: 0.5,
-                              shape: RoundedRectangleBorder(
+                              shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.only(
-                                      topLeft: const Radius.circular(20.0),
-                                      topRight: const Radius.circular(20.0))),
+                                      topLeft: Radius.circular(20.0),
+                                      topRight: Radius.circular(20.0))),
                               backgroundColor: Colors.white,
                               context: context,
                               builder: (context) => FractionallySizedBox(
@@ -168,7 +168,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                                 BorderRadius.circular(15),
                                             color: AppColors.primaryColor),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 0.2,
                                       ),
                                       CustomText(
@@ -326,12 +326,15 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                           height: Get.height * 0.01,
                         ),
                         TextField(
-                          controller: controller.phoneController,
+                          controller: controller
+                              .phoneController /* ??
+                              PreferenceManager.getPhoneNumber()*/
+                          ,
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(10)
                           ],
                           keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             suffixIcon: Icon(Icons.edit),
                             border: OutlineInputBorder(
                               borderRadius:
@@ -397,45 +400,42 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            uploadImgFirebaseStorage(file: _image)
-                                .then((value) {
-                              bottomBarIndexController.setSelectedScreen(
-                                  value: 'HomeScreen');
-                              bottomBarIndexController.bottomIndex.value = 0;
-                              isLoading = false;
-                            });
+                            if (_image == null) {
+                              Get.showSnackbar(
+                                const GetSnackBar(
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  duration: Duration(seconds: 5),
+                                  message: 'Please update picture',
+                                ),
+                              );
+                            }
+
+                            if (_image != null) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              uploadImgFirebaseStorage(file: _image);
+                            }
                           },
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: Get.width,
-                            height: Get.height * 0.06,
-                            decoration: BoxDecoration(
-                              color: SColorPicker.purple,
-                              borderRadius: BorderRadius.circular(10.sp),
-                            ),
-                            child: isLoading
-                                ? Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      CustomText(
-                                          text: 'Loading...  ',
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12.sp,
-                                          color:
-                                              AppColors.commonWhiteTextColor),
-                                      CircularProgressIndicator(
-                                        color: AppColors.commonWhiteTextColor,
-                                      ),
-                                    ],
-                                  )
-                                : Text(
+                          child: isLoading
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                    color: AppColors.primaryColor,
+                                  ),
+                                )
+                              : Container(
+                                  alignment: Alignment.center,
+                                  width: Get.width,
+                                  height: Get.height * 0.06,
+                                  decoration: BoxDecoration(
+                                    color: SColorPicker.purple,
+                                    borderRadius: BorderRadius.circular(10.sp),
+                                  ),
+                                  child: Text(
                                     'SAVE',
                                     style: STextStyle.bold700White14,
                                   ),
-                          ),
+                                ),
                         ),
                         SizedBox(
                           height: Get.height * 0.03,
@@ -460,17 +460,21 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     String downloadUrl = await snapshot.ref.getDownloadURL();
     print('url=$downloadUrl');
     print('====PreferenceManager.getUId()=====>${PreferenceManager.getUId()}');
-    // print('path=$fileImageArray');
-    await ProfileCollection.doc(PreferenceManager.getUId()).update({
-      'imageProfile': downloadUrl == null ? Img : downloadUrl,
+    print('B IMG>>>>-$Img');
+    print('B downloadUrl>>>>-$downloadUrl');
+    await profileCollection.doc(PreferenceManager.getUId()).update({
+      'imageProfile': downloadUrl,
       'user_name': _model.firstnameController?.text,
       'email': _model.emailController?.text,
       'address': _model.addressController?.text,
-      'phoneno': _model.firstnameController?.text
+      'phoneno': _model.phoneController?.text
     }).then((value) {
+      bottomBarIndexController.setSelectedScreen(value: 'HomeScreen');
+      bottomBarIndexController.bottomIndex.value = 0;
       print('success add');
-
-      // con.clearImage();
+      setState(() {
+        isLoading = false;
+      });
     }).catchError((e) => print('upload error'));
   }
 }

@@ -109,12 +109,7 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(
-      'OTP Sent to<<<<1 ${BLogInController().countryCode}${widget.phone} ',
-    );
-    print(
-      'OTP Sent to>>>>2 ${bLogInController.mobileNumber} ',
-    );
+    print('PSTORE>>>>${PreferenceManager.getPhoneNumber()}');
   }
 
   @override
@@ -248,8 +243,11 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                                               .then(
                                             (value) {
                                               if (value.user != null) {
-                                                Get.to(() =>
-                                                    BFirstUserInfoScreen());
+                                                PreferenceManager
+                                                    .getPhoneNumber();
+                                                Get.to(BFirstUserInfoScreen(
+                                                  phone: widget.phone,
+                                                ));
                                                 setState(() {
                                                   isLoading = false;
                                                   // verificationCode == _auth.currentUser;
@@ -312,9 +310,9 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                                       PreferenceManager.setUId(FirebaseAuth
                                           .instance.currentUser!.uid);
                                       PreferenceManager.getUId();
-                                      PreferenceManager.setPhoneNumber(
-                                          widget.phone.toString());
-                                      PreferenceManager.getPhoneNumber();
+                                      // PreferenceManager.setPhoneNumber(
+                                      //     widget.phone.toString());
+                                      // PreferenceManager.getPhoneNumber();
 
                                       PreferenceManager.setUserType('Buyer');
                                       PreferenceManager.getUserType() ==
@@ -330,8 +328,6 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                                             null) {
                                           print('Test:-2');
                                           PreferenceManager.getPhoneNumber();
-                                          print(
-                                              'PhoneNumber=========${PreferenceManager.getPhoneNumber()}');
                                           await Get.to(BFirstUserInfoScreen(
                                             phone: widget.phone,
                                           ))?.then((value) {

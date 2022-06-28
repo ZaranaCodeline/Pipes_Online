@@ -83,8 +83,12 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                 phone: _phoneController.text,
                 verificationId: verificationId,
               ),
-            );
-            print('====${verificationId}');
+            )?.then((value) {
+              PreferenceManager.setPhoneNumber(_phoneController.text);
+              print('P>>>>>${PreferenceManager.getPhoneNumber()}');
+              // _phoneController.clear();
+            });
+            print('>>verificationId->>${verificationId}');
           });
         },
         codeAutoRetrievalTimeout: (verificationId) async {},
@@ -104,10 +108,8 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
     // TODO: implement initState
     super.initState();
     print('_phoneController.text=>${_phoneController.text}');
-    print(
-        '_phoneController.PreferenceManager=>${PreferenceManager.getPhoneNumber()}');
-    print(
-        '_phoneController.PreferenceManager getUId=>${PreferenceManager.getUId()}');
+    print('_phoneController==>${PreferenceManager.getPhoneNumber()}');
+    print('_phoneController==>${PreferenceManager.getUId()}');
   }
 
   @override
@@ -235,7 +237,7 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                           LengthLimitingTextInputFormatter(10)
                                         ],
                                         keyboardType: TextInputType.number,
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           hintText: "Enter phone Number",
                                         ),
                                       ),

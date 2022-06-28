@@ -36,7 +36,8 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
   CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
   BProfileViewModel _model = Get.find();
   DropdownValue _dropdownvalue = DropdownValue();
-  String? buyerID;
+  String? buyerID, productID;
+  String? sellerLat, sellerLong, buyerLat, buyerLong;
   String? category, pID;
 
   double? distanceInKM;
@@ -55,8 +56,13 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
       print('======ID=====${PreferenceManager.getUId()}');
       print('buyer_deatils_seller_review_screen=====${getUserData}');
       buyerID = getUserData?['buyerID'];
+      productID = getUserData?['productID'];
+      sellerLong = getUserData?['sellerLong'];
+      sellerLat = getUserData?['sellerLat'];
+      buyerLat = getUserData?['buyerLat'];
+      buyerLong = getUserData?['productID'];
     });
-    print('rating:---${getUserData?['rating']}');
+    print('getUserData:---${getUserData}');
   }
 
   Future<void> getData() async {
@@ -90,14 +96,6 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
     print('-- PhoneNumber  ${PreferenceManager.getPhoneNumber()}');
   }
 
-  // List Distance111 = [
-  //   '2 KM',
-  //   '5 KM',
-  //   '10 KM',
-  //   'All',
-  // ];
-  // bool isDistanceSelected = false;
-
   @override
   Widget build(BuildContext context) {
     _showPopupMenu() {
@@ -111,77 +109,73 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
       String? dropdownValue = 'All';
 
       showMenu<String>(
-          context: context,
-          position: RelativeRect.fromLTRB(25.0, Get.height * 0.17, 0, 25.0),
-          //position where you want to show the menu on screen
-          items: [
-            PopupMenuItem<String>(
-                child: Text(
-                  'Filter by KM',
-                  style: TextStyle(fontSize: 12.sp),
-                ),
-                value: '1'),
-            PopupMenuItem<String>(
-                child: Card(
-                  elevation: 2,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Obx(
-                          () => DropdownButton(
-                            value: _dropdownvalue.selected.value,
-                            items: <String>['2 KM', '5 KM', '10 KM', 'All']
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: TextStyle(
-                                      color: AppColors.secondaryBlackColor),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (String? val) {
-                              print('VAL >>> $val');
+        context: context,
+        position: RelativeRect.fromLTRB(25.0, Get.height * 0.17, 0, 25.0),
+        //position where you want to show the menu on screen
+        items: [
+          PopupMenuItem<String>(
+              child: Text(
+                'Filter by KM',
+                style: TextStyle(fontSize: 12.sp),
+              ),
+              value: '1'),
+          PopupMenuItem<String>(
+              child: Card(
+                elevation: 2,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Obx(
+                        () => DropdownButton(
+                          value: _dropdownvalue.selected.value,
+                          items: <String>['2.0 KM', '5.0 KM', '10.0 KM', 'All']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: TextStyle(
+                                    color: AppColors.secondaryBlackColor),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (String? val) {
+                            print('VAL >>> $val');
 
-                              FirebaseFirestore.instance
-                                  .collection('Products')
-                                  .doc()
-                                  .update({'distanceBetweenInKM': val});
-
-                              _dropdownvalue.setSelected(val!);
-                              print(
-                                  'DROP VALUE -${_dropdownvalue.selected.value}');
-                              print(_dropdownvalue.selected.value);
-                              setState(
-                                () {
-                                  if (_dropdownvalue.selected.value.contains(
-                                      _dropdownvalue.selected.value)) {
-                                    print('yes-----');
-                                    print(
-                                        '>>Yes>>${_dropdownvalue.selected.value}');
-                                  } else {
-                                    print('NO-----');
-                                    print(
-                                        '>>NO${_dropdownvalue.selected.value}');
-                                  }
-                                },
-                              );
-                            },
-                          ),
+                            _dropdownvalue.setSelected(val!);
+                            print(
+                                'DROP VALUE -${_dropdownvalue.selected.value}');
+                            print(_dropdownvalue.selected.value);
+                            setState(
+                              () {
+                                if (_dropdownvalue.selected.value
+                                    .contains(_dropdownvalue.selected.value)) {
+                                  print('yes-----');
+                                  print(
+                                      '>>Yes>>${_dropdownvalue.selected.value}');
+                                } else {
+                                  print('NO-----');
+                                  print('>>NO${_dropdownvalue.selected.value}');
+                                }
+                              },
+                            );
+                          },
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-                value: '2'),
-          ],
-          elevation: 8.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.sp),
-          ));
+              ),
+              value: '2'),
+        ],
+        elevation: 8.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.sp),
+        ),
+      );
     }
 
     return WillPopScope(
@@ -299,24 +293,33 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           CustomHomeSearchWidget(),
-                          GestureDetector(
-                            onTap: () {
-                              print('FILTER');
-                              _showPopupMenu();
-                            },
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8.sp),
-                              child: Container(
-                                width: Get.width / 6,
-                                height: Get.height * 0.06,
-                                color: AppColors.commonWhiteTextColor,
-                                child: Icon(
-                                  Icons.filter_alt_outlined,
-                                  color: AppColors.primaryColor,
-                                  size: 22.sp,
+                          FutureBuilder<QuerySnapshot>(
+                            future: FirebaseFirestore.instance
+                                .collection('Cart')
+                                .doc(PreferenceManager.getUId())
+                                .collection('MyCart')
+                                .get(),
+                            builder: (BuildContext context, snapshot) {
+                              return GestureDetector(
+                                onTap: () {
+                                  print('FILTER');
+                                  _showPopupMenu();
+                                },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.sp),
+                                  child: Container(
+                                    width: Get.width / 6,
+                                    height: Get.height * 0.06,
+                                    color: AppColors.commonWhiteTextColor,
+                                    child: Icon(
+                                      Icons.filter_alt_outlined,
+                                      color: AppColors.primaryColor,
+                                      size: 22.sp,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -347,18 +350,16 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
               ),
               Expanded(
                   child: Container(
-                // height: Get.height * 5.sp
                 padding: EdgeInsets.symmetric(horizontal: 8.sp),
-                child: _dropdownvalue.selected.value == '2 KM'
+                child: _dropdownvalue.selected.value == '2.0 KM'
                     ? StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
                             .collection('Products')
-                            .where('createdOn', isLessThan: DateTime.now())
-                            .where('distanceBetweenInKM', isEqualTo: '2 KM')
+                            .where('distanceBetweenInKM', isEqualTo: '2.0 KM')
                             .snapshots(),
                         builder: (context, snapShot) {
                           print(
-                              '>>>>VALYE>>>>${_dropdownvalue.selected.value}');
+                              '>>>>VALUE>>>>${_dropdownvalue.selected.value}');
 
                           if (!snapShot.hasData) {
                             return GridView.builder(
@@ -511,27 +512,10 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                                     LatLng(buyerLat, buyerLong),
                                     LatLng(productLat, productLong),
                                   );
-                                  if (_dropdownvalue.selected.value ==
-                                      '2 KM') {}
+
                                   return GestureDetector(
                                     onTap: () {
                                       // widget.pID = snapShot.data!.docs[index].id;
-
-                                      print(
-                                          'imageProfile==${snapShot.data!.docs[index]['imageProfile']}');
-                                      print(
-                                          "['prdName']--${snapShot.data!.docs[index]['prdName']}");
-                                      print(
-                                          'DATA OF ID==${snapShot.data!.docs[index]}');
-                                      print(
-                                          'seller_lat==${snapShot.data!.docs[index]['lat']}');
-                                      print(
-                                          'seller_long==${snapShot.data!.docs[index]['long']}');
-
-                                      print(
-                                          'DATA OF id=======${snapShot.data!.docs[index].id}');
-                                      print(
-                                          'sellerID===${snapShot.data!.docs[index]['sellerID']}');
 
                                       Get.to(
                                         SelectedProductWidget(
@@ -663,10 +647,10 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: 10.sp),
                                               child: CustomText(
-                                                text: '(${km} KM away)',
+                                                text: '($km KM away)',
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 9.sp,
-                                                color: SColorPicker.black,
+                                                color: SColorPicker.fontGrey,
                                                 alignment: Alignment.centerLeft,
                                               ),
                                             ),
@@ -680,12 +664,12 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                           return Container();
                         },
                       )
-                    : (_dropdownvalue.selected.value == '5 KM')
+                    : (_dropdownvalue.selected.value == '5.0 KM')
                         ? StreamBuilder<QuerySnapshot>(
                             stream: FirebaseFirestore.instance
                                 .collection('Products')
-                                .where('createdOn', isLessThan: DateTime.now())
-                                .where('distanceBetweenInKM', isEqualTo: '5 KM')
+                                .where('distanceBetweenInKM',
+                                    isEqualTo: '5.0 KM')
                                 .snapshots(),
                             builder: (context, snapShot) {
                               print(
@@ -850,26 +834,16 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                                         LatLng(buyerLat, buyerLong),
                                         LatLng(productLat, productLong),
                                       );
-                                      if (_dropdownvalue.selected.value ==
-                                          '2 KM') {}
+                                      CollectionReference ProfileCollection =
+                                          bFirebaseStore.collection('Products');
+
+                                      ProfileCollection.doc(
+                                              snapShot.data?.docs[index].id)
+                                          .update({
+                                        'distanceBetweenInKM': '$km KM'
+                                      });
                                       return GestureDetector(
                                         onTap: () {
-                                          print(
-                                              'imageProfile==${snapShot.data!.docs[index]['imageProfile']}');
-                                          print(
-                                              "['prdName']--${snapShot.data!.docs[index]['prdName']}");
-                                          print(
-                                              'DATA OF ID==${snapShot.data!.docs[index]}');
-                                          print(
-                                              'seller_lat==${snapShot.data!.docs[index]['lat']}');
-                                          print(
-                                              'seller_long==${snapShot.data!.docs[index]['long']}');
-
-                                          print(
-                                              'DATA OF id=======${snapShot.data!.docs[index].id}');
-                                          print(
-                                              'sellerID===${snapShot.data!.docs[index]['sellerID']}');
-
                                           Get.to(
                                             SelectedProductWidget(
                                               sellerLat: snapShot
@@ -1011,10 +985,11 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 10.sp),
                                                   child: CustomText(
-                                                    text: '(${km} KM away)',
+                                                    text: '($km KM away)',
                                                     fontWeight: FontWeight.w600,
                                                     fontSize: 9.sp,
-                                                    color: SColorPicker.black,
+                                                    color:
+                                                        SColorPicker.fontGrey,
                                                     alignment:
                                                         Alignment.centerLeft,
                                                   ),
@@ -1029,14 +1004,12 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                               return Container();
                             },
                           )
-                        : (_dropdownvalue.selected.value == '10 KM')
+                        : (_dropdownvalue.selected.value == '10.0 KM')
                             ? StreamBuilder<QuerySnapshot>(
                                 stream: FirebaseFirestore.instance
                                     .collection('Products')
-                                    .where('createdOn',
-                                        isLessThan: DateTime.now())
                                     .where('distanceBetweenInKM',
-                                        isEqualTo: '10 KM')
+                                        isEqualTo: '10.0 KM')
                                     .snapshots(),
                                 builder: (context, snapShot) {
                                   if (!snapShot.hasData) {
@@ -1223,28 +1196,18 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                                             LatLng(buyerLat, buyerLong),
                                             LatLng(productLat, productLong),
                                           );
-                                          if (_dropdownvalue.selected.value ==
-                                              '2 KM') {}
+                                          CollectionReference
+                                              ProfileCollection = bFirebaseStore
+                                                  .collection('Products');
+
+                                          ProfileCollection.doc(
+                                                  snapShot.data?.docs[index].id)
+                                              .update({
+                                            'distanceBetweenInKM': '$km KM'
+                                          });
+
                                           return GestureDetector(
                                             onTap: () {
-                                              // widget.pID = snapShot.data!.docs[index].id;
-
-                                              print(
-                                                  'imageProfile==${snapShot.data!.docs[index]['imageProfile']}');
-                                              print(
-                                                  "['prdName']--${snapShot.data!.docs[index]['prdName']}");
-                                              print(
-                                                  'DATA OF ID==${snapShot.data!.docs[index]}');
-                                              print(
-                                                  'seller_lat==${snapShot.data!.docs[index]['lat']}');
-                                              print(
-                                                  'seller_long==${snapShot.data!.docs[index]['long']}');
-
-                                              print(
-                                                  'DATA OF id=======${snapShot.data!.docs[index].id}');
-                                              print(
-                                                  'sellerID===${snapShot.data!.docs[index]['sellerID']}');
-
                                               Get.to(
                                                 SelectedProductWidget(
                                                   sellerLat: snapShot
@@ -1420,8 +1383,8 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                                                         fontWeight:
                                                             FontWeight.w600,
                                                         fontSize: 9.sp,
-                                                        color:
-                                                            SColorPicker.black,
+                                                        color: SColorPicker
+                                                            .fontGrey,
                                                         alignment: Alignment
                                                             .centerLeft,
                                                       ),
@@ -1603,7 +1566,12 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                                               PreferenceManager.getLat());
                                           double buyerLong = double.parse(
                                               PreferenceManager.getLong());
-
+                                          print(
+                                              'PreferenceManager.getLong()>>>> ${PreferenceManager.getLong()}');
+                                          print(
+                                              'PreferenceManager.getLat()>>>> ${PreferenceManager.getLat()}');
+                                          print('productLong ${productLong}');
+                                          print('productLat ${productLat}');
                                           double distanceInMeters =
                                               Geolocator.distanceBetween(
                                                   productLat,
@@ -1627,27 +1595,19 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                                             LatLng(buyerLat, buyerLong),
                                             LatLng(productLat, productLong),
                                           );
-                                          if (_dropdownvalue.selected.value ==
-                                              '2 KM') {}
+                                          CollectionReference
+                                              ProfileCollection = bFirebaseStore
+                                                  .collection('Products');
+
+                                          ProfileCollection.doc(
+                                                  snapShot.data?.docs[index].id)
+                                              .update({
+                                            'distanceBetweenInKM': '$km KM'
+                                          });
+
                                           return GestureDetector(
                                             onTap: () {
                                               // widget.pID = snapShot.data!.docs[index].id;
-
-                                              print(
-                                                  'imageProfile==${snapShot.data!.docs[index]['imageProfile']}');
-                                              print(
-                                                  "['prdName']--${snapShot.data!.docs[index]['prdName']}");
-                                              print(
-                                                  'DATA OF ID==${snapShot.data!.docs[index]}');
-                                              print(
-                                                  'seller_lat==${snapShot.data!.docs[index]['lat']}');
-                                              print(
-                                                  'seller_long==${snapShot.data!.docs[index]['long']}');
-
-                                              print(
-                                                  'DATA OF id=======${snapShot.data!.docs[index].id}');
-                                              print(
-                                                  'sellerID===${snapShot.data!.docs[index]['sellerID']}');
 
                                               Get.to(
                                                 SelectedProductWidget(

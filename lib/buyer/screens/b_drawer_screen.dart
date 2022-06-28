@@ -14,6 +14,7 @@ import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/b_cart_
 import 'package:pipes_online/buyer/screens/help_center_page.dart';
 import 'package:pipes_online/buyer/screens/terms_condition_page.dart';
 import 'package:pipes_online/buyer/view_model/b_drawer_controller.dart';
+import 'package:pipes_online/buyer/view_model/b_profile_view_model.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
@@ -35,7 +36,7 @@ class CustomDrawerWidget extends StatefulWidget {
 class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
   BDrawerController bDrawerController = Get.put(BDrawerController());
   TextEditingController? _address;
-
+  BProfileViewModel _model = Get.find();
   CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
   String? name;
   String? phoneNo;
@@ -47,7 +48,17 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
     final user =
         await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-
+    setState(() {
+      _model.firstnameController =
+          TextEditingController(text: getUserData?['user_name'] ?? "");
+      _model.phoneController =
+          TextEditingController(text: getUserData?['phoneno'] ?? "");
+      _model.emailController =
+          TextEditingController(text: getUserData?['email'] ?? "");
+      _model.addressController =
+          TextEditingController(text: getUserData?['address'] ?? "");
+      Img = getUserData?['imageProfile'];
+    });
     setState(() {
       name = getUserData?['user_name'];
       phoneNo = getUserData?['phoneno'];
@@ -76,10 +87,6 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                     bottomBarIndexController.setSelectedScreen(
                         value: 'PersonalInfoPage');
                     bottomBarIndexController.bottomIndex.value = 3;
-
-                    // Get.to(PersonalInfoPage(
-                    //   isBottomBarVisible: true,
-                    // ));
                   },
                   child: Container(
                     margin: EdgeInsets.symmetric(

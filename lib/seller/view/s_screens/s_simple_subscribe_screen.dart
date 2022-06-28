@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/seller/view/s_screens/s_add_product_screen.dart';
 import 'package:pipes_online/seller/view_model/s_subscribe_controller.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';

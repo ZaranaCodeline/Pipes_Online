@@ -149,7 +149,6 @@ class PreferenceManager {
   }
 
   static clearData() {
-    // await getStorage.erase();
     getStorage.remove('email');
     getStorage.remove('userType');
     getStorage.remove('password');

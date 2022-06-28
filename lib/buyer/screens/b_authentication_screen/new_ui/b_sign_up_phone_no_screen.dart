@@ -75,15 +75,12 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
           this.verificationId = verificationId;
           print('---------verificationId-------$verificationId');
           print('---------this.verificationId-------${this.verificationId}');
-          PreferenceManager.setPhoneNumber(_phoneController.text);
           Get.to(
-            BSignUpPhoneOtpScreen(
+            () => BSignUpPhoneOtpScreen(
               phone: _phoneController.text,
               verificationId: verificationId,
             ),
-          )?.then((value) {
-            _phoneController.clear();
-          });
+          );
           print('verificationId====${verificationId}');
         });
       },
@@ -215,7 +212,7 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                           LengthLimitingTextInputFormatter(10)
                                         ],
                                         keyboardType: TextInputType.phone,
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           hintText: "Enter phone Number",
                                         ),
                                         validator: (value) {
@@ -287,8 +284,13 @@ class _BSignUpPhoneNumberScreenState extends State<BSignUpPhoneNumberScreen> {
                                         });
                                     sendOtp().then((value) {
                                       print('check1');
+                                      print(
+                                          'PHONE ${PreferenceManager.getPhoneNumber()}');
+                                      print('phone. ${_phoneController.text}');
+                                      PreferenceManager.setPhoneNumber(
+                                          _phoneController.text);
+                                      PreferenceManager.getPhoneNumber();
                                       _phoneController.clear();
-                                      print('Phone---${_phoneController.text}');
                                       setState(() {
                                         isLoading = false;
                                       });

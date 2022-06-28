@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:pipes_online/buyer/view_model/geolocation_controller.dart';
 import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/view/s_screens/s_custom_product_card.dart';
 import 'package:pipes_online/seller/view/s_screens/s_drawer_screen.dart';
@@ -35,7 +36,7 @@ class _SCatelogeHomeScreenState extends State<SCatelogeHomeScreen> {
   AddProductController addProductController = Get.put(AddProductController());
   ProfileViewModel _model = Get.find();
   CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
-
+  GeolocationController geolocationController = Get.find();
   @override
   void initState() {
     print('sellerName: ${PreferenceManager.getName()}');
@@ -43,6 +44,9 @@ class _SCatelogeHomeScreenState extends State<SCatelogeHomeScreen> {
     super.initState();
     print('Seller User Name ${PreferenceManager.getName()}');
     getData();
+
+    print(
+        'LAT-Controller>>>>>  ${geolocationController.latitude.value.toString()}-LONG-Controller>>>> ${geolocationController.longitude.value.toString()}');
     // CollectionReference ProfileCollection =
     //     bFirebaseStore.collection('SProfile');
     //

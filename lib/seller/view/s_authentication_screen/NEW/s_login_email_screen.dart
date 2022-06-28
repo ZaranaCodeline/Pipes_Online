@@ -238,7 +238,8 @@ class _SLoginEmailScreenState extends State<SLoginEmailScreen> {
                                           'login email========>${email.text.toString()}');
                                       print(
                                           'login password========>${pass.text.toString()}');
-
+                                      print(
+                                          'Login LAT-Long---${PreferenceManager.getLat()}--${PreferenceManager.getLong()}');
                                       SRegisterRepo()
                                           .LogIn(email.text.trim().toString(),
                                               pass.text.trim().toString())

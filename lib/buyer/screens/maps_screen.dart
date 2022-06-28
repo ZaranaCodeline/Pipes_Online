@@ -14,9 +14,7 @@ class MapsScreen extends StatefulWidget {
   _MapsScreenState createState() => _MapsScreenState();
 }
 
-
 class _MapsScreenState extends State<MapsScreen> {
-
   Position? userLocation;
   GoogleMapController? googleMapController;
   String address = '';
@@ -36,11 +34,13 @@ class _MapsScreenState extends State<MapsScreen> {
     }
     return userLocation;
   }
+
   Future<void> getAddressFromLatLang(Position position) async {
     List<Placemark> placemark =
-    await placemarkFromCoordinates(position.latitude, position.longitude);
+        await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placemark[0];
-    address = 'Address : ${place.locality},${place.country},${place.subThoroughfare},${place.postalCode}';
+    address =
+        'Address : ${place.locality},${place.country},${place.subThoroughfare},${place.street},${place.postalCode},';
   }
 
   @override
@@ -66,7 +66,7 @@ class _MapsScreenState extends State<MapsScreen> {
             return GoogleMap(
               initialCameraPosition: CameraPosition(
                   target:
-                  LatLng(userLocation!.latitude, userLocation!.longitude),
+                      LatLng(userLocation!.latitude, userLocation!.longitude),
                   zoom: 15),
               mapType: MapType.normal,
               myLocationEnabled: true,
@@ -87,12 +87,11 @@ class _MapsScreenState extends State<MapsScreen> {
         child: FloatingActionButton.extended(
           backgroundColor: AppColors.primaryColor,
           onPressed: () {
-       
-             googleMapController!.animateCamera(CameraUpdate.newLatLngZoom(
-                 LatLng(userLocation!.latitude, userLocation!.longitude), 17));
-             _controller.setLocation(userLocation!.latitude, userLocation!.longitude);
-             Get.back();
-
+            googleMapController!.animateCamera(CameraUpdate.newLatLngZoom(
+                LatLng(userLocation!.latitude, userLocation!.longitude), 17));
+            _controller.setLocation(
+                userLocation!.latitude, userLocation!.longitude);
+            Get.back();
           },
           label: Text('Send Location'),
           icon: Icon(Icons.near_me),

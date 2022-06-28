@@ -110,13 +110,6 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          // leading: IconButton(
-          //   onPressed: () {
-          //     homeController.bottomIndex.value = 0;
-          //     homeController.selectedScreen('SCatelogeHomeScreen');
-          //   },
-          //   icon: Icon(Icons.arrow_back),
-          // ),
           title: Text(
             'PROFILE'.toUpperCase(),
             style: STextStyle.bold700White14,
@@ -166,7 +159,7 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                                       borderRadius: BorderRadius.circular(15),
                                       color: AppColors.primaryColor),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 0.2,
                                 ),
                                 CustomText(
@@ -295,7 +288,7 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                   ),
                   TextField(
                     controller: controller.firstnameController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       suffixIcon: Icon(Icons.edit),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -320,7 +313,7 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                     controller: controller.phoneController,
                     inputFormatters: [LengthLimitingTextInputFormatter(10)],
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       suffixIcon: Icon(Icons.edit),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -343,7 +336,7 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                   ),
                   TextField(
                     controller: controller.emailController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       suffixIcon: Icon(Icons.edit),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -366,7 +359,7 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                   ),
                   TextField(
                     controller: controller.addressController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       suffixIcon: Icon(Icons.edit),
                       hintText: 'Enter Your Address',
                       border: OutlineInputBorder(
@@ -382,59 +375,42 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      uploadImgFirebaseStorage(file: _image).then((value) {
-                        homeController.bottomIndex.value = 0;
-                        homeController.selectedScreen('SCatelogeHomeScreen');
-
-                        isLoading = false;
-                      });
+                      if (_image == null) {
+                        Get.showSnackbar(
+                          const GetSnackBar(
+                            snackPosition: SnackPosition.BOTTOM,
+                            duration: Duration(seconds: 5),
+                            message: 'Please update picture',
+                          ),
+                        );
+                      }
+                      if (_image != null) {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        uploadImgFirebaseStorage(file: _image);
+                      }
                     },
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: Get.width,
-                      height: Get.height * 0.06,
-                      decoration: BoxDecoration(
-                        color: SColorPicker.purple,
-                        borderRadius: BorderRadius.circular(10.sp),
-                      ),
-                      child: isLoading
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CustomText(
-                                    text: 'Loading...  ',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12.sp,
-                                    color: AppColors.commonWhiteTextColor),
-                                CircularProgressIndicator(
-                                  color: AppColors.commonWhiteTextColor,
-                                ),
-                              ],
-                            )
-                          : Text(
+                    child: isLoading
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.primaryColor,
+                            ),
+                          )
+                        : Container(
+                            alignment: Alignment.center,
+                            width: Get.width,
+                            height: Get.height * 0.06,
+                            decoration: BoxDecoration(
+                              color: SColorPicker.purple,
+                              borderRadius: BorderRadius.circular(10.sp),
+                            ),
+                            child: Text(
                               'SAVE',
                               style: STextStyle.bold700White14,
                             ),
-                    ),
+                          ),
                   ),
-                  // Padding(
-                  //   padding: EdgeInsets.symmetric(
-                  //     horizontal: 10.sp,
-                  //   ),
-                  //   child: SCommonButton().sCommonPurpleButton(
-                  //     name: 'SAVE',
-                  //     onTap: () {
-                  //       uploadImgFirebaseStorage(file: _image).then((value) {
-                  //         bottomBarIndexController.setSelectedScreen(
-                  //             value: 'PersonalInfoPage');
-                  //         bottomBarIndexController.bottomIndex.value = 3;
-                  //       });
-                  //     },
-                  //   ),
-                  // ),
                   SizedBox(
                     height: Get.height * 0.03,
                   ),
@@ -455,9 +431,10 @@ class _SPersonalInfoPageState extends State<SPersonalInfoPage> {
     String downloadUrl = await snapshot.ref.getDownloadURL();
     print('url=$downloadUrl');
     print('====PreferenceManager.getUId()=====>${PreferenceManager.getUId()}');
-    // print('path=$fileImageArray');
+    print('S IMG>>>>-$Img');
+    print('S downloadUrl>>>>-$downloadUrl');
     await ProfileCollection.doc(PreferenceManager.getUId()).update({
-      'imageProfile': downloadUrl == null ? Img : downloadUrl,
+      'imageProfile': Img ?? downloadUrl,
       'user_name': _model.firstnameController?.text,
       'email': _model.emailController?.text,
       'address': _model.addressController?.text,

@@ -24,13 +24,12 @@ class BFirstUserInfoScreen extends StatefulWidget {
   const BFirstUserInfoScreen({
     Key? key,
     this.email,
-    this.mobile,
     this.name,
     this.pass,
     this.phone,
     this.photoUrl,
   }) : super(key: key);
-  final String? email, mobile, name, pass, phone, photoUrl;
+  final String? email, name, pass, phone, photoUrl;
   @override
   _BFirstUserInfoScreenState createState() => _BFirstUserInfoScreenState();
 }
@@ -90,6 +89,8 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
   void initState() {
     super.initState();
     PreferenceManager.getFcmToken();
+    print('P>>>+>>>${PreferenceManager.getPhoneNumber()}');
+    print('P>>>+>>111>${widget.phone}');
   }
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -191,7 +192,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                                   color:
                                                       AppColors.primaryColor),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 0.2,
                                             ),
                                             CustomText(
@@ -392,44 +393,60 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                 SizedBox(
                                   height: Get.height * 0.02,
                                 ),
-                                Text(
-                                  'Address',
-                                  style: STextStyle.semiBold600Black13,
-                                ),
-                                SizedBox(
-                                  height: Get.height * 0.02,
-                                ),
-                                Container(
-                                  height: Get.height * 0.09,
-                                  width: Get.width * 0.75,
-                                  alignment: Alignment.centerLeft,
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.streetAddress,
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Required';
-                                      } else {
-                                        return null;
-                                      }
-                                    },
-                                    maxLines: 2,
-                                    controller: _controller.addressController ??
-                                        address,
-                                    decoration: InputDecoration(),
-                                  ),
-                                ),
+                                _controller.addressController != null
+                                    ? Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Address',
+                                            style:
+                                                STextStyle.semiBold600Black13,
+                                          ),
+                                          SizedBox(
+                                            height: Get.height * 0.02,
+                                          ),
+                                          Container(
+                                            height: Get.height * 0.09,
+                                            width: Get.width * 0.75,
+                                            alignment: Alignment.centerLeft,
+                                            child: TextFormField(
+                                              keyboardType:
+                                                  TextInputType.streetAddress,
+                                              validator: (value) {
+                                                if (value!.isEmpty) {
+                                                  return 'Required';
+                                                } else {
+                                                  return null;
+                                                }
+                                              },
+                                              maxLines: 2,
+                                              controller:
+                                                  _controller.addressController,
+                                              decoration: InputDecoration(),
+                                            ),
+                                          ),
+                                          SizedBox(height: 15.sp),
+                                        ],
+                                      )
+                                    : SizedBox(),
                               ],
                             ),
-                            SizedBox(height: 15.sp),
                             Text(
-                              'Add location using google map..',
+                              'Add location using google map',
                               style: STextStyle.semiBold600Black13,
                             ),
                             SizedBox(height: 15.sp),
                             GestureDetector(
                               onTap: () {
                                 print('is Maps  ');
-                                Get.to(MapsScreen());
+                                Get.to(MapsScreen())?.then((value) {
+                                  PreferenceManager.setAddress(_controller
+                                      .addressController!.text
+                                      .toString());
+                                  print(
+                                      'STORE ADDRESS BUYER >>>> ${_controller.addressController!.text.toString()}');
+                                });
                               },
                               child: Container(
                                 padding: EdgeInsets.all(10.sp),
@@ -450,7 +467,7 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     SvgPicture.asset(
-                                      "${SImagePick.locationColorIcon}",
+                                      SImagePick.locationColorIcon,
                                     ),
                                     Text(
                                       'Get Location',
@@ -463,6 +480,18 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                             SizedBox(height: 25.sp),
                             GestureDetector(
                               onTap: () async {
+                                if (PreferenceManager.getLong() == null &&
+                                    PreferenceManager.getLat() == null) {
+                                  Get.showSnackbar(
+                                    GetSnackBar(
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: SColorPicker.black,
+                                      duration: Duration(seconds: 5),
+                                      message:
+                                          'Please Add Location From Google Map',
+                                    ),
+                                  );
+                                }
                                 if (_formKey.currentState!.validate()) {
                                   setState(() {
                                     isLoading = true;
@@ -475,7 +504,9 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                                 Text('Please Select a Image')));
                                   }
 
-                                  if (_image != null) {
+                                  if (_image != null &&
+                                      PreferenceManager.getLat() != null &&
+                                      PreferenceManager.getLong() != null) {
                                     showModalBottomSheet(
                                         backgroundColor: Colors.transparent,
                                         isScrollControlled: true,
@@ -496,6 +527,8 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
                                       PreferenceManager.setName(
                                           nameController.text);
                                       PreferenceManager.getName();
+                                      PreferenceManager.getLong();
+                                      PreferenceManager.getLat();
                                       Get.offAll(BottomNavigationBarScreen())
                                           ?.then((value) {
                                         print('Validate');
@@ -568,17 +601,21 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
     print('---ADDRESS TEXT---${address.text}');
     print('---Name---${nameController.text}');
     print('---EMAIL TEXT---${emailController.text}');
-    print('---PHONE---${mobilecontroller.text}');
+    print('---mobilecontrollerPHONE---${mobilecontroller.text}');
+    print('---widgetPHONE---${widget.phone}');
+    print('---PreferenceManagerPHONE---${PreferenceManager.getPhoneNumber()}');
 
     PreferenceManager.setUserType('Buyer');
     PreferenceManager.getUserType();
     PreferenceManager.setName(nameController.text);
     PreferenceManager.getName();
-    PreferenceManager.setAddress(address.text);
+    // PreferenceManager.setAddress(
+    //     _controller.addressController!.text.toString());
     PreferenceManager.setUserImage(imageUrl ??
         'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png');
     PreferenceManager.getUserImage();
     PreferenceManager.getAddress();
+
     print('USER_TYPE--${PreferenceManager.getUserType()}');
     print('NAME--${PreferenceManager.getName()}');
     print('ADDRESS--${PreferenceManager.getAddress()}');
@@ -592,12 +629,13 @@ class _BFirstUserInfoScreenState extends State<BFirstUserInfoScreen> {
         ? PreferenceManager.setEmail(PreferenceManager.getEmail())
         : PreferenceManager.setEmail(emailController.text);
 
-    print(emailController.text);
-    print(mobilecontroller.text);
+    print('EMAil>>>${emailController.text}');
+    print('PHONE>>>${widget.phone.toString()}');
+    print('PHONE2>>>${PreferenceManager.getPhoneNumber()}');
 
-    CollectionReference ProfileCollection =
+    CollectionReference profileCollection =
         bFirebaseStore.collection('BProfile');
-    ProfileCollection.doc(PreferenceManager.getUId()).set({
+    profileCollection.doc(PreferenceManager.getUId()).set({
       'buyerID': PreferenceManager.getUId(),
       'email': PreferenceManager.getEmail() ?? emailController.text,
       'isOnline': false,

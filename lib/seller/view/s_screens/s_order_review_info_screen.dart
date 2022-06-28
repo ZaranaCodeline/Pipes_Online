@@ -34,6 +34,7 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
       orderID,
       proName,
       productId,
+      productPrice,
       payment,
       size,
       length,
@@ -60,6 +61,7 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
       buyerName = getUserData?['buyerName'];
       proName = getUserData?['prdName'];
       productId = getUserData?['productID'];
+      productPrice = getUserData?['price'];
       payment = getUserData?['price'];
       size = getUserData?['size'];
       length = getUserData?['length'];
@@ -402,6 +404,7 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
                                                     buyerName: buyerName,
                                                     buyerImg: Img,
                                                     buyerPhone: buyerPhone,
+                                                    productPrice: productPrice,
                                                   ),
                                                   arguments: snapshot
                                                       .data?.docs.length);
@@ -511,6 +514,7 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
                                 buyerName: buyerName,
                                 buyerImg: Img,
                                 buyerPhone: buyerPhone,
+                                productPrice: productPrice,
                               ));
                               print('Get Contatc Detail');
                             },
@@ -574,6 +578,7 @@ class _SOrderReviewInfoScreenState extends State<SOrderReviewInfoScreen> {
                                   buyerName: buyerName,
                                   buyerImg: Img,
                                   buyerPhone: buyerPhone,
+                                  productPrice: productPrice,
                                 ));
                                 print('SSellerReviewScreen');
                               },

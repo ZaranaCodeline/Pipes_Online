@@ -24,6 +24,7 @@ class SSellerReviewScreen extends StatefulWidget {
       buyerPhone,
       buyerAddress,
       buyerReview,
+      productPrice,
       buyerName;
   const SSellerReviewScreen({
     Key? key,
@@ -34,6 +35,7 @@ class SSellerReviewScreen extends StatefulWidget {
     this.buyerAddress,
     this.buyerName,
     this.buyerReview,
+    this.productPrice,
   }) : super(key: key);
 
   @override
@@ -77,6 +79,8 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
   void initState() {
     // TODO: implement initState
     getData();
+    print('>>>>> ${widget.productPrice}');
+    print('SubscribeCategory>>>>> ${PreferenceManager.getSubscribeCategory()}');
     reviewID = Get.arguments;
     print('===widget_buyerID=====${widget.buyerID}--buyer_ID--${buyer_ID}');
     print('======ID=====${PreferenceManager.getUId()}');
@@ -126,10 +130,10 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                 ),
                 Center(
                   child: CustomText(
-                    text: '\$5',
+                    text: '\$${widget.productPrice}',
                     color: AppColors.commonWhiteTextColor,
                     fontWeight: FontWeight.w600,
-                    fontSize: 35,
+                    fontSize: 14.sp,
                   ),
                 ),
                 SizedBox(
@@ -446,7 +450,20 @@ class _SSellerReviewScreenState extends State<SSellerReviewScreen> {
                           : InkWell(
                               onTap: () {
                                 print('Get Contatc Detail');
-                                _showPopupMenu();
+                                if (PreferenceManager.getSubscribeCategory() ==
+                                    'plus') {
+                                  _showPopupMenu();
+                                } else {
+                                  Get.showSnackbar(
+                                    GetSnackBar(
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: SColorPicker.black,
+                                      duration: Duration(seconds: 5),
+                                      message:
+                                          "For Simple-Subscribe- \nYou can not get buyer contact details!.",
+                                    ),
+                                  );
+                                }
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,

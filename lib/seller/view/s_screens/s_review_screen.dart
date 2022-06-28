@@ -136,7 +136,7 @@ class _SReviewScreenState extends State<SReviewScreen> {
                                   height: Get.height * 0.02,
                                 ),
                                 CustomText(
-                                    text: '(14 reviews)',
+                                    text: '(Reviews)',
                                     fontWeight: FontWeight.w600,
                                     fontSize: 12.sp,
                                     color: AppColors.hintTextColor),
@@ -193,11 +193,11 @@ class _SReviewScreenState extends State<SReviewScreen> {
                                   fontSize: 14.sp,
                                   color: AppColors.secondaryBlackColor),
                               GestureDetector(
-                                onTap: () {
-                                  Get.to(SAddReviewScreen());
-                                },
+                                // onTap: () {
+                                //   Get.to(SAddReviewScreen());
+                                // },
                                 child: CustomText(
-                                    text: 'Review Now',
+                                    text: "Buyer's Review",
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14.sp,
                                     color: AppColors.primaryColor),
@@ -212,13 +212,13 @@ class _SReviewScreenState extends State<SReviewScreen> {
                         ListView.builder(
                           itemCount: snapShot.data?.docs.length,
                           shrinkWrap: true,
-                          physics: BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           itemBuilder: (context, index) {
                             formattedDateTime = DateFormat.yMMMd()
                                 .add_jm()
                                 .format(DateTime.parse(
                                     snapShot.data?.docs[index]['time']));
-                            print('--formattedDateTime-${formattedDateTime}');
+                            print('--formattedDateTime-$formattedDateTime');
 
                             return Container(
                               child: SingleChildScrollView(

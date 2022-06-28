@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_first_user_info_screen.dart';
 import 'package:pipes_online/seller/view_model/s_add_product_controller.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
@@ -134,6 +135,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text(
             'ADD PRODUCT',
             style: STextStyle.bold700White14,
@@ -338,7 +340,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                               return 'Please Enter Price';
                             }
                           },
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: ('PRICE'),
                           ),
                         ),
@@ -372,7 +374,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                               }
                             },
                             controller: dsc,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: 'Enter Address',
                             ),
                             maxLines: 3,
@@ -397,31 +399,27 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                         : SCommonButton().sCommonPurpleButton(
                             name: 'Add Product',
                             onTap: () async {
+                              if (PreferenceManager.getLat() == null &&
+                                  PreferenceManager.getLong() == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            'For Add Products must get Location from google map')));
+                                Get.to(const SFirstUserInfoScreen());
+                              }
                               if (formGlobalKey.currentState!.validate()) {
                                 if (_image == null) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
+                                      const SnackBar(
                                           content:
                                               Text('Please Select a Image')));
                                   setState(() {
                                     isLoading = false;
                                   });
                                 }
-                                // showModalBottomSheet(
-                                //     backgroundColor: Colors.transparent,
-                                //     isScrollControlled: true,
-                                //     context: context,
-                                //     builder: (BuildContext context) {
-                                //       return Container(
-                                //         height: Get.height,
-                                //         width: Get.width,
-                                //         color: Colors.black12,
-                                //         child: const Center(
-                                //           child: CircularProgressIndicator(),
-                                //         ),
-                                //       );
-                                //     });
-                                if (_image != null) {
+                                if (_image != null &&
+                                    PreferenceManager.getLat() != null &&
+                                    PreferenceManager.getLong() != null) {
                                   setState(() {
                                     isLoading = true;
                                   });
@@ -554,7 +552,8 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
         .putFile(file!);
     String downloadUrl = await snapshot.ref.getDownloadURL();
     print('url=$downloadUrl');
-
+    print('>>>>getLat>>>>${PreferenceManager.getLat()}');
+    print('>>>>getLong>>>>${PreferenceManager.getLong()}');
     // SAuthMethods().getCurrentUser().then((value) {
     //   userCollection
     //       .add({
@@ -580,9 +579,11 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
           'createdOn': DateTime.now().add(Duration(hours: 24)),
           'isAproved': 0,
           'distanceBetweenInKM': '0 KM',
+          'subscribeCategory': PreferenceManager.getSubscribeCategory(),
         })
         .catchError((e) => print('Error ===>>> $e'))
         .then((value) {
+          print('success');
           addProductController.name = prdName.text;
           addProductController.images = downloadUrl;
           addProductController.descs = dsc.text;

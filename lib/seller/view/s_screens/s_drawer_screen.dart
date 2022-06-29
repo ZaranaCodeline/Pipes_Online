@@ -6,18 +6,15 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/routes/bottom_controller.dart';
-import 'package:pipes_online/seller/Authentication/s_function.dart';
 import 'package:pipes_online/seller/view/s_screens/s_earning_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_home_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
-import 'package:pipes_online/seller/view/s_screens/s_order_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_review_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_settings_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_subscribe_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_terms_and_condition_screen.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../../buyer/app_constant/b_image.dart';
 import '../../../buyer/screens/b_authentication_screen/register_repo.dart';
@@ -25,43 +22,23 @@ import '../../../s_onboarding_screen/s_buyer_seller_screen.dart';
 import '../../view_model/s_drawer_controller.dart';
 import 's_insight_screen.dart';
 
-class SDrawerScreen extends StatefulWidget {
-  const SDrawerScreen({Key? key}) : super(key: key);
-  @override
-  State<SDrawerScreen> createState() => _SDrawerScreenState();
-}
-
-class _SDrawerScreenState extends State<SDrawerScreen> {
+class SDrawerScreen extends StatelessWidget {
   SDrawerController sDrawerController = Get.put(SDrawerController());
-  TextEditingController? _address;
 
   CollectionReference ProfileCollection = bFirebaseStore.collection('SProfile');
-  String? name;
-  String? phoneNo;
-  String? Img;
-  String? address;
+  final String name;
+  final String phoneNo;
+  final String Img;
+  final String address;
   BottomController homeController = Get.find();
 
-  Future<void> getData() async {
-    print('demo seller.....');
-    final user =
-        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
-    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-
-    setState(() {
-      name = getUserData?['user_name'];
-      phoneNo = getUserData?['phoneno'];
-      Img = getUserData?['imageProfile'];
-      address = getUserData?['address'];
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getData();
-    print('=======SDrawerScreen=======${PreferenceManager.getUId()}');
-  }
+  SDrawerScreen(
+      {Key? key,
+      required this.name,
+      required this.phoneNo,
+      required this.Img,
+      required this.address})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +84,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(50),
                                   child: Image.network(
-                                    Img ?? '',
+                                    Img,
                                     fit: BoxFit.fill,
                                     errorBuilder: (BuildContext context,
                                         Object exception,
@@ -139,7 +116,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
                               height: Get.height * 0.01.sp,
                             ),
                             Text(
-                              name ?? '',
+                              name,
                               style: GoogleFonts.ubuntu(
                                 textStyle: TextStyle(
                                     fontSize: 14.sp,
@@ -151,7 +128,7 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
                               height: Get.height * 0.01.sp,
                             ),
                             Text(
-                              phoneNo ?? '',
+                              phoneNo,
                               style: TextStyle(
                                   fontSize: 12.sp,
                                   color: AppColors.secondaryBlackColor),
@@ -204,7 +181,6 @@ class _SDrawerScreenState extends State<SDrawerScreen> {
                             ),
                           ),
                         ),
-                        // Text('Yogichowk, Varachha, Surat'),
                         IconButton(
                           onPressed: () {
                             // controller.setEdit();

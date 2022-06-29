@@ -14,6 +14,7 @@ import 'package:pipes_online/routes/bottom_controller.dart';
 import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_contoller.dart';
 import 'package:pipes_online/seller/view_model/profile_view_model.dart';
 import 'package:pipes_online/seller/view_model/s_add_product_controller.dart';
+import 'package:pipes_online/seller/view_model/s_add_product_controller.dart';
 import 'package:pipes_online/seller/view_model/s_drawer_controller.dart';
 import 'package:pipes_online/seller/view_model/s_edit_product_controller.dart';
 import 'package:pipes_online/seller/view_model/s_login_home_controller.dart';

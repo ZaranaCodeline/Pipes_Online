@@ -190,9 +190,9 @@ class _SEarningsScreenState extends State<SEarningsScreen> {
                             } else if (timeFill == 'This Month') {
                               DateTime now = new DateTime.now();
                               DateTime lastDayOfMonth =
-                                  new DateTime(now.year, now.month + 1, 0);
+                                  DateTime(now.year, now.month + 1, 0);
                               DateTime startDayOfMonth =
-                                  new DateTime(now.year, now.month, 0);
+                                  DateTime(now.year, now.month, 0);
                               print(
                                   "s>>>>>>>>${startDayOfMonth.add(Duration(days: 1))}  d>>>>>> ${lastDayOfMonth}");
                               startDate =
@@ -231,11 +231,7 @@ class _SEarningsScreenState extends State<SEarningsScreen> {
                                           'controller---${controller.dropDownValue}');
                                       print(
                                           'LENGTH--${snapShot.data!.docs.length}');
-                                      print('hiiiiii');
-                                      // formattedDateTime = DateFormat.yMMMd()
-                                      //     .add_jm()
-                                      //     .format(DateTime.parse(snapShot
-                                      //         .data?.docs[index]['createdOn']));
+
                                       formattedDateTime = snapShot
                                           .data?.docs[index]['createdOn'];
                                       print(
@@ -245,8 +241,6 @@ class _SEarningsScreenState extends State<SEarningsScreen> {
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
-                                          // crossAxisAlignment:
-                                          //     CrossAxisAlignment.center,
                                           children: [
                                             Container(
                                               padding: EdgeInsets.symmetric(

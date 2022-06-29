@@ -8,7 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
 import 'package:pipes_online/buyer/app_constant/b_image.dart';
 import 'package:pipes_online/buyer/screens/b_authentication_screen/register_repo.dart';
-import 'package:pipes_online/buyer/screens/b_personal_info_page.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/b_navigationbar.dart';
 import 'package:pipes_online/buyer/screens/bottom_bar_screen_page/widget/b_cart_bottom_bar_route.dart';
 import 'package:pipes_online/buyer/screens/help_center_page.dart';
@@ -19,59 +18,26 @@ import 'package:pipes_online/s_onboarding_screen/s_buyer_seller_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_image.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
 import 'package:sizer/sizer.dart';
-
 import '../app_constant/app_colors.dart';
 import 'b_my_order_page.dart';
 import 'b_review_info_screen.dart';
 import 'b_settings_page.dart';
 
-class CustomDrawerWidget extends StatefulWidget {
+class CustomDrawerWidget extends StatelessWidget {
   CustomDrawerWidget({
     Key? key,
+    required this.name,
+    required this.phoneNo,
+    required this.Img,
+    required this.address,
   }) : super(key: key);
-  @override
-  State<CustomDrawerWidget> createState() => _CustomDrawerWidgetState();
-}
 
-class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
+  final String name;
+  final String phoneNo;
+  final String Img;
+  final String address;
+
   BDrawerController bDrawerController = Get.put(BDrawerController());
-  TextEditingController? _address;
-  BProfileViewModel _model = Get.find();
-  CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
-  String? name;
-  String? phoneNo;
-  String? Img;
-  String? address;
-
-  Future<void> getData() async {
-    print('demo buyer.....');
-    final user =
-        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
-    Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-    setState(() {
-      _model.firstnameController =
-          TextEditingController(text: getUserData?['user_name'] ?? "");
-      _model.phoneController =
-          TextEditingController(text: getUserData?['phoneno'] ?? "");
-      _model.emailController =
-          TextEditingController(text: getUserData?['email'] ?? "");
-      _model.addressController =
-          TextEditingController(text: getUserData?['address'] ?? "");
-      Img = getUserData?['imageProfile'];
-    });
-    setState(() {
-      name = getUserData?['user_name'];
-      phoneNo = getUserData?['phoneno'];
-      Img = getUserData?['imageProfile'];
-      address = getUserData?['address'];
-    });
-  }
-
-  @override
-  void initState() {
-    getData();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +75,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(50),
                                   child: Image.network(
-                                    Img ?? '',
+                                    Img,
                                     fit: BoxFit.fill,
                                     errorBuilder: (BuildContext context,
                                         Object exception,
@@ -141,7 +107,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                             Text(
                               /*   snapShot.data!.docs[index]
                                       ['user_name'] ??*/
-                              name ?? '',
+                              name,
                               style: GoogleFonts.ubuntu(
                                 textStyle: TextStyle(
                                   fontSize: 14.sp,
@@ -155,7 +121,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                             ),
                             Text(
                               /*  snapShot.data?.docs[index]['phoneno'] ??*/
-                              phoneNo ?? '',
+                              phoneNo,
                               style: TextStyle(
                                   fontSize: 12.sp,
                                   color: AppColors.secondaryBlackColor),
@@ -206,7 +172,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                                     alignment: Alignment.centerLeft,
                                     child: TextFormField(
                                       readOnly: controller.readOnly,
-                                      controller: _address,
+                                      // controller: _address,
                                       cursorColor: AppColors.primaryColor,
                                       decoration: InputDecoration(
                                           border: InputBorder.none,

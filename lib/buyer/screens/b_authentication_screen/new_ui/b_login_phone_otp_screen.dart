@@ -102,7 +102,7 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
       PreferenceManager.setUId(_auth.currentUser!.uid.toString());
       if (authCredential.user != null) {
         print('Login successful');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Login successful'),
           duration: Duration(seconds: 5),
         ));
@@ -119,37 +119,6 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
     }
   }
 
-  // Future<void> verificationOTPCode(String otp) async {
-  //   PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
-  //       verificationId: widget.verificationId!, smsCode: otp);
-  //   if (phoneAuthCredential == null) {
-  //     _globalKey.currentState!.showSnackBar(
-  //       SnackBar(
-  //         content: Text("Please enter valid otp"),
-  //       ),
-  //     );
-  //     return;
-  //   } else {
-  //     await FirebaseAuth.instance.signInWithCredential(phoneAuthCredential);
-  //
-  //     print("successful");
-  //     Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => BottomNavigationBarScreen(),
-  //       ),
-  //     );
-  //   }
-  //   _auth.signInWithCredential(phoneAuthCredential).then((value) {
-  //     print("You are Signed in successfully");
-  //     Get.showSnackbar(GetSnackBar(
-  //       backgroundColor: SColorPicker.red,
-  //       duration: Duration(seconds: 2),
-  //       message: 'You are logged in successfully',
-  //     ));
-  //   });
-  // }
-
   @override
   void initState() {
     // TODO: implement initState
@@ -158,8 +127,6 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
     );
     print(
         'store in PreferenceManager.getPhoneNumber=========${PreferenceManager.getPhoneNumber()}');
-    // verificationOTPCode(widget.verificationId!);
-    // verifyPhoneNumber();
 
     super.initState();
   }
@@ -528,7 +495,7 @@ class _BLoginPhoneOtpScreenState extends State<BLoginPhoneOtpScreen> {
                                             if (phoneAuthCredential == null) {
                                               _globalKey.currentState!
                                                   .showSnackBar(
-                                                SnackBar(
+                                                const SnackBar(
                                                   content: Text(
                                                       "Please enter valid otp"),
                                                 ),

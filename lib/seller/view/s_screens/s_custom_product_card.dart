@@ -24,20 +24,6 @@ class _SCustomProductCardState extends State<SCustomProductCard> {
   FirebaseAuth _auth = FirebaseAuth.instance;
   String? proName, desc, price, image;
 
-  // Future<void> getData() async {
-  //   print('demo.....');
-  //   final  user =
-  //   await userCollection.doc('${FirebaseAuth.instance.currentUser!.uid}').get();
-  //   Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-  //   proName=getUserData!['firstname'];
-  //   desc=getUserData['email'];
-  //   price=getUserData['address'];
-  //   image.text=getUserData['phoneno'];
-  //   setState(() {
-  //     Img=getUserData['imageProfile'];
-  //   });
-  //   print('============================${user.get('imageProfile')}');
-  // }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -151,158 +137,134 @@ class _SCustomProductCardState extends State<SCustomProductCard> {
             }
             if (snapShot.connectionState == ConnectionState.done) {}
             return GridView.builder(
-                physics: BouncingScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 5,
-                    mainAxisSpacing: 5,
-                    childAspectRatio: 1.7 / 2),
-                itemCount: snapShot.data!.docs.length,
-                itemBuilder: (BuildContext context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      print('gfvf');
-                      print('DATA OF ID${snapShot.data!.docs[index].id}');
+              physics: const BouncingScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 5,
+                  mainAxisSpacing: 5,
+                  childAspectRatio: 1.7 / 2),
+              itemCount: snapShot.data!.docs.length,
+              itemBuilder: (BuildContext context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    print('gfvf');
+                    print('DATA OF ID${snapShot.data!.docs[index].id}');
 
-                      /*  editProductContoller.selectedName=proName.toString();
-                      // editProductContoller.images=downloadUrl;
-                      editProductContoller.selectedDesc=desc.toString();
-                      editProductContoller.selectedPrice=editProductContoller.selectedPrice;
-                      */
-                      EditProductContoller editProductContoller =
-                          Get.put(EditProductContoller());
-                      print(
-                          'prdName==>${editProductContoller.selectedName = snapShot.data!.docs[index]['prdName']}');
-                      print(
-                          'selectedPrice==>${editProductContoller.selectedPrice = editProductContoller.selectedPrice}');
-                      print(
-                          'selectedPrice====>${editProductContoller.selectedPrice = (snapShot.data!.docs[index]['price'])}');
-                      // editProductContoller.selectedName =
-                      //     (snapShot.data!.docs[index]['prdName']);
-                      // editProductContoller.selectedName =
-                      //     snapShot.data!.docs[index]['prdName'];
-                      // // editProductContoller.selectedName;
-                      // editProductContoller.images = editProductContoller.images;
-                      // editProductContoller.selectedDesc =
-                      //     editProductContoller.selectedDesc;
-                      // // editProductContoller.selectedPrice =
-                      // editProductContoller.selectedProductName(
-                      //     snapShot.data!.docs[index]['prdName']);
-                      //
-                      // editProductContoller.selectedProductPrice(
-                      //     snapShot.data!.docs[index]['price']);
+                    EditProductContoller editProductContoller =
+                        Get.put(EditProductContoller());
+                    print(
+                        'prdName==>${editProductContoller.selectedName = snapShot.data!.docs[index]['prdName']}');
+                    print(
+                        'selectedPrice==>${editProductContoller.selectedPrice = editProductContoller.selectedPrice}');
+                    print(
+                        'selectedPrice====>${editProductContoller.selectedPrice = (snapShot.data!.docs[index]['price'])}');
 
-                      editProductContoller
-                          .selectedID(snapShot.data!.docs[index].id);
+                    editProductContoller
+                        .selectedID(snapShot.data!.docs[index].id);
 
-                      homeController.selectedScreen('SSelectedProductScreen');
-                      homeController.bottomIndex.value = 0;
-                      // Get.to(SSelectedProductScreen(
-                      //   name: snapShot.data!.docs[index]['prdName'],
-                      //   price: snapShot.data!.docs[index]['price'],
-                      //   image: snapShot.data!.docs[index]['imageProfile'],
-                      //   desc: snapShot.data!.docs[index]['dsc'],
-                      //   id: snapShot.data!.docs[index].id,
-                      // ));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        width: Get.width * 0.4,
-                        height: Get.height * 0.26,
-                        decoration: BoxDecoration(
-                            color: AppColors.commonWhiteTextColor,
-                            borderRadius:
-                                BorderRadius.circular(Get.width * 0.05),
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 1,
-                                color: SColorPicker.fontGrey,
-                              )
-                            ]),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                //width: Get.width * 0.35,height: Get.height*0.1,
-                                child: ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.circular(Get.width * 0.02),
-                                  child: snapShot.data!.docs[index]
-                                                  ['imageProfile'] ==
-                                              null ||
-                                          snapShot.data!.docs[index]
-                                                  ['imageProfile'] ==
-                                              ''
-                                      ? Center(
-                                          child: CircularProgressIndicator())
-                                      : Image.network(
-                                          snapShot.data!.docs[index]
-                                              ['imageProfile'],
-                                          height: Get.height * 0.1,
-                                          width: Get.width * 0.4,
-                                          fit: BoxFit.cover, errorBuilder:
-                                              (BuildContext context,
-                                                  Object exception,
-                                                  StackTrace? stackTrace) {
+                    homeController.selectedScreen('SSelectedProductScreen');
+                    homeController.bottomIndex.value = 0;
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      width: Get.width * 0.4,
+                      height: Get.height * 0.26,
+                      decoration: BoxDecoration(
+                          color: AppColors.commonWhiteTextColor,
+                          borderRadius: BorderRadius.circular(Get.width * 0.05),
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 1,
+                              color: SColorPicker.fontGrey,
+                            )
+                          ]),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.circular(Get.width * 0.02),
+                                child: snapShot.data!.docs[index]
+                                                ['imageProfile'] ==
+                                            null ||
+                                        snapShot.data!.docs[index]
+                                                ['imageProfile'] ==
+                                            ''
+                                    ? const Center(
+                                        child: CircularProgressIndicator())
+                                    : Image.network(
+                                        snapShot.data!.docs[index]
+                                            ['imageProfile'],
+                                        height: Get.height * 0.1,
+                                        width: Get.width * 0.4,
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (BuildContext context,
+                                            Object exception,
+                                            StackTrace? stackTrace) {
                                           return Image.asset(
                                             BImagePick.cartIcon,
                                             height: Get.height * 0.1,
                                             width: Get.width * 0.4,
                                             fit: BoxFit.cover,
                                           );
-                                        }),
-                                ),
+                                        },
+                                      ),
                               ),
                             ),
-                            SizedBox(
-                              height: Get.height * 0.01,
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.01,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                            child: CustomText(
+                              max: 1,
+                              textOverflow: TextOverflow.ellipsis,
+                              text: snapShot.data!.docs[index]['prdName'],
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14.sp,
+                              color: SColorPicker.purple,
+                              alignment: Alignment.centerLeft,
                             ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10.sp),
-                              child: CustomText(
-                                text: snapShot.data!.docs[index]['prdName'],
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14.sp,
-                                color: SColorPicker.purple,
-                                alignment: Alignment.centerLeft,
-                              ),
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.01,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                            child: CustomText(
+                              text: snapShot.data!.docs[index]['dsc'],
+                              textOverflow: TextOverflow.ellipsis,
+                              fontWeight: FontWeight.w600,
+                              max: 1,
+                              fontSize: 12.sp,
+                              color: SColorPicker.black,
+                              alignment: Alignment.centerLeft,
                             ),
-                            SizedBox(
-                              height: Get.height * 0.01,
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.01,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                            child: CustomText(
+                              text: snapShot.data!.docs[index]['price'],
+                              fontWeight: FontWeight.w600,
+                              fontSize: 12.sp,
+                              color: SColorPicker.black,
+                              alignment: Alignment.centerLeft,
                             ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10.sp),
-                              child: CustomText(
-                                text: snapShot.data!.docs[index]['dsc'],
-                                textOverflow: TextOverflow.ellipsis,
-                                fontWeight: FontWeight.w600,
-                                max: 1,
-                                fontSize: 12.sp,
-                                color: SColorPicker.black,
-                                alignment: Alignment.centerLeft,
-                              ),
-                            ),
-                            SizedBox(
-                              height: Get.height * 0.01,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10.sp),
-                              child: CustomText(
-                                text: snapShot.data!.docs[index]['price'],
-                                fontWeight: FontWeight.w600,
-                                fontSize: 12.sp,
-                                color: SColorPicker.black,
-                                alignment: Alignment.centerLeft,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  );
-                });
+                  ),
+                );
+              },
+            );
           } else {
             return Center(
               child: CircularProgressIndicator(

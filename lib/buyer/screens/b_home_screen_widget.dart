@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
@@ -33,14 +34,39 @@ class CatelogeHomeWidget extends StatefulWidget {
 class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  CollectionReference ProfileCollection = bFirebaseStore.collection('BProfile');
+  CollectionReference profileCollection = bFirebaseStore.collection('BProfile');
   BProfileViewModel _model = Get.find();
   DropdownValue _dropdownvalue = DropdownValue();
+  TextEditingController searchController = TextEditingController();
+  double? distanceInKM;
   String? buyerID, productID;
   String? sellerLat, sellerLong, buyerLat, buyerLong;
   String? category, pID;
+  String searchText = '';
+  List search = [];
+  List<String> items = [];
+  List<String> onSearchItem = [];
 
-  double? distanceInKM;
+  String? name;
+  String? phoneNo;
+  String? Img;
+  String? address;
+
+  void onSearchtextChanged() {
+    search.clear();
+    if (searchController.text.isEmpty) {
+      setState(() {
+        return;
+      });
+    }
+
+    onSearchItem.forEach((searchKey) {
+      if (searchKey.toLowerCase().contains(searchController.text)) {
+        search.add(searchKey);
+        print('SEARCH METHOD-------${search}');
+      }
+    });
+  }
 
   Future<void> getSellerData() async {
     DocumentReference profileCollection =
@@ -65,22 +91,15 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
     print('getUserData:---${getUserData}');
   }
 
-  Future<void> getData() async {
+  Future<void> getUserData() async {
     print('demo buyer.....');
-    final user =
-        await ProfileCollection.doc('${PreferenceManager.getUId()}').get();
+    final user = await profileCollection.doc(PreferenceManager.getUId()).get();
     Map<String, dynamic>? getUserData = user.data() as Map<String, dynamic>?;
-
     setState(() {
-      _model.firstnameController =
-          TextEditingController(text: getUserData?['user_name'] ?? "");
-      _model.phoneController =
-          TextEditingController(text: getUserData?['phoneno'] ?? "");
-      _model.emailController =
-          TextEditingController(text: getUserData?['email'] ?? "");
-      _model.addressController =
-          TextEditingController(text: getUserData?['address'] ?? "");
-      _model.image1 = getUserData?['imageProfile'] ?? "";
+      name = getUserData?['user_name'];
+      phoneNo = getUserData?['phoneno'];
+      Img = getUserData?['imageProfile'];
+      address = getUserData?['address'];
     });
   }
 
@@ -88,12 +107,8 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getData();
+    getUserData();
     getSellerData();
-    print('--User Name ${PreferenceManager.getName()}');
-    print('-- getUserImage  ${PreferenceManager.getUserImage()}');
-    print('-- getAddress  ${PreferenceManager.getAddress()}');
-    print('-- PhoneNumber  ${PreferenceManager.getPhoneNumber()}');
   }
 
   @override
@@ -292,7 +307,42 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CustomHomeSearchWidget(),
+                          // CustomHomeSearchWidget(),
+                          Container(
+                            height: Get.height / 15,
+                            width: Get.width / 1.5,
+                            child: CupertinoTextField(
+                              controller: searchController,
+                              onChanged: (value) {
+                                setState(() {
+                                  // searchText = value;
+                                  onSearchtextChanged();
+                                });
+                              },
+                              // onTap: () {
+                              //   Get.to(SearchScreen());
+                              // },
+                              keyboardType: TextInputType.text,
+                              placeholder: 'Search items here',
+                              placeholderStyle: TextStyle(
+                                color: SColorPicker.fontGrey,
+                                fontSize: 12.sp,
+                                fontFamily: 'Brutal',
+                              ),
+                              prefix: Padding(
+                                padding:
+                                    EdgeInsets.fromLTRB(9.0, 6.0, 9.0, 6.0),
+                                child: Icon(
+                                  Icons.search,
+                                  color: SColorPicker.fontGrey,
+                                ),
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50.0),
+                                color: Color(0xffF0F1F5),
+                              ),
+                            ),
+                          ),
                           FutureBuilder<QuerySnapshot>(
                             future: FirebaseFirestore.instance
                                 .collection('Cart')
@@ -329,7 +379,13 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
               ),
             ),
           ),
-          drawer: CustomDrawerWidget(),
+          drawer: PreferredSize(
+              preferredSize: const Size.fromHeight(20),
+              child: CustomDrawerWidget(
+                  name: name.toString(),
+                  phoneNo: phoneNo.toString(),
+                  address: address.toString(),
+                  Img: Img.toString())),
           body: Column(
             children: [
               SizedBox(
@@ -473,6 +529,20 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                                 });
                           }
                           if (snapShot.hasData) {
+                            ///search
+                            List<DocumentSnapshot> info = snapShot.data!.docs;
+                            // print("length======>${info.length}");
+                            if (searchText.isNotEmpty) {
+                              info = info.where((element) {
+                                return element
+                                    .get('prdName')
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(searchText.toLowerCase());
+                              }).toList();
+                            }
+
+                            ///
                             return GridView.builder(
                                 physics: const BouncingScrollPhysics(),
                                 gridDelegate:
@@ -491,7 +561,12 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                                       double.parse(PreferenceManager.getLat());
                                   double buyerLong =
                                       double.parse(PreferenceManager.getLong());
-
+                                  print(
+                                      'PreferenceManager.getLong()>>>> ${PreferenceManager.getLong()}');
+                                  print(
+                                      'PreferenceManager.getLat()>>>> ${PreferenceManager.getLat()}');
+                                  print('productLong ${productLong}');
+                                  print('productLat ${productLat}');
                                   double distanceInMeters =
                                       Geolocator.distanceBetween(productLat,
                                           productLong, buyerLat, buyerLong);
@@ -512,6 +587,13 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                                     LatLng(buyerLat, buyerLong),
                                     LatLng(productLat, productLong),
                                   );
+                                  CollectionReference ProfileCollection =
+                                      bFirebaseStore.collection('Products');
+
+                                  ProfileCollection.doc(
+                                          snapShot.data?.docs[index].id)
+                                      .update(
+                                          {'distanceBetweenInKM': '$km KM'});
 
                                   return GestureDetector(
                                     onTap: () {
@@ -567,8 +649,11 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                                                       BorderRadius.circular(
                                                           Get.width * 0.02),
                                                   child: Image.network(
-                                                    snapShot.data!.docs[index]
-                                                        ['imageProfile'],
+                                                    /*snapShot.data!
+                                  .docs[index]
+                              [
+                              'imageProfile']*/
+                                                    '${info[index].get('imageProfile')}',
                                                     height: Get.height * 0.1,
                                                     width: Get.width * 0.4,
                                                     fit: BoxFit.cover,
@@ -599,8 +684,10 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                                                 max: 1,
                                                 textOverflow:
                                                     TextOverflow.ellipsis,
-                                                text: snapShot.data!.docs[index]
-                                                    ['prdName'],
+                                                text: /*snapShot.data!
+                              .docs[index]
+                          ['prdName']*/
+                                                    '${info[index].get('prdName')}',
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 14.sp,
                                                 color: SColorPicker.purple,
@@ -614,8 +701,10 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: 10.sp),
                                               child: CustomText(
-                                                text: snapShot.data!.docs[index]
-                                                    ['category'],
+                                                text: /*snapShot.data!
+                              .docs[index]
+                          ['category']*/
+                                                    '${info[index].get('category')}',
                                                 textOverflow:
                                                     TextOverflow.ellipsis,
                                                 fontWeight: FontWeight.w600,
@@ -632,8 +721,10 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: 10.sp),
                                               child: CustomText(
-                                                text: snapShot.data!.docs[index]
-                                                    ['price'],
+                                                text: /*snapShot.data!
+                              .docs[index]
+                          ['price']*/
+                                                    '${info[index].get('price')}',
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 12.sp,
                                                 color: SColorPicker.black,
@@ -661,6 +752,7 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                                   );
                                 });
                           }
+
                           return Container();
                         },
                       )
@@ -1399,63 +1491,102 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                                   return Container();
                                 },
                               )
-                            : StreamBuilder<QuerySnapshot>(
-                                stream: FirebaseFirestore.instance
-                                    .collection('Products')
-                                    .where('createdOn',
-                                        isLessThan: DateTime.now())
-                                    .snapshots(),
-                                builder: (context, snapShot) {
-                                  if (!snapShot.hasData) {
-                                    return GridView.builder(
-                                        gridDelegate:
-                                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 2,
-                                                crossAxisSpacing: 5,
-                                                mainAxisSpacing: 5,
-                                                childAspectRatio: 1.7 / 2),
-                                        itemCount: snapShot.data?.docs.length,
-                                        itemBuilder:
-                                            (BuildContext context, index) {
-                                          return Shimmer.fromColors(
-                                            baseColor: Colors.grey.shade100,
-                                            highlightColor:
-                                                Colors.grey.shade200,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                width: Get.width * 0.4,
-                                                height: Get.height * 0.26,
-                                                decoration: BoxDecoration(
-                                                    color: AppColors
-                                                        .commonWhiteTextColor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            Get.width * 0.05),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        blurRadius: 0,
-                                                        color: SColorPicker
-                                                            .fontGrey,
-                                                      )
-                                                    ]),
-                                                child: Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              5.0),
-                                                      child: Container(
-                                                        child: ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
+                            : searchController.text.isEmpty
+                                ? StreamBuilder<QuerySnapshot>(
+                                    stream: FirebaseFirestore.instance
+                                        .collection('Products')
+                                        .where("prdName",
+                                            isGreaterThanOrEqualTo:
+                                                searchController.text)
+                                        .snapshots()
+                                    /*FirebaseFirestore.instance
+                                  .collection('Products')
+                                  .where('createdOn',
+                                  isLessThan: DateTime.now())
+                                  .snapshots()*/
+                                    ,
+                                    builder: (context, snapShot) {
+                                      if (!snapShot.hasData) {
+                                        return GridView.builder(
+                                            gridDelegate:
+                                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2,
+                                                    crossAxisSpacing: 5,
+                                                    mainAxisSpacing: 5,
+                                                    childAspectRatio: 1.7 / 2),
+                                            itemCount:
+                                                snapShot.data?.docs.length,
+                                            itemBuilder:
+                                                (BuildContext context, index) {
+                                              return Shimmer.fromColors(
+                                                baseColor: Colors.grey.shade100,
+                                                highlightColor:
+                                                    Colors.grey.shade200,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Container(
+                                                    width: Get.width * 0.4,
+                                                    height: Get.height * 0.26,
+                                                    decoration: BoxDecoration(
+                                                        color: AppColors
+                                                            .commonWhiteTextColor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    Get.width *
+                                                                        0.05),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            blurRadius: 0,
+                                                            color: SColorPicker
+                                                                .fontGrey,
+                                                          )
+                                                        ]),
+                                                    child: Column(
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(5.0),
+                                                          child: Container(
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius.circular(
                                                                       Get.width *
                                                                           0.02),
+                                                              child: Container(
+                                                                height:
+                                                                    Get.height *
+                                                                        0.12,
+                                                                width:
+                                                                    Get.width *
+                                                                        0.4,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .shade100,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10.0),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height:
+                                                              Get.height * 0.01,
+                                                        ),
+                                                        Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10.sp),
                                                           child: Container(
-                                                            height: Get.height *
-                                                                0.12,
+                                                            height: 1.h,
                                                             width:
                                                                 Get.width * 0.4,
                                                             decoration:
@@ -1469,223 +1600,197 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                                                             ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: Get.height * 0.01,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal:
-                                                                  10.sp),
-                                                      child: Container(
-                                                        height: 1.h,
-                                                        width: Get.width * 0.4,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: Colors
-                                                              .grey.shade100,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10.0),
+                                                        SizedBox(
+                                                          height:
+                                                              Get.height * 0.01,
                                                         ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: Get.height * 0.01,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal:
-                                                                  10.sp),
-                                                      child: Container(
-                                                        height: 1.h,
-                                                        width: Get.width * 0.4,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: Colors
-                                                              .grey.shade100,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10.0),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: Get.height * 0.01,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal:
-                                                                  10.sp),
-                                                      child: Container(
-                                                        height: 1.h,
-                                                        width: Get.width * 0.4,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: Colors
-                                                              .grey.shade100,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10.0),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        });
-                                  }
-                                  if (snapShot.hasData) {
-                                    return GridView.builder(
-                                        physics: const BouncingScrollPhysics(),
-                                        gridDelegate:
-                                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 2,
-                                                crossAxisSpacing: 5,
-                                                mainAxisSpacing: 5,
-                                                childAspectRatio: 1.7 / 2),
-                                        itemCount: snapShot.data!.docs.length,
-                                        itemBuilder:
-                                            (BuildContext context, index) {
-                                          double productLat = double.parse(
-                                              snapShot.data?.docs[index]
-                                                  ['lat']);
-                                          double productLong = double.parse(
-                                              snapShot.data?.docs[index]
-                                                  ['long']);
-                                          double buyerLat = double.parse(
-                                              PreferenceManager.getLat());
-                                          double buyerLong = double.parse(
-                                              PreferenceManager.getLong());
-                                          print(
-                                              'PreferenceManager.getLong()>>>> ${PreferenceManager.getLong()}');
-                                          print(
-                                              'PreferenceManager.getLat()>>>> ${PreferenceManager.getLat()}');
-                                          print('productLong ${productLong}');
-                                          print('productLat ${productLat}');
-                                          double distanceInMeters =
-                                              Geolocator.distanceBetween(
-                                                  productLat,
-                                                  productLong,
-                                                  buyerLat,
-                                                  buyerLong);
-
-                                          var distanceBetween = distanceInMeters
-                                              .toStringAsFixed(2);
-
-                                          var distance = Distance();
-
-                                          final km = distance.as(
-                                            LengthUnit.Kilometer,
-                                            LatLng(buyerLat, buyerLong),
-                                            LatLng(productLat, productLong),
-                                          );
-
-                                          final m = distance.as(
-                                            LengthUnit.Meter,
-                                            LatLng(buyerLat, buyerLong),
-                                            LatLng(productLat, productLong),
-                                          );
-                                          CollectionReference
-                                              ProfileCollection = bFirebaseStore
-                                                  .collection('Products');
-
-                                          ProfileCollection.doc(
-                                                  snapShot.data?.docs[index].id)
-                                              .update({
-                                            'distanceBetweenInKM': '$km KM'
-                                          });
-
-                                          return GestureDetector(
-                                            onTap: () {
-                                              // widget.pID = snapShot.data!.docs[index].id;
-
-                                              Get.to(
-                                                SelectedProductWidget(
-                                                  sellerLat: snapShot
-                                                      .data!.docs[index]['lat'],
-                                                  sellerLong: snapShot.data!
-                                                      .docs[index]['long'],
-                                                  name: snapShot.data!
-                                                      .docs[index]['prdName'],
-                                                  price: snapShot.data!
-                                                      .docs[index]['price'],
-                                                  image:
-                                                      snapShot.data!.docs[index]
-                                                          ['imageProfile'],
-                                                  desc: snapShot
-                                                      .data!.docs[index]['dsc'],
-                                                  category: snapShot.data!
-                                                      .docs[index]['category'],
-                                                  productID: snapShot
-                                                      .data!.docs[index].id,
-                                                  sellerID: snapShot.data!
-                                                      .docs[index]['sellerID'],
-                                                ),
-                                              );
-                                            },
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                width: Get.width * 0.4,
-                                                height: Get.height * 0.26,
-                                                decoration: BoxDecoration(
-                                                    color: AppColors
-                                                        .commonWhiteTextColor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            Get.width * 0.05),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        blurRadius: 1,
-                                                        color: SColorPicker
-                                                            .fontGrey,
-                                                      )
-                                                    ]),
-                                                child: Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
-                                                      child: Container(
-                                                        child: ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      Get.width *
-                                                                          0.02),
-                                                          child: Image.network(
-                                                            snapShot.data!
-                                                                    .docs[index]
-                                                                [
-                                                                'imageProfile'],
-                                                            height: Get.height *
-                                                                0.1,
+                                                        Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10.sp),
+                                                          child: Container(
+                                                            height: 1.h,
                                                             width:
                                                                 Get.width * 0.4,
-                                                            fit: BoxFit.cover,
-                                                            errorBuilder:
-                                                                (BuildContext
-                                                                        context,
-                                                                    Object
-                                                                        exception,
-                                                                    StackTrace?
-                                                                        stackTrace) {
-                                                              return Image
-                                                                  .asset(
-                                                                BImagePick
-                                                                    .cartIcon,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Colors.grey
+                                                                  .shade100,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.0),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height:
+                                                              Get.height * 0.01,
+                                                        ),
+                                                        Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10.sp),
+                                                          child: Container(
+                                                            height: 1.h,
+                                                            width:
+                                                                Get.width * 0.4,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Colors.grey
+                                                                  .shade100,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.0),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            });
+                                      }
+                                      if (snapShot.hasData) {
+                                        return GridView.builder(
+                                            physics:
+                                                const BouncingScrollPhysics(),
+                                            gridDelegate:
+                                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2,
+                                                    crossAxisSpacing: 5,
+                                                    mainAxisSpacing: 5,
+                                                    childAspectRatio: 1.7 / 2),
+                                            itemCount:
+                                                snapShot.data!.docs.length,
+                                            itemBuilder:
+                                                (BuildContext context, index) {
+                                              double productLat = double.parse(
+                                                  snapShot.data?.docs[index]
+                                                      ['lat']);
+                                              double productLong = double.parse(
+                                                  snapShot.data?.docs[index]
+                                                      ['long']);
+                                              double buyerLat = double.parse(
+                                                  PreferenceManager.getLat());
+                                              double buyerLong = double.parse(
+                                                  PreferenceManager.getLong());
+                                              print(
+                                                  'PreferenceManager.getLong()>>>> ${PreferenceManager.getLong()}');
+                                              print(
+                                                  'PreferenceManager.getLat()>>>> ${PreferenceManager.getLat()}');
+                                              print(
+                                                  'productLong ${productLong}');
+                                              print('productLat ${productLat}');
+                                              double distanceInMeters =
+                                                  Geolocator.distanceBetween(
+                                                      productLat,
+                                                      productLong,
+                                                      buyerLat,
+                                                      buyerLong);
+
+                                              var distanceBetween =
+                                                  distanceInMeters
+                                                      .toStringAsFixed(2);
+
+                                              var distance = Distance();
+
+                                              final km = distance.as(
+                                                LengthUnit.Kilometer,
+                                                LatLng(buyerLat, buyerLong),
+                                                LatLng(productLat, productLong),
+                                              );
+
+                                              final m = distance.as(
+                                                LengthUnit.Meter,
+                                                LatLng(buyerLat, buyerLong),
+                                                LatLng(productLat, productLong),
+                                              );
+                                              CollectionReference
+                                                  ProfileCollection =
+                                                  bFirebaseStore
+                                                      .collection('Products');
+
+                                              ProfileCollection.doc(snapShot
+                                                      .data?.docs[index].id)
+                                                  .update({
+                                                'distanceBetweenInKM': '$km KM'
+                                              });
+
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  // widget.pID = snapShot.data!.docs[index].id;
+
+                                                  Get.to(
+                                                    SelectedProductWidget(
+                                                      sellerLat: snapShot.data!
+                                                          .docs[index]['lat'],
+                                                      sellerLong: snapShot.data!
+                                                          .docs[index]['long'],
+                                                      name: snapShot
+                                                              .data!.docs[index]
+                                                          ['prdName'],
+                                                      price: snapShot.data!
+                                                          .docs[index]['price'],
+                                                      image: snapShot
+                                                              .data!.docs[index]
+                                                          ['imageProfile'],
+                                                      desc: snapShot.data!
+                                                          .docs[index]['dsc'],
+                                                      category: snapShot
+                                                              .data!.docs[index]
+                                                          ['category'],
+                                                      productID: snapShot
+                                                          .data!.docs[index].id,
+                                                      sellerID: snapShot
+                                                              .data!.docs[index]
+                                                          ['sellerID'],
+                                                    ),
+                                                  );
+                                                },
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Container(
+                                                    width: Get.width * 0.4,
+                                                    height: Get.height * 0.26,
+                                                    decoration: BoxDecoration(
+                                                        color: AppColors
+                                                            .commonWhiteTextColor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    Get.width *
+                                                                        0.05),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            blurRadius: 1,
+                                                            color: SColorPicker
+                                                                .fontGrey,
+                                                          )
+                                                        ]),
+                                                    child: Column(
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Container(
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius.circular(
+                                                                      Get.width *
+                                                                          0.02),
+                                                              child:
+                                                                  Image.network(
+                                                                snapShot.data!
+                                                                            .docs[
+                                                                        index][
+                                                                    'imageProfile'],
                                                                 height:
                                                                     Get.height *
                                                                         0.1,
@@ -1694,112 +1799,573 @@ class _CatelogeHomeWidgetState extends State<CatelogeHomeWidget> {
                                                                         0.4,
                                                                 fit: BoxFit
                                                                     .cover,
-                                                              );
-                                                            },
+                                                                errorBuilder: (BuildContext
+                                                                        context,
+                                                                    Object
+                                                                        exception,
+                                                                    StackTrace?
+                                                                        stackTrace) {
+                                                                  return Image
+                                                                      .asset(
+                                                                    BImagePick
+                                                                        .cartIcon,
+                                                                    height:
+                                                                        Get.height *
+                                                                            0.1,
+                                                                    width:
+                                                                        Get.width *
+                                                                            0.4,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  );
+                                                                },
+                                                              ),
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
+                                                        SizedBox(
+                                                          height:
+                                                              Get.height * 0.01,
+                                                        ),
+                                                        Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10.sp),
+                                                          child: CustomText(
+                                                            max: 1,
+                                                            textOverflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            text: snapShot.data!
+                                                                    .docs[index]
+                                                                ['prdName'],
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontSize: 14.sp,
+                                                            color: SColorPicker
+                                                                .purple,
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height:
+                                                              Get.height * 0.01,
+                                                        ),
+                                                        Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10.sp),
+                                                          child: CustomText(
+                                                            text: snapShot.data!
+                                                                    .docs[index]
+                                                                ['category'],
+                                                            textOverflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            max: 1,
+                                                            fontSize: 12.sp,
+                                                            color: SColorPicker
+                                                                .black,
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height:
+                                                              Get.height * 0.01,
+                                                        ),
+                                                        Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10.sp),
+                                                          child: CustomText(
+                                                            text: snapShot.data!
+                                                                    .docs[index]
+                                                                ['price'],
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontSize: 12.sp,
+                                                            color: SColorPicker
+                                                                .black,
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height:
+                                                              Get.height * 0.01,
+                                                        ),
+                                                        Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10.sp),
+                                                          child: CustomText(
+                                                            text:
+                                                                '($km KM away)',
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontSize: 9.sp,
+                                                            color: SColorPicker
+                                                                .fontGrey,
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                    SizedBox(
-                                                      height: Get.height * 0.01,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal:
-                                                                  10.sp),
-                                                      child: CustomText(
-                                                        max: 1,
-                                                        textOverflow:
-                                                            TextOverflow
-                                                                .ellipsis,
-                                                        text: snapShot.data!
-                                                                .docs[index]
-                                                            ['prdName'],
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 14.sp,
-                                                        color:
-                                                            SColorPicker.purple,
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: Get.height * 0.01,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal:
-                                                                  10.sp),
-                                                      child: CustomText(
-                                                        text: snapShot.data!
-                                                                .docs[index]
-                                                            ['category'],
-                                                        textOverflow:
-                                                            TextOverflow
-                                                                .ellipsis,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        max: 1,
-                                                        fontSize: 12.sp,
-                                                        color:
-                                                            SColorPicker.black,
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: Get.height * 0.01,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal:
-                                                                  10.sp),
-                                                      child: CustomText(
-                                                        text: snapShot.data!
-                                                                .docs[index]
-                                                            ['price'],
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 12.sp,
-                                                        color:
-                                                            SColorPicker.black,
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: Get.height * 0.01,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal:
-                                                                  10.sp),
-                                                      child: CustomText(
-                                                        text: '($km KM away)',
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 9.sp,
-                                                        color: SColorPicker
-                                                            .fontGrey,
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                      ),
-                                                    ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                          );
-                                        });
-                                  }
-                                  return Container();
-                                },
-                              ),
+                                              );
+                                            });
+                                      }
+                                      return Container();
+                                    },
+                                  )
+                                : StreamBuilder<QuerySnapshot>(
+                                    stream: /*FirebaseFirestore.instance
+                                  .collection('Products')
+                                  .where('createdOn',
+                                  isLessThan: DateTime.now())
+                                  .snapshots()*/
+                                        FirebaseFirestore.instance
+                                            .collection('Products')
+                                            .where("prdName",
+                                                isGreaterThanOrEqualTo:
+                                                    searchController.text)
+                                            .where('prdName',
+                                                isLessThan:
+                                                    searchController.text + 'z')
+                                            .snapshots(),
+                                    builder: (context, snapShot) {
+                                      if (!snapShot.hasData) {
+                                        return GridView.builder(
+                                            gridDelegate:
+                                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2,
+                                                    crossAxisSpacing: 5,
+                                                    mainAxisSpacing: 5,
+                                                    childAspectRatio: 1.7 / 2),
+                                            itemCount:
+                                                snapShot.data?.docs.length,
+                                            itemBuilder:
+                                                (BuildContext context, index) {
+                                              return Shimmer.fromColors(
+                                                baseColor: Colors.grey.shade100,
+                                                highlightColor:
+                                                    Colors.grey.shade200,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Container(
+                                                    width: Get.width * 0.4,
+                                                    height: Get.height * 0.26,
+                                                    decoration: BoxDecoration(
+                                                        color: AppColors
+                                                            .commonWhiteTextColor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    Get.width *
+                                                                        0.05),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            blurRadius: 0,
+                                                            color: SColorPicker
+                                                                .fontGrey,
+                                                          )
+                                                        ]),
+                                                    child: Column(
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(5.0),
+                                                          child: Container(
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius.circular(
+                                                                      Get.width *
+                                                                          0.02),
+                                                              child: Container(
+                                                                height:
+                                                                    Get.height *
+                                                                        0.12,
+                                                                width:
+                                                                    Get.width *
+                                                                        0.4,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .shade100,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10.0),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height:
+                                                              Get.height * 0.01,
+                                                        ),
+                                                        Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10.sp),
+                                                          child: Container(
+                                                            height: 1.h,
+                                                            width:
+                                                                Get.width * 0.4,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Colors.grey
+                                                                  .shade100,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.0),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height:
+                                                              Get.height * 0.01,
+                                                        ),
+                                                        Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10.sp),
+                                                          child: Container(
+                                                            height: 1.h,
+                                                            width:
+                                                                Get.width * 0.4,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Colors.grey
+                                                                  .shade100,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.0),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height:
+                                                              Get.height * 0.01,
+                                                        ),
+                                                        Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10.sp),
+                                                          child: Container(
+                                                            height: 1.h,
+                                                            width:
+                                                                Get.width * 0.4,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Colors.grey
+                                                                  .shade100,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.0),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            });
+                                      }
+                                      if (snapShot.hasData) {
+                                        return GridView.builder(
+                                            physics:
+                                                const BouncingScrollPhysics(),
+                                            gridDelegate:
+                                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2,
+                                                    crossAxisSpacing: 5,
+                                                    mainAxisSpacing: 5,
+                                                    childAspectRatio: 1.7 / 2),
+                                            itemCount:
+                                                snapShot.data!.docs.length,
+                                            itemBuilder:
+                                                (BuildContext context, index) {
+                                              double productLat = double.parse(
+                                                  snapShot.data?.docs[index]
+                                                      ['lat']);
+                                              double productLong = double.parse(
+                                                  snapShot.data?.docs[index]
+                                                      ['long']);
+                                              double buyerLat = double.parse(
+                                                  PreferenceManager.getLat());
+                                              double buyerLong = double.parse(
+                                                  PreferenceManager.getLong());
+                                              print(
+                                                  'PreferenceManager.getLong()>>>> ${PreferenceManager.getLong()}');
+                                              print(
+                                                  'PreferenceManager.getLat()>>>> ${PreferenceManager.getLat()}');
+                                              print(
+                                                  'productLong ${productLong}');
+                                              print('productLat ${productLat}');
+                                              double distanceInMeters =
+                                                  Geolocator.distanceBetween(
+                                                      productLat,
+                                                      productLong,
+                                                      buyerLat,
+                                                      buyerLong);
+
+                                              var distanceBetween =
+                                                  distanceInMeters
+                                                      .toStringAsFixed(2);
+
+                                              var distance = Distance();
+
+                                              final km = distance.as(
+                                                LengthUnit.Kilometer,
+                                                LatLng(buyerLat, buyerLong),
+                                                LatLng(productLat, productLong),
+                                              );
+
+                                              final m = distance.as(
+                                                LengthUnit.Meter,
+                                                LatLng(buyerLat, buyerLong),
+                                                LatLng(productLat, productLong),
+                                              );
+                                              CollectionReference
+                                                  ProfileCollection =
+                                                  bFirebaseStore
+                                                      .collection('Products');
+
+                                              ProfileCollection.doc(snapShot
+                                                      .data?.docs[index].id)
+                                                  .update({
+                                                'distanceBetweenInKM': '$km KM'
+                                              });
+
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  // widget.pID = snapShot.data!.docs[index].id;
+
+                                                  Get.to(
+                                                    SelectedProductWidget(
+                                                      sellerLat: snapShot.data!
+                                                          .docs[index]['lat'],
+                                                      sellerLong: snapShot.data!
+                                                          .docs[index]['long'],
+                                                      name: snapShot
+                                                              .data!.docs[index]
+                                                          ['prdName'],
+                                                      price: snapShot.data!
+                                                          .docs[index]['price'],
+                                                      image: snapShot
+                                                              .data!.docs[index]
+                                                          ['imageProfile'],
+                                                      desc: snapShot.data!
+                                                          .docs[index]['dsc'],
+                                                      category: snapShot
+                                                              .data!.docs[index]
+                                                          ['category'],
+                                                      productID: snapShot
+                                                          .data!.docs[index].id,
+                                                      sellerID: snapShot
+                                                              .data!.docs[index]
+                                                          ['sellerID'],
+                                                    ),
+                                                  );
+                                                },
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Container(
+                                                    width: Get.width * 0.4,
+                                                    height: Get.height * 0.26,
+                                                    decoration: BoxDecoration(
+                                                        color: AppColors
+                                                            .commonWhiteTextColor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    Get.width *
+                                                                        0.05),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            blurRadius: 1,
+                                                            color: SColorPicker
+                                                                .fontGrey,
+                                                          )
+                                                        ]),
+                                                    child: Column(
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Container(
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius.circular(
+                                                                      Get.width *
+                                                                          0.02),
+                                                              child:
+                                                                  Image.network(
+                                                                snapShot.data!
+                                                                            .docs[
+                                                                        index][
+                                                                    'imageProfile'],
+                                                                height:
+                                                                    Get.height *
+                                                                        0.1,
+                                                                width:
+                                                                    Get.width *
+                                                                        0.4,
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                                errorBuilder: (BuildContext
+                                                                        context,
+                                                                    Object
+                                                                        exception,
+                                                                    StackTrace?
+                                                                        stackTrace) {
+                                                                  return Image
+                                                                      .asset(
+                                                                    BImagePick
+                                                                        .cartIcon,
+                                                                    height:
+                                                                        Get.height *
+                                                                            0.1,
+                                                                    width:
+                                                                        Get.width *
+                                                                            0.4,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  );
+                                                                },
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height:
+                                                              Get.height * 0.01,
+                                                        ),
+                                                        Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10.sp),
+                                                          child: CustomText(
+                                                            max: 1,
+                                                            textOverflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            text: snapShot.data!
+                                                                    .docs[index]
+                                                                ['prdName'],
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontSize: 14.sp,
+                                                            color: SColorPicker
+                                                                .purple,
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height:
+                                                              Get.height * 0.01,
+                                                        ),
+                                                        Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10.sp),
+                                                          child: CustomText(
+                                                            text: snapShot.data!
+                                                                    .docs[index]
+                                                                ['category'],
+                                                            textOverflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            max: 1,
+                                                            fontSize: 12.sp,
+                                                            color: SColorPicker
+                                                                .black,
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height:
+                                                              Get.height * 0.01,
+                                                        ),
+                                                        Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10.sp),
+                                                          child: CustomText(
+                                                            text: snapShot.data!
+                                                                    .docs[index]
+                                                                ['price'],
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontSize: 12.sp,
+                                                            color: SColorPicker
+                                                                .black,
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height:
+                                                              Get.height * 0.01,
+                                                        ),
+                                                        Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10.sp),
+                                                          child: CustomText(
+                                                            text:
+                                                                '($km KM away)',
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontSize: 9.sp,
+                                                            color: SColorPicker
+                                                                .fontGrey,
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            });
+                                      }
+                                      return Container();
+                                    },
+                                  ),
               )),
             ],
           ),

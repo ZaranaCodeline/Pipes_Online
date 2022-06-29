@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pipes_online/buyer/screens/custom_widget/custom_text.dart';
 import 'package:pipes_online/seller/bottombar/widget/category_bottom_bar_route.dart';
 import 'package:pipes_online/seller/view/s_screens/s_plus_subscribe_screen.dart';
 import 'package:pipes_online/seller/view/s_screens/s_simple_subscribe_screen.dart';
-import 'package:sizer/sizer.dart';
-
 import '../../../buyer/app_constant/app_colors.dart';
 import '../../common/s_text_style.dart';
 
@@ -114,7 +111,7 @@ class _SSubscribeScreenState extends State<SSubscribeScreen>
                   controller: _tabController,
                   children: [
                     // first tab bar view widget
-                    Center(
+                    const Center(
                       child: SSimpleSubScribeScreen(),
                     ),
                     // second tab bar view widget

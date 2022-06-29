@@ -321,7 +321,7 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                       width: Get.height * 0.37,
                                       decoration: BoxDecoration(
                                         color: SColorPicker.white,
-                                        boxShadow: [
+                                        boxShadow: const [
                                           BoxShadow(
                                               color: Colors.black12,
                                               spreadRadius: 0.5,
@@ -335,7 +335,7 @@ class _BLoginPhoneNumberScreenState extends State<BLoginPhoneNumberScreen> {
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Image.asset(
-                                            "${SImagePick.pipesEmailLogo}",
+                                            SImagePick.pipesEmailLogo,
                                             width: 15.sp,
                                             height: 15.sp,
                                           ),

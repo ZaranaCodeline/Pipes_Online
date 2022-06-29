@@ -12,7 +12,9 @@ import '../../common/s_common_button.dart';
 import '../../view_model/s_add_product_controller.dart';
 
 class SSimpleSubScribeScreen extends StatefulWidget {
-  SSimpleSubScribeScreen({Key? key}) : super(key: key);
+  final String? isBottomBarVisible;
+  const SSimpleSubScribeScreen({Key? key, this.isBottomBarVisible})
+      : super(key: key);
 
   @override
   State<SSimpleSubScribeScreen> createState() => _SSimpleSubScribeScreenState();
@@ -214,8 +216,12 @@ class _SSimpleSubScribeScreenState extends State<SSimpleSubScribeScreen> {
                       '====setTime===${PreferenceManager.getSubscribeTime()}');
                   print('====setGap===${PreferenceManager.getSubscribeVal()}');
                   addProductController.selectedSubscribe = selected!;
-                  homeController.bottomIndex.value = 0;
-                  homeController.selectedScreen('SAddProductScreen');
+                  if (widget.isBottomBarVisible == true) {
+                    homeController.bottomIndex.value = 0;
+                    homeController.selectedScreen('SAddProductScreen');
+                  } else {
+                    Get.to(SAddProductScreen());
+                  }
                 } else {
                   Get.showSnackbar(GetSnackBar(
                     backgroundColor: SColorPicker.red,

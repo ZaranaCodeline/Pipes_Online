@@ -12,7 +12,9 @@ import '../../../shared_prefarence/shared_prefarance.dart';
 import '../../common/s_common_button.dart';
 
 class SPlusSubscribeScreen extends StatefulWidget {
-  SPlusSubscribeScreen({Key? key}) : super(key: key);
+  final String? isBottomBarVisible;
+  const SPlusSubscribeScreen({Key? key, this.isBottomBarVisible})
+      : super(key: key);
 
   @override
   State<SPlusSubscribeScreen> createState() => _SPlusSubscribeScreenState();
@@ -218,8 +220,12 @@ class _SPlusSubscribeScreenState extends State<SPlusSubscribeScreen> {
                   print('====setGap===${PreferenceManager.getSubscribeVal()}');
                   // PreferenceManager.setSubscribeTime('${selected}');
                   addProductController.selectedPrice = selected!;
-                  homeController.bottomIndex.value = 0;
-                  homeController.selectedScreen('SAddProductScreen');
+                  if (widget.isBottomBarVisible == true) {
+                    homeController.bottomIndex.value = 0;
+                    homeController.selectedScreen('SAddProductScreen');
+                  } else {
+                    Get.to(SAddProductScreen());
+                  }
                 } else {
                   Get.showSnackbar(GetSnackBar(
                     backgroundColor: SColorPicker.red,

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:image_picker/image_picker.dart';
 import 'package:pipes_online/buyer/app_constant/auth.dart';
+import 'package:pipes_online/seller/bottombar/s_navigation_bar.dart';
 import 'package:pipes_online/seller/view/s_authentication_screen/NEW/s_first_user_info_screen.dart';
 import 'package:pipes_online/seller/view_model/s_add_product_controller.dart';
 import 'package:pipes_online/shared_prefarence/shared_prefarance.dart';
@@ -21,10 +22,12 @@ import '../../common/s_text_style.dart';
 CollectionReference userCollection = bFirebaseStore.collection('Products');
 
 class SAddProductScreen extends StatefulWidget {
+  final String? isFromHomePage;
   final String? selectedSubscribeVal;
   SAddProductScreen({
     Key? key,
     this.selectedSubscribeVal,
+    this.isFromHomePage,
   }) : super(key: key);
   @override
   State<SAddProductScreen> createState() => _SAddProductScreenState();
@@ -136,17 +139,18 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
+          automaticallyImplyLeading: false,
           title: Text(
             'ADD PRODUCT',
             style: STextStyle.bold700White14,
           ),
-          leading: IconButton(
-            onPressed: () {
-              homeController.bottomIndex.value = 0;
-              homeController.selectedScreen('ScatelogHomeScreen');
-            },
-            icon: Icon(Icons.arrow_back),
-          ),
+          // leading: IconButton(
+          //   onPressed: () {
+          //     homeController.bottomIndex.value = 0;
+          //     homeController.selectedScreen('ScatelogHomeScreen');
+          //   },
+          //   icon: Icon(Icons.arrow_back),
+          // ),
           backgroundColor: AppColors.primaryColor,
           toolbarHeight: Get.height * 0.1,
           shape: const RoundedRectangleBorder(
@@ -429,6 +433,12 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
                                     homeController
                                         .selectedScreen('SCatelogeHomeScreen');
                                     homeController.bottomIndex.value = 0;
+                                    if (widget.isFromHomePage == true) {
+                                      homeController.selectedScreen(
+                                          'SCatelogeHomeScreen');
+                                      homeController.bottomIndex.value = 0;
+                                    }
+                                    Get.to(() => NavigationBarScreen());
                                     PreferenceManager.getSubscribeCategory();
                                     PreferenceManager.getSubscribeTime();
                                     print(
@@ -459,7 +469,7 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
       future: FirebaseFirestore.instance.collection('Categories').get(),
       builder: (BuildContext context, snapshot) {
         if (!snapshot.hasData) {
-          return Center(
+          return const Center(
             child: SizedBox(),
           );
         }
@@ -590,8 +600,13 @@ class _SAddProductScreenState extends State<SAddProductScreen> {
           addProductController.prices = prdPrice.text;
           addProductController.category =
               addProductController.category.toLowerCase();
-          homeController.bottomIndex.value = 0;
-          homeController.selectedScreen('SCatelogeHomeScreen');
+          if (widget.isFromHomePage == true) {
+            homeController.selectedScreen('SCatelogeHomeScreen');
+            homeController.bottomIndex.value = 0;
+          }
+          Get.to(() => NavigationBarScreen());
+          // homeController.bottomIndex.value = 0;
+          // homeController.selectedScreen('SCatelogeHomeScreen');
         });
     FirebaseFirestore.instance
         .collection("SProfile")

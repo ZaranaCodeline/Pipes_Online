@@ -211,7 +211,7 @@ class _BSignUpPhoneOtpScreenState extends State<BSignUpPhoneOtpScreen> {
                                       height: Get.height * 0.01,
                                     ),
                                     Text(
-                                      'OTP Sent to ${PreferenceManager.getPhoneNumber()} ',
+                                      'OTP Sent to +91 ${PreferenceManager.getPhoneNumber()} ',
                                       style: STextStyle.regular400Black11,
                                     ),
                                   ],
